@@ -1,0 +1,11 @@
+﻿<Application
+    x:Class="UWP_XMPP_Client.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--RequestedTheme="Dark">-->
+    
+    <Application.Resources>
+        <x:Double x:Key="AppBarThemeCompactHeight">41</x:Double>
+    </Application.Resources>
+
+</Application>

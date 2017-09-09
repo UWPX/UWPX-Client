@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.ChatMasterControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
+    mc:Ignorable="d">
+
+    <Grid Margin="0, 5, 0, 5" HorizontalAlignment="Stretch">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="0"/>
+        <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
+            <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="lastChat_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+        </StackPanel>
+
+        <Grid Grid.Column="2" HorizontalAlignment="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="20"/>
+                <RowDefinition Height="20"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="subscription_tbck" FontSize="20" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE748;"/>
+            <TextBlock x:Name="muted_tbck" FontSize="20" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+        </Grid>
+    </Grid>
+</UserControl>
