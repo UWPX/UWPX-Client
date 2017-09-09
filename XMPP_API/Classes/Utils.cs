@@ -20,7 +20,10 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public static bool isValidJabberId(string s)
+        {
+            return s != null && s.Contains("@") && s.Length >= 3;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

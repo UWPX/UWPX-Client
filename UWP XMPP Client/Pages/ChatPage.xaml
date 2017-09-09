@@ -23,6 +23,13 @@
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
                         </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
+                                <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
+                                <MenuFlyoutSeparator/>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
                     </AppBarButton>
                     <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
                         <AppBarButton.Icon>

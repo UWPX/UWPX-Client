@@ -60,7 +60,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private async Task<bool> areEntriesValidAsync()
         {
-            if(!jabberId_tbx.Text.Contains('@') || jabberId_tbx.Text.Length <= 3)
+            if(!Utils.isValidJabberId(jabberId_tbx.Text))
             {
                 MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_jabber_id_text"), Localisation.getLocalizedString("error_text"));
                 await messageDialog.ShowAsync();

@@ -1,25 +1,12 @@
-﻿using SQLite.Net.Attributes;
-using System;
+﻿using System.Xml;
 
-namespace Data_Manager.Classes.DBEntries
+namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class ChatEntry
+    class AddToRosterMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        // userId@domain or chatId@domain
-        public string id { get; set; }
-        public string userAccountId { get; set; }
-        // Chatname
-        public string name { get; set; }
-        // Last new message
-        public DateTime lastActive { get; set; }
-        // Chat muted yes or no
-        public bool muted { get; set; }
-        public string subscription { get; set; }
-        //A part of your personal roster
-        public bool inRooster { get; set; }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,20 +15,14 @@ namespace Data_Manager.Classes.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 30/08/2017 Created [Fabian Sauter]
+        /// 09/09/2017 Created [Fabian Sauter]
         /// </history>
-        public ChatEntry()
+        public AddToRosterMessage(XmlNode answer) : base(answer)
         {
-
         }
 
-        public ChatEntry(string id, string userAccountId)
+        public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns='jabber:iq:roster'><item jid='" + target + "'/></query>")
         {
-            this.id = id;
-            this.userAccountId = userAccountId;
-            this.name = null;
-            this.lastActive = DateTime.Now;
-            this.muted = false;
         }
 
         #endregion

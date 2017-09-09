@@ -138,8 +138,14 @@ namespace Data_Manager.Classes
                     ChatEntry chat = ChatManager.INSTANCE.getChatEntry(item.getJabberId(), account.getIdAndDomain());
                     if(chat != null)
                     {
+                        if(item.getSubscription().Equals("remove"))
+                        {
+                            ChatManager.INSTANCE.removeChatEntry(chat);
+                            continue;
+                        }
                         chat.name = item.getName();
                         chat.subscription = item.getSubscription();
+                        chat.inRooster = true;
                     }
                     else
                     {
@@ -150,7 +156,8 @@ namespace Data_Manager.Classes
                             name = item.getName(),
                             subscription = item.getSubscription(),
                             lastActive = DateTime.Now,
-                            muted = false
+                            muted = false,
+                            inRooster = true
                         };
                         NewChat?.Invoke(this, new NewChatEventArgs(chat));
                     }

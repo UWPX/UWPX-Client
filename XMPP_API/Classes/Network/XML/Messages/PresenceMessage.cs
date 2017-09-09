@@ -8,6 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Attributes--
         private readonly string SHOW;
         private readonly string STATUS;
+        private readonly string TYPE;
         private readonly int PRIORETY;
 
         #endregion
@@ -24,6 +25,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.SHOW = show;
             this.STATUS = status;
             this.PRIORETY = priorety;
+        }
+
+        public PresenceMessage(string from, string to, string type) : base(from, to)
+        {
+            this.TYPE = type;
+            this.PRIORETY = int.MinValue;
         }
 
         public PresenceMessage(string show, string status, int priorety) : this(null, null, show, status, priorety)
@@ -44,12 +51,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             if(node.Attributes["type"] != null && node.Attributes["type"].Value.Equals("unavailable"))
             {
-                this.SHOW = node.Attributes["type"].Value;
+                this.TYPE = node.Attributes["type"].Value;
             }
-            else
-            {
-                this.SHOW = XMLUtils.getChildNode(node, "show")?.InnerText;
-            }
+            this.SHOW = XMLUtils.getChildNode(node, "show")?.InnerText;
             this.STATUS = XMLUtils.getChildNode(node, "status")?.InnerText;
         }
 
@@ -66,6 +70,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             return SHOW;
         }
 
+        public string getType()
+        {
+            return TYPE;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -76,27 +85,36 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 s += " from='" + FROM + "'";
             }
-
             if (TO != null)
             {
                 s += " to='" + TO + "'";
             }
-            s += '>';
+            if (TYPE != null)
+            {
+                s += " type='" + TYPE + "'";
+            }
+            if(SHOW == null && STATUS == null && PRIORETY <= -128 || PRIORETY >= 129)
+            {
+                s += "/>";
+            }
+            else
+            {
+                s += '>';
 
-            if(SHOW != null)
-            {
-                s += "<show>" + SHOW + "</show>";
+                if (SHOW != null)
+                {
+                    s += "<show>" + SHOW + "</show>";
+                }
+                if (PRIORETY > -128 && PRIORETY < 129)
+                {
+                    s += "<priority>" + PRIORETY + "</priority>";
+                }
+                if (STATUS != null)
+                {
+                    s += "<status>" + STATUS + "</status>";
+                }
+                s += "</presence>";
             }
-            if(PRIORETY > -128 && PRIORETY < 129)
-            {
-                s += "<priority>" + PRIORETY + "</priority>";
-            }
-
-            if (STATUS != null)
-            {
-                s += "<status>" + STATUS + "</status>";
-            }
-            s += "</presence>";
             return s;
         }
 

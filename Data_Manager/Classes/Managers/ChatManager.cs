@@ -28,11 +28,12 @@ namespace Data_Manager.Classes.Managers
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public bool doesChatExist(XMPPClient client, string chatId)
+        {
+            List<ChatEntry> chats = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ? AND id LIKE ?", client.getSeverConnectionConfiguration().getIdAndDomain(), chatId);
+            return chats.Count > 0;
+        }
 
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
         public IList<ChatMessageEntry> getAllChatMessagesForChat(ChatEntry chat)
         {
             return dB.Query<ChatMessageEntry>("SELECT * FROM ChatMessageEntry WHERE chatId LIKE ? ORDER BY date DESC", chat.id + '%');
@@ -41,7 +42,7 @@ namespace Data_Manager.Classes.Managers
         public string getLastChatMessageForChat(ChatEntry chat)
         {
             IList<ChatMessageEntry> list = getAllChatMessagesForChat(chat);
-            if(list.Count <= 0)
+            if (list.Count <= 0)
             {
                 return "";
             }
@@ -51,7 +52,7 @@ namespace Data_Manager.Classes.Managers
         public ChatEntry getChatEntry(string id, string userAccountId)
         {
             IList<ChatEntry> list = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ? AND userAccountId LIKE ?", id, userAccountId);
-            if(list.Count < 1)
+            if (list.Count < 1)
             {
                 return null;
             }
@@ -74,6 +75,14 @@ namespace Data_Manager.Classes.Managers
         public List<ChatEntry> getAllChatsForClient(XMPPClient c)
         {
             return dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", c.getSeverConnectionConfiguration().getIdAndDomain());
+        }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+        public void removeChatEntry(ChatEntry chat)
+        {
+            dB.Delete(chat);
         }
 
         #endregion

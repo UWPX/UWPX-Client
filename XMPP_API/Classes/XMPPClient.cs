@@ -96,6 +96,18 @@ namespace XMPP_API.Classes
             await connection.sendMessageAsync(new RoosterMessage(sCC.getIdDomainAndResource(), sCC.getIdAndDomain()));
         }
 
+        public async Task addToRosterAsync(string jabberid)
+        {
+            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            await connection.sendMessageAsync(new AddToRosterMessage(sCC.getIdDomainAndResource(), jabberid));
+        }
+
+        public async Task requestPresenceSubscriptionAsync(string jabberid)
+        {
+            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberid, "subscribe"));
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

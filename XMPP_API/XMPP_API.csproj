@@ -119,6 +119,7 @@
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
     <Compile Include="Classes\Network\XML\MessageParser2.cs" />
+    <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\AbstractSASLMechanism.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\PBKDF.cs" />

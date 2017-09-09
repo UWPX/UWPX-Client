@@ -10,6 +10,10 @@ using System;
 using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Navigation;
+using UWP_XMPP_Client.Controls;
+using Logging;
+using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -94,6 +98,36 @@ namespace UWP_XMPP_Client.Pages
             });
         }
 
+        private async Task addChatAsync(XMPPClient client, string jabberId, bool addToRooster, bool requestSubscription)
+        {
+            if(client == null || jabberId == null)
+            {
+                string errorMessage = "Unable to add chat! client ?= " + (client == null) + " jabberId ?=" + (jabberId == null);
+                Logger.Error(errorMessage);
+                MessageDialog messageDialog = new MessageDialog("Error")
+                {
+                    Content = errorMessage
+                };
+                await messageDialog.ShowAsync();
+            }
+            else
+            {
+                if (addToRooster)
+                {
+                    await client.addToRosterAsync(jabberId);
+                }
+                if (requestSubscription)
+                {
+                    await client.requestPresenceSubscriptionAsync(jabberId);
+                }
+                ChatManager.INSTANCE.setChatEntry(new ChatEntry(jabberId, client.getSeverConnectionConfiguration().getIdAndDomain())
+                {
+                    subscription = requestSubscription ? "pending" : null
+                });
+                loadChats();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -152,6 +186,21 @@ namespace UWP_XMPP_Client.Pages
         }
 
         private void ChatMasterControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+
+        }
+
+        private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)
+        {
+            AddChatContentDialog addChatContentDialog = new AddChatContentDialog();
+            await addChatContentDialog.ShowAsync();
+            if (!addChatContentDialog.cancled)
+            {
+                await addChatAsync(addChatContentDialog.client, addChatContentDialog.jabberId, addChatContentDialog.addToRooster, addChatContentDialog.requestSubscription);
+            }
+        }
+
+        private void addMUC_mfoi_Click(object sender, RoutedEventArgs e)
         {
 
         }

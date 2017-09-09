@@ -88,11 +88,14 @@ namespace UWP_XMPP_Client.Controls
                         subscription_tbck.Visibility = Visibility.Visible;
                         subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 16, 124, 16));
                         break;
+                    case "pending":
+                        subscription_tbck.Visibility = Visibility.Visible;
+                        subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 76, 74, 72));
+                        break;
                     default:
                         subscription_tbck.Visibility = Visibility.Collapsed;
                         break;
                 }
-                subscription_tbck.Visibility = Chat.subscription.Equals("both") ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
