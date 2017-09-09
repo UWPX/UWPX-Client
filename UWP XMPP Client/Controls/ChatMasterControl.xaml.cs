@@ -78,6 +78,7 @@ namespace UWP_XMPP_Client.Controls
                 }
                 lastChat_tblck.Text = ChatManager.INSTANCE.getLastChatMessageForChat(Chat) ?? "";
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
+                inRooster_tbck.Visibility = Chat.inRooster ? Visibility.Visible : Visibility.Collapsed;
                 switch (Chat.subscription)
                 {
                     case "from":
