@@ -7,7 +7,7 @@
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
-    <Grid Margin="0, 5, 0, 5" HorizontalAlignment="Stretch">
+    <Grid Margin="0, 5, 0, 5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>

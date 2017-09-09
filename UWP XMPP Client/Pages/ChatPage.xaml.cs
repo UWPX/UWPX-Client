@@ -151,6 +151,11 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
         }
 
+        private void ChatMasterControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+
+        }
+
         #endregion
     }
 }

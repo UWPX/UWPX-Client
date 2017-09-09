@@ -19,15 +19,29 @@
         <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="{ThemeResource SystemAccentColorDark3}">
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar>
-                    <AppBarButton x:Name="add_abb" Grid.Column="0" Icon="Add" Label="Add" Click="add_abb_Click"/>
-                    <AppBarButton x:Name="settings_abb" Grid.Column="1" Icon="Setting" Label="Settings" Click="settings_abb_Click"/>
+                    <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add" Click="add_abb_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
                 </CommandBar>
             </controls:MasterDetailsView.MasterCommandBar>
             <controls:MasterDetailsView.ItemTemplate>
                 <DataTemplate x:DataType="datatemplates:Chat">
-                    <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+                    <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}" RightTapped="ChatMasterControl_RightTapped">
+                    </controls1:ChatMasterControl>
                 </DataTemplate>
             </controls:MasterDetailsView.ItemTemplate>
+            <controls:MasterDetailsView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                </Style>
+            </controls:MasterDetailsView.ItemContainerStyle>
             <controls:MasterDetailsView.DetailsTemplate>
                 <DataTemplate x:DataType="datatemplates:Chat">
                     <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}" Grid.Row="0"/>
