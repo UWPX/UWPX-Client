@@ -1,7 +1,0 @@
-﻿Username: uwptest@jabber.de
-Passwort: uwptest!?
-Port: 5222 
-
-Username: uwptest@404.city
-Passwort: uwptest!?
-Port: 5222 
