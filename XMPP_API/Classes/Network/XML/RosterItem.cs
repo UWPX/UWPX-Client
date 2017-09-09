@@ -9,6 +9,7 @@ namespace XMPP_API.Classes.Network.XML
         private readonly string JABBER_ID;
         private readonly string NAME;
         private readonly string SUBSCRIPTION;
+        private readonly string ASK;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,6 +25,7 @@ namespace XMPP_API.Classes.Network.XML
             this.JABBER_ID = n.Attributes["jid"].Value;
             this.NAME = n.Attributes["name"]?.Value;
             this.SUBSCRIPTION = n.Attributes["subscription"]?.Value;
+            this.ASK = n.Attributes["ask"]?.Value;
         }
 
         #endregion
@@ -42,6 +44,11 @@ namespace XMPP_API.Classes.Network.XML
         public string getSubscription()
         {
             return SUBSCRIPTION;
+        }
+
+        public string getAsk()
+        {
+            return ASK;
         }
 
         #endregion

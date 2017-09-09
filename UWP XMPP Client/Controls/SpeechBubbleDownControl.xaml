@@ -9,7 +9,7 @@
     <Grid HorizontalAlignment="Right" Padding="6">
         <Polygon Points="10,10 0,0 10,0" Fill="{ThemeResource SystemAccentColorDark3}" Stroke="Black" Margin="0,0,10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
-        <Border Visibility="Visible" Background="{ThemeResource SystemAccentColorDark3}" BorderBrush="Black" BorderThickness="1" Padding="6" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" MinWidth="30">
+        <Border Visibility="Visible" Background="{ThemeResource SystemAccentColorDark3}" BorderBrush="Black" BorderThickness="1" Padding="10" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" MinWidth="150" MinHeight="50">
             <StackPanel>
                 <TextBlock Text="{x:Bind Text}" TextWrapping="WrapWholeWords"/>
                 <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>

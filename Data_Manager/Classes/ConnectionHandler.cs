@@ -146,6 +146,7 @@ namespace Data_Manager.Classes
                         chat.name = item.getName();
                         chat.subscription = item.getSubscription();
                         chat.inRooster = true;
+                        chat.ask = item.getAsk();
                     }
                     else
                     {
@@ -157,7 +158,8 @@ namespace Data_Manager.Classes
                             subscription = item.getSubscription(),
                             lastActive = DateTime.Now,
                             muted = false,
-                            inRooster = true
+                            inRooster = true,
+                            ask = item.getAsk()
                         };
                         NewChat?.Invoke(this, new NewChatEventArgs(chat));
                     }

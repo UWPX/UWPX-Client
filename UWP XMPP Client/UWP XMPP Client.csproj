@@ -102,9 +102,6 @@
     <Compile Include="Controls\AccountImageWithPresence.xaml.cs">
       <DependentUpon>AccountImageWithPresence.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AccountInformationControl.xaml.cs">
-      <DependentUpon>AccountInformationControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\AddChatContentDialog.xaml.cs">
       <DependentUpon>AddChatContentDialog.xaml</DependentUpon>
     </Compile>
@@ -185,10 +182,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AccountImageWithPresence.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\AccountInformationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,8 +18,10 @@ namespace Data_Manager.Classes.DBEntries
         // Chat muted yes or no
         public bool muted { get; set; }
         public string subscription { get; set; }
-        //A part of your personal roster
+        // A part of your personal roster
         public bool inRooster { get; set; }
+        // Subscription request status
+        public string ask { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

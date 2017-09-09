@@ -17,17 +17,18 @@
         <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
             <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
             <TextBlock x:Name="lastChat_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="presence_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
         </StackPanel>
 
         <Grid Grid.Column="2" HorizontalAlignment="Right">
             <Grid.RowDefinitions>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
-                <RowDefinition Height="20"/>
+                <RowDefinition Height="16"/>
+                <RowDefinition Height="16"/>
+                <RowDefinition Height="16"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="inRooster_tbck" FontSize="13" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;"/>
-            <TextBlock x:Name="subscription_tbck" FontSize="15" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE748;"/>
-            <TextBlock x:Name="muted_tbck" FontSize="15" Grid.Row="2" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+            <TextBlock x:Name="inRooster_tbck" FontSize="12" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="subscription_tbck" FontSize="14" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE748;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="muted_tbck" FontSize="13" Grid.Row="2" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Grid>
     </Grid>
 </UserControl>
