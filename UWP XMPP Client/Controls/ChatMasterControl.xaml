@@ -25,7 +25,7 @@
                 <RowDefinition Height="20"/>
                 <RowDefinition Height="20"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="inRooster_tbck" FontSize="15" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;"/>
+            <TextBlock x:Name="inRooster_tbck" FontSize="13" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;"/>
             <TextBlock x:Name="subscription_tbck" FontSize="15" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE748;"/>
             <TextBlock x:Name="muted_tbck" FontSize="15" Grid.Row="2" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
         </Grid>
