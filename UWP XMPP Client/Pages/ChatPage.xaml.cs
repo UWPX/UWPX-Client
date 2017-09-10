@@ -37,7 +37,7 @@ namespace UWP_XMPP_Client.Pages
             this.InitializeComponent();
             loadChats();
             SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
-            ConnectionHandler.INSTANCE.NewChat += INSTANCE_NewChat;
+            ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             ConnectionHandler.INSTANCE.connect();
         }
 
@@ -88,11 +88,11 @@ namespace UWP_XMPP_Client.Pages
                     {
                         return 0;
                     }
-                    return -1;
+                    return 1;
                 }
                 if(b.lastActive == null)
                 {
-                    return 1;
+                    return -1;
                 }
                 return a.lastActive.CompareTo(b.lastActive);
             });
@@ -136,24 +136,34 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_NewChat(ConnectionHandler handler, Data_Manager.Classes.Events.NewChatEventArgs args)
+        private async void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
-            ChatEntry chat = args.getChat();
-            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (chat.userAccountId.Contains(c.getSeverConnectionConfiguration().getIdAndDomain()))
+                ChatEntry chatEntry = args.getChat();
+                foreach (Chat c in chats)
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    if(c.chat != null && c.chat.id.Equals(chatEntry.id))
+                    {
+                        chats.Remove(c);
+                        if (!args.gotRemoved())
+                        {
+                            c.chat = chatEntry;
+                            chats.Add(c);
+                        }
+                        return;
+                    }
+                }
+
+                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
+                {
+                    if (chatEntry.userAccountId.Contains(c.getSeverConnectionConfiguration().getIdAndDomain()))
                     {
                         Chat chatElement = new Chat { chat = args.getChat(), client = c };
                         chats.Add(chatElement);
-                        if (masterDetail_pnl.ViewState == Microsoft.Toolkit.Uwp.UI.Controls.MasterDetailsViewState.Both && masterDetail_pnl.SelectedItem == null)
-                        {
-                            masterDetail_pnl.SelectedItem = chatElement;
-                        }
-                    });
+                    }
                 }
-            }
+            });
         }
 
         private void AbstractBackRequestPage_BackRequested(object sender, BackRequestedEventArgs e)

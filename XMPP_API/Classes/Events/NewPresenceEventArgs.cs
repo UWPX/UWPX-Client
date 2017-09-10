@@ -10,6 +10,7 @@ namespace XMPP_API.Classes.Events
         private readonly Presence PRESENCE;
         private readonly string STATUS;
         private readonly string FROM;
+        private readonly string PRESENCE_TYPE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,6 +25,7 @@ namespace XMPP_API.Classes.Events
         {
             this.STATUS = message.getStatus();
             this.FROM = message.getFrom();
+            this.PRESENCE_TYPE = message.getType();
             if (message.getShow() == null)
             {
                 this.PRESENCE = Presence.Online;
@@ -67,6 +69,11 @@ namespace XMPP_API.Classes.Events
         public string getStatus()
         {
             return STATUS;
+        }
+
+        public string getPresenceType()
+        {
+            return PRESENCE_TYPE;
         }
 
         #endregion

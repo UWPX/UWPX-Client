@@ -14,7 +14,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Image Grid.Row="0" Source="ms-appx:///Assets/Images/details_background.jpeg" Stretch="UniformToFill"/>
-        <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 0, 0, 10" HorizontalContentAlignment="Stretch">
+        <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 50, 0, 10" HorizontalContentAlignment="Stretch">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel VerticalAlignment="Bottom" ItemsUpdatingScrollMode="KeepLastItemInView" Grid.ColumnSpan="1"/>

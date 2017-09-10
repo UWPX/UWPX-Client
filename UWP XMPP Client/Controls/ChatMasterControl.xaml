@@ -7,28 +7,75 @@
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
-    <Grid Margin="0, 5, 0, 5">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
-        <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="0"/>
-        <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
-            <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-            <TextBlock x:Name="lastChat_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-            <TextBlock x:Name="presence_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-        </StackPanel>
+    <Grid Margin="0, 5, 0, 5" RightTapped="Grid_RightTapped">
+        <Grid.Resources>
+            <MenuFlyout x:Name="menuFlyout">
+                <MenuFlyout.Items>
+                    <MenuFlyoutItem Text="Request presence subscription"/>
+                    <MenuFlyoutItem Text="Remove from roster"/>
+                    <MenuFlyoutSeparator/>
+                    <ToggleMenuFlyoutItem Text="Mute"/>
+                    <MenuFlyoutItem Text="Block"/>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem Text="Show profile"/>
+                </MenuFlyout.Items>
+            </MenuFlyout>
+        </Grid.Resources>
 
-        <Grid Grid.Column="2" HorizontalAlignment="Right">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="0"/>
+            <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
+                <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="lastChat_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="presence_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+            </StackPanel>
+
+            <Grid Grid.Column="2" HorizontalAlignment="Right">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="16"/>
+                    <RowDefinition Height="16"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="inRooster_tbck" FontSize="12" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="subscription_tbck" FontSize="14" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE748;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <TextBlock x:Name="muted_tbck" FontSize="13" Grid.Row="2" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+        <Grid Grid.Row="1" x:Name="requestPresenceSubscription_grid" Margin="0, 0, 0, 10" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="16"/>
-                <RowDefinition Height="16"/>
-                <RowDefinition Height="16"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="inRooster_tbck" FontSize="12" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="subscription_tbck" FontSize="14" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE748;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            <TextBlock x:Name="muted_tbck" FontSize="13" Grid.Row="2" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <TextBlock x:Name="presenceSubscriptionRequestText_tblck" Grid.ColumnSpan="2" Grid.Row="0" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" Foreground="{ThemeResource SystemAccentColor}"/>
+            <Button x:Name="presenceSubscriptionAccept_btn" Grid.Column="0" Grid.Row="1" Content="Accept" Foreground="Green" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="presenceSubscriptionAccept_btn_Click"/>
+            <Button x:Name="presenceSubscriptionRefuse_btn" Grid.Column="1" Grid.Row="1" Content="Refuse" Foreground="Red" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="presenceSubscriptionRefuse_btn_Click"/>
+        </Grid>
+        <Grid Grid.Row="2" x:Name="removedPresenceSubscription_grid" Margin="0, 0, 0, 10" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="presenceSubscriptionRemovedText_tblck" Grid.ColumnSpan="2" Grid.Row="0" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" Foreground="{ThemeResource SystemAccentColor}"/>
+            <Button x:Name="presenceSubscriptionRemovedAccept_btn" Grid.Column="0" Grid.Row="1" Content="Remove" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="presenceSubscriptionRemovedAccept_btn_Click"/>
+            <Button x:Name="presenceSubscriptionRemovedRefuse_btn" Grid.Column="1" Grid.Row="1" Content="Keep" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="presenceSubscriptionRemovedRefuse_btn_Click"/>
         </Grid>
     </Grid>
 </UserControl>

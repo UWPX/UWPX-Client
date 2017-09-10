@@ -49,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public PresenceMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value)
         {
-            if(node.Attributes["type"] != null && node.Attributes["type"].Value.Equals("unavailable"))
+            if(node.Attributes["type"] != null)
             {
                 this.TYPE = node.Attributes["type"].Value;
             }

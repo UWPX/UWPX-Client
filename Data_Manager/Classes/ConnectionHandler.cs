@@ -20,11 +20,6 @@ namespace Data_Manager.Classes
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
 
         private ArrayList xMPPClients;
-
-        public delegate void NewChatEventHandler(ConnectionHandler handler, NewChatEventArgs args);
-
-        public event NewChatEventHandler NewChat;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Construktoren--
@@ -102,6 +97,7 @@ namespace Data_Manager.Classes
                 client.NewRoosterMessage += Client_NewRoosterMessage;
                 client.ConnectionStateChanged += Client_ConnectionStateChanged;
                 client.NewChatMessage += Client_NewChatMessage;
+                client.NewPresence += Client_NewPresence;
                 xMPPClients.Add(client);
             }
         }
@@ -127,6 +123,36 @@ namespace Data_Manager.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void Client_NewPresence(XMPPClient client, NewPresenceEventArgs args)
+        {
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(args.getFrom(), client.getSeverConnectionConfiguration().getIdAndDomain());
+            if (args.getPresenceType() != null && args.getPresenceType().Equals("subscribe"))
+            {
+                if(chat == null)
+                {
+                    chat = new ChatEntry()
+                    {
+                        id = args.getFrom(),
+                        userAccountId = client.getSeverConnectionConfiguration().getIdAndDomain(),
+                        inRooster = false,
+                        muted = false,
+                        lastActive = DateTime.Now,
+                    };
+                }
+            }
+            if(chat != null)
+            {
+                chat.presence = args.getPresence();
+                chat.status = args.getStatus();
+                chat.userAccountId = client.getSeverConnectionConfiguration().getIdAndDomain();
+                if (args.getPresenceType() != null)
+                {
+                    chat.subscription = args.getPresenceType();
+                }
+                ChatManager.INSTANCE.setChatEntry(chat);
+            }
+        }
+
         private void Client_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewPresenceEventArgs args)
         {
             if(args.getMessage() is RoosterMessage)
@@ -138,14 +164,9 @@ namespace Data_Manager.Classes
                     ChatEntry chat = ChatManager.INSTANCE.getChatEntry(item.getJabberId(), account.getIdAndDomain());
                     if(chat != null)
                     {
-                        if(item.getSubscription().Equals("remove"))
-                        {
-                            ChatManager.INSTANCE.removeChatEntry(chat);
-                            continue;
-                        }
                         chat.name = item.getName();
                         chat.subscription = item.getSubscription();
-                        chat.inRooster = true;
+                        chat.inRooster = !item.getSubscription().Equals("remove");
                         chat.ask = item.getAsk();
                     }
                     else
@@ -161,7 +182,6 @@ namespace Data_Manager.Classes
                             inRooster = true,
                             ask = item.getAsk()
                         };
-                        NewChat?.Invoke(this, new NewChatEventArgs(chat));
                     }
                     ChatManager.INSTANCE.setChatEntry(chat);
                 }
@@ -185,12 +205,6 @@ namespace Data_Manager.Classes
             {
                 chat = new ChatEntry(pureJabberId, Utils.removeResourceFromJabberid(msg.getTo()));
                 ChatManager.INSTANCE.setChatEntry(chat);
-                NewChat?.Invoke(this, new NewChatEventArgs(chat));
-                if(chat == null)
-                {
-                    // TODO Message to unknown chat
-                    return;
-                }
             }
             ChatMessageEntry entry = new ChatMessageEntry(msg, chat);
             ChatManager.INSTANCE.setChatMessageEntry(entry);

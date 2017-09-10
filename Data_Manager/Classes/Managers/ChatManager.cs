@@ -1,4 +1,5 @@
 ﻿using Data_Manager.Classes.DBEntries;
+using Data_Manager.Classes.Events;
 using System.Collections.Generic;
 using XMPP_API.Classes;
 
@@ -9,6 +10,9 @@ namespace Data_Manager.Classes.Managers
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly ChatManager INSTANCE = new ChatManager();
+
+        public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
+        public event ChatChangedHandler ChatChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -70,6 +74,7 @@ namespace Data_Manager.Classes.Managers
         public void setChatEntry(ChatEntry chat)
         {
             dB.InsertOrReplace(chat);
+            onChatChanged(chat, false);
         }
 
         public List<ChatEntry> getAllChatsForClient(XMPPClient c)
@@ -83,12 +88,20 @@ namespace Data_Manager.Classes.Managers
         public void removeChatEntry(ChatEntry chat)
         {
             dB.Delete(chat);
+            onChatChanged(chat, true);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void onChatChanged(ChatEntry chat, bool removed)
+        {
+            if(chat == null)
+            {
+                return;
+            }
+            ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, removed));
+        }
 
         #endregion
 

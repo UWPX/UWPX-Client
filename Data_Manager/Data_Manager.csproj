@@ -112,7 +112,7 @@
     <Compile Include="Classes\DBEntries\ChatMessageEntry.cs" />
     <Compile Include="Classes\DBEntries\UserAccountEntry.cs" />
     <Compile Include="Classes\DBEntries\UserEntry.cs" />
-    <Compile Include="Classes\Events\NewChatEventArgs.cs" />
+    <Compile Include="Classes\Events\ChatChangedEventArgs.cs" />
     <Compile Include="Classes\Managers\AbstractManager.cs" />
     <Compile Include="Classes\Managers\ChatManager.cs" />
     <Compile Include="Classes\Managers\UserManager.cs" />

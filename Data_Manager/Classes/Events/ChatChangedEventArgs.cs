@@ -3,11 +3,12 @@ using System;
 
 namespace Data_Manager.Classes.Events
 {
-    public class NewChatEventArgs : EventArgs
+    public class ChatChangedEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly ChatEntry CHAT;
+        private readonly bool REMOVED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,11 +17,12 @@ namespace Data_Manager.Classes.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 30/08/2017 Created [Fabian Sauter]
+        /// 10/09/2017 Created [Fabian Sauter]
         /// </history>
-        public NewChatEventArgs(ChatEntry chat)
+        public ChatChangedEventArgs(ChatEntry chat, bool removed)
         {
             this.CHAT = chat;
+            this.REMOVED = removed;
         }
 
         #endregion
@@ -29,6 +31,11 @@ namespace Data_Manager.Classes.Events
         public ChatEntry getChat()
         {
             return CHAT;
+        }
+
+        public bool gotRemoved()
+        {
+            return REMOVED;
         }
 
         #endregion

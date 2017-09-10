@@ -1,5 +1,6 @@
 ﻿using SQLite.Net.Attributes;
 using System;
+using XMPP_API.Classes;
 
 namespace Data_Manager.Classes.DBEntries
 {
@@ -22,6 +23,10 @@ namespace Data_Manager.Classes.DBEntries
         public bool inRooster { get; set; }
         // Subscription request status
         public string ask { get; set; }
+        // Status text
+        public string status { get; set; }
+        // online, dnd, xa, ...
+        public Presence presence { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
