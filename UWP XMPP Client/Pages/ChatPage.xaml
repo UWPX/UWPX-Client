@@ -12,10 +12,8 @@
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls1:Seperator Grid.Row="1"/>
         <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="{ThemeResource SystemAccentColorDark3}">
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar>

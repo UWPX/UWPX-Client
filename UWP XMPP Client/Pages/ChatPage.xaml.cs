@@ -123,7 +123,7 @@ namespace UWP_XMPP_Client.Pages
                 ChatManager.INSTANCE.setChatEntry(new ChatEntry(jabberId, client.getSeverConnectionConfiguration().getIdAndDomain())
                 {
                     subscription = requestSubscription ? "pending" : null
-                });
+                }, true);
                 loadChats();
             }
         }
@@ -150,6 +150,7 @@ namespace UWP_XMPP_Client.Pages
                         {
                             c.chat = chatEntry;
                             chats.Add(c);
+                            // TODO sort list
                         }
                         return;
                     }

@@ -7,6 +7,9 @@ using System;
 using Data_Manager.Classes.DBEntries;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using XMPP_API.Classes.Network.XML.Messages;
+using System.Threading.Tasks;
+using Windows.UI.Popups;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -20,7 +23,7 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(ClientProperty, value);
-                showChatDescription();
+                showChat();
                 linkEvents();
             }
         }
@@ -32,10 +35,12 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(ChatProperty, value);
-                showChatDescription();
+                showChat();
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatEntry), typeof(ChatMasterControl), null);
+
+        private bool subscriptionRequest;
         
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -49,6 +54,7 @@ namespace UWP_XMPP_Client.Controls
         public ChatMasterControl()
         {
             this.InitializeComponent();
+            this.subscriptionRequest = false;
         }
 
         #endregion
@@ -64,7 +70,25 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showChatDescription()
+        private void showSubscriptionRequest()
+        {
+            accountAction_grid.Visibility = Visibility.Visible;
+            accountAction_tblck.Text = Chat.status ?? (Chat.name ?? Chat.id) + "  has requested to subscribe to your presence!";
+            accountActionRefuse_btn.Content = "Refuse";
+            accountActionAccept_btn.Content = "Accept";
+            subscriptionRequest = true;
+        }
+
+        private void showRemovedChat()
+        {
+            accountAction_grid.Visibility = Visibility.Visible;
+            accountAction_tblck.Text = (Chat.name ?? Chat.id) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from yor presence?";
+            accountActionRefuse_btn.Content = "Keep";
+            accountActionAccept_btn.Content = "Remove";
+            subscriptionRequest = false;
+        }
+        
+        private void showChat()
         {
             if (Chat != null && Client != null)
             {
@@ -83,14 +107,10 @@ namespace UWP_XMPP_Client.Controls
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
                 inRooster_tbck.Visibility = Chat.inRooster ? Visibility.Visible : Visibility.Collapsed;
 
-                // Subscription pending
-                if(Chat.ask != null && Chat.ask.Equals("subscribe")) {
-                    presence_tblck.Text = "Subscription pending...";
-                }
-
                 // subscription state
-                requestPresenceSubscription_grid.Visibility = Visibility.Collapsed;
-                removedPresenceSubscription_grid.Visibility = Visibility.Collapsed;
+                accountAction_grid.Visibility = Visibility.Collapsed;
+                requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                 switch (Chat.subscription)
                 {
                     case "from":
@@ -100,27 +120,48 @@ namespace UWP_XMPP_Client.Controls
                     case "both":
                         subscription_tbck.Visibility = Visibility.Visible;
                         subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 16, 124, 16));
+                        cancelPresenceSubscription_mfo.Text = "Remove presence subscription";
                         break;
                     case "pending":
                         subscription_tbck.Visibility = Visibility.Visible;
                         subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 76, 74, 72));
+                        cancelPresenceSubscription_mfo.Text = "Cancel subscription request";
                         break;
                     case "subscribe":
-                        requestPresenceSubscription_grid.Visibility = Visibility.Visible;
                         subscription_tbck.Visibility = Visibility.Collapsed;
-                        presenceSubscriptionRequestText_tblck.Text = Chat.status ?? (Chat.name ?? Chat.id) + "  has requested to subscribe to your presence!";
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                        showSubscriptionRequest();
                         break;
                     case "unsubscribe":
-                    case "remove":
-                        removedPresenceSubscription_grid.Visibility = Visibility.Visible;
                         subscription_tbck.Visibility = Visibility.Collapsed;
-                        presenceSubscriptionRemovedText_tblck.Text = (Chat.name ?? Chat.id) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from yor presence?";
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                        showRemovedChat();
                         break;
                     default:
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         subscription_tbck.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
+
+            // Subscription pending
+            if (Chat.ask != null && Chat.ask.Equals("subscribe"))
+            {
+                presence_tblck.Visibility = Visibility.Visible;
+                cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                presence_tblck.Visibility = Visibility.Collapsed;
+            }
+
+            // Menu Flyout:
+            mute_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
+            mute_tmfo.IsChecked = Chat.muted;
+            removeFromRoster_mfo.Text = Chat.inRooster ? "Remove from roster" : "Add to roster";
         }
 
         private void linkEvents()
@@ -130,6 +171,46 @@ namespace UWP_XMPP_Client.Controls
                 Client.NewChatMessage += Client_NewChatMessage;
                 Client.ConnectionStateChanged += Client_ConnectionStateChanged;
             }
+        }
+
+        private async Task removeChatRequestClickedAsync(bool remove)
+        {            
+            if (remove)
+            {
+                MessageDialog dialog = new MessageDialog("Do you also want to delete all chat messages from this chat?");
+                dialog.Commands.Add(new UICommand { Label = "No", Id = 0 });
+                dialog.Commands.Add(new UICommand { Label = "Yes", Id = 1 });
+                IUICommand command = await dialog.ShowAsync();
+                if ((int)command.Id == 1)
+                {
+                    ChatManager.INSTANCE.deleteChat(Chat, true);
+                    return;
+                }
+                ChatManager.INSTANCE.deleteChat(Chat, false);
+            }
+            else
+            {
+                Chat.subscription = "none";
+                ChatManager.INSTANCE.setChatEntry(Chat, false);
+                showChat();
+            }
+        }
+
+        private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
+        {
+            await Client.answerPresenceSubscriptionRequest(Chat.id, accepted);
+            Chat.ask = null;
+            ChatManager.INSTANCE.setChatEntry(Chat, false);
+            showChat();
+        }
+
+        private async Task<bool> showShouldRemoveChat()
+        {
+            MessageDialog dialog = new MessageDialog("Do you really want to delete this chat?");
+            dialog.Commands.Add(new UICommand { Label = "No", Id = 0 });
+            dialog.Commands.Add(new UICommand { Label = "Yes", Id = 1 });
+            IUICommand command = await dialog.ShowAsync();
+            return (int)command.Id == 1;
         }
         
         #endregion
@@ -148,7 +229,7 @@ namespace UWP_XMPP_Client.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                showChatDescription();
+                showChat();
             });
         }
 
@@ -159,26 +240,74 @@ namespace UWP_XMPP_Client.Controls
             var a = ((FrameworkElement)e.OriginalSource).DataContext;
         }
 
-        #endregion
-
-        private void presenceSubscriptionAccept_btn_Click(object sender, RoutedEventArgs e)
+        private void mute_tmfo_Click(object sender, RoutedEventArgs e)
         {
-
+            Chat.muted = mute_tmfo.IsChecked;
+            ChatManager.INSTANCE.setChatEntry(Chat, false);
+            showChat();
         }
 
-        private void presenceSubscriptionRefuse_btn_Click(object sender, RoutedEventArgs e)
+        private async void accountActionAccept_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            if(subscriptionRequest)
+            {
+                await presenceSubscriptionRequestClickedAsync(true);
+            }
+            else
+            {
+                await removeChatRequestClickedAsync(true);
+            }
         }
 
-        private void presenceSubscriptionRemovedAccept_btn_Click(object sender, RoutedEventArgs e)
+        private async void accountActionRefuse_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (subscriptionRequest)
+            {
+                await presenceSubscriptionRequestClickedAsync(false);
+            }
+            else
+            {
+                await removeChatRequestClickedAsync(false);
+            }
         }
 
-        private void presenceSubscriptionRemovedRefuse_btn_Click(object sender, RoutedEventArgs e)
+        private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await Client.requestPresenceSubscriptionAsync(Chat.id);
         }
+
+        private async void deleteChat_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            if (await showShouldRemoveChat())
+            {
+                if (Chat.inRooster)
+                {
+                    await Client.removeFromRosterAsync(Chat.id);
+                }
+                await removeChatRequestClickedAsync(true);
+            }
+        }
+
+        private async void removeFromRoster_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            if (Chat.inRooster)
+            {
+                await Client.removeFromRosterAsync(Chat.id);
+            }
+            else
+            {
+                await Client.addToRosterAsync(Chat.id);
+            }
+        }
+
+        private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.answerPresenceSubscriptionRequest(Chat.id, false);
+            Chat.ask = null;
+            ChatManager.INSTANCE.setChatEntry(Chat, false);
+            showChat();
+        }
+
+        #endregion        
     }
 }

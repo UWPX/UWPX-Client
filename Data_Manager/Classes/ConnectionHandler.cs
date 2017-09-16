@@ -149,7 +149,7 @@ namespace Data_Manager.Classes
                 {
                     chat.subscription = args.getPresenceType();
                 }
-                ChatManager.INSTANCE.setChatEntry(chat);
+                ChatManager.INSTANCE.setChatEntry(chat, true);
             }
         }
 
@@ -183,7 +183,7 @@ namespace Data_Manager.Classes
                             ask = item.getAsk()
                         };
                     }
-                    ChatManager.INSTANCE.setChatEntry(chat);
+                    ChatManager.INSTANCE.setChatEntry(chat, true);
                 }
             }
         }
@@ -204,7 +204,7 @@ namespace Data_Manager.Classes
             if(chat == null)
             {
                 chat = new ChatEntry(pureJabberId, Utils.removeResourceFromJabberid(msg.getTo()));
-                ChatManager.INSTANCE.setChatEntry(chat);
+                ChatManager.INSTANCE.setChatEntry(chat, true);
             }
             ChatMessageEntry entry = new ChatMessageEntry(msg, chat);
             ChatManager.INSTANCE.setChatMessageEntry(entry);

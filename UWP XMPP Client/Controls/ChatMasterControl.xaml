@@ -11,19 +11,20 @@
         <Grid.Resources>
             <MenuFlyout x:Name="menuFlyout">
                 <MenuFlyout.Items>
-                    <MenuFlyoutItem Text="Request presence subscription"/>
-                    <MenuFlyoutItem Text="Remove from roster"/>
+                    <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request presence subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo" Text="Cancel presence subscription" Click="cancelPresenceSubscription_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
                     <MenuFlyoutSeparator/>
-                    <ToggleMenuFlyoutItem Text="Mute"/>
-                    <MenuFlyoutItem Text="Block"/>
+                    <ToggleMenuFlyoutItem x:Name="mute_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
+                    <MenuFlyoutItem x:Name="block_tmfo" Text="Block"/>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem Text="Show profile"/>
+                    <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile"/>
                 </MenuFlyout.Items>
             </MenuFlyout>
         </Grid.Resources>
 
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
@@ -37,7 +38,7 @@
             <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
                 <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
                 <TextBlock x:Name="lastChat_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-                <TextBlock x:Name="presence_tblck" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+                <TextBlock x:Name="presence_tblck" Text="Subscription pending..." FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
 
             <Grid Grid.Column="2" HorizontalAlignment="Right">
@@ -51,7 +52,7 @@
                 <TextBlock x:Name="muted_tbck" FontSize="13" Grid.Row="2" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>
         </Grid>
-        <Grid Grid.Row="1" x:Name="requestPresenceSubscription_grid" Margin="0, 0, 0, 10" Visibility="Collapsed">
+        <Grid Grid.Row="1" x:Name="accountAction_grid" Margin="0, 0, 0, 10" Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
@@ -60,22 +61,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <TextBlock x:Name="presenceSubscriptionRequestText_tblck" Grid.ColumnSpan="2" Grid.Row="0" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" Foreground="{ThemeResource SystemAccentColor}"/>
-            <Button x:Name="presenceSubscriptionAccept_btn" Grid.Column="0" Grid.Row="1" Content="Accept" Foreground="Green" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="presenceSubscriptionAccept_btn_Click"/>
-            <Button x:Name="presenceSubscriptionRefuse_btn" Grid.Column="1" Grid.Row="1" Content="Refuse" Foreground="Red" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="presenceSubscriptionRefuse_btn_Click"/>
-        </Grid>
-        <Grid Grid.Row="2" x:Name="removedPresenceSubscription_grid" Margin="0, 0, 0, 10" Visibility="Collapsed">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <TextBlock x:Name="presenceSubscriptionRemovedText_tblck" Grid.ColumnSpan="2" Grid.Row="0" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" Foreground="{ThemeResource SystemAccentColor}"/>
-            <Button x:Name="presenceSubscriptionRemovedAccept_btn" Grid.Column="0" Grid.Row="1" Content="Remove" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="presenceSubscriptionRemovedAccept_btn_Click"/>
-            <Button x:Name="presenceSubscriptionRemovedRefuse_btn" Grid.Column="1" Grid.Row="1" Content="Keep" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="presenceSubscriptionRemovedRefuse_btn_Click"/>
+            <TextBlock x:Name="accountAction_tblck" Grid.ColumnSpan="2" Grid.Row="0" TextWrapping="WrapWholeWords" Margin="0, 0, 0, 5" Foreground="{ThemeResource SystemAccentColor}"/>
+            <Button x:Name="accountActionAccept_btn" Grid.Column="0" Grid.Row="1" Content="Accept" Foreground="Green" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="accountActionAccept_btn_Click"/>
+            <Button x:Name="accountActionRefuse_btn" Grid.Column="1" Grid.Row="1" Content="Refuse" Foreground="Red" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="accountActionRefuse_btn_Click"/>
         </Grid>
     </Grid>
 </UserControl>

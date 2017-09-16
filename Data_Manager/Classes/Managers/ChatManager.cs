@@ -71,10 +71,13 @@ namespace Data_Manager.Classes.Managers
             dB.InsertOrReplace(message);
         }
 
-        public void setChatEntry(ChatEntry chat)
+        public void setChatEntry(ChatEntry chat, bool triggerChatChanged)
         {
             dB.InsertOrReplace(chat);
-            onChatChanged(chat, false);
+            if (triggerChatChanged)
+            {
+                onChatChanged(chat, false);
+            }
         }
 
         public List<ChatEntry> getAllChatsForClient(XMPPClient c)
@@ -89,6 +92,13 @@ namespace Data_Manager.Classes.Managers
         {
             dB.Delete(chat);
             onChatChanged(chat, true);
+        }
+
+        public void deleteChat(ChatEntry chat, bool deleteMessages)
+        {
+            dB.Query<UserAccountEntry>("DELETE FROM ChatMessageEntry WHERE chatId LIKE ?", chat.id);
+            removeChatEntry(chat);
+
         }
 
         #endregion
