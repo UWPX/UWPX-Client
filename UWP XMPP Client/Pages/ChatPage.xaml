@@ -15,6 +15,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="{ThemeResource SystemAccentColorDark3}">
+            <controls:MasterDetailsView.NoSelectionContentTemplate>
+                <DataTemplate>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
+                        <TextBlock FontSize="24" Text="Select an item to view."/>
+                    </StackPanel>
+                </DataTemplate>
+            </controls:MasterDetailsView.NoSelectionContentTemplate>
             <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar>
                     <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add" Click="add_abb_Click">
