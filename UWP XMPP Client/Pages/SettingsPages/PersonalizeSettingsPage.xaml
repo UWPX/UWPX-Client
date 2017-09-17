@@ -4,9 +4,27 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Page.Resources>
+        <DataTemplate x:Key="BackgroundImageTemplate" x:DataType="datatemplates:BackgroundImage">
+            <controls:BackgroundImageSelectionControl ImagePath="{x:Bind imagePath}" Selected="{x:Bind selected}"/>
+        </DataTemplate>
+    </Page.Resources>
 
-    </Grid>
+    <ScrollViewer>
+        <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <controls:SettingsHeader Grid.Row="0" Icon="&#xE771;" Text="Personalize"/>
+            <TextBlock Grid.Row="1" Text="Select chat background:" Margin="10, 10, 10, 0"/>
+            <controls1:AdaptiveGridView x:Name="backgroundImages_adgv" Grid.Row="2" Margin="10" OneRowModeEnabled="False" ItemHeight="180" DesiredWidth="160" SelectionMode="Single" IsItemClickEnabled="True" ItemTemplate="{StaticResource BackgroundImageTemplate}" ItemsSource="{x:Bind backgroundImages}" ItemClick="AdaptiveGridView_ItemClick"/>
+        </Grid>
+    </ScrollViewer>
 </Page>

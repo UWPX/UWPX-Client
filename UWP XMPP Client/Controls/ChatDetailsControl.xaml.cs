@@ -7,6 +7,10 @@ using XMPP_API.Classes;
 using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
+using Data_Manager.Classes;
+using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.DataTemplates;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -50,6 +54,7 @@ namespace UWP_XMPP_Client.Controls
         public ChatDetailsControl()
         {
             this.InitializeComponent();
+            showbackgroundImage();
         }
 
         #endregion
@@ -78,6 +83,16 @@ namespace UWP_XMPP_Client.Controls
                     chatName_tblck.Text = Chat.name + " (" + Chat.id + ')';
                 }
             }
+        }
+
+        private void showbackgroundImage()
+        {
+            BackgroundImage img = BackgroundImageCache.selectedImage;
+            if(img == null || img.imagePath == null)
+            {
+                return;
+            }
+            backgroundImage_img.Source = new BitmapImage(new Uri(img.imagePath));
         }
 
         private void showMessages()

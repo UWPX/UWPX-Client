@@ -1,21 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UWP_XMPP_Client.Pages;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Data_Manager.Classes;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client
 {
@@ -41,6 +32,9 @@ namespace UWP_XMPP_Client
         /// <param name="e">Details über Startanforderung und -prozess.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
+            // Loads all background images into the cache
+            BackgroundImageCache.loadCache();
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // App-Initialisierung nicht wiederholen, wenn das Fenster bereits Inhalte enthält.

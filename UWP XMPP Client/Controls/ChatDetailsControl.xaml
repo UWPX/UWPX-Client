@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0" Source="ms-appx:///Assets/Images/details_background.jpeg" Stretch="UniformToFill"/>
+        <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill"/>
         <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 50, 0, 10" HorizontalContentAlignment="Stretch">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -38,7 +38,7 @@
                 <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
                 <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
             </StackPanel>
-            <Button Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE712;" VerticalAlignment="Center" Height="30" Margin="10, 0, 10, 0"/>
+            <Button Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0"/>
         </Grid>
 
         <controls:Seperator Grid.Row="1"/>
