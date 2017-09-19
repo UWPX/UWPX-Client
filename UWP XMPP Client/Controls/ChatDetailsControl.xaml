@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill"/>
+        <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 50, 0, 10" HorizontalContentAlignment="Stretch">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
@@ -29,16 +29,14 @@
 
         <Grid Grid.Row="0" Height="50" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Image Grid.Column="0"/>
-            <StackPanel Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
                 <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
             </StackPanel>
-            <Button Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0"/>
+            <Button Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0"/>
         </Grid>
 
         <controls:Seperator Grid.Row="1"/>
