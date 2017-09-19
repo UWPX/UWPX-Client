@@ -29,7 +29,7 @@
         #region --Misc Methods (Public)--
         public override string toXmlString()
         {
-            return buildHeader();
+            return buildXElement();
         }
 
         #endregion

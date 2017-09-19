@@ -61,12 +61,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected string buildHeader()
+        protected string buildXElement()
         {
             string s = Consts.XML_HEADER + Consts.XML_STREAM_START;
-            s += Consts.XML_FROM + "'" + FROM + "'";
-            s += Consts.XML_TO + "'" + TO + "'";
-            s += Consts.XML_VERSION + Consts.XML_LANG + Consts.XML_CLIENT + Consts.XML_STREAM_NAMESPACE + '>';
+            s += " " + new XAttribute("from", FROM).ToString();
+            s += " " + new XAttribute("to", TO).ToString();
+            s += " " + new XAttribute("version", Consts.XML_VERSION).ToString();
+            s += " " + new XAttribute(XNamespace.Xml + "lang", Consts.XML_LANG).ToString();
+            s += Consts.XML_CLIENT + Consts.XML_STREAM_NAMESPACE + '>';
             return s;
         }
 

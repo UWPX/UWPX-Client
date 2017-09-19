@@ -40,20 +40,10 @@ namespace XMPP_API.Classes.Network.XML
         public List<AbstractMessage> parseMessages(string msg)
         {
             List<AbstractMessage> messages = new List<AbstractMessage>();
-
-            // Filter error and reset messages:
-            if (msg.Equals(Consts.XML_PROCEED))
-            {
-                return new List<AbstractMessage>() { new ProceedAnswerMessage() };
-            }
-            else if (msg.Equals("<stream:features/>"))
+            
+            if (msg.Equals("<stream:features/>"))
             {
                 return new List<AbstractMessage>() { new StreamFeaturesMessage(null) };
-            }
-            // SASL success:
-            else if (msg.Equals(Consts.XML_SASL_SUCCESS))
-            {
-                return new List<AbstractMessage>() { new SASLSuccessMessage() };
             }
             // Stream close:
             else if((msg.Contains(Consts.XML_STREAM_CLOSE)))
@@ -113,6 +103,16 @@ namespace XMPP_API.Classes.Network.XML
                     // Stream features:
                     case "stream:features":
                         messages.Add(new StreamFeaturesMessage(n));
+                        break;
+
+                    // TLS proceed:
+                    case "proceed":
+                        messages.Add(new ProceedAnswerMessage());
+                        break;
+
+                    // SASL success:
+                    case "success":
+                        messages.Add(new SASLSuccessMessage());
                         break;
 
                     // Messages:

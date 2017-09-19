@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -42,7 +43,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public static string getLoginQuery(string from)
         {
             string s = "<query xmlns='jabber:iq:auth'>";
-            s += "<username>" + from + "</username>";
+            s += new XElement("username", from).ToString();
             s += "</query>";
             return s;
         }
@@ -52,22 +53,22 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public override string toXmlString()
         {
-            string s = "<iq type='" + TYPE + "' id='" + ID;
-            if(TO != null)
+            XElement node = new XElement("iq");
+            node.Add(new XAttribute("type", TYPE));
+            node.Add(new XAttribute("id", ID));
+            if (TO != null)
             {
-                s += "' to='" + TO;
+                node.Add(new XAttribute("to", TO));
             }
             if (FROM != null)
             {
-                s += "' from='" + FROM;
+                node.Add(new XAttribute("from", FROM));
             }
-            s += "'>";
             if (QUERY != null)
             {
-                s += QUERY;
+                node.Add(XElement.Parse(QUERY));
             }
-            s += "</iq>";
-            return s;
+            return node.ToString();
         }
 
         #endregion

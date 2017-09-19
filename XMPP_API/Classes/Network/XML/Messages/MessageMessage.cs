@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -50,13 +51,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public override string toXmlString()
         {
-            string s = "";
-            s += Consts.XML_MESSAGE_START.Replace('>', ' ');
-            s += "from='" + FROM + "' to='" + TO;
-            s += "' id='" + ID + "' type='chat'>";
-            s += Consts.XML_BODY_START + MESSAGE + Consts.XML_BODY_CLOSE;
-            s += Consts.XML_MESSAGE_CLOSE;
-            return s;
+            XElement node = new XElement("message");
+            node.Add(new XAttribute("from", FROM));
+            node.Add(new XAttribute("to", TO));
+            node.Add(new XAttribute("id", ID));
+            node.Add(new XAttribute("type", "chat"));
+
+            node.Add(new XElement("body", MESSAGE));
+            return node.ToString();
         }
 
         #endregion

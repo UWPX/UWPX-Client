@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -80,42 +81,32 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public override string toXmlString()
         {
-            string s = "<presence";
+            XElement node = new XElement("presence");
             if(FROM != null)
             {
-                s += " from='" + FROM + "'";
+                node.Add(new XAttribute("from", FROM));
             }
             if (TO != null)
             {
-                s += " to='" + TO + "'";
+                node.Add(new XAttribute("to", TO));
             }
             if (TYPE != null)
             {
-                s += " type='" + TYPE + "'";
+                node.Add(new XAttribute("type", TYPE));
             }
-            if(SHOW == null && STATUS == null && PRIORETY <= -128 || PRIORETY >= 129)
+            if (SHOW != null)
             {
-                s += "/>";
+                node.Add(new XElement("show", SHOW));
             }
-            else
+            if (PRIORETY > -128 && PRIORETY < 129)
             {
-                s += '>';
-
-                if (SHOW != null)
-                {
-                    s += "<show>" + SHOW + "</show>";
-                }
-                if (PRIORETY > -128 && PRIORETY < 129)
-                {
-                    s += "<priority>" + PRIORETY + "</priority>";
-                }
-                if (STATUS != null)
-                {
-                    s += "<status>" + STATUS + "</status>";
-                }
-                s += "</presence>";
+                node.Add(new XElement("priority", PRIORETY));
             }
-            return s;
+            if (STATUS != null)
+            {
+                node.Add(new XElement("status", STATUS));
+            }
+            return node.ToString();
         }
 
         #endregion

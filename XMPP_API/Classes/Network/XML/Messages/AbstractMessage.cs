@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -83,7 +82,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public abstract string toXmlString();
-        //public abstract XElement toXElement();
 
         public override string ToString()
         {

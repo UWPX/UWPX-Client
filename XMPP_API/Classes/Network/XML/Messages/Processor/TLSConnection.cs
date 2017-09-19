@@ -77,49 +77,59 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         protected async override void processMessage(NewPresenceEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
-            if(state == TLSState.CONNECTED || msg.isProcessed())
+            if (msg.isProcessed())
             {
                 return;
             }
-            if (msg is OpenStreamAnswerMessage)
-            {
-                StreamFeaturesMessage features = (msg as OpenStreamAnswerMessage).getStreamFeaturesMessage();
-                if(features != null)
-                {
-                    await streamFeaturesMessageReceivedAsync(features, args);
-                }
-            }
-            else if(msg is StreamFeaturesMessage)
-            {
-                await streamFeaturesMessageReceivedAsync(msg as StreamFeaturesMessage, args);
-            }
-            else if (msg is ProceedAnswerMessage)
-            {
-                setMessageProcessed(args);
-                try
-                {
-                    // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
-                    TCP_CONNECTION.upgradeToTLS().Wait();
-                    ServerConnectionConfiguration sCC = XMPP_CONNECTION.getSeverConnectionConfiguration();
-
-                    // TLS established ==> resend stream header
-                    msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Unable to establish TLS connection! " + e.Message + "\n" + e.StackTrace);
-                    state = TLSState.ERROR;
-                }
-            }
-            else if ((state == TLSState.CONNECTING || state == TLSState.REQUESTED) && msg is ErrorMessage)
+            if ((state == TLSState.CONNECTING || state == TLSState.REQUESTED) && msg is ErrorMessage)
             {
                 setMessageProcessed(args);
                 state = TLSState.ERROR;
                 ErrorMessage error = msg as ErrorMessage;
-                if(error.getType().Equals(Consts.XML_FAILURE))
+                if (error.getType().Equals(Consts.XML_FAILURE))
                 {
                     error.setRestartConnection(AbstractMessage.HARD_RESTART);
                 }
+                return;
+            }
+            switch (state)
+            {
+                case TLSState.DISCONNECTED:
+                case TLSState.CONNECTING:
+                    if (msg is OpenStreamAnswerMessage)
+                    {
+                        StreamFeaturesMessage features = (msg as OpenStreamAnswerMessage).getStreamFeaturesMessage();
+                        if (features != null)
+                        {
+                            await streamFeaturesMessageReceivedAsync(features, args);
+                        }
+                    }
+                    else if (msg is StreamFeaturesMessage)
+                    {
+                        await streamFeaturesMessageReceivedAsync(msg as StreamFeaturesMessage, args);
+                    }
+                    break;
+
+                case TLSState.REQUESTED:
+                    if (msg is ProceedAnswerMessage)
+                    {
+                        setMessageProcessed(args);
+                        try
+                        {
+                            // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
+                            TCP_CONNECTION.upgradeToTLS().Wait();
+                            ServerConnectionConfiguration sCC = XMPP_CONNECTION.getSeverConnectionConfiguration();
+
+                            // TLS established ==> resend stream header
+                            msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
+                        }
+                        catch (Exception e)
+                        {
+                            Debug.WriteLine("Unable to establish TLS connection! " + e.Message + "\n" + e.StackTrace);
+                            state = TLSState.ERROR;
+                        }
+                    }
+                    break;
             }
         }
 

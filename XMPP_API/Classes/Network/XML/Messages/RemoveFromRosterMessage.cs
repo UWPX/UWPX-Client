@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -21,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
         }
 
-        public RemoveFromRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns='jabber:iq:roster'><item jid='" + target + "' subscription='remove'/></query>")
+        public RemoveFromRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns='jabber:iq:roster'>" + new XElement("item", new XAttribute("jid", target), new XAttribute("subscription", "remove")).ToString() + "</query>")
         {
         }
 

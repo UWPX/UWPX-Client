@@ -5,6 +5,7 @@ using System.IO;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Background;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Security.Cryptography.Certificates;
@@ -132,6 +133,17 @@ namespace XMPP_API.Classes.Network.TCP
                     tcpSocket = new StreamSocket();
                     serverHost = new HostName(SCC.serverAddress);
 
+                    // Setup Socketbroker:
+                    /*BackgroundTaskBuilder socketTaskBuilder = new BackgroundTaskBuilder
+                    {
+                        Name = SCC.getIdAndDomain() + "_backgroundTask",
+                        TaskEntryPoint = "",
+                    };
+                    socketTaskBuilder.SetTrigger(new SocketActivityTrigger());
+                    var task = socketTaskBuilder.Register();
+                    tcpSocket.TransferOwnership(SCC.getIdAndDomain());*/
+
+                    // Connect:
                     await tcpSocket.ConnectAsync(serverHost, SCC.port.ToString());
 
                     // Setup writer:
