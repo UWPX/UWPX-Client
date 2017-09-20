@@ -26,7 +26,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Basic Constructor
         /// </summary>

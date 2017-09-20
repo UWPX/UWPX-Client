@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Generate a PBDFK hash.
         /// </summary>

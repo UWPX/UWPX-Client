@@ -14,7 +14,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.Compression
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Basic Constructor
         /// </summary>

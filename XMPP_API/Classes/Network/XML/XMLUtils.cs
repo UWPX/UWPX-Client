@@ -10,7 +10,7 @@ namespace XMPP_API.Classes.Network.XML
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
 
 
         #endregion
@@ -42,6 +42,15 @@ namespace XMPP_API.Classes.Network.XML
                         }
                     }
                 }
+            }
+            return null;
+        }
+
+        public static XmlAttribute getAttribute(XmlNode node, string name)
+        {
+            if (node.Attributes != null)
+            {
+                return node.Attributes[name];
             }
             return null;
         }

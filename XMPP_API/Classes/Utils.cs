@@ -14,7 +14,7 @@ namespace XMPP_API.Classes
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         
 
         #endregion

@@ -15,7 +15,7 @@ namespace UWP_XMPP_Client.Classes
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
 
 
         #endregion

@@ -16,7 +16,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Basic Constructor
         /// </summary>

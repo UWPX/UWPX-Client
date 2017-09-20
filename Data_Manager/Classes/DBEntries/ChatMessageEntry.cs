@@ -12,6 +12,7 @@ namespace Data_Manager.Classes.DBEntries
         [PrimaryKey]
         public string id { get; set; }
         public string chatId { get; set; }
+        public string type { get; set; }
         public string message { get; set; }
         public string fromUser { get; set; }
         public DateTime date { get; set; }
@@ -24,7 +25,7 @@ namespace Data_Manager.Classes.DBEntries
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Basic Constructor
         /// </summary>
@@ -41,6 +42,7 @@ namespace Data_Manager.Classes.DBEntries
             id = msg.getId() + '_' + chat.id;
             chatId = chat.id;
             message = msg.getMessage();
+            type = msg.getType();
             fromUser = Utils.removeResourceFromJabberid(msg.getFrom());
             date = DateTime.Now;
             state = ChatMessageEntry.RECEIVED;

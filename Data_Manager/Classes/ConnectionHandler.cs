@@ -22,7 +22,7 @@ namespace Data_Manager.Classes
         private ArrayList xMPPClients;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Basic Constructor
         /// </summary>

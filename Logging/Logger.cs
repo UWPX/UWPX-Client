@@ -14,7 +14,7 @@ namespace Logging
 
         #endregion
         //--------------------------------------------------------Construktor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
 
 
         #endregion

@@ -18,7 +18,7 @@ namespace Data_Manager.Classes.Managers
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
-        #region --Construktoren--
+        #region --Constructors--
         /// <summary>
         /// Initalises the object and creates all required tables for this object. 
         /// </summary>
