@@ -7,7 +7,6 @@ using XMPP_API.Classes;
 using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
-using Data_Manager.Classes;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml.Media.Imaging;
@@ -103,15 +102,28 @@ namespace UWP_XMPP_Client.Controls
                 invertedListView_lstv.Items.Clear();
                 foreach (ChatMessageEntry msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
                 {
-                    if (Chat.userAccountId.Equals(msg.fromUser))
+                    showMessage(msg.type, msg.fromUser, msg.message, msg.date);
+                }
+            }
+        }
+
+        private void showMessage(string type, string from, string msg, DateTime date)
+        {
+            switch (type)
+            {
+                case "error":
+                    invertedListView_lstv.Items.Add(new SpeechBubbleErrorControl() { Text = msg, Date = date.ToLocalTime() });
+                    break;
+                default:
+                    if (Chat.userAccountId.Equals(from))
                     {
-                        invertedListView_lstv.Items.Insert(0, new SpeechBubbleDownControl() { Text = msg.message, Date = msg.date.ToLocalTime()});
+                        invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = msg, Date = date.ToLocalTime() });
                     }
                     else
                     {
-                        invertedListView_lstv.Items.Insert(0, new SpeechBubbleTopControl() { Text = msg.message, Date = msg.date.ToLocalTime() });
+                        invertedListView_lstv.Items.Add(new SpeechBubbleTopControl() { Text = msg, Date = date.ToLocalTime() });
                     }
-                }
+                    break;
             }
         }
 
@@ -146,14 +158,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat.id.Equals(Utils.removeResourceFromJabberid(msg.getFrom())))
                 {
-                    if (Chat.userAccountId.Equals(msg.getFrom()))
-                    {
-                        invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = msg.getMessage(), Date = DateTime.Now });
-                    }
-                    else
-                    {
-                        invertedListView_lstv.Items.Add(new SpeechBubbleTopControl() { Text = msg.getMessage(), Date = DateTime.Now });
-                    }
+                    showMessage(msg.getType(), msg.getFrom(), msg.getMessage(), DateTime.Now);
                 }
             });
         }

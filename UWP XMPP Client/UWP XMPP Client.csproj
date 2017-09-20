@@ -121,6 +121,9 @@
     <Compile Include="Controls\SpeechBubbleDownControl.xaml.cs">
       <DependentUpon>SpeechBubbleDownControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SpeechBubbleErrorControl.xaml.cs">
+      <DependentUpon>SpeechBubbleErrorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
@@ -228,6 +231,10 @@
     <Page Include="Controls\SpeechBubbleDownControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SpeechBubbleErrorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SpeechBubbleTopControl.xaml">
       <SubType>Designer</SubType>

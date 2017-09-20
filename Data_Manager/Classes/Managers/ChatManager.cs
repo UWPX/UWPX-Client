@@ -40,7 +40,7 @@ namespace Data_Manager.Classes.Managers
 
         public IList<ChatMessageEntry> getAllChatMessagesForChat(ChatEntry chat)
         {
-            return dB.Query<ChatMessageEntry>("SELECT * FROM ChatMessageEntry WHERE chatId LIKE ? ORDER BY date DESC", chat.id + '%');
+            return dB.Query<ChatMessageEntry>("SELECT * FROM ChatMessageEntry WHERE chatId LIKE ? ORDER BY date ASC", chat.id + '%');
         }
 
         public string getLastChatMessageForChat(ChatEntry chat)

@@ -39,7 +39,14 @@ namespace Data_Manager.Classes.DBEntries
 
         public ChatMessageEntry(MessageMessage msg, ChatEntry chat)
         {
-            id = msg.getId() + '_' + chat.id;
+            if(msg.getType() != null && msg.getType().Equals("error"))
+            {
+                id = msg.getId() + '_' + chat.id + "_error";
+            }
+            else
+            {
+                id = msg.getId() + '_' + chat.id;
+            }
             chatId = chat.id;
             message = msg.getMessage();
             type = msg.getType();
