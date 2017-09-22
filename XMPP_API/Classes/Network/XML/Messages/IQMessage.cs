@@ -48,6 +48,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             return s;
         }
 
+        public string getMessageType()
+        {
+            return TYPE;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

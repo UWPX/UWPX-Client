@@ -85,6 +85,15 @@ namespace Data_Manager.Classes.Managers
             return dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", c.getSeverConnectionConfiguration().getIdAndDomain());
         }
 
+        public void setAllNotInRoster(string userAccountId)
+        {
+            dB.Query<ChatEntry>("UPDATE ChatEntry SET inRoster = 0 WHERE userAccountId LIKE ?", userAccountId);
+            foreach (ChatEntry c in dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", userAccountId))
+            {
+                onChatChanged(c, true);
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

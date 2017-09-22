@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -68,6 +69,11 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task transferSocketOwnershipAsync()
+        {
+            await tcpConnection?.transferOwnershipAsync();
+        }
+
         public override async Task connectToServerAsync()
         {
             if (getState() == ConnectionState.CONNECTED || getState() == ConnectionState.CONNECTING)
@@ -150,7 +156,7 @@ namespace XMPP_API.Classes.Network
 
         private async void TcpConnection_ConnectionNewData(AbstractConnectionHandler handler, NewDataEventArgs args)
         {
-            Debug.WriteLine("New Data recieved: " + args.getData());
+            Debug.WriteLine("New Data received: " + args.getData());
             // Parse message:
             List<AbstractMessage> messages;
             try
@@ -172,7 +178,7 @@ namespace XMPP_API.Classes.Network
                     IQMessage iq = message as IQMessage;
                     if (iq.GetType().Equals(IQMessage.RESULT) && !iDCash.contains(iq.getId()))
                     {
-                        Debug.WriteLine("Invalid message id recived!");
+                        Debug.WriteLine("Invalid message id received!");
                         return;
                     }
                 }
@@ -235,6 +241,6 @@ namespace XMPP_API.Classes.Network
             await softRestart();
         }
 
-        #endregion   
+        #endregion
     }
 }

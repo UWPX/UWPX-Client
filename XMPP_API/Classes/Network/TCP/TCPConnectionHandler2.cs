@@ -1,20 +1,20 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
-using Windows.ApplicationModel.Background;
-using Windows.Networking;
 using Windows.Networking.Sockets;
+using Logging;
+using Windows.Networking;
+using System.IO;
+using Windows.ApplicationModel.Background;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage.Streams;
+using System.Threading;
+using System.Diagnostics;
 
 namespace XMPP_API.Classes.Network.TCP
 {
-    class TCPConnectionHandler : AbstractConnectionHandler
+    public class TCPConnectionHandler2 : AbstractConnectionHandler
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -36,9 +36,9 @@ namespace XMPP_API.Classes.Network.TCP
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/08/2017 Created [Fabian Sauter]
+        /// 20/09/2017 Created [Fabian Sauter]
         /// </history>
-        public TCPConnectionHandler(ServerConnectionConfiguration sCC) : base(sCC)
+        public TCPConnectionHandler2(ServerConnectionConfiguration sCC) : base(sCC)
         {
         }
 
@@ -52,7 +52,7 @@ namespace XMPP_API.Classes.Network.TCP
         /// <param name="serverCert">The server certificate</param>
         /// <param name="intermediateCertificates">The server certificate chain</param>
         /// <returns>A string containing certificate details</returns>
-        private string getCertificateInformation(Certificate serverCert, IReadOnlyList<Certificate> intermediateCertificates)
+        public string getCertificateInformation(Certificate serverCert, IReadOnlyList<Certificate> intermediateCertificates)
         {
             StringBuilder stringBuilder = new StringBuilder();
 
@@ -81,6 +81,55 @@ namespace XMPP_API.Classes.Network.TCP
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async override Task connectToServerAsync()
+        {
+            switch (getState())
+            {
+                case ConnectionState.ERROR:
+                case ConnectionState.DISCONNECTED:
+                    setState(ConnectionState.CONNECTING);
+                    for (int i = 1; i < 4; i++)
+                    {
+                        try
+                        {
+                            // Setup socket:
+                            tcpSocket = new StreamSocket();
+                            serverHost = new HostName(SCC.serverAddress);
+
+                            // Enable transfer ownership:
+                            socketBackgroundTask = MyBackgroundTaskHelper.getSocketTask();
+                            if (socketBackgroundTask != null)
+                            {
+                                // https://docs.microsoft.com/de-de/windows/uwp/networking/network-communications-in-the-background#socket-broker-and-the-socketactivitytrigger
+                                tcpSocket.EnableTransferOwnership(socketBackgroundTask.TaskId, SocketActivityConnectedStandbyAction.Wake);
+                            }
+
+                            // Connect:
+                            await tcpSocket.ConnectAsync(serverHost, SCC.port.ToString());
+
+                            // Setup writer:
+                            writer = new StreamWriter(tcpSocket.OutputStream.AsStreamForWrite());
+
+                            // Setup Reader:
+                            reader = new StreamReader(tcpSocket.InputStream.AsStreamForRead());
+
+                            setState(ConnectionState.CONNECTED);
+                            return;
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error(i + " try to connect to: " + SCC.serverAddress, e);
+                            cleanupConnection();
+                        }
+                    }
+                    setState(ConnectionState.ERROR);
+                    break;
+                default:
+                    Logger.Warn("Unable to connect to server. Socket state = " + getState());
+                    break;
+            }
+        }
+
         public async Task sendMessageToServerAsync(string msg)
         {
             if (getState() != ConnectionState.CONNECTED)
@@ -122,54 +171,6 @@ namespace XMPP_API.Classes.Network.TCP
             await tcpSocket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, serverHost);
         }
 
-        public async override Task connectToServerAsync()
-        {
-            switch (getState())
-            {
-                case ConnectionState.ERROR:
-                case ConnectionState.DISCONNECTED:
-                    setState(ConnectionState.CONNECTING);
-                    for (int i = 1; i < 4; i++)
-                    {
-                        try
-                        {
-                            // Setup socket:
-                            tcpSocket = new StreamSocket();
-                            serverHost = new HostName(SCC.serverAddress);
-
-                            // Enable transfer ownership:
-                            socketBackgroundTask = MyBackgroundTaskHelper.getSocketTask();
-                            if (socketBackgroundTask != null)
-                            {
-                                // https://docs.microsoft.com/de-de/windows/uwp/networking/network-communications-in-the-background#socket-broker-and-the-socketactivitytrigger
-                                tcpSocket.EnableTransferOwnership(socketBackgroundTask.TaskId, SocketActivityConnectedStandbyAction.Wake);
-                            }
-
-                            // Connect:
-                            await tcpSocket.ConnectAsync(serverHost, SCC.port.ToString());
-
-                            // Setup writer:
-                            writer = new StreamWriter(tcpSocket.OutputStream.AsStreamForWrite());
-
-                            // Setup Reader:
-                            reader = new StreamReader(tcpSocket.InputStream.AsStreamForRead());
-                            setState(ConnectionState.CONNECTED);
-                            return;
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error(i + " try to connect to: " + SCC.serverAddress, e);
-                            cleanupConnection();
-                        }
-                    }
-                    setState(ConnectionState.ERROR);
-                    break;
-                default:
-                    Logger.Warn("Unable to connect to server. Socket state = " + getState());
-                    break;
-            }
-        }
-
         public override async Task disconnectFromServerAsync()
         {
             setState(ConnectionState.DISCONNECTING);
@@ -208,7 +209,7 @@ namespace XMPP_API.Classes.Network.TCP
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(e.Message);
+                        Debug.WriteLine(e.Message + "\n" + e.StackTrace);
                     }
                 }
                 cleanupConnection();

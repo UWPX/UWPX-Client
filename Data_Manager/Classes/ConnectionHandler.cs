@@ -1,6 +1,6 @@
 ﻿using Data_Manager.Classes.DBEntries;
-using Data_Manager.Classes.Events;
 using Data_Manager.Classes.Managers;
+using Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -57,6 +57,17 @@ namespace Data_Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task transferSocketOwnershipAsync()
+        {
+            if(xMPPClients != null)
+            {
+                foreach (XMPPClient c in xMPPClients)
+                {
+                    await c.transferSocketOwnershipAsync();
+                }
+            }
+        }
+
         public void connect()
         {
             connectToAllAccounts();
@@ -100,17 +111,37 @@ namespace Data_Manager.Classes
                 client.NewPresence += Client_NewPresence;
                 xMPPClients.Add(client);
             }
+
+            // Socket background task:
+            if (xMPPClients.Count > 0 && !Settings.getSettingBoolean(SettingsConsts.DISABLE_SOCKET_BACKGROUND_TASK))
+            {
+                MyBackgroundTaskHelper.registerBackgroundTask();
+            }
         }
 
         private void connectToAllAccounts()
         {
             foreach (XMPPClient client in xMPPClients)
             {
-                if(!client.getSeverConnectionConfiguration().disabled)
+                if (!client.getSeverConnectionConfiguration().disabled)
                 {
-                    Task.Factory.StartNew(async () => {
-                        await client.connectAsync();
-                    });
+                    switch (client.getConnetionState())
+                    {
+                        case ConnectionState.DISCONNECTING:
+                        case ConnectionState.DISCONNECTED:
+                        case ConnectionState.ERROR:
+                            Task.Factory.StartNew(async () =>
+                            {
+                                await client.connectAsync();
+                            }, TaskCreationOptions.None).ContinueWith((Task prev) =>
+                            {
+                                if (prev.Exception != null)
+                                {
+                                    Logger.Error("Error during connectToAllAccounts() - ConnectionHandler!", prev.Exception);
+                                }
+                            });
+                            break;
+                    }
                 }
             }
         }
@@ -134,7 +165,7 @@ namespace Data_Manager.Classes
                     {
                         id = args.getFrom(),
                         userAccountId = client.getSeverConnectionConfiguration().getIdAndDomain(),
-                        inRooster = false,
+                        inRoster = false,
                         muted = false,
                         lastActive = DateTime.Now,
                     };
@@ -159,6 +190,11 @@ namespace Data_Manager.Classes
             {
                 ServerConnectionConfiguration account = client.getSeverConnectionConfiguration();
                 RoosterMessage msg = args.getMessage() as RoosterMessage;
+                string type = msg.getMessageType();
+                if(type != null && type.Equals(IQMessage.RESULT))
+                {
+                    ChatManager.INSTANCE.setAllNotInRoster(client.getSeverConnectionConfiguration().getIdAndDomain());
+                }
                 foreach (RosterItem item in msg.getItems())
                 {
                     ChatEntry chat = ChatManager.INSTANCE.getChatEntry(item.getJabberId(), account.getIdAndDomain());
@@ -166,7 +202,7 @@ namespace Data_Manager.Classes
                     {
                         chat.name = item.getName();
                         chat.subscription = item.getSubscription();
-                        chat.inRooster = !item.getSubscription().Equals("remove");
+                        chat.inRoster = !item.getSubscription().Equals("remove");
                         chat.ask = item.getAsk();
                     }
                     else
@@ -179,7 +215,7 @@ namespace Data_Manager.Classes
                             subscription = item.getSubscription(),
                             lastActive = DateTime.Now,
                             muted = false,
-                            inRooster = true,
+                            inRoster = true,
                             ask = item.getAsk()
                         };
                     }

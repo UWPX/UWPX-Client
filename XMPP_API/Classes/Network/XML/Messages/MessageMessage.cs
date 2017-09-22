@@ -9,6 +9,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Attributes--
         private readonly string MESSAGE;
         private readonly string TYPE;
+        // Already shown as a toast:
+        private bool toasted;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,6 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             this.MESSAGE = message;
             this.TYPE = type;
+            this.toasted = false;
         }
 
         public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, node.Attributes["id"]?.Value)
@@ -84,6 +87,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public string getType()
         {
             return TYPE;
+        }
+
+        public bool getToasted()
+        {
+            return toasted;
+        }
+
+        public void setToasted()
+        {
+            toasted = true;
         }
 
         #endregion

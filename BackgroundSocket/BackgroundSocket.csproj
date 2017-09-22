@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{899FB043-AF8B-4294-95B6-1482C79459AC}</ProjectGuid>
-    <OutputType>Library</OutputType>
+    <ProjectGuid>{2343CA08-3D0A-4412-A0ED-E8E68E0E208B}</ProjectGuid>
+    <OutputType>winmdobj</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>XMPP_API</RootNamespace>
-    <AssemblyName>XMPP_API</AssemblyName>
+    <RootNamespace>BackgroundSocket</RootNamespace>
+    <AssemblyName>BackgroundSocket</AssemblyName>
     <DefaultLanguage>de-DE</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.15063.0</TargetPlatformVersion>
@@ -16,6 +16,7 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -106,80 +107,21 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\Consts.cs" />
-    <Compile Include="Classes\Events\NewPresenceEventArgs.cs" />
-    <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
-    <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
-    <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
-    <Compile Include="Classes\Network\ConnectionState.cs" />
-    <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
-    <Compile Include="Classes\Network\Events\NewDataEventArgs.cs" />
-    <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
-    <Compile Include="Classes\Network\MessageIdCashElement.cs" />
-    <Compile Include="Classes\Network\ServerConnectionConfiguration.cs" />
-    <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
-    <Compile Include="Classes\Network\TCP\TCPConnectionHandler2.cs" />
-    <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
-    <Compile Include="Classes\Network\XML\MessageParser2.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ErrorMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\AbstractSASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\PBKDF.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\PlainSASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLStreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLSuccessMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\ScramSha1SASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingConnection.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\SASLConnection.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\TLSConnection.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\SASLState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\TLSState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\AbstractMessageProcessor.cs" />
-    <Compile Include="Classes\Network\XML\Exceptions\XMPPXMLException.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\Compression\CompressionStreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\StreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\TLSStreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\AbstractAddressableMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\AbstractMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\CloseStreamMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\TLS\ProceedAnswerMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\IQMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\OpenStreamAnswerMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RequestvCardMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RoosterMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeSolutionMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\SelectSASLMechanismMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\MessageMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\StreamFeaturesAnswerMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\TLS\RequesStartTLSMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\StartSessionMessage.cs" />
-    <Compile Include="Classes\Network\XML\RosterItem.cs" />
-    <Compile Include="Classes\Network\XML\XMLUtils.cs" />
-    <Compile Include="Classes\Presence.cs" />
-    <Compile Include="Classes\Utils.cs" />
-    <Compile Include="Classes\XMPPClient.cs" />
-    <Compile Include="Classes\Network\XMPPConnectionHandler.cs" />
-    <Compile Include="Classes\XMPPUser.cs" />
+    <Compile Include="Classes\BackgroundSocketHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\XMPP_API.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>5.2.3</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>2.0.0</Version>
+      <Version>5.4.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
-      <Name>Logging</Name>
+    <Folder Include="Classes\Events\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
+      <Project>{899fb043-af8b-4294-95b6-1482c79459ac}</Project>
+      <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

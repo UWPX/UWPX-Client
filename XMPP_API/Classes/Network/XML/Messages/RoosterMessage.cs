@@ -45,8 +45,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Private)--
         private void loadItems()
         {
+            XmlNode query = XMLUtils.getChildNode(ANSWER, "query", "xmlns", "jabber:iq:roster");
+            if(query == null)
+            {
+                return;
+            }
             items = new ArrayList();
-            foreach (XmlNode n in ANSWER.ChildNodes)
+            foreach (XmlNode n in query.ChildNodes)
             {
                 if(n.Name.Equals("presence"))
                 {

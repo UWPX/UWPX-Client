@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using Logging;
+using System;
+using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -67,9 +69,21 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task transferSocketOwnershipAsync()
+        {
+            await connection?.transferSocketOwnershipAsync();
+        }
+
         public async Task connectAsync()
         {
-            await connection.connectToServerAsync();
+            try
+            {
+                await connection.connectToServerAsync();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error during connectAsync in XMPPClient!", e);
+            }
         }
 
         public async Task disconnectAsync()

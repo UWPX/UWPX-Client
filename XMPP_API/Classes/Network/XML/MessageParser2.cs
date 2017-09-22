@@ -40,7 +40,7 @@ namespace XMPP_API.Classes.Network.XML
         public List<AbstractMessage> parseMessages(string msg)
         {
             List<AbstractMessage> messages = new List<AbstractMessage>();
-            
+
             if (msg.Equals("<stream:features/>"))
             {
                 return new List<AbstractMessage>() { new StreamFeaturesMessage(null) };
@@ -86,7 +86,7 @@ namespace XMPP_API.Classes.Network.XML
                     continue;
                 }
 
-                switch (n.Name) 
+                switch (n.Name)
                 {
                     // Stream start and end:
                     case "stream:stream":
@@ -131,7 +131,7 @@ namespace XMPP_API.Classes.Network.XML
                         XmlNode n1 = XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster");
                         if (n1 != null)
                         {
-                            messages.Add(new RoosterMessage(n1));
+                            messages.Add(new RoosterMessage(n));
                         }
 
                         messages.Add(new IQMessage(n));

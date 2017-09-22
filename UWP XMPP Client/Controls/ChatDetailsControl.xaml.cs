@@ -10,6 +10,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml.Media.Imaging;
+using Logging;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -87,7 +88,7 @@ namespace UWP_XMPP_Client.Controls
         private void showbackgroundImage()
         {
             BackgroundImage img = BackgroundImageCache.selectedImage;
-            if(img == null || img.imagePath == null)
+            if (img == null || img.imagePath == null)
             {
                 return;
             }
@@ -184,7 +185,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void message_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(String.IsNullOrWhiteSpace(message_tbx.Text))
+            if (String.IsNullOrWhiteSpace(message_tbx.Text))
             {
                 send_btn.IsEnabled = false;
             }
@@ -195,5 +196,10 @@ namespace UWP_XMPP_Client.Controls
         }
 
         #endregion
+
+        private async void Button_Click(object sender, RoutedEventArgs e)
+        {
+            await Logger.openLogFolderAsync();
+        }
     }
 }

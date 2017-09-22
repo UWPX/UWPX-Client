@@ -15,20 +15,12 @@ namespace UWP_XMPP_Client.Classes
         #region --Attributes--
         public static ObservableCollection<BackgroundImage> backgroundImages;
         public static BackgroundImage selectedImage;
+        public static bool loaded;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 16/09/2017 Created [Fabian Sauter]
-        /// </history>
-        public BackgroundImageCache()
-        {
 
-        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -40,6 +32,11 @@ namespace UWP_XMPP_Client.Classes
         #region --Misc Methods (Public)--
         public static void loadCache()
         {
+            if (loaded)
+            {
+                return;
+            }
+
             Task.Factory.StartNew(async () =>
             {
                 Logger.Info("Started loading background images...");
@@ -87,6 +84,7 @@ namespace UWP_XMPP_Client.Classes
                 {
                     Logger.Error("Error during loading background images!", e);
                 }
+                loaded = true;
             });
         }
 

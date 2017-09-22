@@ -7,6 +7,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Data_Manager.Classes;
 using UWP_XMPP_Client.Classes;
+using Microsoft.HockeyApp;
+using Logging;
 
 namespace UWP_XMPP_Client
 {
@@ -21,6 +23,9 @@ namespace UWP_XMPP_Client
         /// </summary>
         public App()
         {
+            //Crash reports capturing
+            HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+
             this.InitializeComponent();
             this.Suspending += OnSuspending;
         }
@@ -30,50 +35,9 @@ namespace UWP_XMPP_Client
         /// werden z. B. verwendet, wenn die Anwendung gestartet wird, um eine bestimmte Datei zu öffnen.
         /// </summary>
         /// <param name="e">Details über Startanforderung und -prozess.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            // Loads all background images into the cache
-            BackgroundImageCache.loadCache();
-
-            Frame rootFrame = Window.Current.Content as Frame;
-
-            // App-Initialisierung nicht wiederholen, wenn das Fenster bereits Inhalte enthält.
-            // Nur sicherstellen, dass das Fenster aktiv ist.
-            if (rootFrame == null)
-            {
-                // Frame erstellen, der als Navigationskontext fungiert und zum Parameter der ersten Seite navigieren
-                rootFrame = new Frame();
-
-                rootFrame.NavigationFailed += OnNavigationFailed;
-
-                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    //TODO: Zustand von zuvor angehaltener Anwendung laden
-                }
-
-                // Den Frame im aktuellen Fenster platzieren
-                Window.Current.Content = rootFrame;
-            }
-
-            if (e.PrelaunchActivated == false)
-            {
-                if (rootFrame.Content == null)
-                {
-                    // Wenn der Navigationsstapel nicht wiederhergestellt wird, zur ersten Seite navigieren
-                    // und die neue Seite konfigurieren, indem die erforderlichen Informationen als Navigationsparameter
-                    // übergeben werden
-                    if(!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-                    {
-                        rootFrame.Navigate(typeof(AddAccountPage), e.Arguments);
-                    }
-                    else
-                    {
-                        rootFrame.Navigate(typeof(ChatPage), e.Arguments);
-                    }
-                }
-                // Sicherstellen, dass das aktuelle Fenster aktiv ist
-                Window.Current.Activate();
-            }
+            onActivatedOrLaunched(args);
         }
 
         /// <summary>
@@ -93,11 +57,100 @@ namespace UWP_XMPP_Client
         /// </summary>
         /// <param name="sender">Die Quelle der Anhalteanforderung.</param>
         /// <param name="e">Details zur Anhalteanforderung.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Anwendungszustand speichern und alle Hintergrundaktivitäten beenden
+            await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
             deferral.Complete();
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            onActivatedOrLaunched(args);
+        }
+
+        private void onActivatedOrLaunched(IActivatedEventArgs args)
+        {
+            // Loads all background images into the cache
+            BackgroundImageCache.loadCache();
+
+            Frame rootFrame = Window.Current.Content as Frame;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (rootFrame == null)
+            {
+                // Create a Frame to act as the navigation context and navigate to the first page
+                rootFrame = new Frame();
+
+                rootFrame.NavigationFailed += OnNavigationFailed;
+
+                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    // TODO: Load state from previously suspended application
+                }
+
+                // Place the frame in the current Window
+                Window.Current.Content = rootFrame;
+            }
+
+            if (args is ToastNotificationActivatedEventArgs)
+            {
+                var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
+
+                // If empty args, no specific action (just launch the app)
+                if (toastActivationArgs.Argument.Length == 0)
+                {
+                    if (rootFrame.Content == null)
+                    {
+                        if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+                        {
+                            rootFrame.Navigate(typeof(AddAccountPage));
+                        }
+                        else
+                        {
+                            rootFrame.Navigate(typeof(ChatPage));
+                        }
+                    }
+                }
+                else
+                {
+                    rootFrame.Navigate(typeof(ChatPage), args);
+                }
+                if (rootFrame.BackStack.Count == 0)
+                {
+                    rootFrame.BackStack.Add(new PageStackEntry(typeof(ChatPage), null, null));
+                }
+            }
+            else if (args is LaunchActivatedEventArgs)
+            {
+                var launchActivationArgs = args as LaunchActivatedEventArgs;
+
+                // If launched with arguments (not a normal primary tile/applist launch)
+                if (launchActivationArgs.Arguments.Length > 0)
+                {
+                    // TODO: Handle arguments for cases like launching from secondary Tile, so we navigate to the correct page
+                    throw new NotImplementedException();
+                }
+
+                // Otherwise if launched normally
+                else
+                {
+                    // If we're currently not on a page, navigate to the main page
+                    if (rootFrame.Content == null)
+                    {
+                        if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+                        {
+                            rootFrame.Navigate(typeof(AddAccountPage));
+                        }
+                        else
+                        {
+                            rootFrame.Navigate(typeof(ChatPage));
+                        }
+                    }
+                }
+            }
+            Window.Current.Activate();
         }
     }
 }

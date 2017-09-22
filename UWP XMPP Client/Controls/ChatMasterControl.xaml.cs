@@ -10,6 +10,7 @@ using Windows.UI;
 using XMPP_API.Classes.Network.XML.Messages;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -36,12 +37,17 @@ namespace UWP_XMPP_Client.Controls
             {
                 SetValue(ChatProperty, value);
                 showChat();
+                if(Chat != null)
+                {
+                    Chat.ChatChanged -= Chat_ChatChanged;
+                    Chat.ChatChanged += Chat_ChatChanged;
+                }
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatEntry), typeof(ChatMasterControl), null);
 
         private bool subscriptionRequest;
-        
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -82,12 +88,12 @@ namespace UWP_XMPP_Client.Controls
         private void showRemovedChat()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = (Chat.name ?? Chat.id) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from yor presence?";
+            accountAction_tblck.Text = (Chat.name ?? Chat.id) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from your presence?";
             accountActionRefuse_btn.Content = "Keep";
             accountActionAccept_btn.Content = "Remove";
             subscriptionRequest = false;
         }
-        
+
         private void showChat()
         {
             if (Chat != null && Client != null)
@@ -105,7 +111,7 @@ namespace UWP_XMPP_Client.Controls
                 // Status icons
                 lastChat_tblck.Text = ChatManager.INSTANCE.getLastChatMessageForChat(Chat) ?? "";
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
-                inRooster_tbck.Visibility = Chat.inRooster ? Visibility.Visible : Visibility.Collapsed;
+                inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
 
                 // subscription state
                 accountAction_grid.Visibility = Visibility.Collapsed;
@@ -161,7 +167,7 @@ namespace UWP_XMPP_Client.Controls
             // Menu Flyout:
             mute_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
             mute_tmfo.IsChecked = Chat.muted;
-            removeFromRoster_mfo.Text = Chat.inRooster ? "Remove from roster" : "Add to roster";
+            removeFromRoster_mfo.Text = Chat.inRoster ? "Remove from roster" : "Add to roster";
         }
 
         private void linkEvents()
@@ -174,7 +180,7 @@ namespace UWP_XMPP_Client.Controls
         }
 
         private async Task removeChatRequestClickedAsync(bool remove)
-        {            
+        {
             if (remove)
             {
                 MessageDialog dialog = new MessageDialog("Do you also want to delete all chat messages from this chat?");
@@ -212,7 +218,7 @@ namespace UWP_XMPP_Client.Controls
             IUICommand command = await dialog.ShowAsync();
             return (int)command.Id == 1;
         }
-        
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -229,6 +235,17 @@ namespace UWP_XMPP_Client.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                MessageMessage msg = args.getMessage();
+                if (!msg.getToasted() && Chat.id.Equals(Utils.removeResourceFromJabberid(msg.getFrom())))
+                {
+                    switch (msg.getType())
+                    {
+                        case "chat":
+                            ToastHelper.showChatTextToast(msg.getMessage(), msg.getId(), Chat);
+                            break;
+                    }
+                    msg.setToasted();
+                }
                 showChat();
             });
         }
@@ -280,7 +297,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (await showShouldRemoveChat())
             {
-                if (Chat.inRooster)
+                if (Chat.inRoster)
                 {
                     await Client.removeFromRosterAsync(Chat.id);
                 }
@@ -290,7 +307,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void removeFromRoster_mfo_Click(object sender, RoutedEventArgs e)
         {
-            if (Chat.inRooster)
+            if (Chat.inRoster)
             {
                 await Client.removeFromRosterAsync(Chat.id);
             }
@@ -308,6 +325,14 @@ namespace UWP_XMPP_Client.Controls
             showChat();
         }
 
-        #endregion        
+        private async void Chat_ChatChanged(object sender, EventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                showChat();
+            });
+        }
+
+        #endregion
     }
 }
