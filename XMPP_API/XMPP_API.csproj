@@ -116,7 +116,7 @@
     <Compile Include="Classes\Network\Events\NewDataEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\MessageIdCashElement.cs" />
-    <Compile Include="Classes\Network\ServerConnectionConfiguration.cs" />
+    <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler2.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
@@ -150,7 +150,7 @@
     <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\RequestvCardMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RoosterMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\RosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeSolutionMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\SelectSASLMechanismMessage.cs" />

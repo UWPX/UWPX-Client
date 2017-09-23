@@ -131,7 +131,7 @@ namespace XMPP_API.Classes.Network.XML
                         XmlNode n1 = XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster");
                         if (n1 != null)
                         {
-                            messages.Add(new RoosterMessage(n));
+                            messages.Add(new RosterMessage(n));
                         }
 
                         messages.Add(new IQMessage(n));

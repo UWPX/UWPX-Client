@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Text;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
@@ -14,6 +15,7 @@ namespace BackgroundSocket.Classes
         #region --Attributes--
         private readonly uint BUFFER_SIZE = 4096;
         private BackgroundTaskDeferral deferral;
+        private int count;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,7 +28,8 @@ namespace BackgroundSocket.Classes
         /// </history>
         public BackgroundSocketHandler()
         {
-
+            this.count = 0;
+            this.deferral = null;
         }
 
         #endregion
@@ -39,6 +42,7 @@ namespace BackgroundSocket.Classes
         #region --Misc Methods (Public)--
         public async void Run(IBackgroundTaskInstance taskInstance)
         {
+            Logger.Debug("BackgroundSocketHandler Run():" + (++count));
             deferral = taskInstance.GetDeferral();
             if(taskInstance.TriggerDetails is SocketActivityTriggerDetails)
             {

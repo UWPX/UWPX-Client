@@ -38,7 +38,7 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public XMPPConnectionHandler(ServerConnectionConfiguration sCC) : base(sCC)
+        public XMPPConnectionHandler(XMPPAccount sCC) : base(sCC)
         {
             this.tcpConnection = new TCPConnectionHandler(sCC);
             this.parser = new MessageParser2();
@@ -120,7 +120,7 @@ namespace XMPP_API.Classes.Network
 
         private async Task softRestart()
         {
-            OpenStreamMessage openStreamMessage = new OpenStreamMessage(SCC.getIdAndDomain(), SCC.user.domain);
+            OpenStreamMessage openStreamMessage = new OpenStreamMessage(ACCOUNT.getIdAndDomain(), ACCOUNT.user.domain);
             await sendMessageAsync(openStreamMessage);
         }
 
@@ -145,7 +145,7 @@ namespace XMPP_API.Classes.Network
         #region --Events--
         private async void RecourceBindingConnection_ResourceBound(object sender, EventArgs e)
         {
-            await sendMessageAsync(new PresenceMessage(SCC.presencePriorety));
+            await sendMessageAsync(new PresenceMessage(ACCOUNT.presencePriorety));
             setState(ConnectionState.CONNECTED);
         }
 
@@ -223,7 +223,7 @@ namespace XMPP_API.Classes.Network
                     streamId = oA.getId();
                 }
                 // Rooster:
-                else if (message is RoosterMessage)
+                else if (message is RosterMessage)
                 {
                     ConnectionNewRoosterMessage?.Invoke(this, new NewPresenceEventArgs(message));
                 }

@@ -74,7 +74,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     break;
                 }
             }
-            ServerConnectionConfiguration sCC = XMPP_CONNECTION.getSeverConnectionConfiguration();
+            XMPPAccount sCC = XMPP_CONNECTION.getXMPPAccount();
             switch (selected)
             {
                 case "scram-sha-1":

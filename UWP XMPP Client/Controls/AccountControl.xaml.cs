@@ -18,16 +18,16 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ServerConnectionConfiguration Account
+        public XMPPAccount Account
         {
-            get { return (ServerConnectionConfiguration)GetValue(AccountProperty); }
+            get { return (XMPPAccount)GetValue(AccountProperty); }
             set
             {
                 SetValue(AccountProperty, value);
                 showAccount();
             }
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(ServerConnectionConfiguration), typeof(AccountControl), null);
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountControl), null);
 
         private readonly AccountSettingsPage SETTINGS_PAGE;
 
@@ -49,9 +49,9 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public ServerConnectionConfiguration getAccount()
+        public XMPPAccount getAccount()
         {
-            return new ServerConnectionConfiguration(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text))
+            return new XMPPAccount(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text))
             {
                 presencePriorety = (int)presencePriorety_slider.Value,
                 disabled = !disableAccount_tggls.IsOn
@@ -103,13 +103,13 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void replaceAccount(ServerConnectionConfiguration account)
+        private void replaceAccount(XMPPAccount account)
         {
             if(account.Equals(Account))
             {
                 return;
             }
-            ServerConnectionConfiguration oldAccount = Account;
+            XMPPAccount oldAccount = Account;
             Account = account;
             UserManager.INSTANCE.replaceAccount(oldAccount, Account);
             ConnectionHandler.INSTANCE.reloadAllAccounts();

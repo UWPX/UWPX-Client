@@ -32,7 +32,7 @@ namespace XMPP_API.Classes
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public XMPPClient(ServerConnectionConfiguration sCC)
+        public XMPPClient(XMPPAccount sCC)
         {
             connection = new XMPPConnectionHandler(sCC);
             connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
@@ -56,7 +56,7 @@ namespace XMPP_API.Classes
 
         public async Task<string> setPreseceAsync(string from, string to, string show, string status)
         {
-            PresenceMessage presenceMessage = new PresenceMessage(from, to, show, status, connection.getSeverConnectionConfiguration().presencePriorety);
+            PresenceMessage presenceMessage = new PresenceMessage(from, to, show, status, connection.getXMPPAccount().presencePriorety);
             await connection.sendMessageAsync(presenceMessage);
             return presenceMessage.getId();
         }
@@ -93,44 +93,44 @@ namespace XMPP_API.Classes
 
         public async Task<MessageMessage> sendMessageAsync(string to, string msg)
         {
-            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            XMPPAccount sCC = connection.getXMPPAccount();
             MessageMessage sendMessgageMessage = new MessageMessage(sCC.getIdDomainAndResource(), to, msg);
             await connection.sendMessageAsync(sendMessgageMessage);
             return sendMessgageMessage;
         }
 
-        public ServerConnectionConfiguration getSeverConnectionConfiguration()
+        public XMPPAccount getSeverConnectionConfiguration()
         {
-            return connection.getSeverConnectionConfiguration();
+            return connection.getXMPPAccount();
         }
 
         public async Task requestRoosterAsync()
         {
-            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
-            await connection.sendMessageAsync(new RoosterMessage(sCC.getIdDomainAndResource(), sCC.getIdAndDomain()));
+            XMPPAccount sCC = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new RosterMessage(sCC.getIdDomainAndResource(), sCC.getIdAndDomain()));
         }
 
         public async Task addToRosterAsync(string jabberId)
         {
-            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            XMPPAccount sCC = connection.getXMPPAccount();
             await connection.sendMessageAsync(new AddToRosterMessage(sCC.getIdDomainAndResource(), jabberId));
         }
 
         public async Task requestPresenceSubscriptionAsync(string jabberId)
         {
-            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            XMPPAccount sCC = connection.getXMPPAccount();
             await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "subscribe"));
         }
 
         public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)
         {
-            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            XMPPAccount sCC = connection.getXMPPAccount();
             await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"));
         }
 
         public async Task removeFromRosterAsync(string jabberId)
         {
-            ServerConnectionConfiguration sCC = connection.getSeverConnectionConfiguration();
+            XMPPAccount sCC = connection.getXMPPAccount();
             await connection.sendMessageAsync(new RemoveFromRosterMessage(sCC.getIdDomainAndResource(), jabberId));
         }
 

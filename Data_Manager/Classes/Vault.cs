@@ -31,7 +31,7 @@ namespace Data_Manager.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void loadPassword(ServerConnectionConfiguration account)
+        public static void loadPassword(XMPPAccount account)
         {
             PasswordVault vault = new PasswordVault();
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
@@ -40,14 +40,14 @@ namespace Data_Manager.Classes
             account.user.userPassword = passwordCredential.Password;
         }
 
-        public static void storePassword(ServerConnectionConfiguration account)
+        public static void storePassword(XMPPAccount account)
         {
             PasswordVault vault = new PasswordVault();
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
             vault.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
         }
 
-        public static void deletePassword(ServerConnectionConfiguration account)
+        public static void deletePassword(XMPPAccount account)
         {
             PasswordVault vault = new PasswordVault();
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();

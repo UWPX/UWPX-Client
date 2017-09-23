@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
         public event NewDataEventHandler ConnectionNewData;
 
-        protected readonly ServerConnectionConfiguration SCC;
+        protected readonly XMPPAccount ACCOUNT;
         private ConnectionState state;
 
         #endregion
@@ -32,9 +32,9 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractConnectionHandler(ServerConnectionConfiguration sCC)
+        public AbstractConnectionHandler(XMPPAccount account)
         {
-            this.SCC = sCC;
+            this.ACCOUNT = account;
             this.state = ConnectionState.DISCONNECTED;
         }
 
@@ -72,9 +72,9 @@ namespace XMPP_API.Classes.Network
             return state;
         }
 
-        public ServerConnectionConfiguration getSeverConnectionConfiguration()
+        public XMPPAccount getXMPPAccount()
         {
-            return SCC;
+            return ACCOUNT;
         }
 
         #endregion

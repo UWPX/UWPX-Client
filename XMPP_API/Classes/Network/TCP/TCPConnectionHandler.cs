@@ -38,7 +38,7 @@ namespace XMPP_API.Classes.Network.TCP
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public TCPConnectionHandler(ServerConnectionConfiguration sCC) : base(sCC)
+        public TCPConnectionHandler(XMPPAccount sCC) : base(sCC)
         {
         }
 
@@ -135,7 +135,7 @@ namespace XMPP_API.Classes.Network.TCP
                         {
                             // Setup socket:
                             tcpSocket = new StreamSocket();
-                            serverHost = new HostName(SCC.serverAddress);
+                            serverHost = new HostName(ACCOUNT.serverAddress);
 
                             // Enable transfer ownership:
                             socketBackgroundTask = MyBackgroundTaskHelper.getSocketTask();
@@ -146,7 +146,7 @@ namespace XMPP_API.Classes.Network.TCP
                             }
 
                             // Connect:
-                            await tcpSocket.ConnectAsync(serverHost, SCC.port.ToString());
+                            await tcpSocket.ConnectAsync(serverHost, ACCOUNT.port.ToString());
 
                             // Setup writer:
                             writer = new StreamWriter(tcpSocket.OutputStream.AsStreamForWrite());
@@ -158,7 +158,7 @@ namespace XMPP_API.Classes.Network.TCP
                         }
                         catch (Exception e)
                         {
-                            Logger.Error(i + " try to connect to: " + SCC.serverAddress, e);
+                            Logger.Error(i + " try to connect to: " + ACCOUNT.serverAddress, e);
                             cleanupConnection();
                         }
                     }
@@ -233,12 +233,12 @@ namespace XMPP_API.Classes.Network.TCP
                     {
                     }
                     DataWriter dataWriter = new DataWriter();
-                    dataWriter.WriteString(SCC.getIdAndDomain());
-                    tcpSocket.TransferOwnership(SCC.getIdAndDomain(), new SocketActivityContext(dataWriter.DetachBuffer()));
+                    dataWriter.WriteString(ACCOUNT.getIdAndDomain());
+                    tcpSocket.TransferOwnership(ACCOUNT.getIdAndDomain(), new SocketActivityContext(dataWriter.DetachBuffer()));
                 }
                 catch (Exception)
                 {
-                    Logger.Error("An error occurred during transferOwnershipAsync with socket: " + SCC.getIdAndDomain());
+                    Logger.Error("An error occurred during transferOwnershipAsync with socket: " + ACCOUNT.getIdAndDomain());
                 }
             }
         }

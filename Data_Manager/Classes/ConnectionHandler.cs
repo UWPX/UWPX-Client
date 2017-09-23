@@ -42,7 +42,7 @@ namespace Data_Manager.Classes
             return xMPPClients;
         }
 
-        public XMPPClient getClientForAccount(ServerConnectionConfiguration account)
+        public XMPPClient getClientForAccount(XMPPAccount account)
         {
             foreach (XMPPClient c in xMPPClients)
             {
@@ -102,7 +102,7 @@ namespace Data_Manager.Classes
         private void loadAllAccounts()
         {
             xMPPClients = new ArrayList();
-            foreach (ServerConnectionConfiguration account in UserManager.INSTANCE.getAccounts())
+            foreach (XMPPAccount account in UserManager.INSTANCE.getAccounts())
             {
                 XMPPClient client = new XMPPClient(account);
                 client.NewRoosterMessage += Client_NewRoosterMessage;
@@ -186,10 +186,10 @@ namespace Data_Manager.Classes
 
         private void Client_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewPresenceEventArgs args)
         {
-            if(args.getMessage() is RoosterMessage)
+            if(args.getMessage() is RosterMessage)
             {
-                ServerConnectionConfiguration account = client.getSeverConnectionConfiguration();
-                RoosterMessage msg = args.getMessage() as RoosterMessage;
+                XMPPAccount account = client.getSeverConnectionConfiguration();
+                RosterMessage msg = args.getMessage() as RosterMessage;
                 string type = msg.getMessageType();
                 if(type != null && type.Equals(IQMessage.RESULT))
                 {

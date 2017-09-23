@@ -1,7 +1,7 @@
 ﻿
 namespace XMPP_API.Classes.Network
 {
-    public class ServerConnectionConfiguration
+    public class XMPPAccount
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public ServerConnectionConfiguration(XMPPUser user, string serverAddress, int port)
+        public XMPPAccount(XMPPUser user, string serverAddress, int port)
         {
             this.user = user;
             this.serverAddress = serverAddress;
@@ -47,9 +47,9 @@ namespace XMPP_API.Classes.Network
 
         public override bool Equals(object obj)
         {
-            if (obj is ServerConnectionConfiguration)
+            if (obj is XMPPAccount)
             {
-                ServerConnectionConfiguration o = obj as ServerConnectionConfiguration;
+                XMPPAccount o = obj as XMPPAccount;
                 return o.disabled == disabled && o.port == port && o.presencePriorety == presencePriorety && string.Equals(o.serverAddress, serverAddress) && XMPPUser.Equals(o.user, user);
             }
             return false;

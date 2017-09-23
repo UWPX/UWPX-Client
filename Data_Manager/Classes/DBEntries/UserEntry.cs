@@ -31,7 +31,7 @@ namespace Data_Manager.Classes.DBEntries
         {
         }
 
-        public UserEntry(XMPPUser user, ServerConnectionConfiguration account)
+        public UserEntry(XMPPUser user, XMPPAccount account)
         {
             this.id = user.userId + '@' + user.domain;
             this.userAccountEntryId = account.getIdAndDomain();

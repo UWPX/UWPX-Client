@@ -25,7 +25,7 @@ namespace Data_Manager.Classes.DBEntries
 
         }
 
-        public UserAccountEntry(ServerConnectionConfiguration account) : base(account.user, account)
+        public UserAccountEntry(XMPPAccount account) : base(account.user, account)
         {
             this.server = account.serverAddress;
             this.port = account.port;
@@ -41,9 +41,9 @@ namespace Data_Manager.Classes.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public ServerConnectionConfiguration toServerConnectionConfiguration()
+        public XMPPAccount toServerConnectionConfiguration()
         {
-            ServerConnectionConfiguration account = new ServerConnectionConfiguration(toXMPPUser(), server, port)
+            XMPPAccount account = new XMPPAccount(toXMPPUser(), server, port)
             {
                 presencePriorety = presencePriorety,
                 disabled = disabled

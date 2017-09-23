@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class RoosterMessage : IQMessage
+    public class RosterMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -18,12 +18,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 28/08/2017 Created [Fabian Sauter]
         /// </history>
-        public RoosterMessage(XmlNode answer) : base(answer)
+        public RosterMessage(XmlNode answer) : base(answer)
         {
             loadItems();
         }
 
-        public RoosterMessage(string from, string to) : base(from, to, GET, getRandomId(), Consts.XML_QUERY_ROOSTER)
+        public RosterMessage(string from, string to) : base(from, to, GET, getRandomId(), Consts.XML_QUERY_ROOSTER)
         {
         }
 

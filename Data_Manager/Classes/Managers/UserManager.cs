@@ -32,7 +32,7 @@ namespace Data_Manager.Classes.Managers
         /// Adds a given XMPPUser to the db or replaces him, if he already exists.
         /// </summary>
         /// <param name="user">The User to insert or replace.</param>
-        public void setUser(XMPPUser user, ServerConnectionConfiguration account)
+        public void setUser(XMPPUser user, XMPPAccount account)
         {
             update(new UserEntry(user, account));
         }
@@ -42,7 +42,7 @@ namespace Data_Manager.Classes.Managers
         /// Passwords get stored Vault objects.
         /// </summary>
         /// <param name="account">The ServerConnectionConfiguration to insert or replace.</param>
-        public void setAccount(ServerConnectionConfiguration account)
+        public void setAccount(XMPPAccount account)
         {
             update(new UserAccountEntry(account));
             Vault.storePassword(account);
@@ -53,7 +53,7 @@ namespace Data_Manager.Classes.Managers
         /// </summary>
         /// <param name="oldAccount">The old account.</param>
         /// <param name="newAccount">The new account.</param>
-        public void replaceAccount(ServerConnectionConfiguration oldAccount, ServerConnectionConfiguration newAccount)
+        public void replaceAccount(XMPPAccount oldAccount, XMPPAccount newAccount)
         {
             deleteAccount(oldAccount);
             setAccount(newAccount);
@@ -63,7 +63,7 @@ namespace Data_Manager.Classes.Managers
         /// Deletes the given account.
         /// </summary>
         /// <param name="account">The account to delete.</param>
-        public void deleteAccount(ServerConnectionConfiguration account)
+        public void deleteAccount(XMPPAccount account)
         {
             dB.Query<UserAccountEntry>("DELETE FROM UserAccountEntry WHERE userAccountEntryId LIKE ?", account.getIdAndDomain());
             Vault.deletePassword(account);
@@ -74,13 +74,13 @@ namespace Data_Manager.Classes.Managers
         /// It also loads all passwords from their Vault objects.
         /// </summary>
         /// <returns>A list of ServerConnectionConfiguration.</returns>
-        public IList<ServerConnectionConfiguration> getAccounts()
+        public IList<XMPPAccount> getAccounts()
         {
-            IList<ServerConnectionConfiguration> results = new List<ServerConnectionConfiguration>();
+            IList<XMPPAccount> results = new List<XMPPAccount>();
             IList<UserAccountEntry> accounts = dB.Query<UserAccountEntry>("SELECT * FROM UserAccountEntry");
             for (int i = 0; i < accounts.Count; i++)
             {
-                ServerConnectionConfiguration acc = accounts[i].toServerConnectionConfiguration();
+                XMPPAccount acc = accounts[i].toServerConnectionConfiguration();
                 Vault.loadPassword(acc);
                 results.Add(acc);
             }
@@ -91,7 +91,7 @@ namespace Data_Manager.Classes.Managers
         /// Returns all XMPPUsers that match to the given account from the db.
         /// </summary>
         /// <returns>A IList of XMPPUsers.</returns>
-        public IList<XMPPUser> getUsersForAccount(ServerConnectionConfiguration account)
+        public IList<XMPPUser> getUsersForAccount(XMPPAccount account)
         {
             IList<UserEntry> list = dB.Query<UserEntry>("SELECT * FROM UserEntry WHERE userAccountEntryId LIKE ?", account.getIdAndDomain());
             List<XMPPUser> result = new List<XMPPUser>();

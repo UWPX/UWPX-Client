@@ -41,9 +41,9 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public ServerConnectionConfiguration getAccount()
+        public XMPPAccount getAccount()
         {
-            ServerConnectionConfiguration account = new ServerConnectionConfiguration(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text));
+            XMPPAccount account = new XMPPAccount(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text));
             account.presencePriorety = (int)presencePriorety_slider.Value;
             return account;
         }

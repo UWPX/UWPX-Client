@@ -51,7 +51,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         public void loadAccounts()
         {
             accounts_stckp.Children.Clear();
-            foreach (ServerConnectionConfiguration account in UserManager.INSTANCE.getAccounts())
+            foreach (XMPPAccount account in UserManager.INSTANCE.getAccounts())
             {
                 accounts_stckp.Children.Add(new AccountControl(this) { Account = account });
             }

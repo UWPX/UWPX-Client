@@ -76,7 +76,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             setMessageProcessed(args);
                             id = AbstractMessage.getRandomId();
-                            ServerConnectionConfiguration sCC = XMPP_CONNECTION.getSeverConnectionConfiguration();
+                            XMPPAccount sCC = XMPP_CONNECTION.getXMPPAccount();
                             XNamespace ns = XNamespace.Get("urn:ietf:params:xml:ns:xmpp-bind");
                             XElement node = new XElement(ns + "bind");
                             node.Add(new XElement("resource", sCC.user.resource));

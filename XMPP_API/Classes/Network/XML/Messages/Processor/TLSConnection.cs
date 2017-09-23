@@ -118,7 +118,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
                             TCP_CONNECTION.upgradeToTLS().Wait();
-                            ServerConnectionConfiguration sCC = XMPP_CONNECTION.getSeverConnectionConfiguration();
+                            XMPPAccount sCC = XMPP_CONNECTION.getXMPPAccount();
 
                             // TLS established ==> resend stream header
                             msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
