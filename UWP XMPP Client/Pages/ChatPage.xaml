@@ -11,55 +11,68 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="{ThemeResource SystemAccentColorDark3}">
-            <controls:MasterDetailsView.NoSelectionContentTemplate>
-                <DataTemplate>
-                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
-                        <TextBlock FontSize="24" Text="Select an item to view."/>
-                    </StackPanel>
-                </DataTemplate>
-            </controls:MasterDetailsView.NoSelectionContentTemplate>
-            <controls:MasterDetailsView.MasterCommandBar>
-                <CommandBar>
-                    <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add" Click="add_abb_Click">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
-                        </AppBarButton.Icon>
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
-                                <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
-                                <MenuFlyoutSeparator/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar>
-            </controls:MasterDetailsView.MasterCommandBar>
-            <controls:MasterDetailsView.ItemTemplate>
-                <DataTemplate x:DataType="datatemplates:Chat">
-                    <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}" RightTapped="ChatMasterControl_RightTapped">
-                    </controls1:ChatMasterControl>
-                </DataTemplate>
-            </controls:MasterDetailsView.ItemTemplate>
-            <controls:MasterDetailsView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                </Style>
-            </controls:MasterDetailsView.ItemContainerStyle>
-            <controls:MasterDetailsView.DetailsTemplate>
-                <DataTemplate x:DataType="datatemplates:Chat">
-                    <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}" Grid.Row="0"/>
-                </DataTemplate>
-            </controls:MasterDetailsView.DetailsTemplate>
-        </controls:MasterDetailsView>
+        <Grid x:Name="main_grid" Grid.Row="0" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="{ThemeResource SystemAccentColorDark3}">
+                <controls:MasterDetailsView.NoSelectionContentTemplate>
+                    <DataTemplate>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
+                            <TextBlock FontSize="24" Text="Select an item to view."/>
+                        </StackPanel>
+                    </DataTemplate>
+                </controls:MasterDetailsView.NoSelectionContentTemplate>
+                <controls:MasterDetailsView.MasterCommandBar>
+                    <CommandBar>
+                        <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add" Click="add_abb_Click">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
+                            </AppBarButton.Icon>
+                            <AppBarButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
+                                    <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
+                                    <MenuFlyoutSeparator/>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                        <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar>
+                </controls:MasterDetailsView.MasterCommandBar>
+                <controls:MasterDetailsView.ItemTemplate>
+                    <DataTemplate x:DataType="datatemplates:Chat">
+                        <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}" RightTapped="ChatMasterControl_RightTapped">
+                        </controls1:ChatMasterControl>
+                    </DataTemplate>
+                </controls:MasterDetailsView.ItemTemplate>
+                <controls:MasterDetailsView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                    </Style>
+                </controls:MasterDetailsView.ItemContainerStyle>
+                <controls:MasterDetailsView.DetailsTemplate>
+                    <DataTemplate x:DataType="datatemplates:Chat">
+                        <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}" Grid.Row="0"/>
+                    </DataTemplate>
+                </controls:MasterDetailsView.DetailsTemplate>
+            </controls:MasterDetailsView>
+        </Grid>
+        <Grid x:Name="loading_grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Loading..." FontSize="20" Grid.Row="0" HorizontalAlignment="Center"/>
+            <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Grid.Row="1" Margin="10"/>
+        </Grid>
     </Grid>
 </Page>

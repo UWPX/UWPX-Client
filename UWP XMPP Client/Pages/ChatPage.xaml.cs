@@ -39,7 +39,6 @@ namespace UWP_XMPP_Client.Pages
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            ConnectionHandler.INSTANCE.connect();
             this.toastActivationString = null;
         }
 
@@ -205,6 +204,9 @@ namespace UWP_XMPP_Client.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            loading_grid.Visibility = Visibility.Visible;
+            main_grid.Visibility = Visibility.Collapsed;
+
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             if (e.Parameter is ToastNotificationActivatedEventArgs)
             {
@@ -212,7 +214,11 @@ namespace UWP_XMPP_Client.Pages
                 toastActivationString = toasActivationArgs.Argument;
                 Logger.Info("ChatPage activated through toast with argument:" + toastActivationString);
             }
+            ConnectionHandler.INSTANCE.connect();
             loadChats();
+
+            loading_grid.Visibility = Visibility.Collapsed;
+            main_grid.Visibility = Visibility.Visible;
         }
 
         private void ChatMasterControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)

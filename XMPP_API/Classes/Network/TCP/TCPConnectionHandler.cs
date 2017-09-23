@@ -235,6 +235,7 @@ namespace XMPP_API.Classes.Network.TCP
                     DataWriter dataWriter = new DataWriter();
                     dataWriter.WriteString(ACCOUNT.getIdAndDomain());
                     tcpSocket.TransferOwnership(ACCOUNT.getIdAndDomain(), new SocketActivityContext(dataWriter.DetachBuffer()));
+                    Logger.Info("Transfered socket ownership for socket:" + ACCOUNT.getIdAndDomain());
                 }
                 catch (Exception)
                 {
