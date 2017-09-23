@@ -5,12 +5,8 @@ using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using System;
 using Data_Manager.Classes.DBEntries;
-using Windows.UI.Xaml.Media;
-using Windows.UI;
-using XMPP_API.Classes.Network.XML.Messages;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -98,7 +94,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null && Client != null)
             {
-                // Chat name
+                // Chat name:
                 if (Chat.name == null)
                 {
                     name_tblck.Text = Chat.id;
@@ -108,38 +104,55 @@ namespace UWP_XMPP_Client.Controls
                     name_tblck.Text = Chat.name + " (" + Chat.id + ')';
                 }
 
-                // Status icons
+                // Last action date:
+                if(Chat.lastActive != null)
+                {
+                    if (Chat.lastActive.Date.CompareTo(DateTime.Now.Date) == 0)
+                    {
+                        lastAction_tblck.Text = Chat.lastActive.ToString("HH:mm");
+                    }
+                    else
+                    {
+                        lastAction_tblck.Text = Chat.lastActive.ToString("dd.MM.yyyy");
+                    }
+                }
+                else
+                {
+                    lastAction_tblck.Text = "";
+                }
+
+                // Status icons:
                 lastChat_tblck.Text = ChatManager.INSTANCE.getLastChatMessageForChat(Chat) ?? "";
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
                 inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
 
-                // subscription state
+                // Subscription state:
                 accountAction_grid.Visibility = Visibility.Collapsed;
                 requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                 cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                 switch (Chat.subscription)
                 {
                     case "from":
-                        subscription_tbck.Visibility = Visibility.Visible;
-                        subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
+                        //subscription_tbck.Visibility = Visibility.Visible;
+                        //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
                         break;
                     case "both":
-                        subscription_tbck.Visibility = Visibility.Visible;
-                        subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 16, 124, 16));
+                        //subscription_tbck.Visibility = Visibility.Visible;
+                        //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 16, 124, 16));
                         cancelPresenceSubscription_mfo.Text = "Remove presence subscription";
                         break;
                     case "pending":
-                        subscription_tbck.Visibility = Visibility.Visible;
-                        subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 76, 74, 72));
+                        //subscription_tbck.Visibility = Visibility.Visible;
+                        //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 76, 74, 72));
                         cancelPresenceSubscription_mfo.Text = "Cancel subscription request";
                         break;
                     case "subscribe":
-                        subscription_tbck.Visibility = Visibility.Collapsed;
+                        //subscription_tbck.Visibility = Visibility.Collapsed;
                         cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         showSubscriptionRequest();
                         break;
                     case "unsubscribe":
-                        subscription_tbck.Visibility = Visibility.Collapsed;
+                        //subscription_tbck.Visibility = Visibility.Collapsed;
                         cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         showRemovedChat();
@@ -147,12 +160,12 @@ namespace UWP_XMPP_Client.Controls
                     default:
                         cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        subscription_tbck.Visibility = Visibility.Collapsed;
+                        //subscription_tbck.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
 
-            // Subscription pending
+            // Subscription pending:
             if (Chat.ask != null && Chat.ask.Equals("subscribe"))
             {
                 presence_tblck.Visibility = Visibility.Visible;
@@ -174,9 +187,22 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Client != null)
             {
-                Client.NewChatMessage += Client_NewChatMessage;
+                ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+                Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 Client.ConnectionStateChanged += Client_ConnectionStateChanged;
             }
+        }
+
+        private async void INSTANCE_NewChatMessage(ChatManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (Chat.id.Equals(args.getMessage().chatId))
+                {
+                    lastChat_tblck.Text = args.getMessage().message;
+                }
+            });
         }
 
         private async Task removeChatRequestClickedAsync(bool remove)
@@ -229,25 +255,6 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.ConnectionState state)
         {
-        }
-
-        private async void Client_NewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                MessageMessage msg = args.getMessage();
-                if (!msg.getToasted() && Chat.id.Equals(Utils.removeResourceFromJabberid(msg.getFrom())))
-                {
-                    switch (msg.getType())
-                    {
-                        case "chat":
-                            ToastHelper.showChatTextToast(msg.getMessage(), msg.getId(), Chat);
-                            break;
-                    }
-                    msg.setToasted();
-                }
-                showChat();
-            });
         }
 
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)

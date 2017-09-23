@@ -46,7 +46,7 @@ namespace Data_Manager.Classes
         {
             foreach (XMPPClient c in xMPPClients)
             {
-                if(c.getSeverConnectionConfiguration().Equals(account))
+                if (c.getSeverConnectionConfiguration().Equals(account))
                 {
                     return c;
                 }
@@ -59,7 +59,7 @@ namespace Data_Manager.Classes
         #region --Misc Methods (Public)--
         public async Task transferSocketOwnershipAsync()
         {
-            if(xMPPClients != null)
+            if (xMPPClients != null)
             {
                 foreach (XMPPClient c in xMPPClients)
                 {
@@ -89,7 +89,8 @@ namespace Data_Manager.Classes
             foreach (XMPPClient client in xMPPClients)
             {
 
-                tasks.Add(Task.Factory.StartNew(async () => {
+                tasks.Add(Task.Factory.StartNew(async () =>
+                {
                     await client.disconnectAsync();
                 }));
             }
@@ -159,7 +160,7 @@ namespace Data_Manager.Classes
             ChatEntry chat = ChatManager.INSTANCE.getChatEntry(args.getFrom(), client.getSeverConnectionConfiguration().getIdAndDomain());
             if (args.getPresenceType() != null && args.getPresenceType().Equals("subscribe"))
             {
-                if(chat == null)
+                if (chat == null)
                 {
                     chat = new ChatEntry()
                     {
@@ -171,7 +172,7 @@ namespace Data_Manager.Classes
                     };
                 }
             }
-            if(chat != null)
+            if (chat != null)
             {
                 chat.presence = args.getPresence();
                 chat.status = args.getStatus();
@@ -186,19 +187,19 @@ namespace Data_Manager.Classes
 
         private void Client_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewPresenceEventArgs args)
         {
-            if(args.getMessage() is RosterMessage)
+            if (args.getMessage() is RosterMessage)
             {
                 XMPPAccount account = client.getSeverConnectionConfiguration();
                 RosterMessage msg = args.getMessage() as RosterMessage;
                 string type = msg.getMessageType();
-                if(type != null && type.Equals(IQMessage.RESULT))
+                if (type != null && type.Equals(IQMessage.RESULT))
                 {
                     ChatManager.INSTANCE.setAllNotInRoster(client.getSeverConnectionConfiguration().getIdAndDomain());
                 }
                 foreach (RosterItem item in msg.getItems())
                 {
                     ChatEntry chat = ChatManager.INSTANCE.getChatEntry(item.getJabberId(), account.getIdAndDomain());
-                    if(chat != null)
+                    if (chat != null)
                     {
                         chat.name = item.getName();
                         chat.subscription = item.getSubscription();
@@ -226,7 +227,7 @@ namespace Data_Manager.Classes
 
         private async void Client_ConnectionStateChanged(XMPPClient client, ConnectionState state)
         {
-            if(state == ConnectionState.CONNECTED)
+            if (state == ConnectionState.CONNECTED)
             {
                 await client.requestRoosterAsync();
             }
@@ -237,13 +238,28 @@ namespace Data_Manager.Classes
             MessageMessage msg = args.getMessage();
             string pureJabberId = Utils.removeResourceFromJabberid(msg.getFrom());
             ChatEntry chat = ChatManager.INSTANCE.getChatEntry(pureJabberId, client.getSeverConnectionConfiguration().getIdAndDomain());
-            if(chat == null)
+            if (chat == null)
             {
                 chat = new ChatEntry(pureJabberId, Utils.removeResourceFromJabberid(msg.getTo()));
                 ChatManager.INSTANCE.setChatEntry(chat, true);
             }
+
+            Task.Factory.StartNew(() =>
+            {
+                if (!msg.getToasted())
+                {
+                    switch (msg.getType())
+                    {
+                        case "chat":
+                            ToastHelper.showChatTextToast(msg.getMessage(), msg.getId(), chat);
+                            break;
+                    }
+                    msg.setToasted();
+                }
+            });
+
             ChatMessageEntry entry = new ChatMessageEntry(msg, chat);
-            ChatManager.INSTANCE.setChatMessageEntry(entry);
+            ChatManager.INSTANCE.setChatMessageEntry(entry, true);
         }
 
         #endregion

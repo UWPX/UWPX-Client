@@ -1,15 +1,8 @@
 ﻿using Data_Manager.Classes.DBEntries;
 using Microsoft.Toolkit.Uwp.Notifications;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Windows.UI.Notifications;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages;
 
-namespace UWP_XMPP_Client.Classes
+namespace Data_Manager.Classes
 {
     public class ToastHelper
     {

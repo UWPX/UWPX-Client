@@ -132,8 +132,8 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Client != null)
             {
-                Client.NewChatMessage -= Client_NewChatMessage;
-                Client.NewChatMessage += Client_NewChatMessage;
+                ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
             }
         }
 
@@ -141,7 +141,8 @@ namespace UWP_XMPP_Client.Controls
         {
             MessageMessage sendMessage = await Client.sendMessageAsync(Chat.id, msg);
             invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = msg, Date = DateTime.Now });
-            ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat));
+            ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat), true);
+            ChatManager.INSTANCE.setLastActivity(Chat.id, DateTime.Now);
         }
 
         #endregion
@@ -152,14 +153,14 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void Client_NewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
+        private async void INSTANCE_NewChatMessage(ChatManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
         {
-            MessageMessage msg = args.getMessage();
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (Chat.id.Equals(Utils.removeResourceFromJabberid(msg.getFrom())))
+                ChatMessageEntry msg = args.getMessage();
+                if (Chat.id.Equals(Utils.removeResourceFromJabberid(msg.fromUser)))
                 {
-                    showMessage(msg.getType(), msg.getFrom(), msg.getMessage(), DateTime.Now);
+                    showMessage(msg.type, msg.fromUser, msg.message, msg.date);
                 }
             });
         }

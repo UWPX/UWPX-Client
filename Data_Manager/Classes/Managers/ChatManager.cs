@@ -1,5 +1,6 @@
 ﻿using Data_Manager.Classes.DBEntries;
 using Data_Manager.Classes.Events;
+using System;
 using System.Collections.Generic;
 using XMPP_API.Classes;
 
@@ -12,7 +13,10 @@ namespace Data_Manager.Classes.Managers
         public static readonly ChatManager INSTANCE = new ChatManager();
 
         public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
+        public delegate void NewChatMessageHandler(ChatManager handler, NewChatMessageEventArgs args);
+
         public event ChatChangedHandler ChatChanged;
+        public event NewChatMessageHandler NewChatMessage;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -50,7 +54,7 @@ namespace Data_Manager.Classes.Managers
             {
                 return "";
             }
-            return list[0].message;
+            return list[list.Count - 1].message;
         }
 
         public ChatEntry getChatEntry(string id, string userAccountId)
@@ -66,9 +70,13 @@ namespace Data_Manager.Classes.Managers
             }
         }
 
-        public void setChatMessageEntry(ChatMessageEntry message)
+        public void setChatMessageEntry(ChatMessageEntry message, bool triggerNewChatMessage)
         {
             dB.InsertOrReplace(message);
+            if (triggerNewChatMessage)
+            {
+                NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(message));
+            }
         }
 
         public void setChatEntry(ChatEntry chat, bool triggerChatChanged)
@@ -77,6 +85,18 @@ namespace Data_Manager.Classes.Managers
             if (triggerChatChanged)
             {
                 onChatChanged(chat, false);
+            }
+        }
+
+        public void setLastActivity(string chatId, DateTime date)
+        {
+            foreach (ChatEntry c in dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ?", chatId))
+            {
+                if(c.lastActive == null || c.lastActive.CompareTo(date) < 0)
+                {
+                    c.lastActive = date;
+                    setChatEntry(c, true);
+                }
             }
         }
 
