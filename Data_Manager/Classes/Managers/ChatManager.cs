@@ -110,7 +110,7 @@ namespace Data_Manager.Classes.Managers
             dB.Query<ChatEntry>("UPDATE ChatEntry SET inRoster = 0 WHERE userAccountId LIKE ?", userAccountId);
             foreach (ChatEntry c in dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", userAccountId))
             {
-                onChatChanged(c, true);
+                onChatChanged(c, false);
             }
         }
 

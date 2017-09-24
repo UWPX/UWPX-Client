@@ -63,11 +63,11 @@ namespace UWP_XMPP_Client.Pages
             foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
             {
                 List<ChatEntry> list = ChatManager.INSTANCE.getAllChatsForClient(c);
-                sortChats(list);
+                //sortChats(list);
                 foreach (ChatEntry chat in list)
                 {
                     Chat chatElement = new Chat { chat = chat, client = c };
-                    chats.Add(chatElement);
+                    addToChatsSorted(chatElement);
                     if (toastActivationString != null && toastActivationString.Equals(chat.id))
                     {
                         selectedChat = chatElement;
@@ -98,13 +98,13 @@ namespace UWP_XMPP_Client.Pages
                     {
                         return 0;
                     }
-                    return 1;
+                    return -1;
                 }
                 if (b.lastActive == null)
                 {
-                    return -1;
+                    return 1;
                 }
-                return a.lastActive.CompareTo(b.lastActive);
+                return b.lastActive.CompareTo(a.lastActive);
             });
         }
 
@@ -161,7 +161,12 @@ namespace UWP_XMPP_Client.Pages
                         }
                         else
                         {
+                            var selecetItem = masterDetail_pnl.SelectedItem;
                             chats.Remove(c);
+                            if(selecetItem != c)
+                            {
+                                masterDetail_pnl.SelectedItem = selecetItem;
+                            }
                         }
                         return;
                     }
@@ -172,10 +177,26 @@ namespace UWP_XMPP_Client.Pages
                     if (chatEntry.userAccountId.Contains(c.getSeverConnectionConfiguration().getIdAndDomain()))
                     {
                         Chat chatElement = new Chat { chat = args.getChat(), client = c };
-                        chats.Add(chatElement);
+                        addToChatsSorted(chatElement);
                     }
                 }
             });
+        }
+
+        private void addToChatsSorted(Chat chat)
+        {
+            var selecetItem = masterDetail_pnl.SelectedItem;
+            for (int i = 0; i < chats.Count; i++)
+            {
+                if(DateTime.Compare(chats[i].chat.lastActive, chat.chat.lastActive) <= 0)
+                {
+                    chats.Insert(i, chat);
+                    masterDetail_pnl.SelectedItem = selecetItem;
+                    return;
+                }
+            }
+            chats.Add(chat);
+            masterDetail_pnl.SelectedItem = selecetItem;
         }
 
         private void AbstractBackRequestPage_BackRequested(object sender, BackRequestedEventArgs e)
