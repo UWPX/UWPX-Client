@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Globalization;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
@@ -9,6 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Attributes--
         private readonly string MESSAGE;
         private readonly string TYPE;
+        private readonly DateTime DELAY;
         // Already shown as a toast:
         private bool toasted;
 
@@ -74,6 +77,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 MESSAGE = body.InnerText;
             }
+
+            XmlNode delay = XMLUtils.getChildNode(node, "delay", "xmlns", "urn:xmpp:delay");
+            if (delay != null)
+            {
+                XmlAttribute stamp = XMLUtils.getAttribute(delay, "stamp");
+                if(stamp != null)
+                {
+                    DateTimeParserHelper parserHelper = new DateTimeParserHelper();
+                    DELAY = parserHelper.parse(stamp.Value);
+                }
+            }
         }
 
         #endregion
@@ -97,6 +111,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public void setToasted()
         {
             toasted = true;
+        }
+
+        public DateTime getDelay()
+        {
+            return DELAY;
         }
 
         #endregion

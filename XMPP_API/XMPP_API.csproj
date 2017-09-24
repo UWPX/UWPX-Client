@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
+    <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />

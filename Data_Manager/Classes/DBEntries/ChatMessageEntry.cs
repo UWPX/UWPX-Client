@@ -51,8 +51,12 @@ namespace Data_Manager.Classes.DBEntries
             message = msg.getMessage();
             type = msg.getType();
             fromUser = Utils.removeResourceFromJabberid(msg.getFrom());
-            date = DateTime.Now;
-            state = ChatMessageEntry.RECEIVED;
+            date = msg.getDelay();
+            if(date == null || date.Equals(DateTime.MinValue))
+            {
+                date = DateTime.Now;
+            }
+            state = RECEIVED;
         }
 
         #endregion
