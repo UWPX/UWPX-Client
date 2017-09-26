@@ -61,7 +61,7 @@ namespace UWP_XMPP_Client.Controls
             switch (Presence)
             {
                 case Presence.Online:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 16, 124, 16));
+                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 84, 168, 27));
                     break;
                 case Presence.Chat:
                     presence_brdr.BorderBrush = new SolidColorBrush(Colors.White);

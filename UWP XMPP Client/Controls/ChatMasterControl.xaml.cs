@@ -191,6 +191,8 @@ namespace UWP_XMPP_Client.Controls
                 ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
                 Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 Client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                Client.NewPresence -= Client_NewPresence;
+                Client.NewPresence += Client_NewPresence;
             }
         }
 
@@ -337,6 +339,17 @@ namespace UWP_XMPP_Client.Controls
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 showChat();
+            });
+        }
+
+        private async void Client_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (args.getFrom().Equals(Chat.id))
+                {
+                    image_aciwp.Presence = args.getPresence();
+                }
             });
         }
 
