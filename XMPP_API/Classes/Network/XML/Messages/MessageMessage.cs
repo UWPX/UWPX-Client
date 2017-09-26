@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -12,6 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private readonly string MESSAGE;
         private readonly string TYPE;
         private readonly DateTime DELAY;
+        private DateTime delay;
         // Already shown as a toast:
         private bool toasted;
 
@@ -33,6 +33,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.MESSAGE = message;
             this.TYPE = type;
             this.toasted = false;
+            this.cacheUntilSend = true;
+            this.delay = DateTime.MinValue;
         }
 
         public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, node.Attributes["id"]?.Value)
@@ -130,7 +132,22 @@ namespace XMPP_API.Classes.Network.XML.Messages
             node.Add(new XAttribute("type", TYPE));
 
             node.Add(new XElement("body", MESSAGE));
+            if(delay != DateTime.MinValue)
+            {
+                XElement delayNode = new XElement("delay");
+                DateTimeParserHelper parserHelper = new DateTimeParserHelper();
+                delayNode.Add(new XAttribute("stamp", parserHelper.toString(DateTime.Now)));
+                delayNode.Add(new XAttribute("from", FROM));
+                delayNode.Add("Offline Storage");
+                delayNode.Add(new XAttribute("xmlns", "urn:xmpp:delay"));
+                node.Add(delay);
+            }
             return node.ToString();
+        }
+
+        public void addDelay()
+        {
+            delay = DateTime.Now;
         }
 
         #endregion

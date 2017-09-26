@@ -20,14 +20,14 @@ namespace Data_Manager.Classes.Managers
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         /// <summary>
-        /// Initalises the object and creates all required tables for this object. 
+        /// Initializes the object and creates all required tables for this object.
         /// </summary>
         /// <history>
         /// 26/08/2017 Created [Fabian Sauter]
         /// </history>
         public AbstractManager()
         {
-            if(RESET_DB_ON_STARTUP)
+            if (RESET_DB_ON_STARTUP)
             {
                 dropTables();
             }
@@ -43,7 +43,7 @@ namespace Data_Manager.Classes.Managers
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Delets the whole db and recreates an empty one.
+        /// Deletes the whole db and recreates an empty one.
         /// Only for testing use resetDB() instead!
         /// </summary>
         protected void deleteDB()

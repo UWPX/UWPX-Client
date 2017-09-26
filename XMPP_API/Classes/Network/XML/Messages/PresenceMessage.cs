@@ -26,12 +26,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.SHOW = show;
             this.STATUS = status;
             this.PRIORETY = priorety;
+            this.cacheUntilSend = true;
         }
 
         public PresenceMessage(string from, string to, string type) : base(from, to)
         {
             this.TYPE = type;
             this.PRIORETY = int.MinValue;
+            this.cacheUntilSend = true;
         }
 
         public PresenceMessage(string show, string status, int priorety) : this(null, null, show, status, priorety)

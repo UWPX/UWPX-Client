@@ -1,10 +1,6 @@
 ﻿using Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace XMPP_API.Classes
 {
@@ -63,6 +59,31 @@ namespace XMPP_API.Classes
             return DateTime.MinValue;
         }
 
+        public string toString(DateTime dateTime)
+        {
+            TimeSpan uTCoffset = TimeZoneInfo.Local.GetUtcOffset(dateTime.ToUniversalTime());
+
+            dateTime = dateTime.ToUniversalTime();
+            string result = dateTime.ToString("yyyy-MM-dd") + 'T' + dateTime.ToString(@"HH\:mm\:ss");
+            if(uTCoffset.TotalHours == 0)
+            {
+                result += 'Z';
+            }
+            else
+            {
+                if (uTCoffset.TotalHours >= 0)
+                {
+                    result += '+';
+                }
+                else
+                {
+                    result += '-';
+                }
+                result += uTCoffset.ToString(@"hh\:mm");
+            }
+            return result;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -73,11 +94,11 @@ namespace XMPP_API.Classes
             {
                 DateTime date = parseDateString(dateString.Substring(0, dateString.IndexOf('T')));
                 DateTime time = parseTimeString(dateString.Substring(dateString.IndexOf('T') + 1));
-                dateTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Millisecond);
+                dateTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond);
             }
             catch (Exception e)
             {
-                Logger.Error("Error during parsing dateString in parseDateTimeString() - DateTimeParserHelper", e);
+                Logger.Error("Error during parsing dateString in parseDateTimeString() - DateTimeParserHelper " + dateString, e);
             }
             return dateTime;
         }

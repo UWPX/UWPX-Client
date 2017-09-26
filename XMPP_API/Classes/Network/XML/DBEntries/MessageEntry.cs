@@ -1,13 +1,17 @@
-﻿using System.Xml;
-using System.Xml.Linq;
+﻿using SQLite.Net.Attributes;
 
-namespace XMPP_API.Classes.Network.XML.Messages
+namespace XMPP_API.Classes.Network.XML.DBEntries
 {
-    class RemoveFromRosterMessage : IQMessage
+    class MessageEntry
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [PrimaryKey]
+        [AutoIncrement]
+        public int id { get; set; }
+        public string accountId { get; set; }
+        public string message { get; set; }
+        public string iQMessageId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,15 +20,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 09/09/2017 Created [Fabian Sauter]
+        /// 26/09/2017 Created [Fabian Sauter]
         /// </history>
-        public RemoveFromRosterMessage(XmlNode answer) : base(answer)
+        public MessageEntry()
         {
-        }
 
-        public RemoveFromRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns='jabber:iq:roster'>" + new XElement("item", new XAttribute("jid", target), new XAttribute("subscription", "remove")).ToString() + "</query>")
-        {
-            this.cacheUntilSend = true;
         }
 
         #endregion

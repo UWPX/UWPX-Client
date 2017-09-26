@@ -8,6 +8,7 @@ using XMPP_API.Classes.Exceptions;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
+using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
@@ -98,13 +99,27 @@ namespace XMPP_API.Classes.Network
             setState(ConnectionState.DISCONNECTED);
         }
 
-        public async Task sendMessageAsync(AbstractMessage msg)
+        public async Task sendMessageAsync(AbstractMessage msg, bool ignoreConnectionState)
         {
-            if (msg is IQMessage)
+            if (!ignoreConnectionState && getState() != ConnectionState.CONNECTED)
             {
-                iDCash.add((msg as IQMessage).getId());
+                if (msg.shouldSaveUntilSend())
+                {
+                    MessageCache.INSTANCE.addMessage(ACCOUNT.getIdAndDomain(), msg);
+                }
+                else
+                {
+                    Logger.Warn("Did not send message, due to connection state is " + getState() + "\n" + msg.toXmlString());
+                }
             }
-            await tcpConnection.sendMessageToServerAsync(msg.toXmlString());
+            else
+            {
+                if (msg is IQMessage)
+                {
+                    iDCash.add((msg as IQMessage).getId());
+                }
+                await tcpConnection.sendMessageToServerAsync(msg.toXmlString());
+            }
         }
 
         #endregion
@@ -121,7 +136,7 @@ namespace XMPP_API.Classes.Network
         private async Task softRestart()
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(ACCOUNT.getIdAndDomain(), ACCOUNT.user.domain);
-            await sendMessageAsync(openStreamMessage);
+            await sendMessageAsync(openStreamMessage, true);
         }
 
         private async Task hardRestart()
@@ -129,6 +144,29 @@ namespace XMPP_API.Classes.Network
             await disconnectFromServerAsync();
             await connectToServerAsync();
 
+        }
+
+        private async Task sendAllOutstandingMessagesAsync()
+        {
+            foreach (MessageEntry entry in MessageCache.INSTANCE.getAllForAccount(ACCOUNT.getIdAndDomain()))
+            {
+                if (getState() != ConnectionState.CONNECTED)
+                {
+                    return;
+                }
+                try
+                {
+                    if (entry.iQMessageId != null)
+                    {
+                        iDCash.add(entry.iQMessageId);
+                    }
+                    await tcpConnection.sendMessageToServerAsync(entry.message);
+                    MessageCache.INSTANCE.removeEntry(entry);
+                }
+                catch
+                {
+                }
+            }
         }
 
         #endregion
@@ -145,8 +183,9 @@ namespace XMPP_API.Classes.Network
         #region --Events--
         private async void RecourceBindingConnection_ResourceBound(object sender, EventArgs e)
         {
-            await sendMessageAsync(new PresenceMessage(ACCOUNT.presencePriorety));
+            await sendMessageAsync(new PresenceMessage(ACCOUNT.presencePriorety), true);
             setState(ConnectionState.CONNECTED);
+            await sendAllOutstandingMessagesAsync();
         }
 
         private void TcpConnection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)

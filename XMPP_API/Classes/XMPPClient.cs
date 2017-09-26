@@ -57,7 +57,7 @@ namespace XMPP_API.Classes
         public async Task<string> setPreseceAsync(string from, string to, string show, string status)
         {
             PresenceMessage presenceMessage = new PresenceMessage(from, to, show, status, connection.getXMPPAccount().presencePriorety);
-            await connection.sendMessageAsync(presenceMessage);
+            await connection.sendMessageAsync(presenceMessage, true);
             return presenceMessage.getId();
         }
 
@@ -95,7 +95,7 @@ namespace XMPP_API.Classes
         {
             XMPPAccount sCC = connection.getXMPPAccount();
             MessageMessage sendMessgageMessage = new MessageMessage(sCC.getIdDomainAndResource(), to, msg);
-            await connection.sendMessageAsync(sendMessgageMessage);
+            await connection.sendMessageAsync(sendMessgageMessage, false);
             return sendMessgageMessage;
         }
 
@@ -107,31 +107,31 @@ namespace XMPP_API.Classes
         public async Task requestRoosterAsync()
         {
             XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RosterMessage(sCC.getIdDomainAndResource(), sCC.getIdAndDomain()));
+            await connection.sendMessageAsync(new RosterMessage(sCC.getIdDomainAndResource(), sCC.getIdAndDomain()), false);
         }
 
         public async Task addToRosterAsync(string jabberId)
         {
             XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new AddToRosterMessage(sCC.getIdDomainAndResource(), jabberId));
+            await connection.sendMessageAsync(new AddToRosterMessage(sCC.getIdDomainAndResource(), jabberId), false);
         }
 
         public async Task requestPresenceSubscriptionAsync(string jabberId)
         {
             XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "subscribe"));
+            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "subscribe"), false);
         }
 
         public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)
         {
             XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"));
+            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"), false);
         }
 
         public async Task removeFromRosterAsync(string jabberId)
         {
             XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RemoveFromRosterMessage(sCC.getIdDomainAndResource(), jabberId));
+            await connection.sendMessageAsync(new RemoveFromRosterMessage(sCC.getIdDomainAndResource(), jabberId), false);
         }
 
         #endregion
@@ -152,7 +152,7 @@ namespace XMPP_API.Classes
             NewRoosterMessage?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)
+        private async void Connection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)
         {
             ConnectionStateChanged?.Invoke(this, state);
         }

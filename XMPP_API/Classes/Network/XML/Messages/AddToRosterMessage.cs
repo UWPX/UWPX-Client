@@ -24,6 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns=\"jabber:iq:roster\">" + new XElement("item", new XAttribute("jid", target)).ToString() + "></query>")
         {
+            this.cacheUntilSend = true;
         }
 
         #endregion

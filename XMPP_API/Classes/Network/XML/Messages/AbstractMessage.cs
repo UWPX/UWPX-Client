@@ -11,6 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public static readonly byte SOFT_RESTART = 2;
 
         protected readonly string ID;
+        protected bool cacheUntilSend;
         private bool processed;
         private byte restartConnection;
 
@@ -25,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public AbstractMessage() : this(getRandomId())
         {
-            
+
         }
 
         public AbstractMessage(string id)
@@ -33,6 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             processed = false;
             this.restartConnection = NO_RESTART;
             this.ID = id ?? getRandomId();
+            this.cacheUntilSend = false;
         }
 
         #endregion
@@ -76,6 +78,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public string getId()
         {
             return ID;
+        }
+
+        public bool shouldSaveUntilSend()
+        {
+            return cacheUntilSend;
         }
 
         #endregion
