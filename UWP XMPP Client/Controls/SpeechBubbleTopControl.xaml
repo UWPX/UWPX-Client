@@ -9,13 +9,13 @@
     <Grid HorizontalAlignment="Left" Padding="6">
         <Polygon Points="0,0 10,10 0,10" Fill="{ThemeResource SystemAccentColorDark1}" Stroke="Black" Margin="10,0,0,0" />
 
-        <Border Background="{ThemeResource SystemAccentColorDark1}" BorderBrush="Black" BorderThickness="1" Padding="10" Margin="0,9,0,0" VerticalAlignment="Top" MinWidth="150" MinHeight="50">
+        <Border Background="{ThemeResource SystemAccentColorDark1}" BorderBrush="Black" BorderThickness="1" Padding="10" Margin="0,10,0,0" VerticalAlignment="Top" MinWidth="150" MinHeight="50">
             <StackPanel>
                 <TextBlock Text="{x:Bind Text}" TextWrapping="WrapWholeWords"/>
                 <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
             </StackPanel>
         </Border>
 
-        <Polygon Visibility="Visible" Points="0,0 10,10 0,10" Fill="{ThemeResource SystemAccentColorDark1}" Margin="10,0,0,0" />
+        <Polygon Visibility="Visible" Points="0,0 11,11 0,11" Fill="{ThemeResource SystemAccentColorDark1}" Margin="10.4,1,0,0" />
     </Grid>
 </UserControl>

@@ -7,7 +7,7 @@
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Right" Padding="6">
-        <Polygon Points="10,10 0,0 10,0" Fill="{ThemeResource SystemAccentColorDark3}" Stroke="Black" Margin="0,0,10,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Polygon Points="10,10 0,0 10,0" Fill="{ThemeResource SystemAccentColorDark3}" Stroke="Black" Margin="0,0,11,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
 
         <Border Visibility="Visible" Background="{ThemeResource SystemAccentColorDark3}" BorderBrush="Black" BorderThickness="1" Padding="10" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" MinWidth="150" MinHeight="50">
             <StackPanel>
@@ -16,6 +16,6 @@
             </StackPanel>
         </Border>
 
-        <Polygon Visibility="Visible" Points="10,10 0,0 10,0" Fill="{ThemeResource SystemAccentColorDark3}" Margin="0,0,11,1" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+        <Polygon Visibility="Visible" Points="11,11 0,0 11,0" Fill="{ThemeResource SystemAccentColorDark3}" Margin="0,0,11.4,1" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>
