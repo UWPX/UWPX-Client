@@ -201,6 +201,7 @@ namespace UWP_XMPP_Client.Controls
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             await Logger.openLogFolderAsync();
+            await Client.requestVCardAsync(Chat.id);
         }
     }
 }

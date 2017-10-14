@@ -22,6 +22,7 @@ namespace XMPP_API.Classes.Network.TCP
         private HostName serverHost;
         private StreamWriter writer;
         private StreamReader reader;
+        private DataReader dreader;
         private BackgroundTaskRegistration socketBackgroundTask;
 
         private Task listenerTask;
@@ -103,18 +104,21 @@ namespace XMPP_API.Classes.Network.TCP
         {
             if (getState() != ConnectionState.CONNECTED)
             {
-                await connectToServerAsync();
-            }
-            if (getState() != ConnectionState.CONNECTED)
-            {
                 return null;
             }
-            char[] buffer = new char[BUFFER_SIZE];
-            cTS = new CancellationTokenSource();
-            reader.ReadAsync(buffer, 0, BUFFER_SIZE).Wait(cTS.Token);
-            string result = new string(buffer);
-
-            return result.Substring(0, result.IndexOf("\0"));
+            string result = "";
+            while (true)
+            {
+                char[] buffer = new char[BUFFER_SIZE + 1];
+                cTS = new CancellationTokenSource();
+                reader.ReadAsync(buffer, 0, BUFFER_SIZE).Wait(cTS.Token);
+                string data = new string(buffer).Substring(0, buffer.Length - 1);
+                if (data.IndexOf("\0") >= 0 || reader.EndOfStream)
+                {
+                    return result + data.Substring(0, data.IndexOf("\0"));
+                }
+                result += data;
+            }
         }
 
         public async Task upgradeToTLS()
@@ -153,6 +157,7 @@ namespace XMPP_API.Classes.Network.TCP
 
                             // Setup Reader:
                             reader = new StreamReader(tcpSocket.InputStream.AsStreamForRead());
+                            dreader = new DataReader(tcpSocket.InputStream);
                             setState(ConnectionState.CONNECTED);
                             return;
                         }
@@ -255,6 +260,7 @@ namespace XMPP_API.Classes.Network.TCP
             writer = null;
             reader?.Dispose();
             reader = null;
+            GC.Collect();
         }
 
         #endregion

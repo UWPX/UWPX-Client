@@ -121,7 +121,6 @@
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
-    <Compile Include="Classes\Network\TCP\TCPConnectionHandler2.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
     <Compile Include="Classes\Network\XML\MessageParser2.cs" />
     <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />

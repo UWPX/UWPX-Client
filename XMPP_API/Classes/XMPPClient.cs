@@ -122,6 +122,12 @@ namespace XMPP_API.Classes
             await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "subscribe"), false);
         }
 
+        public async Task requestVCardAsync(string jabberId)
+        {
+            XMPPAccount sCC = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new RequestvCardMessage(jabberId, sCC.getIdDomainAndResource()), false);
+        }
+
         public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)
         {
             XMPPAccount sCC = connection.getXMPPAccount();
