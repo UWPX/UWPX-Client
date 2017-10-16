@@ -157,7 +157,7 @@ namespace Data_Manager.Classes
         #region --Events--
         private void Client_NewPresence(XMPPClient client, NewPresenceEventArgs args)
         {
-            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(args.getFrom(), client.getSeverConnectionConfiguration().getIdAndDomain());
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(Utils.removeResourceFromJabberid(args.getFrom()), client.getSeverConnectionConfiguration().getIdAndDomain());
             if (args.getPresenceType() != null && args.getPresenceType().Equals("subscribe"))
             {
                 if (chat == null)
@@ -169,6 +169,7 @@ namespace Data_Manager.Classes
                         inRoster = false,
                         muted = false,
                         lastActive = DateTime.Now,
+                        status = args.getStatus()
                     };
                 }
             }
