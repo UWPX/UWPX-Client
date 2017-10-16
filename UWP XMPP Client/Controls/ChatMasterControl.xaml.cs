@@ -163,6 +163,9 @@ namespace UWP_XMPP_Client.Controls
                         //subscription_tbck.Visibility = Visibility.Collapsed;
                         break;
                 }
+
+                // Chat status:
+                image_aciwp.Presence = Chat.presence;
             }
 
             // Subscription pending:
