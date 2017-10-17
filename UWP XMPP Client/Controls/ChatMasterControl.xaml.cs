@@ -33,7 +33,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 SetValue(ChatProperty, value);
                 showChat();
-                if(Chat != null)
+                if (Chat != null)
                 {
                     Chat.ChatChanged -= Chat_ChatChanged;
                     Chat.ChatChanged += Chat_ChatChanged;
@@ -105,7 +105,7 @@ namespace UWP_XMPP_Client.Controls
                 }
 
                 // Last action date:
-                if(Chat.lastActive != null)
+                if (Chat.lastActive != null)
                 {
                     if (Chat.lastActive.Date.CompareTo(DateTime.Now.Date) == 0)
                     {
@@ -132,31 +132,23 @@ namespace UWP_XMPP_Client.Controls
                 cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                 switch (Chat.subscription)
                 {
+                    case "to":
+                        break;
                     case "from":
                         requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                        //subscription_tbck.Visibility = Visibility.Visible;
-                        //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
-                        break;
-                    case "to":
                         break;
                     case "both":
-                        //subscription_tbck.Visibility = Visibility.Visible;
-                        //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 16, 124, 16));
                         cancelPresenceSubscription_mfo.Text = "Remove presence subscription";
                         break;
                     case "pending":
-                        //subscription_tbck.Visibility = Visibility.Visible;
-                        //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 76, 74, 72));
                         cancelPresenceSubscription_mfo.Text = "Cancel subscription request";
                         break;
                     case "subscribe":
-                        //subscription_tbck.Visibility = Visibility.Collapsed;
                         cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         showSubscriptionRequest();
                         break;
                     case "unsubscribe":
-                        //subscription_tbck.Visibility = Visibility.Collapsed;
                         cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         showRemovedChat();
@@ -281,7 +273,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void accountActionAccept_btn_Click(object sender, RoutedEventArgs e)
         {
-            if(subscriptionRequest)
+            if (subscriptionRequest)
             {
                 await presenceSubscriptionRequestClickedAsync(true);
             }
