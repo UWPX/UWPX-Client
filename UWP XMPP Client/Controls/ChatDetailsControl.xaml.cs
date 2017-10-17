@@ -11,6 +11,7 @@ using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml.Media.Imaging;
 using Logging;
+using UWP_XMPP_Client.Pages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -200,8 +201,9 @@ namespace UWP_XMPP_Client.Controls
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            await Logger.openLogFolderAsync();
+            //await Logger.openLogFolderAsync();
             await Client.requestVCardAsync(Chat.id);
+            (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), Chat);
         }
     }
 }

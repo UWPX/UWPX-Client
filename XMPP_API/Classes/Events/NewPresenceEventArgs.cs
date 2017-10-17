@@ -25,31 +25,37 @@ namespace XMPP_API.Classes.Events
         {
             this.STATUS = message.getStatus();
             this.FROM = message.getFrom();
-            this.PRESENCE_TYPE = message.getType();
-            if (message.getShow() == null)
+            string p = message.getShow();
+            if (string.IsNullOrEmpty(p))
             {
-                this.PRESENCE = Presence.Online;
+                p = message.getType();
+                this.PRESENCE_TYPE = null;
             }
             else
             {
-                switch (message.getShow())
-                {
-                    case "chat":
-                        this.PRESENCE = Presence.Chat;
-                        break;
-                    case "away":
-                        this.PRESENCE = Presence.Away;
-                        break;
-                    case "xa":
-                        this.PRESENCE = Presence.Xa;
-                        break;
-                    case "dnd":
-                        this.PRESENCE = Presence.Dnd;
-                        break;
-                    case "unavailable":
-                        this.PRESENCE = Presence.Unavailable;
-                        break;
-                }
+                this.PRESENCE_TYPE = message.getType();
+            }
+
+            switch (message.getShow())
+            {
+                case "chat":
+                    this.PRESENCE = Presence.Chat;
+                    break;
+                case "away":
+                    this.PRESENCE = Presence.Away;
+                    break;
+                case "xa":
+                    this.PRESENCE = Presence.Xa;
+                    break;
+                case "dnd":
+                    this.PRESENCE = Presence.Dnd;
+                    break;
+                case "unavailable":
+                    this.PRESENCE = Presence.Unavailable;
+                    break;
+                default:
+                    this.PRESENCE = Presence.Online;
+                    break;
             }
         }
 

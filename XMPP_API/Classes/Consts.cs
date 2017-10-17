@@ -35,5 +35,7 @@ namespace XMPP_API.Classes
         // Error:
         public static readonly string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
         public static readonly string XML_ERROR = ""; //TODO
+
+        public static readonly bool ENABLE_DEBUG_OUTPUT = true;
     }
 }

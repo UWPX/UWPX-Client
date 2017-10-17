@@ -96,7 +96,11 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 await writer.WriteLineAsync(msg);
                 await writer.FlushAsync();
-                Debug.WriteLine("Send:" + msg);
+                if (Consts.ENABLE_DEBUG_OUTPUT)
+                {
+                    Logger.Info("Send:" + msg);
+                    Debug.WriteLine("Send:" + msg);
+                }
             }
         }
 
@@ -110,12 +114,19 @@ namespace XMPP_API.Classes.Network.TCP
             while (true)
             {
                 char[] buffer = new char[BUFFER_SIZE + 1];
+                Task<int> t = reader.ReadAsync(buffer, 0, BUFFER_SIZE);
                 cTS = new CancellationTokenSource();
-                reader.ReadAsync(buffer, 0, BUFFER_SIZE).Wait(cTS.Token);
+                t.Wait(cTS.Token);
                 string data = new string(buffer).Substring(0, buffer.Length - 1);
-                if (data.IndexOf("\0") >= 0 || reader.EndOfStream)
+                int index = data.IndexOf("\0");
+                if(index < 0)
                 {
-                    return result + data.Substring(0, data.IndexOf("\0"));
+                    index = data.Length;
+                }
+                data = data.Substring(0, index);
+                if (t.Result < BUFFER_SIZE)
+                {
+                    return result + data;
                 }
                 result += data;
             }
@@ -213,7 +224,7 @@ namespace XMPP_API.Classes.Network.TCP
                     }
                     catch (Exception e)
                     {
-                        Debug.WriteLine(e.Message);
+                        Logger.Error("Error during reading a message from the server - TCPConnectionHandler", e);
                     }
                 }
                 cleanupConnection();

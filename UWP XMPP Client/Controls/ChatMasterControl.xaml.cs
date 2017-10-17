@@ -133,8 +133,12 @@ namespace UWP_XMPP_Client.Controls
                 switch (Chat.subscription)
                 {
                     case "from":
+                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         //subscription_tbck.Visibility = Visibility.Visible;
                         //subscription_tbck.Foreground = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
+                        break;
+                    case "to":
                         break;
                     case "both":
                         //subscription_tbck.Visibility = Visibility.Visible;
@@ -158,9 +162,8 @@ namespace UWP_XMPP_Client.Controls
                         showRemovedChat();
                         break;
                     default:
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        //subscription_tbck.Visibility = Visibility.Collapsed;
+                        requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         break;
                 }
 
@@ -205,7 +208,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat.id.Equals(args.getMessage().chatId))
                 {
-                    lastChat_tblck.Text = args.getMessage().message;
+                    lastChat_tblck.Text = args.getMessage().message ?? "";
                 }
             });
         }

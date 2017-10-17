@@ -141,7 +141,7 @@ namespace Data_Manager.Classes
                                     Logger.Error("Error during connectToAllAccounts() - ConnectionHandler!", prev.Exception);
                                 }
                             });
-                            break;
+                        break;
                     }
                 }
             }
@@ -169,10 +169,12 @@ namespace Data_Manager.Classes
                         inRoster = false,
                         muted = false,
                         lastActive = DateTime.Now,
-                        status = args.getStatus()
+                        status = args.getStatus(),
+                        presence = args.getPresence()
                     };
                 }
             }
+
             if (chat != null)
             {
                 chat.presence = args.getPresence();

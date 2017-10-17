@@ -190,12 +190,18 @@ namespace XMPP_API.Classes.Network
 
         private void TcpConnection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)
         {
-            Debug.WriteLine("New state: " + state);
+            if (Consts.ENABLE_DEBUG_OUTPUT)
+            {
+                Debug.WriteLine("New state: " + state);
+            }
         }
 
         private async void TcpConnection_ConnectionNewData(AbstractConnectionHandler handler, NewDataEventArgs args)
         {
-            Debug.WriteLine("New Data received: " + args.getData());
+            if (Consts.ENABLE_DEBUG_OUTPUT)
+            {
+                Debug.WriteLine("New Data received: " + args.getData());
+            }
             // Parse message:
             List<AbstractMessage> messages;
             try
@@ -204,7 +210,11 @@ namespace XMPP_API.Classes.Network
             }
             catch (Exception e)
             {
-                Debug.WriteLine("Error during message parsing: " + e.Message + "\n" + e.StackTrace + "\n" + args.getData());
+                Logger.Error("Error during message parsing." + e);
+                if (Consts.ENABLE_DEBUG_OUTPUT)
+                {
+                    Debug.WriteLine("Error during message parsing: " + e.Message + "\n" + e.StackTrace + "\n" + args.getData());
+                }
                 return;
             }
 
@@ -217,7 +227,7 @@ namespace XMPP_API.Classes.Network
                     IQMessage iq = message as IQMessage;
                     if (iq.GetType().Equals(IQMessage.RESULT) && !iDCash.contains(iq.getId()))
                     {
-                        Debug.WriteLine("Invalid message id received!");
+                        Logger.Info("Invalid message id received!");
                         return;
                     }
                 }

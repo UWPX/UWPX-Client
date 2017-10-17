@@ -2,11 +2,11 @@
 {
     public enum Presence
     {
+        Unavailable,
+        Dnd,
+        Xa,
+        Away,
         Online,
         Chat,
-        Away,
-        Xa,
-        Dnd,
-        Unavailable
     }
 }
