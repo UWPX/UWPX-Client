@@ -10,10 +10,8 @@ A WIP secure XMPP client for UWP devices
 | HTTP-Upload       | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363")                                                                      |
 | Mix               | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369")                                                                      |
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198")                                                                      |
+
 [MORE NOTES TO COME]
-
-
-More to come
 
 ## Installation:
 1. Clone the repo with Visual Studio
