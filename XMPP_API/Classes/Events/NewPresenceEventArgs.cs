@@ -25,18 +25,10 @@ namespace XMPP_API.Classes.Events
         {
             this.STATUS = message.getStatus();
             this.FROM = message.getFrom();
-            string p = message.getShow();
-            if (string.IsNullOrEmpty(p))
-            {
-                p = message.getType();
-                this.PRESENCE_TYPE = null;
-            }
-            else
-            {
-                this.PRESENCE_TYPE = message.getType();
-            }
+            string p = message.getShow() ?? message.getType();
+            this.PRESENCE_TYPE = message.getType();
 
-            switch (message.getShow())
+            switch (p)
             {
                 case "chat":
                     this.PRESENCE = Presence.Chat;
@@ -53,6 +45,14 @@ namespace XMPP_API.Classes.Events
                 case "unavailable":
                     this.PRESENCE = Presence.Unavailable;
                     break;
+                case "unsubscribe":
+                case "unsubscribed":
+                case "subscribe":
+                case "subscribed":
+                    this.PRESENCE = Presence.NotDefined;
+                    break;
+                case "online":
+                case null:
                 default:
                     this.PRESENCE = Presence.Online;
                     break;

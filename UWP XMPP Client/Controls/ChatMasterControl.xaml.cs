@@ -72,7 +72,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showSubscriptionRequest()
+        private void showPresenceSubscriptionRequest()
         {
             accountAction_grid.Visibility = Visibility.Visible;
             accountAction_tblck.Text = Chat.status ?? (Chat.name ?? Chat.id) + "  has requested to subscribe to your presence!";
@@ -129,33 +129,36 @@ namespace UWP_XMPP_Client.Controls
                 // Subscription state:
                 accountAction_grid.Visibility = Visibility.Collapsed;
                 requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                cancelPresenceSubscriptionRequest.Visibility = Visibility.Collapsed;
+
                 switch (Chat.subscription)
                 {
                     case "to":
-                        break;
-                    case "from":
-                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         break;
                     case "both":
-                        cancelPresenceSubscription_mfo.Text = "Remove presence subscription";
+                        cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                        rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         break;
                     case "pending":
-                        cancelPresenceSubscription_mfo.Text = "Cancel subscription request";
+                        cancelPresenceSubscriptionRequest.Visibility = Visibility.Visible;
                         break;
                     case "subscribe":
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                        showSubscriptionRequest();
+                        showPresenceSubscriptionRequest();
                         break;
                     case "unsubscribe":
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                         requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         showRemovedChat();
                         break;
+                    case "from":
+                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                        rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                        break;
+                    case "none":
                     default:
-                        requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                         break;
                 }
 
@@ -245,6 +248,13 @@ namespace UWP_XMPP_Client.Controls
             return (int)command.Id == 1;
         }
 
+        private void resetAsk()
+        {
+            Chat.ask = null;
+            ChatManager.INSTANCE.setChatEntry(Chat, true);
+            showChat();
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -295,11 +305,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
-        {
-            await Client.requestPresenceSubscriptionAsync(Chat.id);
-        }
-
         private async void deleteChat_mfo_Click(object sender, RoutedEventArgs e)
         {
             if (await showShouldRemoveChat())
@@ -324,14 +329,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
-        {
-            await Client.answerPresenceSubscriptionRequest(Chat.id, false);
-            Chat.ask = null;
-            ChatManager.INSTANCE.setChatEntry(Chat, false);
-            showChat();
-        }
-
         private async void Chat_ChatChanged(object sender, EventArgs e)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -349,6 +346,29 @@ namespace UWP_XMPP_Client.Controls
                     image_aciwp.Presence = args.getPresence();
                 }
             });
+        }
+
+        private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.requestPresenceSubscriptionAsync(Chat.id);
+        }
+
+        private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.unsubscribeFromPresence(Chat.id);
+            resetAsk();
+        }
+
+        private async void rejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.answerPresenceSubscriptionRequest(Chat.id, false);
+            resetAsk();
+        }
+
+        private async void cancelPresenceSubscriptionRequest_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.unsubscribeFromPresence(Chat.id);
+            resetAsk();
         }
 
         #endregion

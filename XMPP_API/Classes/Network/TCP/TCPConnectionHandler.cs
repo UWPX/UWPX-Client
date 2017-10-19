@@ -98,8 +98,7 @@ namespace XMPP_API.Classes.Network.TCP
                 await writer.FlushAsync();
                 if (Consts.ENABLE_DEBUG_OUTPUT)
                 {
-                    Logger.Info("Send:" + msg);
-                    Debug.WriteLine("Send:" + msg);
+                    Logger.Info("Send to (" + ACCOUNT.serverAddress + "):" + msg);
                 }
             }
         }
@@ -208,6 +207,7 @@ namespace XMPP_API.Classes.Network.TCP
             listenerTask = Task.Factory.StartNew(async () =>
             {
                 await connectToServerAsync();
+                int errorCount = 0;
                 while (getState() == ConnectionState.CONNECTED)
                 {
                     try
@@ -217,14 +217,20 @@ namespace XMPP_API.Classes.Network.TCP
                         {
                             onConnectionNewData(data);
                         }
+                        errorCount = 0;
                     }
                     catch (OperationCanceledException e)
                     {
-
+                        errorCount++;
                     }
                     catch (Exception e)
                     {
                         Logger.Error("Error during reading a message from the server - TCPConnectionHandler", e);
+                        errorCount++;
+                    }
+                    if(errorCount > 5)
+                    {
+                        break;
                     }
                 }
                 cleanupConnection();

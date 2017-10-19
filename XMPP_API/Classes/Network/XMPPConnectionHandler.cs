@@ -200,7 +200,7 @@ namespace XMPP_API.Classes.Network
         {
             if (Consts.ENABLE_DEBUG_OUTPUT)
             {
-                Debug.WriteLine("New Data received: " + args.getData());
+                Logger.Info("Data received from (" + ACCOUNT.serverAddress + "):" + args.getData());
             }
             // Parse message:
             List<AbstractMessage> messages;

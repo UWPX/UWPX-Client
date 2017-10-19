@@ -8,5 +8,6 @@
         Away,
         Online,
         Chat,
+        NotDefined,
     }
 }

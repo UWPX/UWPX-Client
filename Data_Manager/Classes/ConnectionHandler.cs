@@ -158,31 +158,35 @@ namespace Data_Manager.Classes
         private void Client_NewPresence(XMPPClient client, NewPresenceEventArgs args)
         {
             ChatEntry chat = ChatManager.INSTANCE.getChatEntry(Utils.removeResourceFromJabberid(args.getFrom()), client.getSeverConnectionConfiguration().getIdAndDomain());
-            if (args.getPresenceType() != null && args.getPresenceType().Equals("subscribe"))
+            switch (args.getPresenceType())
             {
-                if (chat == null)
-                {
-                    chat = new ChatEntry()
+                case "subscribe":
+                case "unsubscribed":
+                    if(chat == null)
                     {
-                        id = args.getFrom(),
-                        userAccountId = client.getSeverConnectionConfiguration().getIdAndDomain(),
-                        inRoster = false,
-                        muted = false,
-                        lastActive = DateTime.Now,
-                        status = args.getStatus(),
-                        presence = args.getPresence()
-                    };
-                }
+                        chat = new ChatEntry()
+                        {
+                            id = Utils.removeResourceFromJabberid(args.getFrom()),
+                            inRoster = false,
+                            muted = false,
+                            lastActive = DateTime.Now,
+                        };
+                    }
+                    chat.subscription = args.getPresenceType();
+                    break;
             }
 
             if (chat != null)
             {
-                chat.presence = args.getPresence();
                 chat.status = args.getStatus();
                 chat.userAccountId = client.getSeverConnectionConfiguration().getIdAndDomain();
-                if (args.getPresenceType() != null)
+                switch (args.getPresence())
                 {
-                    chat.subscription = args.getPresenceType();
+                    case Presence.NotDefined:
+                        break;
+                    default:
+                        chat.presence = args.getPresence();
+                        break;
                 }
                 ChatManager.INSTANCE.setChatEntry(chat, true);
             }
@@ -223,6 +227,19 @@ namespace Data_Manager.Classes
                             ask = item.getAsk()
                         };
                     }
+
+                    switch (chat.subscription)
+                    {
+                        case "unsubscribe":
+                        case "from":
+                        case "none":
+                        case "pending":
+                            chat.presence = Presence.Unavailable;
+                            break;
+                        default:
+                            break;
+                    }
+
                     ChatManager.INSTANCE.setChatEntry(chat, true);
                 }
             }
