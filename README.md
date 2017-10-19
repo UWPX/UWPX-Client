@@ -1,6 +1,12 @@
 # UWP-XMPP-Client
 A WIP secure XMPP client for UWP devices
 
+## Installation:
+1. Clone the repo with Visual Studio
+2. Build the project for your target platform
+3. Install the app on your target system:
+[Here](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development) you can find more information about: How to install UWP apps, using the developer mode.
+
 ## ToDo:
 
 
