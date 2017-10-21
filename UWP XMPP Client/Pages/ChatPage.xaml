@@ -13,18 +13,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Grid>
         <Grid x:Name="main_grid" Grid.Row="0" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="{ThemeResource SystemAccentColorDark3}">
+            <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="Transparent" MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <controls:MasterDetailsView.NoSelectionContentTemplate>
                     <DataTemplate>
-                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                            <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
-                            <TextBlock FontSize="24" Text="Select an item to view."/>
-                        </StackPanel>
+                        <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
+                                <TextBlock FontSize="24" Text="Select an item to view."/>
+                            </StackPanel>
+                        </Grid>
                     </DataTemplate>
                 </controls:MasterDetailsView.NoSelectionContentTemplate>
                 <controls:MasterDetailsView.MasterCommandBar>
@@ -66,7 +74,7 @@
                 </controls:MasterDetailsView.DetailsTemplate>
             </controls:MasterDetailsView>
         </Grid>
-        <Grid x:Name="loading_grid" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="0">
+        <Grid x:Name="loading_grid" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

@@ -18,7 +18,8 @@
                         <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo" Text="Reject subscription" Visibility="Collapsed" Click="rejectPresenceSubscription_mfo_Click"/>
                     </MenuFlyoutSubItem>
                     <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click"/>
-                    <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click">
+                    </MenuFlyoutItem>
                     <MenuFlyoutSeparator/>
                     <ToggleMenuFlyoutItem x:Name="mute_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
                     <MenuFlyoutItem x:Name="block_tmfo" Text="Block"/>

@@ -5,9 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="UserControl_Loaded">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -36,18 +37,18 @@
                 <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
                 <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
             </StackPanel>
-            <Button Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="Button_Click"/>
+            <Button x:Name="profile_btn" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
         </Grid>
 
         <controls:Seperator Grid.Row="1"/>
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="2" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Button x:Name="clip_btn" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE723;" FontSize="27" Click="clip_btn_Click" Background="Transparent" BorderBrush="Transparent"/>
-            <TextBox x:Name="message_tbx" Grid.Column="1" PlaceholderText="Message..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="20" BorderBrush="Transparent" TextChanged="message_tbx_TextChanged"/>
+            <TextBox x:Name="message_tbx" Grid.Column="1" PlaceholderText="Message..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="20" BorderBrush="Transparent" TextChanged="message_tbx_TextChanged" Background="Transparent"/>
             <Button x:Name="send_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE122;" FontSize="27" Click="send_btn_Click" BorderBrush="Transparent" Background="{ThemeResource SystemAccentColor}" IsEnabled="False"/>
         </Grid>
     </Grid>

@@ -10,8 +10,8 @@ using XMPP_API.Classes.Network.XML.Messages;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml.Media.Imaging;
-using Logging;
 using UWP_XMPP_Client.Pages;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -86,16 +86,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void showbackgroundImage()
-        {
-            BackgroundImage img = BackgroundImageCache.selectedImage;
-            if (img == null || img.imagePath == null)
-            {
-                return;
-            }
-            backgroundImage_img.Source = new BitmapImage(new Uri(img.imagePath));
-        }
-
         private void showMessages()
         {
             if (Client != null && Chat != null)
@@ -146,6 +136,24 @@ namespace UWP_XMPP_Client.Controls
             ChatManager.INSTANCE.setLastActivity(Chat.id, DateTime.Now);
         }
 
+        private void showBackgroundForViewState(MasterDetailsViewState state)
+        {
+            backgroundImage_img.Visibility = state == MasterDetailsViewState.Both ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void showbackgroundImage()
+        {
+            BackgroundImage img = BackgroundImageCache.selectedImage;
+            if (img == null || img.imagePath == null)
+            {
+                backgroundImage_img.Source = null;
+                backgroundImage_img.Visibility = Visibility.Collapsed;
+                return;
+            }
+            backgroundImage_img.Source = new BitmapImage(new Uri(img.imagePath));
+            backgroundImage_img.Visibility = Visibility.Visible;
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -172,6 +180,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 await sendMessageAsync(message_tbx.Text);
                 message_tbx.Text = "";
+                message_tbx.Focus(FocusState.Programmatic);
             }
         }
 
@@ -197,13 +206,34 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        #endregion
-
-        private async void Button_Click(object sender, RoutedEventArgs e)
+        private async void profile_btn_Click(object sender, RoutedEventArgs e)
         {
             //await Logger.openLogFolderAsync();
             await Client.requestVCardAsync(Chat.id);
             (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), Chat);
         }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            object o = (Window.Current.Content as Frame).Content;
+            if(o is ChatPage)
+            {
+                ChatPage chatPage = o as ChatPage;
+                MasterDetailsView masterDetailsView = chatPage.getMasterDetailsView();
+                if (masterDetailsView != null)
+                {
+                    masterDetailsView.ViewStateChanged -= MasterDetailsView_ViewStateChanged;
+                    masterDetailsView.ViewStateChanged += MasterDetailsView_ViewStateChanged;
+                    showBackgroundForViewState(masterDetailsView.ViewState);
+                }
+            }
+        }
+
+        private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
+        {
+            showBackgroundForViewState(e);
+        }
+
+        #endregion
     }
 }

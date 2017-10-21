@@ -3,7 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <!--RequestedTheme="Dark">-->
-    
+    <!--AcrylicBrush:
+    https://nicksnettravels.builttoroam.com/post/2017/06/11/Adding-Fluent-Design-Acrylic-Material-to-UWP-via-XamarinForms.aspx
+    https://docs.microsoft.com/en-us/windows/uwp/style/acrylic
+    https://docs.microsoft.com/en-us/windows/uwp/style/acrylic
+    -->
     <Application.Resources>
         <x:Double x:Key="AppBarThemeCompactHeight">41</x:Double>
     </Application.Resources>

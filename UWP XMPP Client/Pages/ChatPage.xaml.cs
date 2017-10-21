@@ -15,6 +15,9 @@ using Logging;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.ApplicationModel.Activation;
+using UWP_XMPP_Client.Classes;
+using Windows.UI.Xaml.Media.Imaging;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -40,12 +43,16 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             this.toastActivationString = null;
+            showbackgroundImage();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public MasterDetailsView getMasterDetailsView()
+        {
+            return masterDetail_pnl;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -55,6 +62,19 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
+        private void showbackgroundImage()
+        {
+            BackgroundImage img = BackgroundImageCache.selectedImage;
+            if (img == null || img.imagePath == null)
+            {
+                backgroundImage_img.Source = null;
+                backgroundImage_img.Visibility = Visibility.Collapsed;
+                return;
+            }
+            backgroundImage_img.Source = new BitmapImage(new Uri(img.imagePath));
+            backgroundImage_img.Visibility = Visibility.Visible;
+        }
+
         private void loadChats()
         {
             chats = new ObservableCollection<Chat>();
