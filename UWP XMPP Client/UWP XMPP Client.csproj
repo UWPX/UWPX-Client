@@ -96,7 +96,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\BackgroundImageCache.cs" />
+    <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
+    <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Controls\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>
     </Compile>

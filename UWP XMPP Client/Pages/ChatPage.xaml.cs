@@ -43,7 +43,7 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             this.toastActivationString = null;
-            showbackgroundImage();
+            UiUtils.setBackgroundImage(backgroundImage_img);
         }
 
         #endregion
@@ -62,19 +62,6 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showbackgroundImage()
-        {
-            BackgroundImage img = BackgroundImageCache.selectedImage;
-            if (img == null || img.imagePath == null)
-            {
-                backgroundImage_img.Source = null;
-                backgroundImage_img.Visibility = Visibility.Collapsed;
-                return;
-            }
-            backgroundImage_img.Source = new BitmapImage(new Uri(img.imagePath));
-            backgroundImage_img.Visibility = Visibility.Visible;
-        }
-
         private void loadChats()
         {
             chats = new ObservableCollection<Chat>();

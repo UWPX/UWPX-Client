@@ -53,7 +53,6 @@
                     <RowDefinition Height="16"/>
                 </Grid.RowDefinitions>
                 <TextBlock x:Name="inRooster_tbck" FontSize="12" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE170;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Right" Margin="0, 0, 1, 0" VerticalAlignment="Center"/>
-                <!--<TextBlock x:Name="subscription_tbck" FontSize="14" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE748;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Center" VerticalAlignment="Center"/>-->
                 <TextBlock x:Name="muted_tbck" FontSize="13" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                 <TextBlock x:Name="lastAction_tblck" Grid.Row="2" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right"/>
             </Grid>

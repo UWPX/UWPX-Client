@@ -7,51 +7,58 @@
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
-    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" VerticalScrollBarVisibility="Auto">
-        <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <controls:AccountImageWithPresence x:Name="imagePresence_aiwp" Grid.Column="0" Width="100" Height="100"/>
-                <StackPanel Grid.Column="1" Margin="10, 0, 0, 0">
-                    <TextBlock x:Name="name_tblck"/>
-                    <TextBlock x:Name="status_tblck"/>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <controls:AccountImageWithPresence x:Name="imagePresence_aiwp" Grid.Column="0" Width="100" Height="100"/>
+                    <StackPanel Grid.Column="1" Margin="10, 0, 0, 0">
+                        <TextBlock x:Name="name_tblck"/>
+                        <TextBlock x:Name="status_tblck"/>
+                    </StackPanel>
+                </Grid>
+                <StackPanel Grid.Row="1" Margin="0, 10, 0, 0">
+                    <TextBlock x:Name="account_tblck"/>
+                    <controls:Seperator Margin="0, 10, 0, 10"/>
                 </StackPanel>
-            </Grid>
-            <StackPanel Grid.Row="1" Margin="0, 10, 0, 0">
-                <TextBlock x:Name="account_tblck"/>
-            </StackPanel>
-            <Grid Grid.Row="2" Margin="0, 10, 0, 0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
-                    <controls:AccountImageWithPresence/>
-                </StackPanel>
-                <TextBlock x:Name="subscriptionStatus_tblck" Grid.Column="1" HorizontalAlignment="Center"/>
-                <Grid Grid.Column="1" Margin="10, 0, 10, 0">
+                <Grid Grid.Row="2" Margin="0, 10, 0, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" FontWeight="Black" Text="&#xE00E;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
-                    <Rectangle Grid.Column="1" Fill="White" Height="1" Margin="0, 0, 0, 0" StrokeDashArray="3,5"/>
-                    <TextBlock Grid.Column="2" Text="&#xE00F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                    <StackPanel Grid.Column="0">
+                        <controls:AccountImageWithPresence x:Name="account_aiwp"/>
+                    </StackPanel>
+                    <TextBlock x:Name="subscriptionStatus_tblck" Grid.Column="1" HorizontalAlignment="Center"/>
+                    <Grid Grid.Column="1" Margin="10, 0, 10, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="fromArrow_tblck" Grid.Column="0" FontWeight="Black" Text="&#xE00E;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                        <Rectangle Grid.Column="1" Fill="White" Height="1" Margin="0, 0, 0, 0" StrokeDashArray="3,5"/>
+                        <TextBlock x:Name="toArrow_tblck" Grid.Column="2" Text="&#xE00F;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                    </Grid>
+                    <StackPanel Grid.Column="2">
+                        <controls:AccountImageWithPresence x:Name="imagePresenceSmall_aiwp"/>
+                    </StackPanel>
                 </Grid>
-                <StackPanel Grid.Column="2">
-                    <controls:AccountImageWithPresence x:Name="imagePresenceSmall_aiwp"/>
-                </StackPanel>
             </Grid>
-        </Grid>
-    </ScrollViewer>
+        </ScrollViewer>
+    </Grid>
 </Page>

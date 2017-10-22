@@ -11,7 +11,7 @@
 
     <Page.Resources>
         <DataTemplate x:Key="settingsTemplate" x:DataType="datatemplates:Setting">
-            <Grid Margin="10, 10, 0, 0">
+            <Grid Margin="5, 10, 5, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -30,6 +30,6 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls1:SettingsHeader Icon="&#xE713;" Text="Settings"/>
-        <controls:AdaptiveGridView Grid.Row="1" OneRowModeEnabled="False" ItemHeight="180" DesiredWidth="160" SelectionMode="Single" IsItemClickEnabled="True" ItemTemplate="{StaticResource settingsTemplate}" ItemsSource="{x:Bind settings}" HorizontalAlignment="Center" ItemClick="AdaptiveGridView_ItemClick"/>
+        <controls:AdaptiveGridView Grid.Row="1" OneRowModeEnabled="False" ItemHeight="180" DesiredWidth="160" SelectionMode="Single" IsItemClickEnabled="True" ItemTemplate="{StaticResource settingsTemplate}" ItemsSource="{x:Bind settings}" HorizontalAlignment="Center" ItemClick="AdaptiveGridView_ItemClick" Margin="0, 10, 0, 10"/>
     </Grid>
 </Page>

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using Windows.UI;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
@@ -64,12 +65,12 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Selected)
             {
-                imageBorder_brdr.BorderThickness = new Thickness(2);
+                imageBorder_brdr.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]);
                 check_rltvp.Visibility = Visibility.Visible;
             }
             else
             {
-                imageBorder_brdr.BorderThickness = new Thickness(0);
+                imageBorder_brdr.BorderBrush = (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundBaseMediumBrush"];
                 check_rltvp.Visibility = Visibility.Collapsed;
             }
         }

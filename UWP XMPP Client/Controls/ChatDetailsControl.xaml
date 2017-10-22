@@ -11,45 +11,50 @@
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 50, 0, 10" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel VerticalAlignment="Bottom" ItemsUpdatingScrollMode="KeepLastItemInView" Grid.ColumnSpan="1"/>
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+        <Grid Background="Transparent">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 50, 0, 10" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel VerticalAlignment="Bottom" ItemsUpdatingScrollMode="KeepLastItemInView" Grid.ColumnSpan="1"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
 
-        <Grid Grid.Row="0" Height="50" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
-                <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-            </StackPanel>
-            <Button x:Name="profile_btn" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
-        </Grid>
+            <Grid Grid.Row="0" Height="50" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
+                    <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                </StackPanel>
+                <Button x:Name="profile_btn" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
+            </Grid>
 
-        <controls:Seperator Grid.Row="1"/>
-        <Grid Grid.Row="2" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="clip_btn" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE723;" FontSize="27" Click="clip_btn_Click" Background="Transparent" BorderBrush="Transparent"/>
-            <TextBox x:Name="message_tbx" Grid.Column="1" PlaceholderText="Message..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="20" BorderBrush="Transparent" TextChanged="message_tbx_TextChanged" Background="Transparent"/>
-            <Button x:Name="send_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE122;" FontSize="27" Click="send_btn_Click" BorderBrush="Transparent" Background="{ThemeResource SystemAccentColor}" IsEnabled="False"/>
+            <controls:Seperator Grid.Row="1"/>
+            <Grid Grid.Row="2" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="clip_btn" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE723;" FontSize="27" Click="clip_btn_Click" Background="Transparent" BorderBrush="Transparent"/>
+                <TextBox x:Name="message_tbx" Grid.Column="1" PlaceholderText="Message..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="20" BorderBrush="Transparent" TextChanged="message_tbx_TextChanged" Background="Transparent"/>
+                <Button x:Name="send_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE122;" FontSize="27" Click="send_btn_Click" BorderBrush="Transparent" Background="{ThemeResource SystemAccentColor}" IsEnabled="False"/>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>

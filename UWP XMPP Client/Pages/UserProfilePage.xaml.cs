@@ -1,9 +1,11 @@
 ﻿using System;
 using Data_Manager.Classes.DBEntries;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Core;
+using UWP_XMPP_Client.Classes.Events;
+using XMPP_API.Classes;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -11,16 +13,8 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ChatEntry Chat
-        {
-            get { return (ChatEntry)GetValue(ChatProperty); }
-            set
-            {
-                SetValue(ChatProperty, value);
-                showProfile();
-            }
-        }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatEntry), typeof(UserProfilePage), null);
+        private ChatEntry chat;
+        private XMPPClient client;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,12 +28,23 @@ namespace UWP_XMPP_Client.Pages
         public UserProfilePage()
         {
             this.InitializeComponent();
+            UiUtils.setBackgroundImage(backgroundImage_img);
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void setChat(ChatEntry chat)
+        {
+            this.chat = chat;
+            showProfile();
+        }
 
+        private void setClient(XMPPClient client)
+        {
+            this.client = client;
+            showClient();
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -49,33 +54,69 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showProfile()
+        private void showClient()
         {
-            if (Chat == null)
+            if(client == null)
             {
                 return;
             }
-            if(Chat.name == null)
+        }
+
+        private void showProfile()
+        {
+            if (chat == null)
             {
-                name_tblck.Text = Chat.id;
+                return;
+            }
+            if(chat.name == null)
+            {
+                name_tblck.Text = chat.id;
             }
             else
             {
-                name_tblck.Text = Chat.name + " (" + Chat.id + ')';
+                name_tblck.Text = chat.name + " (" + chat.id + ')';
             }
-            status_tblck.Text = Chat.status ?? "";
-            account_tblck.Text = Chat.userAccountId ?? "";
-            subscriptionStatus_tblck.Text = Chat.subscription ?? "";
-            imagePresence_aiwp.Presence = Chat.presence;
-            imagePresenceSmall_aiwp.Presence = Chat.presence;
+            status_tblck.Text = chat.status ?? "";
+            account_tblck.Text = chat.userAccountId ?? "";
+            showSubscriptionStatus(chat.subscription ?? "");
+            imagePresence_aiwp.Presence = chat.presence;
+            imagePresenceSmall_aiwp.Presence = chat.presence;
+        }
+
+        private void showSubscriptionStatus(string status)
+        {
+            subscriptionStatus_tblck.Text = status;
+            switch (status)
+            {
+                case "both":
+                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    break;
+
+                case "from":
+                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    break;
+
+                case "to":
+                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    break;
+
+                case "none":
+                default:
+                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    break;
+            }
         }
 
         private void bindEvents()
         {
-            if(Chat != null)
+            if(chat != null)
             {
-                Chat.ChatChanged -= Chat_ChatChanged;
-                Chat.ChatChanged += Chat_ChatChanged;
+                chat.ChatChanged -= Chat_ChatChanged;
+                chat.ChatChanged += Chat_ChatChanged;
             }
         }
 
@@ -89,9 +130,11 @@ namespace UWP_XMPP_Client.Pages
         #region --Events--
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(e.Parameter is ChatEntry)
+            if(e.Parameter is NavigatedToUserProfileEventArgs)
             {
-                Chat = e.Parameter as ChatEntry;
+                NavigatedToUserProfileEventArgs args = e.Parameter as NavigatedToUserProfileEventArgs;
+                setChat(args.getChat());
+                setClient(args.getClient());
             }
         }
 

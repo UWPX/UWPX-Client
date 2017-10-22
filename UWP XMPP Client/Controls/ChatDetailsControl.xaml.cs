@@ -12,6 +12,7 @@ using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml.Media.Imaging;
 using UWP_XMPP_Client.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWP_XMPP_Client.Classes.Events;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -55,7 +56,7 @@ namespace UWP_XMPP_Client.Controls
         public ChatDetailsControl()
         {
             this.InitializeComponent();
-            showbackgroundImage();
+            UiUtils.setBackgroundImage(backgroundImage_img);
         }
 
         #endregion
@@ -140,20 +141,6 @@ namespace UWP_XMPP_Client.Controls
         {
             backgroundImage_img.Visibility = state == MasterDetailsViewState.Both ? Visibility.Collapsed : Visibility.Visible;
         }
-
-        private void showbackgroundImage()
-        {
-            BackgroundImage img = BackgroundImageCache.selectedImage;
-            if (img == null || img.imagePath == null)
-            {
-                backgroundImage_img.Source = null;
-                backgroundImage_img.Visibility = Visibility.Collapsed;
-                return;
-            }
-            backgroundImage_img.Source = new BitmapImage(new Uri(img.imagePath));
-            backgroundImage_img.Visibility = Visibility.Visible;
-        }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -206,11 +193,9 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void profile_btn_Click(object sender, RoutedEventArgs e)
+        private void profile_btn_Click(object sender, RoutedEventArgs e)
         {
-            //await Logger.openLogFolderAsync();
-            await Client.requestVCardAsync(Chat.id);
-            (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), Chat);
+            (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

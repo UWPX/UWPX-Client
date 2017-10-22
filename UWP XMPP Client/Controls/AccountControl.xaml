@@ -23,10 +23,14 @@
                 </Grid.ColumnDefinitions>
                 <Button x:Name="edit_btn" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE1C2;" Height="40" Width="40" FontSize="20" Margin="10, 0, 10, 0" Click="edit_btn_Click" Foreground="{ThemeResource SystemAccentColor}"/>
                 <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="1"/>
-                <StackPanel Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <TextBlock x:Name="primaryInfo_tblck" Text="Name..." Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock x:Name="secondaryInfo_tblck" Text="jabberid" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-                </StackPanel>
+                <Grid Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="primaryInfo_tblck" Grid.Row="0" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="secondaryInfo_tblck" Grid.Row="1" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"/>
+                </Grid>
                 <ToggleSwitch x:Name="disableAccount_tggls" Grid.Column="3" OffContent="Disabled" OnContent="Enabled" IsOn="True" HorizontalAlignment="Right" Margin="10, 10, 0, 10" Toggled="disableAccount_tggls_Toggled"/>
             </Grid>
             <controls:Seperator Grid.Row="1"/>
