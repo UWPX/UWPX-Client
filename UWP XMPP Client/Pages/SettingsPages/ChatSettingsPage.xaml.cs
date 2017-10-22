@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Manager.Classes;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,6 +35,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             this.InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
+            loadSettings();
         }
 
         #endregion
@@ -49,7 +51,10 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void loadSettings()
+        {
+            enterToSend_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
+        }
 
         #endregion
 
@@ -71,6 +76,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                 e.Handled = true;
                 rootFrame.GoBack();
             }
+        }
+
+        private void enterToSend_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, enterToSend_tgls.IsOn);
         }
 
         #endregion

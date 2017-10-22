@@ -14,6 +14,9 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <controls:SettingsHeader Grid.Row="0" Icon="&#xE15F;" Text="Chat"/>
+            <StackPanel Margin="10, 0, 10, 0" Grid.Row="1">
+                <ToggleSwitch x:Name="enterToSend_tgls" Header="Enter to send a Message:" Margin="0, 10, 0, 0" Toggled="enterToSend_tgls_Toggled"/>
+            </StackPanel>
             <!--<TextBlock Grid.Row="1" Text="Select chat background:" Margin="10, 10, 10, 0"/>-->
         </Grid>
     </ScrollViewer>

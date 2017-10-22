@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using UWP_XMPP_Client.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.Classes.Events;
+using Data_Manager.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -129,12 +130,18 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async Task sendMessageAsync(string msg)
+        private async Task sendMessageAsync()
         {
-            MessageMessage sendMessage = await Client.sendMessageAsync(Chat.id, msg);
-            invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = msg, Date = DateTime.Now });
-            ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat), true);
-            ChatManager.INSTANCE.setLastActivity(Chat.id, DateTime.Now);
+            if (!String.IsNullOrWhiteSpace(message_tbx.Text))
+            {
+                MessageMessage sendMessage = await Client.sendMessageAsync(Chat.id, message_tbx.Text);
+                invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = message_tbx.Text, Date = DateTime.Now });
+                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat), true);
+                ChatManager.INSTANCE.setLastActivity(Chat.id, DateTime.Now);
+
+                message_tbx.Text = "";
+                message_tbx.Focus(FocusState.Programmatic);
+            }
         }
 
         private void showBackgroundForViewState(MasterDetailsViewState state)
@@ -163,12 +170,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void send_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (!String.IsNullOrWhiteSpace(message_tbx.Text))
-            {
-                await sendMessageAsync(message_tbx.Text);
-                message_tbx.Text = "";
-                message_tbx.Focus(FocusState.Programmatic);
-            }
+            await sendMessageAsync();
         }
 
         private void invertedListView_lstv_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -220,5 +222,13 @@ namespace UWP_XMPP_Client.Controls
         }
 
         #endregion
+
+        private async void message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if(e.Key == Windows.System.VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            {
+                await sendMessageAsync();
+            }
+        }
     }
 }
