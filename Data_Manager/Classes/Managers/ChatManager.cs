@@ -31,6 +31,7 @@ namespace Data_Manager.Classes.Managers
         {
             //dropTables();
             //createTables();
+            resetPresence();
         }
 
         #endregion
@@ -140,6 +141,11 @@ namespace Data_Manager.Classes.Managers
                 return;
             }
             ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, removed));
+        }
+
+        private void resetPresence()
+        {
+            dB.Execute("UPDATE ChatEntry SET presence = 0;");
         }
 
         #endregion
