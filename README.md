@@ -13,6 +13,9 @@ A WIP secure XMPP client for UWP devices
 
 [MORE NOTES TO COME]
 
+## Alpha/Beta tester:
+If you want to be an alpha/beta tester [contact me](mailto:uwp_xmpp@mailbox.org?subject=[UWP-XMPP-Client-Tester]) and I will add you as a tester in HockeyApp, so you receive builds as the development goes on.
+
 ## Installation:
 1. Clone the repo with Visual Studio
 2. Build the project for your target platform
