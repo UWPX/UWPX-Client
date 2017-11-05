@@ -39,7 +39,7 @@ namespace Data_Manager.Classes.Managers
         #region --Set-, Get- Methods--
         public bool doesChatExist(XMPPClient client, string chatId)
         {
-            List<ChatEntry> chats = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ? AND id LIKE ?", client.getSeverConnectionConfiguration().getIdAndDomain(), chatId);
+            List<ChatEntry> chats = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ? AND id LIKE ?", client.getXMPPAccount().getIdAndDomain(), chatId);
             return chats.Count > 0;
         }
 
@@ -48,14 +48,14 @@ namespace Data_Manager.Classes.Managers
             return dB.Query<ChatMessageEntry>("SELECT * FROM ChatMessageEntry WHERE chatId LIKE ? ORDER BY date ASC", chat.id + '%');
         }
 
-        public string getLastChatMessageForChat(ChatEntry chat)
+        public ChatMessageEntry getLastChatMessageForChat(ChatEntry chat)
         {
             IList<ChatMessageEntry> list = getAllChatMessagesForChat(chat);
             if (list.Count <= 0)
             {
-                return "";
+                return null;
             }
-            return list[list.Count - 1].message;
+            return list[list.Count - 1];
         }
 
         public ChatEntry getChatEntry(string id, string userAccountId)
@@ -69,6 +69,12 @@ namespace Data_Manager.Classes.Managers
             {
                 return list[0];
             }
+        }
+
+        public void markAllAsRead(ChatEntry chat, string accountJabberId)
+        {
+            dB.Execute("UPDATE ChatMessageEntry SET state = ? WHERE chatId LIKE ? AND fromUser NOT LIKE ?", MessageState.READ, chat.id, accountJabberId);
+            onChatChanged(chat, false);
         }
 
         public void setChatMessageEntry(ChatMessageEntry message, bool triggerNewChatMessage)
@@ -103,7 +109,7 @@ namespace Data_Manager.Classes.Managers
 
         public List<ChatEntry> getAllChatsForClient(XMPPClient c)
         {
-            return dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", c.getSeverConnectionConfiguration().getIdAndDomain());
+            return dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", c.getXMPPAccount().getIdAndDomain());
         }
 
         public void setAllNotInRoster(string userAccountId)

@@ -16,12 +16,7 @@ namespace Data_Manager.Classes.DBEntries
         public string message { get; set; }
         public string fromUser { get; set; }
         public DateTime date { get; set; }
-        public byte state { get; set; }
-
-        public static readonly byte SENDING = 0;
-        public static readonly byte SEND = 1;
-        public static readonly byte RECEIVED = 2;
-        public static readonly byte READ = 3;
+        public MessageState state { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -56,7 +51,7 @@ namespace Data_Manager.Classes.DBEntries
             {
                 date = DateTime.Now;
             }
-            state = RECEIVED;
+            state = MessageState.UNREAD;
         }
 
         #endregion

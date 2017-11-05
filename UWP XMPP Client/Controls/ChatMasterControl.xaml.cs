@@ -7,6 +7,8 @@ using System;
 using Data_Manager.Classes.DBEntries;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -121,8 +123,10 @@ namespace UWP_XMPP_Client.Controls
                     lastAction_tblck.Text = "";
                 }
 
+                // Last chat message:
+                showLastChatMessage(ChatManager.INSTANCE.getLastChatMessageForChat(Chat));
+
                 // Status icons:
-                lastChat_tblck.Text = ChatManager.INSTANCE.getLastChatMessageForChat(Chat) ?? "";
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
                 inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
 
@@ -197,13 +201,37 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private void showLastChatMessage(ChatMessageEntry chatMessage)
+        {
+            if (chatMessage != null)
+            {
+                switch (chatMessage.state)
+                {
+                    case Data_Manager.Classes.MessageState.UNREAD:
+                        lastChat_tblck.Foreground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
+                        break;
+                    case Data_Manager.Classes.MessageState.SENDING:
+                    case Data_Manager.Classes.MessageState.SEND:
+                    case Data_Manager.Classes.MessageState.READ:
+                    default:
+                        lastChat_tblck.Foreground = (SolidColorBrush)Resources["SystemControlBackgroundBaseMediumBrush"];
+                        break;
+                }
+                lastChat_tblck.Text = chatMessage.message ?? "";
+            }
+            else
+            {
+                lastChat_tblck.Text = "";
+            }
+        }
+
         private async void INSTANCE_NewChatMessage(ChatManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 if (Chat.id.Equals(args.getMessage().chatId))
                 {
-                    lastChat_tblck.Text = args.getMessage().message ?? "";
+                    showLastChatMessage(args.getMessage());
                 }
             });
         }

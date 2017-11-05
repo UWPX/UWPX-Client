@@ -46,7 +46,7 @@ namespace Data_Manager.Classes
         {
             foreach (XMPPClient c in xMPPClients)
             {
-                if (c.getSeverConnectionConfiguration().Equals(account))
+                if (c.getXMPPAccount().Equals(account))
                 {
                     return c;
                 }
@@ -124,7 +124,7 @@ namespace Data_Manager.Classes
         {
             foreach (XMPPClient client in xMPPClients)
             {
-                if (!client.getSeverConnectionConfiguration().disabled)
+                if (!client.getXMPPAccount().disabled)
                 {
                     switch (client.getConnetionState())
                     {
@@ -157,7 +157,7 @@ namespace Data_Manager.Classes
         #region --Events--
         private void Client_NewPresence(XMPPClient client, NewPresenceEventArgs args)
         {
-            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(Utils.removeResourceFromJabberid(args.getFrom()), client.getSeverConnectionConfiguration().getIdAndDomain());
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(Utils.removeResourceFromJabberid(args.getFrom()), client.getXMPPAccount().getIdAndDomain());
             switch (args.getPresenceType())
             {
                 case "subscribe":
@@ -179,7 +179,7 @@ namespace Data_Manager.Classes
             if (chat != null)
             {
                 chat.status = args.getStatus();
-                chat.userAccountId = client.getSeverConnectionConfiguration().getIdAndDomain();
+                chat.userAccountId = client.getXMPPAccount().getIdAndDomain();
                 switch (args.getPresence())
                 {
                     case Presence.NotDefined:
@@ -196,12 +196,12 @@ namespace Data_Manager.Classes
         {
             if (args.getMessage() is RosterMessage)
             {
-                XMPPAccount account = client.getSeverConnectionConfiguration();
+                XMPPAccount account = client.getXMPPAccount();
                 RosterMessage msg = args.getMessage() as RosterMessage;
                 string type = msg.getMessageType();
                 if (type != null && type.Equals(IQMessage.RESULT))
                 {
-                    ChatManager.INSTANCE.setAllNotInRoster(client.getSeverConnectionConfiguration().getIdAndDomain());
+                    ChatManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
                 }
                 foreach (RosterItem item in msg.getItems())
                 {
@@ -257,7 +257,7 @@ namespace Data_Manager.Classes
         {
             MessageMessage msg = args.getMessage();
             string pureJabberId = Utils.removeResourceFromJabberid(msg.getFrom());
-            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(pureJabberId, client.getSeverConnectionConfiguration().getIdAndDomain());
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(pureJabberId, client.getXMPPAccount().getIdAndDomain());
             if (chat == null)
             {
                 chat = new ChatEntry(pureJabberId, Utils.removeResourceFromJabberid(msg.getTo()));
@@ -279,6 +279,7 @@ namespace Data_Manager.Classes
             });
 
             ChatMessageEntry entry = new ChatMessageEntry(msg, chat);
+            entry.state = MessageState.UNREAD;
             ChatManager.INSTANCE.setChatMessageEntry(entry, true);
         }
 

@@ -117,6 +117,7 @@
     <Compile Include="Classes\Managers\AbstractManager.cs" />
     <Compile Include="Classes\Managers\ChatManager.cs" />
     <Compile Include="Classes\Managers\UserManager.cs" />
+    <Compile Include="Classes\MessageState.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
     <Compile Include="Classes\ToastHelper.cs" />

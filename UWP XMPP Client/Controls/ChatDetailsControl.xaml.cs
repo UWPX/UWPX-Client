@@ -8,8 +8,6 @@ using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.DataTemplates;
-using Windows.UI.Xaml.Media.Imaging;
 using UWP_XMPP_Client.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.Classes.Events;
@@ -92,12 +90,13 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Client != null && Chat != null)
             {
-                accountName_tblck.Text = Client.getSeverConnectionConfiguration().getIdAndDomain();
+                accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
                 invertedListView_lstv.Items.Clear();
                 foreach (ChatMessageEntry msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
                 {
                     showMessage(msg.type, msg.fromUser, msg.message, msg.date);
                 }
+                ChatManager.INSTANCE.markAllAsRead(Chat, Client.getXMPPAccount().getIdAndDomain());
             }
         }
 
@@ -136,7 +135,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 MessageMessage sendMessage = await Client.sendMessageAsync(Chat.id, message_tbx.Text);
                 invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = message_tbx.Text, Date = DateTime.Now });
-                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat), true);
+                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat) { state = MessageState.SENDING}, true);
                 ChatManager.INSTANCE.setLastActivity(Chat.id, DateTime.Now);
 
                 message_tbx.Text = "";
@@ -163,6 +162,8 @@ namespace UWP_XMPP_Client.Controls
                 ChatMessageEntry msg = args.getMessage();
                 if (Chat.id.Equals(Utils.removeResourceFromJabberid(msg.fromUser)))
                 {
+                    msg.state = MessageState.READ;
+                    ChatManager.INSTANCE.setChatMessageEntry(msg, false);
                     showMessage(msg.type, msg.fromUser, msg.message, msg.date);
                 }
             });

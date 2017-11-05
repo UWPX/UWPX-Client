@@ -36,10 +36,10 @@
                     </DataTemplate>
                 </controls:MasterDetailsView.NoSelectionContentTemplate>
                 <controls:MasterDetailsView.MasterCommandBar>
-                    <CommandBar>
+                    <CommandBar Margin="0, 0, 0, -1">
                         <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add" Click="add_abb_Click">
                             <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
+                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -4, 0, 0"/>
                             </AppBarButton.Icon>
                             <AppBarButton.Flyout>
                                 <MenuFlyout>
@@ -51,7 +51,7 @@
                         </AppBarButton>
                         <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
                             <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" Margin="0, -5, 0, 0"/>
+                                <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" Margin="0, -4, 0, 0"/>
                             </AppBarButton.Icon>
                         </AppBarButton>
                     </CommandBar>

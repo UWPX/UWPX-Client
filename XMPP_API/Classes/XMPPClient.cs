@@ -99,7 +99,7 @@ namespace XMPP_API.Classes
             return sendMessgageMessage;
         }
 
-        public XMPPAccount getSeverConnectionConfiguration()
+        public XMPPAccount getXMPPAccount()
         {
             return connection.getXMPPAccount();
         }

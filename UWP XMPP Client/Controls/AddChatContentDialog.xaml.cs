@@ -46,7 +46,7 @@ namespace UWP_XMPP_Client.Controls
             clients = ConnectionHandler.INSTANCE.getXMPPClients();
             foreach (XMPPClient c in clients)
             {
-                accounts.Add(c.getSeverConnectionConfiguration().getIdAndDomain());
+                accounts.Add(c.getXMPPAccount().getIdAndDomain());
             }
         }
 

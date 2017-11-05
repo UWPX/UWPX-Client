@@ -137,7 +137,7 @@ namespace UWP_XMPP_Client.Pages
                 {
                     await client.requestPresenceSubscriptionAsync(jabberId);
                 }
-                ChatManager.INSTANCE.setChatEntry(new ChatEntry(jabberId, client.getSeverConnectionConfiguration().getIdAndDomain())
+                ChatManager.INSTANCE.setChatEntry(new ChatEntry(jabberId, client.getXMPPAccount().getIdAndDomain())
                 {
                     subscription = requestSubscription ? "pending" : null
                 }, true);
@@ -181,7 +181,7 @@ namespace UWP_XMPP_Client.Pages
 
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
                 {
-                    if (chatEntry.userAccountId.Contains(c.getSeverConnectionConfiguration().getIdAndDomain()))
+                    if (chatEntry.userAccountId.Contains(c.getXMPPAccount().getIdAndDomain()))
                     {
                         Chat chatElement = new Chat { chat = args.getChat(), client = c };
                         addToChatsSorted(chatElement);
