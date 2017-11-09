@@ -27,6 +27,9 @@ namespace Data_Manager.Classes.DBEntries
         public string status { get; set; }
         // online, dnd, xa, ...
         public Presence presence { get; set; }
+        // The state of the chat (XEP-0083)
+        [Ignore]
+        public string chatState { get; set; }
 
         public event EventHandler ChatChanged;
 
@@ -41,7 +44,7 @@ namespace Data_Manager.Classes.DBEntries
         /// </history>
         public ChatEntry()
         {
-
+            this.chatState = "";
         }
 
         public ChatEntry(string id, string userAccountId)
@@ -51,6 +54,7 @@ namespace Data_Manager.Classes.DBEntries
             this.name = null;
             this.lastActive = DateTime.Now;
             this.muted = false;
+            this.chatState = "";
         }
 
         #endregion

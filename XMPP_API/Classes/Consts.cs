@@ -36,6 +36,12 @@ namespace XMPP_API.Classes
         public static readonly string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
         public static readonly string XML_ERROR = ""; //TODO
 
+        // Name spaces:
+        public static readonly string XML_XMLNS = "xmlns";
+        // XEP-0085 (chat state):
+        public static readonly string XML_XEP_0085_NAMESPACE = "http://jabber.org/protocol/chatstates";
+
+
         public static readonly bool ENABLE_DEBUG_OUTPUT = true;
     }
 }

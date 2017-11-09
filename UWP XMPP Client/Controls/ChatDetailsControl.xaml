@@ -40,6 +40,7 @@
                 <StackPanel Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
                     <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                    <TextBlock x:Name="chatState_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
                 </StackPanel>
                 <Button x:Name="profile_btn" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
             </Grid>

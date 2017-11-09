@@ -8,12 +8,11 @@ using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.DataTemplates;
-using Windows.UI.Xaml.Media.Imaging;
 using UWP_XMPP_Client.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.Classes.Events;
 using Data_Manager.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -85,6 +84,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     chatName_tblck.Text = Chat.name + " (" + Chat.id + ')';
                 }
+                chatState_tblck.Text = Chat.chatState;
             }
         }
 
@@ -127,9 +127,11 @@ namespace UWP_XMPP_Client.Controls
             {
                 ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
                 ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+                Client.NewChatState -= Client_NewChatState;
+                Client.NewChatState += Client_NewChatState;
             }
         }
-
+        
         private async Task sendMessageAsync()
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
@@ -147,6 +149,32 @@ namespace UWP_XMPP_Client.Controls
         private void showBackgroundForViewState(MasterDetailsViewState state)
         {
             backgroundImage_img.Visibility = state == MasterDetailsViewState.Both ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void storeChatState(ChatState state)
+        {
+            switch (state)
+            {
+                case ChatState.ACTIVE:
+                    Chat.chatState = "Active";
+                    break;
+                case ChatState.COMPOSING:
+                    Chat.chatState = "Typing...";
+                    break;
+                case ChatState.PAUSED:
+                    Chat.chatState = "Paused";
+                    break;
+                case ChatState.INACTIVE:
+                    Chat.chatState = "Inactive";
+                    break;
+                case ChatState.GONE:
+                    Chat.chatState = "Gone";
+                    break;
+                default:
+                    Chat.chatState = "";
+                    break;
+            }
+            chatState_tblck.Text = Chat.chatState;
         }
         #endregion
 
@@ -221,14 +249,30 @@ namespace UWP_XMPP_Client.Controls
             showBackgroundForViewState(e);
         }
 
-        #endregion
+        private async void Client_NewChatState(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatStateEventArgs args)
+        {
+            if (args.Cancel)
+            {
+                return;
+            }
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (string.Equals(args.getChatId(), Chat.id))
+                {
+                    storeChatState(args.getState());
+                    args.Cancel = true;
+                }
+            });
+        }
 
         private async void message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if(e.Key == Windows.System.VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            if (e.Key == Windows.System.VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
             {
                 await sendMessageAsync();
             }
         }
+
+        #endregion
     }
 }

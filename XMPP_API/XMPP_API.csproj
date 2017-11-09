@@ -115,10 +115,13 @@
     <Compile Include="Classes\Network\ConnectionState.cs" />
     <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDataEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\MessageIdCashElement.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageEntry.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
