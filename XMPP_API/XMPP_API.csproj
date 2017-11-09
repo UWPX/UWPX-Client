@@ -119,6 +119,7 @@
     <Compile Include="Classes\Network\MessageIdCashElement.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageEntry.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
+    <Compile Include="Classes\Network\XML\Messages\MUC\MUCRequestJoinedRoomsMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />

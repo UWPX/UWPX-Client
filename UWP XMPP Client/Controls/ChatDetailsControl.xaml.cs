@@ -222,14 +222,19 @@ namespace UWP_XMPP_Client.Controls
             showBackgroundForViewState(e);
         }
 
-        #endregion
-
         private async void message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            if(e.Key == Windows.System.VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            if (e.Key == Windows.System.VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
             {
                 await sendMessageAsync();
             }
         }
+
+        private async void test_bnt_Click(object sender, RoutedEventArgs e)
+        {
+            await Client.mUCRequestJoinedRoomsAsync();
+        }
+
+        #endregion
     }
 }

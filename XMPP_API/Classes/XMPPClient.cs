@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.MUC;
 
 namespace XMPP_API.Classes
 {
@@ -120,6 +121,12 @@ namespace XMPP_API.Classes
         {
             XMPPAccount sCC = connection.getXMPPAccount();
             await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "subscribe"), false);
+        }
+
+        public async Task mUCRequestJoinedRoomsAsync()
+        {
+            XMPPAccount sCC = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new MUCRequestJoinedRoomsMessage(sCC.getIdAndDomain()), false);
         }
 
         public async Task unsubscribeFromPresence(string jabberId)
