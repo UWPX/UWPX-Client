@@ -6,6 +6,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -117,7 +118,21 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Messages:
                     case "message":
-                        messages.Add(new MessageMessage(n));
+                        // Message:
+                        if(XMLUtils.getChildNode(n, "body") != null)
+                        {
+                            messages.Add(new MessageMessage(n));
+                        }
+                        // XEP-0085 (chat state):
+                        else
+                        {
+                            ChatStateMessage chatStateMessage = new ChatStateMessage(n);
+                            // Check if containing a valid chat state:
+                            if (chatStateMessage.getState() != ChatState.UNKNOWN)
+                            {
+                                messages.Add(chatStateMessage);
+                            }
+                        }
                         break;
 
                     // Presence:

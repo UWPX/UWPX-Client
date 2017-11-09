@@ -5,6 +5,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.MUC;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes
 {
@@ -18,11 +19,13 @@ namespace XMPP_API.Classes
         public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionState state);
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
         public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceEventArgs args);
+        public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
 
         public event NewRoosterEventHandler NewRoosterMessage;
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
         public event NewChatMessageEventHandler NewChatMessage;
         public event NewPresenceEventHandler NewPresence;
+        public event NewChatStateEventHandler NewChatState;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -171,7 +174,7 @@ namespace XMPP_API.Classes
             NewRoosterMessage?.Invoke(this, args);
         }
 
-        private async void Connection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)
+        private void Connection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)
         {
             ConnectionStateChanged?.Invoke(this, state);
         }
@@ -182,6 +185,10 @@ namespace XMPP_API.Classes
             if(msg is MessageMessage)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(msg as MessageMessage));
+            }
+            else if(msg is ChatStateMessage)
+            {
+                NewChatState?.Invoke(this, new NewChatStateEventArgs(msg as ChatStateMessage));
             }
         }
 
