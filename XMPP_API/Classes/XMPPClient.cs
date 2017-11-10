@@ -5,6 +5,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.MUC;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes
@@ -36,9 +37,9 @@ namespace XMPP_API.Classes
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public XMPPClient(XMPPAccount sCC)
+        public XMPPClient(XMPPAccount account)
         {
-            connection = new XMPPConnectionHandler(sCC);
+            connection = new XMPPConnectionHandler(account);
             connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
             connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
@@ -97,8 +98,8 @@ namespace XMPP_API.Classes
 
         public async Task<MessageMessage> sendMessageAsync(string to, string msg)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            MessageMessage sendMessgageMessage = new MessageMessage(sCC.getIdDomainAndResource(), to, msg);
+            XMPPAccount account = connection.getXMPPAccount();
+            MessageMessage sendMessgageMessage = new MessageMessage(account.getIdDomainAndResource(), to, msg);
             await connection.sendMessageAsync(sendMessgageMessage, false);
             return sendMessgageMessage;
         }
@@ -110,50 +111,56 @@ namespace XMPP_API.Classes
 
         public async Task requestRoosterAsync()
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RosterMessage(sCC.getIdDomainAndResource(), sCC.getIdAndDomain()), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new RosterMessage(account.getIdDomainAndResource(), account.getIdAndDomain()), false);
         }
 
         public async Task addToRosterAsync(string jabberId)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new AddToRosterMessage(sCC.getIdDomainAndResource(), jabberId), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new AddToRosterMessage(account.getIdDomainAndResource(), jabberId), false);
         }
 
         public async Task requestPresenceSubscriptionAsync(string jabberId)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "subscribe"), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "subscribe"), false);
         }
 
         public async Task mUCRequestJoinedRoomsAsync()
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new MUCRequestJoinedRoomsMessage(sCC.getIdAndDomain()), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new MUCRequestJoinedRoomsMessage(account.getIdAndDomain()), false);
         }
 
         public async Task unsubscribeFromPresence(string jabberId)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, "unsubscribe"), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "unsubscribe"), false);
         }
 
         public async Task requestVCardAsync(string jabberId)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RequestvCardMessage(jabberId, sCC.getIdDomainAndResource()), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new RequestvCardMessage(jabberId, account.getIdDomainAndResource()), false);
         }
 
         public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(sCC.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"), false);
         }
 
         public async Task removeFromRosterAsync(string jabberId)
         {
-            XMPPAccount sCC = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RemoveFromRosterMessage(sCC.getIdDomainAndResource(), jabberId), false);
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new RemoveFromRosterMessage(account.getIdDomainAndResource(), jabberId), false);
+        }
+
+        public async Task createDiscoAsync(string target)
+        {
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new DiscoRequestMessage(account.getIdDomainAndResource(), target), false);
         }
 
         #endregion

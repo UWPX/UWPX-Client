@@ -278,7 +278,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void test_bnt_Click(object sender, RoutedEventArgs e)
         {
-            await Client.mUCRequestJoinedRoomsAsync();
+            await Client.createDiscoAsync(Chat.id);
         }
         #endregion
     }

@@ -6,6 +6,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes.Network.XML
@@ -142,14 +143,20 @@ namespace XMPP_API.Classes.Network.XML
 
                     // IQ:
                     case "iq":
+                        // XEP-0030 (disco answer):
+                        if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info") != null)
+                        {
+                            messages.Add(new DiscoResponseMessage(n));
+                        }
                         // Rooster:
-                        XmlNode n1 = XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster");
-                        if (n1 != null)
+                        else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
                         {
                             messages.Add(new RosterMessage(n));
                         }
-
-                        messages.Add(new IQMessage(n));
+                        else
+                        {
+                            messages.Add(new IQMessage(n));
+                        }
                         break;
 
                     // SASL:

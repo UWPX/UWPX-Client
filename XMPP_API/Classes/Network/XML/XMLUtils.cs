@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML
 
         public static XmlNode getChildNode(XmlNode node, string name, string attribute, string attributeValue)
         {
-            if (node.HasChildNodes)
+            if (node != null && node.HasChildNodes)
             {
                 foreach (XmlNode n in node.ChildNodes)
                 {

@@ -121,6 +121,11 @@
     <Compile Include="Classes\Network\XML\DBEntries\MessageEntry.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\MUC\MUCRequestJoinedRoomsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StreamError.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoFeature.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoRequestMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
