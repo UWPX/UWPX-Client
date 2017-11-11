@@ -10,6 +10,7 @@ namespace Data_Manager.Classes.DBEntries
         public int port { get; set; }
         public int presencePriorety { get; set; }
         public bool disabled { get; set; }
+        public string color { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,6 +32,7 @@ namespace Data_Manager.Classes.DBEntries
             this.port = account.port;
             this.presencePriorety = account.presencePriorety;
             this.disabled = account.disabled;
+            this.color = account.color;
         }
 
         #endregion
@@ -46,7 +48,8 @@ namespace Data_Manager.Classes.DBEntries
             XMPPAccount account = new XMPPAccount(toXMPPUser(), server, port)
             {
                 presencePriorety = presencePriorety,
-                disabled = disabled
+                disabled = disabled,
+                color = color
             };
             return account;
         }

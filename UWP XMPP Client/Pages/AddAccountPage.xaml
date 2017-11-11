@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
@@ -23,7 +24,22 @@
                     <StackPanel>
                         <TextBox x:Name="serverAddress_tbx" x:Uid="serverAddress_tbx" Margin="0, 10, 0, 0" Header="Server address:" PlaceholderText="example.com"/>
                         <TextBox x:Name="serverPort_tbx" x:Uid="serverPort_tbx" Header="Server port:" PlaceholderText="e.g. 5222" Text="5222" Margin="0, 10, 0, 0"/>
-                        <Slider x:Name="presencePriorety_slider" x:Uid="presencePriorety_slider" Minimum="-127" Maximum="128" Value="10" Header="Presence priorety:" Margin="0, 10, 0, 0"/>
+                        <Slider x:Name="presencePriorety_slider" x:Uid="presencePriorety_slider" Minimum="-127" Maximum="128" Value="10" Header="Presence priority:" Margin="0, 10, 0, 0"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Rectangle x:Name="color_rcta" Grid.Column="0" Width="5" Visibility="Collapsed" Margin="0, 0, 5, 0" Fill="Transparent"/>
+                            <Grid Grid.Column="1">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="color_tbx" Grid.Column="0" x:Uid="color_tbx" Header="Color:" PlaceholderText="e.g. #D50000" TextChanged="color_tbx_TextChanged"/>
+                                <Button x:Name="randomColor_btn" Click="randomColor_btn_Click" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE72C;" VerticalAlignment="Bottom" Height="32"/>
+                            </Grid>
+                        </Grid>
                     </StackPanel>
                 </controls1:Expander>
             </StackPanel>

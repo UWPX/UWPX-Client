@@ -1,9 +1,11 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Managers;
 using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages.SettingsPages;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -54,7 +56,8 @@ namespace UWP_XMPP_Client.Controls
             return new XMPPAccount(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text))
             {
                 presencePriorety = (int)presencePriorety_slider.Value,
-                disabled = !disableAccount_tggls.IsOn
+                disabled = !disableAccount_tggls.IsOn,
+                color = color_tbx.Text
             };
         }
 
@@ -94,6 +97,8 @@ namespace UWP_XMPP_Client.Controls
                 serverPort_tbx.Text = Account.port.ToString();
                 presencePriorety_slider.Value = Account.presencePriorety;
                 disableAccount_tggls.IsOn = !Account.disabled;
+                color_tbx.Text = Account.color ?? "";
+                updateColor(color_tbx.Text);
                 XMPPClient client = ConnectionHandler.INSTANCE.getClientForAccount(Account);
                 if(client != null)
                 {
@@ -157,7 +162,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task<bool> shouldDeleteAsync()
         {
-            MessageDialog dialog = new MessageDialog("Do you really want to delet this account?");
+            MessageDialog dialog = new MessageDialog("Do you really want to delete this account?");
             dialog.Commands.Add(new UICommand { Label = "Yes", Id = 0 });
             dialog.Commands.Add(new UICommand { Label = "No", Id = 1 });
             IUICommand command = await dialog.ShowAsync();
@@ -189,6 +194,20 @@ namespace UWP_XMPP_Client.Controls
                     break;
                 default:
                     break;
+            }
+        }
+
+        private void updateColor(string color)
+        {
+            if (UiUtils.isHexColor(color))
+            {
+                color_tbx.Header = "Hex color:";
+                color_rcta.Fill = UiUtils.convertHexColorToBrush(color);
+            }
+            else
+            {
+                color_tbx.Header = "Hex color (invalid):";
+                color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
             }
         }
 
@@ -251,6 +270,15 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
+        private void color_tbx_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            updateColor(color_tbx.Text);
+        }
+
+        private void randomColor_btn_Click(object sender, RoutedEventArgs e)
+        {
+            color_tbx.Text = UiUtils.getRandomMaterialColor();
+        }
         #endregion
     }
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -168,6 +169,16 @@ namespace UWP_XMPP_Client.Controls
 
                 // Chat status:
                 image_aciwp.Presence = Chat.presence;
+
+                // Chat color:
+                if (UiUtils.isHexColor(Client.getXMPPAccount().color))
+                {
+                    color_rcta.Fill = UiUtils.convertHexColorToBrush(Client.getXMPPAccount().color);
+                }
+                else
+                {
+                    color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
+                }
             }
 
             // Subscription pending:

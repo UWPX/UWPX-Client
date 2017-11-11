@@ -4,9 +4,11 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 
@@ -45,6 +47,7 @@ namespace UWP_XMPP_Client.Pages
         {
             XMPPAccount account = new XMPPAccount(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text));
             account.presencePriorety = (int)presencePriorety_slider.Value;
+            account.color = color_tbx.Text;
             return account;
         }
 
@@ -60,13 +63,13 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private async Task<bool> areEntriesValidAsync()
         {
-            if(!Utils.isValidJabberId(jabberId_tbx.Text))
+            if (!Utils.isValidJabberId(jabberId_tbx.Text))
             {
                 MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_jabber_id_text"), Localisation.getLocalizedString("error_text"));
                 await messageDialog.ShowAsync();
                 return false;
             }
-            if(resource_tbx.Text == "")
+            if (resource_tbx.Text == "")
             {
                 MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_resource_text"), Localisation.getLocalizedString("error_text"));
                 await messageDialog.ShowAsync();
@@ -102,6 +105,22 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
+        private void updateColor(string color)
+        {
+            if (UiUtils.isHexColor(color))
+            {
+                color_tbx.Header = "Hex color:";
+                color_rcta.Fill = UiUtils.convertHexColorToBrush(color);
+                color_rcta.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                color_tbx.Header = "Hex color (invalid):";
+                color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
+                color_rcta.Visibility = Visibility.Collapsed;
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -112,7 +131,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Events--
         private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if(jabberId_tbx.Text.Contains('@'))
+            if (jabberId_tbx.Text.Contains('@'))
             {
                 serverAddress_tbx.Text = jabberId_tbx.Text.Substring(jabberId_tbx.Text.IndexOf('@') + 1);
             }
@@ -150,6 +169,21 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
+        private void color_tbx_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            updateColor(color_tbx.Text);
+        }
+
+        private void randomColor_btn_Click(object sender, RoutedEventArgs e)
+        {
+            color_tbx.Text = UiUtils.getRandomMaterialColor();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            color_tbx.Text = UiUtils.getRandomMaterialColor();
+            updateColor(color_tbx.Text);
+        }
         #endregion
     }
 }

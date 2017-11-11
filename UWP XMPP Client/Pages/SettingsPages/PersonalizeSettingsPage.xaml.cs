@@ -1,24 +1,9 @@
 ﻿using Data_Manager.Classes;
-using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.Controls;
 using UWP_XMPP_Client.DataTemplates;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -60,8 +45,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void reloadBackgroundImageControl(BackgroundImage img)
         {
             int index = backgroundImages.IndexOf(img);
-            backgroundImages.RemoveAt(index);
-            backgroundImages.Insert(index, img);
+            if(index >= 0)
+            {
+                backgroundImages.RemoveAt(index);
+                backgroundImages.Insert(index, img);
+            }
         }
 
         #endregion

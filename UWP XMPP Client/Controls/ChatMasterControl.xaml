@@ -36,17 +36,19 @@
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="0"/>
-            <StackPanel Grid.Column="1" HorizontalAlignment="Stretch">
+            <Rectangle x:Name="color_rcta" Grid.Column="0" Width="5" Fill="Transparent" Margin="-10, 0, 0, 0"/>
+            <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="1" Margin="5, 0, 0, 0"/>
+            <StackPanel Grid.Column="2" HorizontalAlignment="Stretch">
                 <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
                 <TextBlock x:Name="lastChat_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 10, 0" TextTrimming="CharacterEllipsis" MaxLines="1"/>
                 <TextBlock x:Name="presence_tblck" Grid.Column="0" Text="Subscription pending..." FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
 
-            <Grid Grid.Column="2" HorizontalAlignment="Right">
+            <Grid Grid.Column="3" HorizontalAlignment="Right">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="16"/>
                     <RowDefinition Height="16"/>
