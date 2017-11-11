@@ -269,6 +269,29 @@ namespace UWP_XMPP_Client.Pages
 
         }
 
+        private async void masterDetail_pnl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
+            {
+                foreach (var added in e.AddedItems)
+                {
+                    if (added is Chat)
+                    {
+                        Chat c = added as Chat;
+                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE);
+                    }
+                }
+                foreach (var added in e.RemovedItems)
+                {
+                    if (added is Chat)
+                    {
+                        Chat c = added as Chat;
+                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.INACTIVE);
+                    }
+                }
+            }
+        }
+
         #endregion
     }
 }

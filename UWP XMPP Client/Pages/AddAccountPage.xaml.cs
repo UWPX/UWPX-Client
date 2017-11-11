@@ -45,7 +45,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Public)--
         public XMPPAccount getAccount()
         {
-            XMPPAccount account = new XMPPAccount(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text));
+            XMPPAccount account = new XMPPAccount(getUser(), serverAddress_tbx.Text.ToLower(), int.Parse(serverPort_tbx.Text));
             account.presencePriorety = (int)presencePriorety_slider.Value;
             account.color = color_tbx.Text;
             return account;
@@ -53,8 +53,8 @@ namespace UWP_XMPP_Client.Pages
 
         public XMPPUser getUser()
         {
-            string userId = jabberId_tbx.Text.Substring(0, jabberId_tbx.Text.IndexOf('@'));
-            string domain = jabberId_tbx.Text.Substring(jabberId_tbx.Text.IndexOf('@') + 1);
+            string userId = jabberId_tbx.Text.ToLower().Substring(0, jabberId_tbx.Text.IndexOf('@'));
+            string domain = jabberId_tbx.Text.ToLower().Substring(jabberId_tbx.Text.IndexOf('@') + 1);
             return new XMPPUser(userId, password_pwb.Password, domain, resource_tbx.Text);
         }
 

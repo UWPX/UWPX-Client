@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
 {
@@ -46,6 +47,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
             }
         }
 
+        public ChatStateMessage(string to, string from, ChatState state) :base(from, to, getRandomId())
+        {
+            this.STATE = state;
+        }
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -59,7 +65,37 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
         #region --Misc Methods (Public)--
         public override string toXmlString()
         {
-            throw new NotImplementedException();
+            XElement node = new XElement("message");
+            node.Add(new XAttribute("from", FROM));
+            node.Add(new XAttribute("to", TO));
+            node.Add(new XAttribute("id", ID));
+            node.Add(new XAttribute("type", "chat"));
+
+            XElement sNode;
+            XNamespace ns = Consts.XML_XEP_0085_NAMESPACE;
+            switch (STATE)
+            {
+                case ChatState.ACTIVE:
+                    sNode = new XElement(ns + "active");
+                    break;
+                case ChatState.COMPOSING:
+                    sNode = new XElement(ns + "composing");
+                    break;
+                case ChatState.PAUSED:
+                    sNode = new XElement(ns + "paused");
+                    break;
+                case ChatState.INACTIVE:
+                    sNode = new XElement(ns + "inactive");
+                    break;
+                case ChatState.GONE:
+                    sNode = new XElement(ns + "gone");
+                    break;
+                case ChatState.UNKNOWN:
+                default:
+                    throw new Exception("Invalid chat state: " + STATE);
+            }
+            node.Add(sNode);
+            return node.ToString();
         }
 
         #endregion

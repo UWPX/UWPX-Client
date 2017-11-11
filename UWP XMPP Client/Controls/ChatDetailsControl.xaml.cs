@@ -279,6 +279,22 @@ namespace UWP_XMPP_Client.Controls
         {
             await Client.createDiscoAsync(Chat.chatJabberId);
         }
+
+        private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
+            {
+                await Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING);
+            }
+        }
+
+        private async void message_tbx_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
+            {
+                await Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE);
+            }
+        }
         #endregion
     }
 }

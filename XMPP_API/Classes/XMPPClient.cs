@@ -163,6 +163,12 @@ namespace XMPP_API.Classes
             await connection.sendMessageAsync(new DiscoRequestMessage(account.getIdDomainAndResource(), target), false);
         }
 
+        public async Task sendChatStateAsync(string target, ChatState state)
+        {
+            XMPPAccount account = connection.getXMPPAccount();
+            await connection.sendMessageAsync(new ChatStateMessage(target, account.getIdDomainAndResource(), state), false);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

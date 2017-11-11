@@ -1,7 +1,6 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Managers;
 using System;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages.SettingsPages;
@@ -53,7 +52,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Set-, Get- Methods--
         public XMPPAccount getAccount()
         {
-            return new XMPPAccount(getUser(), serverAddress_tbx.Text, int.Parse(serverPort_tbx.Text))
+            return new XMPPAccount(getUser(), serverAddress_tbx.Text.ToLower(), int.Parse(serverPort_tbx.Text))
             {
                 presencePriorety = (int)presencePriorety_slider.Value,
                 disabled = !disableAccount_tggls.IsOn,

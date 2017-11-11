@@ -24,7 +24,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="Transparent" MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+            <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="Transparent" MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}" SelectionChanged="masterDetail_pnl_SelectionChanged">
                 <controls:MasterDetailsView.NoSelectionContentTemplate>
                     <DataTemplate>
                         <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">

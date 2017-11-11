@@ -54,6 +54,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void loadSettings()
         {
             enterToSend_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
+            sendChatState_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
         }
 
         #endregion
@@ -81,6 +82,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void enterToSend_tgls_Toggled(object sender, RoutedEventArgs e)
         {
             Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, enterToSend_tgls.IsOn);
+        }
+
+        private void sendChatState_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.DONT_SEND_CHAT_STATE, !sendChatState_tgls.IsOn);
         }
 
         #endregion
