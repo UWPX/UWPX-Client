@@ -117,13 +117,11 @@ namespace Data_Manager.Classes.Managers
         #region --Misc Methods (Protected)--
         protected override void createTables()
         {
-            dB.CreateTable<UserEntry>();
             dB.CreateTable<UserAccountEntry>();
         }
 
         protected override void dropTables()
         {
-            dB.DropTable<UserEntry>();
             dB.DropTable<UserAccountEntry>();
         }
         #endregion
