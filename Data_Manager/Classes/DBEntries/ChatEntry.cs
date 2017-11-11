@@ -8,9 +8,11 @@ namespace Data_Manager.Classes.DBEntries
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        // A hash value from userAccountId and
         [PrimaryKey]
-        // userId@domain or chatId@domain
         public string id { get; set; }
+        // userId@domain or chatId@domain
+        public string chatJabberId { get; set; }
         public string userAccountId { get; set; }
         // Chat name
         public string name { get; set; }
@@ -47,9 +49,10 @@ namespace Data_Manager.Classes.DBEntries
             this.chatState = "";
         }
 
-        public ChatEntry(string id, string userAccountId)
+        public ChatEntry(string chat, string userAccountId)
         {
-            this.id = id;
+            this.id = generateId(chat, userAccountId);
+            this.chatJabberId = chat;
             this.userAccountId = userAccountId;
             this.name = null;
             this.lastActive = DateTime.Now;
@@ -77,6 +80,11 @@ namespace Data_Manager.Classes.DBEntries
             this.subscription = chat.subscription;
 
             ChatChanged?.Invoke(this, new EventArgs());
+        }
+
+        public static string generateId(string fromUser, string toUser)
+        {
+            return fromUser + toUser;
         }
 
         #endregion

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace XMPP_API.Classes
+﻿namespace XMPP_API.Classes
 {
     public class Utils
     {
@@ -15,7 +9,7 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -30,6 +24,10 @@ namespace XMPP_API.Classes
         #region --Misc Methods (Public)--
         public static string removeResourceFromJabberid(string jabberid)
         {
+            if(jabberid == null)
+            {
+                return null;
+            }
             if(jabberid.Contains("/"))
             {
                 jabberid = jabberid.Substring(0, jabberid.IndexOf("/"));

@@ -70,11 +70,11 @@ namespace UWP_XMPP_Client.Pages
             }
             if(chat.name == null)
             {
-                name_tblck.Text = chat.id;
+                name_tblck.Text = chat.chatJabberId;
             }
             else
             {
-                name_tblck.Text = chat.name + " (" + chat.id + ')';
+                name_tblck.Text = chat.name + " (" + chat.chatJabberId + ')';
             }
             status_tblck.Text = chat.status ?? "";
             account_tblck.Text = chat.userAccountId ?? "";

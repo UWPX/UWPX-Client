@@ -157,7 +157,9 @@ namespace Data_Manager.Classes
         #region --Events--
         private void Client_NewPresence(XMPPClient client, NewPresenceEventArgs args)
         {
-            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(Utils.removeResourceFromJabberid(args.getFrom()), client.getXMPPAccount().getIdAndDomain());
+            string from = Utils.removeResourceFromJabberid(args.getFrom());
+            string to = client.getXMPPAccount().getIdAndDomain();
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(ChatEntry.generateId(from, to));
             switch (args.getPresenceType())
             {
                 case "subscribe":
@@ -166,7 +168,8 @@ namespace Data_Manager.Classes
                     {
                         chat = new ChatEntry()
                         {
-                            id = Utils.removeResourceFromJabberid(args.getFrom()),
+                            id = ChatEntry.generateId(from, client.getXMPPAccount().getIdAndDomain()),
+                            chatJabberId = from,
                             inRoster = false,
                             muted = false,
                             lastActive = DateTime.Now,
@@ -203,9 +206,11 @@ namespace Data_Manager.Classes
                 {
                     ChatManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
                 }
+                string to = client.getXMPPAccount().getIdAndDomain();
                 foreach (RosterItem item in msg.getItems())
                 {
-                    ChatEntry chat = ChatManager.INSTANCE.getChatEntry(item.getJabberId(), account.getIdAndDomain());
+                    string from = item.getJabberId();
+                    ChatEntry chat = ChatManager.INSTANCE.getChatEntry(ChatEntry.generateId(from, to));
                     if (chat != null)
                     {
                         chat.name = item.getName();
@@ -217,7 +222,8 @@ namespace Data_Manager.Classes
                     {
                         chat = new ChatEntry()
                         {
-                            id = item.getJabberId(),
+                            id = ChatEntry.generateId(from, client.getXMPPAccount().getIdAndDomain()),
+                            chatJabberId = from,
                             userAccountId = account.getIdAndDomain(),
                             name = item.getName(),
                             subscription = item.getSubscription(),
@@ -256,11 +262,12 @@ namespace Data_Manager.Classes
         private void Client_NewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
         {
             MessageMessage msg = args.getMessage();
-            string pureJabberId = Utils.removeResourceFromJabberid(msg.getFrom());
-            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(pureJabberId, client.getXMPPAccount().getIdAndDomain());
+            string to = Utils.removeResourceFromJabberid(msg.getTo());
+            string from = Utils.removeResourceFromJabberid(msg.getFrom());
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(ChatEntry.generateId(from, to));
             if (chat == null)
             {
-                chat = new ChatEntry(pureJabberId, Utils.removeResourceFromJabberid(msg.getTo()));
+                chat = new ChatEntry(from, to);
                 ChatManager.INSTANCE.setChatEntry(chat, true);
             }
 

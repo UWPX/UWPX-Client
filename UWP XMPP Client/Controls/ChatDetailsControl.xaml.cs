@@ -78,11 +78,11 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat.name == null)
                 {
-                    chatName_tblck.Text = Chat.id;
+                    chatName_tblck.Text = Chat.chatJabberId;
                 }
                 else
                 {
-                    chatName_tblck.Text = Chat.name + " (" + Chat.id + ')';
+                    chatName_tblck.Text = Chat.name + " (" + Chat.chatJabberId + ')';
                 }
                 chatState_tblck.Text = Chat.chatState;
             }
@@ -137,10 +137,9 @@ namespace UWP_XMPP_Client.Controls
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
-                MessageMessage sendMessage = await Client.sendMessageAsync(Chat.id, message_tbx.Text);
-                invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = message_tbx.Text, Date = DateTime.Now });
+                MessageMessage sendMessage = await Client.sendMessageAsync(Chat.chatJabberId, message_tbx.Text);
                 ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat) { state = MessageState.SENDING}, true);
-                ChatManager.INSTANCE.setLastActivity(Chat.id, DateTime.Now);
+                ChatManager.INSTANCE.setLastActivity(Chat.chatJabberId, DateTime.Now);
 
                 message_tbx.Text = "";
                 message_tbx.Focus(FocusState.Programmatic);
@@ -190,7 +189,7 @@ namespace UWP_XMPP_Client.Controls
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 ChatMessageEntry msg = args.getMessage();
-                if (Chat.id.Equals(Utils.removeResourceFromJabberid(msg.fromUser)))
+                if (Chat.id.Equals(msg.chatId))
                 {
                     msg.state = MessageState.READ;
                     ChatManager.INSTANCE.setChatMessageEntry(msg, false);
@@ -278,7 +277,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void test_bnt_Click(object sender, RoutedEventArgs e)
         {
-            await Client.createDiscoAsync(Chat.id);
+            await Client.createDiscoAsync(Chat.chatJabberId);
         }
         #endregion
     }

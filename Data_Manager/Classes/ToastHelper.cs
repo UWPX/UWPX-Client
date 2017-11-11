@@ -36,7 +36,7 @@ namespace Data_Manager.Classes
                         {
                             new AdaptiveText()
                             {
-                                Text = chat.name ?? chat.id,
+                                Text = chat.name ?? chat.chatJabberId,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()
@@ -94,7 +94,7 @@ namespace Data_Manager.Classes
                         {
                             new AdaptiveText()
                             {
-                                Text = chat.name ?? chat.id,
+                                Text = chat.name ?? chat.chatJabberId,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()

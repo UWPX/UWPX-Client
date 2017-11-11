@@ -58,9 +58,9 @@ namespace Data_Manager.Classes.Managers
             return list[list.Count - 1];
         }
 
-        public ChatEntry getChatEntry(string id, string userAccountId)
+        public ChatEntry getChatEntry(string id)
         {
-            IList<ChatEntry> list = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ? AND userAccountId LIKE ?", id, userAccountId);
+            IList<ChatEntry> list = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ?", id);
             if (list.Count < 1)
             {
                 return null;
@@ -88,6 +88,10 @@ namespace Data_Manager.Classes.Managers
 
         public void setChatEntry(ChatEntry chat, bool triggerChatChanged)
         {
+            if(chat == null)
+            {
+                return;
+            }
             dB.InsertOrReplace(chat);
             if (triggerChatChanged)
             {

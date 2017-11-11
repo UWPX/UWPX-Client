@@ -77,7 +77,7 @@ namespace UWP_XMPP_Client.Controls
         private void showPresenceSubscriptionRequest()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = Chat.status ?? (Chat.name ?? Chat.id) + "  has requested to subscribe to your presence!";
+            accountAction_tblck.Text = Chat.status ?? (Chat.name ?? Chat.chatJabberId) + "  has requested to subscribe to your presence!";
             accountActionRefuse_btn.Content = "Refuse";
             accountActionAccept_btn.Content = "Accept";
             subscriptionRequest = true;
@@ -86,7 +86,7 @@ namespace UWP_XMPP_Client.Controls
         private void showRemovedChat()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = (Chat.name ?? Chat.id) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from your presence?";
+            accountAction_tblck.Text = (Chat.name ?? Chat.chatJabberId) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from your presence?";
             accountActionRefuse_btn.Content = "Keep";
             accountActionAccept_btn.Content = "Remove";
             subscriptionRequest = false;
@@ -99,11 +99,11 @@ namespace UWP_XMPP_Client.Controls
                 // Chat name:
                 if (Chat.name == null)
                 {
-                    name_tblck.Text = Chat.id;
+                    name_tblck.Text = Chat.chatJabberId;
                 }
                 else
                 {
-                    name_tblck.Text = Chat.name + " (" + Chat.id + ')';
+                    name_tblck.Text = Chat.name + " (" + Chat.chatJabberId + ')';
                 }
 
                 // Last action date:
@@ -261,7 +261,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
         {
-            await Client.answerPresenceSubscriptionRequest(Chat.id, accepted);
+            await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted);
             Chat.ask = null;
             ChatManager.INSTANCE.setChatEntry(Chat, false);
             showChat();
@@ -339,7 +339,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat.inRoster)
                 {
-                    await Client.removeFromRosterAsync(Chat.id);
+                    await Client.removeFromRosterAsync(Chat.chatJabberId);
                 }
                 await removeChatRequestClickedAsync(true);
             }
@@ -349,11 +349,11 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat.inRoster)
             {
-                await Client.removeFromRosterAsync(Chat.id);
+                await Client.removeFromRosterAsync(Chat.chatJabberId);
             }
             else
             {
-                await Client.addToRosterAsync(Chat.id);
+                await Client.addToRosterAsync(Chat.chatJabberId);
             }
         }
 
@@ -369,7 +369,7 @@ namespace UWP_XMPP_Client.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (args.getFrom().Equals(Chat.id))
+                if (args.getFrom().Equals(Chat.chatJabberId))
                 {
                     image_aciwp.Presence = args.getPresence();
                 }
@@ -378,24 +378,24 @@ namespace UWP_XMPP_Client.Controls
 
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.requestPresenceSubscriptionAsync(Chat.id);
+            await Client.requestPresenceSubscriptionAsync(Chat.chatJabberId);
         }
 
         private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.unsubscribeFromPresence(Chat.id);
+            await Client.unsubscribeFromPresence(Chat.chatJabberId);
             resetAsk();
         }
 
         private async void rejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.answerPresenceSubscriptionRequest(Chat.id, false);
+            await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, false);
             resetAsk();
         }
 
         private async void cancelPresenceSubscriptionRequest_Click(object sender, RoutedEventArgs e)
         {
-            await Client.unsubscribeFromPresence(Chat.id);
+            await Client.unsubscribeFromPresence(Chat.chatJabberId);
             resetAsk();
         }
 
