@@ -7,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using Data_Manager.Classes.Managers;
+using Data_Manager.Classes.DBEntries;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -58,7 +59,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        
+
 
         #endregion
 
@@ -82,7 +83,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 MessageDialog messageDialog = new MessageDialog("Error")
                 {
-                    Content = "You can't start a chat with you selfe!"
+                    Content = "You can't start a chat with you self!"
                 };
                 await messageDialog.ShowAsync();
             }
@@ -90,7 +91,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 jabberId = jabberId_tbx.Text;
                 client = (XMPPClient)clients[account_cbx.SelectedIndex];
-                if (ChatManager.INSTANCE.doesChatExist(client, jabberId))
+                if (ChatManager.INSTANCE.doesChatExist(ChatEntry.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
                 {
                     MessageDialog messageDialog = new MessageDialog("Error")
                     {

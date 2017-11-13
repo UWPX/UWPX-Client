@@ -65,7 +65,7 @@ namespace Data_Manager.Classes.Managers
         /// <param name="account">The account to delete.</param>
         public void deleteAccount(XMPPAccount account)
         {
-            dB.Query<UserAccountEntry>("DELETE FROM UserAccountEntry WHERE userAccountEntryId LIKE ?", account.getIdAndDomain());
+            dB.Query<UserAccountEntry>("DELETE FROM UserAccountEntry WHERE userAccountEntryId LIKE ?;", account.getIdAndDomain());
             Vault.deletePassword(account);
         }
 
@@ -77,10 +77,10 @@ namespace Data_Manager.Classes.Managers
         public IList<XMPPAccount> getAccounts()
         {
             IList<XMPPAccount> results = new List<XMPPAccount>();
-            IList<UserAccountEntry> accounts = dB.Query<UserAccountEntry>("SELECT * FROM UserAccountEntry");
+            IList<UserAccountEntry> accounts = dB.Query<UserAccountEntry>("SELECT * FROM UserAccountEntry;");
             for (int i = 0; i < accounts.Count; i++)
             {
-                XMPPAccount acc = accounts[i].toServerConnectionConfiguration();
+                XMPPAccount acc = accounts[i].toXMPPAccount();
                 Vault.loadPassword(acc);
                 results.Add(acc);
             }
@@ -93,7 +93,7 @@ namespace Data_Manager.Classes.Managers
         /// <returns>A IList of XMPPUsers.</returns>
         public IList<XMPPUser> getUsersForAccount(XMPPAccount account)
         {
-            IList<UserEntry> list = dB.Query<UserEntry>("SELECT * FROM UserEntry WHERE userAccountEntryId LIKE ?", account.getIdAndDomain());
+            IList<UserEntry> list = dB.Query<UserEntry>("SELECT * FROM UserEntry WHERE userAccountEntryId LIKE ?;", account.getIdAndDomain());
             List<XMPPUser> result = new List<XMPPUser>();
             foreach (UserEntry user in list)
             {

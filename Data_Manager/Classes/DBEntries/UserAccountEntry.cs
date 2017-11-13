@@ -43,7 +43,7 @@ namespace Data_Manager.Classes.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XMPPAccount toServerConnectionConfiguration()
+        public XMPPAccount toXMPPAccount()
         {
             XMPPAccount account = new XMPPAccount(toXMPPUser(), server, port)
             {

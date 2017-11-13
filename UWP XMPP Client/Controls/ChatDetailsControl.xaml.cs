@@ -98,7 +98,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     showMessage(msg.type, msg.fromUser, msg.message, msg.date);
                 }
-                ChatManager.INSTANCE.markAllAsRead(Chat, Client.getXMPPAccount().getIdAndDomain());
+                ChatManager.INSTANCE.markAllAsRead(Chat);
             }
         }
 
@@ -139,7 +139,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 MessageMessage sendMessage = await Client.sendMessageAsync(Chat.chatJabberId, message_tbx.Text);
                 ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat) { state = MessageState.SENDING}, true);
-                ChatManager.INSTANCE.setLastActivity(Chat.chatJabberId, DateTime.Now);
+                ChatManager.INSTANCE.setChatEntryLastActive(Chat.id, DateTime.Now);
 
                 message_tbx.Text = "";
                 message_tbx.Focus(FocusState.Programmatic);
@@ -277,7 +277,8 @@ namespace UWP_XMPP_Client.Controls
 
         private async void test_bnt_Click(object sender, RoutedEventArgs e)
         {
-            await Client.createDiscoAsync(Chat.chatJabberId);
+            //await Client.createDiscoAsync(Chat.chatJabberId);
+            await Logging.Logger.openLogFolderAsync();
         }
 
         private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)

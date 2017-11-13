@@ -159,7 +159,8 @@ namespace Data_Manager.Classes
         {
             string from = Utils.removeResourceFromJabberid(args.getFrom());
             string to = client.getXMPPAccount().getIdAndDomain();
-            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(ChatEntry.generateId(from, to));
+            string id = ChatEntry.generateId(from, to);
+            ChatEntry chat = ChatManager.INSTANCE.getChatEntry(id);
             switch (args.getPresenceType())
             {
                 case "subscribe":
@@ -168,8 +169,9 @@ namespace Data_Manager.Classes
                     {
                         chat = new ChatEntry()
                         {
-                            id = ChatEntry.generateId(from, client.getXMPPAccount().getIdAndDomain()),
+                            id = id,
                             chatJabberId = from,
+                            userAccountId = to,
                             inRoster = false,
                             muted = false,
                             lastActive = DateTime.Now,
@@ -182,7 +184,6 @@ namespace Data_Manager.Classes
             if (chat != null)
             {
                 chat.status = args.getStatus();
-                chat.userAccountId = client.getXMPPAccount().getIdAndDomain();
                 switch (args.getPresence())
                 {
                     case Presence.NotDefined:
@@ -222,7 +223,7 @@ namespace Data_Manager.Classes
                     {
                         chat = new ChatEntry()
                         {
-                            id = ChatEntry.generateId(from, client.getXMPPAccount().getIdAndDomain()),
+                            id = ChatEntry.generateId(from, account.getIdAndDomain()),
                             chatJabberId = from,
                             userAccountId = account.getIdAndDomain(),
                             name = item.getName(),

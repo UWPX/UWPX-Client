@@ -37,15 +37,14 @@ namespace Data_Manager.Classes.Managers
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public bool doesChatExist(XMPPClient client, string chatId)
+        public bool doesChatExist(string id)
         {
-            List<ChatEntry> chats = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ? AND id LIKE ?", client.getXMPPAccount().getIdAndDomain(), chatId);
-            return chats.Count > 0;
+            return getChatEntry(id) != null;
         }
 
         public IList<ChatMessageEntry> getAllChatMessagesForChat(ChatEntry chat)
         {
-            return dB.Query<ChatMessageEntry>("SELECT * FROM ChatMessageEntry WHERE chatId LIKE ? ORDER BY date ASC", chat.id + '%');
+            return dB.Query<ChatMessageEntry>("SELECT * FROM ChatMessageEntry WHERE chatId LIKE ? ORDER BY date ASC;", chat.id);
         }
 
         public ChatMessageEntry getLastChatMessageForChat(ChatEntry chat)
@@ -60,7 +59,7 @@ namespace Data_Manager.Classes.Managers
 
         public ChatEntry getChatEntry(string id)
         {
-            IList<ChatEntry> list = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ?", id);
+            IList<ChatEntry> list = dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ?;", id);
             if (list.Count < 1)
             {
                 return null;
@@ -71,9 +70,9 @@ namespace Data_Manager.Classes.Managers
             }
         }
 
-        public void markAllAsRead(ChatEntry chat, string accountJabberId)
+        public void markAllAsRead(ChatEntry chat)
         {
-            dB.Execute("UPDATE ChatMessageEntry SET state = ? WHERE chatId LIKE ? AND fromUser NOT LIKE ?", MessageState.READ, chat.id, accountJabberId);
+            dB.Execute("UPDATE ChatMessageEntry SET state = ? WHERE chatId LIKE ? AND fromUser NOT LIKE ?;", MessageState.READ, chat.id, chat.userAccountId);
             onChatChanged(chat, false);
         }
 
@@ -92,34 +91,32 @@ namespace Data_Manager.Classes.Managers
             {
                 return;
             }
-            dB.InsertOrReplace(chat);
+            dB.InsertOrReplace(chat); // DB call
             if (triggerChatChanged)
             {
                 onChatChanged(chat, false);
             }
         }
 
-        public void setLastActivity(string chatId, DateTime date)
+        public void setChatEntryLastActive(string chatId, DateTime date)
         {
-            foreach (ChatEntry c in dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE id LIKE ?", chatId))
+            ChatEntry c = getChatEntry(chatId);
+            if (c != null && (c.lastActive == null || c.lastActive.CompareTo(date) < 0))
             {
-                if(c.lastActive == null || c.lastActive.CompareTo(date) < 0)
-                {
-                    c.lastActive = date;
-                    setChatEntry(c, true);
-                }
+                c.lastActive = date;
+                setChatEntry(c, true);
             }
         }
 
         public List<ChatEntry> getAllChatsForClient(XMPPClient c)
         {
-            return dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", c.getXMPPAccount().getIdAndDomain());
+            return dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?;", c.getXMPPAccount().getIdAndDomain());
         }
 
         public void setAllNotInRoster(string userAccountId)
         {
-            dB.Query<ChatEntry>("UPDATE ChatEntry SET inRoster = 0 WHERE userAccountId LIKE ?", userAccountId);
-            foreach (ChatEntry c in dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?", userAccountId))
+            dB.Query<ChatEntry>("UPDATE ChatEntry SET inRoster = 0 WHERE userAccountId LIKE ?;", userAccountId);
+            foreach (ChatEntry c in dB.Query<ChatEntry>("SELECT * FROM ChatEntry WHERE userAccountId LIKE ?;", userAccountId))
             {
                 onChatChanged(c, false);
             }
@@ -136,9 +133,8 @@ namespace Data_Manager.Classes.Managers
 
         public void deleteChat(ChatEntry chat, bool deleteMessages)
         {
-            dB.Query<UserAccountEntry>("DELETE FROM ChatMessageEntry WHERE chatId LIKE ?", chat.id);
+            dB.Query<UserAccountEntry>("DELETE FROM ChatMessageEntry WHERE chatId LIKE ?;", chat.id);
             removeChatEntry(chat);
-
         }
 
         #endregion
@@ -156,6 +152,11 @@ namespace Data_Manager.Classes.Managers
         private void resetPresence()
         {
             dB.Execute("UPDATE ChatEntry SET presence = 0;");
+        }
+
+        private void resetPresence(string userAccountId)
+        {
+            dB.Execute("UPDATE ChatEntry SET presence = 0 WHERE userAccountId LIKE ?;", userAccountId);
         }
 
         #endregion

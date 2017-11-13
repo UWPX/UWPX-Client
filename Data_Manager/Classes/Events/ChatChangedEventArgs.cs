@@ -1,9 +1,9 @@
 ﻿using Data_Manager.Classes.DBEntries;
-using System;
+using System.ComponentModel;
 
 namespace Data_Manager.Classes.Events
 {
-    public class ChatChangedEventArgs : EventArgs
+    public class ChatChangedEventArgs : CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

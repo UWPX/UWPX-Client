@@ -49,10 +49,10 @@ namespace Data_Manager.Classes.DBEntries
             this.chatState = "";
         }
 
-        public ChatEntry(string chat, string userAccountId)
+        public ChatEntry(string chatJabberId, string userAccountId)
         {
-            this.id = generateId(chat, userAccountId);
-            this.chatJabberId = chat;
+            this.id = generateId(chatJabberId, userAccountId);
+            this.chatJabberId = chatJabberId;
             this.userAccountId = userAccountId;
             this.name = null;
             this.lastActive = DateTime.Now;
@@ -82,9 +82,9 @@ namespace Data_Manager.Classes.DBEntries
             ChatChanged?.Invoke(this, new EventArgs());
         }
 
-        public static string generateId(string fromUser, string toUser)
+        public static string generateId(string jabberID, string userAccountID)
         {
-            return fromUser + toUser;
+            return jabberID + userAccountID;
         }
 
         #endregion

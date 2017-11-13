@@ -16,7 +16,6 @@ using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.ApplicationModel.Activation;
 using UWP_XMPP_Client.Classes;
-using Windows.UI.Xaml.Media.Imaging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace UWP_XMPP_Client.Pages
@@ -175,13 +174,14 @@ namespace UWP_XMPP_Client.Pages
                                 masterDetail_pnl.SelectedItem = selecetItem;
                             }
                         }
+                        args.Cancel = true;
                         return;
                     }
                 }
 
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
                 {
-                    if (chatEntry.userAccountId.Contains(c.getXMPPAccount().getIdAndDomain()))
+                    if (chatEntry.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
                     {
                         Chat chatElement = new Chat { chat = args.getChat(), client = c };
                         addToChatsSorted(chatElement);
