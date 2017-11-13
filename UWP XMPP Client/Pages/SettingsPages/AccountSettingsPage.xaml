@@ -13,6 +13,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <controls:SettingsHeader Grid.Row="0" Icon="&#xE13D;" Text="Accounts"/>
             <Button x:Name="addAccount_btn" Grid.Row="1" Margin="10, 10, 10, 0" Click="addAccount_btn_Click">
@@ -21,7 +22,13 @@
                     <TextBlock Text="Add Account" Foreground="{ThemeResource SystemAccentColor}"/>
                 </StackPanel>
             </Button>
-            <StackPanel x:Name="accounts_stckp" Grid.Row="2" Margin="10">
+            <Button x:Name="reloadAccounts_btn" Grid.Row="2" Margin="10, 10, 10, 0" Click="reloadAccounts_btn_Click" Visibility="Collapsed">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE149;" Margin="0, -1, 5, 0" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                    <TextBlock Text="Reload Accounts" Foreground="{ThemeResource SystemAccentColor}"/>
+                </StackPanel>
+            </Button>
+            <StackPanel x:Name="accounts_stckp" Grid.Row="3" Margin="10">
                 <!--Accounts-->
             </StackPanel>
         </Grid>

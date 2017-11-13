@@ -1,4 +1,5 @@
-﻿using Data_Manager.Classes.Managers;
+﻿using Data_Manager.Classes;
+using Data_Manager.Classes.Managers;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -55,6 +56,15 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             {
                 accounts_stckp.Children.Add(new AccountControl(this) { Account = account });
             }
+            if(accounts_stckp.Children.Count > 0)
+            {
+                reloadAccounts_btn.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                reloadAccounts_btn.Visibility = Visibility.Collapsed;
+            }
+            reloadAccounts_btn.IsEnabled = true;
         }
 
         #endregion
@@ -84,11 +94,18 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             }
         }
 
-        #endregion
-
         private void addAccount_btn_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(AddAccountPage));
         }
+
+        private void reloadAccounts_btn_Click(object sender, RoutedEventArgs e)
+        {
+            reloadAccounts_btn.IsEnabled = false;
+            ConnectionHandler.INSTANCE.reloadAllAccounts();
+            loadAccounts();
+        }
+
+        #endregion
     }
 }
