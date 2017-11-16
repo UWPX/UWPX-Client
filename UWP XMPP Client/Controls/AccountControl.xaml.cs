@@ -254,11 +254,11 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
+        private async void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
         {
             if(Account != null)
             {
-                replaceAccount(getAccount());
+                await saveAccountAsync();
             }
         }
 

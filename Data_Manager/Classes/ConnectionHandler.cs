@@ -4,6 +4,7 @@ using Logging;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Events;
@@ -202,12 +203,13 @@ namespace Data_Manager.Classes
             {
                 XMPPAccount account = client.getXMPPAccount();
                 RosterMessage msg = args.getMessage() as RosterMessage;
+                Debug.Assert(account.getIdAndDomain().Equals(Utils.removeResourceFromJabberid((args.getMessage() as RosterMessage).getTo()))); // [Assert]
                 string type = msg.getMessageType();
+                string to = client.getXMPPAccount().getIdAndDomain();
                 if (type != null && type.Equals(IQMessage.RESULT))
                 {
                     ChatManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
                 }
-                string to = client.getXMPPAccount().getIdAndDomain();
                 foreach (RosterItem item in msg.getItems())
                 {
                     string from = item.getJabberId();

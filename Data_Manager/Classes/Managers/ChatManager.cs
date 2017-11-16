@@ -2,6 +2,7 @@
 using Data_Manager.Classes.Events;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using XMPP_API.Classes;
 
 namespace Data_Manager.Classes.Managers
@@ -78,7 +79,7 @@ namespace Data_Manager.Classes.Managers
 
         public void setChatMessageEntry(ChatMessageEntry message, bool triggerNewChatMessage)
         {
-            dB.InsertOrReplace(message);
+            update(message);
             if (triggerNewChatMessage)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(message));
@@ -87,11 +88,12 @@ namespace Data_Manager.Classes.Managers
 
         public void setChatEntry(ChatEntry chat, bool triggerChatChanged)
         {
+            //Debug.Assert(chat == null || chat.id.Equals(chat.chatJabberId + chat.userAccountId)); // [Assert]
             if(chat == null)
             {
                 return;
             }
-            dB.InsertOrReplace(chat); // DB call
+            update(chat);
             if (triggerChatChanged)
             {
                 onChatChanged(chat, false);
