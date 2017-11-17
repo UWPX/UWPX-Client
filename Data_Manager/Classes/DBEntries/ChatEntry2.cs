@@ -1,10 +1,14 @@
 ﻿using SQLite.Net.Attributes;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using XMPP_API.Classes;
 
 namespace Data_Manager.Classes.DBEntries
 {
-    public class ChatEntry
+    class ChatEntry2
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -29,7 +33,7 @@ namespace Data_Manager.Classes.DBEntries
         public string status { get; set; }
         // online, dnd, xa, ...
         public Presence presence { get; set; }
-        // The state of the chat (XEP-0083)
+        // The state of the chat (XEP-0083) - only interesting dunging app runtime
         [Ignore]
         public string chatState { get; set; }
 
@@ -42,22 +46,11 @@ namespace Data_Manager.Classes.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 30/08/2017 Created [Fabian Sauter]
+        /// 17/11/2017 Created [Fabian Sauter]
         /// </history>
-        public ChatEntry()
+        public ChatEntry2()
         {
-            this.chatState = "";
-        }
 
-        public ChatEntry(string chatJabberId, string userAccountId)
-        {
-            this.id = generateId(chatJabberId, userAccountId);
-            this.chatJabberId = chatJabberId;
-            this.userAccountId = userAccountId;
-            this.name = null;
-            this.lastActive = DateTime.Now;
-            this.muted = false;
-            this.chatState = "";
         }
 
         #endregion
@@ -68,24 +61,7 @@ namespace Data_Manager.Classes.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void update(ChatEntry chat)
-        {
-            this.ask = chat.ask;
-            this.inRoster = chat.inRoster;
-            this.lastActive = chat.lastActive;
-            this.muted = chat.muted;
-            this.name = chat.name;
-            this.presence = chat.presence;
-            this.status = chat.status;
-            this.subscription = chat.subscription;
 
-            ChatChanged?.Invoke(this, new EventArgs());
-        }
-
-        public static string generateId(string jabberID, string userAccountID)
-        {
-            return jabberID + userAccountID;
-        }
 
         #endregion
 
