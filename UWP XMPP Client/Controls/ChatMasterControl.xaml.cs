@@ -100,7 +100,7 @@ namespace UWP_XMPP_Client.Controls
                 // Chat name:
                 if (Chat.name == null)
                 {
-                    name_tblck.Text = Chat.chatJabberId;
+                    name_tblck.Text = Chat.chatJabberId ?? "";
                 }
                 else
                 {

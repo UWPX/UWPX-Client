@@ -203,7 +203,7 @@ namespace Data_Manager.Classes
             {
                 XMPPAccount account = client.getXMPPAccount();
                 RosterMessage msg = args.getMessage() as RosterMessage;
-                Debug.Assert(account.getIdAndDomain().Equals(Utils.removeResourceFromJabberid((args.getMessage() as RosterMessage).getTo()))); // [Assert]
+                //Debug.Assert(account.getIdAndDomain().Equals(Utils.removeResourceFromJabberid((args.getMessage() as RosterMessage).getTo()))); // [Assert]
                 string type = msg.getMessageType();
                 string to = client.getXMPPAccount().getIdAndDomain();
                 if (type != null && type.Equals(IQMessage.RESULT))
