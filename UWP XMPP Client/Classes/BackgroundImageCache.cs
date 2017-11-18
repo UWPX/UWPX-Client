@@ -1,4 +1,5 @@
 ﻿using Data_Manager.Classes;
+using Data_Manager2.Classes;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI;
 using System;

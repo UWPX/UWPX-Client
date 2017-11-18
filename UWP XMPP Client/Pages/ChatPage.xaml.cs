@@ -1,7 +1,4 @@
-﻿using Data_Manager.Classes;
-using Data_Manager.Classes.DBEntries;
-using Data_Manager.Classes.Managers;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
 using Windows.UI.Xaml.Controls;
@@ -17,6 +14,9 @@ using Windows.UI.Popups;
 using Windows.ApplicationModel.Activation;
 using UWP_XMPP_Client.Classes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBTables;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -66,11 +66,11 @@ namespace UWP_XMPP_Client.Pages
             chats = new ObservableCollection<Chat>();
 
             Chat selectedChat = null;
-            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
+            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
             {
-                List<ChatEntry> list = ChatManager.INSTANCE.getAllChatsForClient(c);
+                List<ChatTable> list = ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain());
                 //sortChats(list);
-                foreach (ChatEntry chat in list)
+                foreach (ChatTable chat in list)
                 {
                     Chat chatElement = new Chat { chat = chat, client = c };
                     addToChatsSorted(chatElement);
@@ -90,9 +90,9 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void sortChats(List<ChatEntry> list)
+        private void sortChats(List<ChatTable> list)
         {
-            list.Sort((ChatEntry a, ChatEntry b) =>
+            list.Sort((ChatTable a, ChatTable b) =>
             {
                 if (a == b && a == null)
                 {
@@ -136,10 +136,19 @@ namespace UWP_XMPP_Client.Pages
                 {
                     await client.requestPresenceSubscriptionAsync(jabberId);
                 }
-                ChatManager.INSTANCE.setChatEntry(new ChatEntry(jabberId, client.getXMPPAccount().getIdAndDomain())
+                ChatManager.INSTANCE.setChat(new ChatTable()
                 {
+                    id = ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain()),
+                    chatJabberId = jabberId,
+                    userAccountId = client.getXMPPAccount().getIdAndDomain(),
+                    ask = null,
+                    inRoster = false,
+                    lastActive = DateTime.Now,
+                    muted = false,
+                    presence = Presence.Unavailable,
+                    status = null,
                     subscription = requestSubscription ? "pending" : null
-                }, true);
+                }, false, true);
                 loadChats();
             }
         }
@@ -156,14 +165,14 @@ namespace UWP_XMPP_Client.Pages
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ChatEntry chatEntry = args.getChat();
+                ChatTable chatEntry = args.CHAT;
                 foreach (Chat c in chats)
                 {
                     if (c.chat != null && c.chat.id.Equals(chatEntry.id))
                     {
-                        if (!args.gotRemoved())
+                        if (!args.REMOVED)
                         {
-                            c.chat.update(chatEntry);
+                            c.chat = chatEntry;
                         }
                         else
                         {
@@ -179,11 +188,11 @@ namespace UWP_XMPP_Client.Pages
                     }
                 }
 
-                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getXMPPClients())
+                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                 {
                     if (chatEntry.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
                     {
-                        Chat chatElement = new Chat { chat = args.getChat(), client = c };
+                        Chat chatElement = new Chat { chat = args.CHAT, client = c };
                         addToChatsSorted(chatElement);
                     }
                 }
@@ -242,7 +251,7 @@ namespace UWP_XMPP_Client.Pages
                 toastActivationString = toasActivationArgs.Argument;
                 Logger.Info("ChatPage activated through toast with argument:" + toastActivationString);
             }
-            ConnectionHandler.INSTANCE.connect();
+            ConnectionHandler.INSTANCE.connectAll();
             loadChats();
 
             loading_grid.Visibility = Visibility.Collapsed;

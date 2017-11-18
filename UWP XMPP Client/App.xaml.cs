@@ -9,6 +9,7 @@ using Data_Manager.Classes;
 using UWP_XMPP_Client.Classes;
 using Microsoft.HockeyApp;
 using Logging;
+using Data_Manager2.Classes;
 
 namespace UWP_XMPP_Client
 {

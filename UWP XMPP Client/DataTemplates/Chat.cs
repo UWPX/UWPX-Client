@@ -1,5 +1,4 @@
-﻿using Data_Manager.Classes.DBEntries;
-using System;
+﻿using Data_Manager2.Classes.DBTables;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 
@@ -10,7 +9,7 @@ namespace UWP_XMPP_Client.DataTemplates
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public BitmapImage image { get; set; }
-        public ChatEntry chat { get; set; }
+        public ChatTable chat { get; set; }
         public XMPPClient client { get; set; }
 
         #endregion

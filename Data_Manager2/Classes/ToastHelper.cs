@@ -1,4 +1,8 @@
-﻿namespace Data_Manager2.Classes
+﻿using Data_Manager2.Classes.DBTables;
+using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.UI.Notifications;
+
+namespace Data_Manager2.Classes
 {
     public class ToastHelper
     {
@@ -20,7 +24,7 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void showChatTextToast(string text, string msgId, ChatEntry chat)
+        public static void showChatTextToast(string text, string msgId, ChatTable chat)
         {
             var toastContent = new ToastContent()
             {
@@ -32,7 +36,7 @@
                         {
                             new AdaptiveText()
                             {
-                                Text = chat.name ?? chat.chatJabberId,
+                                Text = chat.chatJabberId,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()
@@ -78,7 +82,7 @@
             ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
         }
 
-        public static void showChatTextImageToast(string text, string imgPath, ChatEntry chat)
+        public static void showChatTextImageToast(string text, string imgPath, ChatTable chat)
         {
             var toastContent = new ToastContent()
             {
@@ -90,7 +94,7 @@
                         {
                             new AdaptiveText()
                             {
-                                Text = chat.name ?? chat.chatJabberId,
+                                Text = chat.chatJabberId,
                                 HintMaxLines = 1
                             },
                             new AdaptiveText()

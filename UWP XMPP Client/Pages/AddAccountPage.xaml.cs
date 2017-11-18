@@ -1,5 +1,5 @@
-﻿using Data_Manager.Classes;
-using Data_Manager.Classes.Managers;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -94,7 +94,7 @@ namespace UWP_XMPP_Client.Pages
         {
             if (await areEntriesValidAsync())
             {
-                UserManager.INSTANCE.setAccount(getAccount());
+                AccountManager.INSTANCE.setAccount(getAccount(), true);
                 Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
                 if (Window.Current.Content is Frame rootFrame && rootFrame.CanGoBack)
                 {

@@ -1,20 +1,7 @@
-﻿using Data_Manager.Classes;
-using Data_Manager.Classes.Managers;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Controls;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes.Network;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
@@ -52,11 +39,13 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         public void loadAccounts()
         {
             accounts_stckp.Children.Clear();
-            foreach (XMPPAccount account in UserManager.INSTANCE.getAccounts())
+            foreach (XMPPAccount account in AccountManager.INSTANCE.loadAllAccounts())
             {
                 accounts_stckp.Children.Add(new AccountControl(this) { Account = account });
             }
-            if(accounts_stckp.Children.Count > 0)
+            AccountManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
+            AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
+            if (accounts_stckp.Children.Count > 0)
             {
                 reloadAccounts_btn.Visibility = Visibility.Visible;
             }
@@ -102,7 +91,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void reloadAccounts_btn_Click(object sender, RoutedEventArgs e)
         {
             reloadAccounts_btn.IsEnabled = false;
-            ConnectionHandler.INSTANCE.reloadAllAccounts();
+            loadAccounts();
+        }
+
+        private void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        {
             loadAccounts();
         }
 
