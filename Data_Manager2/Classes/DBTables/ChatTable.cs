@@ -1,9 +1,5 @@
 ﻿using SQLite.Net.Attributes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBTables
@@ -16,7 +12,9 @@ namespace Data_Manager2.Classes.DBTables
         [PrimaryKey]
         public string id { get; set; }
         // userId@domain or chatId@domain
+        [NotNull]
         public string chatJabberId { get; set; }
+        [NotNull]
         public string userAccountId { get; set; }
         // Last new message
         public DateTime lastActive { get; set; }
@@ -59,7 +57,7 @@ namespace Data_Manager2.Classes.DBTables
         #region --Misc Methods (Public)--
         public static string generateId(string jabberID, string userAccountID)
         {
-            return jabberID + userAccountID;
+            return jabberID + userAccountID + 111;
         }
 
         #endregion

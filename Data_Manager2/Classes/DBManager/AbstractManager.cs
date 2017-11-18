@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using Data_Manager2.Classes.DBTables;
+using Logging;
 using SQLite.Net;
 using SQLite.Net.Platform.WinRT;
 using System;
@@ -83,7 +84,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <summary>
         /// Inserts or replaces the given object into the db
         /// </summary>
-        protected void update(object obj)
+        protected virtual void update(object obj)
         {
             dB.InsertOrReplace(obj);
         }

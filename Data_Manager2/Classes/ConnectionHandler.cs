@@ -17,7 +17,7 @@ namespace Data_Manager2.Classes
         #region --Attributes--
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
 
-        private static List<XMPPClient> clients = null;
+        private static List<XMPPClient> clients;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -29,6 +29,7 @@ namespace Data_Manager2.Classes
         /// </history>
         public ConnectionHandler()
         {
+            clients = null;
             loadAccounts();
             AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
         }
@@ -83,7 +84,7 @@ namespace Data_Manager2.Classes
             });
         }
 
-        private void disconnectAll()
+        public void disconnectAll()
         {
             Parallel.ForEach(clients, async (c) =>
             {
@@ -92,7 +93,7 @@ namespace Data_Manager2.Classes
             });
         }
 
-        private void reconnectAll()
+        public void reconnectAll()
         {
             Parallel.ForEach(clients, async (c) =>
             {
@@ -178,6 +179,9 @@ namespace Data_Manager2.Classes
 
             if (chat != null)
             {
+                chat.id = id;
+                chat.chatJabberId = from;
+                chat.userAccountId = to;
                 chat.status = args.getStatus();
                 switch (args.getPresence())
                 {
@@ -212,9 +216,13 @@ namespace Data_Manager2.Classes
                 foreach (RosterItem item in msg.getItems())
                 {
                     string from = item.getJabberId();
-                    ChatTable chat = ChatManager.INSTANCE.getChat(ChatTable.generateId(from, to));
+                    string id = ChatTable.generateId(from, to);
+                    ChatTable chat = ChatManager.INSTANCE.getChat(id);
                     if (chat != null)
                     {
+                        chat.id = id;
+                        chat.chatJabberId = from;
+                        chat.userAccountId = to;
                         chat.subscription = item.getSubscription();
                         chat.inRoster = !item.getSubscription().Equals("remove");
                         chat.ask = item.getAsk();
@@ -223,7 +231,7 @@ namespace Data_Manager2.Classes
                     {
                         chat = new ChatTable()
                         {
-                            id = ChatTable.generateId(from, to),
+                            id = id,
                             chatJabberId = from,
                             userAccountId = to,
                             subscription = item.getSubscription(),

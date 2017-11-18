@@ -55,7 +55,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="account">The account to delete.</param>
         public void deleteAccount(XMPPAccount account, bool triggerAccountChanged)
         {
-            dB.Execute("DELETE FROM AccountTable WHERE id LIKE ?;", account.getIdAndDomain());
+            dB.Execute("DELETE FROM AccountTable WHERE id = ?;", account.getIdAndDomain());
             Vault.deletePassword(account);
             if (triggerAccountChanged)
             {

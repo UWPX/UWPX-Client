@@ -43,12 +43,12 @@ namespace Data_Manager2.Classes.DBManager
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(ChatTable chat)
         {
-            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId LIKE ? ORDER BY date ASC;", chat.id);
+            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chat.id);
         }
 
         public ChatTable getChat(string id)
         {
-            IList<ChatTable> list = dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE id LIKE ?;", id);
+            IList<ChatTable> list = dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE id = ?;", id);
             if (list.Count < 1)
             {
                 return null;
@@ -80,12 +80,12 @@ namespace Data_Manager2.Classes.DBManager
 
         private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
         {
-            return dB.Query<ChatMessageTable>("SELECT * FROM ChatTable WHERE state == ? AND fromUser NOT LIKE ?;", MessageState.UNREAD, chat.userAccountId);
+            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE state = ? AND fromUser != ?;", MessageState.UNREAD, chat.userAccountId);
         }
 
         public List<ChatTable> getAllChatsForClient(string userAccountId)
         {
-            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId LIKE ?;", userAccountId);
+            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId = ?;", userAccountId);
         }
 
         public void setAllNotInRoster(string userAccountId)
@@ -113,7 +113,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Misc Methods (Public)--
         public void deleteAllChatMessagesForAccount(ChatTable chat)
         {
-            dB.Execute("DELETE FROM ChatMessageTable WHERE chatId LIKE ?;", chat.id);
+            dB.Execute("DELETE FROM ChatMessageTable WHERE chatId = ?;", chat.id);
         }
 
         public void markAllMessagesAsRead(ChatTable chat)
@@ -156,11 +156,13 @@ namespace Data_Manager2.Classes.DBManager
         protected override void createTables()
         {
             dB.CreateTable<ChatTable>();
+            dB.CreateTable<ChatMessageTable>();
         }
 
         protected override void dropTables()
         {
             dB.DropTable<ChatTable>();
+            dB.DropTable<ChatMessageTable>();
         }
 
         #endregion

@@ -81,7 +81,7 @@ namespace XMPP_API.Classes.Network.XML
 
         public List<MessageEntry> getAllForAccount(string accountId)
         {
-            return dB.Query<MessageEntry>("SELECT * FROM MessageEntry WHERE accountId LIKE ?", accountId);
+            return dB.Query<MessageEntry>("SELECT * FROM MessageEntry WHERE accountId = ?", accountId);
         }
 
         public void removeEntry(MessageEntry entry)

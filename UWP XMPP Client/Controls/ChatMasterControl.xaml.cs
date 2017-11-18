@@ -83,7 +83,7 @@ namespace UWP_XMPP_Client.Controls
         private void showRemovedChat()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = Chat.chatJabberId + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from your presence?";
+            accountAction_tblck.Text = Chat.chatJabberId + " has removed you from his roster and/or has unsubscribed you from his presence. Do you = to unsubscribe him from your presence?";
             accountActionRefuse_btn.Content = "Keep";
             accountActionAccept_btn.Content = "Remove";
             subscriptionRequest = false;

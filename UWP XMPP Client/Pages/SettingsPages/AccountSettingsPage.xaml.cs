@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -91,6 +92,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void reloadAccounts_btn_Click(object sender, RoutedEventArgs e)
         {
             reloadAccounts_btn.IsEnabled = false;
+            ConnectionHandler.INSTANCE.reconnectAll();
             loadAccounts();
         }
 

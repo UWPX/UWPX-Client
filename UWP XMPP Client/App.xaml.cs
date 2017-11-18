@@ -131,7 +131,7 @@ namespace UWP_XMPP_Client
                 // If launched with arguments (not a normal primary tile/applist launch)
                 if (launchActivationArgs.Arguments.Length > 0)
                 {
-                    // TODO: Handle arguments for cases like launching from secondary Tile, so we navigate to the correct page
+                    // TODO: Handle arguments for cases = launching from secondary Tile, so we navigate to the correct page
                     throw new NotImplementedException();
                 }
 
