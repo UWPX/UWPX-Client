@@ -1,7 +1,6 @@
 ﻿using Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -22,7 +21,6 @@ namespace XMPP_API.Classes.Network.TCP
         private HostName serverHost;
         private StreamWriter writer;
         private StreamReader reader;
-        private DataReader dreader;
         private BackgroundTaskRegistration socketBackgroundTask;
 
         private Task listenerTask;
@@ -167,7 +165,6 @@ namespace XMPP_API.Classes.Network.TCP
 
                             // Setup Reader:
                             reader = new StreamReader(tcpSocket.InputStream.AsStreamForRead());
-                            dreader = new DataReader(tcpSocket.InputStream);
                             setState(ConnectionState.CONNECTED);
                             return;
                         }
