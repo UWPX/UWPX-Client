@@ -30,8 +30,6 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ChatManager()
         {
-            dropTables();
-            createTables();
         }
 
         #endregion
@@ -86,7 +84,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public List<ChatTable> getAllChatsForClient(string userAccountId)
         {
-            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId = ?;", userAccountId);
+            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId LIKE ?;", userAccountId);
         }
 
         public void setAllNotInRoster(string userAccountId)
