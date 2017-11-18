@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Diese Datei enthält Laufzeitdirektiven, Spezifikationen zu Typen, auf die Ihre Anwendung
+    über die Reflektion und andere dynamische Codemuster zugreift. Laufzeitdirektiven werden dazu verwendet, den
+    .NET Native-Optimierer zu steuern und sicherzustellen, dass dieser keinen Code entfernt, auf den durch Ihre Bibliothek zugegriffen wird. Wenn Ihre
+    Bibliothek keine Reflektion durchführt, müssen Sie diese Datei im Allgemeinen nicht bearbeiten. Wenn Ihre Bibliothek aber
+    eine Reflektion für Typen durchführt – insbesondere für an sie übergebene oder von ihr abgeleitete Typen –,
+    dann sollten Sie Laufzeitdirektiven schreiben.
+
+    Die häufigste Verwendung der Reflektion in Bibliotheken ist die Ermittlung von Informationen zu Typen, die
+    an die Bibliothek übergeben werden. Laufzeitdirektiven können Anforderungen für die an Ihre Bibliothek übergebenen Typen
+    auf drei Arten ausdrücken.
+
+    1.  Parameter, GenericParameter, TypeParameter, TypeEnumerableParameter
+        Verwenden Sie diese Direktiven, um eine Reflektion für Typen durchzuführen, die als Parameter übergeben werden.
+
+    2.  SubTypes
+        Verwenden Sie eine SubTypes-Direktive, um eine Reflektion für Typen durchzuführen, die von einem anderen Typ abgeleitet wurden.
+
+    3.  AttributeImplies
+        Verwenden Sie eine AttributeImplies-Direktive, um anzugeben, dass Ihre Bibliothek eine Reflektion für
+        Typen oder Methoden durchführen muss, die mit einem Attribut versehen sind.
+
+    Weitere Informationen zum Schreiben von Laufzeitdirektiven für Bibliotheken finden Sie hier:
+    https://go.microsoft.com/fwlink/?LinkID=391919
+-->
+<Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
+  <Library Name="Push_App_Server">
+
+  	<!-- Fügen Sie hier Direktiven für Ihre Bibliothek ein. -->
+
+  </Library>
+</Directives>

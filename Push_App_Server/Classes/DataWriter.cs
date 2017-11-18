@@ -1,18 +1,19 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using Logging;
 using System.Threading.Tasks;
-using Windows.UI.Xaml.Controls;
+using System.Xml.Linq;
+using Windows.Networking.PushNotifications;
 using XMPP_API.Classes;
 
-namespace UWP_XMPP_Client.Controls
+namespace Push_App_Server.Classes
 {
-    public sealed partial class ServerFeaturesControl : UserControl
+    public class DataWriter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private readonly TCPConnectionHandler TCP_CONNECTION_HANDLER;
         private XMPPClient client;
-        private ChatTable chat;
 
-        private string discoId;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -22,36 +23,45 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 18/11/2017 Created [Fabian Sauter]
         /// </history>
-        public ServerFeaturesControl()
+        public DataWriter(XMPPClient client)
         {
-            this.discoId = null;
-            this.InitializeComponent();
+            this.TCP_CONNECTION_HANDLER = new TCPConnectionHandler();
+            this.client = client;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void setClient(XMPPClient client)
-        {
-            this.client = client;
-        }
 
-        public void setChat(ChatTable chat)
-        {
-            this.chat = chat;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task connectAndSendAsync()
+        {
+            await TCP_CONNECTION_HANDLER.connectAsync();
+            Logger.Info("Connected");
+            await TCP_CONNECTION_HANDLER.sendMessageToServerAsync(getMessage());
+            Logger.Info("Send");
+            Logger.Info(TCP_CONNECTION_HANDLER.readMessageFromServer());
+            await TCP_CONNECTION_HANDLER.disconnectAsync();
+        }
 
+        public async Task requestNotificationChannelAsync()
+        {
+            PushNotificationChannel channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync("");
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task<int> sendDiscoToServerAsync()
+        private string getMessage()
         {
-            return -1;
+            XElement n = new XElement("push");
+            n.Add(new XAttribute("clientId", client.getXMPPAccount().getIdAndDomain()));
+            n.Add(new XAttribute("wns", 42));
+            n.Add(new XAttribute("key", "someKey"));
+            return n.ToString();
         }
 
         #endregion

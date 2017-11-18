@@ -361,6 +361,10 @@
       <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Push_App_Server\Push_App_Server.csproj">
+      <Project>{a8da7bd0-dc43-4f30-ab1e-3fcf942274e4}</Project>
+      <Name>Push_App_Server</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{899fb043-af8b-4294-95b6-1482c79459ac}</Project>
       <Name>XMPP_API</Name>

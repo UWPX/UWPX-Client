@@ -15,6 +15,7 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0357;
+using Push_App_Server.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -277,7 +278,7 @@ namespace UWP_XMPP_Client.Controls
         {
             //await Client.createDiscoAsync(Chat.chatJabberId);
             //await Logging.Logger.openLogFolderAsync();
-            switch (uuu)
+            /*switch (uuu)
             {
                 case 0:
                     await Client.createDiscoAsync(Client.getXMPPAccount().getIdAndDomain());
@@ -291,7 +292,9 @@ namespace UWP_XMPP_Client.Controls
             if(++uuu > 1)
             {
                 uuu = 0;
-            }
+            }*/
+            DataWriter dW = new DataWriter(Client, Chat);
+            await dW.connectAndSendAsync();
         }
 
         private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)
