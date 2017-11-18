@@ -40,7 +40,8 @@ namespace XMPP_API.Classes
         public static readonly string XML_XMLNS = "xmlns";
         // XEP-0085 (chat state):
         public static readonly string XML_XEP_0085_NAMESPACE = "http://jabber.org/protocol/chatstates";
-
+        // XEP-0357 (push notifications):
+        public static readonly string XML_XEP_0357_NAMESPACE = "urn:xmpp:push:0";
 
         public static readonly bool ENABLE_DEBUG_OUTPUT = true;
     }

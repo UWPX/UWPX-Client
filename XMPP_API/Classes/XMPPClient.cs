@@ -169,6 +169,11 @@ namespace XMPP_API.Classes
             await connection.sendMessageAsync(new ChatStateMessage(target, account.getIdDomainAndResource(), state), false);
         }
 
+        public async Task sendAsync(AbstractMessage msg)
+        {
+            await connection.sendMessageAsync(msg, false);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -209,7 +214,7 @@ namespace XMPP_API.Classes
         {
             NewPresence?.Invoke(this, new Events.NewPresenceEventArgs(args.getMessage() as PresenceMessage));
         }
-
+        
         #endregion
     }
 }

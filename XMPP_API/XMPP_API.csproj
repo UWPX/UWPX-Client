@@ -128,6 +128,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
