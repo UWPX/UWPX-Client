@@ -86,7 +86,14 @@ namespace Data_Manager2.Classes.DBManager
         /// </summary>
         protected virtual void update(object obj)
         {
-            dB.InsertOrReplace(obj);
+            try
+            {
+                dB.InsertOrReplace(obj);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error in update", e);
+            }            
         }
 
         #endregion

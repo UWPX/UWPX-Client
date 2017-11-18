@@ -87,14 +87,21 @@ namespace XMPP_API.Classes.Network
 
         public override async Task disconnectFromServerAsync()
         {
-            await disconnectFromServerAsync(null);
+            await disconnectFromServerAsync("");
         }
 
         public async Task disconnectFromServerAsync(string reason)
         {
             setState(ConnectionState.DISCONNECTING);
-            await tcpConnection.sendMessageToServerAsync(new CloseStreamMessage(reason).toXmlString());
-            await tcpConnection.disconnectFromServerAsync();
+            try
+            {
+                tcpConnection.sendMessageToServerAsync(new CloseStreamMessage(reason).toXmlString()).Wait(TimeSpan.FromSeconds(1));
+            }
+            catch (Exception e)
+            {
+                Logger.Warn("Unable to send close message! " + e.Message);
+            }
+            tcpConnection.disconnectFromServerAsync().Wait(TimeSpan.FromSeconds(1));
             cleanupConnection();
             setState(ConnectionState.DISCONNECTED);
         }

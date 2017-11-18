@@ -60,7 +60,7 @@ namespace Data_Manager2.Classes.DBTables
             {
                 color = color,
                 presencePriorety = presencePriorety,
-                serverAddress = serverAddress
+                disabled = disabled 
             };
         }
 

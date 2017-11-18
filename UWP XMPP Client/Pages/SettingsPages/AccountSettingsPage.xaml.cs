@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
+using System.Collections.Generic;
 using UWP_XMPP_Client.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

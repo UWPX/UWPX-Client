@@ -79,16 +79,9 @@ namespace UWP_XMPP_Client.Controls
         {
             if(Account != null)
             {
-                if(Account.user.name != null)
-                {
-                    primaryInfo_tblck.Text = Account.user.name ?? "";
-                    secondaryInfo_tblck.Text = Account.getIdAndDomain() ?? "";
-                }
-                else
-                {
-                    primaryInfo_tblck.Text = Account.user.userId ?? "";
-                    secondaryInfo_tblck.Text = Account.user.domain ?? "";
-                }
+                IsEnabled = false;
+                primaryInfo_tblck.Text = Account.user.userId ?? "";
+                secondaryInfo_tblck.Text = Account.user.domain ?? "";
                 jabberId_tbx.Text = Account.user.getIdAndDomain() ?? "";
                 password_pwb.Password = Account.user.userPassword ?? "";
                 resource_tbx.Text = Account.user.resource ?? "";
@@ -104,12 +97,13 @@ namespace UWP_XMPP_Client.Controls
                     showConnectionState(client);
                     client.ConnectionStateChanged += Client_ConnectionStateChanged;
                 }
+                IsEnabled = true;
             }
         }
 
         private void replaceAccount(XMPPAccount account)
         {
-            if(account.Equals(Account))
+            if(!IsEnabled || account.Equals(Account))
             {
                 return;
             }
@@ -252,7 +246,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
         {
-            if(Account != null)
+            if(Account != null  )
             {
                 await saveAccountAsync();
             }

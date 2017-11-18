@@ -59,6 +59,10 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public void connectAll()
         {
+            if(clients == null || clients.Count <= 0)
+            {
+                return;
+            }
             Parallel.ForEach(clients, async (c) =>
             {
                 if (!c.getXMPPAccount().disabled)
@@ -86,6 +90,10 @@ namespace Data_Manager2.Classes
 
         public void disconnectAll()
         {
+            if (clients == null || clients.Count <= 0)
+            {
+                return;
+            }
             Parallel.ForEach(clients, async (c) =>
             {
                 await c.disconnectAsync();
@@ -95,11 +103,19 @@ namespace Data_Manager2.Classes
 
         public void reconnectAll()
         {
+            if (clients == null || clients.Count <= 0)
+            {
+                return;
+            }
             Parallel.ForEach(clients, async (c) =>
             {
                 await c.disconnectAsync();
                 ChatManager.INSTANCE.resetPresence(c.getXMPPAccount().getIdAndDomain());
-                await c.connectAsync();
+                await Task.Delay(200);
+                if (!c.getXMPPAccount().disabled)
+                {
+                    await c.connectAsync();
+                }
             });
         }
 
@@ -122,7 +138,7 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void loadAccount(XMPPAccount acc)
+        private XMPPClient loadAccount(XMPPAccount acc)
         {
             XMPPClient c = new XMPPClient(acc);
             c.NewChatMessage += C_NewChatMessage;
@@ -130,6 +146,7 @@ namespace Data_Manager2.Classes
             c.NewPresence += C_NewPresence;
             c.ConnectionStateChanged += C_ConnectionStateChanged; // Requesting roster if connected
             clients.Add(c);
+            return c;
         }
 
         #endregion
@@ -304,20 +321,32 @@ namespace Data_Manager2.Classes
             ChatManager.INSTANCE.setChatMessageEntry(message, true);
         }
 
-        private void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        private async void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
         {
-            if(clients != null)
+            if (clients != null && clients.Count > 0)
             {
-                Parallel.ForEach(clients, (c) =>
+                Parallel.ForEach(clients, async (c) =>
                 {
                     if (c.getXMPPAccount().getIdAndDomain().Equals(args.ACCOUNT.getIdAndDomain()))
                     {
                         clients.Remove(c);
+                        try
+                        {
+                            await c.disconnectAsync();
+                        }
+                        catch
+                        {
+                            
+                        }
                     }
                 });
-                if (!args.REMOVED)
+            }
+            if (!args.REMOVED)
+            {
+                XMPPClient c = loadAccount(args.ACCOUNT);
+                if (!c.getXMPPAccount().disabled)
                 {
-                    loadAccount(args.ACCOUNT);
+                    await c.connectAsync();
                 }
             }
         }

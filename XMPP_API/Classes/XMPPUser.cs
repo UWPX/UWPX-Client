@@ -10,9 +10,6 @@ namespace XMPP_API.Classes
         public string resource;
         public string domain;
 
-        public string name;
-        public string subscription;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -63,7 +60,7 @@ namespace XMPP_API.Classes
             if(obj is XMPPUser)
             {
                 XMPPUser u = obj as XMPPUser;
-                return string.Equals(u.domain, domain) && string.Equals(u.name, name) && string.Equals(u.resource, resource) && string.Equals(u.subscription, subscription) && string.Equals(u.userId, userId) && string.Equals(u.userPassword, userPassword);
+                return string.Equals(u.domain, domain) && string.Equals(u.resource, resource) && string.Equals(u.userId, userId) && string.Equals(u.userPassword, userPassword);
             }
             return false;
         }
