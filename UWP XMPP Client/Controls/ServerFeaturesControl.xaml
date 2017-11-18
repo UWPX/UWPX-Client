@@ -1,0 +1,24 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.ServerFeaturesControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Supported Features:" Grid.Row="0" FontSize="20"/>
+            <TextBlock x:Name="loading_tblck" Text="Loading..." Grid.Row="1"/>
+            <TextBlock x:Name="noneFound_tblck" Text="None found!" Grid.Row="1" Visibility="Collapsed"/>
+            <StackPanel x:Name="supportedFeatures_stckp" Grid.Row="1" Visibility="Collapsed">
+                <!--supported features-->
+            </StackPanel>
+        </Grid>
+        <ProgressRing IsActive="True" IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    </Grid>
+</UserControl>

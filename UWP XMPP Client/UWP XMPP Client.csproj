@@ -120,6 +120,9 @@
     <Compile Include="Controls\Seperator.xaml.cs">
       <DependentUpon>Seperator.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ServerFeaturesControl.xaml.cs">
+      <DependentUpon>ServerFeaturesControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SettingsHeader.xaml.cs">
       <DependentUpon>SettingsHeader.xaml</DependentUpon>
     </Compile>
@@ -271,6 +274,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ChatMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ServerFeaturesControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
