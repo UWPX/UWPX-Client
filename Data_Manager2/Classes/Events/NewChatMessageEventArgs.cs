@@ -1,12 +1,13 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Data_Manager2.Classes.DBTables;
+using System;
 
-namespace UWP_XMPP_Client.Controls
+namespace Data_Manager.Classes.Events
 {
-    public sealed partial class AccountImage : UserControl
+    public class NewChatMessageEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly ChatMessageTable MESSAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +16,11 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 18/11/2017 Created [Fabian Sauter]
+        /// 10/09/2017 Created [Fabian Sauter]
         /// </history>
-        public AccountImage()
+        public NewChatMessageEventArgs(ChatMessageTable message)
         {
-            this.InitializeComponent();
+            this.MESSAGE = message;
         }
 
         #endregion

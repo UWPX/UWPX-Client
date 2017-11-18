@@ -1,6 +1,4 @@
-﻿using Data_Manager.Classes.DBEntries;
-using Data_Manager.Classes.Managers;
-using Windows.UI.Core;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
@@ -13,6 +11,9 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.Classes.Events;
 using Data_Manager.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -32,9 +33,9 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
 
-        public ChatEntry Chat
+        public ChatTable Chat
         {
-            get { return (ChatEntry)GetValue(ChatProperty); }
+            get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
                 SetValue(ChatProperty, value);
@@ -42,7 +43,7 @@ namespace UWP_XMPP_Client.Controls
                 showMessages();
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatEntry), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -76,15 +77,8 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null)
             {
-                if (Chat.name == null)
-                {
-                    chatName_tblck.Text = Chat.chatJabberId;
-                }
-                else
-                {
-                    chatName_tblck.Text = Chat.name + " (" + Chat.chatJabberId + ')';
-                }
-                chatState_tblck.Text = Chat.chatState;
+                chatName_tblck.Text = Chat.chatJabberId ?? "";
+                chatState_tblck.Text = Chat.chatState ?? "";
             }
         }
 
@@ -94,11 +88,11 @@ namespace UWP_XMPP_Client.Controls
             {
                 accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
                 invertedListView_lstv.Items.Clear();
-                foreach (ChatMessageEntry msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
+                foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
                 {
                     showMessage(msg.type, msg.fromUser, msg.message, msg.date);
                 }
-                ChatManager.INSTANCE.markAllAsRead(Chat);
+                ChatManager.INSTANCE.markAllMessagesAsRead(Chat);
             }
         }
 
@@ -138,8 +132,9 @@ namespace UWP_XMPP_Client.Controls
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
                 MessageMessage sendMessage = await Client.sendMessageAsync(Chat.chatJabberId, message_tbx.Text);
-                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageEntry(sendMessage, Chat) { state = MessageState.SENDING}, true);
-                ChatManager.INSTANCE.setChatEntryLastActive(Chat.id, DateTime.Now);
+                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING}, true);
+                Chat.lastActive = DateTime.Now;
+                ChatManager.INSTANCE.setChat(Chat, false, false);
 
                 message_tbx.Text = "";
                 message_tbx.Focus(FocusState.Programmatic);
@@ -188,7 +183,7 @@ namespace UWP_XMPP_Client.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ChatMessageEntry msg = args.getMessage();
+                ChatMessageTable msg = args.MESSAGE;
                 if (Chat.id.Equals(msg.chatId))
                 {
                     msg.state = MessageState.READ;

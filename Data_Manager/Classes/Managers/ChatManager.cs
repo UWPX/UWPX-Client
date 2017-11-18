@@ -2,7 +2,6 @@
 using Data_Manager.Classes.Events;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using XMPP_API.Classes;
 
 namespace Data_Manager.Classes.Managers

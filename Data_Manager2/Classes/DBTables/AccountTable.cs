@@ -1,11 +1,10 @@
-﻿using System;
-using SQLite.Net.Attributes;
+﻿using SQLite.Net.Attributes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBTables
 {
-    class AccountTable
+    public class AccountTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

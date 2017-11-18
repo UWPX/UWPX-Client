@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="cancle_btn" Content="Cancle" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="cancle_btn_Click"/>
+            <Button x:Name="cancle_btn" Content="Cancel" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="cancle_btn_Click"/>
             <Button x:Name="add_btn" Content="Add" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="add_btn_Click"/>
         </Grid>
     </Grid>

@@ -7,7 +7,7 @@ using Windows.Storage;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    abstract class AbstractManager
+    public abstract class AbstractManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -109,7 +109,6 @@
   <ItemGroup>
     <Compile Include="Classes\ConnectionHandler.cs" />
     <Compile Include="Classes\DBEntries\ChatEntry.cs" />
-    <Compile Include="Classes\DBEntries\ChatEntry2.cs" />
     <Compile Include="Classes\DBEntries\ChatMessageEntry.cs" />
     <Compile Include="Classes\DBEntries\UserAccountEntry.cs" />
     <Compile Include="Classes\DBEntries\UserEntry.cs" />

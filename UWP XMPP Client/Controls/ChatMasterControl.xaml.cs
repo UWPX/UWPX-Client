@@ -1,15 +1,15 @@
-﻿using Data_Manager.Classes.Managers;
-using Windows.UI.Core;
+﻿using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using System;
-using Data_Manager.Classes.DBEntries;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using UWP_XMPP_Client.Classes;
+using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.DBManager;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -29,21 +29,16 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
 
-        public ChatEntry Chat
+        public ChatTable Chat
         {
-            get { return (ChatEntry)GetValue(ChatProperty); }
+            get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
                 SetValue(ChatProperty, value);
                 showChat();
-                if (Chat != null)
-                {
-                    Chat.ChatChanged -= Chat_ChatChanged;
-                    Chat.ChatChanged += Chat_ChatChanged;
-                }
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatEntry), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
 
         private bool subscriptionRequest;
 
@@ -60,6 +55,7 @@ namespace UWP_XMPP_Client.Controls
         {
             this.InitializeComponent();
             this.subscriptionRequest = false;
+            ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
         }
 
         #endregion
@@ -78,7 +74,7 @@ namespace UWP_XMPP_Client.Controls
         private void showPresenceSubscriptionRequest()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = Chat.status ?? (Chat.name ?? Chat.chatJabberId) + "  has requested to subscribe to your presence!";
+            accountAction_tblck.Text = Chat.status ?? Chat.chatJabberId + "  has requested to subscribe to your presence!";
             accountActionRefuse_btn.Content = "Refuse";
             accountActionAccept_btn.Content = "Accept";
             subscriptionRequest = true;
@@ -87,7 +83,7 @@ namespace UWP_XMPP_Client.Controls
         private void showRemovedChat()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = (Chat.name ?? Chat.chatJabberId) + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from your presence?";
+            accountAction_tblck.Text = Chat.chatJabberId + " has removed you from his roster and/or has unsubscribed you from his presence. Do you like to unsubscribe him from your presence?";
             accountActionRefuse_btn.Content = "Keep";
             accountActionAccept_btn.Content = "Remove";
             subscriptionRequest = false;
@@ -97,15 +93,8 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null && Client != null)
             {
-                // Chat name:
-                if (Chat.name == null)
-                {
-                    name_tblck.Text = Chat.chatJabberId ?? "";
-                }
-                else
-                {
-                    name_tblck.Text = Chat.name + " (" + Chat.chatJabberId + ')';
-                }
+                // Chat jabber id:
+                name_tblck.Text = Chat.chatJabberId;
 
                 // Last action date:
                 if (Chat.lastActive != null)
@@ -205,14 +194,12 @@ namespace UWP_XMPP_Client.Controls
             {
                 ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
                 ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-                Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
-                Client.ConnectionStateChanged += Client_ConnectionStateChanged;
                 Client.NewPresence -= Client_NewPresence;
                 Client.NewPresence += Client_NewPresence;
             }
         }
 
-        private void showLastChatMessage(ChatMessageEntry chatMessage)
+        private void showLastChatMessage(ChatMessageTable chatMessage)
         {
             if (chatMessage != null)
             {
@@ -240,9 +227,9 @@ namespace UWP_XMPP_Client.Controls
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (Chat.id.Equals(args.getMessage().chatId))
+                if (Chat.id.Equals(args.MESSAGE.chatId))
                 {
-                    showLastChatMessage(args.getMessage());
+                    showLastChatMessage(args.MESSAGE);
                 }
             });
         }
@@ -257,16 +244,14 @@ namespace UWP_XMPP_Client.Controls
                 IUICommand command = await dialog.ShowAsync();
                 if ((int)command.Id == 1)
                 {
-                    ChatManager.INSTANCE.deleteChat(Chat, true);
-                    return;
+                    ChatManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
                 }
-                ChatManager.INSTANCE.deleteChat(Chat, false);
+                ChatManager.INSTANCE.setChat(Chat, true, true);
             }
             else
             {
                 Chat.subscription = "none";
-                ChatManager.INSTANCE.setChatEntry(Chat, false);
-                showChat();
+                ChatManager.INSTANCE.setChat(Chat, false, true);
             }
         }
 
@@ -274,8 +259,7 @@ namespace UWP_XMPP_Client.Controls
         {
             await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted);
             Chat.ask = null;
-            ChatManager.INSTANCE.setChatEntry(Chat, false);
-            showChat();
+            ChatManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private async Task<bool> showShouldRemoveChat()
@@ -290,8 +274,7 @@ namespace UWP_XMPP_Client.Controls
         private void resetAsk()
         {
             Chat.ask = null;
-            ChatManager.INSTANCE.setChatEntry(Chat, true);
-            showChat();
+            ChatManager.INSTANCE.setChat(Chat, false, true);
         }
 
         #endregion
@@ -302,10 +285,6 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.ConnectionState state)
-        {
-        }
-
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
             Grid grid = (Grid)sender;
@@ -316,8 +295,7 @@ namespace UWP_XMPP_Client.Controls
         private void mute_tmfo_Click(object sender, RoutedEventArgs e)
         {
             Chat.muted = mute_tmfo.IsChecked;
-            ChatManager.INSTANCE.setChatEntry(Chat, false);
-            showChat();
+            ChatManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private async void accountActionAccept_btn_Click(object sender, RoutedEventArgs e)
@@ -368,11 +346,14 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void Chat_ChatChanged(object sender, EventArgs e)
+        private async void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                showChat();
+                if (Chat.id.Equals(args.CHAT.id))
+                {
+                    showChat();
+                }
             });
         }
 

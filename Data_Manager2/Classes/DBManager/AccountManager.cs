@@ -1,14 +1,19 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager.Classes.Events;
+using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    class AccountManager : AbstractManager
+    public class AccountManager : AbstractManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static AccountManager INSTANCE = new AccountManager();
+
+        public delegate void AccountChangedHandler(AccountManager handler, AccountChangedEventArgs args);
+        
+        public event AccountChangedHandler AccountChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,10 +36,14 @@ namespace Data_Manager2.Classes.DBManager
         /// Adds the given XMPPAccount to the db or replaces it, if it already exists.
         /// </summary>
         /// <param name="account">The account which should get inserted or replaced.</param>
-        public void setAccount(XMPPAccount account)
+        public void setAccount(XMPPAccount account, bool triggerAccountChanged)
         {
             update(new AccountTable(account));
             Vault.storePassword(account);
+            if (triggerAccountChanged)
+            {
+                AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, false));
+            }
         }
 
         #endregion
@@ -44,10 +53,14 @@ namespace Data_Manager2.Classes.DBManager
         /// Deletes the given account.
         /// </summary>
         /// <param name="account">The account to delete.</param>
-        public void deleteAccount(XMPPAccount account)
+        public void deleteAccount(XMPPAccount account, bool triggerAccountChanged)
         {
             dB.Execute("DELETE FROM AccountTable WHERE id LIKE ?;", account.getIdAndDomain());
             Vault.deletePassword(account);
+            if (triggerAccountChanged)
+            {
+                AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, true));
+            }
         }
 
         /// <summary>
@@ -68,6 +81,17 @@ namespace Data_Manager2.Classes.DBManager
             return results;
         }
 
+        /// <summary>
+        /// Deletes the old account and inserts the new account.
+        /// </summary>
+        /// <param name="oldAccount">The old account, which should get deleted.</param>
+        /// <param name="account">The account, that should get inserted.</param>
+        public void replaceAccount(XMPPAccount oldAccount, XMPPAccount account)
+        {
+            deleteAccount(oldAccount, true);
+            setAccount(account, true);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -85,7 +109,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             dB.DropTable<AccountTable>();
         }
-
+        
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--

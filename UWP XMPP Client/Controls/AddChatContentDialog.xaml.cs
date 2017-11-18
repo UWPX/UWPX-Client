@@ -1,13 +1,13 @@
-﻿using System;
-using Data_Manager.Classes;
-using System.Collections;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
-using Data_Manager.Classes.Managers;
-using Data_Manager.Classes.DBEntries;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -21,7 +21,7 @@ namespace UWP_XMPP_Client.Controls
         public bool cancled;
         public XMPPClient client;
         private ObservableCollection<string> accounts;
-        private ArrayList clients;
+        private List<XMPPClient> clients;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,7 +44,7 @@ namespace UWP_XMPP_Client.Controls
         public void loadAccounts()
         {
             accounts = new ObservableCollection<string>();
-            clients = ConnectionHandler.INSTANCE.getXMPPClients();
+            clients = ConnectionHandler.INSTANCE.getClients();
             foreach (XMPPClient c in clients)
             {
                 accounts.Add(c.getXMPPAccount().getIdAndDomain());
@@ -90,8 +90,8 @@ namespace UWP_XMPP_Client.Controls
             else if(Utils.isValidJabberId(jabberId_tbx.Text))
             {
                 jabberId = jabberId_tbx.Text;
-                client = (XMPPClient)clients[account_cbx.SelectedIndex];
-                if (ChatManager.INSTANCE.doesChatExist(ChatEntry.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
+                client = clients[account_cbx.SelectedIndex];
+                if (ChatManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
                 {
                     MessageDialog messageDialog = new MessageDialog("Error")
                     {

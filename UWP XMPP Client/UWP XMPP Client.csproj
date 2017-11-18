@@ -346,9 +346,9 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data_Manager\Data_Manager.csproj">
-      <Project>{3cd95cc4-1d57-44ff-961c-7defd002d2e6}</Project>
-      <Name>Data_Manager</Name>
+    <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
+      <Project>{cb58ce53-8e53-49c8-9936-15fe2ea6a7eb}</Project>
+      <Name>Data_Manager2</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>

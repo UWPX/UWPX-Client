@@ -1,6 +1,4 @@
-﻿using Data_Manager.Classes;
-using Data_Manager.Classes.Managers;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages.SettingsPages;
@@ -12,6 +10,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
+using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -98,7 +98,7 @@ namespace UWP_XMPP_Client.Controls
                 disableAccount_tggls.IsOn = !Account.disabled;
                 color_tbx.Text = Account.color ?? "";
                 updateColor(color_tbx.Text);
-                XMPPClient client = ConnectionHandler.INSTANCE.getClientForAccount(Account);
+                XMPPClient client = ConnectionHandler.INSTANCE.getClient(Account.getIdAndDomain());
                 if(client != null)
                 {
                     showConnectionState(client);
@@ -115,9 +115,7 @@ namespace UWP_XMPP_Client.Controls
             }
             XMPPAccount oldAccount = Account;
             Account = account;
-            UserManager.INSTANCE.replaceAccount(oldAccount, Account);
-            ConnectionHandler.INSTANCE.reloadAllAccounts();
-            SETTINGS_PAGE.loadAccounts();
+            AccountManager.INSTANCE.replaceAccount(oldAccount, Account);
         }
 
         private async Task<bool> saveAccountAsync()
@@ -241,9 +239,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 return;
             }
-            UserManager.INSTANCE.deleteAccount(Account);
-            SETTINGS_PAGE.loadAccounts();
-            ConnectionHandler.INSTANCE.reloadAllAccounts();
+            AccountManager.INSTANCE.deleteAccount(Account, true);
         }
 
         private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)

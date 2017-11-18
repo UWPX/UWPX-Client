@@ -1,12 +1,14 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Data_Manager2.Classes.DBTables;
+using System.ComponentModel;
 
-namespace UWP_XMPP_Client.Controls
+namespace Data_Manager.Classes.Events
 {
-    public sealed partial class AccountImage : UserControl
+    public class ChatChangedEventArgs : CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly ChatTable CHAT;
+        public readonly bool REMOVED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +17,12 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 18/11/2017 Created [Fabian Sauter]
+        /// 10/09/2017 Created [Fabian Sauter]
         /// </history>
-        public AccountImage()
+        public ChatChangedEventArgs(ChatTable chat, bool removed)
         {
-            this.InitializeComponent();
+            this.CHAT = chat;
+            this.REMOVED = removed;
         }
 
         #endregion

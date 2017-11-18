@@ -60,7 +60,8 @@ namespace UWP_XMPP_Client
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
-            await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
+            // TODO re-implement transfer socket ownership:
+            //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
             deferral.Complete();
         }
 

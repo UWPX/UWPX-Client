@@ -1,12 +1,15 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Data_Manager2.Classes.DBTables;
+using System.ComponentModel;
+using XMPP_API.Classes.Network;
 
-namespace UWP_XMPP_Client.Controls
+namespace Data_Manager.Classes.Events
 {
-    public sealed partial class AccountImage : UserControl
+    public class AccountChangedEventArgs : CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly XMPPAccount ACCOUNT;
+        public readonly bool REMOVED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,9 +20,10 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 18/11/2017 Created [Fabian Sauter]
         /// </history>
-        public AccountImage()
+        public AccountChangedEventArgs(XMPPAccount account, bool removed)
         {
-            this.InitializeComponent();
+            this.ACCOUNT = account;
+            this.REMOVED = removed;
         }
 
         #endregion

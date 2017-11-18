@@ -1,4 +1,4 @@
-﻿using Data_Manager.Classes.DBEntries;
+﻿using Data_Manager2.Classes.DBTables;
 using System;
 using XMPP_API.Classes;
 
@@ -8,7 +8,7 @@ namespace UWP_XMPP_Client.Classes.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ChatEntry CHAT;
+        private readonly ChatTable CHAT;
         private readonly XMPPClient CLIENT;
 
         #endregion
@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.Classes.Events
         /// <history>
         /// 20/09/2017 Created [Fabian Sauter]
         /// </history>
-        public NavigatedToUserProfileEventArgs(ChatEntry chat, XMPPClient client)
+        public NavigatedToUserProfileEventArgs(ChatTable chat, XMPPClient client)
         {
             this.CHAT = chat;
             this.CLIENT = client;
@@ -29,7 +29,7 @@ namespace UWP_XMPP_Client.Classes.Events
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public ChatEntry getChat()
+        public ChatTable getChat()
         {
             return CHAT;
         }
