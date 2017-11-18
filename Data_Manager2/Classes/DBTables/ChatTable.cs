@@ -57,7 +57,7 @@ namespace Data_Manager2.Classes.DBTables
         #region --Misc Methods (Public)--
         public static string generateId(string jabberID, string userAccountID)
         {
-            return jabberID + userAccountID + 111;
+            return jabberID + userAccountID;
         }
 
         #endregion

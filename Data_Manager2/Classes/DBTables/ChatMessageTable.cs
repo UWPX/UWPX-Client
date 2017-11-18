@@ -1,4 +1,5 @@
 ﻿using Data_Manager.Classes;
+using SQLite.Net.Attributes;
 using System;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -10,6 +11,7 @@ namespace Data_Manager2.Classes.DBTables
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         // Random message id
+        [PrimaryKey]
         public string id { get; set; }
         // the chat id e.g. alice@jabber.orgbob@jaber.de
         public string chatId { get; set; }
@@ -37,7 +39,6 @@ namespace Data_Manager2.Classes.DBTables
         /// </history>
         public ChatMessageTable()
         {
-
         }
 
         public ChatMessageTable(MessageMessage msg, ChatTable chat)

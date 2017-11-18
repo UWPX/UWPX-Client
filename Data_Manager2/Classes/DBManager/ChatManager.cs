@@ -30,7 +30,8 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ChatManager()
         {
-
+            dropTables();
+            createTables();
         }
 
         #endregion
