@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,7 +55,6 @@ namespace XMPP_API.Classes.Network.TCP
         private string getCertificateInformation(Certificate serverCert, IReadOnlyList<Certificate> intermediateCertificates)
         {
             StringBuilder stringBuilder = new StringBuilder();
-
             stringBuilder.AppendLine("\tFriendly Name: " + serverCert.FriendlyName);
             stringBuilder.AppendLine("\tSubject: " + serverCert.Subject);
             stringBuilder.AppendLine("\tIssuer: " + serverCert.Issuer);
@@ -76,7 +76,7 @@ namespace XMPP_API.Classes.Network.TCP
 
             return stringBuilder.ToString();
         }
-
+        
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -219,6 +219,10 @@ namespace XMPP_API.Classes.Network.TCP
                     catch (OperationCanceledException e)
                     {
                         errorCount++;
+                    }
+                    catch (COMException e)
+                    {
+                        Logger.Error("Server closed connection - TCPConnectionHandler", e);
                     }
                     catch (Exception e)
                     {

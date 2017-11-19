@@ -1,5 +1,7 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes;
 using Logging;
+using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Networking.PushNotifications;
@@ -32,35 +34,132 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private bool getChannelSuccess()
+        {
+            return Settings.getSettingBoolean(SettingsConsts.PUSH_CHANNEL_SEND_SUCCESS + client.getXMPPAccount().getIdAndDomain());
+        }
 
+        private void setChannelSuccess(bool success)
+        {
+            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_SEND_SUCCESS + client.getXMPPAccount().getIdAndDomain(), success);
+        }
+
+        private string getOldChannelTokenUrl()
+        {
+            return Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_TOKEN_URL + client.getXMPPAccount().getIdAndDomain());
+        }
+
+        private void setChannelTokenUrl(string url)
+        {
+            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_TOKEN_URL + client.getXMPPAccount().getIdAndDomain(), url);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task connectAndSendAsync()
+        /// <summary>
+        /// Requests a PushNotificationChannel and sends if needed the new token to the push server.
+        /// </summary>
+        /// <returns>Returns true, if the token is still up to date or the token was send successfully to the push server.
+        /// Returns false, if the process failed.</returns>
+        public async Task<bool> connectAndSendAsync()
         {
-            await TCP_CONNECTION_HANDLER.connectAsync();
-            Logger.Info("Connected");
-            await TCP_CONNECTION_HANDLER.sendMessageToServerAsync(getMessage());
-            Logger.Info("Send");
-            Logger.Info(TCP_CONNECTION_HANDLER.readMessageFromServer());
-            await TCP_CONNECTION_HANDLER.disconnectAsync();
+            PushNotificationChannel channel = await requestChannelAsync();
+            if (channel == null)
+            {
+                setChannelSuccess(false);
+                return false;
+            }
+            string oldChannelUrl = getOldChannelTokenUrl();
+            if (oldChannelUrl != null && oldChannelUrl.Equals(channel.Uri) && getChannelSuccess())
+            {
+                Logger.Info("Chanel URL token still up to date. No need to send the token again.");
+                return true;
+            }
+
+            string result = null;
+            for (int i = 1; i < 4; i++)
+            {
+                result = null;
+                try
+                {
+                    Task t = Task.Factory.StartNew(async () =>
+                    {
+                        try
+                        {
+                            await TCP_CONNECTION_HANDLER.disconnectAsync();
+                            await TCP_CONNECTION_HANDLER.connectAsync();
+                            TCP_CONNECTION_HANDLER.getCertificateInformation();
+                            Logger.Info("Connected to the push server (" + Consts.PUSH_SERVER_ADDRESS + ").");
+                            await TCP_CONNECTION_HANDLER.sendMessageToServerAsync(getMessage(channel.Uri));
+                            result = TCP_CONNECTION_HANDLER.readMessageFromServer();
+                        }
+                        catch (Exception e)
+                        {
+                        }
+                    });
+                    CancellationTokenSource cTS = new CancellationTokenSource();
+                    if (t.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token))
+                    {
+                        cTS.Cancel();
+                        break;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error(i + " try to connect to: " + Consts.PUSH_SERVER_ADDRESS + " - FAILED! " + e.Message);
+                    continue;
+                }
+                if (result != null)
+                {
+                    if (result.Contains("success"))
+                    {
+                        setChannelSuccess(true);
+                        setChannelTokenUrl(channel.Uri);
+                        Logger.Info("Successfully send a new push token URL to the push server.");
+                        return true;
+                    }
+                    else if (result.Contains("error"))
+                    {
+                        Logger.Error("Unable to send token to the push server. Server answered: " + result);
+                    }
+                }
+            }
+            setChannelSuccess(false);
+            return false;
         }
 
-        public async Task requestNotificationChannelAsync()
+        public async Task<PushNotificationChannel> requestChannelAsync()
         {
-            PushNotificationChannel channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync("");
+            PushNotificationChannel channel = null;
+            for (int i = 1; i < 4; i++)
+            {
+                try
+                {
+                    channel = await PushNotificationChannelManager.CreatePushNotificationChannelForApplicationAsync();
+                    if (channel != null)
+                    {
+                        Logger.Info("Successfully requested a new push channel token.");
+                        return channel;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Try " + i + "to request a push notification channel failed!", e);
+                }
+            }
+            Logger.Error("Unable to request push notification channel!");
+            return null;
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private string getMessage()
+        private string getMessage(string url)
         {
             XElement n = new XElement("push");
             n.Add(new XAttribute("clientId", client.getXMPPAccount().getIdAndDomain()));
-            n.Add(new XAttribute("wns", 42));
-            n.Add(new XAttribute("key", "someKey"));
+            n.Add(new XAttribute("pushChannel", url));
             return n.ToString();
         }
 

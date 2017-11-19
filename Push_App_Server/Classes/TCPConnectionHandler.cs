@@ -1,10 +1,13 @@
 ﻿using Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
+using Windows.Security.Cryptography.Certificates;
 
 namespace Push_App_Server.Classes
 {
@@ -32,41 +35,66 @@ namespace Push_App_Server.Classes
         {
 
         }
-        
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Gets detailed certificate information.
+        /// Source: https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/StreamSocket/cs/Scenario5_Certificates.xaml.cs
+        /// </summary>
+        /// <param name="serverCert">The server certificate.</param>
+        /// <param name="intermediateCertificates">The server certificate chain.</param>
+        /// <returns>A string containing certificate details.</returns>
+        public string getCertificateInformation(Certificate serverCert, IReadOnlyList<Certificate> intermediateCertificates)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
 
+            stringBuilder.AppendLine("\tFriendly Name: " + serverCert.FriendlyName);
+            stringBuilder.AppendLine("\tSubject: " + serverCert.Subject);
+            stringBuilder.AppendLine("\tIssuer: " + serverCert.Issuer);
+            stringBuilder.AppendLine("\tValidity: " + serverCert.ValidFrom + " - " + serverCert.ValidTo);
+
+            // Enumerate the entire certificate chain.
+            if (intermediateCertificates.Count > 0)
+            {
+                stringBuilder.AppendLine("\tCertificate chain: ");
+                foreach (var cert in intermediateCertificates)
+                {
+                    stringBuilder.AppendLine("\t\tIntermediate Certificate Subject: " + cert.Subject);
+                }
+            }
+            else
+            {
+                stringBuilder.AppendLine("\tNo certificates within the intermediate chain.");
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public string getCertificateInformation()
+        {
+            return getCertificateInformation(tcpSocket.Information.ServerCertificate, tcpSocket.Information.ServerIntermediateCertificates);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public async Task connectAsync()
         {
-            for (int i = 1; i < 4; i++)
-            {
-                try
-                {
-                    // Setup socket:
-                    tcpSocket = new StreamSocket();
-                    serverHost = new HostName(Consts.PUSH_SERVER_ADDRESS);
+            // Setup socket:
+            tcpSocket = new StreamSocket();
+            serverHost = new HostName(Consts.PUSH_SERVER_ADDRESS);
 
-                    // Connect:
-                    await tcpSocket.ConnectAsync(serverHost, Consts.PORT.ToString());
+            // Connect:
+            await tcpSocket.ConnectAsync(serverHost, Consts.PORT.ToString(), SocketProtectionLevel.Tls12);
 
-                    // Setup writer:
-                    writer = new StreamWriter(tcpSocket.OutputStream.AsStreamForWrite());
+            // Setup writer:
+            writer = new StreamWriter(tcpSocket.OutputStream.AsStreamForWrite());
 
-                    // Setup Reader:
-                    reader = new StreamReader(tcpSocket.InputStream.AsStreamForRead());
-                    return;
-                }
-                catch (Exception e)
-                {
-                    Logger.Error(i + " try to connect to: " + Consts.PUSH_SERVER_ADDRESS, e);
-                    cleanupConnection();
-                }
-            }
+            // Setup Reader:
+            reader = new StreamReader(tcpSocket.InputStream.AsStreamForRead());
+            return;
         }
 
         public async Task disconnectAsync()
@@ -74,8 +102,8 @@ namespace Push_App_Server.Classes
             if (cTS != null)
             {
                 cTS.Cancel();
+                await Task.Delay(TimeSpan.FromSeconds(1));
             }
-            await Task.Delay(TimeSpan.FromSeconds(1));
             cleanupConnection();
         }
 
@@ -113,15 +141,11 @@ namespace Push_App_Server.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private void cleanupConnection()
+        public void cleanupConnection()
         {
-            tcpSocket?.Dispose();
             tcpSocket = null;
-            writer?.Dispose();
             writer = null;
-            reader?.Dispose();
             reader = null;
-            cTS?.Dispose();
             cTS = null;
             GC.Collect();
         }

@@ -293,7 +293,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 uuu = 0;
             }*/
-            DataWriter dW = new DataWriter(Client, Chat);
+            DataWriter dW = new DataWriter(Client);
             await dW.connectAndSendAsync();
         }
 

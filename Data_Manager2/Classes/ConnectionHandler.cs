@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager.Classes.Events;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
 using System;
@@ -18,6 +19,10 @@ namespace Data_Manager2.Classes
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
 
         private static List<XMPPClient> clients;
+
+        public delegate void ClientConnectedHandler(ConnectionHandler handler, ClientConnectedEventArgs args);
+
+        public event ClientConnectedHandler ClientConnected;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -146,7 +151,16 @@ namespace Data_Manager2.Classes
             c.NewPresence += C_NewPresence;
             c.ConnectionStateChanged += C_ConnectionStateChanged; // Requesting roster if connected
             clients.Add(c);
+            c.ConnectionStateChanged += C_ConnectionStateChanged1;
             return c;
+        }
+
+        private void C_ConnectionStateChanged1(XMPPClient client, ConnectionState state)
+        {
+            if(state == ConnectionState.CONNECTED)
+            {
+                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+            }
         }
 
         #endregion

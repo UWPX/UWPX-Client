@@ -108,6 +108,9 @@
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\DataWriter.cs" />
+    <Compile Include="Classes\PushConnection.cs" />
+    <Compile Include="Classes\PushManager.cs" />
+    <Compile Include="Classes\PushConnectionState.cs" />
     <Compile Include="Classes\TCPConnectionHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Push_App_Server.rd.xml" />
