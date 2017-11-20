@@ -17,7 +17,6 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
-
         private static List<XMPPClient> clients;
 
         public delegate void ClientConnectedHandler(ConnectionHandler handler, ClientConnectedEventArgs args);
@@ -350,7 +349,7 @@ namespace Data_Manager2.Classes
                         }
                         catch
                         {
-                            
+
                         }
                     }
                 });

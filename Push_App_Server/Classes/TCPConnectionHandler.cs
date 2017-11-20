@@ -86,6 +86,9 @@ namespace Push_App_Server.Classes
             tcpSocket = new StreamSocket();
             serverHost = new HostName(Consts.PUSH_SERVER_ADDRESS);
 
+            tcpSocket.Control.IgnorableServerCertificateErrors.Add(ChainValidationResult.Untrusted);
+            tcpSocket.Control.IgnorableServerCertificateErrors.Add(ChainValidationResult.InvalidName);
+
             // Connect:
             await tcpSocket.ConnectAsync(serverHost, Consts.PORT.ToString(), SocketProtectionLevel.Tls12);
 

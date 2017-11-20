@@ -18,7 +18,6 @@
                 <ToggleSwitch x:Name="enterToSend_tgls" Header="Enter to send a Message:" Margin="0, 10, 0, 0" Toggled="enterToSend_tgls_Toggled"/>
                 <ToggleSwitch x:Name="sendChatState_tgls" Header="Send chat state:" Margin="0, 10, 0, 0" Toggled="sendChatState_tgls_Toggled"/>
             </StackPanel>
-            <!--<TextBlock Grid.Row="1" Text="Select chat background:" Margin="10, 10, 10, 0"/>-->
         </Grid>
     </ScrollViewer>
 </Page>

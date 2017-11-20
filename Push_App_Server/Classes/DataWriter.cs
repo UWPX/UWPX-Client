@@ -80,29 +80,32 @@ namespace Push_App_Server.Classes
             string result = null;
             for (int i = 1; i < 4; i++)
             {
+                if(client.getConnetionState() != XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                {
+                    return false;
+                }
                 result = null;
                 try
                 {
-                    Task t = Task.Factory.StartNew(async () =>
+                    Task<Task<string>> t = Task<Task<string>>.Factory.StartNew(async () =>
                     {
-                        try
-                        {
-                            await TCP_CONNECTION_HANDLER.disconnectAsync();
-                            await TCP_CONNECTION_HANDLER.connectAsync();
-                            TCP_CONNECTION_HANDLER.getCertificateInformation();
-                            Logger.Info("Connected to the push server (" + Consts.PUSH_SERVER_ADDRESS + ").");
-                            await TCP_CONNECTION_HANDLER.sendMessageToServerAsync(getMessage(channel.Uri));
-                            result = TCP_CONNECTION_HANDLER.readMessageFromServer();
-                        }
-                        catch (Exception e)
-                        {
-                        }
+                        await TCP_CONNECTION_HANDLER.disconnectAsync();
+                        Logger.Info("Connecting to the push server (" + Consts.PUSH_SERVER_ADDRESS + ")...");
+                        await TCP_CONNECTION_HANDLER.connectAsync();
+                        TCP_CONNECTION_HANDLER.getCertificateInformation();
+                        Logger.Info("Connected to the push server (" + Consts.PUSH_SERVER_ADDRESS + ").");
+                        await TCP_CONNECTION_HANDLER.sendMessageToServerAsync(getMessage(channel.Uri));
+                        return TCP_CONNECTION_HANDLER.readMessageFromServer();
                     });
                     CancellationTokenSource cTS = new CancellationTokenSource();
-                    if (t.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token))
+                    if (t.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token) && t.Result.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token))
                     {
+                        result = t.Result.Result;
                         cTS.Cancel();
-                        break;
+                    }
+                    else
+                    {
+                        Logger.Error("Unable to connect to the push server - timeout.");
                     }
                 }
                 catch (Exception e)

@@ -1,17 +1,13 @@
 ﻿using Data_Manager2.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Push_App_Server.Classes
 {
-    class PushManager
+    public class PushManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private PushConnectionState state;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,7 +20,6 @@ namespace Push_App_Server.Classes
         /// </history>
         public PushManager()
         {
-            ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 
         #endregion
@@ -35,7 +30,10 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static void init()
+        {
+            ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
+        }
 
         #endregion
 
@@ -50,9 +48,13 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void INSTANCE_ClientConnected(ConnectionHandler handler, Data_Manager.Classes.Events.ClientConnectedEventArgs args)
+        private static void INSTANCE_ClientConnected(ConnectionHandler handler, Data_Manager.Classes.Events.ClientConnectedEventArgs args)
         {
-            
+            Task.Factory.StartNew(async () =>
+            {
+                DataWriter dW = new DataWriter(args.CLIENT);
+                await dW.connectAndSendAsync();
+            });
         }
 
         #endregion

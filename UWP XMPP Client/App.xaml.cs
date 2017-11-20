@@ -76,6 +76,12 @@ namespace UWP_XMPP_Client
             // Loads all background images into the cache
             BackgroundImageCache.loadCache();
 
+            // Setup push server connection:
+            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_PUSH))
+            {
+                Push_App_Server.Classes.PushManager.init();
+            }
+
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
