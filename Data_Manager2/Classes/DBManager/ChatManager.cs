@@ -79,7 +79,7 @@ namespace Data_Manager2.Classes.DBManager
 
         private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
         {
-            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE state = ? AND fromUser != ?;", MessageState.UNREAD, chat.userAccountId);
+            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
         }
 
         public List<ChatTable> getAllChatsForClient(string userAccountId)
@@ -120,6 +120,7 @@ namespace Data_Manager2.Classes.DBManager
             Parallel.ForEach(getAllUnreadMessages(chat), (msg) =>
             {
                 msg.state = MessageState.READ;
+                update(msg);
                 msg.onChanged();
             });
         }
