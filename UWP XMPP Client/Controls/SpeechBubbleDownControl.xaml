@@ -11,7 +11,7 @@
 
         <Border Visibility="Visible" Background="{ThemeResource SystemAccentColorDark3}" BorderBrush="Black" BorderThickness="1" Padding="10" VerticalAlignment="Bottom" Margin="0, 0, 0, 10" MinWidth="150" MinHeight="50">
             <StackPanel>
-                <TextBlock Text="{x:Bind Text}" TextWrapping="WrapWholeWords"/>
+                <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap"/>
                 <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
             </StackPanel>
         </Border>

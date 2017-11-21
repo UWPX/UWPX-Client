@@ -19,7 +19,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="{x:Bind icon}" Foreground="{ThemeResource SystemAccentColor}" FontSize="50" HorizontalAlignment="Center" Margin="0, 20, 0, 10"/>
                 <TextBlock Grid.Row="1" Text="{x:Bind name}" HorizontalAlignment="Center"/>
-                <TextBlock Grid.Row="2" Text="{x:Bind description}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" TextWrapping="WrapWholeWords" MaxLines="5" HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="2" Text="{x:Bind description}" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" TextWrapping="Wrap" MaxLines="5" HorizontalAlignment="Center"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
