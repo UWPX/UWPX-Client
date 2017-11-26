@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="BackgroundImageTemplate" x:DataType="datatemplates:BackgroundImage">
+        <DataTemplate x:Key="BackgroundImageTemplate" x:DataType="datatemplates:BackgroundImageTemplate">
             <controls:BackgroundImageSelectionControl ImagePath="{x:Bind imagePath}" Selected="{x:Bind selected}"/>
         </DataTemplate>
     </Page.Resources>

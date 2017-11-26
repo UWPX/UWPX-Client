@@ -2,7 +2,7 @@
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    public class Setting
+    public class SettingTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.DataTemplates
         /// <history>
         /// 03/09/2017 Created [Fabian Sauter]
         /// </history>
-        public Setting()
+        public SettingTemplate()
         {
 
         }

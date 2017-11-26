@@ -6,7 +6,7 @@ using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    public class Chat : INotifyPropertyChanged
+    public class ChatTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -70,7 +70,7 @@ namespace UWP_XMPP_Client.DataTemplates
         /// <history>
         /// 28/08/2017 Created [Fabian Sauter]
         /// </history>
-        public Chat()
+        public ChatTemplate()
         {
 
         }

@@ -12,7 +12,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<BackgroundImage> backgroundImages;
+        private ObservableCollection<BackgroundImageTemplate> backgroundImages;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -43,7 +43,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void reloadBackgroundImageControl(BackgroundImage img)
+        private void reloadBackgroundImageControl(BackgroundImageTemplate img)
         {
             int index = backgroundImages.IndexOf(img);
             if(index >= 0)
@@ -77,9 +77,9 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void AdaptiveGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if(e.ClickedItem is BackgroundImage)
+            if(e.ClickedItem is BackgroundImageTemplate)
             {
-                BackgroundImage img = e.ClickedItem as BackgroundImage;
+                BackgroundImageTemplate img = e.ClickedItem as BackgroundImageTemplate;
                 img.selected = true;
                 if(BackgroundImageCache.selectedImage != null)
                 {

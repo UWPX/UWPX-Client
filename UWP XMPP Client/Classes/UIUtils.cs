@@ -25,7 +25,7 @@ namespace UWP_XMPP_Client.Classes
         #region --Set-, Get- Methods--
         public static void setBackgroundImage(ImageEx imgControl)
         {
-            BackgroundImage img = BackgroundImageCache.selectedImage;
+            BackgroundImageTemplate img = BackgroundImageCache.selectedImage;
             if (img == null || img.imagePath == null)
             {
                 imgControl.Source = null;

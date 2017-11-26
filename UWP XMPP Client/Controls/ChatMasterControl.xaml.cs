@@ -57,6 +57,7 @@ namespace UWP_XMPP_Client.Controls
             this.InitializeComponent();
             this.subscriptionRequest = false;
             this.lastChatMessage = null;
+            ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
         }
 

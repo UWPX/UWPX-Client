@@ -139,9 +139,9 @@
     <Compile Include="Controls\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataTemplates\BackgroundImage.cs" />
-    <Compile Include="DataTemplates\Setting.cs" />
-    <Compile Include="DataTemplates\Chat.cs" />
+    <Compile Include="DataTemplates\BackgroundImageTemplate.cs" />
+    <Compile Include="DataTemplates\SettingTemplate.cs" />
+    <Compile Include="DataTemplates\ChatTemplate.cs" />
     <Compile Include="Controls\ChatMasterControl.xaml.cs">
       <DependentUpon>ChatMasterControl.xaml</DependentUpon>
     </Compile>

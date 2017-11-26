@@ -10,11 +10,11 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="masterTemplate" x:DataType="datatemplates:Chat">
+        <DataTemplate x:Key="masterTemplate" x:DataType="datatemplates:ChatTemplate">
             <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:Chat">
+        <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:ChatTemplate">
             <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}"/>
         </DataTemplate>
 

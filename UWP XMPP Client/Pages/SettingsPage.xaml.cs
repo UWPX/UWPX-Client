@@ -11,7 +11,7 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<Setting> settings { get; set; }
+        private ObservableCollection<SettingTemplate> settings { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,14 +44,14 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private void loadSettingsCategories()
         {
-            settings = new ObservableCollection<Setting>()
+            settings = new ObservableCollection<SettingTemplate>()
             {
-                new Setting() {icon = "\xE13D", name = "Accounts", description = "Manage Accounts", page = typeof(AccountSettingsPage)},
-                new Setting() {icon = "\xE771", name = "Personalize", description = "Background, Color", page = typeof(PersonalizeSettingsPage)},
-                new Setting() {icon = "\xE12B", name = "Data", description = "Mobile Data, Wifi", page = typeof(DataSettingsPage)},
-                new Setting() {icon = "\xE15F", name = "Chat", description = "Availability", page = typeof(ChatSettingsPage)},
-                new Setting() {icon = "\xE71D", name = "Background Tasks", description = "Manage Tasks", page = typeof(BackgroundTasksSettingsPage)},
-                new Setting() {icon = "\xE713", name = "Misc", description = "Everything Else", page = typeof(MiscSettingsPage)},
+                new SettingTemplate() {icon = "\xE13D", name = "Accounts", description = "Manage Accounts", page = typeof(AccountSettingsPage)},
+                new SettingTemplate() {icon = "\xE771", name = "Personalize", description = "Background, Color", page = typeof(PersonalizeSettingsPage)},
+                new SettingTemplate() {icon = "\xE12B", name = "Data", description = "Mobile Data, Wifi", page = typeof(DataSettingsPage)},
+                new SettingTemplate() {icon = "\xE15F", name = "Chat", description = "Availability", page = typeof(ChatSettingsPage)},
+                new SettingTemplate() {icon = "\xE71D", name = "Background Tasks", description = "Manage Tasks", page = typeof(BackgroundTasksSettingsPage)},
+                new SettingTemplate() {icon = "\xE713", name = "Misc", description = "Everything Else", page = typeof(MiscSettingsPage)},
             };
         }
 
@@ -70,10 +70,10 @@ namespace UWP_XMPP_Client.Pages
         #region --Events--
         private void AdaptiveGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if(e.ClickedItem != null && e.ClickedItem is Setting)
+            if(e.ClickedItem != null && e.ClickedItem is SettingTemplate)
             {
-                navigateToPage((e.ClickedItem as Setting).page);
-            }            
+                navigateToPage((e.ClickedItem as SettingTemplate).page);
+            }
         }
 
         private void AbstractBackRequestPage_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)

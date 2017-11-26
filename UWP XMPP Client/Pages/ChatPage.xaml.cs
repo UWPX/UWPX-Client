@@ -22,7 +22,7 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private CustomObservableCollection<Chat> chatsList;
+        private CustomObservableCollection<ChatTemplate> chatsList;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -35,9 +35,10 @@ namespace UWP_XMPP_Client.Pages
         /// </history>
         public ChatPage()
         {
-            this.chatsList = new CustomObservableCollection<Chat>();
+            this.chatsList = new CustomObservableCollection<ChatTemplate>();
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
+            ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             UiUtils.setBackgroundImage(backgroundImage_img);
         }
@@ -62,7 +63,7 @@ namespace UWP_XMPP_Client.Pages
         /// Removes the given chat from the chatList and keeps the selected item in the masterDetail_pnl.
         /// </summary>
         /// <param name="c">The chat to remove.</param>
-        private void removeChat(Chat c)
+        private void removeChat(ChatTemplate c)
         {
             var selectedItem = masterDetail_pnl.SelectedItem;
             chatsList.Remove(c);
@@ -72,7 +73,7 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void addToChatsSorted(Chat c)
+        private void addToChatsSorted(ChatTemplate c)
         {
             var selecetItem = masterDetail_pnl.SelectedItem;
             for (int i = 0; i < chatsList.Count; i++)
@@ -94,12 +95,12 @@ namespace UWP_XMPP_Client.Pages
             chatsList.Clear();
 
             // Load all chats:
-            Chat selectedChat = null;
+            ChatTemplate selectedChat = null;
             foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
             {
                 foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                 {
-                    Chat chatElement = new Chat { chat = chat, client = c };
+                    ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
                     addToChatsSorted(chatElement);
                     if (string.Equals(selectedChatId, chat.id))
                     {
@@ -197,7 +198,7 @@ namespace UWP_XMPP_Client.Pages
         private void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
             ChatTable chatTable = args.CHAT;
-            foreach (Chat c in chatsList)
+            foreach (ChatTemplate c in chatsList)
             {
                 if (c.chat != null && string.Equals(c.chat.id, chatTable.id))
                 {
@@ -223,7 +224,7 @@ namespace UWP_XMPP_Client.Pages
             {
                 if (chatTable.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
                 {
-                    Chat chatElement = new Chat { chat = args.CHAT, client = c };
+                    ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
                     Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => addToChatsSorted(chatElement)).AsTask();
                 }
             }
@@ -261,18 +262,18 @@ namespace UWP_XMPP_Client.Pages
                 // Send active chat state:
                 foreach (var added in e.AddedItems)
                 {
-                    if (added is Chat)
+                    if (added is ChatTemplate)
                     {
-                        Chat c = added as Chat;
+                        ChatTemplate c = added as ChatTemplate;
                         await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE);
                     }
                 }
                 // Send inactive chat state:
                 foreach (var added in e.RemovedItems)
                 {
-                    if (added is Chat)
+                    if (added is ChatTemplate)
                     {
-                        Chat c = added as Chat;
+                        ChatTemplate c = added as ChatTemplate;
                         await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.INACTIVE);
                     }
                 }

@@ -10,7 +10,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="settingsTemplate" x:DataType="datatemplates:Setting">
+        <DataTemplate x:Key="settingsTemplate" x:DataType="datatemplates:SettingTemplate">
             <Grid Margin="5, 10, 5, 0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

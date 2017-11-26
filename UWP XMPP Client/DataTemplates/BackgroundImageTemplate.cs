@@ -2,7 +2,7 @@
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class BackgroundImage
+    class BackgroundImageTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -19,7 +19,7 @@ namespace UWP_XMPP_Client.DataTemplates
         /// <history>
         /// 29/01/2017 Created [Fabian Sauter]
         /// </history>
-        public BackgroundImage()
+        public BackgroundImageTemplate()
         {
 
         }
