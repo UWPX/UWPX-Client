@@ -249,41 +249,11 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private async Task removeChatRequestClickedAsync(bool remove)
-        {
-            if (remove)
-            {
-                MessageDialog dialog = new MessageDialog("Do you also want to delete all chat messages from this chat?");
-                dialog.Commands.Add(new UICommand { Label = "No", Id = 0 });
-                dialog.Commands.Add(new UICommand { Label = "Yes", Id = 1 });
-                IUICommand command = await dialog.ShowAsync();
-                if ((int)command.Id == 1)
-                {
-                    ChatManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
-                }
-                ChatManager.INSTANCE.setChat(Chat, true, true);
-            }
-            else
-            {
-                Chat.subscription = "none";
-                ChatManager.INSTANCE.setChat(Chat, false, true);
-            }
-        }
-
         private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
         {
             await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted);
             Chat.ask = null;
             ChatManager.INSTANCE.setChat(Chat, false, true);
-        }
-
-        private async Task<bool> showShouldRemoveChat()
-        {
-            MessageDialog dialog = new MessageDialog("Do you really want to delete this chat?");
-            dialog.Commands.Add(new UICommand { Label = "No", Id = 0 });
-            dialog.Commands.Add(new UICommand { Label = "Yes", Id = 1 });
-            IUICommand command = await dialog.ShowAsync();
-            return (int)command.Id == 1;
         }
 
         private void resetAsk()
@@ -321,7 +291,8 @@ namespace UWP_XMPP_Client.Controls
             }
             else
             {
-                await removeChatRequestClickedAsync(true);
+                Chat.subscription = "none";
+                ChatManager.INSTANCE.setChat(Chat, false, true);
             }
         }
 
@@ -333,19 +304,26 @@ namespace UWP_XMPP_Client.Controls
             }
             else
             {
-                await removeChatRequestClickedAsync(false);
+                Chat.subscription = "none";
+                ChatManager.INSTANCE.setChat(Chat, false, true);
             }
         }
 
         private async void deleteChat_mfo_Click(object sender, RoutedEventArgs e)
         {
-            if (await showShouldRemoveChat())
+            DeleteChatDialog deleteChatDialog = new DeleteChatDialog();
+            await deleteChatDialog.ShowAsync();
+            if (deleteChatDialog.deleteChat)
             {
                 if (Chat.inRoster)
                 {
                     await Client.removeFromRosterAsync(Chat.chatJabberId);
                 }
-                await removeChatRequestClickedAsync(true);
+                ChatManager.INSTANCE.setChat(Chat, true, true);
+                if (!deleteChatDialog.keepChat)
+                {
+                    ChatManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
+                }
             }
         }
 

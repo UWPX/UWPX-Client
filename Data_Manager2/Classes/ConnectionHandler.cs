@@ -4,7 +4,6 @@ using Data_Manager2.Classes.DBTables;
 using Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
@@ -265,7 +264,7 @@ namespace Data_Manager2.Classes
                         chat.inRoster = !item.getSubscription().Equals("remove");
                         chat.ask = item.getAsk();
                     }
-                    else
+                    else if(!string.Equals(item.getSubscription(), "remove"))
                     {
                         chat = new ChatTable()
                         {
@@ -278,6 +277,10 @@ namespace Data_Manager2.Classes
                             inRoster = true,
                             ask = item.getAsk()
                         };
+                    }
+                    else
+                    {
+                        continue;
                     }
 
                     switch (chat.subscription)

@@ -83,7 +83,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 MessageDialog messageDialog = new MessageDialog("Error")
                 {
-                    Content = "You can't start a chat with you self!"
+                    Content = "You can't start a chat with your self!"
                 };
                 await messageDialog.ShowAsync();
             }
