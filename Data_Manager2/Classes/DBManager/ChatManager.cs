@@ -47,7 +47,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public ChatTable getChat(string id)
         {
-            IList<ChatTable> list = dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE id = ?;", id);
+            IList<ChatTable> list = dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE id = ? AND id = (chatJabberId || userAccountId);", id);
             if (list.Count < 1)
             {
                 return null;

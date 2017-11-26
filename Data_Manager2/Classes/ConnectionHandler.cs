@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using Logging;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
@@ -181,6 +182,13 @@ namespace Data_Manager2.Classes
         private void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceEventArgs args)
         {
             string from = Utils.removeResourceFromJabberid(args.getFrom());
+
+            // If received a presence message from your own account return
+            if (string.Equals(from, client.getXMPPAccount().getIdAndDomain()))
+            {
+                return;
+            }
+
             string to = client.getXMPPAccount().getIdAndDomain();
             string id = ChatTable.generateId(from, to);
             ChatTable chat = ChatManager.INSTANCE.getChat(id);
@@ -234,13 +242,13 @@ namespace Data_Manager2.Classes
                 string to = client.getXMPPAccount().getIdAndDomain();
                 string type = msg.getMessageType();
 
-                if (type != null && type.Equals(IQMessage.RESULT))
+                if (string.Equals(type, IQMessage.RESULT))
                 {
                     ChatManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
                 }
-                else
+                else if (type == null || !string.Equals(type, IQMessage.SET))
                 {
-                    // No roster result => return
+                    // No roster result or set => return
                     return;
                 }
                 foreach (RosterItem item in msg.getItems())
