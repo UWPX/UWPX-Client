@@ -1,16 +1,65 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    public class Chat
+    public class Chat : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public BitmapImage image { get; set; }
-        public ChatTable chat { get; set; }
-        public XMPPClient client { get; set; }
+        private BitmapImage _image;
+        public BitmapImage image
+        {
+            get
+            {
+                return _image;
+            }
+            set
+            {
+                if (value != _image)
+                {
+                    _image = value;
+                    onPropertyChanged("image");
+                }
+            }
+        }
+        private ChatTable _chat;
+        public ChatTable chat
+        {
+            get
+            {
+                return _chat;
+            }
+            set
+            {
+                if (value != _chat)
+                {
+                    _chat = value;
+                    onPropertyChanged("chat");
+                }
+            }
+        }
+        private XMPPClient _client;
+        public XMPPClient client
+        {
+            get
+            {
+                return _client;
+            }
+            set
+            {
+                if (value != _client)
+                {
+                    _client = value;
+                    onPropertyChanged("client");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -39,7 +88,10 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
-
+        protected void onPropertyChanged([CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
         #endregion
 

@@ -9,72 +9,78 @@
     xmlns:controls1="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <DataTemplate x:Key="masterTemplate" x:DataType="datatemplates:Chat">
+            <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:Chat">
+            <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="noSelectionTemplate">
+            <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
+                    <TextBlock FontSize="24" Text="Select an item to view."/>
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Image x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Grid>
+        <!--Background-->
+        <controls:ImageEx x:Name="backgroundImage_img" Grid.Row="0" IsCacheEnabled="True"
+                          Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <!--Content-->
         <Grid x:Name="main_grid" Grid.Row="0" Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <controls:MasterDetailsView x:Name="masterDetail_pnl" Grid.Row="2" ItemsSource="{x:Bind chats}" Background="Transparent" MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}" SelectionChanged="masterDetail_pnl_SelectionChanged">
-                <controls:MasterDetailsView.NoSelectionContentTemplate>
-                    <DataTemplate>
-                        <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                                <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
-                                <TextBlock FontSize="24" Text="Select an item to view."/>
-                            </StackPanel>
-                        </Grid>
-                    </DataTemplate>
-                </controls:MasterDetailsView.NoSelectionContentTemplate>
-                <controls:MasterDetailsView.MasterCommandBar>
-                    <CommandBar Margin="0, 0, 0, -1">
-                        <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add" Click="add_abb_Click">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets" Margin="0, -4, 0, 0"/>
-                            </AppBarButton.Icon>
-                            <AppBarButton.Flyout>
-                                <MenuFlyout>
-                                    <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
-                                    <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
-                                    <MenuFlyoutSeparator/>
-                                </MenuFlyout>
-                            </AppBarButton.Flyout>
-                        </AppBarButton>
-                        <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
-                            <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets" Margin="0, -4, 0, 0"/>
-                            </AppBarButton.Icon>
-                        </AppBarButton>
-                    </CommandBar>
-                </controls:MasterDetailsView.MasterCommandBar>
-                <controls:MasterDetailsView.ItemTemplate>
-                    <DataTemplate x:DataType="datatemplates:Chat">
-                        <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}" RightTapped="ChatMasterControl_RightTapped">
-                        </controls1:ChatMasterControl>
-                    </DataTemplate>
-                </controls:MasterDetailsView.ItemTemplate>
+            <controls:MasterDetailsView x:Name="masterDetail_pnl"
+                                        Grid.Row="2"
+                                        NoSelectionContentTemplate="{StaticResource noSelectionTemplate}"
+                                        ItemTemplate="{StaticResource masterTemplate}"
+                                        DetailsTemplate="{StaticResource detailsTemplate}"
+                                        ItemsSource="{x:Bind chatsList}"
+                                        Background="Transparent"
+                                        MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+                                        SelectionChanged="masterDetail_pnl_SelectionChanged">
                 <controls:MasterDetailsView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </controls:MasterDetailsView.ItemContainerStyle>
-                <controls:MasterDetailsView.DetailsTemplate>
-                    <DataTemplate x:DataType="datatemplates:Chat">
-                        <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}" Grid.Row="0"/>
-                    </DataTemplate>
-                </controls:MasterDetailsView.DetailsTemplate>
+                <controls:MasterDetailsView.MasterCommandBar>
+                <CommandBar>
+                    <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
+                                <MenuFlyoutItem x:Name="addMIX_mfoi" Text="Add Group Chat (MIX)" Click="addMIX_mfoi_Click"/>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
+                        <AppBarButton.Icon>
+                            <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar>
+                </controls:MasterDetailsView.MasterCommandBar>
             </controls:MasterDetailsView>
         </Grid>
-        <Grid x:Name="loading_grid" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <!--Loading Grid-->
+        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>

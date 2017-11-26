@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
@@ -23,7 +23,7 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public static void setBackgroundImage(Image imgControl)
+        public static void setBackgroundImage(ImageEx imgControl)
         {
             BackgroundImage img = BackgroundImageCache.selectedImage;
             if (img == null || img.imagePath == null)

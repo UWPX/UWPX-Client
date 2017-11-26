@@ -41,6 +41,7 @@ namespace UWP_XMPP_Client.Controls
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
 
         private bool subscriptionRequest;
+        private ChatMessageTable lastChatMessage;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -55,6 +56,7 @@ namespace UWP_XMPP_Client.Controls
         {
             this.InitializeComponent();
             this.subscriptionRequest = false;
+            this.lastChatMessage = null;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
         }
 
@@ -201,8 +203,21 @@ namespace UWP_XMPP_Client.Controls
 
         private void showLastChatMessage(ChatMessageTable chatMessage)
         {
+            if(chatMessage == lastChatMessage)
+            {
+                return;
+            }
+
+            // Remove the event subscription for the last message:
+            if(lastChatMessage != null)
+            {
+                lastChatMessage.ChatMessageChanged -= ChatMessage_ChatMessageChanged;
+            }
+
             if (chatMessage != null)
             {
+                lastChatMessage = chatMessage;
+                chatMessage.ChatMessageChanged += ChatMessage_ChatMessageChanged;
                 switch (chatMessage.state)
                 {
                     case Data_Manager.Classes.MessageState.UNREAD:
@@ -389,6 +404,11 @@ namespace UWP_XMPP_Client.Controls
         {
             await Client.unsubscribeFromPresence(Chat.chatJabberId);
             resetAsk();
+        }
+
+        private void ChatMessage_ChatMessageChanged(object sender, EventArgs e)
+        {
+            showLastChatMessage(lastChatMessage);
         }
 
         #endregion

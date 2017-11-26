@@ -31,7 +31,7 @@ namespace UWP_XMPP_Client.Pages
             this.InitializeComponent();
             UiUtils.setBackgroundImage(backgroundImage_img);
         }
-        
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--

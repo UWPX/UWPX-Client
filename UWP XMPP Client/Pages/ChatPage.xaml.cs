@@ -1,22 +1,20 @@
-﻿using System.Collections.ObjectModel;
-using UWP_XMPP_Client.DataTemplates;
-using Windows.UI.Core;
-using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes;
-using System;
-using System.Collections.Generic;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Navigation;
-using UWP_XMPP_Client.Controls;
-using Logging;
-using System.Threading.Tasks;
-using Windows.UI.Popups;
-using Windows.ApplicationModel.Activation;
-using UWP_XMPP_Client.Classes;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
+using Logging;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Controls;
+using UWP_XMPP_Client.DataTemplates;
+using Windows.ApplicationModel.Activation;
+using Windows.UI.Core;
+using Windows.UI.Popups;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -24,8 +22,7 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<Chat> chats { get; set; }
-        private string toastActivationString;
+        private CustomObservableCollection<Chat> chatsList;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,14 +31,14 @@ namespace UWP_XMPP_Client.Pages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 26/08/2017 Created [Fabian Sauter]
+        /// 26/11/2017 Created [Fabian Sauter]
         /// </history>
         public ChatPage()
         {
+            this.chatsList = new CustomObservableCollection<Chat>();
             this.InitializeComponent();
-            SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            this.toastActivationString = null;
             UiUtils.setBackgroundImage(backgroundImage_img);
         }
 
@@ -61,57 +58,61 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void loadChats()
+        /// <summary>
+        /// Removes the given chat from the chatList and keeps the selected item in the masterDetail_pnl.
+        /// </summary>
+        /// <param name="c">The chat to remove.</param>
+        private void removeChat(Chat c)
         {
-            chats = new ObservableCollection<Chat>();
+            var selectedItem = masterDetail_pnl.SelectedItem;
+            chatsList.Remove(c);
+            if (c != selectedItem)
+            {
+                masterDetail_pnl.SelectedItem = selectedItem;
+            }
+        }
 
+        private void addToChatsSorted(Chat c)
+        {
+            var selecetItem = masterDetail_pnl.SelectedItem;
+            for (int i = 0; i < chatsList.Count; i++)
+            {
+                if (DateTime.Compare(chatsList[i].chat.lastActive, c.chat.lastActive) <= 0)
+                {
+                    chatsList.Insert(i, c);
+                    masterDetail_pnl.SelectedItem = selecetItem;
+                    return;
+                }
+            }
+            chatsList.Add(c);
+            masterDetail_pnl.SelectedItem = selecetItem;
+        }
+
+        private void loadChats(string selectedChatId)
+        {
+            // Clear list:
+            chatsList.Clear();
+
+            // Load all chats:
             Chat selectedChat = null;
             foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
             {
-                List<ChatTable> list = ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain());
-                //sortChats(list);
-                foreach (ChatTable chat in list)
+                foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                 {
                     Chat chatElement = new Chat { chat = chat, client = c };
                     addToChatsSorted(chatElement);
-                    if (toastActivationString != null && toastActivationString.Equals(chat.id))
+                    if (string.Equals(selectedChatId, chat.id))
                     {
                         selectedChat = chatElement;
-                        toastActivationString = null;
                     }
                 }
             }
-            toastActivationString = null;
 
-            // Show the selected chat
+            // Show selected chat:
             if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
             {
                 masterDetail_pnl.SelectedItem = selectedChat;
             }
-        }
-
-        private void sortChats(List<ChatTable> list)
-        {
-            list.Sort((ChatTable a, ChatTable b) =>
-            {
-                if (a == b && a == null)
-                {
-                    return 0;
-                }
-                if (a.lastActive == null)
-                {
-                    if (b.lastActive == null)
-                    {
-                        return 0;
-                    }
-                    return -1;
-                }
-                if (b.lastActive == null)
-                {
-                    return 1;
-                }
-                return b.lastActive.CompareTo(a.lastActive);
-            });
         }
 
         private async Task addChatAsync(XMPPClient client, string jabberId, bool addToRooster, bool requestSubscription)
@@ -149,10 +150,8 @@ namespace UWP_XMPP_Client.Pages
                     status = null,
                     subscription = requestSubscription ? "pending" : null
                 }, false, true);
-                loadChats();
             }
         }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -161,61 +160,27 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                ChatTable chatEntry = args.CHAT;
-                foreach (Chat c in chats)
-                {
-                    if (c.chat != null && c.chat.id.Equals(chatEntry.id))
-                    {
-                        if (!args.REMOVED)
-                        {
-                            c.chat = chatEntry;
-                        }
-                        else
-                        {
-                            var selecetItem = masterDetail_pnl.SelectedItem;
-                            chats.Remove(c);
-                            if(selecetItem != c)
-                            {
-                                masterDetail_pnl.SelectedItem = selecetItem;
-                            }
-                        }
-                        args.Cancel = true;
-                        return;
-                    }
-                }
+            loading_grid.Visibility = Visibility.Visible;
+            main_grid.Visibility = Visibility.Collapsed;
 
-                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
-                {
-                    if (chatEntry.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
-                    {
-                        Chat chatElement = new Chat { chat = args.CHAT, client = c };
-                        addToChatsSorted(chatElement);
-                    }
-                }
-            });
-        }
-
-        private void addToChatsSorted(Chat chat)
-        {
-            var selecetItem = masterDetail_pnl.SelectedItem;
-            for (int i = 0; i < chats.Count; i++)
+            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
+            string toastActivationString = null;
+            if (e.Parameter is ToastNotificationActivatedEventArgs)
             {
-                if(DateTime.Compare(chats[i].chat.lastActive, chat.chat.lastActive) <= 0)
-                {
-                    chats.Insert(i, chat);
-                    masterDetail_pnl.SelectedItem = selecetItem;
-                    return;
-                }
+                var toasActivationArgs = e.Parameter as ToastNotificationActivatedEventArgs;
+                toastActivationString = toasActivationArgs.Argument;
+                Logger.Info("ChatPage2 activated through toast with argument:" + toastActivationString);
             }
-            chats.Add(chat);
-            masterDetail_pnl.SelectedItem = selecetItem;
+            ConnectionHandler.INSTANCE.connectAll();
+            loadChats(toastActivationString);
+
+            loading_grid.Visibility = Visibility.Collapsed;
+            main_grid.Visibility = Visibility.Visible;
         }
 
-        private void AbstractBackRequestPage_BackRequested(object sender, BackRequestedEventArgs e)
+        private void ChatPage2_BackRequested(object sender, BackRequestedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
@@ -229,38 +194,39 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void settings_abb_Click(object sender, RoutedEventArgs e)
+        private void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(SettingsPage));
-        }
-
-        private void add_abb_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-            loading_grid.Visibility = Visibility.Visible;
-            main_grid.Visibility = Visibility.Collapsed;
-
-            SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-            if (e.Parameter is ToastNotificationActivatedEventArgs)
+            ChatTable chatTable = args.CHAT;
+            foreach (Chat c in chatsList)
             {
-                var toasActivationArgs = e.Parameter as ToastNotificationActivatedEventArgs;
-                toastActivationString = toasActivationArgs.Argument;
-                Logger.Info("ChatPage activated through toast with argument:" + toastActivationString);
+                if (c.chat != null && string.Equals(c.chat.id, chatTable.id))
+                {
+                    if (args.REMOVED)
+                    {
+                        removeChat(c);
+                    }
+                    else
+                    {
+                        c.chat = chatTable;
+                    }
+                    args.Cancel = true;
+                    return;
+                }
             }
-            ConnectionHandler.INSTANCE.connectAll();
-            loadChats();
+            if (args.REMOVED)
+            {
+                args.Cancel = true;
+                return;
+            }
 
-            loading_grid.Visibility = Visibility.Collapsed;
-            main_grid.Visibility = Visibility.Visible;
-        }
-
-        private void ChatMasterControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
-        {
-
+            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+            {
+                if (chatTable.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
+                {
+                    Chat chatElement = new Chat { chat = args.CHAT, client = c };
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => addToChatsSorted(chatElement)).AsTask();
+                }
+            }
         }
 
         private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)
@@ -278,10 +244,21 @@ namespace UWP_XMPP_Client.Pages
 
         }
 
+        private void addMIX_mfoi_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void settings_abb_Click(object sender, RoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(SettingsPage));
+        }
+
         private async void masterDetail_pnl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
             {
+                // Send active chat state:
                 foreach (var added in e.AddedItems)
                 {
                     if (added is Chat)
@@ -290,6 +267,7 @@ namespace UWP_XMPP_Client.Pages
                         await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE);
                     }
                 }
+                // Send inactive chat state:
                 foreach (var added in e.RemovedItems)
                 {
                     if (added is Chat)
@@ -300,7 +278,6 @@ namespace UWP_XMPP_Client.Pages
                 }
             }
         }
-
         #endregion
     }
 }

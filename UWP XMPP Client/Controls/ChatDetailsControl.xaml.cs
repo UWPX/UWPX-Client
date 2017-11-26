@@ -14,8 +14,6 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0357;
-using Push_App_Server.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -46,8 +44,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
-
-        private int uuu = 0;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -276,25 +272,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void test_bnt_Click(object sender, RoutedEventArgs e)
         {
-            //await Client.createDiscoAsync(Chat.chatJabberId);
-            //await Logging.Logger.openLogFolderAsync();
-            /*switch (uuu)
-            {
-                case 0:
-                    await Client.createDiscoAsync(Client.getXMPPAccount().getIdAndDomain());
-                    break;
-                case 1:
-                    await Client.sendAsync(new RequestEnableNotificationsMessage("w215-5a-v4.eduroam.dynamic.rbg.tum.de"));
-                    break;
-                default:
-                    break;
-            }
-            if(++uuu > 1)
-            {
-                uuu = 0;
-            }*/
-            DataWriter dW = new DataWriter(Client);
-            await dW.connectAndSendAsync();
+            await Logging.Logger.openLogFolderAsync();
         }
 
         private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)
