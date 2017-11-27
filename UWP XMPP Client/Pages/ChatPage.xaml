@@ -11,11 +11,11 @@
 
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate" x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatMasterControl Chat="{x:Bind chat}" Client="{x:Bind client}"/>
+            <controls1:ChatMasterControl Chat="{x:Bind chat, Mode=OneWay}" Client="{x:Bind client, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatDetailsControl Chat="{x:Bind chat}" Client="{x:Bind client}"/>
+            <controls1:ChatDetailsControl Chat="{x:Bind chat, Mode=OneWay}" Client="{x:Bind client, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">
@@ -46,7 +46,7 @@
                                         NoSelectionContentTemplate="{StaticResource noSelectionTemplate}"
                                         ItemTemplate="{StaticResource masterTemplate}"
                                         DetailsTemplate="{StaticResource detailsTemplate}"
-                                        ItemsSource="{x:Bind chatsList}"
+                                        ItemsSource="{x:Bind chatsList, Mode=OneWay}"
                                         Background="Transparent"
                                         MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         SelectionChanged="masterDetail_pnl_SelectionChanged">

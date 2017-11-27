@@ -208,7 +208,7 @@ namespace UWP_XMPP_Client.Pages
                     }
                     else
                     {
-                        c.chat = chatTable;
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => c.chat = chatTable).AsTask();
                     }
                     args.Cancel = true;
                     return;
