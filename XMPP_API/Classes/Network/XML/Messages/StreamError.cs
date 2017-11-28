@@ -2,12 +2,12 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class StreamError
+    public class StreamError
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string TYPE;
-        private readonly string CONTENT;
+        public readonly string TYPE;
+        public readonly string CONTENT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

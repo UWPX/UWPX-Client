@@ -4,21 +4,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <TextBlock Text="Supported Features:" Grid.Row="0" FontSize="20"/>
-            <TextBlock x:Name="loading_tblck" Text="Loading..." Grid.Row="1"/>
-            <TextBlock x:Name="noneFound_tblck" Text="None found!" Grid.Row="1" Visibility="Collapsed"/>
-            <StackPanel x:Name="supportedFeatures_stckp" Grid.Row="1" Visibility="Collapsed">
-                <!--supported features-->
-            </StackPanel>
-        </Grid>
-        <ProgressRing IsActive="True" IsEnabled="True" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <UserControl.Resources>
+        <DataTemplate x:Key="serverFeatureTemplate" x:DataType="datatemplates:ServerFeaturesTemplate">
+            <Grid Margin="0, 10, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0" Text="&#xE915;" FontFamily="Segoe MDL2 Assets" Margin="0, 4, 0, 0"/>
+                <TextBlock Grid.Column="1" Text="{x:Bind name}" HorizontalAlignment="Stretch" TextWrapping="Wrap" Margin="0, 0, 5, 0"/>
+                <TextBlock Grid.Column="2" Text="{x:Bind xepp}" HorizontalAlignment="Stretch" TextWrapping="Wrap"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <!--<Grid>-->
+    <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Padding="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Supported Features:" Grid.Row="0" FontSize="20" HorizontalAlignment="Center"/>
+        <StackPanel x:Name="loading_spnl" Grid.Row="1">
+            <TextBlock x:Name="loading_tblck" Text="Loading..." HorizontalAlignment="Center"/>
+            <ProgressBar IsIndeterminate="True"/>
+        </StackPanel>
+        <TextBlock x:Name="noneFound_tblck" Grid.Row="1" Visibility="Collapsed" HorizontalAlignment="Center" Margin="0, 10, 0, 0"/>
+        <ItemsControl x:Name="items_icon"
+                      Grid.Row="1"
+                      ItemsSource="{x:Bind featuresList}"
+                      ItemTemplate="{StaticResource serverFeatureTemplate}"/>
     </Grid>
 </UserControl>

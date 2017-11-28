@@ -2,11 +2,11 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
 {
-    class DiscoFeature
+    public class DiscoFeature
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string VAL;
+        public readonly string VAR;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         {
             if(n != null)
             {
-                VAL = n.Attributes["val"]?.Value;
+                VAR = n.Attributes["var"]?.Value;
             }
         }
 

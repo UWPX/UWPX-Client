@@ -7,6 +7,7 @@ using XMPP_API.Classes;
 using UWP_XMPP_Client.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
+using Windows.UI.Xaml;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -14,8 +15,19 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ChatTable chat;
-        private XMPPClient client;
+        public ChatTable chat
+        {
+            get { return (ChatTable)GetValue(chatProperty); }
+            set { SetValue(chatProperty, value); }
+        }
+        public static readonly DependencyProperty chatProperty = DependencyProperty.Register("chat", typeof(ChatTable), typeof(UserProfilePage), null);
+
+        public XMPPClient client
+        {
+            get { return (XMPPClient)GetValue(clientProperty); }
+            set { SetValue(clientProperty, value); }
+        }
+        public static readonly DependencyProperty clientProperty = DependencyProperty.Register("client", typeof(XMPPClient), typeof(UserProfilePage), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -21,12 +21,14 @@ namespace XMPP_API.Classes
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
         public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceEventArgs args);
         public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
+        public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
 
         public event NewRoosterEventHandler NewRoosterMessage;
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
         public event NewChatMessageEventHandler NewChatMessage;
         public event NewPresenceEventHandler NewPresence;
         public event NewChatStateEventHandler NewChatState;
+        public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -157,10 +159,12 @@ namespace XMPP_API.Classes
             await connection.sendMessageAsync(new RemoveFromRosterMessage(account.getIdDomainAndResource(), jabberId), false);
         }
 
-        public async Task createDiscoAsync(string target)
+        public async Task<string> createDiscoAsync(string target)
         {
             XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new DiscoRequestMessage(account.getIdDomainAndResource(), target), false);
+            DiscoRequestMessage disco = new DiscoRequestMessage(account.getIdDomainAndResource(), target);
+            await connection.sendMessageAsync(disco, false);
+            return disco.getId();
         }
 
         public async Task sendChatStateAsync(string target, ChatState state)
@@ -200,13 +204,17 @@ namespace XMPP_API.Classes
         private void Connection_ConnectionNewValidMessage(XMPPConnectionHandler handler, NewPresenceEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
-            if(msg is MessageMessage)
+            if (msg is MessageMessage)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(msg as MessageMessage));
             }
-            else if(msg is ChatStateMessage)
+            else if (msg is ChatStateMessage)
             {
                 NewChatState?.Invoke(this, new NewChatStateEventArgs(msg as ChatStateMessage));
+            }
+            else if (msg is DiscoResponseMessage)
+            {
+                NewDiscoResponseMessage?.Invoke(this, new NewDiscoResponseMessageEventArgs(msg as DiscoResponseMessage));
             }
         }
 
@@ -214,7 +222,7 @@ namespace XMPP_API.Classes
         {
             NewPresence?.Invoke(this, new Events.NewPresenceEventArgs(args.getMessage() as PresenceMessage));
         }
-        
+
         #endregion
     }
 }

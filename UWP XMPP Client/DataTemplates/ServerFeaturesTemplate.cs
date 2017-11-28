@@ -1,14 +1,11 @@
-﻿using System.Xml;
-
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
+﻿namespace UWP_XMPP_Client.DataTemplates
 {
-    public class DiscoIdentity
+    public class ServerFeaturesTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string CATEGORY;
-        public readonly string TYPE;
-        public readonly string NAME;
+        public string name { get; set; }
+        public string xepp { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,16 +14,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/09/2017 Created [Fabian Sauter]
+        /// 03/09/2017 Created [Fabian Sauter]
         /// </history>
-        public DiscoIdentity(XmlNode n)
+        public ServerFeaturesTemplate()
         {
-            if (n != null)
-            {
-                CATEGORY = n.Attributes["category"]?.Value;
-                TYPE = n.Attributes["type"]?.Value;
-                NAME = n.Attributes["name"]?.Value;
-            }
+
         }
 
         #endregion

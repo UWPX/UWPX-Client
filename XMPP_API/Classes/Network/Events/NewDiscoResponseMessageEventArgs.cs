@@ -1,14 +1,13 @@
-﻿using System.Xml;
+﻿using System;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
+namespace XMPP_API.Classes.Network.Events
 {
-    public class DiscoIdentity
+    public class NewDiscoResponseMessageEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string CATEGORY;
-        public readonly string TYPE;
-        public readonly string NAME;
+        public readonly DiscoResponseMessage DISCO;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,16 +16,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/09/2017 Created [Fabian Sauter]
+        /// 28/11/2017 Created [Fabian Sauter]
         /// </history>
-        public DiscoIdentity(XmlNode n)
+        public NewDiscoResponseMessageEventArgs(DiscoResponseMessage disco)
         {
-            if (n != null)
-            {
-                CATEGORY = n.Attributes["category"]?.Value;
-                TYPE = n.Attributes["type"]?.Value;
-                NAME = n.Attributes["name"]?.Value;
-            }
+            this.DISCO = disco;
         }
 
         #endregion
