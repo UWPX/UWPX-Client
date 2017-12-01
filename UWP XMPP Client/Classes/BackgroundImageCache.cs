@@ -14,7 +14,7 @@ namespace UWP_XMPP_Client.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static ObservableCollection<BackgroundImageTemplate> backgroundImages;
+        public static CustomObservableCollection<BackgroundImageTemplate> backgroundImages;
         public static BackgroundImageTemplate selectedImage;
         public static bool loaded;
 
@@ -45,7 +45,7 @@ namespace UWP_XMPP_Client.Classes
                 try
                 {
                     string selectedImageName = Settings.getSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME);
-                    backgroundImages = new ObservableCollection<BackgroundImageTemplate>();
+                    backgroundImages = new CustomObservableCollection<BackgroundImageTemplate>();
                     selectedImage = null;
                     ImageCache.Instance.MaxMemoryCacheCount = 100;
                     StorageFolder picturesFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync(@"Assets\BackgroundImages");

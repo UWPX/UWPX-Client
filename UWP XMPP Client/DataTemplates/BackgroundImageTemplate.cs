@@ -1,14 +1,62 @@
-﻿using Windows.UI.Xaml.Media.Imaging;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class BackgroundImageTemplate
+    class BackgroundImageTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string imagePath { get; set; }
-        public string name { get; set; }
-        public bool selected { get; set; }
+        private string _imagePath;
+        public string imagePath
+        {
+            get
+            {
+                return _imagePath;
+            }
+            set
+            {
+                if (value != _imagePath)
+                {
+                    _imagePath = value;
+                    onPropertyChanged("imagePath");
+                }
+            }
+        }
+        private string _name;
+        public string name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (value != _name)
+                {
+                    _name = value;
+                    onPropertyChanged("name");
+                }
+            }
+        }
+        private bool _selected;
+        public bool selected
+        {
+            get
+            {
+                return _selected;
+            }
+            set
+            {
+                if (value != _selected)
+                {
+                    _selected = value;
+                    onPropertyChanged("selected");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -42,7 +90,10 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected void onPropertyChanged([CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

@@ -1,6 +1,4 @@
-﻿using Data_Manager.Classes;
-using Data_Manager2.Classes;
-using System.Collections.ObjectModel;
+﻿using Data_Manager2.Classes;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
@@ -12,7 +10,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<BackgroundImageTemplate> backgroundImages;
+        private CustomObservableCollection<BackgroundImageTemplate> backgroundImages;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -43,15 +41,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void reloadBackgroundImageControl(BackgroundImageTemplate img)
-        {
-            int index = backgroundImages.IndexOf(img);
-            if(index >= 0)
-            {
-                backgroundImages.RemoveAt(index);
-                backgroundImages.Insert(index, img);
-            }
-        }
+
 
         #endregion
 
@@ -85,9 +75,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                 {
                     BackgroundImageCache.selectedImage.selected = false;
                 }
-                reloadBackgroundImageControl(BackgroundImageCache.selectedImage);
                 BackgroundImageCache.selectedImage = img;
-                reloadBackgroundImageControl(BackgroundImageCache.selectedImage);
                 Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, img.name);
 
             }

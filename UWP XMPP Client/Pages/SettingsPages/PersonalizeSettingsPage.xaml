@@ -11,7 +11,7 @@
 
     <Page.Resources>
         <DataTemplate x:Key="BackgroundImageTemplate" x:DataType="datatemplates:BackgroundImageTemplate">
-            <controls:BackgroundImageSelectionControl ImagePath="{x:Bind imagePath}" Selected="{x:Bind selected}"/>
+            <controls:BackgroundImageSelectionControl ImagePath="{x:Bind imagePath}" Selected="{x:Bind selected, Mode=OneWay}"/>
         </DataTemplate>
     </Page.Resources>
 
