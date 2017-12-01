@@ -43,6 +43,6 @@ namespace XMPP_API.Classes
         // XEP-0357 (push notifications):
         public static readonly string XML_XEP_0357_NAMESPACE = "urn:xmpp:push:0";
 
-        public static readonly bool ENABLE_DEBUG_OUTPUT = true;
+        public static readonly bool ENABLE_DEBUG_OUTPUT = false;
     }
 }

@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
     <Grid BorderBrush="{ThemeResource TextBoxButtonForegroundThemeBrush}" BorderThickness="1">
         <Border x:Name="imageBorder_brdr" BorderBrush="{ThemeResource SystemAccentColor}" BorderThickness="2">
-            <Image x:Name="image_img" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <controls:ImageEx x:Name="image_img" IsCacheEnabled="True" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>
         <RelativePanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0, 0, 5, 5" x:Name="check_rltvp">
             <Polygon Points="40,0, 40,40, 0,40" Fill="{ThemeResource SystemAccentColor}"/>
