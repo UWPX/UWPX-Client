@@ -186,6 +186,7 @@
     <None Include="UWP XMPP Client_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BackgroundImages\cat.jpeg" />
     <Content Include="Assets\BackgroundImages\details_background.jpeg" />
     <Content Include="Assets\BackgroundImages\elephant.jpeg" />
     <Content Include="Assets\BackgroundImages\hedge.jpeg" />
@@ -196,7 +197,10 @@
     <Content Include="Assets\BackgroundImages\rain.jpeg" />
     <Content Include="Assets\BackgroundImages\rain2.jpeg" />
     <Content Include="Assets\BackgroundImages\red.jpeg" />
+    <Content Include="Assets\BackgroundImages\space.jpeg" />
+    <Content Include="Assets\BackgroundImages\squirrl.jpeg" />
     <Content Include="Assets\BackgroundImages\sunrise.jpeg" />
+    <Content Include="Assets\BackgroundImages\tiger.jpeg" />
     <Content Include="Assets\BackgroundImages\tulips.jpeg" />
     <Content Include="Assets\BackgroundImages\walls.jpeg" />
     <Content Include="Assets\BackgroundImages\wood.jpeg" />
