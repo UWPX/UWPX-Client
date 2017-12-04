@@ -240,7 +240,16 @@ namespace XMPP_API.Classes.Network.TCP
                     }
                     catch (Exception e)
                     {
-                        Logger.Error("Error during reading a message from the server - TCPConnectionHandler", e);
+                        SocketErrorStatus state = socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
+                        if(state == SocketErrorStatus.Unknown)
+                        {
+                            Logger.Error("Error during reading a message from the server - TCPConnectionHandler", e);
+                        }
+                        else
+                        {
+                            Logger.Error("Error during reading a message from the server - TCPConnectionHandler " + state.ToString());
+                            break;
+                        }
                         errorCount++;
                     }
                     if(errorCount > 5)
