@@ -1,6 +1,7 @@
 ﻿using Logging;
 using System;
 using System.Threading.Tasks;
+using Windows.Networking.Sockets;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -71,6 +72,11 @@ namespace XMPP_API.Classes
         public ConnectionState getConnetionState()
         {
             return connection.getState();
+        }
+
+        public SocketErrorStatus getSocketErrorStatus()
+        {
+            return connection.getSocketErrorStatus();
         }
 
         #endregion

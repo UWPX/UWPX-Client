@@ -150,16 +150,7 @@ namespace Data_Manager2.Classes
             c.NewPresence += C_NewPresence;
             c.ConnectionStateChanged += C_ConnectionStateChanged; // Requesting roster if connected
             clients.Add(c);
-            c.ConnectionStateChanged += C_ConnectionStateChanged1;
             return c;
-        }
-
-        private void C_ConnectionStateChanged1(XMPPClient client, ConnectionState state)
-        {
-            if(state == ConnectionState.CONNECTED)
-            {
-                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
-            }
         }
 
         #endregion
@@ -175,6 +166,7 @@ namespace Data_Manager2.Classes
             if (state == ConnectionState.CONNECTED)
             {
                 await client.requestRoosterAsync();
+                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
             }
         }
 

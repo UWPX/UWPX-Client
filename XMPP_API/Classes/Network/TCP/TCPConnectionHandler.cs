@@ -23,6 +23,7 @@ namespace XMPP_API.Classes.Network.TCP
         private StreamWriter writer;
         private StreamReader reader;
         private BackgroundTaskRegistration socketBackgroundTask;
+        private SocketErrorStatus socketErrorStatus;
 
         private Task listenerTask;
         private CancellationTokenSource cTS;
@@ -76,7 +77,12 @@ namespace XMPP_API.Classes.Network.TCP
 
             return stringBuilder.ToString();
         }
-        
+
+        public SocketErrorStatus getSocketErrorStatus()
+        {
+            return socketErrorStatus;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -170,7 +176,15 @@ namespace XMPP_API.Classes.Network.TCP
                         }
                         catch (Exception e)
                         {
-                            Logger.Error(i + " try to connect to: " + ACCOUNT.serverAddress, e);
+                            socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
+                            if(socketErrorStatus == SocketErrorStatus.Unknown)
+                            {
+                                Logger.Error(i + " try to connect to " + ACCOUNT.serverAddress, e);
+                            }
+                            else
+                            {
+                                Logger.Error(i + " try to connect to " + ACCOUNT.serverAddress + "; Exception: " + socketErrorStatus.ToString());
+                            }
                             cleanupConnection();
                         }
                     }
@@ -272,12 +286,26 @@ namespace XMPP_API.Classes.Network.TCP
         #region --Misc Methods (Protected)--
         protected override void cleanupConnection()
         {
-            tcpSocket?.Dispose();
-            tcpSocket = null;
-            writer?.Dispose();
-            writer = null;
-            reader?.Dispose();
-            reader = null;
+            if(tcpSocket != null)
+            {
+                try
+                {
+                    tcpSocket.CancelIOAsync().AsTask().Wait();
+                }
+                catch (Exception)
+                {
+                }
+                tcpSocket?.Dispose();
+            }
+            if(writer != null)
+            {
+                writer.Flush();
+                writer.Dispose();
+            }
+            if(reader != null)
+            {
+                reader.Dispose();
+            }
             GC.Collect();
         }
 

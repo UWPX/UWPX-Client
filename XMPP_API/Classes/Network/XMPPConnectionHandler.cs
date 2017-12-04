@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Windows.Networking.Sockets;
 using XMPP_API.Classes.Exceptions;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
@@ -65,7 +66,10 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public SocketErrorStatus getSocketErrorStatus()
+        {
+            return tcpConnection.getSocketErrorStatus();
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -199,7 +203,12 @@ namespace XMPP_API.Classes.Network
         {
             if (Consts.ENABLE_DEBUG_OUTPUT)
             {
-                Debug.WriteLine("New state: " + state);
+                Debug.WriteLine("[XMPPConnectionHandler] New state: " + state);
+            }
+            if (state == ConnectionState.ERROR)
+            {
+                setState(ConnectionState.ERROR);
+                cleanupConnection();
             }
         }
 

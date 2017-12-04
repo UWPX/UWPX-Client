@@ -166,6 +166,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 return;
             }
+            error_tblck.Visibility = Visibility.Collapsed;
             switch (client.getConnetionState())
             {
                 case ConnectionState.DISCONNECTED:
@@ -182,10 +183,17 @@ namespace UWP_XMPP_Client.Controls
                     break;
                 case ConnectionState.ERROR:
                     image_aciwp.Presence = Presence.Dnd;
+                    showError(client);
                     break;
                 default:
                     break;
             }
+        }
+
+        private void showError(XMPPClient client)
+        {
+            error_tblck.Visibility = Visibility.Visible;
+            error_tblck.Text = client.getSocketErrorStatus().ToString();
         }
 
         private void updateColor(string color)
