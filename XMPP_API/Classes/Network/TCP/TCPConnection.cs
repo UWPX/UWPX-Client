@@ -320,15 +320,18 @@ namespace XMPP_API.Classes.Network.TCP
             string result = "";
             while (true)
             {
+                if(state != ConnectionState.CONNECTED)
+                {
+                    return null;
+                }
+
                 char[] buffer = new char[BUFFER_SIZE + 1];
                 readingCTS = new CancellationTokenSource();
 
                 // Read next BUFFER_SIZE chars:
-                Task t = reader.ReadAsync(buffer, 0, BUFFER_SIZE);
-
                 try
                 {
-                    t.Wait(readingCTS.Token);
+                    reader.ReadAsync(buffer, 0, BUFFER_SIZE).Wait(readingCTS.Token);
                 }
                 catch (AggregateException)
                 {
