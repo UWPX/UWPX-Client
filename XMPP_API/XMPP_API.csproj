@@ -117,7 +117,7 @@
     <Compile Include="Classes\Network\Events\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDiscoResponseMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
-    <Compile Include="Classes\Network\Events\NewDataEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\MessageIdCashElement.cs" />

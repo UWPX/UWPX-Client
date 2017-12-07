@@ -212,7 +212,7 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        private async void TcpConnection_ConnectionNewData(AbstractConnectionHandler handler, NewDataEventArgs args)
+        private async void TcpConnection_ConnectionNewData(AbstractConnectionHandler handler, NewDataReceivedEventArgs args)
         {
             if (Consts.ENABLE_DEBUG_OUTPUT)
             {

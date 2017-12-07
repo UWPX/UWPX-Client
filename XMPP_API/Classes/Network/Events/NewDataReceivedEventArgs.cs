@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewDataEventArgs : EventArgs
+    public class NewDataReceivedEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.Events
         /// <history>
         /// 20/08/2017 Created [Fabian Sauter]
         /// </history>
-        public NewDataEventArgs(string data)
+        public NewDataReceivedEventArgs(string data)
         {
             this.data = data;
         }

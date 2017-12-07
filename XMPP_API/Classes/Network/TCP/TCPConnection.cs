@@ -37,9 +37,9 @@ namespace XMPP_API.Classes.Network.TCP
         /// </summary>
         private CancellationTokenSource readingCTS;
 
-        public delegate void NewDataEventHandler(AbstractConnectionHandler handler, NewDataEventArgs args);
+        public delegate void NewDataReceivedEventHandler(AbstractConnection handler, NewDataReceivedEventArgs args);
 
-        public event NewDataEventHandler ConnectionNewData;
+        public event NewDataReceivedEventHandler NewDataReceived;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -223,7 +223,8 @@ namespace XMPP_API.Classes.Network.TCP
                         }
                         else
                         {
-
+                            // Trigger the NewDataReceived event:
+                            NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data));
                             errorCount = 0;
                             countNullOrEmptyStringRead = 0;
                             if (Consts.ENABLE_DEBUG_OUTPUT)

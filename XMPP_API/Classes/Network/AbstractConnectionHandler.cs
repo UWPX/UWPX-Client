@@ -8,7 +8,7 @@ namespace XMPP_API.Classes.Network
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public delegate void NewDataEventHandler(AbstractConnectionHandler handler, NewDataEventArgs args);
+        public delegate void NewDataEventHandler(AbstractConnectionHandler handler, NewDataReceivedEventArgs args);
         public delegate void ConnectionEventHandler(AbstractConnectionHandler handler, EventArgs args);
         public delegate void ConnectionStateChangedEventHandler(AbstractConnectionHandler handler, ConnectionState state);
 
@@ -99,7 +99,7 @@ namespace XMPP_API.Classes.Network
         #region --Events--
         protected void onConnectionNewData(string data)
         {
-            ConnectionNewData?.Invoke(this, new NewDataEventArgs(data));
+            ConnectionNewData?.Invoke(this, new NewDataReceivedEventArgs(data));
         }
 
         #endregion
