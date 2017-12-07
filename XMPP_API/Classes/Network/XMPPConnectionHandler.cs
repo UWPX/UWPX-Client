@@ -216,20 +216,20 @@ namespace XMPP_API.Classes.Network
         {
             if (Consts.ENABLE_DEBUG_OUTPUT)
             {
-                Logger.Info("Data received from (" + ACCOUNT.serverAddress + "):" + args.getData());
+                Logger.Info("Data received from (" + ACCOUNT.serverAddress + "):" + args.data);
             }
             // Parse message:
             List<AbstractMessage> messages;
             try
             {
-                messages = parser.parseMessages(args.getData());
+                messages = parser.parseMessages(args.data);
             }
             catch (Exception e)
             {
                 Logger.Error("Error during message parsing." + e);
                 if (Consts.ENABLE_DEBUG_OUTPUT)
                 {
-                    Debug.WriteLine("Error during message parsing: " + e.Message + "\n" + e.StackTrace + "\n" + args.getData());
+                    Debug.WriteLine("Error during message parsing: " + e.Message + "\n" + e.StackTrace + "\n" + args.data);
                 }
                 return;
             }

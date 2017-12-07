@@ -2,11 +2,12 @@
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewDataEventArgs : EventArgs
+    class ConnectionStateChangedEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string data { get; private set; }
+        public ConnectionState state { get; private set; }
+        public object param { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +16,12 @@ namespace XMPP_API.Classes.Network.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/08/2017 Created [Fabian Sauter]
+        /// 07/12/2017 Created [Fabian Sauter]
         /// </history>
-        public NewDataEventArgs(string data)
+        public ConnectionStateChangedEventArgs(ConnectionState state, object param)
         {
-            this.data = data;
+            this.state = state;
+            this.param = param;
         }
 
         #endregion

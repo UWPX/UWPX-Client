@@ -111,14 +111,17 @@
     <Compile Include="Classes\Events\NewPresenceEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
+    <Compile Include="Classes\Network\AbstractConnection.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
     <Compile Include="Classes\Network\ConnectionState.cs" />
+    <Compile Include="Classes\Network\Events\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDiscoResponseMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDataEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\MessageIdCashElement.cs" />
+    <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageEntry.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\MUC\MUCRequestJoinedRoomsMessage.cs" />
