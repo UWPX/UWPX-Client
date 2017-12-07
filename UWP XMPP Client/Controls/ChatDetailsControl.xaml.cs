@@ -131,8 +131,8 @@ namespace UWP_XMPP_Client.Controls
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
-                MessageMessage sendMessage = await Client.sendMessageAsync(Chat.chatJabberId, message_tbx.Text);
-                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING}, true);
+                MessageMessage sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text);
+                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true);
                 Chat.lastActive = DateTime.Now;
                 ChatManager.INSTANCE.setChat(Chat, false, false);
 
@@ -228,7 +228,7 @@ namespace UWP_XMPP_Client.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             object o = (Window.Current.Content as Frame).Content;
-            if(o is ChatPage)
+            if (o is ChatPage)
             {
                 ChatPage chatPage = o as ChatPage;
                 MasterDetailsView masterDetailsView = chatPage.getMasterDetailsView();

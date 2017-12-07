@@ -108,7 +108,7 @@
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
-    <Compile Include="Classes\Events\NewPresenceEventArgs.cs" />
+    <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection.cs" />
@@ -134,7 +134,6 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
-    <Compile Include="Classes\Network\TCP\TCPConnectionHandler.cs" />
     <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
     <Compile Include="Classes\Network\XML\MessageParser2.cs" />
     <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />
@@ -176,10 +175,10 @@
     <Compile Include="Classes\Network\XML\Messages\StartSessionMessage.cs" />
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
+    <Compile Include="Classes\Network\XMPPConnection.cs" />
     <Compile Include="Classes\Presence.cs" />
     <Compile Include="Classes\Utils.cs" />
     <Compile Include="Classes\XMPPClient.cs" />
-    <Compile Include="Classes\Network\XMPPConnectionHandler.cs" />
     <Compile Include="Classes\XMPPUser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\XMPP_API.rd.xml" />

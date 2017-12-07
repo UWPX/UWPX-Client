@@ -43,19 +43,20 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="state">The state to set.</param>
         /// <param name="param">An additional parameter for invoking the ConnectionStateChangedEventHandler (e.g. a list of connection exceptions, ...).</param>
-        public void setState(ConnectionState state, object param)
+        public void setState(ConnectionState newState, object param)
         {
-            this.state = state;
-            ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(state, param));
+            ConnectionState oldState = this.state;
+            this.state = newState;
+            ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(newState, oldState, param));
         }
 
         /// <summary>
         /// Sets the given state and invokes the ConnectionStateChangedEventHandler.
         /// </summary>
         /// <param name="state">The state to set.</param>
-        public void setState(ConnectionState state)
+        public void setState(ConnectionState newState)
         {
-            setState(state, null);
+            setState(newState, null);
         }
 
         #endregion

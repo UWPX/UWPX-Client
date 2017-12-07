@@ -77,7 +77,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void showAccount()
         {
-            if(Account != null)
+            if (Account != null)
             {
                 IsEnabled = false;
                 primaryInfo_tblck.Text = Account.user.userId ?? "";
@@ -92,9 +92,9 @@ namespace UWP_XMPP_Client.Controls
                 color_tbx.Text = Account.color ?? "";
                 updateColor(color_tbx.Text);
                 XMPPClient client = ConnectionHandler.INSTANCE.getClient(Account.getIdAndDomain());
-                if(client != null)
+                if (client != null)
                 {
-                    showConnectionState(client);
+                    showConnectionState(client.getConnetionState(), null);
                     client.ConnectionStateChanged += Client_ConnectionStateChanged;
                 }
                 IsEnabled = true;
@@ -103,7 +103,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void replaceAccount(XMPPAccount account)
         {
-            if(!IsEnabled || account.Equals(Account))
+            if (!IsEnabled || account.Equals(Account))
             {
                 return;
             }
@@ -160,14 +160,10 @@ namespace UWP_XMPP_Client.Controls
             return ((int)command.Id) == 0;
         }
 
-        private void showConnectionState(XMPPClient client)
+        private void showConnectionState(ConnectionState state, object param)
         {
-            if(client == null)
-            {
-                return;
-            }
             error_tblck.Visibility = Visibility.Collapsed;
-            switch (client.getConnetionState())
+            switch (state)
             {
                 case ConnectionState.DISCONNECTED:
                     image_aciwp.Presence = Presence.Unavailable;
@@ -183,17 +179,20 @@ namespace UWP_XMPP_Client.Controls
                     break;
                 case ConnectionState.ERROR:
                     image_aciwp.Presence = Presence.Dnd;
-                    showError(client);
+                    showError(param);
                     break;
                 default:
                     break;
             }
         }
 
-        private void showError(XMPPClient client)
+        private void showError(object param)
         {
-            error_tblck.Visibility = Visibility.Visible;
-            error_tblck.Text = client.getSocketErrorStatus().ToString();
+            if (param is string)
+            {
+                error_tblck.Visibility = Visibility.Visible;
+                error_tblck.Text = param.ToString();
+            }
         }
 
         private void updateColor(string color)
@@ -227,7 +226,7 @@ namespace UWP_XMPP_Client.Controls
             }
             else
             {
-                if(await saveAccountAsync())
+                if (await saveAccountAsync())
                 {
                     accountOptions_stckp.Visibility = Visibility.Collapsed;
                     edit_btn.Content = "\uE1C2";
@@ -237,7 +236,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void deleteAccount_btn_Click(object sender, RoutedEventArgs e)
         {
-            if(!await shouldDeleteAsync())
+            if (!await shouldDeleteAsync())
             {
                 return;
             }
@@ -254,16 +253,17 @@ namespace UWP_XMPP_Client.Controls
 
         private async void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
         {
-            if(Account != null  )
+            if (Account != null)
             {
                 await saveAccountAsync();
             }
         }
 
-        private async void Client_ConnectionStateChanged(XMPPClient client, ConnectionState state)
+        private async void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => {
-                showConnectionState(client);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                showConnectionState(args.newState, args.param);
             });
         }
 

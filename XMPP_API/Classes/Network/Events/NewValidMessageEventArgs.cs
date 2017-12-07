@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewPresenceEventArgs : CancelEventArgs
+    public class NewValidMessageEventArgs : CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -18,7 +18,7 @@ namespace XMPP_API.Classes.Network.Events
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        public NewPresenceEventArgs(AbstractMessage message)
+        public NewValidMessageEventArgs(AbstractMessage message)
         {
             this.MESSAGE = message;
         }

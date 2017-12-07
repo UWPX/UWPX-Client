@@ -15,12 +15,12 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private XMPPConnectionHandler connection;
+        private XMPPConnection connection;
 
-        public delegate void NewRoosterEventHandler(XMPPClient client, NewPresenceEventArgs args);
-        public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionState state);
+        public delegate void NewRoosterEventHandler(XMPPClient client, NewValidMessageEventArgs args);
+        public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionStateChangedEventArgs args);
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
-        public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceEventArgs args);
+        public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceMessageEventArgs args);
         public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
         public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
 
@@ -42,7 +42,7 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPClient(XMPPAccount account)
         {
-            connection = new XMPPConnectionHandler(account);
+            connection = new XMPPConnection(account);
             connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
             connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
@@ -54,7 +54,7 @@ namespace XMPP_API.Classes
         #region --Set-, Get- Methods--
         public bool isConnected()
         {
-            return connection != null && connection.getState() == ConnectionState.CONNECTED;
+            return connection != null && connection.state == ConnectionState.CONNECTED;
         }
 
         public async Task<string> setPreseceAsync(string show, string status)
@@ -64,19 +64,14 @@ namespace XMPP_API.Classes
 
         public async Task<string> setPreseceAsync(string from, string to, string show, string status)
         {
-            PresenceMessage presenceMessage = new PresenceMessage(from, to, show, status, connection.getXMPPAccount().presencePriorety);
-            await connection.sendMessageAsync(presenceMessage, true);
+            PresenceMessage presenceMessage = new PresenceMessage(from, to, show, status, connection.account.presencePriorety);
+            await connection.sendAsync(presenceMessage, true);
             return presenceMessage.getId();
         }
 
         public ConnectionState getConnetionState()
         {
-            return connection.getState();
-        }
-
-        public SocketErrorStatus getSocketErrorStatus()
-        {
-            return connection.getSocketErrorStatus();
+            return connection.state;
         }
 
         #endregion
@@ -84,14 +79,14 @@ namespace XMPP_API.Classes
         #region --Misc Methods (Public)--
         public async Task transferSocketOwnershipAsync()
         {
-            await connection?.transferSocketOwnershipAsync();
+            //await connection?.transferSocketOwnershipAsync();
         }
 
         public async Task connectAsync()
         {
             try
             {
-                await connection.connectToServerAsync();
+                await connection.connectAsync();
             }
             catch (Exception e)
             {
@@ -101,87 +96,87 @@ namespace XMPP_API.Classes
 
         public async Task disconnectAsync()
         {
-            await connection.disconnectFromServerAsync();
+            await connection.disconnectAsync();
         }
 
-        public async Task<MessageMessage> sendMessageAsync(string to, string msg)
+        public async Task<MessageMessage> sendAsync(string to, string msg)
         {
-            XMPPAccount account = connection.getXMPPAccount();
+            XMPPAccount account = connection.account;
             MessageMessage sendMessgageMessage = new MessageMessage(account.getIdDomainAndResource(), to, msg);
-            await connection.sendMessageAsync(sendMessgageMessage, false);
+            await connection.sendAsync(sendMessgageMessage, false);
             return sendMessgageMessage;
         }
 
         public XMPPAccount getXMPPAccount()
         {
-            return connection.getXMPPAccount();
+            return connection.account;
         }
 
         public async Task requestRoosterAsync()
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RosterMessage(account.getIdDomainAndResource(), account.getIdAndDomain()), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new RosterMessage(account.getIdDomainAndResource(), account.getIdAndDomain()), false);
         }
 
         public async Task addToRosterAsync(string jabberId)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new AddToRosterMessage(account.getIdDomainAndResource(), jabberId), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new AddToRosterMessage(account.getIdDomainAndResource(), jabberId), false);
         }
 
         public async Task requestPresenceSubscriptionAsync(string jabberId)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "subscribe"), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "subscribe"), false);
         }
 
         public async Task mUCRequestJoinedRoomsAsync()
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new MUCRequestJoinedRoomsMessage(account.getIdAndDomain()), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new MUCRequestJoinedRoomsMessage(account.getIdAndDomain()), false);
         }
 
         public async Task unsubscribeFromPresence(string jabberId)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "unsubscribe"), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "unsubscribe"), false);
         }
 
         public async Task requestVCardAsync(string jabberId)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RequestvCardMessage(jabberId, account.getIdDomainAndResource()), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new RequestvCardMessage(jabberId, account.getIdDomainAndResource()), false);
         }
 
         public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"), false);
         }
 
         public async Task removeFromRosterAsync(string jabberId)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new RemoveFromRosterMessage(account.getIdDomainAndResource(), jabberId), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new RemoveFromRosterMessage(account.getIdDomainAndResource(), jabberId), false);
         }
 
         public async Task<string> createDiscoAsync(string target)
         {
-            XMPPAccount account = connection.getXMPPAccount();
+            XMPPAccount account = connection.account;
             DiscoRequestMessage disco = new DiscoRequestMessage(account.getIdDomainAndResource(), target);
-            await connection.sendMessageAsync(disco, false);
+            await connection.sendAsync(disco, false);
             return disco.getId();
         }
 
         public async Task sendChatStateAsync(string target, ChatState state)
         {
-            XMPPAccount account = connection.getXMPPAccount();
-            await connection.sendMessageAsync(new ChatStateMessage(target, account.getIdDomainAndResource(), state), false);
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new ChatStateMessage(target, account.getIdDomainAndResource(), state), false);
         }
 
         public async Task sendAsync(AbstractMessage msg)
         {
-            await connection.sendMessageAsync(msg, false);
+            await connection.sendAsync(msg, false);
         }
 
         #endregion
@@ -197,17 +192,17 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Connection_ConnectionNewRoosterMessage(XMPPConnectionHandler handler, NewPresenceEventArgs args)
+        private void Connection_ConnectionNewRoosterMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
             NewRoosterMessage?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionStateChanged(AbstractConnectionHandler handler, ConnectionState state)
+        private void Connection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs args)
         {
-            ConnectionStateChanged?.Invoke(this, state);
+            ConnectionStateChanged?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionNewValidMessage(XMPPConnectionHandler handler, NewPresenceEventArgs args)
+        private void Connection_ConnectionNewValidMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (msg is MessageMessage)
@@ -224,9 +219,9 @@ namespace XMPP_API.Classes
             }
         }
 
-        private void Connection_ConnectionNewPresenceMessage(XMPPConnectionHandler handler, NewPresenceEventArgs args)
+        private void Connection_ConnectionNewPresenceMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
-            NewPresence?.Invoke(this, new Events.NewPresenceEventArgs(args.getMessage() as PresenceMessage));
+            NewPresence?.Invoke(this, new Events.NewPresenceMessageEventArgs(args.getMessage() as PresenceMessage));
         }
 
         #endregion

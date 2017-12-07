@@ -24,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public SASLConnection(TCPConnectionHandler tcpConnection, XMPPConnectionHandler xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public SASLConnection(TCPConnection tcpConnection, XMPPConnection xMPPConnection) : base(tcpConnection, xMPPConnection)
         {
             reset();
         }
@@ -36,7 +36,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         {
             foreach (StreamFeature sF in msg.getFeatures())
             {
-                if(sF is SASLStreamFeature)
+                if (sF is SASLStreamFeature)
                 {
                     return (sF as SASLStreamFeature).getMechanisms();
                 }
@@ -69,12 +69,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         break;
                     }
                 }
-                if(selected != null)
+                if (selected != null)
                 {
                     break;
                 }
             }
-            XMPPAccount sCC = XMPP_CONNECTION.getXMPPAccount();
+            XMPPAccount sCC = XMPP_CONNECTION.account;
             switch (selected)
             {
                 case "scram-sha-1":
@@ -93,7 +93,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected async override void processMessage(NewPresenceEventArgs args)
+        protected async override void processMessage(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (state == SASLState.CONNECTED || msg.isProcessed())
@@ -107,7 +107,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     if (msg is StreamFeaturesMessage || msg is OpenStreamAnswerMessage)
                     {
                         StreamFeaturesMessage features = null;
-                        if(msg is OpenStreamAnswerMessage)
+                        if (msg is OpenStreamAnswerMessage)
                         {
                             features = (msg as OpenStreamAnswerMessage).getStreamFeaturesMessage();
                         }
@@ -128,24 +128,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         }
                         setMessageProcessed(args);
                         selectMechanism(mechanisms);
-                        if(selectedMechanism == null)
+                        if (selectedMechanism == null)
                         {
                             state = SASLState.ERROR;
                             throw new InvalidOperationException("selectedMechanism == null");
                         }
-                        await XMPP_CONNECTION.sendMessageAsync(selectedMechanism.getSelectSASLMechanismMessage(), true);
+                        await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), true);
                         state = SASLState.REQUESTED;
                     }
                     break;
                 case SASLState.REQUESTED:
                 case SASLState.CHALLENGING:
-                    if(msg is ScramSha1ChallengeMessage)
+                    if (msg is ScramSha1ChallengeMessage)
                     {
                         state = SASLState.CHALLENGING;
                         setMessageProcessed(args);
-                        await XMPP_CONNECTION.sendMessageAsync(selectedMechanism.generateResponse(msg), true);
+                        await XMPP_CONNECTION.sendAsync(selectedMechanism.generateResponse(msg), true);
                     }
-                    else if(msg is SASLSuccessMessage)
+                    else if (msg is SASLSuccessMessage)
                     {
                         state = SASLState.CONNECTED;
                         msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
@@ -157,7 +157,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 default:
                     throw new InvalidOperationException("Invalid state for message!" + state);
             }
-            
+
         }
 
         #endregion

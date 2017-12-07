@@ -63,7 +63,7 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public void connectAll()
         {
-            if(clients == null || clients.Count <= 0)
+            if (clients == null || clients.Count <= 0)
             {
                 return;
             }
@@ -161,16 +161,16 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void C_ConnectionStateChanged(XMPPClient client, ConnectionState state)
+        private async void C_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            if (state == ConnectionState.CONNECTED)
+            if (args.newState == ConnectionState.CONNECTED)
             {
                 await client.requestRoosterAsync();
                 ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
             }
         }
 
-        private void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceEventArgs args)
+        private void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
         {
             string from = Utils.removeResourceFromJabberid(args.getFrom());
 
@@ -224,7 +224,7 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void C_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewPresenceEventArgs args)
+        private void C_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
         {
             if (args.getMessage() is RosterMessage)
             {
@@ -256,7 +256,7 @@ namespace Data_Manager2.Classes
                         chat.inRoster = !item.getSubscription().Equals("remove");
                         chat.ask = item.getAsk();
                     }
-                    else if(!string.Equals(item.getSubscription(), "remove"))
+                    else if (!string.Equals(item.getSubscription(), "remove"))
                     {
                         chat = new ChatTable()
                         {

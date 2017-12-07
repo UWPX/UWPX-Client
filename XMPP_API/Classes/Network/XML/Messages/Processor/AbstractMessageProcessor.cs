@@ -7,8 +7,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        protected readonly TCPConnectionHandler TCP_CONNECTION;
-        protected readonly XMPPConnectionHandler XMPP_CONNECTION;
+        protected readonly TCPConnection TCP_CONNECTION;
+        protected readonly XMPPConnection XMPP_CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractMessageProcessor(TCPConnectionHandler tcpConnection, XMPPConnectionHandler xMPPConnection)
+        public AbstractMessageProcessor(TCPConnection tcpConnection, XMPPConnection xMPPConnection)
         {
             this.TCP_CONNECTION = tcpConnection;
             this.XMPP_CONNECTION = xMPPConnection;
@@ -29,13 +29,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected void setMessageProcessed(NewPresenceEventArgs args, bool cancelEvent)
+        protected void setMessageProcessed(NewValidMessageEventArgs args, bool cancelEvent)
         {
             args.getMessage().setProcessed();
             args.Cancel = cancelEvent;
         }
 
-        protected void setMessageProcessed(NewPresenceEventArgs args)
+        protected void setMessageProcessed(NewValidMessageEventArgs args)
         {
             setMessageProcessed(args, true);
         }
@@ -53,12 +53,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract void processMessage(NewPresenceEventArgs args);
+        protected abstract void processMessage(NewValidMessageEventArgs args);
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        protected void XMPP_CONNECTION_ConnectionNewValidMessage(XMPPConnectionHandler handler, NewPresenceEventArgs args)
+        protected void XMPP_CONNECTION_ConnectionNewValidMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
             processMessage(args);
         }

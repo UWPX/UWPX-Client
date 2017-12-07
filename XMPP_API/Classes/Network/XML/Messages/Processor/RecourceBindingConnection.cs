@@ -24,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 24/08/2017 Created [Fabian Sauter]
         /// </history>
-        public RecourceBindingConnection(TCPConnectionHandler tcpConnection, XMPPConnectionHandler xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public RecourceBindingConnection(TCPConnection tcpConnection, XMPPConnection xMPPConnection) : base(tcpConnection, xMPPConnection)
         {
             reset();
         }
@@ -46,7 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             id = null;
         }
 
-        protected async override void processMessage(NewPresenceEventArgs args)
+        protected async override void processMessage(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (state == RecourceBindingState.BOUND || state == RecourceBindingState.ERROR || msg.isProcessed())
@@ -56,7 +56,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             switch (state)
             {
                 case RecourceBindingState.UNBOUND:
-                    if(msg is StreamFeaturesMessage || msg is OpenStreamAnswerMessage)
+                    if (msg is StreamFeaturesMessage || msg is OpenStreamAnswerMessage)
                     {
                         StreamFeaturesMessage features = null;
                         if (msg is OpenStreamAnswerMessage)
@@ -76,12 +76,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             setMessageProcessed(args);
                             id = AbstractMessage.getRandomId();
-                            XMPPAccount sCC = XMPP_CONNECTION.getXMPPAccount();
+                            XMPPAccount sCC = XMPP_CONNECTION.account;
                             XNamespace ns = XNamespace.Get("urn:ietf:params:xml:ns:xmpp-bind");
                             XElement node = new XElement(ns + "bind");
                             node.Add(new XElement("resource", sCC.user.resource));
                             string s = node.ToString();
-                            await XMPP_CONNECTION.sendMessageAsync(new IQMessage(null, null, IQMessage.SET, id, node.ToString()), true);
+                            await XMPP_CONNECTION.sendAsync(new IQMessage(null, null, IQMessage.SET, id, node.ToString()), true);
                             state = RecourceBindingState.BINDING;
                         }
                     }
@@ -93,7 +93,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (iQM.getId().Equals(id))
                         {
                             setMessageProcessed(args);
-                            XMPP_CONNECTION.sendMessageAsync(new StartSessionMessage(), true).Wait();
+                            XMPP_CONNECTION.sendAsync(new StartSessionMessage(), true).Wait();
                             state = RecourceBindingState.BOUND;
                             ResourceBound?.Invoke(this, new EventArgs());
                         }

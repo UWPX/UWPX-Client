@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        public TLSConnection(TCPConnectionHandler tcpConnection, XMPPConnectionHandler xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public TLSConnection(TCPConnection tcpConnection, XMPPConnection xMPPConnection) : base(tcpConnection, xMPPConnection)
         {
             reset();
         }
@@ -47,14 +47,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task streamFeaturesMessageReceivedAsync(StreamFeaturesMessage features, NewPresenceEventArgs args)
+        private async Task streamFeaturesMessageReceivedAsync(StreamFeaturesMessage features, NewValidMessageEventArgs args)
         {
             if (tLSReqired(features))
             {
                 // Starting the TSL process:
                 setMessageProcessed(args);
                 state = TLSState.CONNECTING;
-                await XMPP_CONNECTION.sendMessageAsync(new RequesStartTLSMessage(), true);
+                await XMPP_CONNECTION.sendAsync(new RequesStartTLSMessage(), true);
                 state = TLSState.REQUESTED;
             }
         }
@@ -74,7 +74,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected async override void processMessage(NewPresenceEventArgs args)
+        protected async override void processMessage(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (msg.isProcessed())
@@ -117,8 +117,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         try
                         {
                             // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
-                            TCP_CONNECTION.upgradeToTLS().Wait();
-                            XMPPAccount sCC = XMPP_CONNECTION.getXMPPAccount();
+                            TCP_CONNECTION.upgradeToTLSAsync().Wait();
+                            XMPPAccount sCC = XMPP_CONNECTION.account;
 
                             // TLS established ==> resend stream header
                             msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
