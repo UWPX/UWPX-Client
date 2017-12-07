@@ -303,9 +303,11 @@ namespace XMPP_API.Classes.Network.TCP
                 catch (Exception)
                 {
                 }
-                socket?.Dispose();
+
                 writer?.Dispose();
                 reader?.Dispose();
+                socket?.Dispose();
+
                 socket = null;
                 writer = null;
                 reader = null;
