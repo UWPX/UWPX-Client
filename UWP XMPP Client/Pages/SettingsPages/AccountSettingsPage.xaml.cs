@@ -1,7 +1,5 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UWP_XMPP_Client.Controls;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -28,7 +26,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         public AccountSettingsPage()
         {
             this.InitializeComponent();
-            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
             loadAccounts();
         }
 
@@ -40,7 +38,12 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void loadAccounts()
+
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private void loadAccounts()
         {
             accounts_stckp.Children.Clear();
             foreach (XMPPAccount account in AccountManager.INSTANCE.loadAllAccounts())
@@ -59,11 +62,6 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             }
             reloadAccounts_btn.IsEnabled = true;
         }
-
-        #endregion
-
-        #region --Misc Methods (Private)--
-
 
         #endregion
 
