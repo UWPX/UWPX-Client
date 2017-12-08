@@ -175,7 +175,7 @@ namespace UWP_XMPP_Client.Controls
                     image_aciwp.Presence = Presence.Online;
                     break;
                 case ConnectionState.DISCONNECTING:
-                    image_aciwp.Presence = Presence.Xa;
+                    image_aciwp.Presence = Presence.Chat;
                     break;
                 case ConnectionState.ERROR:
                     image_aciwp.Presence = Presence.Dnd;

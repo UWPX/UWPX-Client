@@ -202,7 +202,7 @@ namespace XMPP_API.Classes.Network.TCP
                 int countNullOrEmptyStringRead = 0;
                 string lastErrorMessage = null;
                 DateTime lastNullOrEmptyStringRead = DateTime.MinValue;
-                while (true)
+                while (state == ConnectionState.CONNECTED)
                 {
                     try
                     {
