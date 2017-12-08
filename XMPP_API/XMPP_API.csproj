@@ -120,6 +120,7 @@
     <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\ICloneable.cs" />
     <Compile Include="Classes\Network\MessageIdCashElement.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageEntry.cs" />

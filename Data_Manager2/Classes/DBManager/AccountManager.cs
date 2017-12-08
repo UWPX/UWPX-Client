@@ -12,7 +12,7 @@ namespace Data_Manager2.Classes.DBManager
         public static AccountManager INSTANCE = new AccountManager();
 
         public delegate void AccountChangedHandler(AccountManager handler, AccountChangedEventArgs args);
-        
+
         public event AccountChangedHandler AccountChanged;
 
         #endregion
@@ -44,6 +44,17 @@ namespace Data_Manager2.Classes.DBManager
             {
                 AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, false));
             }
+        }
+
+        /// <summary>
+        /// Sets the disabled property of account and triggers the AccountChanged event.
+        /// </summary>
+        /// <param name="id">The AccountTable id</param>
+        /// <param name="disabled">Account disable true or false.</param>
+        public void setAccountDisabled(XMPPAccount account, bool disabled)
+        {
+            dB.Execute("UPDATE AccountTable SET disabled = ? WHERE id = ?", disabled, account.getIdAndDomain());
+            AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, false));
         }
 
         #endregion
@@ -109,7 +120,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             dB.DropTable<AccountTable>();
         }
-        
+
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--

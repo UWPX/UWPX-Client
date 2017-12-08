@@ -1,7 +1,9 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Controls;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network;
@@ -99,7 +101,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
         {
-            loadAccounts();
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => loadAccounts());
         }
 
         #endregion

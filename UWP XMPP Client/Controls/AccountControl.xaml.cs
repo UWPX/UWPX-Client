@@ -251,20 +251,19 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
+        private void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
         {
-            if (Account != null)
+            if (Account != null && Account.disabled == disableAccount_tggls.IsOn)
             {
-                await saveAccountAsync();
+                Account.disabled = !disableAccount_tggls.IsOn;
+                XMPPAccount newAccount = Account.clone();
+                Task.Factory.StartNew(() => AccountManager.INSTANCE.setAccountDisabled(newAccount, newAccount.disabled));
             }
         }
 
         private async void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                showConnectionState(args.newState, args.param);
-            });
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(args.newState, args.param));
         }
 
         private void color_tbx_TextChanged(object sender, TextChangedEventArgs e)

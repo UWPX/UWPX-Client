@@ -1,4 +1,6 @@
 ﻿
+using System;
+
 namespace XMPP_API.Classes
 {
     public class XMPPUser
@@ -63,6 +65,14 @@ namespace XMPP_API.Classes
                 return string.Equals(u.domain, domain) && string.Equals(u.resource, resource) && string.Equals(u.userId, userId) && string.Equals(u.userPassword, userPassword);
             }
             return false;
+        }
+
+        internal XMPPUser clone()
+        {
+            return new XMPPUser(userId, domain, resource)
+            {
+                userPassword = userPassword
+            };
         }
 
         #endregion

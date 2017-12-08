@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network
+﻿using System;
+
+namespace XMPP_API.Classes.Network
 {
     public class XMPPAccount
     {
@@ -53,6 +55,16 @@
                 return o.disabled == disabled && o.port == port && o.presencePriorety == presencePriorety && string.Equals(o.serverAddress, serverAddress) && XMPPUser.Equals(o.user, user) && string.Equals(o.color, color);
             }
             return false;
+        }
+
+        public XMPPAccount clone()
+        {
+            return new XMPPAccount(user.clone(), serverAddress, port)
+            {
+                color = color,
+                disabled = disabled,
+                presencePriorety = presencePriorety,
+            };
         }
 
         #endregion
