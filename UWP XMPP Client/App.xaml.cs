@@ -5,10 +5,8 @@ using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using Data_Manager.Classes;
 using UWP_XMPP_Client.Classes;
 using Microsoft.HockeyApp;
-using Logging;
 using Data_Manager2.Classes;
 
 namespace UWP_XMPP_Client
@@ -107,17 +105,17 @@ namespace UWP_XMPP_Client
                 var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
 
                 // If empty args, no specific action (just launch the app)
-                if (toastActivationArgs.Argument.Length == 0)
+                if (string.IsNullOrEmpty(toastActivationArgs.Argument))
                 {
                     if (rootFrame.Content == null)
                     {
                         if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                         {
-                            rootFrame.Navigate(typeof(AddAccountPage));
+                            rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
                         }
                         else
                         {
-                            rootFrame.Navigate(typeof(ChatPage));
+                            rootFrame.Navigate(typeof(ChatPage), "App.xaml.cs");
                         }
                     }
                 }
@@ -153,7 +151,7 @@ namespace UWP_XMPP_Client
                         }
                         else
                         {
-                            rootFrame.Navigate(typeof(ChatPage));
+                            rootFrame.Navigate(typeof(ChatPage), "App.xaml.cs");
                         }
                     }
                 }

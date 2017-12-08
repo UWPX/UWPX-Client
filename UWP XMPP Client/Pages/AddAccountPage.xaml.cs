@@ -9,6 +9,7 @@ using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 
@@ -183,6 +184,14 @@ namespace UWP_XMPP_Client.Pages
         {
             color_tbx.Text = UiUtils.getRandomMaterialColor();
             updateColor(color_tbx.Text);
+        }
+
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if(e.NavigationMode == NavigationMode.New && e.Parameter is string && (e.Parameter as string).Equals("App.xaml.cs"))
+            {
+                await UiUtils.showInitialStartDialogAsync();
+            }
         }
         #endregion
     }

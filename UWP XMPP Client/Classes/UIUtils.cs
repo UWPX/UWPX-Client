@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWP_XMPP_Client.Controls;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -94,6 +97,26 @@ namespace UWP_XMPP_Client.Classes
             var g = (byte)Convert.ToUInt32(color.Substring(2, 2), 16);
             var b = (byte)Convert.ToUInt32(color.Substring(4, 2), 16);
             return new SolidColorBrush(Color.FromArgb(255, r, g, b));
+        }
+
+        /// <summary>
+        /// Launches the web browser with the given url.
+        /// </summary>
+        /// <param name="url">The url that the browser should show.</param>
+        /// <returns>Returns true on success.</returns>
+        public static async Task<bool> launchBrowserAsync(Uri url)
+        {
+            return await Windows.System.Launcher.LaunchUriAsync(url);
+        }
+
+        public static async Task showInitialStartDialogAsync()
+        {
+            if (!Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
+            {
+                InitialStartDialog dialog = new InitialStartDialog();
+                await dialog.ShowAsync();
+                Settings.setSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !dialog.showOnStartup);
+            }
         }
 
         #endregion

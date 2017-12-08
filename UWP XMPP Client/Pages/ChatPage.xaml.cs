@@ -161,14 +161,18 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
             loading_grid.Visibility = Visibility.Visible;
             main_grid.Visibility = Visibility.Collapsed;
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             string toastActivationString = null;
-            if (e.Parameter is ToastNotificationActivatedEventArgs)
+            if (e.NavigationMode == NavigationMode.New && e.Parameter is string && (e.Parameter as string).Equals("App.xaml.cs"))
+            {
+                await UiUtils.showInitialStartDialogAsync();
+            }
+            else if (e.Parameter is ToastNotificationActivatedEventArgs)
             {
                 var toasActivationArgs = e.Parameter as ToastNotificationActivatedEventArgs;
                 toastActivationString = toasActivationArgs.Argument;

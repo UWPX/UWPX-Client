@@ -118,6 +118,9 @@
     <Compile Include="Controls\ChatDetailsControl.xaml.cs">
       <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\InitialStartDialog.xaml.cs">
+      <DependentUpon>InitialStartDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DeleteChatDialog.xaml.cs">
       <DependentUpon>DeleteChatDialog.xaml</DependentUpon>
     </Compile>
@@ -330,6 +333,10 @@
     <Page Include="Controls\ChatDetailsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InitialStartDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\DeleteChatDialog.xaml">
       <SubType>Designer</SubType>
