@@ -58,6 +58,11 @@ namespace UWP_XMPP_Client.Controls
         {
             this.InitializeComponent();
             UiUtils.setBackgroundImage(backgroundImage_img);
+
+            // Disable the test button on release builds:
+#if !DEBUG
+            test_bnt.Visibility = Visibility.Collapsed;
+#endif
         }
 
         #endregion
