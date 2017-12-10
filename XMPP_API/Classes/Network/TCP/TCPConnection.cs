@@ -345,16 +345,14 @@ namespace XMPP_API.Classes.Network.TCP
                 {
                     index = data.Length;
                 }
-                data = data.Substring(0, index);
+                result += data.Substring(0, index);
 
                 // Is data left to read?
                 if (reader.Peek() < 0)
                 {
                     // No? then break:
-                    result += data;
                     break;
                 }
-                result += data;
             }
             return result;
         }
