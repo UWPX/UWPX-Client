@@ -14,7 +14,7 @@ namespace XMPP_API.Classes.Network.TCP
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
-        /// How much characters should get read at once max.
+        /// How many characters should get read at once max.
         /// </summary>
         private static readonly int BUFFER_SIZE = 4096;
         /// <summary>
