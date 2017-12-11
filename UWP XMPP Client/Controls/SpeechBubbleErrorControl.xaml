@@ -9,7 +9,7 @@
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6">
         <Border Visibility="Visible" Background="#4C4A48" BorderBrush="Black" BorderThickness="1" Padding="10" Margin="0, 0, 0, 10" MinWidth="150" MinHeight="50">
             <StackPanel>
-                <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap"/>
+                <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
