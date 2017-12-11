@@ -7,6 +7,7 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.MUC;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes
@@ -146,6 +147,12 @@ namespace XMPP_API.Classes
         {
             XMPPAccount account = connection.account;
             await connection.sendAsync(new RequestvCardMessage(jabberId, account.getIdDomainAndResource()), false);
+        }
+
+        public async Task requestBookmarksAsync()
+        {
+            XMPPAccount account = connection.account;
+            await connection.sendAsync(new RequestBookmarksMessage(account.getIdDomainAndResource()), false);
         }
 
         public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)

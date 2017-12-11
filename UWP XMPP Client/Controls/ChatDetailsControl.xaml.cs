@@ -277,7 +277,9 @@ namespace UWP_XMPP_Client.Controls
 
         private async void test_bnt_Click(object sender, RoutedEventArgs e)
         {
-            await Logging.Logger.openLogFolderAsync();
+            //await Logging.Logger.openLogFolderAsync();
+            //await Client.requestVCardAsync(Chat.chatJabberId);
+            await Client.requestBookmarksAsync();
         }
 
         private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)

@@ -131,6 +131,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoResponseMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />

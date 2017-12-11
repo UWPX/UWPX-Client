@@ -43,6 +43,10 @@ namespace XMPP_API.Classes
         // XEP-0357 (push notifications):
         public static readonly string XML_XEP_0357_NAMESPACE = "urn:xmpp:push:0";
 
-        public static readonly bool ENABLE_DEBUG_OUTPUT = false;
+
+        // XEP-0048 (bookmarks):
+        public static readonly string XML_XEP_0048_BOOKMARKS_REQUEST = "<pubsub xmlns='http://jabber.org/protocol/pubsub'><items node='storage:bookmarks'/></pubsub>";
+
+        public static readonly bool ENABLE_DEBUG_OUTPUT = true;
     }
 }
