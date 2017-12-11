@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -11,7 +12,11 @@ namespace UWP_XMPP_Client.Controls
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            set
+            {
+                SetValue(TextProperty, value);
+                showImage();
+            }
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(SpeechBubbleTopControl), null);
 
@@ -25,6 +30,8 @@ namespace UWP_XMPP_Client.Controls
             }
         }
         public static readonly DependencyProperty DateProperty = DependencyProperty.Register("Date", typeof(DateTime), typeof(SpeechBubbleTopControl), null);
+
+        private static readonly Regex IMAGE_URL_REGEX = new Regex(@"http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpg|gif|png)$");
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -65,6 +72,20 @@ namespace UWP_XMPP_Client.Controls
                 {
                     date_tbx.Text = Date.ToString("dd.MM.yyyy HH:mm");
                 }
+            }
+        }
+
+        private void showImage()
+        {
+
+            if(Text != null && IMAGE_URL_REGEX.IsMatch(Text))
+            {
+                image_img.Source = Text;
+                image_img.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                image_img.Visibility = Visibility.Collapsed;
             }
         }
 

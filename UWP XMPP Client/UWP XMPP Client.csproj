@@ -103,9 +103,6 @@
     <Compile Include="Controls\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AccountImage.xaml.cs">
-      <DependentUpon>AccountImage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\AccountImageWithPresence.xaml.cs">
       <DependentUpon>AccountImageWithPresence.xaml</DependentUpon>
     </Compile>
@@ -213,7 +210,7 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
-    <Content Include="Assets\Images\default_user_image.png" />
+    <Content Include="Assets\Images\placeholder.png" />
     <Content Include="Assets\Images\send.png" />
     <Content Include="Assets\Images\xmpp_logo.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
@@ -269,10 +266,6 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\AccountControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\AccountImage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
