@@ -16,25 +16,11 @@ namespace XMPP_API.Classes
         public static readonly string XML_STREAM_FEATURE_START = "<stream:features>";
         public static readonly string XML_STREAM_FEATURE_CLOSE = "</stream:features>";
 
-        public static readonly string XML_MESSAGE_START = "<message>";
-        public static readonly string XML_MESSAGE_CLOSE = "</message>";
-        public static readonly string XML_BODY_START = "<body>";
-        public static readonly string XML_BODY_CLOSE = "</body>";
-        public static readonly string XML_RESOURCE_START = "<resource>";
-        public static readonly string XML_RESOURCE_CLOSE = "</resource>";
-
-        public static readonly string XML_STARTTLS = "<starttls xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
-
-        public static readonly string XML_SASL_CHALLENGE_START = "<sasl:challenge>";
-        public static readonly string XML_SASL_CHALLENGE_CLOSE = "<sasl:challenge/>";
-        public static readonly string XML_SASL_BINDING_START = "<bind xmlns=\"urn:ietf:params:xml:ns:xmpp-bind\">";
-        public static readonly string XML_SASL_BINDING_CLOSE = "</bind>";
-
         public static readonly string XML_QUERY_ROOSTER = "<query xmlns=\"jabber:iq:roster\"/>";
+        public static readonly string XML_STARTTLS = "<starttls xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
 
         // Error:
         public static readonly string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
-        public static readonly string XML_ERROR = ""; //TODO
 
         // Name spaces:
         public static readonly string XML_XMLNS = "xmlns";
