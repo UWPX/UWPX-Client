@@ -93,7 +93,7 @@ namespace Data_Manager2.Classes.DBManager
             catch (Exception e)
             {
                 Logger.Error("Error in update", e);
-            }          
+            }
         }
 
         #endregion
