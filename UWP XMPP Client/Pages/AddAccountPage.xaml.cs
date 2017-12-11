@@ -193,6 +193,23 @@ namespace UWP_XMPP_Client.Pages
                 await UiUtils.showInitialStartDialogAsync();
             }
         }
+
+        private void Grid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (advancedOptions_stckpnl.Visibility == Visibility.Visible)
+            {
+                advancedOptions_stckpnl.Visibility = Visibility.Collapsed;
+                advancedOptionsStatus_tblk.Text = "Show advanced options";
+                advancedOptionsStatusArrow_tblk.Text = "\uE0AB";
+            }
+            else
+            {
+                advancedOptions_stckpnl.Visibility = Visibility.Visible;
+                advancedOptionsStatus_tblk.Text = "Hide advanced options";
+                advancedOptionsStatusArrow_tblk.Text = "\uE1FD";
+            }
+        }
+
         #endregion
     }
 }
