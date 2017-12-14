@@ -259,9 +259,9 @@ namespace UWP_XMPP_Client.Controls
             }
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (string.Equals(args.getChatId(), Chat.id))
+                if (string.Equals(ChatTable.generateId(args.FROM, args.TO), Chat.id))
                 {
-                    storeChatState(args.getState());
+                    storeChatState(args.STATE);
                     args.Cancel = true;
                 }
             });

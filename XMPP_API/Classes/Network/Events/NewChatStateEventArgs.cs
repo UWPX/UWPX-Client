@@ -7,8 +7,9 @@ namespace XMPP_API.Classes.Network.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ChatState STATE;
-        private readonly string CHAT_ID;
+        public readonly ChatState STATE;
+        public readonly string FROM;
+        public readonly string TO;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,21 +23,14 @@ namespace XMPP_API.Classes.Network.Events
         public NewChatStateEventArgs(ChatStateMessage message)
         {
             this.STATE = message.getState();
-            this.CHAT_ID = Utils.removeResourceFromJabberid(message.getFrom());
+            this.FROM = Utils.removeResourceFromJabberid(message.getFrom());
+            this.TO = Utils.removeResourceFromJabberid(message.getTo());
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public ChatState getState()
-        {
-            return STATE;
-        }
 
-        public string getChatId()
-        {
-            return CHAT_ID;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
