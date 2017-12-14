@@ -29,7 +29,7 @@ namespace Data_Manager2.Classes.DBTables
         // Does the message is a link to an image
         public bool isImage { get; set; }
 
-        private static readonly Regex IMAGE_URL_REGEX = new Regex(@"http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpg|gif|png)$");
+        private static readonly Regex IMAGE_URL_REGEX = new Regex(@"http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpe?g|gif|png)$");
 
         public event EventHandler ChatMessageChanged;
 
@@ -92,7 +92,7 @@ namespace Data_Manager2.Classes.DBTables
         /// <returns>Is image url?</returns>
         private bool isMessageAnImageUrl(string msg)
         {
-            return msg != null && IMAGE_URL_REGEX.IsMatch(msg);
+            return msg != null && IMAGE_URL_REGEX.IsMatch(msg.ToLower());
         }
 
         #endregion

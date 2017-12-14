@@ -157,7 +157,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Misc Methods (Private)--
         private void cacheImage(ChatMessageTable message)
         {
-            ImageCache.Instance.PreCacheAsync(new System.Uri(message.message));
+            Task.Factory.StartNew(async () => await ImageCache.Instance.PreCacheAsync(new Uri(message.message)));
         }
 
         #endregion
