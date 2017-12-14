@@ -20,7 +20,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Thanks for downloading and supporting the development!" TextWrapping="Wrap"/>
-            <TextBlock Grid.Row="1" Margin="0, 10, 0, 0" Text="Don't forget this app still in Alpha, so expect regular crash and unexpected behavior!" TextWrapping="Wrap"/>
+            <TextBlock Grid.Row="1" Margin="0, 10, 0, 0" Text="Don't forget this app still in Alpha, so expect regular crashes and unexpected behavior!" TextWrapping="Wrap"/>
             <TextBlock Grid.Row="2" x:Name="viewOnGithub_tblck" Text="View on GitHub" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="viewOnGithub_tblck_Tapped"/>
             <CheckBox Grid.Row="3" x:Name="showOnStartup_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Show this on startup"/>
         </Grid>
