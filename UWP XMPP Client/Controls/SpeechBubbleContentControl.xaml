@@ -1,0 +1,17 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.SpeechBubbleContentControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <Border Visibility="Visible" BorderBrush="Black" BorderThickness="1" Padding="10" VerticalAlignment="Bottom" MinWidth="150" MinHeight="50" Background="{x:Bind Background}">
+        <StackPanel>
+            <controls:ImageEx x:Name="image_img" Visibility="Collapsed" MaxHeight="250" PlaceholderSource="Assets/Images/placeholder.png" IsCacheEnabled="True"/>
+            <TextBlock x:Name="message_tbx" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
+            <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+        </StackPanel>
+    </Border>
+</UserControl>

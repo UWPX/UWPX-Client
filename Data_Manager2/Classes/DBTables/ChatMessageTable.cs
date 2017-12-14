@@ -1,6 +1,7 @@
 ﻿using Data_Manager.Classes;
 using SQLite.Net.Attributes;
 using System;
+using System.Text.RegularExpressions;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 
@@ -25,6 +26,10 @@ namespace Data_Manager2.Classes.DBTables
         public DateTime date { get; set; }
         // send, read, sending, ...
         public MessageState state { get; set; }
+        // Does the message is a link to an image
+        public bool isImage { get; set; }
+
+        private static readonly Regex IMAGE_URL_REGEX = new Regex(@"http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpg|gif|png)$");
 
         public event EventHandler ChatMessageChanged;
 
@@ -61,6 +66,7 @@ namespace Data_Manager2.Classes.DBTables
                 this.date = DateTime.Now;
             }
             this.state = MessageState.UNREAD;
+            this.isImage = isMessageAnImageUrl(msg.getMessage());
         }
 
         #endregion
@@ -77,6 +83,16 @@ namespace Data_Manager2.Classes.DBTables
         public void onChanged()
         {
             ChatMessageChanged?.Invoke(this, new EventArgs());
+        }
+
+        /// <summary>
+        /// Test if the given string is an image url.
+        /// </summary>
+        /// <param name="msg">The message that should get checked.</param>
+        /// <returns>Is image url?</returns>
+        private bool isMessageAnImageUrl(string msg)
+        {
+            return msg != null && IMAGE_URL_REGEX.IsMatch(msg);
         }
 
         #endregion

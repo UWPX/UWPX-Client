@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class SpeechBubbleDownControl : UserControl
+    public sealed partial class SpeechBubbleContentControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,7 +13,10 @@ namespace UWP_XMPP_Client.Controls
         {
             get { return (ChatMessageTable)GetValue(ChatMessageProperty); }
             set
-            { SetValue(ChatMessageProperty, value); }
+            {
+                SetValue(ChatMessageProperty, value);
+                showChatMessage();
+            }
         }
 
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleContentControl), null);
@@ -25,9 +28,9 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 29/08/2017 Created [Fabian Sauter]
+        /// 14/12/2017 Created [Fabian Sauter]
         /// </history>
-        public SpeechBubbleDownControl()
+        public SpeechBubbleContentControl()
         {
             this.InitializeComponent();
         }
@@ -45,7 +48,36 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-
+        /// <summary>
+        /// Updates all controls with the proper content.
+        /// </summary>
+        private void showChatMessage()
+        {
+            if (ChatMessage != null)
+            {
+                if (ChatMessage.isImage)
+                {
+                    message_tbx.Visibility = Visibility.Collapsed;
+                    image_img.Source = ChatMessage.message ?? "Error!";
+                    image_img.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    image_img.Visibility = Visibility.Collapsed;
+                    message_tbx.Text = ChatMessage.message ?? "";
+                    message_tbx.Visibility = Visibility.Visible;
+                }
+                DateTime localDateTime = ChatMessage.date.ToLocalTime();
+                if (localDateTime.Date.CompareTo(DateTime.Now.Date) == 0)
+                {
+                    date_tbx.Text = localDateTime.ToString("HH:mm");
+                }
+                else
+                {
+                    date_tbx.Text = localDateTime.ToString("dd.MM.yyyy HH:mm");
+                }
+            }
+        }
 
         #endregion
 

@@ -4,20 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls1="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Left" Padding="6">
         <Polygon Points="0,0 10,10 0,10" Fill="{ThemeResource SystemAccentColorDark1}" Stroke="Black" Margin="10,0,0,0" />
-
-        <Border Background="{ThemeResource SystemAccentColorDark1}" BorderBrush="Black" BorderThickness="1" Padding="10" Margin="0,10,0,0" VerticalAlignment="Top" MinWidth="150" MinHeight="50">
-            <StackPanel>
-                <controls:ImageEx x:Name="image_img" Visibility="Collapsed" MaxHeight="250" PlaceholderSource="Assets/Images/placeholder.png" IsCacheEnabled="True" Margin="0, 0, 0, 10"/>
-                <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
-                <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-            </StackPanel>
-        </Border>
-
+        <controls1:SpeechBubbleContentControl ChatMessage="{x:Bind ChatMessage}" Margin="0, 10, 0, 0" Background="{ThemeResource SystemAccentColorDark1}"/>
         <Polygon Visibility="Visible" Points="0,0 11,11 0,11" Fill="{ThemeResource SystemAccentColorDark1}" Margin="10.4,1,0,0" />
     </Grid>
 </UserControl>

@@ -1,6 +1,8 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Events;
 using Data_Manager2.Classes.DBTables;
+using Microsoft.Toolkit.Uwp.UI;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
@@ -30,6 +32,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ChatManager()
         {
+            ImageCache.Instance.CacheDuration = TimeSpan.MaxValue;
         }
 
         #endregion
@@ -131,6 +134,10 @@ namespace Data_Manager2.Classes.DBManager
             if (triggerNewChatMessage)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(message));
+                if (message.isImage)
+                {
+                    cacheImage(message);
+                }
             }
         }
 
@@ -148,7 +155,10 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void cacheImage(ChatMessageTable message)
+        {
+            ImageCache.Instance.PreCacheAsync(new System.Uri(message.message));
+        }
 
         #endregion
 

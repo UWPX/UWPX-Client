@@ -95,27 +95,27 @@ namespace UWP_XMPP_Client.Controls
                 invertedListView_lstv.Items.Clear();
                 foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
                 {
-                    showMessage(msg.type, msg.fromUser, msg.message, msg.date);
+                    showMessage(msg);
                 }
                 ChatManager.INSTANCE.markAllMessagesAsRead(Chat);
             }
         }
 
-        private void showMessage(string type, string from, string msg, DateTime date)
+        private void showMessage(ChatMessageTable chatMessage)
         {
-            switch (type)
+            switch (chatMessage.type)
             {
                 case "error":
-                    invertedListView_lstv.Items.Add(new SpeechBubbleErrorControl() { Text = msg, Date = date.ToLocalTime() });
+                    invertedListView_lstv.Items.Add(new SpeechBubbleErrorControl() { ChatMessage = chatMessage });
                     break;
                 default:
-                    if (Chat.userAccountId.Equals(from))
+                    if (Chat.userAccountId.Equals(chatMessage.fromUser))
                     {
-                        invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { Text = msg, Date = date.ToLocalTime() });
+                        invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { ChatMessage = chatMessage });
                     }
                     else
                     {
-                        invertedListView_lstv.Items.Add(new SpeechBubbleTopControl() { Text = msg, Date = date.ToLocalTime() });
+                        invertedListView_lstv.Items.Add(new SpeechBubbleTopControl() { ChatMessage = chatMessage });
                     }
                     break;
             }
@@ -193,7 +193,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     msg.state = MessageState.READ;
                     ChatManager.INSTANCE.setChatMessageEntry(msg, false);
-                    showMessage(msg.type, msg.fromUser, msg.message, msg.date);
+                    showMessage(msg);
                 }
             });
         }

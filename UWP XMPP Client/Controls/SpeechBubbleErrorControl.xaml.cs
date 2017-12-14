@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Manager2.Classes.DBTables;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -8,23 +9,17 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string Text
+        public ChatMessageTable ChatMessage
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(SpeechBubbleDownControl), null);
-
-        public DateTime Date
-        {
-            get { return (DateTime)GetValue(DateProperty); }
+            get { return (ChatMessageTable)GetValue(ChatMessageProperty); }
             set
             {
-                SetValue(DateProperty, value);
-                showDate();
+                SetValue(ChatMessageProperty, value);
+                showMessage();
             }
         }
-        public static readonly DependencyProperty DateProperty = DependencyProperty.Register("Date", typeof(DateTime), typeof(SpeechBubbleDownControl), null);
+
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleContentControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -53,18 +48,16 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showDate()
+        private void showMessage()
         {
-            if (Date != null)
+            message_tbx.Text = ChatMessage.message ?? "";
+            if (ChatMessage.date.Date.CompareTo(DateTime.Now.Date) == 0)
             {
-                if (Date.Date.CompareTo(DateTime.Now.Date) == 0)
-                {
-                    date_tbx.Text = Date.ToString("HH:mm");
-                }
-                else
-                {
-                    date_tbx.Text = Date.ToString("dd.MM.yyyy HH:mm");
-                }
+                date_tbx.Text = ChatMessage.date.ToString("HH:mm");
+            }
+            else
+            {
+                date_tbx.Text = ChatMessage.date.ToString("dd.MM.yyyy HH:mm");
             }
         }
 
