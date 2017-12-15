@@ -55,6 +55,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (ChatMessage != null)
             {
+                imageError_grid.Visibility = Visibility.Collapsed;
                 if (ChatMessage.isImage)
                 {
                     message_tbx.Visibility = Visibility.Collapsed;
@@ -87,7 +88,13 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void image_img_ImageExFailed(object sender, Microsoft.Toolkit.Uwp.UI.Controls.ImageExFailedEventArgs e)
+        {
+            image_img.Visibility = Visibility.Collapsed;
+            message_tbx.Text = ChatMessage.message ?? "";
+            message_tbx.Visibility = Visibility.Visible;
+            imageError_grid.Visibility = Visibility.Visible;
+        }
 
         #endregion
     }

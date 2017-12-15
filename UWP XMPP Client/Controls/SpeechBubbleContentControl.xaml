@@ -9,7 +9,21 @@
 
     <Border Visibility="Visible" BorderBrush="Black" BorderThickness="1" Padding="10" VerticalAlignment="Bottom" MinWidth="150" MinHeight="50" Background="{x:Bind Background}">
         <StackPanel>
-            <controls:ImageEx x:Name="image_img" Visibility="Collapsed" MaxHeight="250" PlaceholderSource="Assets/Images/placeholder.png" IsCacheEnabled="True"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <controls:ImageEx x:Name="image_img" Visibility="Collapsed" MaxHeight="250" PlaceholderSource="Assets/Images/placeholder.png" IsCacheEnabled="True" ImageExFailed="image_img_ImageExFailed"/>
+                <Grid x:Name="imageError_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="30"/>
+                    <TextBlock Grid.Row="1" Text="Unable to load image!" HorizontalAlignment="Center"/>
+                </Grid>
+            </Grid>
             <TextBlock x:Name="message_tbx" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
             <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
         </StackPanel>
