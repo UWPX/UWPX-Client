@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Data_Manager2.Classes.DBManager;
+using Logging;
+using System;
+using System.Threading.Tasks;
+using Windows.UI.Core;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -33,7 +27,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         public MiscSettingsPage()
         {
             this.InitializeComponent();
-            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
+            SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
         }
 
         #endregion
@@ -49,7 +43,57 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
+        /// <summary>
+        /// Shows the size of the "imageCache" folder.
+        /// </summary>
+        private void showImageChacheSize()
+        {
+            imageChacheSize_tblck.Text = "calculating...";
+            Task.Factory.StartNew(async () => {
+                long size = await ImageManager.INSTANCE.getCachedImagesFolderSizeAsync();
+                string text = "~ ";
+                if (size >= 1024)
+                {
+                    size /= 1024;
+                    text += size + " MB";
+                }
+                else
+                {
+                    text += size + " KB";
+                }
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => imageChacheSize_tblck.Text = text);
+            });
+        }
 
+        /// <summary>
+        /// Shows the size of the "Logs" folder.
+        /// </summary>
+        private void showLogSize()
+        {
+            logSize_tblck.Text = "calculating...";
+            Task.Factory.StartNew(async () => {
+                long size = await Logger.getLogFolderSizeAsync();
+                string text = "~ ";
+                if (size >= 1024)
+                {
+                    size /= 1024;
+                    if(size >= 1024)
+                    {
+                        size /= 1024;
+                        text += size + " GB";
+                    }
+                    else
+                    {
+                        text += size + " MB";
+                    }
+                }
+                else
+                {
+                    text += size + " KB";
+                }
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => logSize_tblck.Text = text);
+            });
+        }
 
         #endregion
 
@@ -73,6 +117,47 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             }
         }
 
+        private async void clearImagesCache_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog dialog = new MessageDialog("Do you really want to clear the image cache?");
+            dialog.Commands.Add(new UICommand { Label = "No", Id = 0 });
+            dialog.Commands.Add(new UICommand { Label = "Yes", Id = 1 });
+            IUICommand command = await dialog.ShowAsync();
+            if ((int)command.Id == 1)
+            {
+                await ImageManager.INSTANCE.deleteImageCacheAsync();
+            }
+            showImageChacheSize();
+        }
+
+        private async void openLogFolder_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await Logger.openLogFolderAsync();
+        }
+
+        private async void exportLogs_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await Logger.exportLogs();
+        }
+
+        private async void deleteLogs_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MessageDialog dialog = new MessageDialog("Do you really want to delete all logs?");
+            dialog.Commands.Add(new UICommand { Label = "No", Id = 0 });
+            dialog.Commands.Add(new UICommand { Label = "Yes", Id = 1 });
+            IUICommand command = await dialog.ShowAsync();
+            if ((int)command.Id == 1)
+            {
+                await Logger.deleteLogsAsync();
+            }
+            showLogSize();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            showLogSize();
+            showImageChacheSize();
+        }
         #endregion
     }
 }

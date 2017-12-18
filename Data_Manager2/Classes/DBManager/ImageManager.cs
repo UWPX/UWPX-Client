@@ -211,6 +211,20 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
+        /// Deletes the "cachedImages" folder and creates a new empty one.
+        /// </summary>
+        public async Task deleteImageCacheAsync()
+        {
+            StorageFolder folder = await getCachedImagesFolderAsync();
+            if (folder != null)
+            {
+                await folder.DeleteAsync();
+            }
+            await getCachedImagesFolderAsync();
+            Logger.Info("Deleted image cache!");
+        }
+
+        /// <summary>
         /// Creates a new task, downloads the image from the given message and stores it locally.
         /// </summary>
         /// <param name="msg">The ChatMessageTable containing the image url.</param>
