@@ -8,14 +8,25 @@
     mc:Ignorable="d">
 
     <Border Visibility="Visible" BorderBrush="Black" BorderThickness="1" Padding="10" VerticalAlignment="Bottom" MinWidth="150" MinHeight="50" Background="{x:Bind Background}">
-        <StackPanel>
+        <StackPanel RightTapped="StackPanel_RightTapped">
+            <StackPanel.Resources>
+                <MenuFlyout x:Name="menuFlyout">
+                    <MenuFlyout.Items>
+                        <MenuFlyoutItem x:Name="openImage_mfo" Text="Open" IsEnabled="False" Click="openImage_mfo_Click"/>
+                        <MenuFlyoutItem x:Name="redownloadImage_mfo" Text="Redownload" IsEnabled="False" Click="redownloadImage_mfo_Click"/>
+                        <MenuFlyoutSeparator/>
+                        <MenuFlyoutItem x:Name="copyLink_mfo" Text="Copy link" Click="copyLink_mfo_Click"/>
+                        <MenuFlyoutItem x:Name="openLink_mfo" Text="Open link" Click="openLink_mfo_Click"/>
+                    </MenuFlyout.Items>
+                </MenuFlyout>
+            </StackPanel.Resources>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <controls:ImageEx x:Name="image_img" Visibility="Collapsed" MaxHeight="250" PlaceholderSource="Assets/Images/placeholder.png" IsCacheEnabled="True" ImageExFailed="image_img_ImageExFailed"/>
-                <Grid x:Name="imageError_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Tapped="imageError_grid_Tapped">
+                <Grid x:Name="imageError_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Tapped="imageError_grid_Tapped" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
@@ -23,7 +34,7 @@
                     <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="30"/>
                     <TextBlock Grid.Row="1" Text="Unable to load image!" HorizontalAlignment="Center"/>
                 </Grid>
-                <Grid x:Name="imageLoading_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <Grid x:Name="imageLoading_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>

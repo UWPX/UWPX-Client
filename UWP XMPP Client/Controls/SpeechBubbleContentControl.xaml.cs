@@ -1,6 +1,10 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using System;
+using UWP_XMPP_Client.Classes;
+using Windows.ApplicationModel.DataTransfer;
+using Windows.Storage;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -73,12 +77,8 @@ namespace UWP_XMPP_Client.Controls
                             case Data_Manager2.Classes.DownloadState.DOWNLOADING:
                                 waitForImageDownloadToFinish(img);
                                 break;
-                            case Data_Manager2.Classes.DownloadState.DONE:
-                            case Data_Manager2.Classes.DownloadState.ERROR:
-                            default:
-                                image_img.Source = img.path ?? "Error!";
-                                break;
                         }
+                        showImage(img);
                     }
                     else
                     {
@@ -106,16 +106,17 @@ namespace UWP_XMPP_Client.Controls
 
         private void showImage(ImageTable img)
         {
+            imageError_grid.Visibility = Visibility.Collapsed;
+            imageLoading_grid.Visibility = Visibility.Visible;
+            openImage_mfo.IsEnabled = false;
+            redownloadImage_mfo.IsEnabled = false;
+
             switch (img.state)
             {
                 case Data_Manager2.Classes.DownloadState.DOWNLOADING:
-                    imageLoading_grid.Visibility = Visibility.Visible;
-                    imageError_grid.Visibility = Visibility.Collapsed;
                     loading_prgrb.IsIndeterminate = false;
                     break;
                 case Data_Manager2.Classes.DownloadState.WAITING:
-                    imageLoading_grid.Visibility = Visibility.Visible;
-                    imageError_grid.Visibility = Visibility.Collapsed;
                     loading_prgrb.IsIndeterminate = true;
                     break;
                 case Data_Manager2.Classes.DownloadState.DONE:
@@ -123,8 +124,9 @@ namespace UWP_XMPP_Client.Controls
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
                     image_img.Visibility = Visibility.Visible;
                     imageLoading_grid.Visibility = Visibility.Collapsed;
-                    imageError_grid.Visibility = Visibility.Collapsed;
                     image_img.Source = img.path ?? "Error!";
+                    openImage_mfo.IsEnabled = true;
+                    redownloadImage_mfo.IsEnabled = true;
                     break;
                 case Data_Manager2.Classes.DownloadState.ERROR:
                     img.DownloadStateChanged -= Img_DownloadStateChanged;
@@ -132,6 +134,7 @@ namespace UWP_XMPP_Client.Controls
                     imageLoading_grid.Visibility = Visibility.Collapsed;
                     imageError_grid.Visibility = Visibility.Visible;
                     image_img.Source = img.path ?? "Error!";
+                    redownloadImage_mfo.IsEnabled = true;
                     break;
             }
         }
@@ -185,6 +188,43 @@ namespace UWP_XMPP_Client.Controls
         private async void imageError_grid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => retryImageDownload());
+        }
+
+        private async void openImage_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(image_img.Source as string);
+                await Windows.System.Launcher.LaunchFileAsync(imageFile);
+            }
+            catch (Exception ex)
+            {
+                MessageDialog dialog = new MessageDialog(ex.Message, "Unable to open image!");
+            }
+        }
+
+        private void copyLink_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            DataPackage package = new DataPackage();
+            package.SetText(ChatMessage.message);
+            Clipboard.SetContent(package);
+        }
+
+        private async void openLink_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri(ChatMessage.message));
+        }
+
+        private void redownloadImage_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            retryImageDownload();
+        }
+
+        private void StackPanel_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            StackPanel stackPanel = (StackPanel)sender;
+            menuFlyout.ShowAt(stackPanel, e.GetPosition(stackPanel));
+            var a = ((FrameworkElement)e.OriginalSource).DataContext;
         }
 
         #endregion
