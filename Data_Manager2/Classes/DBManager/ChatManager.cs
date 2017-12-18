@@ -1,7 +1,6 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Events;
 using Data_Manager2.Classes.DBTables;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -32,7 +31,6 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ChatManager()
         {
-            ImageCache.Instance.CacheDuration = TimeSpan.MaxValue;
         }
 
         #endregion
@@ -100,6 +98,16 @@ namespace Data_Manager2.Classes.DBManager
             });
         }
 
+        public ChatMessageTable getChatMessageById(string messageId)
+        {
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE id = ?;", messageId);
+            if (list.Count > 0)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
         public ChatMessageTable getLastChatMessageForChat(ChatTable chat)
         {
             IList<ChatMessageTable> list = getAllChatMessagesForChat(chat);
@@ -155,9 +163,9 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Private)--
-        private void cacheImage(ChatMessageTable message)
+        private void cacheImage(ChatMessageTable msg)
         {
-            Task.Factory.StartNew(async () => await ImageCache.Instance.PreCacheAsync(new Uri(message.message)));
+            ImageManager.INSTANCE.downloadImage(msg);
         }
 
         #endregion

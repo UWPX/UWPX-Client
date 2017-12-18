@@ -15,13 +15,23 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <controls:ImageEx x:Name="image_img" Visibility="Collapsed" MaxHeight="250" PlaceholderSource="Assets/Images/placeholder.png" IsCacheEnabled="True" ImageExFailed="image_img_ImageExFailed"/>
-                <Grid x:Name="imageError_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <Grid x:Name="imageError_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Tapped="imageError_grid_Tapped">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="30"/>
                     <TextBlock Grid.Row="1" Text="Unable to load image!" HorizontalAlignment="Center"/>
+                </Grid>
+                <Grid x:Name="imageLoading_grid" Padding="10" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ProgressRing Grid.Row="0" Height="30" Width="30" IsActive="True"/>
+                    <TextBlock Grid.Row="1" Text="Loading..." HorizontalAlignment="Center"/>
+                    <ProgressBar Grid.Row="2" x:Name="loading_prgrb"/>
                 </Grid>
             </Grid>
             <TextBlock x:Name="message_tbx" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>

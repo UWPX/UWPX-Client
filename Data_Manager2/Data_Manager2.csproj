@@ -110,10 +110,15 @@
     <Compile Include="Classes\DBManager\AbstractManager.cs" />
     <Compile Include="Classes\DBManager\AccountManager.cs" />
     <Compile Include="Classes\DBManager\ChatManager.cs" />
+    <Compile Include="Classes\DBManager\ImageManager.cs" />
+    <Compile Include="Classes\DBTables\ImageTable.cs" />
     <Compile Include="Classes\DBTables\AccountTable.cs" />
     <Compile Include="Classes\DBTables\ChatDescriptionTable.cs" />
     <Compile Include="Classes\DBTables\ChatMessageTable.cs" />
     <Compile Include="Classes\DBTables\ChatTable.cs" />
+    <Compile Include="Classes\DownloadState.cs" />
+    <Compile Include="Classes\Events\DownloadProgressChangedEventArgs.cs" />
+    <Compile Include="Classes\Events\DownloadStateChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Classes\Events\AccountChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ChatChangedEventArgs.cs" />
