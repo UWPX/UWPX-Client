@@ -318,20 +318,24 @@ namespace XMPP_API.Classes.Network.TCP
         protected string readNextString()
         {
             string result = "";
-            while (true)
+            int l = -1;
+            char[] buffer;
+            do
             {
-                if(state != ConnectionState.CONNECTED)
+                if (state != ConnectionState.CONNECTED)
                 {
                     return null;
                 }
 
-                char[] buffer = new char[BUFFER_SIZE + 1];
+                buffer = new char[BUFFER_SIZE];
                 readingCTS = new CancellationTokenSource();
 
                 // Read next BUFFER_SIZE chars:
                 try
                 {
-                    reader.ReadAsync(buffer, 0, BUFFER_SIZE).Wait(readingCTS.Token);
+                    Task<int> t = reader.ReadAsync(buffer, 0, BUFFER_SIZE);
+                    t.Wait(readingCTS.Token);
+                    l = t.Result;
                 }
                 catch (AggregateException)
                 {
@@ -339,21 +343,10 @@ namespace XMPP_API.Classes.Network.TCP
                 }
 
                 // Cut the read string and remove everything starting from the first "\0":
-                string data = new string(buffer).Substring(0, buffer.Length - 1);
-                int index = data.IndexOf("\0");
-                if (index < 0)
-                {
-                    index = data.Length;
-                }
-                result += data.Substring(0, index);
+                result += new string(buffer).Substring(0, l);
 
-                // Is data left to read?
-                if (reader.Peek() < 0)
-                {
-                    // No? then break:
-                    break;
-                }
-            }
+            // Is data left to read?
+            } while (reader.Peek() >= 0 && l >= 0);
             return result;
         }
 
