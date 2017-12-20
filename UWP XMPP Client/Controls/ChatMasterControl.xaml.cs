@@ -4,7 +4,6 @@ using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using System;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using UWP_XMPP_Client.Classes;
@@ -197,8 +196,6 @@ namespace UWP_XMPP_Client.Controls
             {
                 ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
                 ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-                Client.NewPresence -= Client_NewPresence;
-                Client.NewPresence += Client_NewPresence;
             }
         }
 
@@ -347,17 +344,6 @@ namespace UWP_XMPP_Client.Controls
                 if (Chat.id.Equals(args.CHAT.id))
                 {
                     showChat();
-                }
-            });
-        }
-
-        private async void Client_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                if (args.getFrom().Equals(Chat.chatJabberId))
-                {
-                    image_aciwp.Presence = args.getPresence();
                 }
             });
         }

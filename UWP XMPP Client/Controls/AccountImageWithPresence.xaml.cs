@@ -1,9 +1,12 @@
-﻿using Windows.UI;
+﻿using Data_Manager2.Classes.DBTables;
+using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
+using System;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -28,6 +31,31 @@ namespace UWP_XMPP_Client.Controls
             set { SetValue(ImageProperty, value); }
         }
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(AccountImageWithPresence), null);
+
+        #region --Presence-Automation-- // Subscribes to the presence changed event
+        public XMPPClient Client
+        {
+            get { return (XMPPClient)GetValue(ClientProperty); }
+            set
+            {
+                unsubscribeFromEvents();
+                SetValue(ClientProperty, value);
+                subscribeToEvents();
+            }
+        }
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
+
+        public ChatTable Chat
+        {
+            get { return (ChatTable)GetValue(ChatProperty); }
+            set
+            {
+                SetValue(ChatProperty, value);
+                showCurrentPresence();
+            }
+        }
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
+        #endregion
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -81,6 +109,29 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private void unsubscribeFromEvents()
+        {
+            if(Client != null)
+            {
+                Client.NewPresence -= Client_NewPresence;
+            }
+        }
+
+        private void subscribeToEvents()
+        {
+            if (Client != null)
+            {
+                Client.NewPresence += Client_NewPresence;
+            }
+        }
+
+        private void showCurrentPresence()
+        {
+            if(Chat != null)
+            {
+                Presence = Chat.presence;
+            }
+        }
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -89,7 +140,16 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private async void Client_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+             {
+                 if (Chat != null && string.Equals(args.getFrom(), Chat.chatJabberId))
+                 {
+                     Presence = args.getPresence();
+                 }
+             });
+        }
 
         #endregion
     }

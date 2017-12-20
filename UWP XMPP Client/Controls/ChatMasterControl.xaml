@@ -41,7 +41,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Rectangle x:Name="color_rcta" Grid.Column="0" Width="5" Fill="Transparent" Margin="-10, 0, 0, 0"/>
-            <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="1" Margin="5, 0, 0, 0"/>
+            <controls:AccountImageWithPresence x:Name="image_aciwp" Grid.Column="1" Margin="5, 0, 0, 0" Client="{x:Bind Client}" Chat="{x:Bind Chat}"/>
             <StackPanel Grid.Column="2" HorizontalAlignment="Stretch">
                 <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
                 <TextBlock x:Name="lastChat_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 10, 0" TextTrimming="CharacterEllipsis" MaxLines="1"/>
