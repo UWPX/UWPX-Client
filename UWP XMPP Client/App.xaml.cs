@@ -111,6 +111,9 @@ namespace UWP_XMPP_Client
                     {
                         if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                         {
+                            // Set default background:
+                            Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, "wood_moos.jpeg");
+
                             rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
                         }
                         else
