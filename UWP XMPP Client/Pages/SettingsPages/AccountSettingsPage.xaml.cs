@@ -5,6 +5,7 @@ using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network;
+using System;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -97,9 +98,9 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             loadAccounts();
         }
 
-        private void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        private async void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => loadAccounts());
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => loadAccounts());
         }
 
         #endregion

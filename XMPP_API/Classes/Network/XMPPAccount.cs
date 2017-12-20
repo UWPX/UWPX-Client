@@ -67,6 +67,11 @@ namespace XMPP_API.Classes.Network
             };
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

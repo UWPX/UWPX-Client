@@ -67,12 +67,17 @@ namespace XMPP_API.Classes
             return false;
         }
 
-        internal XMPPUser clone()
+        public XMPPUser clone()
         {
             return new XMPPUser(userId, domain, resource)
             {
                 userPassword = userPassword
             };
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion
