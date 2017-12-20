@@ -187,10 +187,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.0.4</Version>
+      <Version>6.0.5</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>2.1.0</Version>
+      <Version>2.1.1</Version>
     </PackageReference>
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
