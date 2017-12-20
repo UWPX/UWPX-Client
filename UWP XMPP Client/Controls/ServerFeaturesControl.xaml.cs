@@ -6,7 +6,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using System;
-using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using Windows.UI.Core;
 using System.Threading;
@@ -17,7 +16,7 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ChatTable chat
+        public ChatTable Chat
         {
             get { return (ChatTable)GetValue(chatProperty); }
             set
@@ -28,7 +27,7 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty chatProperty = DependencyProperty.Register("chat", typeof(ChatTable), typeof(ServerFeaturesControl), null);
 
-        public XMPPClient client
+        public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(clientProperty); }
             set
@@ -75,14 +74,14 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void sendDisco()
         {
-            if (discoId == null && client != null && chat != null)
+            if (discoId == null && Client != null && Chat != null)
             {
                 items_icon.Visibility = Visibility.Collapsed;
                 noneFound_tblck.Visibility = Visibility.Collapsed;
                 loading_spnl.Visibility = Visibility.Visible;
 
                 discoId = "";
-                Task<string> t = client.createDiscoAsync(chat.chatJabberId);
+                Task<string> t = Client.createDiscoAsync(Chat.chatJabberId);
                 Task.Factory.StartNew(async () => discoId = await t);
                 startTimer();
             }
@@ -104,10 +103,10 @@ namespace UWP_XMPP_Client.Controls
 
         private void bindEvents()
         {
-            if (client != null)
+            if (Client != null)
             {
-                client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-                client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
+                Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
+                Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
             }
         }
 
@@ -125,6 +124,12 @@ namespace UWP_XMPP_Client.Controls
             {
                 items_icon.Visibility = Visibility.Collapsed;
                 noneFound_tblck.Text = "Server responded with an error of type: " + disco.ERROR_RESULT.TYPE + "\n and content:\n" + disco.ERROR_RESULT.CONTENT;
+                noneFound_tblck.Visibility = Visibility.Visible;
+            }
+            else if(disco.FEATURES.Count <= 0)
+            {
+                items_icon.Visibility = Visibility.Collapsed;
+                noneFound_tblck.Text = "None";
                 noneFound_tblck.Visibility = Visibility.Visible;
             }
             else

@@ -22,7 +22,6 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <!--<Grid>-->
     <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}" Padding="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

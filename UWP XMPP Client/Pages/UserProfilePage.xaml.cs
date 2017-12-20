@@ -15,19 +15,19 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ChatTable chat
+        public ChatTable Chat
         {
             get { return (ChatTable)GetValue(chatProperty); }
             set { SetValue(chatProperty, value); }
         }
-        public static readonly DependencyProperty chatProperty = DependencyProperty.Register("chat", typeof(ChatTable), typeof(UserProfilePage), null);
+        public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(UserProfilePage), null);
 
-        public XMPPClient client
+        public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(clientProperty); }
             set { SetValue(clientProperty, value); }
         }
-        public static readonly DependencyProperty clientProperty = DependencyProperty.Register("client", typeof(XMPPClient), typeof(UserProfilePage), null);
+        public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(UserProfilePage), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -49,13 +49,13 @@ namespace UWP_XMPP_Client.Pages
         #region --Set-, Get- Methods--
         private void setChat(ChatTable chat)
         {
-            this.chat = chat;
+            this.Chat = chat;
             showProfile();
         }
 
         private void setClient(XMPPClient client)
         {
-            this.client = client;
+            this.Client = client;
             showClient();
         }
 
@@ -69,7 +69,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private void showClient()
         {
-            if(client == null)
+            if(Client == null)
             {
                 return;
             }
@@ -77,16 +77,14 @@ namespace UWP_XMPP_Client.Pages
 
         private void showProfile()
         {
-            if (chat == null)
+            if (Chat == null)
             {
                 return;
             }
-            name_tblck.Text = chat.chatJabberId;
-            status_tblck.Text = chat.status ?? "";
-            account_tblck.Text = chat.userAccountId ?? "";
-            showSubscriptionStatus(chat.subscription ?? "");
-            imagePresence_aiwp.Presence = chat.presence;
-            imagePresenceSmall_aiwp.Presence = chat.presence;
+            name_tblck.Text = Chat.chatJabberId;
+            status_tblck.Text = Chat.status ?? "";
+            account_tblck.Text = Chat.userAccountId ?? "";
+            showSubscriptionStatus(Chat.subscription ?? Chat.ask ?? "none");
         }
 
         private void showSubscriptionStatus(string status)
@@ -95,24 +93,24 @@ namespace UWP_XMPP_Client.Pages
             switch (status)
             {
                 case "both":
-                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    fromArrow_tblck.Visibility = Visibility.Visible;
+                    toArrow_tblck.Visibility = Visibility.Visible;
                     break;
 
                 case "from":
-                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
-                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    fromArrow_tblck.Visibility = Visibility.Visible;
+                    toArrow_tblck.Visibility = Visibility.Collapsed;
                     break;
 
                 case "to":
-                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Visible;
+                    fromArrow_tblck.Visibility = Visibility.Collapsed;
+                    toArrow_tblck.Visibility = Visibility.Visible;
                     break;
 
                 case "none":
                 default:
-                    fromArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
-                    toArrow_tblck.Visibility = Windows.UI.Xaml.Visibility.Collapsed;
+                    fromArrow_tblck.Visibility = Visibility.Collapsed;
+                    toArrow_tblck.Visibility = Visibility.Collapsed;
                     break;
             }
         }
@@ -141,7 +139,7 @@ namespace UWP_XMPP_Client.Pages
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if(chat != null && chat.id.Equals(args.CHAT.id))
+                if(Chat != null && Chat.id.Equals(args.CHAT.id))
                 {
                     showProfile();
                 }
