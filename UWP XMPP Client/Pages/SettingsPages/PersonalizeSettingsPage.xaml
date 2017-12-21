@@ -22,7 +22,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <controls:SettingsHeader Grid.Row="0" Icon="&#xE771;" Text="Personalize"/>
+            <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE771;" Text="Personalize"/>
             <TextBlock Grid.Row="1" Text="Select chat background:" Margin="10, 10, 10, 0"/>
             <controls1:AdaptiveGridView x:Name="backgroundImages_adgv" Grid.Row="2" Margin="10" OneRowModeEnabled="False" ItemHeight="180" DesiredWidth="160" SelectionMode="Single" IsItemClickEnabled="True" ItemTemplate="{StaticResource BackgroundImageTemplate}" ItemsSource="{x:Bind backgroundImages}" ItemClick="AdaptiveGridView_ItemClick"/>
         </Grid>

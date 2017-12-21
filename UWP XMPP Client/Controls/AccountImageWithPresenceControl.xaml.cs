@@ -10,7 +10,7 @@ using System;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class AccountImageWithPresence : UserControl
+    public sealed partial class AccountImageWithPresenceControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,14 +23,14 @@ namespace UWP_XMPP_Client.Controls
                 onPresenceUpdated();
             }
         }
-        public static readonly DependencyProperty PresenceProperty = DependencyProperty.Register("Presence", typeof(Presence), typeof(AccountImageWithPresence), null);
+        public static readonly DependencyProperty PresenceProperty = DependencyProperty.Register("Presence", typeof(Presence), typeof(AccountImageWithPresenceControl), null);
 
         public ImageSource Image
         {
             get { return (BitmapImage)GetValue(ImageProperty); }
             set { SetValue(ImageProperty, value); }
         }
-        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(AccountImageWithPresence), null);
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(AccountImageWithPresenceControl), null);
 
         #region --Presence-Automation-- // Subscribes to the presence changed event
         public XMPPClient Client
@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 05/09/2017 Created [Fabian Sauter]
         /// </history>
-        public AccountImageWithPresence()
+        public AccountImageWithPresenceControl()
         {
             this.InitializeComponent();
         }

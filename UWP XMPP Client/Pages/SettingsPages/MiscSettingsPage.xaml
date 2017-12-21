@@ -14,10 +14,10 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <controls:SettingsHeader Grid.Row="0" Icon="&#xE713;" Text="Misc"/>
+            <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE713;" Text="Misc"/>
             <StackPanel Grid.Row="1">
                 <TextBlock Text="Logs:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:Seperator Margin="0, 2, 0, 0"/>
+                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
                 <Button x:Name="openLogFolder_btn" Content="Open App Data Folder" Margin="10,15,0,0" Click="openLogFolder_btn_Click"/>
                 <Button x:Name="exportLogs_btn" Content="Export Logs" Margin="10,10,0,0" Click="exportLogs_btn_Click"/>
                 <StackPanel Orientation="Horizontal">
@@ -26,7 +26,7 @@
                 </StackPanel>
 
                 <TextBlock Text="Images:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:Seperator Margin="0, 2, 0, 0"/>
+                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="clearImagesCache_btn" Content="Clear image cache" Margin="10,10,0,0" Click="clearImagesCache_btn_Click"/>
                     <TextBlock x:Name="imageChacheSize_tblck" Text="calculating..." Foreground="{ThemeResource CalendarDatePickerTextForeground}" VerticalAlignment="Center" Margin="10, 10, 0, 0"/>

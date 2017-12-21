@@ -15,7 +15,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <controls:SettingsHeader Grid.Row="0" Icon="&#xE13D;" Text="Accounts"/>
+            <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE13D;" Text="Accounts"/>
             <Button x:Name="addAccount_btn" Grid.Row="1" Margin="10, 10, 10, 0" Click="addAccount_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE109;" Margin="0, -1, 5, 0" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>

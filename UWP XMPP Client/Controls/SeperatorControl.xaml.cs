@@ -1,14 +1,12 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class DeleteChatDialog : ContentDialog
+    public sealed partial class SeperatorControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool keepChat;
-        public bool deleteChat;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,9 +15,9 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 26/11/2017 Created [Fabian Sauter]
+        /// 25/08/2017 Created [Fabian Sauter]
         /// </history>
-        public DeleteChatDialog()
+        public SeperatorControl()
         {
             this.InitializeComponent();
         }
@@ -47,19 +45,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void no_btn_Click(object sender, RoutedEventArgs e)
-        {
-            keepChat = (bool)keepChat_cbx.IsChecked;
-            deleteChat = false;
-            Hide();
-        }
 
-        private void yes_btn_Click(object sender, RoutedEventArgs e)
-        {
-            keepChat = (bool)keepChat_cbx.IsChecked;
-            deleteChat = true;
-            Hide();
-        }
 
         #endregion
     }

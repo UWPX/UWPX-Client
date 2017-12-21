@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 
-namespace UWP_XMPP_Client.Controls
+namespace UWP_XMPP_Client.Dialogs
 {
     public sealed partial class AddChatContentDialog : ContentDialog
     {

@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class SettingsHeader : UserControl
+    public sealed partial class SettingsHeaderControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,14 +12,14 @@ namespace UWP_XMPP_Client.Controls
             get { return (string)GetValue(IconProperty); }
             set { SetValue(IconProperty, value); }
         }
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(string), typeof(SettingsHeader), new PropertyMetadata(0));
-        
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register("Icon", typeof(string), typeof(SettingsHeaderControl), new PropertyMetadata(0));
+
         public string Text
         {
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(SettingsHeader), new PropertyMetadata(0));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(SettingsHeaderControl), new PropertyMetadata(0));
 
 
 
@@ -32,7 +32,7 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 03/09/2017 Created [Fabian Sauter]
         /// </history>
-        public SettingsHeader()
+        public SettingsHeaderControl()
         {
             this.InitializeComponent();
         }

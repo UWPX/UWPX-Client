@@ -103,10 +103,10 @@
     <Compile Include="Controls\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AccountImageWithPresence.xaml.cs">
-      <DependentUpon>AccountImageWithPresence.xaml</DependentUpon>
+    <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
+      <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AddChatContentDialog.xaml.cs">
+    <Compile Include="Dialogs\AddChatContentDialog.xaml.cs">
       <DependentUpon>AddChatContentDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BackgroundImageSelectionControl.xaml.cs">
@@ -115,20 +115,20 @@
     <Compile Include="Controls\ChatDetailsControl.xaml.cs">
       <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\InitialStartDialog.xaml.cs">
+    <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
       <DependentUpon>InitialStartDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DeleteChatDialog.xaml.cs">
+    <Compile Include="Dialogs\DeleteChatDialog.xaml.cs">
       <DependentUpon>DeleteChatDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Seperator.xaml.cs">
-      <DependentUpon>Seperator.xaml</DependentUpon>
+    <Compile Include="Controls\SeperatorControl.xaml.cs">
+      <DependentUpon>SeperatorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ServerFeaturesControl.xaml.cs">
       <DependentUpon>ServerFeaturesControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SettingsHeader.xaml.cs">
-      <DependentUpon>SettingsHeader.xaml</DependentUpon>
+    <Compile Include="Controls\SettingsHeaderControl.xaml.cs">
+      <DependentUpon>SettingsHeaderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SpeechBubbleContentControl.xaml.cs">
       <DependentUpon>SpeechBubbleContentControl.xaml</DependentUpon>
@@ -272,11 +272,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\AccountImageWithPresence.xaml">
+    <Page Include="Controls\AccountImageWithPresenceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\AddChatContentDialog.xaml">
+    <Page Include="Dialogs\AddChatContentDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -288,15 +288,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\InitialStartDialog.xaml">
+    <Page Include="Dialogs\InitialStartDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\DeleteChatDialog.xaml">
+    <Page Include="Dialogs\DeleteChatDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Seperator.xaml">
+    <Page Include="Controls\SeperatorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -308,7 +308,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SettingsHeader.xaml">
+    <Page Include="Controls\SettingsHeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -409,6 +409,7 @@
       <Name>SQLite for Universal Windows Platform</Name>
     </SDKReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

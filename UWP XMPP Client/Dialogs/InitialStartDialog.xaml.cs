@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace UWP_XMPP_Client.Controls
+namespace UWP_XMPP_Client.Dialogs
 {
     public sealed partial class InitialStartDialog : ContentDialog
     {

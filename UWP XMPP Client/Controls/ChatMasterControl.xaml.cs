@@ -9,6 +9,7 @@ using Windows.UI;
 using UWP_XMPP_Client.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
+using UWP_XMPP_Client.Dialogs;
 
 namespace UWP_XMPP_Client.Controls
 {

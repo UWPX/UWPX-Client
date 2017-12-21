@@ -13,7 +13,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <controls:SettingsHeader Grid.Row="0" Icon="&#xE12B;" Text="Data"/>
+            <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE12B;" Text="Data"/>
             <!--<TextBlock Grid.Row="1" Text="Select chat background:" Margin="10, 10, 10, 0"/>-->
         </Grid>
     </ScrollViewer>

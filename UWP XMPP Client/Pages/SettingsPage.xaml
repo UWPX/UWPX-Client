@@ -30,7 +30,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls1:SettingsHeader Icon="&#xE713;" Text="Settings"/>
+        <controls1:SettingsHeaderControl Icon="&#xE713;" Text="Settings"/>
         <GridView Grid.Row="1"
                   SelectionMode="Single"
                   IsItemClickEnabled="True"
