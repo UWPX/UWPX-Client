@@ -13,7 +13,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls1:ImageEx x:Name="backgroundImage_img" Grid.Row="0" IsCacheEnabled="True" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <controls1:ImageEx x:Name="backgroundImage_img" Grid.Row="0"  Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
         <Grid Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>

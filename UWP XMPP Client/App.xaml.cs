@@ -71,6 +71,11 @@ namespace UWP_XMPP_Client
 
         private void onActivatedOrLaunched(IActivatedEventArgs args)
         {
+            // Set default background:
+            if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            {
+                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, "wood_moos.jpeg");
+            }
             // Loads all background images into the cache
             BackgroundImageCache.loadCache();
 
@@ -111,9 +116,6 @@ namespace UWP_XMPP_Client
                     {
                         if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                         {
-                            // Set default background:
-                            Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, "wood_moos.jpeg");
-
                             rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
                         }
                         else
@@ -150,7 +152,7 @@ namespace UWP_XMPP_Client
                     {
                         if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                         {
-                            rootFrame.Navigate(typeof(AddAccountPage));
+                            rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
                         }
                         else
                         {

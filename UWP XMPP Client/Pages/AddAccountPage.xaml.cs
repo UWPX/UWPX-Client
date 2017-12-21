@@ -91,19 +91,24 @@ namespace UWP_XMPP_Client.Pages
             return true;
         }
 
-        private async Task nextAsync()
+        private async Task acceptAsync()
         {
             if (await areEntriesValidAsync())
             {
                 AccountManager.INSTANCE.setAccount(getAccount(), true);
-                Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
-                if (Window.Current.Content is Frame rootFrame && rootFrame.CanGoBack)
-                {
-                    rootFrame.GoBack();
-                    return;
-                }
-                (Window.Current.Content as Frame).Navigate(typeof(ChatPage));
+                moveOn();
             }
+        }
+
+        private void moveOn()
+        {
+            Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+            if (Window.Current.Content is Frame rootFrame && rootFrame.CanGoBack)
+            {
+                rootFrame.GoBack();
+                return;
+            }
+            (Window.Current.Content as Frame).Navigate(typeof(ChatPage));
         }
 
         private void updateColor(string color)
@@ -138,21 +143,21 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void skip_btn_Click(object sender, RoutedEventArgs e)
+        private async void accept_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            await acceptAsync();
         }
 
-        private async void next_btn_Click(object sender, RoutedEventArgs e)
+        private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
-            await nextAsync();
+            moveOn();
         }
 
         private async void resource_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                await nextAsync();
+                await acceptAsync();
             }
         }
 

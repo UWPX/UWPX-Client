@@ -33,7 +33,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--Background-->
-        <controls:ImageEx x:Name="backgroundImage_img" Grid.Row="0" IsCacheEnabled="True"
+        <controls:ImageEx x:Name="backgroundImage_img" Grid.Row="0"
                           Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <!--Content-->
         <Grid x:Name="main_grid" Grid.Row="0" Visibility="Collapsed">

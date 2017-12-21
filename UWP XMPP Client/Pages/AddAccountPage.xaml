@@ -64,8 +64,8 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="skip_btn" Content="Skip" x:Uid="SkipButton" HorizontalAlignment="Stretch" Grid.Column="0" Margin="0,0,1,0" Click="skip_btn_Click"/>
-            <Button x:Name="next_btn" Content="Next" x:Uid="SetupPage1NextButton" HorizontalAlignment="Stretch" Grid.Column="1" Margin="1,0,0,0" Click="next_btn_Click"/>
+            <Button x:Name="cancel_btn" Content="Cancel" HorizontalAlignment="Stretch" Grid.Column="0" Margin="0,0,1,0" Click="cancel_btn_Click"/>
+            <Button x:Name="accept_btn" Content="Accept" HorizontalAlignment="Stretch" Grid.Column="1" Margin="1,0,0,0" Click="accept_btn_Click"/>
         </Grid>
     </Grid>
 </Page>

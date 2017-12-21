@@ -1,9 +1,7 @@
-﻿using Data_Manager.Classes;
-using Data_Manager2.Classes;
+﻿using Data_Manager2.Classes;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.Storage;
