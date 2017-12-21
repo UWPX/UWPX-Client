@@ -56,7 +56,7 @@
                     </Style>
                 </controls:MasterDetailsView.ItemContainerStyle>
                 <controls:MasterDetailsView.MasterCommandBar>
-                <CommandBar>
+                <CommandBar Margin="0, 0, 0, -1">
                     <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add">
                         <AppBarButton.Icon>
                             <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets"/>
