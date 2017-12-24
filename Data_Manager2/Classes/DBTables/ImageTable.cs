@@ -1,5 +1,9 @@
 ﻿using Data_Manager.Classes.Events;
 using SQLite.Net.Attributes;
+using System.Threading.Tasks;
+using Windows.Storage;
+using Windows.UI.Xaml.Media.Imaging;
+using System;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -55,6 +59,36 @@ namespace Data_Manager2.Classes.DBTables
         public void onDownloadProgressChanged()
         {
             DownloadProgressChanged?.Invoke(this, new DownloadProgressChangedEventArgs(progress));
+        }
+
+        /// <summary>
+        /// Converts the path to an BitmapImage.
+        /// This is a workaround to open also images that are stored on a separate drive.
+        /// </summary>
+        /// <returns>The BitmapImage representation of the current path object.</returns>
+        public async Task<BitmapImage> getBitmapImageAsync()
+        {
+            if(path == null)
+            {
+                return null;
+            }
+
+            try
+            {
+                StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+                if(file == null)
+                {
+                    return null;
+                }
+
+                BitmapImage img = new BitmapImage();
+                img.SetSource(await file.OpenReadAsync());
+                return img;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         #endregion
