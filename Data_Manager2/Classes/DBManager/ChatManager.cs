@@ -31,6 +31,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ChatManager()
         {
+            resetPresences();
         }
 
         #endregion
@@ -166,6 +167,11 @@ namespace Data_Manager2.Classes.DBManager
         private void cacheImage(ChatMessageTable msg)
         {
             ImageManager.INSTANCE.downloadImage(msg);
+        }
+
+        private void resetPresences()
+        {
+            dB.Execute("UPDATE ChatTable SET presence = ?", Presence.Unavailable);
         }
 
         #endregion

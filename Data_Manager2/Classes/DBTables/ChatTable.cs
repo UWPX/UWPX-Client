@@ -44,7 +44,6 @@ namespace Data_Manager2.Classes.DBTables
         /// </history>
         public ChatTable()
         {
-
         }
 
         #endregion

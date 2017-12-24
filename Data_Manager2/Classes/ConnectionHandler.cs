@@ -163,10 +163,16 @@ namespace Data_Manager2.Classes
         #region --Events--
         private async void C_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            if (args.newState == ConnectionState.CONNECTED)
+            switch (args.newState)
             {
-                await client.requestRoosterAsync();
-                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+                case ConnectionState.CONNECTED:
+                    await client.requestRoosterAsync();
+                    ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+                    break;
+                case ConnectionState.ERROR:
+                case ConnectionState.DISCONNECTED:
+                    ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
+                    break;
             }
         }
 
