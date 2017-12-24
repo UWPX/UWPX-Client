@@ -34,8 +34,6 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ImageManager()
         {
-            dropTables();
-            createTables();
             downloading = new List<ImageTable>();
             contiuneAllDownloads();
         }
