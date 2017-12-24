@@ -18,6 +18,8 @@ namespace Data_Manager2.Classes.DBTables
         public string path { get; set; }
         // The state of the image download:
         public DownloadState state { get; set; }
+        // If the image download failed:
+        public string errorMessage { get; set; }
 
         // The image download progress:
         [Ignore]
@@ -40,7 +42,6 @@ namespace Data_Manager2.Classes.DBTables
         /// </history>
         public ImageTable()
         {
-
         }
 
         #endregion

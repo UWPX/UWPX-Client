@@ -34,6 +34,8 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ImageManager()
         {
+            dropTables();
+            createTables();
             downloading = new List<ImageTable>();
             contiuneAllDownloads();
         }
@@ -97,6 +99,8 @@ namespace Data_Manager2.Classes.DBManager
             catch (Exception e)
             {
                 Logger.Error("Error during downloading image: " + e.Message);
+                img.errorMessage = e.Message;
+                update(img);
                 return null;
             }
         }

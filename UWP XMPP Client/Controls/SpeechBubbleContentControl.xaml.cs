@@ -82,13 +82,16 @@ namespace UWP_XMPP_Client.Controls
                                 waitForImageDownloadToFinish(img);
                                 break;
                         }
-                        Task t = showImageAsync(img);
+                        image_img.Visibility = Visibility.Visible;
                     }
                     else
                     {
-                        image_img.Source = "Error!";
+                        imageLoading_grid.Visibility = Visibility.Collapsed;
+                        image_img.Visibility = Visibility.Collapsed;
+                        imageError_grid.Visibility = Visibility.Visible;
+                        message_tbx.Text = "Unable to get local image path.\nPlease tap to redownload!";
+                        message_tbx.Visibility = Visibility.Visible;
                     }
-                    image_img.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -110,6 +113,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task showImageAsync(ImageTable img)
         {
+            message_tbx.Visibility = Visibility.Collapsed;
             imageError_grid.Visibility = Visibility.Collapsed;
             imageLoading_grid.Visibility = Visibility.Visible;
             openImage_mfo.IsEnabled = false;
@@ -138,7 +142,9 @@ namespace UWP_XMPP_Client.Controls
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
                     imageLoading_grid.Visibility = Visibility.Collapsed;
                     imageError_grid.Visibility = Visibility.Visible;
-                    image_img.Source = await img.getBitmapImageAsync();
+                    image_img.Source = null;
+                    message_tbx.Text = string.IsNullOrWhiteSpace(img.errorMessage)? "No error message given!" : img.errorMessage;
+                    message_tbx.Visibility = Visibility.Visible;
                     redownloadImage_mfo.IsEnabled = true;
                     break;
             }
@@ -195,6 +201,8 @@ namespace UWP_XMPP_Client.Controls
             imageLoading_grid.Visibility = Visibility.Collapsed;
             image_img.Visibility = Visibility.Collapsed;
             imageError_grid.Visibility = Visibility.Visible;
+            message_tbx.Text = e.ErrorMessage;
+            message_tbx.Visibility = Visibility.Visible;
         }
 
         private async void Img_DownloadStateChanged(ImageTable img, Data_Manager.Classes.Events.DownloadStateChangedEventArgs args)
