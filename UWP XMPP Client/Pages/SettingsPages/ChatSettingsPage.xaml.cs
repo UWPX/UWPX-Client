@@ -43,6 +43,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             enterToSend_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
             sendChatState_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
+            storeImagesInLibary_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
         }
 
         #endregion
@@ -77,6 +78,10 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             Settings.setSetting(SettingsConsts.DONT_SEND_CHAT_STATE, !sendChatState_tgls.IsOn);
         }
 
+        private void storeImagesInLibary_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY, !storeImagesInLibary_tgls.IsOn);
+        }
         #endregion
     }
 }

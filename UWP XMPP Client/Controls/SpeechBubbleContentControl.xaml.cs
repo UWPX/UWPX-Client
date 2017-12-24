@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using System;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
@@ -160,6 +161,19 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private async Task openImageAsync()
+        {
+            try
+            {
+                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(image_img.Source as string);
+                await Windows.System.Launcher.LaunchFileAsync(imageFile);
+            }
+            catch (Exception ex)
+            {
+                MessageDialog dialog = new MessageDialog(ex.Message, "Unable to open image!");
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -192,15 +206,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void openImage_mfo_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(image_img.Source as string);
-                await Windows.System.Launcher.LaunchFileAsync(imageFile);
-            }
-            catch (Exception ex)
-            {
-                MessageDialog dialog = new MessageDialog(ex.Message, "Unable to open image!");
-            }
+            await openImageAsync();
         }
 
         private void copyLink_mfo_Click(object sender, RoutedEventArgs e)
@@ -225,6 +231,11 @@ namespace UWP_XMPP_Client.Controls
             StackPanel stackPanel = (StackPanel)sender;
             menuFlyout.ShowAt(stackPanel, e.GetPosition(stackPanel));
             var a = ((FrameworkElement)e.OriginalSource).DataContext;
+        }
+
+        private async void image_img_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await openImageAsync();
         }
 
         #endregion

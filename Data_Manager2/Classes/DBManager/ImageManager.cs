@@ -123,7 +123,11 @@ namespace Data_Manager2.Classes.DBManager
 
         private async Task<StorageFolder> getCachedImagesFolderAsync()
         {
-            return await ApplicationData.Current.LocalFolder.CreateFolderAsync("cachedImages", CreationCollisionOption.OpenIfExists);
+            if (Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
+            {
+                return await ApplicationData.Current.LocalFolder.CreateFolderAsync("cachedImages", CreationCollisionOption.OpenIfExists);
+            }
+            return await KnownFolders.PicturesLibrary.CreateFolderAsync("UWPX", CreationCollisionOption.OpenIfExists);
         }
 
         /// <summary>
