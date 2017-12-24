@@ -32,7 +32,7 @@ namespace Push_App_Server.Classes
         #region --Misc Methods (Public)--
         public static void init()
         {
-            ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
+            //ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 
         #endregion
