@@ -275,10 +275,9 @@ namespace Data_Manager2.Classes.DBManager
             // image file might be redirected to a 404-page, which would
             // yield the StatusCode "OK", even though the image was not
             // found.
-            if ((response.StatusCode == HttpStatusCode.OK ||
+            if (response.StatusCode == HttpStatusCode.OK ||
                 response.StatusCode == HttpStatusCode.Moved ||
-                response.StatusCode == HttpStatusCode.Redirect) &&
-                response.ContentType.StartsWith("image", StringComparison.OrdinalIgnoreCase))
+                response.StatusCode == HttpStatusCode.Redirect)
             {
                 // if the remote file was found, download it
                 StorageFile f = await createImageStorageFileAsync(name);
