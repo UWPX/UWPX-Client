@@ -343,11 +343,11 @@ namespace Data_Manager2.Classes
             ChatManager.INSTANCE.setChatMessageEntry(message, true);
         }
 
-        private async void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        private async void INSTANCE_AccountChanged(AccountManager handler, AccountChangedEventArgs args)
         {
             if (clients != null && clients.Count > 0)
             {
-                Parallel.ForEach(clients, async (c) =>
+                Parallel.ForEach(clients.ToArray(), async (c) =>
                 {
                     if (c.getXMPPAccount().getIdAndDomain().Equals(args.ACCOUNT.getIdAndDomain()))
                     {
