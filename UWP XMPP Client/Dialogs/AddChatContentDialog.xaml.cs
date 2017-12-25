@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -130,6 +131,21 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 e.Handled = true;
             }
+        }
+
+        private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (account_cbx.Items.Count > 0)
+            {
+                account_cbx.SelectedIndex = 0;
+            }
+        }
+
+        private void addAccount_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            Hide();
+            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+
         }
 
         #endregion
