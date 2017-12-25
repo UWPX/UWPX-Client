@@ -127,6 +127,12 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
+        private void showDeviceName()
+        {
+            var deviceInfo = new Windows.Security.ExchangeActiveSyncProvisioning.EasClientDeviceInformation();
+            resource_tbx.Text = deviceInfo.FriendlyName ?? "";
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -189,6 +195,7 @@ namespace UWP_XMPP_Client.Pages
         {
             color_tbx.Text = UiUtils.getRandomMaterialColor();
             updateColor(color_tbx.Text);
+            showDeviceName();
         }
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
