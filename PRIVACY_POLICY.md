@@ -1,3 +1,5 @@
+# Privacy Policy:
+
 ## General:
 UWPX is an XMPP client, that connects to XMPP servers.
 UWPX doesn't collect data, with one exception: crash reports
