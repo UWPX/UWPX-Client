@@ -82,6 +82,7 @@ namespace UWP_XMPP_Client.Controls
                                 waitForImageDownloadToFinish(img);
                                 break;
                         }
+                        Task t = showImageAsync(img);
                         image_img.Visibility = Visibility.Visible;
                     }
                     else
