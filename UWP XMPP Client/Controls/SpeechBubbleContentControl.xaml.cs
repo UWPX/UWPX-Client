@@ -245,9 +245,12 @@ namespace UWP_XMPP_Client.Controls
 
         private void StackPanel_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            StackPanel stackPanel = (StackPanel)sender;
-            menuFlyout.ShowAt(stackPanel, e.GetPosition(stackPanel));
-            var a = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (ChatMessage.isImage)
+            {
+                StackPanel stackPanel = (StackPanel)sender;
+                menuFlyout.ShowAt(stackPanel, e.GetPosition(stackPanel));
+                var a = ((FrameworkElement)e.OriginalSource).DataContext;
+            }
         }
 
         private async void image_img_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
