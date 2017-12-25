@@ -23,7 +23,10 @@ namespace UWP_XMPP_Client
         public App()
         {
             //Crash reports capturing
-            HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
+            {
+                HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+            }
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;

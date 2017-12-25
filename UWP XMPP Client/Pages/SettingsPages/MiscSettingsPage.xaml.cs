@@ -1,7 +1,9 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Logging;
 using System;
 using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -95,6 +97,15 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             });
         }
 
+        private void loadSettings()
+        {
+            showLogSize();
+            showImageChacheSize();
+
+            showInitialStartDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            disableCrashReporting_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -155,8 +166,47 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            showLogSize();
-            showImageChacheSize();
+            loadSettings();
+        }
+
+        private void showInitialStartDialog_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !showInitialStartDialog_tgls.IsOn);
+        }
+
+        private void disableCrashReporting_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.DISABLE_CRASH_REPORTING, disableCrashReporting_tgls.IsOn);
+        }
+
+        private async void moreInformation_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
+        }
+
+        private async void contributeGithub_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client"));
+        }
+
+        private async void reportBug_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
+        }
+
+        private async void feedback_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://www.microsoft.com/store/apps/9NW16X9JB5WV"));
+        }
+
+        private async void license_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/LICENSE"));
+        }
+
+        private async void privacyPolicy_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
         }
         #endregion
     }

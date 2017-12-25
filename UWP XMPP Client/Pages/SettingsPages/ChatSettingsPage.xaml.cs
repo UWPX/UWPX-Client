@@ -82,6 +82,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             Settings.setSetting(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY, !storeImagesInLibary_tgls.IsOn);
         }
+
+        private void clearCache_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(MiscSettingsPage));
+        }
         #endregion
     }
 }
