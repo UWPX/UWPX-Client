@@ -36,6 +36,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             this.InitializeComponent();
             loadAccounts();
+            this.cancled = true;
         }
 
         #endregion
