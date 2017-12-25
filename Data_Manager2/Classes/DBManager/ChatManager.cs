@@ -1,7 +1,6 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Events;
 using Data_Manager2.Classes.DBTables;
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
@@ -16,9 +15,11 @@ namespace Data_Manager2.Classes.DBManager
 
         public delegate void NewChatMessageHandler(ChatManager handler, NewChatMessageEventArgs args);
         public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
+        public delegate void ChatMessagesChangedHandler(ChatManager handler, ChatChangedEventArgs args);
 
         public event NewChatMessageHandler NewChatMessage;
         public event ChatChangedHandler ChatChanged;
+        public event ChatMessagesChangedHandler ChatMessagesChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -129,12 +130,17 @@ namespace Data_Manager2.Classes.DBManager
 
         public void markAllMessagesAsRead(ChatTable chat)
         {
-            Parallel.ForEach(getAllUnreadMessages(chat), (msg) =>
+            List<ChatMessageTable> list = getAllUnreadMessages(chat);
+            if(list.Count > 0)
             {
-                msg.state = MessageState.READ;
-                update(msg);
-                msg.onChanged();
-            });
+                Parallel.ForEach(list, (msg) =>
+                {
+                    msg.state = MessageState.READ;
+                    update(msg);
+                    msg.onChanged();
+                });
+                ChatMessagesChanged?.Invoke(this, new ChatChangedEventArgs(chat, false));
+            }
         }
 
         public void setChatMessageEntry(ChatMessageTable message, bool triggerNewChatMessage)

@@ -97,7 +97,9 @@ namespace UWP_XMPP_Client.Controls
                 {
                     showMessage(msg);
                 }
-                ChatManager.INSTANCE.markAllMessagesAsRead(Chat);
+
+                ChatTable cpy = Chat.clone();
+                Task.Factory.StartNew(() => ChatManager.INSTANCE.markAllMessagesAsRead(cpy));
             }
         }
 

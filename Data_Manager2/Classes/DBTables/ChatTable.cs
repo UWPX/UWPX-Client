@@ -59,6 +59,24 @@ namespace Data_Manager2.Classes.DBTables
             return jabberID + userAccountID;
         }
 
+        public ChatTable clone()
+        {
+            return new ChatTable()
+            {
+                ask = ask,
+                chatJabberId = chatJabberId,
+                chatState = chatState,
+                id = id,
+                inRoster = inRoster,
+                lastActive = lastActive,
+                muted = muted,
+                presence = presence,
+                status = status,
+                subscription = subscription,
+                userAccountId = userAccountId
+            };
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
