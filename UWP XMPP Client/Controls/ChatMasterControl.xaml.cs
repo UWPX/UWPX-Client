@@ -104,13 +104,14 @@ namespace UWP_XMPP_Client.Controls
                 // Last action date:
                 if (Chat.lastActive != null)
                 {
-                    if (Chat.lastActive.Date.CompareTo(DateTime.Now.Date) == 0)
+                    DateTime lastActiveLocal = Chat.lastActive.ToLocalTime();
+                    if (lastActiveLocal.Date.CompareTo(DateTime.Now.Date) == 0)
                     {
-                        lastAction_tblck.Text = Chat.lastActive.ToString("HH:mm");
+                        lastAction_tblck.Text = lastActiveLocal.ToString("HH:mm");
                     }
                     else
                     {
-                        lastAction_tblck.Text = Chat.lastActive.ToString("dd.MM.yyyy");
+                        lastAction_tblck.Text = lastActiveLocal.ToString("dd.MM.yyyy");
                     }
                 }
                 else
