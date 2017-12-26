@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -61,27 +62,17 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-
-
-        #endregion
-
-        #region --Misc Methods (Protected)--
-
-
-        #endregion
-        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
-        #region --Events--
-        private async void add_btn_Click(object sender, RoutedEventArgs e)
+        private async Task addChatAsync()
         {
-            if(account_cbx.SelectedIndex < 0 || account_cbx.SelectedIndex >= clients.Count)
+            if (account_cbx.SelectedIndex < 0 || account_cbx.SelectedIndex >= clients.Count)
             {
                 MessageDialog messageDialog = new MessageDialog("Error")
                 {
-                   Content = "Please select a valid account!"
+                    Content = "Please select a valid account!"
                 };
                 await messageDialog.ShowAsync();
             }
-            else if(((string)account_cbx.SelectedItem).Equals(jabberId_tbx.Text))
+            else if (((string)account_cbx.SelectedItem).Equals(jabberId_tbx.Text))
             {
                 MessageDialog messageDialog = new MessageDialog("Error")
                 {
@@ -89,7 +80,7 @@ namespace UWP_XMPP_Client.Dialogs
                 };
                 await messageDialog.ShowAsync();
             }
-            else if(Utils.isValidJabberId(jabberId_tbx.Text))
+            else if (Utils.isValidJabberId(jabberId_tbx.Text))
             {
                 jabberId = jabberId_tbx.Text;
                 client = clients[account_cbx.SelectedIndex];
@@ -119,6 +110,19 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
+        #endregion
+
+        #region --Misc Methods (Protected)--
+
+
+        #endregion
+        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
+        #region --Events--
+        private async void add_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await addChatAsync();
+        }
+
         private void cancle_btn_Click(object sender, RoutedEventArgs e)
         {
             cancled = true;
@@ -146,6 +150,22 @@ namespace UWP_XMPP_Client.Dialogs
             Hide();
             (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
 
+        }
+
+        private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var selectionStart = jabberId_tbx.SelectionStart;
+            jabberId_tbx.Text = jabberId_tbx.Text.ToLower();
+            jabberId_tbx.SelectionStart = selectionStart;
+            jabberId_tbx.SelectionLength = 0;
+        }
+
+        private async void jabberId_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                await addChatAsync();
+            }
         }
 
         #endregion

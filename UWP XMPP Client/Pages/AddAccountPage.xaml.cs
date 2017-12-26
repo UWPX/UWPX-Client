@@ -222,6 +222,18 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
+        private async void password_pwb_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(resource_tbx.Text))
+            {
+                resource_tbx.Focus(FocusState.Keyboard);
+            }
+            else if (e.Key == Windows.System.VirtualKey.Enter)
+            {
+                await acceptAsync();
+            }
+        }
+
         #endregion
     }
 }

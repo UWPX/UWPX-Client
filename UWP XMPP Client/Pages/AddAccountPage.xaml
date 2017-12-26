@@ -16,7 +16,7 @@
             <StackPanel Margin="10, 0, 10, 20">
                 <TextBlock x:Uid="addAccount_tblk" Text="Add an account" HorizontalAlignment="Center" FontSize="30"/>
                 <TextBox x:Name="jabberId_tbx" x:Uid="jabberId_tbx" Header="Jabber-ID:" PlaceholderText="example@example.com" TextChanged="jabberId_tbx_TextChanged" Margin="0, 10, 0, 0"/>
-                <PasswordBox x:Name="password_pwb" x:Uid="password_pwb" Header="Password:" PlaceholderText="Your super secret password" Margin="0, 10, 0, 0"/>
+                <PasswordBox x:Name="password_pwb" x:Uid="password_pwb" Header="Password:" PlaceholderText="Your super secret password" Margin="0, 10, 0, 0" KeyUp="password_pwb_KeyUp"/>
                 <TextBox x:Name="resource_tbx" x:Uid="jabberId_tbx" Header="Resource:" PlaceholderText="e.g. device name" Margin="0, 10, 0, 0" KeyUp="resource_tbx_KeyUp"/>
 
                 <Grid Margin="0, 10, 0, 0">

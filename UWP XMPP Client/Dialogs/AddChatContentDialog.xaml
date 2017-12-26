@@ -14,7 +14,7 @@
         <StackPanel Grid.Row="0">
             <ComboBox x:Name="account_cbx" HorizontalAlignment="Stretch" Header="Select account:" ItemsSource="{x:Bind accounts}" PlaceholderText="No accounts found!" DataContextChanged="account_cbx_DataContextChanged"/>
             <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
-            <TextBox x:Name="jabberId_tbx" PlaceholderText="someone@example.com" Header="With whom do you want to start a chat?" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0" KeyDown="jabberId_tbx_KeyDown"/>
+            <TextBox x:Name="jabberId_tbx" PlaceholderText="someone@example.com" Header="With whom do you want to start a chat?" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0" KeyDown="jabberId_tbx_KeyDown" TextChanged="jabberId_tbx_TextChanged" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False" KeyUp="jabberId_tbx_KeyUp"/>
             <CheckBox x:Name="subscription_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Request subscription"/>
             <CheckBox x:Name="rooster_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Add to rooster"/>
         </StackPanel>
