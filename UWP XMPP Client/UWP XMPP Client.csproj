@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>UWP XMPP Client_StoreKey.pfx</PackageCertificateKeyFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
     <PackageCertificateThumbprint>5A79DAA0779BE03863D69413EE6E87B990B25073</PackageCertificateThumbprint>
     <AppxPackageDir>D:\Fabian\OwnCloud\</AppxPackageDir>
   </PropertyGroup>

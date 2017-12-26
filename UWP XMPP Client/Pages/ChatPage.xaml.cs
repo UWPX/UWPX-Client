@@ -40,7 +40,6 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
             ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            UiUtils.setBackgroundImage(backgroundImage_img);
         }
 
         #endregion
@@ -283,6 +282,12 @@ namespace UWP_XMPP_Client.Pages
                 }
             }
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UiUtils.setBackgroundImage(backgroundImage_img);
+        }
+
         #endregion
     }
 }
