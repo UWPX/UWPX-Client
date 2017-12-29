@@ -1,3 +1,5 @@
+[<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="150">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
+
 # UWP-XMPP-Client
 [This App is still in alpha stage!]
 
@@ -17,9 +19,9 @@ UWPX is an XMPP client, that connects to all your favourite XMPP servers.
 [MORE NOTES TO COME]
 
 ## Alpha/Beta tester:
-If you want to be an alpha/beta tester [contact me](mailto:uwp_xmpp@mailbox.org?subject=[UWP-XMPP-Client-Tester]) and I will add you as a tester in HockeyApp, so you receive builds as the development goes on.
+An alpha version of the App will get released on 01.01.2018 in the Windows Store [LINK](https://www.microsoft.com/store/apps/9NW16X9JB5WV).
 
-## Installation:
+## Installation (build it by your own):
 1. Clone the repo with Visual Studio
 2. Build the project for your target platform
 3. Install the app on your target system:
