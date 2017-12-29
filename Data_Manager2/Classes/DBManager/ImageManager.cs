@@ -299,6 +299,11 @@ namespace Data_Manager2.Classes.DBManager
                 Logger.Info("Finished downloading image <" + name + "> from: " + url);
                 return f.Path;
             }
+            else
+            {
+                img.errorMessage = "Status code check failed: " + response.StatusCode + " (" + response.StatusDescription + ')';
+                update(img);
+            }
             Logger.Error("Unable to download image <" + name + "> from: " + url + " Status code: " + response.StatusCode);
             return null;
         }
