@@ -1,6 +1,6 @@
+# UWP-XMPP-Client
 [<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="150">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
 
-# UWP-XMPP-Client
 [This App is still in alpha stage!]
 
 Chat with all your XMPP contacts.<br/>
