@@ -21,3 +21,8 @@ If you want to be an alpha/beta tester [contact me](mailto:uwp_xmpp@mailbox.org?
 2. Build the project for your target platform
 3. Install the app on your target system:
 [Here](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development) you can find more information about: How to install UWP apps, using the developer mode.
+
+## Examples:
+<img src="https://i.imgur.com/8sqjCZ8.png" width="400"> <img src="https://i.imgur.com/WQaJM5z.png" width="400">
+<br/><br/>
+<img src="https://i.imgur.com/pZLscl0.png" width="800">
