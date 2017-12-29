@@ -1,5 +1,8 @@
 # UWP-XMPP-Client
-A WIP secure XMPP client for UWP devices
+[This App is still in alpha stage!]
+
+Chat with all your XMPP contacts.<br/>
+UWPX is an XMPP client, that connects to all your favourite XMPP servers.
 
 ## ToDo:
 | funktion      | XEP's           |
