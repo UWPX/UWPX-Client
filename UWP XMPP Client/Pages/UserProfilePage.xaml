@@ -63,7 +63,7 @@
                 </Grid>
                 <StackPanel Grid.Row="3" Margin="0, 10, 0, 0">
                     <controls:SeperatorControl Margin="0, 10, 0, 10"/>
-                    <controls:ServerFeaturesControl Client="{x:Bind Client}" Chat="{x:Bind Chat}" HorizontalAlignment="Stretch"/>
+                    <controls:ServerFeaturesControl Client="{x:Bind Client}" Chat="{x:Bind Chat}" discoType="INFO" HorizontalAlignment="Stretch"/>
                 </StackPanel>
             </Grid>
         </ScrollViewer>

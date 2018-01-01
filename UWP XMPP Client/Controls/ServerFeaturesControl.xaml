@@ -27,7 +27,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="Supported Features:" Grid.Row="0" FontSize="20" HorizontalAlignment="Center"/>
+        <TextBlock x:Name="title_tblck" Text="Supported features (#infos):" Grid.Row="0" FontSize="20" HorizontalAlignment="Center"/>
         <StackPanel x:Name="loading_spnl" Grid.Row="1">
             <TextBlock x:Name="loading_tblck" Text="Loading..." HorizontalAlignment="Center"/>
             <ProgressBar IsIndeterminate="True"/>

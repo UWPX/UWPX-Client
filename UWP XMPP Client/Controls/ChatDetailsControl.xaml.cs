@@ -281,7 +281,9 @@ namespace UWP_XMPP_Client.Controls
         {
             //await Logging.Logger.openLogFolderAsync();
             //await Client.requestVCardAsync(Chat.chatJabberId);
-            await Client.requestBookmarksAsync();
+            //await Client.requestBookmarksAsync();
+            await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.ITEMS);
+            await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.INFO);
         }
 
         private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)

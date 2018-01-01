@@ -9,7 +9,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         #region --Attributes--
         public readonly List<DiscoIdentity> IDENTITIES;
         public readonly List<DiscoFeature> FEATURES;
+        public readonly List<DiscoItem> ITEMS;
         public readonly StreamError ERROR_RESULT;
+        public readonly DiscoType DISCO_TYPE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,9 +26,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         {
             IDENTITIES = new List<DiscoIdentity>();
             FEATURES = new List<DiscoFeature>();
+            ITEMS = new List<DiscoItem>();
             ERROR_RESULT = null;
             XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
-            if (n != null && qNode != null)
+            if(qNode == null)
+            {
+                qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items");
+                if(qNode == null)
+                {
+                    Logging.Logger.Warn("Invalid disco result message received! " + n.ToString().Replace('\n', ' '));
+                    DISCO_TYPE = DiscoType.UNKNOWN;
+                    return;
+                }
+                DISCO_TYPE = DiscoType.ITEMS;
+            }
+            else
+            {
+                DISCO_TYPE = DiscoType.INFO;
+            }
+            if (qNode != null)
             {
                 foreach (XmlNode n1 in qNode.ChildNodes)
                 {
@@ -38,6 +56,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
                         case "identity":
                             IDENTITIES.Add(new DiscoIdentity(n1));
                             break;
+                        case "item":
+                            ITEMS.Add(new DiscoItem(n1));
+                            break;
                         case "error":
                             ERROR_RESULT = new StreamError(n1);
                             break;
@@ -45,6 +66,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
                             break;
                     }
                 }
+                return;
             }
         }
 
