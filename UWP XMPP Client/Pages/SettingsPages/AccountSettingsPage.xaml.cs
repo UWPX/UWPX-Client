@@ -49,7 +49,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             accounts_stckp.Children.Clear();
             foreach (XMPPAccount account in AccountManager.INSTANCE.loadAllAccounts())
             {
-                accounts_stckp.Children.Add(new AccountControl(this) { Account = account });
+                accounts_stckp.Children.Add(new AccountControl() { Account = account });
             }
             AccountManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
             AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;

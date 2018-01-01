@@ -30,8 +30,6 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountControl), null);
 
-        private readonly AccountSettingsPage SETTINGS_PAGE;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -41,9 +39,8 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 04/09/2017 Created [Fabian Sauter]
         /// </history>
-        public AccountControl(AccountSettingsPage settingsPage)
+        public AccountControl()
         {
-            this.SETTINGS_PAGE = settingsPage;
             this.InitializeComponent();
         }
 
