@@ -46,7 +46,14 @@
                 </Grid>
             </Grid>
             <TextBlock x:Name="message_tbx" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
-            <TextBlock x:Name="date_tbx" FontSize="10" HorizontalAlignment="Right" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+            <Grid HorizontalAlignment="Right">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="date_tbx" Grid.Column="0" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                <TextBlock x:Name="state_tbx" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Text="" Margin="5, 0, 0, 0"/>
+            </Grid>
         </StackPanel>
     </Border>
 </UserControl>

@@ -37,10 +37,12 @@ namespace XMPP_API.Classes.Network
         private MessageIdCash iDCash;
 
         public delegate void ConnectionNewValidMessageEventHandler(XMPPConnection handler, NewValidMessageEventArgs args);
+        public delegate void MessageSendEventHandler(XMPPConnection handler, MessageSendEventArgs args);
 
         public event ConnectionNewValidMessageEventHandler ConnectionNewValidMessage;
         public event ConnectionNewValidMessageEventHandler ConnectionNewRoosterMessage;
         public event ConnectionNewValidMessageEventHandler ConnectionNewPresenceMessage;
+        public event MessageSendEventHandler MessageSend;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -139,6 +141,7 @@ namespace XMPP_API.Classes.Network
                     iDCash.add((msg as IQMessage).getId());
                 }
                 await tCPConnection.sendAsync(msg.toXmlString());
+                onMessageSend(msg.getId(), false);
             }
         }
 
@@ -149,6 +152,16 @@ namespace XMPP_API.Classes.Network
         {
             await disconnectAsync();
             await connectAsync();
+        }
+
+        /// <summary>
+        /// Triggers the MessageSend event in a new task.
+        /// </summary>
+        /// <param name="id">The id of the message that got send.</param>
+        /// <param name="delayed">If the message got send delayed (e.g. stored in message cache).</param>
+        private void onMessageSend(string id, bool delayed)
+        {
+            Task.Factory.StartNew(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, delayed)));
         }
 
         #endregion
@@ -203,12 +216,13 @@ namespace XMPP_API.Classes.Network
                 }
                 try
                 {
-                    if (entry.iQMessageId != null)
+                    if (entry.messageId != null)
                     {
-                        iDCash.add(entry.iQMessageId);
+                        iDCash.add(entry.messageId);
                     }
                     await tCPConnection.sendAsync(entry.message);
                     MessageCache.INSTANCE.removeEntry(entry);
+                    onMessageSend(entry.messageId, true);
                 }
                 catch
                 {

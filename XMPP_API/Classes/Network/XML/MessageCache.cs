@@ -48,35 +48,17 @@ namespace XMPP_API.Classes.Network.XML
         #region --Misc Methods (Public)--
         public void addMessage(string accountId, AbstractMessage msg)
         {
-            if(msg is IQMessage)
-            {
-                dB.Insert(new MessageEntry()
-                {
-                    accountId = accountId,
-                    message = msg.toXmlString(),
-                    iQMessageId = msg.getId()
-                });
-            }
-            else if (msg is MessageMessage)
+            if (msg is MessageMessage)
             {
                 MessageMessage message = msg as MessageMessage;
                 message.addDelay();
-                dB.Insert(new MessageEntry()
-                {
-                    accountId = accountId,
-                    message = message.toXmlString(),
-                    iQMessageId = null
-                });
             }
-            else
+            dB.Insert(new MessageEntry()
             {
-                dB.Insert(new MessageEntry()
-                {
-                    accountId = accountId,
-                    message = msg.toXmlString(),
-                    iQMessageId = null
-                });
-            }
+                accountId = accountId,
+                message = msg.toXmlString(),
+                messageId = msg.getId()
+            });
         }
 
         public List<MessageEntry> getAllForAccount(string accountId)

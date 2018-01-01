@@ -109,6 +109,24 @@ namespace UWP_XMPP_Client.Controls
                 {
                     date_tbx.Text = localDateTime.ToString("dd.MM.yyyy HH:mm");
                 }
+                switch (ChatMessage.state)
+                {
+                    case Data_Manager.Classes.MessageState.SENDING:
+                        state_tbx.Text = "\uE724";
+                        break;
+                    case Data_Manager.Classes.MessageState.SEND:
+                        state_tbx.Text = "\uE725";
+                        break;
+                    case Data_Manager.Classes.MessageState.UNREAD:
+                        state_tbx.Text = "\uEA63";
+                        break;
+                    case Data_Manager.Classes.MessageState.READ:
+                        state_tbx.Text = "\uEA64";
+                        break;
+                    default:
+                        state_tbx.Text = "";
+                        break;
+                }
             }
         }
 

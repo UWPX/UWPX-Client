@@ -123,6 +123,11 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void updateChatMessageState(string msgId, MessageState state)
+        {
+            dB.Execute("UPDATE ChatMessageTable SET state = ? WHERE id = ?", state, msgId);
+        }
+
         public void deleteAllChatMessagesForAccount(ChatTable chat)
         {
             dB.Execute("DELETE FROM ChatMessageTable WHERE chatId = ?;", chat.id);

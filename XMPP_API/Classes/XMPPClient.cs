@@ -1,11 +1,9 @@
 ﻿using Logging;
 using System;
 using System.Threading.Tasks;
-using Windows.Networking.Sockets;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.MUC;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
@@ -24,6 +22,7 @@ namespace XMPP_API.Classes
         public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceMessageEventArgs args);
         public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
         public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
+        public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
 
         public event NewRoosterEventHandler NewRoosterMessage;
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
@@ -31,6 +30,7 @@ namespace XMPP_API.Classes
         public event NewPresenceEventHandler NewPresence;
         public event NewChatStateEventHandler NewChatState;
         public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
+        public event MessageSendEventHandler MessageSend;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -48,6 +48,7 @@ namespace XMPP_API.Classes
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
             connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
             connection.ConnectionNewPresenceMessage += Connection_ConnectionNewPresenceMessage;
+            connection.MessageSend += Connection_MessageSend;
         }
 
         #endregion
@@ -129,12 +130,6 @@ namespace XMPP_API.Classes
         {
             XMPPAccount account = connection.account;
             await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "subscribe"), false);
-        }
-
-        public async Task mUCRequestJoinedRoomsAsync()
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new MUCRequestJoinedRoomsMessage(account.getIdAndDomain()), false);
         }
 
         public async Task unsubscribeFromPresence(string jabberId)
@@ -229,6 +224,11 @@ namespace XMPP_API.Classes
         private void Connection_ConnectionNewPresenceMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
             NewPresence?.Invoke(this, new Events.NewPresenceMessageEventArgs(args.getMessage() as PresenceMessage));
+        }
+
+        private void Connection_MessageSend(XMPPConnection handler, MessageSendEventArgs args)
+        {
+            MessageSend?.Invoke(this, args);
         }
 
         #endregion

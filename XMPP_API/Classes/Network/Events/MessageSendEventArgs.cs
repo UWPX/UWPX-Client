@@ -1,17 +1,13 @@
-﻿using SQLite.Net.Attributes;
+﻿using System;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace XMPP_API.Classes.Network.Events
 {
-    class MessageEntry
+    public class MessageSendEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        [AutoIncrement]
-        public int id { get; set; }
-        public string messageId { get; set; }
-        public string accountId { get; set; }
-        public string message { get; set; }
+        public readonly string ID;
+        public readonly bool DELAYED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,11 +16,12 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 26/09/2017 Created [Fabian Sauter]
+        /// 01/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageEntry()
+        public MessageSendEventArgs(string id, bool delayed)
         {
-
+            this.ID = id;
+            this.DELAYED = delayed;
         }
 
         #endregion

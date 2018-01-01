@@ -149,6 +149,7 @@ namespace Data_Manager2.Classes
             c.NewRoosterMessage += C_NewRoosterMessage;
             c.NewPresence += C_NewPresence;
             c.ConnectionStateChanged += C_ConnectionStateChanged; // Requesting roster if connected
+            c.MessageSend += C_MessageSend;
             clients.Add(c);
             return c;
         }
@@ -371,6 +372,11 @@ namespace Data_Manager2.Classes
                     await c.connectAsync();
                 }
             }
+        }
+
+        private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
+        {
+            ChatManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager.Classes.MessageState.SEND);
         }
 
         #endregion
