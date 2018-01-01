@@ -5,7 +5,7 @@ Chat with all your XMPP contacts.<br/>
 UWPX is an XMPP client, that connects to all your favourite XMPP servers.
 
 ## ToDo:
-| funktion          | XEP's         |
+| funktion          | XEPs         |
 | -------------     | ------------- |
 | OMEMO             | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
 | MUC               | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
