@@ -141,7 +141,12 @@ namespace XMPP_API.Classes.Network
                     iDCash.add((msg as IQMessage).getId());
                 }
                 await tCPConnection.sendAsync(msg.toXmlString());
-                onMessageSend(msg.getId(), false);
+
+                // Only trigger onMessageSend(...) for chat messages:
+                if (msg is MessageMessage)
+                {
+                    onMessageSend(msg.getId(), false);
+                }
             }
         }
 
@@ -208,7 +213,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         protected async Task sendAllOutstandingMessagesAsync()
         {
-            foreach (MessageEntry entry in MessageCache.INSTANCE.getAllForAccount(account.getIdAndDomain()))
+            foreach (MessageTable entry in MessageCache.INSTANCE.getAllForAccount(account.getIdAndDomain()))
             {
                 if (state != ConnectionState.CONNECTED)
                 {
@@ -222,7 +227,12 @@ namespace XMPP_API.Classes.Network
                     }
                     await tCPConnection.sendAsync(entry.message);
                     MessageCache.INSTANCE.removeEntry(entry);
-                    onMessageSend(entry.messageId, true);
+
+                    // Only trigger onMessageSend(...) for chat messages:
+                    if (entry.isChatMessage)
+                    {
+                        onMessageSend(entry.messageId, true);
+                    }
                 }
                 catch
                 {
@@ -315,7 +325,6 @@ namespace XMPP_API.Classes.Network
                 {
                     ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(message));
                 }
-
             }
         }
 

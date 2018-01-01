@@ -48,27 +48,34 @@ namespace XMPP_API.Classes.Network.XML
         #region --Misc Methods (Public)--
         public void addMessage(string accountId, AbstractMessage msg)
         {
+            MessageTable mT = new MessageTable()
+            {
+                accountId = accountId,
+                messageId = msg.getId()
+            };
             if (msg is MessageMessage)
             {
                 MessageMessage message = msg as MessageMessage;
                 message.addDelay();
+                mT.message = message.toXmlString();
+                mT.isChatMessage = true;
             }
-            dB.Insert(new MessageEntry()
+            else
             {
-                accountId = accountId,
-                message = msg.toXmlString(),
-                messageId = msg.getId()
-            });
+                mT.message = msg.toXmlString();
+                mT.isChatMessage = false;
+            }
+            dB.Insert(mT);
         }
 
-        public List<MessageEntry> getAllForAccount(string accountId)
+        public List<MessageTable> getAllForAccount(string accountId)
         {
-            return dB.Query<MessageEntry>("SELECT * FROM MessageEntry WHERE accountId = ?", accountId);
+            return dB.Query<MessageTable>("SELECT * FROM MessageEntry WHERE accountId = ?", accountId);
         }
 
-        public void removeEntry(MessageEntry entry)
+        public void removeEntry(MessageTable entry)
         {
-            dB.Delete<MessageEntry>(entry.id);
+            dB.Delete<MessageTable>(entry.id);
         }
 
         #endregion
@@ -102,7 +109,7 @@ namespace XMPP_API.Classes.Network.XML
         /// </summary>
         protected void dropTables()
         {
-            dB.DropTable<MessageEntry>();
+            dB.DropTable<MessageTable>();
         }
 
         /// <summary>
@@ -110,7 +117,7 @@ namespace XMPP_API.Classes.Network.XML
         /// </summary>
         protected void createTables()
         {
-            dB.CreateTable<MessageEntry>();
+            dB.CreateTable<MessageTable>();
         }
 
         #endregion

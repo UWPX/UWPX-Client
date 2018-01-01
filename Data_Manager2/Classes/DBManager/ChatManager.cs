@@ -126,6 +126,7 @@ namespace Data_Manager2.Classes.DBManager
         public void updateChatMessageState(string msgId, MessageState state)
         {
             dB.Execute("UPDATE ChatMessageTable SET state = ? WHERE id = ?", state, msgId);
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE id = ?;", msgId);
         }
 
         public void deleteAllChatMessagesForAccount(ChatTable chat)

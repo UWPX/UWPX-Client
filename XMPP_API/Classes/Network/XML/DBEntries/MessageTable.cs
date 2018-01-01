@@ -2,16 +2,21 @@
 
 namespace XMPP_API.Classes.Network.XML.DBEntries
 {
-    class MessageEntry
+    class MessageTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
         [AutoIncrement]
         public int id { get; set; }
+        [NotNull]
         public string messageId { get; set; }
+        [NotNull]
         public string accountId { get; set; }
+        [NotNull]
         public string message { get; set; }
+        [NotNull]
+        public bool isChatMessage { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// <history>
         /// 26/09/2017 Created [Fabian Sauter]
         /// </history>
-        public MessageEntry()
+        public MessageTable()
         {
 
         }
