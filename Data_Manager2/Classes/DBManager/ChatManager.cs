@@ -15,11 +15,11 @@ namespace Data_Manager2.Classes.DBManager
 
         public delegate void NewChatMessageHandler(ChatManager handler, NewChatMessageEventArgs args);
         public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
-        public delegate void ChatMessagesChangedHandler(ChatManager handler, ChatChangedEventArgs args);
+        public delegate void ChatMessageChangedHandler(ChatManager handler, ChatMessageChangedEventArgs args);
 
         public event NewChatMessageHandler NewChatMessage;
         public event ChatChangedHandler ChatChanged;
-        public event ChatMessagesChangedHandler ChatMessagesChanged;
+        public event ChatMessageChangedHandler ChatMessageChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -127,6 +127,10 @@ namespace Data_Manager2.Classes.DBManager
         {
             dB.Execute("UPDATE ChatMessageTable SET state = ? WHERE id = ?", state, msgId);
             List<ChatMessageTable> list = dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE id = ?;", msgId);
+            Parallel.ForEach(list, (msg) =>
+            {
+                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
+            });
         }
 
         public void deleteAllChatMessagesForAccount(ChatTable chat)
@@ -137,15 +141,15 @@ namespace Data_Manager2.Classes.DBManager
         public void markAllMessagesAsRead(ChatTable chat)
         {
             List<ChatMessageTable> list = getAllUnreadMessages(chat);
-            if(list.Count > 0)
+            if (list.Count > 0)
             {
                 Parallel.ForEach(list, (msg) =>
                 {
                     msg.state = MessageState.READ;
                     update(msg);
                     msg.onChanged();
+                    ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
                 });
-                ChatMessagesChanged?.Invoke(this, new ChatChangedEventArgs(chat, false));
             }
         }
 

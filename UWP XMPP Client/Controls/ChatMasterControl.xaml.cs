@@ -59,8 +59,8 @@ namespace UWP_XMPP_Client.Controls
             this.lastChatMessage = null;
             ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.ChatMessagesChanged -= INSTANCE_ChatMessagesChanged;
-            ChatManager.INSTANCE.ChatMessagesChanged += INSTANCE_ChatMessagesChanged;
+            ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+            ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
         }
 
         #endregion
@@ -380,13 +380,13 @@ namespace UWP_XMPP_Client.Controls
             showLastChatMessage(lastChatMessage);
         }
 
-        private async void INSTANCE_ChatMessagesChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        private async void INSTANCE_ChatMessageChanged(ChatManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (Chat != null && Equals(args.CHAT.id, Chat.id))
+                if (Chat != null && lastChatMessage != null && Equals(args.MESSAGE.chatId, Chat.id) && Equals(lastChatMessage.id, args.MESSAGE.id))
                 {
-                    showLastChatMessage(ChatManager.INSTANCE.getLastChatMessageForChat(Chat));
+                    showLastChatMessage(args.MESSAGE);
                 }
             });
         }
