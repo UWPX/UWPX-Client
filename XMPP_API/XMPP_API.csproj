@@ -125,7 +125,6 @@
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageEntry.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
-    <Compile Include="Classes\Network\XML\Messages\MUC\MUCRequestJoinedRoomsMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
