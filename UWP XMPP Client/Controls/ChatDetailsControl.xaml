@@ -6,8 +6,25 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="sendMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleDownControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="receivedMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleTopControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="errorMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleErrorControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
+        </DataTemplate>
+        <datatemplates:ChatMessageDataTemplateSelector x:Name="chatMessageDataTemplateSelector"
+                                                       sendMessageTemplate="{StaticResource sendMessageTemplate}"
+                                                       receivedMessageTemplate="{StaticResource receivedMessageTemplate}"
+                                                       errorMessageTemplate="{StaticResource errorMessageTemplate}"/>
+    </UserControl.Resources>
 
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
@@ -20,7 +37,17 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ListView x:Name="invertedListView_lstv" Grid.Row="0" IncrementalLoadingTrigger="Edge" VerticalAlignment="Stretch" Padding="0, 10, 0, 0" SelectionChanged="invertedListView_lstv_SelectionChanged" Margin="0, 50, 0, 10" HorizontalContentAlignment="Stretch" ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <ListView x:Name="invertedListView_lstv"
+                      Grid.Row="0"
+                      IncrementalLoadingTrigger="Edge"
+                      VerticalAlignment="Stretch"
+                      Padding="0, 10, 0, 0"
+                      Margin="0, 50, 0, 10"
+                      SelectionChanged="invertedListView_lstv_SelectionChanged"
+                      HorizontalContentAlignment="Stretch"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      ItemTemplateSelector="{StaticResource chatMessageDataTemplateSelector}"
+                      ItemsSource="{x:Bind chatMessages, Mode=OneWay}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsStackPanel VerticalAlignment="Bottom" ItemsUpdatingScrollMode="KeepLastItemInView" Grid.ColumnSpan="1"/>

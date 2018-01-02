@@ -24,8 +24,7 @@ namespace UWP_XMPP_Client.Controls
                 showChatMessage();
             }
         }
-
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleContentControl), null);
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleTopControl), null);
 
         private string imgPath;
 
@@ -162,7 +161,7 @@ namespace UWP_XMPP_Client.Controls
                     imageLoading_grid.Visibility = Visibility.Collapsed;
                     imageError_grid.Visibility = Visibility.Visible;
                     image_img.Source = null;
-                    message_tbx.Text = string.IsNullOrWhiteSpace(img.errorMessage)? "No error message given!" : img.errorMessage;
+                    message_tbx.Text = string.IsNullOrWhiteSpace(img.errorMessage) ? "No error message given!" : img.errorMessage;
                     message_tbx.Visibility = Visibility.Visible;
                     redownloadImage_mfo.IsEnabled = true;
                     break;
@@ -183,7 +182,7 @@ namespace UWP_XMPP_Client.Controls
         private async Task retryImageDownloadAsync()
         {
             ImageTable img = ImageManager.INSTANCE.retryImageDownload(ChatMessage);
-            if(img != null)
+            if (img != null)
             {
                 waitForImageDownloadToFinish(img);
                 await showImageAsync(img);

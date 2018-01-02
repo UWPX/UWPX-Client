@@ -111,6 +111,8 @@
     <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
       <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="Dialogs\AddChatContentDialog.xaml.cs">
       <DependentUpon>AddChatContentDialog.xaml</DependentUpon>
     </Compile>

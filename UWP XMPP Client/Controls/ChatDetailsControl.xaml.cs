@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes;
+using UWP_XMPP_Client.DataTemplates;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -45,6 +46,8 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
 
+        private CustomObservableCollection<ChatMessageDataTemplate> chatMessages;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -56,6 +59,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public ChatDetailsControl()
         {
+            this.chatMessages = new CustomObservableCollection<ChatMessageDataTemplate>();
             this.InitializeComponent();
             UiUtils.setBackgroundImage(backgroundImage_img);
 
@@ -92,34 +96,14 @@ namespace UWP_XMPP_Client.Controls
             if (Client != null && Chat != null)
             {
                 accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
-                invertedListView_lstv.Items.Clear();
+                chatMessages.Clear();
                 foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
                 {
-                    showMessage(msg);
+                    addChatMessage(msg);
                 }
 
                 ChatTable cpy = Chat.clone();
                 Task.Factory.StartNew(() => ChatManager.INSTANCE.markAllMessagesAsRead(cpy));
-            }
-        }
-
-        private void showMessage(ChatMessageTable chatMessage)
-        {
-            switch (chatMessage.type)
-            {
-                case "error":
-                    invertedListView_lstv.Items.Add(new SpeechBubbleErrorControl() { ChatMessage = chatMessage });
-                    break;
-                default:
-                    if (Chat.userAccountId.Equals(chatMessage.fromUser))
-                    {
-                        invertedListView_lstv.Items.Add(new SpeechBubbleDownControl() { ChatMessage = chatMessage });
-                    }
-                    else
-                    {
-                        invertedListView_lstv.Items.Add(new SpeechBubbleTopControl() { ChatMessage = chatMessage });
-                    }
-                    break;
             }
         }
 
@@ -129,6 +113,8 @@ namespace UWP_XMPP_Client.Controls
             {
                 ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
                 ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+                ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+                ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
                 Client.NewChatState -= Client_NewChatState;
                 Client.NewChatState += Client_NewChatState;
             }
@@ -195,8 +181,17 @@ namespace UWP_XMPP_Client.Controls
                 {
                     msg.state = MessageState.READ;
                     ChatManager.INSTANCE.setChatMessageEntry(msg, false);
-                    showMessage(msg);
+                    addChatMessage(msg);
                 }
+            });
+        }
+
+        private void addChatMessage(ChatMessageTable msg)
+        {
+            chatMessages.Add(new ChatMessageDataTemplate()
+            {
+                message = msg,
+                chat = Chat
             });
         }
 
@@ -300,6 +295,30 @@ namespace UWP_XMPP_Client.Controls
             {
                 await Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE);
             }
+        }
+
+        private async void INSTANCE_ChatMessageChanged(ChatManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (Chat != null && Equals(args.MESSAGE.chatId, Chat.id))
+                {
+                    Task.Factory.StartNew(async () =>
+                    {
+                        for(int i = 0; i < chatMessages.Count; i++)
+                        {
+                            if (chatMessages[i].message != null && Equals(chatMessages[i].message.id, args.MESSAGE.id))
+                            {
+                                // Only the main thread should update the list to prevent problems:
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                {
+                                    chatMessages[i].message = args.MESSAGE;
+                                });
+                            }
+                        }
+                    });
+                }
+            });
         }
         #endregion
     }

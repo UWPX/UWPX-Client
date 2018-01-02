@@ -88,7 +88,7 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
-        protected void onPropertyChanged([CallerMemberName] string name = "")
+        private void onPropertyChanged([CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }

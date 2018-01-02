@@ -1,19 +1,47 @@
 ﻿using Data_Manager2.Classes.DBTables;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-namespace UWP_XMPP_Client.Controls
+namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed partial class SpeechBubbleDownControl : UserControl
+    class ChatMessageDataTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ChatMessageTable ChatMessage
+        private ChatTable _chat;
+        public ChatTable chat
         {
-            get { return (ChatMessageTable)GetValue(ChatMessageProperty); }
-            set { SetValue(ChatMessageProperty, value); }
+            get
+            {
+                return _chat;
+            }
+            set
+            {
+                if (value != _chat)
+                {
+                    _chat = value;
+                    onPropertyChanged("chat");
+                }
+            }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleDownControl), null);
+        private ChatMessageTable _message;
+        public ChatMessageTable message
+        {
+            get
+            {
+                return _message;
+            }
+            set
+            {
+                if (value != _message)
+                {
+                    _message = value;
+                    onPropertyChanged("message");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,11 +50,11 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 29/08/2017 Created [Fabian Sauter]
+        /// 02/01/2018 Created [Fabian Sauter]
         /// </history>
-        public SpeechBubbleDownControl()
+        public ChatMessageDataTemplate()
         {
-            this.InitializeComponent();
+
         }
 
         #endregion
@@ -42,7 +70,10 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void onPropertyChanged([CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
         #endregion
 
