@@ -99,7 +99,7 @@ namespace UWP_XMPP_Client.Controls
             if (Chat != null && Client != null)
             {
                 // Chat jabber id:
-                name_tblck.Text = Chat.chatJabberId;
+                name_tblck.Text = string.IsNullOrWhiteSpace(Chat.chatName) ? Chat.chatJabberId : Chat.chatName;
 
                 // Last action date:
                 if (Chat.lastActive != null)
@@ -206,7 +206,7 @@ namespace UWP_XMPP_Client.Controls
         private void showLastChatMessage(ChatMessageTable chatMessage)
         {
             // Remove the event subscription for the last message:
-            if(lastChatMessage != null)
+            if (lastChatMessage != null)
             {
                 lastChatMessage.ChatMessageChanged -= ChatMessage_ChatMessageChanged;
             }

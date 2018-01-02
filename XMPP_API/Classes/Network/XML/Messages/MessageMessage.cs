@@ -15,6 +15,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         // Already shown as a toast:
         private bool toasted;
 
+        public static readonly string TYPE_CHAT = "chat";
+        public static readonly string TYPE_GROUPCHAT = "groupchat";
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -24,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public MessageMessage(string from, string to, string message) : this(from, to, message, "chat")
+        public MessageMessage(string from, string to, string message) : this(from, to, message, TYPE_CHAT)
         {
         }
 

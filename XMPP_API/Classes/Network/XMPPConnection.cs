@@ -10,6 +10,7 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
 namespace XMPP_API.Classes.Network
 {

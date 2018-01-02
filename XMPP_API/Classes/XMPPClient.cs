@@ -5,7 +5,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes
@@ -23,6 +23,7 @@ namespace XMPP_API.Classes
         public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
         public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
+        public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client,  NewBookmarksResultMessageEventArgs args);
 
         public event NewRoosterEventHandler NewRoosterMessage;
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
@@ -31,6 +32,7 @@ namespace XMPP_API.Classes
         public event NewChatStateEventHandler NewChatState;
         public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
         public event MessageSendEventHandler MessageSend;
+        public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -101,10 +103,10 @@ namespace XMPP_API.Classes
             await connection.disconnectAsync();
         }
 
-        public async Task<MessageMessage> sendAsync(string to, string msg)
+        public async Task<MessageMessage> sendAsync(string to, string msg, string chatType)
         {
             XMPPAccount account = connection.account;
-            MessageMessage sendMessgageMessage = new MessageMessage(account.getIdDomainAndResource(), to, msg);
+            MessageMessage sendMessgageMessage = new MessageMessage(account.getIdDomainAndResource(), to, msg, chatType);
             await connection.sendAsync(sendMessgageMessage, false);
             return sendMessgageMessage;
         }
@@ -218,6 +220,11 @@ namespace XMPP_API.Classes
             else if (msg is DiscoResponseMessage)
             {
                 NewDiscoResponseMessage?.Invoke(this, new NewDiscoResponseMessageEventArgs(msg as DiscoResponseMessage));
+            }
+            // XEP-0048-1.0 (bookmarks result):
+            else if (msg is BookmarksResultMessage)
+            {
+                NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(msg as BookmarksResultMessage));
             }
         }
 

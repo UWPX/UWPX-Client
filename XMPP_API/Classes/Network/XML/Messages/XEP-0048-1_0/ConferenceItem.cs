@@ -1,10 +1,18 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+﻿using System.Xml;
+
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0
 {
-    public class RequestBookmarksMessage : IQMessage
+    public class ConferenceItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly string NAME;
+        public readonly string JID;
+        public readonly bool MINIMIZE;
+        public readonly bool AUTOJOIN;
 
+        public readonly string NICK;
+        public readonly string PASSWORD;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -13,10 +21,29 @@
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 11/12/2017 Created [Fabian Sauter]
+        /// 02/01/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestBookmarksMessage(string from) : base(from, null, GET, getRandomId(), Consts.XML_XEP_0048_BOOKMARKS_REQUEST)
+        public ConferenceItem(XmlNode node)
         {
+            if(node != null)
+            {
+                NAME = node.Attributes["name"]?.Value;
+                JID = node.Attributes["jid"]?.Value;
+                MINIMIZE = XMLUtils.tryParseToBool(node.Attributes["minimize"]?.Value);
+                AUTOJOIN = XMLUtils.tryParseToBool(node.Attributes["autojoin"]?.Value);
+
+                XmlNode nNode = XMLUtils.getChildNode(node, "nick");
+                if(nNode != null)
+                {
+                    NICK = nNode.InnerText;
+                }
+
+                XmlNode pNode = XMLUtils.getChildNode(node, "password");
+                if (pNode != null)
+                {
+                    PASSWORD = pNode.InnerText;
+                }
+            }
         }
 
         #endregion

@@ -9,6 +9,7 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
 namespace Data_Manager2.Classes
 {
@@ -145,11 +146,19 @@ namespace Data_Manager2.Classes
         private XMPPClient loadAccount(XMPPAccount acc)
         {
             XMPPClient c = new XMPPClient(acc);
+            c.NewChatMessage -= C_NewChatMessage;
             c.NewChatMessage += C_NewChatMessage;
+            c.NewRoosterMessage -= C_NewRoosterMessage;
             c.NewRoosterMessage += C_NewRoosterMessage;
+            c.NewPresence -= C_NewPresence;
             c.NewPresence += C_NewPresence;
-            c.ConnectionStateChanged += C_ConnectionStateChanged; // Requesting roster if connected
+            // Requesting roster if connected
+            c.ConnectionStateChanged -= C_ConnectionStateChanged;
+            c.ConnectionStateChanged += C_ConnectionStateChanged;
+            c.MessageSend -= C_MessageSend;
             c.MessageSend += C_MessageSend;
+            c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
+            c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
             clients.Add(c);
             return c;
         }
@@ -168,6 +177,7 @@ namespace Data_Manager2.Classes
             {
                 case ConnectionState.CONNECTED:
                     await client.requestRoosterAsync();
+                    await client.requestBookmarksAsync();
                     ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
                     break;
                 case ConnectionState.ERROR:
@@ -274,7 +284,9 @@ namespace Data_Manager2.Classes
                             lastActive = DateTime.Now,
                             muted = false,
                             inRoster = true,
-                            ask = item.getAsk()
+                            ask = item.getAsk(),
+                            chatType = ChatType.CHAT,
+                            chatName = null
                         };
                     }
                     else
@@ -319,7 +331,9 @@ namespace Data_Manager2.Classes
                     muted = false,
                     presence = Presence.Unavailable,
                     status = null,
-                    subscription = null
+                    subscription = null,
+                    chatType = Equals(msg.getType(), MessageMessage.TYPE_CHAT) ? ChatType.MUC : ChatType.CHAT,
+                    chatName = null
                 };
                 ChatManager.INSTANCE.setChat(chat, false, true);
             }
@@ -379,6 +393,39 @@ namespace Data_Manager2.Classes
         private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
         {
             ChatManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager.Classes.MessageState.SEND);
+        }
+
+        private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
+        {
+            BookmarksResultMessage msg = args.BOOKMARKS_MESSAGE;
+
+            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.CONFERENCE_ITEMS)
+            {
+                string to = client.getXMPPAccount().getIdAndDomain();
+                string from = c.JID;
+                string id = ChatTable.generateId(from, to);
+                ChatTable chat = ChatManager.INSTANCE.getChat(id);
+                if(chat == null)
+                {
+                    chat = new ChatTable()
+                    {
+                        id = id,
+                        chatJabberId = from,
+                        userAccountId = to,
+                        ask = null,
+                        lastActive = DateTime.Now,
+                        muted = false,
+                        status = null,
+                        subscription = null,
+                    };
+                }
+                chat.chatType = ChatType.MUC;
+                chat.chatName = c.NAME;
+                chat.inRoster = true;
+                chat.presence = Presence.Unavailable;
+
+                ChatManager.INSTANCE.setChat(chat, false, true);
+            }
         }
 
         #endregion

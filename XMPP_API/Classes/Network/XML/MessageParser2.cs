@@ -7,6 +7,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes.Network.XML
@@ -153,6 +154,11 @@ namespace XMPP_API.Classes.Network.XML
                         {
                             messages.Add(new RosterMessage(n));
                         }
+                        // XEP-0048-1.0 (bookmarks result):
+                        else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:private") != null)
+                        {
+                            messages.Add(new BookmarksResultMessage(n));
+                        }
                         else
                         {
                             messages.Add(new IQMessage(n));
@@ -169,9 +175,9 @@ namespace XMPP_API.Classes.Network.XML
         }
 
         /// <summary>
-        /// Reads all root noodes from a given xml string and returns them.
+        /// Reads all root nodes from a given xml string and returns them.
         /// </summary>
-        /// <param name="msg">A vaild xml string.</param>
+        /// <param name="msg">A valid xml string.</param>
         /// <returns>A list of XmlNodes read from the given xml string.</returns>
         private List<XmlNode> parseToXmlNodes(string msg)
         {
@@ -200,10 +206,10 @@ namespace XMPP_API.Classes.Network.XML
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Traslates a given XElement to an XmlNode.
+        /// Translates a given XElement to an XmlNode.
         /// </summary>
         /// <param name="xElement">The XElement that should get translated to an XmlNode.</param>
-        /// <returns>The coresponding XmlNode for the given XElement.</returns>
+        /// <returns>The corresponding XmlNode for the given XElement.</returns>
         private XmlNode toXmlNode(XElement xElement)
         {
             XmlDocument doc = new XmlDocument();

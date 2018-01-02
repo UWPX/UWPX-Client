@@ -72,7 +72,19 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private string getChatType()
+        {
+            switch (Chat.chatType)
+            {
+                case ChatType.CHAT:
+                    return MessageMessage.TYPE_CHAT;
+                case ChatType.MUC:
+                    return MessageMessage.TYPE_GROUPCHAT;
+                default:
+                    // For backwards compatibility with older versions of the app:
+                    return MessageMessage.TYPE_CHAT;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -124,7 +136,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
-                MessageMessage sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text);
+                MessageMessage sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType());
                 ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
                 Chat.lastActive = DateTime.Now;
                 ChatManager.INSTANCE.setChat(Chat, false, false);
@@ -276,9 +288,8 @@ namespace UWP_XMPP_Client.Controls
         {
             //await Logging.Logger.openLogFolderAsync();
             //await Client.requestVCardAsync(Chat.chatJabberId);
-            //await Client.requestBookmarksAsync();
-            await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.ITEMS);
-            await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.INFO);
+            //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.ITEMS);
+            //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.INFO);
         }
 
         private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)

@@ -174,12 +174,14 @@ namespace Data_Manager2.Classes.DBManager
         {
             Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>
             {
-                c.presence = Presence.Unavailable;
-                update(c);
-                ChatChanged?.Invoke(this, new ChatChangedEventArgs(c, false));
+                if(c.chatType == ChatType.CHAT)
+                {
+                    c.presence = Presence.Unavailable;
+                    update(c);
+                    ChatChanged?.Invoke(this, new ChatChangedEventArgs(c, false));
+                }
             });
         }
-
 
         #endregion
 
@@ -191,7 +193,7 @@ namespace Data_Manager2.Classes.DBManager
 
         private void resetPresences()
         {
-            dB.Execute("UPDATE ChatTable SET presence = ?", Presence.Unavailable);
+            dB.Execute("UPDATE ChatTable SET presence = ? WHERE chatType = ?;", Presence.Unavailable, ChatType.CHAT);
         }
 
         #endregion

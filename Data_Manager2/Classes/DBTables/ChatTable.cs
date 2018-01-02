@@ -32,6 +32,10 @@ namespace Data_Manager2.Classes.DBTables
         // The state of the chat (XEP-0083) - only interesting dunging app runtime
         [Ignore]
         public string chatState { get; set; }
+        // The type of the chat e.g. MUC/MIX/...
+        public ChatType chatType { get; set; }
+        // The name of the chat. Used for MUCs
+        public string chatName { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

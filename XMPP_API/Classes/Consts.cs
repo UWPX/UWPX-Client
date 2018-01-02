@@ -31,7 +31,7 @@ namespace XMPP_API.Classes
 
 
         // XEP-0048 (bookmarks):
-        public static readonly string XML_XEP_0048_BOOKMARKS_REQUEST = "<pubsub xmlns='http://jabber.org/protocol/pubsub'><items node='storage:bookmarks'/></pubsub>";
+        public static readonly string XML_XEP_0048_1_0_BOOKMARKS_REQUEST = "<query xmlns='jabber:iq:private'><storage xmlns='storage:bookmarks'/></query>";
 
         public static readonly bool ENABLE_DEBUG_OUTPUT = true;
     }
