@@ -339,8 +339,10 @@ namespace Data_Manager2.Classes
                 }
             });*/
 
-            ChatMessageTable message = new ChatMessageTable(msg, chat);
-            message.state = Data_Manager.Classes.MessageState.UNREAD;
+            ChatMessageTable message = new ChatMessageTable(msg, chat)
+            {
+                state = Data_Manager.Classes.MessageState.UNREAD
+            };
             ChatManager.INSTANCE.setChatMessageEntry(message, true, false);
         }
 
