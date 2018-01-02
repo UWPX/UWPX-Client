@@ -341,7 +341,7 @@ namespace Data_Manager2.Classes
 
             ChatMessageTable message = new ChatMessageTable(msg, chat);
             message.state = Data_Manager.Classes.MessageState.UNREAD;
-            ChatManager.INSTANCE.setChatMessageEntry(message, true);
+            ChatManager.INSTANCE.setChatMessageEntry(message, true, false);
         }
 
         private async void INSTANCE_AccountChanged(AccountManager handler, AccountChangedEventArgs args)

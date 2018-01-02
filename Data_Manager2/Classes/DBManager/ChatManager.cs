@@ -153,7 +153,7 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setChatMessageEntry(ChatMessageTable message, bool triggerNewChatMessage)
+        public void setChatMessageEntry(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
         {
             update(message);
             if (triggerNewChatMessage)
@@ -163,6 +163,10 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     cacheImage(message);
                 }
+            }
+            if (triggerMessageChanged)
+            {
+                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(message));
             }
         }
 

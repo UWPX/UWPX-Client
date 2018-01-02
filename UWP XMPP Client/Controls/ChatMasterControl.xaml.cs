@@ -205,11 +205,6 @@ namespace UWP_XMPP_Client.Controls
 
         private void showLastChatMessage(ChatMessageTable chatMessage)
         {
-            if(chatMessage == lastChatMessage)
-            {
-                return;
-            }
-
             // Remove the event subscription for the last message:
             if(lastChatMessage != null)
             {

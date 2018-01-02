@@ -125,7 +125,7 @@ namespace UWP_XMPP_Client.Controls
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
                 MessageMessage sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text);
-                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true);
+                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
                 Chat.lastActive = DateTime.Now;
                 ChatManager.INSTANCE.setChat(Chat, false, false);
 
@@ -180,7 +180,7 @@ namespace UWP_XMPP_Client.Controls
                 if (Chat.id.Equals(msg.chatId))
                 {
                     msg.state = MessageState.READ;
-                    ChatManager.INSTANCE.setChatMessageEntry(msg, false);
+                    ChatManager.INSTANCE.setChatMessageEntry(msg, false, true);
                     addChatMessage(msg);
                 }
             });
