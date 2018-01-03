@@ -243,9 +243,15 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void addMUC_mfoi_Click(object sender, RoutedEventArgs e)
+        private async void addMUC_mfoi_Click(object sender, RoutedEventArgs e)
         {
+            AddMUCContentDialog dialog = new AddMUCContentDialog();
+            await dialog.ShowAsync();
 
+            if (!dialog.cancled)
+            {
+
+            }
         }
 
         private void addMIX_mfoi_Click(object sender, RoutedEventArgs e)

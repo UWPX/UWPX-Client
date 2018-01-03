@@ -1,0 +1,40 @@
+﻿<ContentDialog
+    x:Class="UWP_XMPP_Client.Dialogs.AddMUCContentDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Add MUC">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
+            <StackPanel>
+                <ComboBox x:Name="account_cbx" HorizontalAlignment="Stretch" Header="Select account:" ItemsSource="{x:Bind accounts}" PlaceholderText="No accounts found!" DataContextChanged="account_cbx_DataContextChanged"/>
+                <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
+                <TextBox x:Name="nick_tbx" Margin="0, 10, 0, 0" Header="Your nickname:"/>
+                <TextBox x:Name="roomName_tbx" Margin="0, 10, 0, 0" Header="Chatroom name:" KeyDown="roomName_tbx_KeyDown" TextChanged="roomName_tbx_TextChanged"/>
+                <CheckBox x:Name="enablePassword_cbx" Margin="0, 10, 0, 0" Content="Enable room password" Checked="enablePassword_cbx_Checked" Unchecked="enablePassword_cbx_Unchecked"/>
+                <PasswordBox x:Name="password_pwb" Margin="0, 10, 0, 0" Header="Password:" Visibility="Collapsed"/>
+
+                <ComboBox x:Name="server_cbx" HorizontalAlignment="Stretch" Header="Select server:" PlaceholderText="None of your servers supports MUC!" Margin="0, 10, 0, 0" DataContextChanged="server_cbx_DataContextChanged" SelectionChanged="server_cbx_SelectionChanged"/>
+                <Button x:Name="browse_btn" Content="Browse available rooms" Margin="0, 10, 0, 0" IsEnabled="False"/>
+
+                <CheckBox x:Name="remember_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Remember this chatroom"/>
+                <CheckBox x:Name="autoJoin_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Auto join chatroom"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <Grid Grid.Row="1" Margin="0, 10, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="cancle_btn" Content="Cancel" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="cancle_btn_Click"/>
+            <Button x:Name="add_btn" Content="Add" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="add_btn_Click"/>
+        </Grid>
+    </Grid>
+</ContentDialog>

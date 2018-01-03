@@ -113,6 +113,9 @@
     </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="Dialogs\AddMUCContentDialog.xaml.cs">
+      <DependentUpon>AddMUCContentDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AddChatContentDialog.xaml.cs">
       <DependentUpon>AddChatContentDialog.xaml</DependentUpon>
     </Compile>
@@ -286,6 +289,10 @@
     <Page Include="Controls\AccountImageWithPresenceControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AddMUCContentDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\AddChatContentDialog.xaml">
       <SubType>Designer</SubType>
