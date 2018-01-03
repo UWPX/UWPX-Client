@@ -136,9 +136,14 @@ namespace Data_Manager2.Classes.DBManager
         {
             Task.Factory.StartNew(async () =>
             {
-                addFeatures(args.DISCO.FEATURES, args.DISCO.getFrom());
-                addIdentities(args.DISCO.IDENTITIES, args.DISCO.getFrom());
-                await addItemsAsync(args.DISCO.ITEMS, args.DISCO.getFrom(), client, true);
+                string from = args.DISCO.getFrom();
+                // Only store direct server results:
+                if(from != null && !from.Contains("@"))
+                {
+                    addFeatures(args.DISCO.FEATURES, from);
+                    addIdentities(args.DISCO.IDENTITIES, from);
+                    await addItemsAsync(args.DISCO.ITEMS, from, client, true);
+                }
             });
         }
         #endregion
