@@ -29,7 +29,10 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public List<DiscoFeatureTable> getAllMUCServers()
+        {
+            return dB.Query<DiscoFeatureTable>("SELECT * FROM DiscoFeatureTable WHERE var = 'http://jabber.org/protocol/muc';");
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -43,6 +46,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (identities != null)
             {
+                dB.Execute("DELETE FROM DiscoIdentityTable WHERE from = ?;", from);
                 foreach (DiscoIdentity i in identities)
                 {
                     if (from != null && i.TYPE != null && i.CATEGORY != null)
@@ -64,6 +68,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (features != null)
             {
+                dB.Execute("DELETE FROM DiscoFeatureTable WHERE from = ?;", from);
                 foreach (DiscoFeature f in features)
                 {
                     if (from != null && f.VAR != null)
@@ -83,6 +88,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (items != null)
             {
+                dB.Execute("DELETE FROM DiscoItemTable WHERE from = ?;", from);
                 foreach (DiscoItem i in items)
                 {
                     if (from != null && i.JID != null)

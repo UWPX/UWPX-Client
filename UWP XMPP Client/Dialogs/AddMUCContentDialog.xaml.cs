@@ -6,6 +6,8 @@ using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
+using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.DBManager;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -16,6 +18,7 @@ namespace UWP_XMPP_Client.Dialogs
         public bool cancled;
         public XMPPClient client;
         private ObservableCollection<string> accounts;
+        private ObservableCollection<string> servers;
         private List<XMPPClient> clients;
 
         #endregion
@@ -31,21 +34,14 @@ namespace UWP_XMPP_Client.Dialogs
         {
             this.InitializeComponent();
             loadAccounts();
+            loadServers();
             this.cancled = true;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void loadAccounts()
-        {
-            accounts = new ObservableCollection<string>();
-            clients = ConnectionHandler.INSTANCE.getClients();
-            foreach (XMPPClient c in clients)
-            {
-                accounts.Add(c.getXMPPAccount().getIdAndDomain());
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -55,7 +51,27 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
+        public void loadAccounts()
+        {
+            clients = ConnectionHandler.INSTANCE.getClients();
+            if (clients != null)
+            {
+                accounts = new ObservableCollection<string>();
+                foreach (XMPPClient c in clients)
+                {
+                    accounts.Add(c.getXMPPAccount().getIdAndDomain());
+                }
+            }
+        }
 
+        private void loadServers()
+        {
+            servers = new ObservableCollection<string>();
+            foreach (DiscoFeatureTable f in DiscoManager.INSTANCE.getAllMUCServers())
+            {
+                servers.Add(f.from);
+            }
+        }
 
         #endregion
 
