@@ -2,7 +2,7 @@
 
 namespace Data_Manager2.Classes.DBTables
 {
-    class DiscoIdentityTable
+    public class DiscoIdentityTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
