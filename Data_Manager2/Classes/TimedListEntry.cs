@@ -1,20 +1,13 @@
-﻿using SQLite.Net.Attributes;
+﻿using System;
 
-namespace Data_Manager2.Classes.DBTables
+namespace Data_Manager2.Classes
 {
-    public class DiscoFeatureTable
+    public class TimedListEntry<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        // Generated in generateId()
-        public string id { get; set; }
-        [NotNull]
-        // Who owns this feature? e.g. 'shakespeare.lit'
-        public string fromServer { get; set; }
-        [NotNull]
-        // Which feature? e.g. 'http://jabber.org/protocol/disco#items'
-        public string var { get; set; }
+        public T item;
+        public DateTime insertionTime;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,9 +18,10 @@ namespace Data_Manager2.Classes.DBTables
         /// <history>
         /// 03/01/2018 Created [Fabian Sauter]
         /// </history>
-        public DiscoFeatureTable()
+        public TimedListEntry(T item)
         {
-
+            this.item = item;
+            this.insertionTime = DateTime.Now;
         }
 
         #endregion
@@ -38,10 +32,7 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string fromServer, string var)
-        {
-            return fromServer + '_' + var;
-        }
+
 
         #endregion
 

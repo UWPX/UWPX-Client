@@ -132,6 +132,8 @@
     <Compile Include="Classes\MessageState.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
+    <Compile Include="Classes\TimedList.cs" />
+    <Compile Include="Classes\TimedListEntry.cs" />
     <Compile Include="Classes\ToastHelper.cs" />
     <Compile Include="Classes\Vault.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

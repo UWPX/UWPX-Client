@@ -11,6 +11,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly DiscoManager INSTANCE = new DiscoManager();
+        private TimedList<string> messageIdCache;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,6 +24,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public DiscoManager()
         {
+            this.messageIdCache = new TimedList<string>();
             ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 
@@ -46,7 +48,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (identities != null)
             {
-                dB.Execute("DELETE FROM DiscoIdentityTable WHERE from = ?;", from);
+                dB.Execute("DELETE FROM DiscoIdentityTable WHERE fromServer = ?;", from);
                 foreach (DiscoIdentity i in identities)
                 {
                     if (from != null && i.TYPE != null && i.CATEGORY != null)
@@ -54,7 +56,7 @@ namespace Data_Manager2.Classes.DBManager
                         update(new DiscoIdentityTable()
                         {
                             id = DiscoIdentityTable.generateId(from, i.TYPE),
-                            from = from,
+                            fromServer = from,
                             name = i.NAME,
                             category = i.CATEGORY,
                             type = i.TYPE
@@ -68,7 +70,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (features != null)
             {
-                dB.Execute("DELETE FROM DiscoFeatureTable WHERE from = ?;", from);
+                dB.Execute("DELETE FROM DiscoFeatureTable WHERE fromServer = ?;", from);
                 foreach (DiscoFeature f in features)
                 {
                     if (from != null && f.VAR != null)
@@ -76,7 +78,7 @@ namespace Data_Manager2.Classes.DBManager
                         update(new DiscoFeatureTable
                         {
                             id = DiscoFeatureTable.generateId(from, f.VAR),
-                            from = from,
+                            fromServer = from,
                             var = f.VAR
                         });
                     }
@@ -88,7 +90,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (items != null)
             {
-                dB.Execute("DELETE FROM DiscoItemTable WHERE from = ?;", from);
+                dB.Execute("DELETE FROM DiscoItemTable WHERE fromServer = ?;", from);
                 foreach (DiscoItem i in items)
                 {
                     if (from != null && i.JID != null)
@@ -96,13 +98,13 @@ namespace Data_Manager2.Classes.DBManager
                         update(new DiscoItemTable()
                         {
                             id = DiscoItemTable.generateId(from, i.JID),
-                            from = from,
+                            fromServer = from,
                             jid = i.JID,
                             name = i.NAME
                         });
                         if (requestInfo)
                         {
-                            await client.createDiscoAsync(i.JID, DiscoType.INFO);
+                            messageIdCache.addTimed(await client.createDiscoAsync(i.JID, DiscoType.INFO));
                         }
                     }
                 }
@@ -134,8 +136,8 @@ namespace Data_Manager2.Classes.DBManager
             args.CLIENT.NewDiscoResponseMessage -= CLIENT_NewDiscoResponseMessage;
             args.CLIENT.NewDiscoResponseMessage += CLIENT_NewDiscoResponseMessage;
 
-            await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.ITEMS);
-            await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.INFO);
+            messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.ITEMS));
+            messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.INFO));
         }
 
         private void CLIENT_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
@@ -144,11 +146,18 @@ namespace Data_Manager2.Classes.DBManager
             {
                 string from = args.DISCO.getFrom();
                 // Only store direct server results:
-                if(from != null && !from.Contains("@"))
+                if(from != null && !from.Contains("@") && messageIdCache.getTimed(args.DISCO.getId()) != null)
                 {
-                    addFeatures(args.DISCO.FEATURES, from);
-                    addIdentities(args.DISCO.IDENTITIES, from);
-                    await addItemsAsync(args.DISCO.ITEMS, from, client, true);
+                    switch (args.DISCO.DISCO_TYPE)
+                    {
+                        case DiscoType.ITEMS:
+                            await addItemsAsync(args.DISCO.ITEMS, from, client, true);
+                            break;
+                        case DiscoType.INFO:
+                            addFeatures(args.DISCO.FEATURES, from);
+                            addIdentities(args.DISCO.IDENTITIES, from);
+                            break;
+                    }
                 }
             });
         }

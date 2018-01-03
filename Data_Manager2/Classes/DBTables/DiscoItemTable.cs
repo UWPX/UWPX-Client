@@ -11,7 +11,7 @@ namespace Data_Manager2.Classes.DBTables
         public string id { get; set; }
         [NotNull]
         // Who owns this item? e.g. 'shakespeare.lit'
-        public string from { get; set; }
+        public string fromServer { get; set; }
         [NotNull]
         // The JID of the item e.g. 'chat.shakespeare.lit'
         public string jid { get; set; }
@@ -40,9 +40,9 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string from, string jid)
+        public static string generateId(string fromServer, string jid)
         {
-            return from + '_' + jid;
+            return fromServer + '_' + jid;
         }
 
         #endregion

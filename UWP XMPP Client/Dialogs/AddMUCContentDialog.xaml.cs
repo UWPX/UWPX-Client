@@ -69,7 +69,7 @@ namespace UWP_XMPP_Client.Dialogs
             servers = new ObservableCollection<string>();
             foreach (DiscoFeatureTable f in DiscoManager.INSTANCE.getAllMUCServers())
             {
-                servers.Add(f.from);
+                servers.Add(f.fromServer);
             }
         }
 

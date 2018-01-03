@@ -11,7 +11,7 @@ namespace Data_Manager2.Classes.DBTables
         public string id { get; set; }
         [NotNull]
         // Who owns this identity? e.g. 'plays.shakespeare.lit'
-        public string from { get; set; }
+        public string fromServer { get; set; }
         [NotNull]
         // Identity category e.g. 'directory'
         public string category { get; set; }
@@ -43,9 +43,9 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string from, string type)
+        public static string generateId(string fromServer, string type)
         {
-            return from + '_' + type;
+            return fromServer + '_' + type;
         }
 
         #endregion
