@@ -1,13 +1,22 @@
-﻿using System.Xml.Linq;
+﻿using SQLite.Net.Attributes;
 
-namespace XMPP_API.Classes.Network.XML.Messages
+namespace Data_Manager2.Classes.DBTables
 {
-    public abstract class AbstractAddressableMessage : AbstractMessage
+    class DiscoItemTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        protected readonly string FROM;
-        protected readonly string TO;
+        [PrimaryKey]
+        // Generated in generateId()
+        public string id { get; set; }
+        [NotNull]
+        // Who owns this item? e.g. 'shakespeare.lit'
+        public string from { get; set; }
+        [NotNull]
+        // The JID of the item e.g. 'chat.shakespeare.lit'
+        public string jid { get; set; }
+        // A name for the item e.g. 'Chatroom Service'
+        public string name { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,37 +25,25 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/08/2017 Created [Fabian Sauter]
+        /// 03/01/2018 Created [Fabian Sauter]
         /// </history>
-        public AbstractAddressableMessage(string from, string to)
+        public DiscoItemTable()
         {
-            FROM = from;
-            TO = to;
-        }
 
-        public AbstractAddressableMessage(string from, string to, string id) : base(id)
-        {
-            FROM = from;
-            TO = to;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getFrom()
-        {
-            return FROM;
-        }
 
-        public string getTo()
-        {
-            return TO;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static string generateId(string from, string jid)
+        {
+            return from + '_' + jid;
+        }
 
         #endregion
 
@@ -56,16 +53,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected string buildXElement()
-        {
-            string s = Consts.XML_HEADER + Consts.XML_STREAM_START;
-            s += " " + new XAttribute("from", FROM).ToString();
-            s += " " + new XAttribute("to", TO).ToString();
-            s += " " + new XAttribute("version", Consts.XML_VERSION).ToString();
-            s += " " + new XAttribute(XNamespace.Xml + "lang", Consts.XML_LANG).ToString();
-            s += Consts.XML_CLIENT + Consts.XML_STREAM_NAMESPACE + '>';
-            return s;
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

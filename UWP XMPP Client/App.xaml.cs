@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Navigation;
 using UWP_XMPP_Client.Classes;
 using Microsoft.HockeyApp;
 using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 
 namespace UWP_XMPP_Client
 {
@@ -67,6 +68,17 @@ namespace UWP_XMPP_Client
             deferral.Complete();
         }
 
+        /// <summary>
+        /// Inits all db managers to force event subscriptions.
+        /// </summary>
+        private void initAllDBManagers()
+        {
+            AccountManager.INSTANCE.initManager();
+            ChatManager.INSTANCE.initManager();
+            DiscoManager.INSTANCE.initManager();
+            ImageManager.INSTANCE.initManager();
+        }
+
         protected override void OnActivated(IActivatedEventArgs args)
         {
             onActivatedOrLaunched(args);
@@ -74,12 +86,15 @@ namespace UWP_XMPP_Client
 
         private void onActivatedOrLaunched(IActivatedEventArgs args)
         {
+            // Init all db managers to force event subscriptions:
+            initAllDBManagers();
+
             // Set default background:
             if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
                 Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, "space.jpeg");
             }
-            // Loads all background images into the cache
+            // Loads all background images into the cache:
             BackgroundImageCache.loadCache();
 
             // Setup push server connection:
@@ -94,7 +109,7 @@ namespace UWP_XMPP_Client
             // just ensure that the window is active
             if (rootFrame == null)
             {
-                // Create a Frame to act as the navigation context and navigate to the first page
+                // Create a Frame to act as the navigation context and navigate to the first page:
                 rootFrame = new Frame();
 
                 rootFrame.NavigationFailed += OnNavigationFailed;

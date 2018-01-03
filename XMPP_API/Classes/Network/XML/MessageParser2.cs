@@ -144,20 +144,33 @@ namespace XMPP_API.Classes.Network.XML
 
                     // IQ:
                     case "iq":
-                        // XEP-0030 (disco answer):
-                        if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info") != null)
+                        XmlAttribute typeAtt = XMLUtils.getAttribute(n, "type");
+                        if(typeAtt != null && Equals(typeAtt.InnerText, "result"))
                         {
-                            messages.Add(new DiscoResponseMessage(n));
-                        }
-                        // Rooster:
-                        else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
-                        {
-                            messages.Add(new RosterMessage(n));
-                        }
-                        // XEP-0048-1.0 (bookmarks result):
-                        else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:private") != null)
-                        {
-                            messages.Add(new BookmarksResultMessage(n));
+                            // XEP-0030 (disco result #info):
+                            if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info") != null)
+                            {
+                                messages.Add(new DiscoResponseMessage(n));
+                            }
+                            // XEP-0030 (disco result #items):
+                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items") != null)
+                            {
+                                messages.Add(new DiscoResponseMessage(n));
+                            }
+                            // Rooster:
+                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
+                            {
+                                messages.Add(new RosterMessage(n));
+                            }
+                            // XEP-0048-1.0 (bookmarks result):
+                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:private") != null)
+                            {
+                                messages.Add(new BookmarksResultMessage(n));
+                            }
+                            else
+                            {
+                                messages.Add(new IQMessage(n));
+                            }
                         }
                         else
                         {

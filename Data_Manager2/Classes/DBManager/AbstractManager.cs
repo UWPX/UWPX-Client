@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Logging;
+﻿using Logging;
 using SQLite.Net;
 using SQLite.Net.Platform.WinRT;
 using System;
@@ -43,7 +42,12 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        /// <summary>
+        /// Inits the manager.
+        /// </summary>
+        public void initManager()
+        {
+        }
 
         #endregion
 

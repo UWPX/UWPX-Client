@@ -111,12 +111,16 @@
     <Compile Include="Classes\DBManager\AbstractManager.cs" />
     <Compile Include="Classes\DBManager\AccountManager.cs" />
     <Compile Include="Classes\DBManager\ChatManager.cs" />
+    <Compile Include="Classes\DBManager\DiscoManager.cs" />
     <Compile Include="Classes\DBManager\ImageManager.cs" />
+    <Compile Include="Classes\DBTables\DiscoFeatureTable.cs" />
+    <Compile Include="Classes\DBTables\DiscoItemTable.cs" />
     <Compile Include="Classes\DBTables\ImageTable.cs" />
     <Compile Include="Classes\DBTables\AccountTable.cs" />
     <Compile Include="Classes\DBTables\ChatDescriptionTable.cs" />
     <Compile Include="Classes\DBTables\ChatMessageTable.cs" />
     <Compile Include="Classes\DBTables\ChatTable.cs" />
+    <Compile Include="Classes\DBTables\DiscoIdentityTable.cs" />
     <Compile Include="Classes\DownloadState.cs" />
     <Compile Include="Classes\Events\DownloadProgressChangedEventArgs.cs" />
     <Compile Include="Classes\Events\DownloadStateChangedEventArgs.cs" />
