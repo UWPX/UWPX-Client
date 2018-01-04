@@ -4,28 +4,36 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d"
     Title="Add MUC">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
-            <StackPanel>
-                <ComboBox x:Name="account_cbx"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--Add MUC:-->
+                <StackPanel x:Name="addMUC_stckpnl" Grid.Row="0">
+                    <ComboBox x:Name="account_cbx"
                           HorizontalAlignment="Stretch"
                           Header="Select account:"
                           ItemsSource="{x:Bind accounts}"
                           PlaceholderText="No accounts found!"
                           DataContextChanged="account_cbx_DataContextChanged"/>
-                <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
-                <TextBox x:Name="nick_tbx" Margin="0, 10, 0, 0" Header="Your nickname:"/>
-                <TextBox x:Name="roomName_tbx" Margin="0, 10, 0, 0" Header="Chatroom name:" KeyDown="roomName_tbx_KeyDown" TextChanged="roomName_tbx_TextChanged"/>
-                <CheckBox x:Name="enablePassword_cbx" Margin="0, 10, 0, 0" Content="Enable room password" Checked="enablePassword_cbx_Checked" Unchecked="enablePassword_cbx_Unchecked"/>
-                <PasswordBox x:Name="password_pwb" Margin="0, 10, 0, 0" Header="Password:" Visibility="Collapsed"/>
+                    <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
+                    <TextBox x:Name="nick_tbx" Margin="0, 10, 0, 0" Header="Your nickname:"/>
+                    <TextBox x:Name="roomName_tbx" Margin="0, 10, 0, 0" Header="Chatroom name:" KeyDown="roomName_tbx_KeyDown" TextChanged="roomName_tbx_TextChanged"/>
+                    <CheckBox x:Name="enablePassword_cbx" Margin="0, 10, 0, 0" Content="Enable room password" Checked="enablePassword_cbx_Checked" Unchecked="enablePassword_cbx_Unchecked"/>
+                    <PasswordBox x:Name="password_pwb" Margin="0, 10, 0, 0" Header="Password:" Visibility="Collapsed"/>
 
-                <ComboBox x:Name="server_cbx"
+                    <ComboBox x:Name="server_cbx"
                           HorizontalAlignment="Stretch"
                           Header="Select server:"
                           PlaceholderText="None of your servers supports MUC!"
@@ -33,11 +41,36 @@
                           DataContextChanged="server_cbx_DataContextChanged"
                           SelectionChanged="server_cbx_SelectionChanged"
                           ItemsSource="{x:Bind servers}"/>
-                <Button x:Name="browse_btn" Content="Browse available rooms" Margin="0, 10, 0, 0" IsEnabled="False"/>
+                    <Button x:Name="browse_btn" Content="Browse available rooms" Margin="0, 10, 0, 0" IsEnabled="False" Click="browse_btn_Click"/>
 
-                <CheckBox x:Name="remember_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Remember this chatroom"/>
-                <CheckBox x:Name="autoJoin_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Auto join chatroom"/>
-            </StackPanel>
+                    <CheckBox x:Name="remember_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Remember this chatroom"/>
+                    <CheckBox x:Name="autoJoin_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Auto join chatroom"/>
+                </StackPanel>
+
+                <!--Browse rooms:-->
+                <Grid x:Name="browseRooms_grid" Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel x:Name="noneFound_stckl" Grid.Row="0" Visibility="Collapsed">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Button x:Name="refresh_btn" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Grid.Column="0" Click="refresh_btn_Click"/>
+                            <TextBlock Text="Refresh? None found." Grid.Column="1" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                        </Grid>
+                    </StackPanel>
+                    <StackPanel x:Name="loadingRooms_stckpnl" Grid.Row="0">
+                        <TextBlock Text="Loading..." HorizontalAlignment="Center"/>
+                        <ProgressBar IsIndeterminate="True"/>
+                    </StackPanel>
+                    <ItemsControl x:Name="rooms_itmc" Grid.Row="0" Visibility="Collapsed">
+                        <!--All MUC rooms-->
+                    </ItemsControl>
+                </Grid>
+            </Grid>
         </ScrollViewer>
 
         <Grid Grid.Row="1" Margin="0, 10, 0, 0">

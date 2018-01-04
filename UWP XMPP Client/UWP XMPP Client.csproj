@@ -101,9 +101,11 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Classes\BackgroundImageCache.cs" />
+    <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />
     <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
+    <Compile Include="Classes\MUCRoomInfo.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Controls\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>
@@ -111,8 +113,15 @@
     <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
       <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BrowseMUCRoomsDetailsControl.xaml.cs">
+      <DependentUpon>BrowseMUCRoomsDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
+      <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="Dialogs\AddMUCContentDialog.xaml.cs">
       <DependentUpon>AddMUCContentDialog.xaml</DependentUpon>
     </Compile>
@@ -161,6 +170,9 @@
     </Compile>
     <Compile Include="Pages\AddAccountPage.xaml.cs">
       <DependentUpon>AddAccountPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\BrowseMUCRoomsPage.xaml.cs">
+      <DependentUpon>BrowseMUCRoomsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
@@ -290,6 +302,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\BrowseMUCRoomsDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BrowseMUCRoomsMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\AddMUCContentDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -347,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AddAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\BrowseMUCRoomsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

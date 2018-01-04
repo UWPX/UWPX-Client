@@ -8,6 +8,13 @@ using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
+using UWP_XMPP_Client.DataTemplates;
+using System.Threading;
+using Windows.UI.Core;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Pages;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -16,10 +23,15 @@ namespace UWP_XMPP_Client.Dialogs
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public bool cancled;
-        public XMPPClient client;
         private ObservableCollection<string> accounts;
         private ObservableCollection<string> servers;
         private List<XMPPClient> clients;
+
+        private bool showingAddMUC;
+
+        //private ObservableCollection<MUCRoomsDataTemplate> rooms;
+        private string discoId;
+        private Timer timer;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -32,10 +44,14 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public AddMUCContentDialog()
         {
-            this.InitializeComponent();
-            loadAccounts();
-            loadServers();
             this.cancled = true;
+            this.discoId = null;
+            this.timer = null;
+            //this.rooms = new ObservableCollection<MUCRoomsDataTemplate>();
+            this.accounts = new ObservableCollection<string>();
+            this.servers = new ObservableCollection<string>();
+            InitializeComponent();
+            showAddMUC();
         }
 
         #endregion
@@ -56,7 +72,7 @@ namespace UWP_XMPP_Client.Dialogs
             clients = ConnectionHandler.INSTANCE.getClients();
             if (clients != null)
             {
-                accounts = new ObservableCollection<string>();
+                accounts.Clear();
                 foreach (XMPPClient c in clients)
                 {
                     accounts.Add(c.getXMPPAccount().getIdAndDomain());
@@ -66,10 +82,98 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void loadServers()
         {
-            servers = new ObservableCollection<string>();
+            servers.Clear();
             foreach (DiscoFeatureTable f in DiscoManager.INSTANCE.getAllMUCServers())
             {
                 servers.Add(f.fromServer);
+            }
+        }
+
+        private void showAddMUC()
+        {
+            showingAddMUC = true;
+            Title = "Add MUC";
+            loadAccounts();
+            loadServers();
+            browseRooms_grid.Visibility = Visibility.Collapsed;
+            addMUC_stckpnl.Visibility = Visibility.Visible;
+            add_btn.IsEnabled = true;
+        }
+
+        private void showBrowseRooms(string server, XMPPClient client)
+        {
+            stopTimer();
+            discoId = null;
+            showingAddMUC = false;
+            Title = "Browse rooms";
+            bindEvents(client);
+            sendDiscoInfo(server, client);
+            addMUC_stckpnl.Visibility = Visibility.Collapsed;
+            browseRooms_grid.Visibility = Visibility.Visible;
+            add_btn.IsEnabled = false;
+        }
+
+        private void startTimer()
+        {
+            timer = new Timer(async (obj) =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null));
+            }, null, 5000, Timeout.Infinite);
+        }
+
+        private void bindEvents(XMPPClient client)
+        {
+            if (client != null)
+            {
+                client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
+            }
+        }
+
+        private void stopTimer()
+        {
+            timer?.Dispose();
+        }
+
+        private void showResultDisco(DiscoResponseMessage disco)
+        {
+            stopTimer();
+            if (disco == null || disco.ITEMS == null || disco.ITEMS.Count <= 0)
+            {
+                showNoneFound();
+                return;
+            }
+            //rooms.Clear();
+            foreach (DiscoItem i in disco.ITEMS)
+            {
+                /*rooms.Add(new MUCRoomsDataTemplate()
+                {
+                    jid = i.JID ?? "",
+                    name = i.NAME ?? ""
+                });*/
+            }
+            loadingRooms_stckpnl.Visibility = Visibility.Collapsed;
+            noneFound_stckl.Visibility = Visibility.Collapsed;
+            rooms_itmc.Visibility = Visibility.Visible;
+        }
+
+        private void showNoneFound()
+        {
+            rooms_itmc.Visibility = Visibility.Collapsed;
+            loadingRooms_stckpnl.Visibility = Visibility.Collapsed;
+            noneFound_stckl.Visibility = Visibility.Visible;
+        }
+
+        private void sendDiscoInfo(string server, XMPPClient client)
+        {
+            loadingRooms_stckpnl.Visibility = Visibility.Visible;
+            noneFound_stckl.Visibility = Visibility.Collapsed;
+            rooms_itmc.Visibility = Visibility.Collapsed;
+            if (discoId == null && client != null)
+            {
+                discoId = "";
+                Task<string> t = client.createDiscoAsync(server, DiscoType.ITEMS);
+                Task.Factory.StartNew(async () => discoId = await t);
+                startTimer();
             }
         }
 
@@ -87,6 +191,11 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void cancle_btn_Click(object sender, RoutedEventArgs e)
         {
+            if (!showingAddMUC)
+            {
+                showAddMUC();
+                return;
+            }
             cancled = true;
             Hide();
         }
@@ -143,6 +252,30 @@ namespace UWP_XMPP_Client.Dialogs
         private void server_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             browse_btn.IsEnabled = server_cbx.SelectedIndex >= 0;
+        }
+
+        private void browse_btn_Click(object sender, RoutedEventArgs e)
+        {
+            object o = server_cbx.SelectedItem;
+            if(o is string && account_cbx.SelectedIndex >= 0)
+            {
+                (Window.Current.Content as Frame).Navigate(typeof(BrowseMUCRoomsPage), new BrowseMUCNavigationParameter(o as string, clients[account_cbx.SelectedIndex]));
+                Hide();
+            }
+        }
+
+        private async void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO));
+        }
+
+        private void refresh_btn_Click(object sender, RoutedEventArgs e)
+        {
+            object o = server_cbx.SelectedItem;
+            if (o is string && account_cbx.SelectedIndex >= 0)
+            {
+                showBrowseRooms(o as string, clients[account_cbx.SelectedIndex]);
+            }
         }
         #endregion
     }
