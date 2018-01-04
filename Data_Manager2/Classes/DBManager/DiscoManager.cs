@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace Data_Manager2.Classes.DBManager

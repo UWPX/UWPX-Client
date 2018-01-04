@@ -123,8 +123,9 @@
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\ICloneable.cs" />
-    <Compile Include="Classes\Network\MessageIdCashElement.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
+    <Compile Include="Classes\Network\TimedList.cs" />
+    <Compile Include="Classes\Network\TimedListEntry.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamError.cs" />
@@ -141,7 +142,6 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
-    <Compile Include="Classes\Network\XML\MessageIdCash.cs" />
     <Compile Include="Classes\Network\XML\MessageParser2.cs" />
     <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />

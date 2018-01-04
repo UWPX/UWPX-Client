@@ -10,7 +10,6 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
 namespace XMPP_API.Classes.Network
 {
@@ -35,7 +34,7 @@ namespace XMPP_API.Classes.Network
         private MessageParser2 parser;
         private ArrayList messageProcessors;
         private string streamId;
-        private MessageIdCash iDCash;
+        private TimedList<string> messageIdCache;
 
         public delegate void ConnectionNewValidMessageEventHandler(XMPPConnection handler, NewValidMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPConnection handler, MessageSendEventArgs args);
@@ -65,7 +64,7 @@ namespace XMPP_API.Classes.Network
             this.parser = new MessageParser2();
             this.messageProcessors = new ArrayList(5);
             this.streamId = null;
-            this.iDCash = new MessageIdCash();
+            this.messageIdCache = new TimedList<string>();
 
             // The order in which new messages should get processed (TLS -- SASL -- COMPRESSION -- ...).
             // https://xmpp.org/extensions/xep-0170.html
@@ -137,9 +136,9 @@ namespace XMPP_API.Classes.Network
             }
             else
             {
-                if (msg is IQMessage)
+                if (msg is IQMessage && msg.getId() != null)
                 {
-                    iDCash.add((msg as IQMessage).getId());
+                    messageIdCache.addTimed(msg.getId());
                 }
                 await tCPConnection.sendAsync(msg.toXmlString());
 
@@ -176,7 +175,7 @@ namespace XMPP_API.Classes.Network
         protected async override Task cleanupAsync()
         {
             streamId = null;
-            iDCash = new MessageIdCash();
+            messageIdCache = new TimedList<string>();
             resetMessageProcessors();
             connectionFaildCount = 0;
             lastErrorMessage = null;
@@ -224,7 +223,7 @@ namespace XMPP_API.Classes.Network
                 {
                     if (entry.messageId != null)
                     {
-                        iDCash.add(entry.messageId);
+                        messageIdCache.addTimed(entry.messageId);
                     }
                     await tCPConnection.sendAsync(entry.message);
                     MessageCache.INSTANCE.removeEntry(entry);
@@ -270,7 +269,7 @@ namespace XMPP_API.Classes.Network
                 if (message is IQMessage)
                 {
                     IQMessage iq = message as IQMessage;
-                    if (iq.GetType().Equals(IQMessage.RESULT) && !iDCash.contains(iq.getId()))
+                    if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.getId()) != null)
                     {
                         Logger.Info("Invalid message id received!");
                         return;

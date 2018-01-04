@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace Data_Manager2.Classes
+namespace XMPP_API.Classes.Network
 {
     public class TimedList<T> : List<TimedListEntry<T>>
     {
