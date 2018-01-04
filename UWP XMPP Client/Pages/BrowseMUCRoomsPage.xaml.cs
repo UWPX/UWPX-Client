@@ -73,6 +73,7 @@ namespace UWP_XMPP_Client.Pages
             {
                 main_grid.Visibility = Visibility.Collapsed;
                 loading_grid.Visibility = Visibility.Visible;
+                noneFound_notification.Dismiss();
                 discoId = "";
                 Task<string> t = Client.createDiscoAsync(Server, DiscoType.ITEMS);
                 Task.Factory.StartNew(async () => discoId = await t);
