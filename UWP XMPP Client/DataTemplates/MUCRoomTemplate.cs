@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates

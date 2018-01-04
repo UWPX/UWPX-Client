@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -60,7 +48,19 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void showRoom()
+        {
+            if(string.IsNullOrEmpty(Name))
+            {
+                name_tblck.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                name_tblck.Visibility = Visibility.Visible;
+                name_tblck.Text = Name;
+            }
+            jid_tblck.Text = Jid ?? "Error!";
+        }
 
         #endregion
 

@@ -6,7 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-
-    </Grid>
+    <StackPanel>
+        <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
+        <TextBlock x:Name="jid_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 10, 0" TextTrimming="CharacterEllipsis" MaxLines="1"/>
+    </StackPanel>
 </UserControl>

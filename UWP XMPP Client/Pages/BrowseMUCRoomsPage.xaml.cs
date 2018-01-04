@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
