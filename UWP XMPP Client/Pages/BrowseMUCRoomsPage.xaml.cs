@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
@@ -6,6 +8,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -14,6 +17,8 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private CustomObservableCollection<MUCRoomTemplate> rooms;
+        private string discoId;
+        private Timer timer;
 
         public XMPPClient Client
         {
@@ -43,6 +48,8 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
             this.Client = null;
             this.Server = null;
+            this.discoId = null;
+            this.timer = null;
             this.rooms = new CustomObservableCollection<MUCRoomTemplate>();
             this.InitializeComponent();
         }
@@ -60,7 +67,55 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
+        private void sendDisco()
+        {
+            if (discoId == null && Client != null)
+            {
+                main_grid.Visibility = Visibility.Collapsed;
+                loading_grid.Visibility = Visibility.Visible;
+                discoId = "";
+                Task<string> t = Client.createDiscoAsync(Server, DiscoType.ITEMS);
+                Task.Factory.StartNew(async () => discoId = await t);
+                startTimer();
+            }
+        }
 
+        private void stopTimer()
+        {
+            timer?.Dispose();
+        }
+
+        private void startTimer()
+        {
+            timer = new Timer(async (obj) =>
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null));
+            }, null, 5000, Timeout.Infinite);
+        }
+
+        private void showResultDisco(DiscoResponseMessage disco)
+        {
+            stopTimer();
+            loading_grid.Visibility = Visibility.Collapsed;
+            main_grid.Visibility = Visibility.Visible;
+            if (disco == null || disco.ITEMS == null || disco.ITEMS.Count <= 0)
+            {
+                // Show non found in app notification:
+                noneFound_notification.Show("None found. Please retry!", 0);
+                discoId = null;
+                return;
+            }
+            rooms.Clear();
+            foreach (DiscoItem i in disco.ITEMS)
+            {
+                rooms.Add(new MUCRoomTemplate()
+                {
+                    jid = i.JID ?? "",
+                    name = i.NAME ?? ""
+                });
+            }
+            discoId = null;
+        }
 
         #endregion
 
@@ -100,6 +155,8 @@ namespace UWP_XMPP_Client.Pages
 
                 Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
                 Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
+
+                sendDisco();
             }
         }
 
@@ -112,11 +169,15 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
+        private async void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
         {
-            throw new NotImplementedException();
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO));
         }
 
+        private void refresh_btn_Click(object sender, RoutedEventArgs e)
+        {
+            sendDisco();
+        }
         #endregion
     }
 }

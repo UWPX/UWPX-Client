@@ -41,8 +41,26 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            <!--Taskbar:-->
+            <Grid Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="refresh_btn" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" HorizontalAlignment="Right" Click="refresh_btn_Click"/>
+                    <TextBlock Text="{x:Bind Server}" VerticalAlignment="Center" Margin="10, 0, 10, 0" FontSize="20" Grid.Column="0"/>
+                </Grid>
+                <controls1:SeperatorControl Grid.Row="1"/>
+            </Grid>
+
             <controls:MasterDetailsView x:Name="masterDetail_pnl"
-                                        Grid.Row="2"
+                                        Grid.Row="1"
                                         NoSelectionContentTemplate="{StaticResource noSelectionTemplate}"
                                         ItemTemplate="{StaticResource masterTemplate}"
                                         DetailsTemplate="{StaticResource detailsTemplate}"
@@ -55,15 +73,18 @@
                     </Style>
                 </controls:MasterDetailsView.ItemContainerStyle>
             </controls:MasterDetailsView>
+            <controls:InAppNotification x:Name="noneFound_notification" Grid.Row="1"/>
         </Grid>
         <!--Loading Grid-->
-        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Loading..." FontSize="20" Grid.Row="0" HorizontalAlignment="Center"/>
-            <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Grid.Row="1" Margin="10"/>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBlock Text="Loading..." FontSize="20" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Margin="10"/>
+                <TextBlock Text="(Timeout = 5 seconds)" HorizontalAlignment="Center"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </Page>

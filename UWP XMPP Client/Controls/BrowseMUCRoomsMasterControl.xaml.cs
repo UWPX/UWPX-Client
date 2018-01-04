@@ -10,14 +10,22 @@ namespace UWP_XMPP_Client.Controls
         public string Jid
         {
             get { return (string)GetValue(JidProperty); }
-            set { SetValue(JidProperty, value); }
+            set
+            {
+                SetValue(JidProperty, value);
+                showRoom();
+            }
         }
         public static readonly DependencyProperty JidProperty = DependencyProperty.Register("Jid", typeof(string), typeof(BrowseMUCRoomsMasterControl), null);
 
         public string Name
         {
             get { return (string)GetValue(NameProperty); }
-            set { SetValue(NameProperty, value); }
+            set
+            {
+                SetValue(NameProperty, value);
+                showRoom();
+            }
         }
         public static readonly DependencyProperty NameProperty = DependencyProperty.Register("Name", typeof(string), typeof(BrowseMUCRoomsMasterControl), null);
 
@@ -50,7 +58,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void showRoom()
         {
-            if(string.IsNullOrEmpty(Name))
+            if (string.IsNullOrEmpty(Name))
             {
                 name_tblck.Visibility = Visibility.Collapsed;
             }
@@ -59,7 +67,7 @@ namespace UWP_XMPP_Client.Controls
                 name_tblck.Visibility = Visibility.Visible;
                 name_tblck.Text = Name;
             }
-            jid_tblck.Text = Jid ?? "Error!";
+            jid_tblck.Text = Jid ?? "";
         }
 
         #endregion
