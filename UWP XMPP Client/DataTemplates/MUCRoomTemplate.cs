@@ -1,14 +1,62 @@
-﻿using UWP_XMPP_Client.Classes;
+﻿using System.ComponentModel;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class MUCRoomTemplate
+    class MUCRoomTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string jid;
-        public string name;
-        public MUCRoomInfo roomInfo;
+        private string _jid;
+        public string jid
+        {
+            get
+            {
+                return _jid;
+            }
+            set
+            {
+                if (value != _jid)
+                {
+                    _jid = value;
+                    onPropertyChanged("jid");
+                }
+            }
+        }
+        private string _name;
+        public string name
+        {
+            get
+            {
+                return _name;
+            }
+            set
+            {
+                if (value != _name)
+                {
+                    _name = value;
+                    onPropertyChanged("name");
+                }
+            }
+        }
+        private MUCRoomInfo _roomInfo;
+        public MUCRoomInfo roomInfo
+        {
+            get
+            {
+                return _roomInfo;
+            }
+            set
+            {
+                if (value != _roomInfo)
+                {
+                    _roomInfo = value;
+                    onPropertyChanged("roomInfo");
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -47,7 +95,10 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void onPropertyChanged([CallerMemberName] string name = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
 
         #endregion
     }

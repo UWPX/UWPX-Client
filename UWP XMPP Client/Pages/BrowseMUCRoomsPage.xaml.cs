@@ -14,7 +14,7 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<MUCRoomTemplate> rooms;
+        private CustomObservableCollection<MUCRoomTemplate> rooms;
 
         public XMPPClient Client
         {
@@ -44,7 +44,7 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
             this.Client = null;
             this.Server = null;
-            this.rooms = new ObservableCollection<MUCRoomTemplate>();
+            this.rooms = new CustomObservableCollection<MUCRoomTemplate>();
             this.InitializeComponent();
         }
 

@@ -16,7 +16,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:MUCRoomTemplate">
-            <controls1:BrowseMUCRoomsDetailsControl RoomInfo="{x:Bind roomInfo}"/>
+            <controls1:BrowseMUCRoomsDetailsControl RoomInfo="{x:Bind roomInfo, Mode=TwoWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">
