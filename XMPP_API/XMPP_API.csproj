@@ -124,8 +124,6 @@
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\ICloneable.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
-    <Compile Include="Classes\Network\TimedList.cs" />
-    <Compile Include="Classes\Network\TimedListEntry.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamError.cs" />
@@ -197,23 +195,16 @@
     <PackageReference Include="Microsoft.Toolkit.Uwp">
       <Version>2.1.1</Version>
     </PackageReference>
-    <PackageReference Include="SQLite.Net-PCL">
-      <Version>3.1.1</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
       <Name>Logging</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
-      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
-    </SDKReference>
-    <SDKReference Include="SQLite.UWP.2015, Version=3.21.0">
-      <Name>SQLite for Universal Windows Platform %28SQLite.UWP.2015, Version=3.21.0%29</Name>
-    </SDKReference>
+    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
+      <Project>{60938c69-a2d7-4c27-8b73-84c203bd4787}</Project>
+      <Name>Thread_Save_Components</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

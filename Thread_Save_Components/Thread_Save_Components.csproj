@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</ProjectGuid>
+    <ProjectGuid>{60938C69-A2D7-4C27-8B73-84C203BD4787}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Data_Manager2</RootNamespace>
-    <AssemblyName>Data_Manager2</AssemblyName>
+    <RootNamespace>Thread_Save_Components</RootNamespace>
+    <AssemblyName>Thread_Save_Components</AssemblyName>
     <DefaultLanguage>de-DE</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
@@ -106,63 +106,29 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\ChatType.cs" />
-    <Compile Include="Classes\ConnectionHandler.cs" />
-    <Compile Include="Classes\DBManager\AbstractManager.cs" />
-    <Compile Include="Classes\DBManager\AccountManager.cs" />
-    <Compile Include="Classes\DBManager\ChatManager.cs" />
-    <Compile Include="Classes\DBManager\DiscoManager.cs" />
-    <Compile Include="Classes\DBManager\ImageManager.cs" />
-    <Compile Include="Classes\DBTables\DiscoFeatureTable.cs" />
-    <Compile Include="Classes\DBTables\DiscoItemTable.cs" />
-    <Compile Include="Classes\DBTables\ImageTable.cs" />
-    <Compile Include="Classes\DBTables\AccountTable.cs" />
-    <Compile Include="Classes\DBTables\ChatDescriptionTable.cs" />
-    <Compile Include="Classes\DBTables\ChatMessageTable.cs" />
-    <Compile Include="Classes\DBTables\ChatTable.cs" />
-    <Compile Include="Classes\DBTables\DiscoIdentityTable.cs" />
-    <Compile Include="Classes\DownloadState.cs" />
-    <Compile Include="Classes\Events\DownloadProgressChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\DownloadStateChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\ClientConnectedEventArgs.cs" />
-    <Compile Include="Classes\Events\AccountChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\ChatChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\ChatMessageChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\NewChatMessageEventArgs.cs" />
-    <Compile Include="Classes\MessageState.cs" />
-    <Compile Include="Classes\Settings.cs" />
-    <Compile Include="Classes\SettingsConsts.cs" />
-    <Compile Include="Classes\ToastHelper.cs" />
-    <Compile Include="Classes\Vault.cs" />
+    <Compile Include="Classes\Collections\TSTimedList.cs" />
+    <Compile Include="Classes\Collections\TimedListEntry.cs" />
+    <Compile Include="Classes\SQLite\TSSQLiteConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Data_Manager2.rd.xml" />
+    <EmbeddedResource Include="Properties\Thread_Save_Components.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.0.5</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.Notifications">
-      <Version>2.1.1</Version>
+    <PackageReference Include="SQLite.Net-PCL">
+      <Version>3.1.1</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>2.1.1</Version>
-    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
+      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
+    </SDKReference>
+    <SDKReference Include="SQLite.UWP.2015, Version=3.21.0">
+      <Name>SQLite for Universal Windows Platform</Name>
+    </SDKReference>
   </ItemGroup>
   <ItemGroup />
-  <ItemGroup>
-    <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
-      <Name>Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
-      <Project>{60938c69-a2d7-4c27-8b73-84c203bd4787}</Project>
-      <Name>Thread_Save_Components</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
-      <Project>{899fb043-af8b-4294-95b6-1482c79459ac}</Project>
-      <Name>XMPP_API</Name>
-    </ProjectReference>
-  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

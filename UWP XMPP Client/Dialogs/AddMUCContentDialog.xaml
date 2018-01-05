@@ -19,7 +19,9 @@
                           Header="Select account:"
                           ItemsSource="{x:Bind accounts}"
                           PlaceholderText="No accounts found!"
-                          DataContextChanged="account_cbx_DataContextChanged"/>
+                          DataContextChanged="account_cbx_DataContextChanged"
+                          SelectionChanged="account_cbx_SelectionChanged"/>
+                <TextBlock x:Name="accountNotConnected_tblck" Foreground="#D50000" Text="Account not connected!" Tapped="addAccount_tblck_Tapped" Visibility="Collapsed"/>
                 <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
                 <TextBox x:Name="nick_tbx" Margin="0, 10, 0, 0" Header="Your nickname:"/>
                 <TextBox x:Name="roomName_tbx" Margin="0, 10, 0, 0" Header="Chatroom name:" KeyDown="roomName_tbx_KeyDown" TextChanged="roomName_tbx_TextChanged"/>

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Threading;
 
-namespace XMPP_API.Classes.Network
+namespace Thread_Save_Components.Classes.Collections
 {
-    public class TimedList<T> : List<TimedListEntry<T>>
+    public class TSTimedList<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,6 +12,8 @@ namespace XMPP_API.Classes.Network
         private Timer timer;
         public int cleanupIntervallInMs;
         public int itemTimeoutInMs;
+        private readonly List<TimedListEntry<T>> LIST;
+        private static readonly object _locker = new object();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,8 +24,9 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 03/01/2018 Created [Fabian Sauter]
         /// </history>
-        public TimedList()
+        public TSTimedList()
         {
+            this.LIST = new List<TimedListEntry<T>>();
             this.itemAdded = false;
             this.cleanupIntervallInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
             this.itemTimeoutInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
@@ -35,13 +38,16 @@ namespace XMPP_API.Classes.Network
         #region --Set-, Get- Methods--
         public TimedListEntry<T> getTimed(T item)
         {
-            for (int i = 0; i < Count; i++)
+            lock (_locker)
             {
-                if (this[i].item.Equals(item))
+                for (int i = 0; i < LIST.Count; i++)
                 {
-                    TimedListEntry<T> entry = this[i];
-                    RemoveAt(i);
-                    return entry;
+                    if (LIST[i].item.Equals(item))
+                    {
+                        TimedListEntry<T> entry = LIST[i];
+                        LIST.RemoveAt(i);
+                        return entry;
+                    }
                 }
             }
             return null;
@@ -52,7 +58,10 @@ namespace XMPP_API.Classes.Network
         #region --Misc Methods (Public)--
         public void addTimed(T item)
         {
-            Add(new TimedListEntry<T>(item));
+            lock (_locker)
+            {
+                LIST.Add(new TimedListEntry<T>(item));
+            }
             onItemAdded();
         }
 
@@ -61,7 +70,7 @@ namespace XMPP_API.Classes.Network
         #region --Misc Methods (Private)--
         private void onItemAdded()
         {
-            if(timer == null)
+            if (timer == null)
             {
                 startTimer();
             }
@@ -73,7 +82,8 @@ namespace XMPP_API.Classes.Network
 
         private void startTimer()
         {
-            timer = new Timer((obj) => {
+            timer = new Timer((obj) =>
+            {
                 cleanupList();
                 if (itemAdded)
                 {
@@ -90,15 +100,17 @@ namespace XMPP_API.Classes.Network
         private void cleanupList()
         {
             int countRemoved = 0;
-            for (int i = 0; i < Count; i++)
+            lock (_locker)
             {
-                if (DateTime.Now.Subtract(this[i].insertionTime).TotalMilliseconds >= itemTimeoutInMs)
+                for (int i = 0; i < LIST.Count; i++)
                 {
-                    RemoveAt(i);
-                    countRemoved++;
+                    if (DateTime.Now.Subtract(LIST[i].insertionTime).TotalMilliseconds >= itemTimeoutInMs)
+                    {
+                        LIST.RemoveAt(i);
+                        countRemoved++;
+                    }
                 }
             }
-            Logging.Logger.Debug("Removed " + countRemoved + " item(s) from the TimedList.");
         }
 
         #endregion

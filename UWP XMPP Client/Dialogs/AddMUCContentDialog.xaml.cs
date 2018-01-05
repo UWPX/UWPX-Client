@@ -156,6 +156,14 @@ namespace UWP_XMPP_Client.Dialogs
                 Hide();
             }
         }
+
+        private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(account_cbx.SelectedIndex >= 0)
+            {
+                accountNotConnected_tblck.Visibility = clients[account_cbx.SelectedIndex].isConnected() ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
         #endregion
     }
 }

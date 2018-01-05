@@ -1,9 +1,8 @@
 ﻿using Logging;
-using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using Thread_Save_Components.Classes.SQLite;
 using Windows.Storage;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -15,7 +14,7 @@ namespace XMPP_API.Classes.Network.XML
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "messages.db");
-        protected static SQLiteConnection dB = new SQLiteConnection(new SQLitePlatformWinRT(), DB_PATH);
+        protected static TSSQLiteConnection dB = new TSSQLiteConnection(DB_PATH);
 
         public static readonly bool RESET_DB_ON_STARTUP = false;
         public static readonly MessageCache INSTANCE = new MessageCache();
@@ -65,7 +64,7 @@ namespace XMPP_API.Classes.Network.XML
                 mT.message = msg.toXmlString();
                 mT.isChatMessage = false;
             }
-            dB.Insert(mT);
+            dB.InsertOrReplace(mT);
         }
 
         public List<MessageTable> getAllForAccount(string accountId)
@@ -75,7 +74,7 @@ namespace XMPP_API.Classes.Network.XML
 
         public void removeEntry(MessageTable entry)
         {
-            dB.Delete<MessageTable>(entry.id);
+            dB.Delete(entry);
         }
 
         #endregion
@@ -101,7 +100,7 @@ namespace XMPP_API.Classes.Network.XML
             {
                 Logger.Error("Unable to close or delete the messages DB", e);
             }
-            dB = new SQLiteConnection(new SQLitePlatformWinRT(), DB_PATH);
+            dB = new TSSQLiteConnection(DB_PATH);
         }
 
         /// <summary>

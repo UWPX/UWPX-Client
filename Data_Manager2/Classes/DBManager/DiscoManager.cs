@@ -1,8 +1,8 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace Data_Manager2.Classes.DBManager
@@ -12,7 +12,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly DiscoManager INSTANCE = new DiscoManager();
-        private TimedList<string> messageIdCache;
+        private TSTimedList<string> messageIdCache;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,7 +25,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public DiscoManager()
         {
-            this.messageIdCache = new TimedList<string>();
+            this.messageIdCache = new TSTimedList<string>();
             ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 

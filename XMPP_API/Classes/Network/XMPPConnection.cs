@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
@@ -34,7 +35,7 @@ namespace XMPP_API.Classes.Network
         private MessageParser2 parser;
         private ArrayList messageProcessors;
         private string streamId;
-        private TimedList<string> messageIdCache;
+        private TSTimedList<string> messageIdCache;
 
         public delegate void ConnectionNewValidMessageEventHandler(XMPPConnection handler, NewValidMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPConnection handler, MessageSendEventArgs args);
@@ -64,7 +65,7 @@ namespace XMPP_API.Classes.Network
             this.parser = new MessageParser2();
             this.messageProcessors = new ArrayList(5);
             this.streamId = null;
-            this.messageIdCache = new TimedList<string>();
+            this.messageIdCache = new TSTimedList<string>();
 
             // The order in which new messages should get processed (TLS -- SASL -- COMPRESSION -- ...).
             // https://xmpp.org/extensions/xep-0170.html
@@ -175,7 +176,7 @@ namespace XMPP_API.Classes.Network
         protected async override Task cleanupAsync()
         {
             streamId = null;
-            messageIdCache = new TimedList<string>();
+            messageIdCache = new TSTimedList<string>();
             resetMessageProcessors();
             connectionFaildCount = 0;
             lastErrorMessage = null;

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XMPP_API.Classes.Network
+namespace Thread_Save_Components.Classes.Collections
 {
     public class TimedListEntry<T>
     {

@@ -1,8 +1,7 @@
 ﻿using Logging;
-using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
 using System;
 using System.IO;
+using Thread_Save_Components.Classes.SQLite;
 using Windows.Storage;
 
 namespace Data_Manager2.Classes.DBManager
@@ -12,7 +11,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "data2.db");
-        protected static SQLiteConnection dB = new SQLiteConnection(new SQLitePlatformWinRT(), DB_PATH);
+        protected static TSSQLiteConnection dB = new TSSQLiteConnection(DB_PATH);
 
         public static readonly bool RESET_DB_ON_STARTUP = false;
 
@@ -72,11 +71,11 @@ namespace Data_Manager2.Classes.DBManager
             {
                 Logger.Error("Unable to close or delete the DB", e);
             }
-            dB = new SQLiteConnection(new SQLitePlatformWinRT(), DB_PATH);
+            dB = new TSSQLiteConnection(DB_PATH);
         }
 
         /// <summary>
-        /// Drops every table in the db
+        /// Drops every table in the db.
         /// </summary>
         protected abstract void dropTables();
 
@@ -86,7 +85,7 @@ namespace Data_Manager2.Classes.DBManager
         protected abstract void createTables();
 
         /// <summary>
-        /// Inserts or replaces the given object into the db
+        /// Inserts or replaces the given object into the db.
         /// </summary>
         protected virtual void update(object obj)
         {
