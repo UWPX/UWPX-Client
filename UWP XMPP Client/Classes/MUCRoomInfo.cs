@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -10,7 +7,9 @@ namespace UWP_XMPP_Client.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public string jid;
+        public string name;
+        public List<DiscoField> fields;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

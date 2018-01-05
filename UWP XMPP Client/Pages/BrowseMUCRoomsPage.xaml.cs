@@ -111,8 +111,12 @@ namespace UWP_XMPP_Client.Pages
             {
                 rooms.Add(new MUCRoomTemplate()
                 {
-                    jid = i.JID ?? "",
-                    name = i.NAME ?? ""
+                    client = Client,
+                    roomInfo = new MUCRoomInfo()
+                    {
+                        jid = i.JID ?? "",
+                        name = i.NAME ?? ""
+                    }
                 });
             }
             discoId = null;
@@ -172,7 +176,10 @@ namespace UWP_XMPP_Client.Pages
 
         private async void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO));
+            if(discoId != null && discoId.Equals(args.DISCO.getId()))
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO));
+            }
         }
 
         private void refresh_btn_Click(object sender, RoutedEventArgs e)

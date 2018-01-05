@@ -12,11 +12,11 @@
 
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate" x:DataType="datatemplates:MUCRoomTemplate">
-            <controls1:BrowseMUCRoomsMasterControl Name="{x:Bind name, Mode=OneWay}" Jid="{x:Bind jid, Mode=OneWay}"/>
+            <controls1:BrowseMUCRoomsMasterControl RoomInfo="{x:Bind roomInfo}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:MUCRoomTemplate">
-            <controls1:BrowseMUCRoomsDetailsControl RoomInfo="{x:Bind roomInfo, Mode=TwoWay}"/>
+            <controls1:BrowseMUCRoomsDetailsControl RoomInfo="{x:Bind roomInfo, Mode=TwoWay}" Client="{x:Bind client, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">

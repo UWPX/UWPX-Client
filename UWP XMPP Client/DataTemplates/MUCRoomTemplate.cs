@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using UWP_XMPP_Client.Classes;
+using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
@@ -8,38 +9,6 @@ namespace UWP_XMPP_Client.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _jid;
-        public string jid
-        {
-            get
-            {
-                return _jid;
-            }
-            set
-            {
-                if (value != _jid)
-                {
-                    _jid = value;
-                    onPropertyChanged("jid");
-                }
-            }
-        }
-        private string _name;
-        public string name
-        {
-            get
-            {
-                return _name;
-            }
-            set
-            {
-                if (value != _name)
-                {
-                    _name = value;
-                    onPropertyChanged("name");
-                }
-            }
-        }
         private MUCRoomInfo _roomInfo;
         public MUCRoomInfo roomInfo
         {
@@ -53,6 +22,22 @@ namespace UWP_XMPP_Client.DataTemplates
                 {
                     _roomInfo = value;
                     onPropertyChanged("roomInfo");
+                }
+            }
+        }
+        private XMPPClient _client;
+        public XMPPClient client
+        {
+            get
+            {
+                return _client;
+            }
+            set
+            {
+                if (value != _client)
+                {
+                    _client = value;
+                    onPropertyChanged("client");
                 }
             }
         }

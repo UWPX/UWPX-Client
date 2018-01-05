@@ -7,6 +7,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
@@ -148,9 +149,17 @@ namespace XMPP_API.Classes.Network.XML
                         if(typeAtt != null && Equals(typeAtt.InnerText, "result"))
                         {
                             // XEP-0030 (disco result #info):
-                            if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info") != null)
+                            XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
+                            if(qNode != null)
                             {
-                                messages.Add(new DiscoResponseMessage(n));
+                                if (XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data") != null)
+                                {
+                                    messages.Add(new ExtendedDiscoResponseMessage(n));
+                                }
+                                else
+                                {
+                                    messages.Add(new DiscoResponseMessage(n));
+                                }
                             }
                             // XEP-0030 (disco result #items):
                             else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items") != null)

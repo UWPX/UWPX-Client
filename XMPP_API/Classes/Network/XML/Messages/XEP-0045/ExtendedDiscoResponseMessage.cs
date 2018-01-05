@@ -1,23 +1,14 @@
-﻿using UWP_XMPP_Client.Classes;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System.Collections.Generic;
+using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
-namespace UWP_XMPP_Client.Controls
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public sealed partial class BrowseMUCRoomsMasterControl : UserControl
+    public class ExtendedDiscoResponseMessage : DiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCRoomInfo RoomInfo
-        {
-            get { return (MUCRoomInfo)GetValue(RoomInfoProperty); }
-            set
-            {
-                SetValue(RoomInfoProperty, value);
-                showRoom();
-            }
-        }
-        public static readonly DependencyProperty RoomInfoProperty = DependencyProperty.Register("RoomInfo", typeof(MUCRoomInfo), typeof(BrowseMUCRoomsDetailsControl), null);
+        public readonly List<DiscoField> FIELDS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,11 +17,29 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/01/2018 Created [Fabian Sauter]
+        /// 05/01/2018 Created [Fabian Sauter]
         /// </history>
-        public BrowseMUCRoomsMasterControl()
+        public ExtendedDiscoResponseMessage(XmlNode n) : base(n)
         {
-            this.InitializeComponent();
+            this.FIELDS = new List<DiscoField>();
+
+            XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
+            if (qNode != null)
+            {
+                XmlNode xNode = XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data");
+                if(xNode != null)
+                {
+                    foreach (XmlNode n1 in xNode.ChildNodes)
+                    {
+                        switch (n1.Name)
+                        {
+                            case "field":
+                                FIELDS.Add(new DiscoField(n1));
+                                break;
+                        }
+                    }
+                }
+            }
         }
 
         #endregion
@@ -46,22 +55,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showRoom()
-        {
-            if (RoomInfo != null)
-            {
-                if (string.IsNullOrEmpty(RoomInfo.name))
-                {
-                    name_tblck.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    name_tblck.Visibility = Visibility.Visible;
-                    name_tblck.Text = RoomInfo.name;
-                }
-                jid_tblck.Text = RoomInfo.jid ?? "";
-            }
-        }
+
 
         #endregion
 

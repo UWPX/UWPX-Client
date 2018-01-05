@@ -1,23 +1,11 @@
-﻿using UWP_XMPP_Client.Classes;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-
-namespace UWP_XMPP_Client.Controls
+﻿namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed partial class BrowseMUCRoomsMasterControl : UserControl
+    class MUCRoomDetailsTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCRoomInfo RoomInfo
-        {
-            get { return (MUCRoomInfo)GetValue(RoomInfoProperty); }
-            set
-            {
-                SetValue(RoomInfoProperty, value);
-                showRoom();
-            }
-        }
-        public static readonly DependencyProperty RoomInfoProperty = DependencyProperty.Register("RoomInfo", typeof(MUCRoomInfo), typeof(BrowseMUCRoomsDetailsControl), null);
+        public string label;
+        public string value;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,11 +14,11 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/01/2018 Created [Fabian Sauter]
+        /// 05/01/2018 Created [Fabian Sauter]
         /// </history>
-        public BrowseMUCRoomsMasterControl()
+        public MUCRoomDetailsTemplate()
         {
-            this.InitializeComponent();
+
         }
 
         #endregion
@@ -46,22 +34,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showRoom()
-        {
-            if (RoomInfo != null)
-            {
-                if (string.IsNullOrEmpty(RoomInfo.name))
-                {
-                    name_tblck.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    name_tblck.Visibility = Visibility.Visible;
-                    name_tblck.Text = RoomInfo.name;
-                }
-                jid_tblck.Text = RoomInfo.jid ?? "";
-            }
-        }
+
 
         #endregion
 

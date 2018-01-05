@@ -12,6 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         public readonly List<DiscoItem> ITEMS;
         public readonly StreamError ERROR_RESULT;
         public readonly DiscoType DISCO_TYPE;
+        public readonly bool isPartialList;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,6 +45,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
             {
                 DISCO_TYPE = DiscoType.INFO;
             }
+
+            // Load content:
             if (qNode != null)
             {
                 foreach (XmlNode n1 in qNode.ChildNodes)
@@ -62,12 +65,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
                         case "error":
                             ERROR_RESULT = new StreamError(n1);
                             break;
-                        default:
-                            break;
                     }
                 }
-                return;
+                isPartialList = doesNodeContainPartialList(qNode);
             }
+
         }
 
         #endregion
@@ -88,7 +90,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected bool doesNodeContainPartialList(XmlNode n)
+        {
+            return XMLUtils.getChildNode(n, "set", "xmlns", "http://jabber.org/protocol/rsm") != null;
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

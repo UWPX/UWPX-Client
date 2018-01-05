@@ -4,9 +4,33 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <DataTemplate x:Key="delatilsTemplate" x:DataType="datatemplates:MUCRoomDetailsTemplate">
+            <StackPanel Margin="0, 0, 0, 10">
+                <TextBlock Text="{x:Bind label}" FontSize="22" TextWrapping="Wrap" Margin="10, 0, 10, 0"/>
+                <TextBlock Text="{x:Bind value}" TextWrapping="Wrap" Margin="10, 0, 10, 0"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ItemsControl x:Name="details_itmc" Grid.Row="0" ItemsSource="{x:Bind details}" ItemTemplate="{StaticResource delatilsTemplate}"/>
 
+        <!--Loading Grid-->
+        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBlock Text="Loading..." FontSize="20" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Margin="10"/>
+                <TextBlock Text="(Timeout = 5 seconds)" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </UserControl>

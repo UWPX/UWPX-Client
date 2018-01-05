@@ -133,6 +133,9 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0030\IDiscoItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\BookmarksResultMessage.cs" />

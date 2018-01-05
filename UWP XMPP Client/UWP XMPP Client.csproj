@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplates\MUCRoomDetailsTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="Dialogs\AddMUCContentDialog.xaml.cs">
       <DependentUpon>AddMUCContentDialog.xaml</DependentUpon>
