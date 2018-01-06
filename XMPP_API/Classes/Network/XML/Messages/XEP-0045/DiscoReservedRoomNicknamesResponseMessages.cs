@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    class DiscoReservedRoomNicknamesResponseMessages : DiscoResponseMessage
+    public class DiscoReservedRoomNicknamesResponseMessages : DiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

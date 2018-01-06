@@ -173,7 +173,7 @@ namespace XMPP_API.Classes
         public async Task<string> createDiscoAsync(string target, DiscoType type)
         {
             XMPPAccount account = connection.account;
-            DiscoResponseMessage disco = new DiscoResponseMessage(account.getIdDomainAndResource(), target, type);
+            DiscoRequestMessage disco = new DiscoRequestMessage(account.getIdDomainAndResource(), target, type);
             await connection.sendAsync(disco, false);
             return disco.getId();
         }

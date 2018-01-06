@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
 {
-    class DiscoResponseMessage : IQMessage
+    public class DiscoRequestMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,7 +15,7 @@
         /// <history>
         /// 10/11/2017 Created [Fabian Sauter]
         /// </history>
-        public DiscoResponseMessage(string from, string to, DiscoType type) : base(from, to, GET, getRandomId(), getQuerryFromType(type))
+        public DiscoRequestMessage(string from, string to, DiscoType type) : base(from, to, GET, getRandomId(), getQuerryFromType(type))
         {
         }
 

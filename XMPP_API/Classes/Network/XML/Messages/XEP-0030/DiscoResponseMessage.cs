@@ -30,10 +30,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
             ITEMS = new List<DiscoItem>();
             ERROR_RESULT = null;
             XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
-            if(qNode == null)
+            if (qNode == null)
             {
                 qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items");
-                if(qNode == null)
+                if (qNode == null)
                 {
                     Logging.Logger.Warn("Invalid disco result message received! " + n.ToString().Replace('\n', ' '));
                     DISCO_TYPE = DiscoType.UNKNOWN;
