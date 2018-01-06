@@ -121,12 +121,12 @@ namespace XMPP_API.Classes.Network
         /// Sends the given message to the server or stores it until there is a connection to the server.
         /// </summary>
         /// <param name="msg">The message to send.</param>
-        /// <param name="ignoreConnectionState">Don't message if there is no connection to the server.</param>
-        public async Task sendAsync(AbstractMessage msg, bool ignoreConnectionState)
+        /// <param name="cacheIfNotConnected">Cache the message if the connection state does not equals 'CONNECTED', to ensure the message doesn't get lost.</param>
+        public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
         {
-            if (!ignoreConnectionState && state != ConnectionState.CONNECTED)
+            if (state != ConnectionState.CONNECTED)
             {
-                if (msg.shouldSaveUntilSend())
+                if (cacheIfNotConnected || msg.shouldSaveUntilSend())
                 {
                     MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
                 }
