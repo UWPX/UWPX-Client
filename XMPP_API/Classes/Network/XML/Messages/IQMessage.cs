@@ -56,7 +56,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             XElement node = new XElement("iq");
             node.Add(new XAttribute("type", TYPE));
@@ -73,7 +73,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 node.Add(XElement.Parse(QUERY));
             }
-            return node.ToString();
+            return node;
         }
 
         #endregion

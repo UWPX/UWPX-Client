@@ -126,7 +126,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             XElement node = new XElement("message");
             node.Add(new XAttribute("from", FROM));
@@ -135,7 +135,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             node.Add(new XAttribute("type", TYPE));
 
             node.Add(new XElement("body", MESSAGE));
-            if(delay != DateTime.MinValue)
+            if (delay != DateTime.MinValue)
             {
                 XElement delayNode = new XElement("delay");
                 DateTimeParserHelper parserHelper = new DateTimeParserHelper();
@@ -145,7 +145,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 delayNode.Add(new XAttribute("xmlns", "urn:xmpp:delay"));
                 node.Add(delay);
             }
-            return node.ToString();
+            return node;
         }
 
         public void addDelay()

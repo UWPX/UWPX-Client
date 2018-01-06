@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Xml.Linq;
+
 namespace XMPP_API.Classes.Network.XML.Messages.Features.TLS
 {
     class ProceedAnswerMessage : AbstractMessage
@@ -29,7 +31,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.TLS
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             throw new NotImplementedException();
         }

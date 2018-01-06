@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
     class ErrorMessage : AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
-        #region --Attributes--        
+        #region --Attributes--
         private readonly string TYPE;
 
         #endregion
@@ -37,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             throw new NotImplementedException();
         }

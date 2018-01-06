@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 
 namespace XMPP_API.Classes.Network.XML.Messages
@@ -40,9 +41,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
-            return STREAM_NODE.ToString();
+            throw new System.NotImplementedException();
         }
 
         public StreamFeaturesMessage getStreamFeaturesMessage(XmlNode node)
@@ -54,7 +55,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
 
         #region --Misc Methods (Private)--
-        
+
 
         #endregion
 

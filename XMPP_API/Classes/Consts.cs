@@ -1,5 +1,4 @@
-﻿
-namespace XMPP_API.Classes
+﻿namespace XMPP_API.Classes
 {
     class Consts
     {
@@ -12,12 +11,9 @@ namespace XMPP_API.Classes
         public static readonly string XML_STREAM_NAMESPACE = " xmlns:stream=\"http://etherx.jabber.org/streams\"";
         public static readonly string XML_STREAM_CLOSE = "</stream:stream>";
         public static readonly string XML_STREAM_ERROR_START = "<stream:error>";
-        public static readonly string XML_STREAM_ERROR_CLOSE = "</stream:error>";
         public static readonly string XML_STREAM_FEATURE_START = "<stream:features>";
-        public static readonly string XML_STREAM_FEATURE_CLOSE = "</stream:features>";
 
         public static readonly string XML_QUERY_ROOSTER = "<query xmlns=\"jabber:iq:roster\"/>";
-        public static readonly string XML_STARTTLS = "<starttls xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
 
         // Error:
         public static readonly string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
@@ -28,6 +24,8 @@ namespace XMPP_API.Classes
         public static readonly string XML_XEP_0085_NAMESPACE = "http://jabber.org/protocol/chatstates";
         // XEP-0357 (push notifications):
         public static readonly string XML_XEP_0357_NAMESPACE = "urn:xmpp:push:0";
+        // XEP-0045 (MUC):
+        public static readonly string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
 
 
         // XEP-0048 (bookmarks):

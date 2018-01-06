@@ -1,4 +1,6 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -53,6 +55,15 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public override string toXmlString()
         {
             return Consts.XML_STREAM_CLOSE;
+        }
+
+        /// <summary>
+        /// Not used in CloseStreamMessage.
+        /// Use toXmlString() instead.
+        /// </summary>
+        public override XElement toXElement()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion

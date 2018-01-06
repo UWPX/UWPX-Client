@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages
+﻿using System.Xml.Linq;
+
+namespace XMPP_API.Classes.Network.XML.Messages
 {
     class OpenStreamMessage : AbstractAddressableMessage
     {
@@ -29,7 +31,22 @@
         #region --Misc Methods (Public)--
         public override string toXmlString()
         {
-            return buildXElement();
+            string s = Consts.XML_HEADER + Consts.XML_STREAM_START;
+            s += " " + new XAttribute("from", FROM).ToString();
+            s += " " + new XAttribute("to", TO).ToString();
+            s += " " + new XAttribute("version", Consts.XML_VERSION).ToString();
+            s += " " + new XAttribute(XNamespace.Xml + "lang", Consts.XML_LANG).ToString();
+            s += Consts.XML_CLIENT + Consts.XML_STREAM_NAMESPACE + '>';
+            return s;
+        }
+
+        /// <summary>
+        /// Not used in OpenStreamMessage.
+        /// Use toXmlString() instead.
+        /// </summary>
+        public override XElement toXElement()
+        {
+            throw new System.NotImplementedException();
         }
 
         #endregion

@@ -81,10 +81,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             XElement node = new XElement("presence");
-            if(FROM != null)
+            if (FROM != null)
             {
                 node.Add(new XAttribute("from", FROM));
             }
@@ -108,7 +108,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 node.Add(new XElement("status", STATUS));
             }
-            return node.ToString();
+            return node;
         }
 
         #endregion

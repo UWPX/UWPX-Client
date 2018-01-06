@@ -63,7 +63,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             XElement node = new XElement("message");
             node.Add(new XAttribute("from", FROM));
@@ -95,7 +95,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
                     throw new Exception("Invalid chat state: " + STATE);
             }
             node.Add(sNode);
-            return node.ToString();
+            return node;
         }
 
         #endregion

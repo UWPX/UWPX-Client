@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Xml;
+using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features
@@ -56,7 +57,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             throw new NotImplementedException();
         }

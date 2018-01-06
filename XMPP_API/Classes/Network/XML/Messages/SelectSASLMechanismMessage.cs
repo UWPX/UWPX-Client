@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -36,7 +32,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override XElement toXElement()
+        {
+            XNamespace ns = "urn:ietf:params:xml:ns:xmpp-sasl";
+            XElement node = new XElement(ns + "auth");
+            node.Add(new XAttribute("mechanism", MECHANISM));
+            node.Value = VALUE;
+            return node;
+        }
 
         #endregion
 
@@ -54,9 +57,5 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
 
         #endregion
-        public override string toXmlString()
-        {
-            return "<auth xmlns='urn:ietf:params:xml:ns:xmpp-sasl' mechanism='" + MECHANISM + "'>"+ VALUE + "</auth>";
-        }
     }
 }

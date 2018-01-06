@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -34,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
             throw new NotImplementedException();
         }
@@ -54,6 +55,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Events--
 
 
-        #endregion       
+        #endregion
     }
 }

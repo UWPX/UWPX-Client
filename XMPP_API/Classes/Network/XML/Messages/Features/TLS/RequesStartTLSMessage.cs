@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.Features.TLS
+﻿using System.Xml.Linq;
+
+namespace XMPP_API.Classes.Network.XML.Messages.Features.TLS
 {
     class RequesStartTLSMessage : AbstractMessage
     {
@@ -27,9 +29,11 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string toXmlString()
+        public override XElement toXElement()
         {
-            return Consts.XML_STARTTLS;
+            XNamespace ns = "urn:ietf:params:xml:ns:xmpp-tls";
+            XElement node = new XElement(ns + "starttls");
+            return node;
         }
 
         #endregion
