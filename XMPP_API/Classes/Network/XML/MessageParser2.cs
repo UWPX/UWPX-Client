@@ -156,6 +156,11 @@ namespace XMPP_API.Classes.Network.XML
                                 {
                                     messages.Add(new ExtendedDiscoResponseMessage(n));
                                 }
+                                // XEP-0045 (MUC discovering reserved room Nicknames):
+                                else if (qNode.Attributes["node"] != null)
+                                {
+                                    messages.Add(new DiscoReservedRoomNicknamesResponseMessages(n));
+                                }
                                 else
                                 {
                                     messages.Add(new DiscoResponseMessage(n));

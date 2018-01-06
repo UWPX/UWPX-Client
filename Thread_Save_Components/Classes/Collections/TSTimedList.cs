@@ -53,6 +53,11 @@ namespace Thread_Save_Components.Classes.Collections
             return null;
         }
 
+        public bool isEmpty()
+        {
+            return LIST.Count <= 0;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

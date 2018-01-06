@@ -1,6 +1,10 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
+﻿using System;
+using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    class DiscoResponseMessage : IQMessage
+    class DiscoReservedRoomNicknamesMessages : DiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,33 +17,31 @@
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 10/11/2017 Created [Fabian Sauter]
+        /// 06/01/2018 Created [Fabian Sauter]
         /// </history>
-        public DiscoResponseMessage(string from, string to, DiscoType type) : base(from, to, GET, getRandomId(), getQuerryFromType(type))
+        public DiscoReservedRoomNicknamesMessages(string from, string to) : base(from, to, DiscoType.INFO)
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static string getQuerryFromType(DiscoType type)
-        {
-            switch (type)
-            {
-                case DiscoType.ITEMS:
-                    return "<query xmlns='http://jabber.org/protocol/disco#items'/>";
-                case DiscoType.INFO:
-                    return "<query xmlns='http://jabber.org/protocol/disco#info'/>";
-                default:
-                    Logging.Logger.Error("Unable to get disco query for type: " + type + ". Returning info query!");
-                    return "<query xmlns='http://jabber.org/protocol/disco#info'/>";
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override XElement toXElement()
+        {
+            XElement node = base.toXElement();
+            XElement qNode = node.Element("query");
+            if (qNode == null)
+            {
+                throw new InvalidOperationException("Node does not contain a 'query' node!");
+            }
+            qNode.Add(new XElement("node", "x-roomuser-item"));
+            return node;
+        }
 
         #endregion
 

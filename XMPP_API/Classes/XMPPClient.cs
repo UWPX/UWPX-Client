@@ -16,7 +16,6 @@ namespace XMPP_API.Classes
         #region --Attributes--
         private XMPPConnection connection;
 
-        public delegate void NewRoosterEventHandler(XMPPClient client, NewValidMessageEventArgs args);
         public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionStateChangedEventArgs args);
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
         public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceMessageEventArgs args);
@@ -24,8 +23,9 @@ namespace XMPP_API.Classes
         public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client,  NewBookmarksResultMessageEventArgs args);
+        public delegate void NewValidMessageEventHandler(XMPPClient client, NewValidMessageEventArgs args);
 
-        public event NewRoosterEventHandler NewRoosterMessage;
+        public event NewValidMessageEventHandler NewRoosterMessage;
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
         public event NewChatMessageEventHandler NewChatMessage;
         public event NewPresenceEventHandler NewPresence;
@@ -33,6 +33,7 @@ namespace XMPP_API.Classes
         public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
         public event MessageSendEventHandler MessageSend;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
+        public event NewValidMessageEventHandler NewValidMessage;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -111,6 +112,11 @@ namespace XMPP_API.Classes
             return sendMessgageMessage;
         }
 
+        public async Task sendMessageAsync(AbstractMessage msg, bool cacheIfNotConnected)
+        {
+            await connection.sendAsync(msg, cacheIfNotConnected);
+        }
+
         public XMPPAccount getXMPPAccount()
         {
             return connection.account;
@@ -167,7 +173,7 @@ namespace XMPP_API.Classes
         public async Task<string> createDiscoAsync(string target, DiscoType type)
         {
             XMPPAccount account = connection.account;
-            DiscoRequestMessage disco = new DiscoRequestMessage(account.getIdDomainAndResource(), target, type);
+            DiscoResponseMessage disco = new DiscoResponseMessage(account.getIdDomainAndResource(), target, type);
             await connection.sendAsync(disco, false);
             return disco.getId();
         }
@@ -226,6 +232,8 @@ namespace XMPP_API.Classes
             {
                 NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(msg as BookmarksResultMessage));
             }
+
+            NewValidMessage?.Invoke(this, args);
         }
 
         private void Connection_ConnectionNewPresenceMessage(XMPPConnection handler, NewValidMessageEventArgs args)
