@@ -67,7 +67,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             if(state == MUCJoinState.RECEIVED_RESERVED_NICKS)
             {
                 state = MUCJoinState.SEND_ENTER_ROOM;
-                EnterRoomRequestMessage msg = new EnterRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID, nick);
+                JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID, nick);
                 await sendMessageAsync(msg);
             }
         }

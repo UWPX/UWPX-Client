@@ -140,7 +140,15 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Presence:
                     case "presence":
-                        messages.Add(new PresenceMessage(n));
+                        XmlNode xNode = XMLUtils.getChildNode(n, "x", "xmlns", "http://jabber.org/protocol/muc#user");
+                        if(xNode != null)
+                        {
+                            messages.Add(new MUCPresenceMessage(n));
+                        }
+                        else
+                        {
+                            messages.Add(new PresenceMessage(n));
+                        }
                         break;
 
                     // IQ:

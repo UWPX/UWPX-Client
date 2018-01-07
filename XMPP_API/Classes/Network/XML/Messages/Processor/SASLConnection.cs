@@ -133,7 +133,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             state = SASLState.ERROR;
                             throw new InvalidOperationException("selectedMechanism == null");
                         }
-                        await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), true);
+                        await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), false, true);
                         state = SASLState.REQUESTED;
                     }
                     break;
@@ -143,7 +143,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     {
                         state = SASLState.CHALLENGING;
                         setMessageProcessed(args);
-                        await XMPP_CONNECTION.sendAsync(selectedMechanism.generateResponse(msg), true);
+                        await XMPP_CONNECTION.sendAsync(selectedMechanism.generateResponse(msg), false, true);
                     }
                     else if (msg is SASLSuccessMessage)
                     {

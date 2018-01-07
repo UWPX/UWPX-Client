@@ -81,7 +81,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             XElement node = new XElement(ns + "bind");
                             node.Add(new XElement("resource", sCC.user.resource));
                             string s = node.ToString();
-                            await XMPP_CONNECTION.sendAsync(new IQMessage(null, null, IQMessage.SET, id, node.ToString()), true);
+                            await XMPP_CONNECTION.sendAsync(new IQMessage(null, null, IQMessage.SET, id, node.ToString()), false, true);
                             state = RecourceBindingState.BINDING;
                         }
                     }
@@ -93,7 +93,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (iQM.getId().Equals(id))
                         {
                             setMessageProcessed(args);
-                            XMPP_CONNECTION.sendAsync(new StartSessionMessage(), true).Wait();
+                            XMPP_CONNECTION.sendAsync(new StartSessionMessage(), false, true).Wait();
                             state = RecourceBindingState.BOUND;
                             ResourceBound?.Invoke(this, new EventArgs());
                         }

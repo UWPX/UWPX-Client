@@ -122,32 +122,29 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="msg">The message to send.</param>
         /// <param name="cacheIfNotConnected">Cache the message if the connection state does not equals 'CONNECTED', to ensure the message doesn't get lost.</param>
-        public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
+        /// <param name="sendIfNotConnected">Sends the message if the underlaying TCP connection is connected to the server and ignores the connection state of the XMPPConnection.</param>
+        public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
         {
-            if (state != ConnectionState.CONNECTED)
+            if (state != ConnectionState.CONNECTED && (cacheIfNotConnected || msg.shouldSaveUntilSend()))
             {
-                if (cacheIfNotConnected || msg.shouldSaveUntilSend())
+                MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                Logger.Warn("Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
+                if (!sendIfNotConnected)
                 {
-                    MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
-                }
-                else
-                {
-                    Logger.Warn("Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
+                    return;
                 }
             }
-            else
-            {
-                if (msg is IQMessage && msg.getId() != null)
-                {
-                    messageIdCache.addTimed(msg.getId());
-                }
-                await tCPConnection.sendAsync(msg.toXmlString());
 
-                // Only trigger onMessageSend(...) for chat messages:
-                if (msg is MessageMessage)
-                {
-                    onMessageSend(msg.getId(), false);
-                }
+            if (msg is IQMessage && msg.getId() != null)
+            {
+                messageIdCache.addTimed(msg.getId());
+            }
+            await tCPConnection.sendAsync(msg.toXmlString());
+
+            // Only trigger onMessageSend(...) for chat messages:
+            if (msg is MessageMessage)
+            {
+                onMessageSend(msg.getId(), false);
             }
         }
 
@@ -197,7 +194,7 @@ namespace XMPP_API.Classes.Network
         protected async Task softRestartAsync()
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getIdAndDomain(), account.user.domain);
-            await sendAsync(openStreamMessage, true);
+            await sendAsync(openStreamMessage, false, true);
         }
 
         /// <summary>
@@ -386,7 +383,7 @@ namespace XMPP_API.Classes.Network
 
         private async void RecourceBindingConnection_ResourceBound(object sender, EventArgs e)
         {
-            await sendAsync(new PresenceMessage(account.presencePriorety), true);
+            await sendAsync(new PresenceMessage(account.presencePriorety), false, true);
             setState(ConnectionState.CONNECTED);
             await sendAllOutstandingMessagesAsync();
         }
