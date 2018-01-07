@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         public override XElement toXElement()
         {
             XElement node = base.toXElement();
-            XElement qNode = node.Element("query");
+            XElement qNode = XMLUtils.getNodeFromXElement(node, "query");
             if (qNode == null)
             {
                 throw new InvalidOperationException("Node does not contain a 'query' node!");

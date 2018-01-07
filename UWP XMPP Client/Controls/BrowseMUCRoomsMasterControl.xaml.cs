@@ -1,4 +1,5 @@
 ﻿using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -50,16 +51,8 @@ namespace UWP_XMPP_Client.Controls
         {
             if (RoomInfo != null)
             {
-                if (string.IsNullOrEmpty(RoomInfo.name))
-                {
-                    name_tblck.Visibility = Visibility.Collapsed;
-                }
-                else
-                {
-                    name_tblck.Visibility = Visibility.Visible;
-                    name_tblck.Text = RoomInfo.name;
-                }
                 jid_tblck.Text = RoomInfo.jid ?? "";
+                name_tblck.Text = RoomInfo.name ?? jid_tblck.Text;
             }
         }
 
@@ -71,7 +64,10 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void addRoom_btn_Click(object sender, RoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(ChatPage), new ShowAddMUCNavigationParameter(RoomInfo.jid));
+        }
 
         #endregion
     }

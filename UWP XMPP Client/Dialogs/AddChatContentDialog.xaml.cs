@@ -80,7 +80,7 @@ namespace UWP_XMPP_Client.Dialogs
                 };
                 await messageDialog.ShowAsync();
             }
-            else if (Utils.isValidJabberId(jabberId_tbx.Text))
+            else if (Utils.isJid(jabberId_tbx.Text))
             {
                 jabberId = jabberId_tbx.Text;
                 client = clients[account_cbx.SelectedIndex];

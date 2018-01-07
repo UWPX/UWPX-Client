@@ -34,14 +34,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
         #endregion
 
         #region --Misc Methods (Private)--
-        private static string generateQuery(string server)
+        private static XElement generateQuery(string server)
         {
             XNamespace ns = Consts.XML_XEP_0357_NAMESPACE;
             XElement n = new XElement(ns + "enable");
             n.Add(new XAttribute("jid", server));
             n.Add(new XAttribute("node", "yxs32uqsflafdk3iuqo"));
-
-            return n.ToString();
+            return n;
         }
 
         #endregion

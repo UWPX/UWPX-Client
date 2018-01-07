@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -23,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             loadItems();
         }
 
-        public RosterMessage(string from, string to) : base(from, to, GET, getRandomId(), Consts.XML_QUERY_ROOSTER)
+        public RosterMessage(string from, string to) : base(from, to, GET, getRandomId(), getRoosterQuery())
         {
         }
 
@@ -33,6 +34,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public ArrayList getItems()
         {
             return items;
+        }
+
+        private static XElement getRoosterQuery()
+        {
+            XNamespace ns = "jabber:iq:roster";
+            return new XElement(ns + "query");
         }
 
         #endregion

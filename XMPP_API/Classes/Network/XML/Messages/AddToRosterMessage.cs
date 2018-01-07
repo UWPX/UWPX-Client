@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
         }
 
-        public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns=\"jabber:iq:roster\">" + new XElement("item", new XAttribute("jid", target)).ToString() + "></query>")
+        public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), getAddToRoosterQuery(target))
         {
             this.cacheUntilSend = true;
         }
@@ -30,7 +30,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private static XElement getAddToRoosterQuery(string target)
+        {
+            XNamespace ns = "jabber:iq:roster";
+            XElement node = new XElement(ns + "query");
+            node.Add(new XElement("item", new XAttribute("jid", target)));
+            return node;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

@@ -106,6 +106,7 @@
     <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\MUCRoomInfo.cs" />
+    <Compile Include="Classes\ShowAddMUCNavigationParameter.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Controls\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>

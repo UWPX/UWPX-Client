@@ -23,8 +23,8 @@ namespace XMPP_API.Classes.Network.Events
         public NewChatStateEventArgs(ChatStateMessage message)
         {
             this.STATE = message.getState();
-            this.FROM = Utils.removeResourceFromJabberid(message.getFrom());
-            this.TO = Utils.removeResourceFromJabberid(message.getTo());
+            this.FROM = Utils.getBareJidFromFullJid(message.getFrom());
+            this.TO = Utils.getBareJidFromFullJid(message.getTo());
         }
 
         #endregion

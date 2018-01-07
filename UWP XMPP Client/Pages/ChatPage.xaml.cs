@@ -182,6 +182,13 @@ namespace UWP_XMPP_Client.Pages
 
             loading_grid.Visibility = Visibility.Collapsed;
             main_grid.Visibility = Visibility.Visible;
+
+            if (e.Parameter is ShowAddMUCNavigationParameter)
+            {
+                ShowAddMUCNavigationParameter parameter = e.Parameter as ShowAddMUCNavigationParameter;
+                AddMUCContentDialog dialog = new AddMUCContentDialog(parameter.ROOM_JID);
+                await dialog.ShowAsync();
+            }
         }
 
         private void ChatPage2_BackRequested(object sender, BackRequestedEventArgs e)

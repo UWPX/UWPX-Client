@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages
+﻿using System.Xml.Linq;
+
+namespace XMPP_API.Classes.Network.XML.Messages
 {
     class StartSessionMessage : IQMessage
     {
@@ -15,14 +17,18 @@
         /// <history>
         /// 25/08/2017 Created [Fabian Sauter]
         /// </history>
-        public StartSessionMessage() : base(null, null, IQMessage.SET, getRandomId(), "<session xmlns='urn:ietf:params:xml:ns:xmpp-session'/>")
+        public StartSessionMessage() : base(null, null, IQMessage.SET, getRandomId(), getStartSessionQuery())
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private static XElement getStartSessionQuery()
+        {
+            XNamespace ns = "urn:ietf:params:xml:ns:xmpp-session";
+            return new XElement(ns + "session");
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

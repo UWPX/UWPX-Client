@@ -6,8 +6,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <TextBlock x:Name="name_tblck" TextTrimming="CharacterEllipsis"/>
-        <TextBlock x:Name="jid_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" MaxLines="1"/>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBlock x:Name="name_tblck" TextTrimming="CharacterEllipsis"/>
+            <TextBlock x:Name="jid_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" MaxLines="1"/>
+        </StackPanel>
+        <Button x:Name="addRoom_btn" Grid.Column="1" Content="Add" VerticalAlignment="Center" Margin="10, 0, 10, 0" Click="addRoom_btn_Click"/>
+    </Grid>
 </UserControl>

@@ -62,14 +62,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             }
         }
 
-        public async Task enterRoomAsync(string nick)
+        public async Task enterRoomAsync(string nick, string roomPassword)
         {
-            if(state == MUCJoinState.RECEIVED_RESERVED_NICKS)
+            if (state == MUCJoinState.RECEIVED_RESERVED_NICKS)
             {
                 state = MUCJoinState.SEND_ENTER_ROOM;
                 JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID, nick);
                 await sendMessageAsync(msg);
             }
+        }
+
+        public async Task enterRoomAsync(string nick)
+        {
+            await enterRoomAsync(nick, null);
         }
 
         #endregion
@@ -102,6 +107,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                     {
                         state = MUCJoinState.RECEIVED_RESERVED_NICKS;
                         DiscoReservedRoomNicknamesResponseMessages result = msg as DiscoReservedRoomNicknamesResponseMessages;
+                    }
+                    else if(msg is IQMessage)
+                    {
+                        IQMessage iq = msg as IQMessage;
+                        if (iq.getMessageType().Equals(IQMessage.ERROR))
+                        {
+                            state = MUCJoinState.RECEIVED_RESERVED_NICKS;
+                        }
                     }
                     break;
                 case MUCJoinState.SEND_ENTER_ROOM:

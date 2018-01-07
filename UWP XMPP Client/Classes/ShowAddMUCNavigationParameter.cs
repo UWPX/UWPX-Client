@@ -1,13 +1,10 @@
-﻿using System.Xml;
-using System.Xml.Linq;
-
-namespace XMPP_API.Classes.Network.XML.Messages
+﻿namespace UWP_XMPP_Client.Classes
 {
-    public class RequestvCardMessage : IQMessage
+    class ShowAddMUCNavigationParameter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly string ROOM_JID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,24 +13,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/09/2017 Created [Fabian Sauter]
+        /// 07/01/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestvCardMessage(string target, string from) : base(from, target, IQMessage.GET, getRandomId(), getVCardQuery())
+        public ShowAddMUCNavigationParameter(string roomJid)
         {
-        }
-
-        public RequestvCardMessage(XmlNode answer) : base(answer)
-        {
+            this.ROOM_JID = roomJid;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getVCardQuery()
-        {
-            XNamespace ns = "vcard-temp";
-            return new XElement(ns + "query");
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

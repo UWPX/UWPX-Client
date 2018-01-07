@@ -1,4 +1,7 @@
-﻿using System.Xml;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -26,6 +29,29 @@ namespace XMPP_API.Classes.Network.XML
         public static XmlNode getChildNode(XmlNode node, string name)
         {
             return getChildNode(node, name, null, null);
+        }
+
+        /// <summary>
+        /// Tries to find the given node by its name in the given XElement.
+        /// Returns null, if nothing found.
+        /// </summary>
+        /// <param name="node">The node, containing the node.</param>
+        /// <param name="name">The node name.</param>
+        /// <returns>Returns null if node does not exist, else the node.</returns>
+        public static XElement getNodeFromXElement(XElement node, string name)
+        {
+            if(node != null)
+            {
+                IEnumerable<XElement> nodes = node.Elements();
+                foreach (XElement n in node.Elements())
+                {
+                    if (n.Name.LocalName.Equals(name))
+                    {
+                        return n;
+                    }
+                }
+            }
+            return null;
         }
 
         /// <summary>

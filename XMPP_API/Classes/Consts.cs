@@ -13,8 +13,6 @@
         public static readonly string XML_STREAM_ERROR_START = "<stream:error>";
         public static readonly string XML_STREAM_FEATURE_START = "<stream:features>";
 
-        public static readonly string XML_QUERY_ROOSTER = "<query xmlns=\"jabber:iq:roster\"/>";
-
         // Error:
         public static readonly string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
 
@@ -26,10 +24,6 @@
         public static readonly string XML_XEP_0357_NAMESPACE = "urn:xmpp:push:0";
         // XEP-0045 (MUC):
         public static readonly string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
-
-
-        // XEP-0048 (bookmarks):
-        public static readonly string XML_XEP_0048_1_0_BOOKMARKS_REQUEST = "<query xmlns='jabber:iq:private'><storage xmlns='storage:bookmarks'/></query>";
 
         public static readonly bool ENABLE_DEBUG_OUTPUT = true;
     }

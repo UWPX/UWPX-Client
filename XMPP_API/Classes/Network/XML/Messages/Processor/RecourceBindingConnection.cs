@@ -81,7 +81,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             XElement node = new XElement(ns + "bind");
                             node.Add(new XElement("resource", sCC.user.resource));
                             string s = node.ToString();
-                            await XMPP_CONNECTION.sendAsync(new IQMessage(null, null, IQMessage.SET, id, node.ToString()), false, true);
+                            await XMPP_CONNECTION.sendAsync(new IQMessage(null, null, IQMessage.SET, id, node), false, true);
                             state = RecourceBindingState.BINDING;
                         }
                     }

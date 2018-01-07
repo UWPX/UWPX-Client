@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
         }
 
-        public RemoveFromRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), "<query xmlns='jabber:iq:roster'>" + new XElement("item", new XAttribute("jid", target), new XAttribute("subscription", "remove")).ToString() + "</query>")
+        public RemoveFromRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), getRemoveFromRoosterQuery(target))
         {
             this.cacheUntilSend = true;
         }
@@ -30,7 +30,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private static XElement getRemoveFromRoosterQuery(string target)
+        {
+            XNamespace ns = "jabber:iq:roster";
+            XElement node = new XElement(ns + "query");
+            node.Add(new XElement("item", new XAttribute("jid", target), new XAttribute("subscription", "remove")));
+            return node;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

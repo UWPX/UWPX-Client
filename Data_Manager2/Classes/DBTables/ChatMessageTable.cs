@@ -59,7 +59,7 @@ namespace Data_Manager2.Classes.DBTables
             this.chatId = chat.id;
             this.type = msg.getType();
             this.message = msg.getMessage();
-            this.fromUser = Utils.removeResourceFromJabberid(msg.getFrom());
+            this.fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
             this.date = msg.getDelay();
             if (this.date == null || this.date.Equals(DateTime.MinValue))
             {

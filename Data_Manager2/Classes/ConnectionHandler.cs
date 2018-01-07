@@ -189,7 +189,7 @@ namespace Data_Manager2.Classes
 
         private void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
         {
-            string from = Utils.removeResourceFromJabberid(args.getFrom());
+            string from = Utils.getBareJidFromFullJid(args.getFrom());
 
             // If received a presence message from your own account return
             if (string.Equals(from, client.getXMPPAccount().getIdAndDomain()))
@@ -314,8 +314,8 @@ namespace Data_Manager2.Classes
         private void C_NewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
         {
             MessageMessage msg = args.getMessage();
-            string to = Utils.removeResourceFromJabberid(msg.getTo());
-            string from = Utils.removeResourceFromJabberid(msg.getFrom());
+            string to = Utils.getBareJidFromFullJid(msg.getTo());
+            string from = Utils.getBareJidFromFullJid(msg.getFrom());
             string id = ChatTable.generateId(from, to);
             ChatTable chat = ChatManager.INSTANCE.getChat(id);
             if (chat == null)

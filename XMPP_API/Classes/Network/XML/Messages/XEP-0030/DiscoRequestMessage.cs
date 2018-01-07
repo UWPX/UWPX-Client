@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
+﻿using System.Xml.Linq;
+
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
 {
     public class DiscoRequestMessage : IQMessage
     {
@@ -22,18 +24,23 @@
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static string getQuerryFromType(DiscoType type)
+        private static XElement getQuerryFromType(DiscoType type)
         {
+            XNamespace ns;
             switch (type)
             {
                 case DiscoType.ITEMS:
-                    return "<query xmlns='http://jabber.org/protocol/disco#items'/>";
+                    ns = "http://jabber.org/protocol/disco#items";
+                    break;
                 case DiscoType.INFO:
-                    return "<query xmlns='http://jabber.org/protocol/disco#info'/>";
+                    ns = "http://jabber.org/protocol/disco#info";
+                    break;
                 default:
                     Logging.Logger.Error("Unable to get disco query for type: " + type + ". Returning info query!");
-                    return "<query xmlns='http://jabber.org/protocol/disco#info'/>";
+                    ns = "http://jabber.org/protocol/disco#info";
+                    break;
             }
+            return new XElement(ns + "query");
         }
 
         #endregion
