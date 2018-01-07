@@ -13,7 +13,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
-            <StackPanel x:Name="addMUC_stckpnl" Grid.Row="0">
+            <StackPanel x:Name="addMUC_stckpnl">
                 <ComboBox x:Name="account_cbx"
                           HorizontalAlignment="Stretch"
                           Header="Select account:"

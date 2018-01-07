@@ -256,6 +256,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             if(account_cbx.SelectedIndex >= 0)
             {
+                nick_tbx.Text = Utils.getUserFromBareJid(accounts[account_cbx.SelectedIndex]);
                 accountNotConnected_tblck.Visibility = clients[account_cbx.SelectedIndex].isConnected() ? Visibility.Collapsed : Visibility.Visible;
             }
         }
