@@ -35,7 +35,7 @@ Data_Manager2.Classes.DBManager.ImageManager.<>c__DisplayClass9_0.<<contiuneAllD
 
 ## Accounts:
 XMPP accounts you add, get stored in a local [SQLite database](https://www.sqlite.org/).<br>
-The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault).
+The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault) ([implementation](https://github.com/UWPX/UWPX-Client/blob/166ab39682868fd3b397890003a437abc21be0bc/Data_Manager2/Classes/Vault.cs)).
 
 ## Picture library:
 The App accesses your picture library to store downloaded images.<br>
