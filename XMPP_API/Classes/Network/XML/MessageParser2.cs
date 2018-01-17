@@ -143,7 +143,7 @@ namespace XMPP_API.Classes.Network.XML
                         XmlNode xNode = XMLUtils.getChildNode(n, "x", "xmlns", "http://jabber.org/protocol/muc#user");
                         if(xNode != null)
                         {
-                            messages.Add(new MUCPresenceMessage(n));
+                            messages.Add(new MUCMemberPresenceMessage(n));
                         }
                         else
                         {

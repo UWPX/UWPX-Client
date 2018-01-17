@@ -100,20 +100,34 @@ namespace UWP_XMPP_Client.Dialogs
                 XMPPClient c = clients[account_cbx.SelectedIndex];
 
                 string roomJid = roomName_tbx.Text + '@' + servers[server_cbx.SelectedIndex];
-                MUCJoinHelper helper = c.getNewMUCJoinHelper(roomJid);
 
-                // Request reserved nick names:
-                await helper.requestReservedNicksAsync();
+                ChatTable muc = new ChatTable()
+                {
+                    id = ChatTable.generateId(roomJid, c.getXMPPAccount().getIdAndDomain()),
+                    ask = null,
+                    chatJabberId = roomJid,
+                    userAccountId = c.getXMPPAccount().getIdAndDomain(),
+                    chatType = ChatType.MUC,
+                    inRoster = (bool)remember_cbx.IsChecked,
+                    muted = false,
+                    lastActive = DateTime.Now,
+                    subscription = "none"
+                };
+                ChatManager.INSTANCE.setChat(muc, false, true);
 
-                // Join room:
+                MUCChatInfoTable info = new MUCChatInfoTable()
+                {
+                    chatId = muc.id,
+                    description = null,
+                    entered = false,
+                    name = null,
+                    password = null
+                };
                 if ((bool)enablePassword_cbx.IsChecked)
                 {
-                    await helper.enterRoomAsync(nick_tbx.Text, password_pwb.Password);
+                    info.password = password_pwb.Password;
                 }
-                else
-                {
-                    await helper.enterRoomAsync(nick_tbx.Text);
-                }
+                ChatManager.INSTANCE.setMUCChatInfo(info, false, true);
             }
         }
 

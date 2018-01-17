@@ -98,8 +98,56 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null && Client != null)
             {
-                // Chat jabber id:
-                name_tblck.Text = string.IsNullOrWhiteSpace(Chat.chatName) ? Chat.chatJabberId : Chat.chatName;
+                if (Chat.chatType == Data_Manager2.Classes.ChatType.MUC)
+                {
+                    MUCChatInfoTable mucInfo = ChatManager.INSTANCE.getMUCInfo(Chat);
+                    if (mucInfo != null)
+                    {
+                        // Chat jabber id:
+                        name_tblck.Text = string.IsNullOrWhiteSpace(mucInfo.name) ? Chat.chatJabberId : mucInfo.name;
+                    }
+                }
+                else
+                {
+                    // Chat jabber id:
+                    name_tblck.Text = Chat.chatJabberId;
+
+                    // Subscription state:
+                    accountAction_grid.Visibility = Visibility.Collapsed;
+                    requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                    cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                    rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                    cancelPresenceSubscriptionRequest.Visibility = Visibility.Collapsed;
+
+                    switch (Chat.subscription)
+                    {
+                        case "to":
+                            cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            break;
+                        case "both":
+                            cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            break;
+                        case "pending":
+                            cancelPresenceSubscriptionRequest.Visibility = Visibility.Visible;
+                            break;
+                        case "subscribe":
+                            showPresenceSubscriptionRequest();
+                            break;
+                        case "unsubscribe":
+                            requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            showRemovedChat();
+                            break;
+                        case "from":
+                            requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            break;
+                        case "none":
+                        default:
+                            requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            break;
+                    }
+                }
 
                 // Last action date:
                 if (Chat.lastActive != null)
@@ -125,42 +173,6 @@ namespace UWP_XMPP_Client.Controls
                 // Status icons:
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
                 inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
-
-                // Subscription state:
-                accountAction_grid.Visibility = Visibility.Collapsed;
-                requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                cancelPresenceSubscriptionRequest.Visibility = Visibility.Collapsed;
-
-                switch (Chat.subscription)
-                {
-                    case "to":
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        break;
-                    case "both":
-                        cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        break;
-                    case "pending":
-                        cancelPresenceSubscriptionRequest.Visibility = Visibility.Visible;
-                        break;
-                    case "subscribe":
-                        showPresenceSubscriptionRequest();
-                        break;
-                    case "unsubscribe":
-                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        showRemovedChat();
-                        break;
-                    case "from":
-                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        break;
-                    case "none":
-                    default:
-                        requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                        break;
-                }
 
                 // Chat status:
                 image_aciwp.Presence = Chat.presence;
@@ -269,9 +281,21 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            Grid grid = (Grid)sender;
-            menuFlyout.ShowAt(grid, e.GetPosition(grid));
-            var a = ((FrameworkElement)e.OriginalSource).DataContext;
+            if (Chat != null)
+            {
+                Grid grid = (Grid)sender;
+                switch (Chat.chatType)
+                {
+                    case Data_Manager2.Classes.ChatType.CHAT:
+                        chat_mfo.ShowAt(grid, e.GetPosition(grid));
+                        break;
+                    case Data_Manager2.Classes.ChatType.MUC:
+                        muc_mfo.ShowAt(grid, e.GetPosition(grid));
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         private void mute_tmfo_Click(object sender, RoutedEventArgs e)

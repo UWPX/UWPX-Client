@@ -1,6 +1,7 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Events;
 using Data_Manager2.Classes.DBTables;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
@@ -43,6 +44,16 @@ namespace Data_Manager2.Classes.DBManager
             return getChat(id) != null;
         }
 
+        public MUCChatInfoTable getMUCInfo(ChatTable chat)
+        {
+            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>("SELECT * FROM MUCChatInfoTable WHERE chatId = ?;", chat.id);
+            if(list != null && list.Count > 0)
+            {
+                return list[0];
+            }
+            return null;
+        }
+
         public IList<ChatMessageTable> getAllChatMessagesForChat(ChatTable chat)
         {
             return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chat.id);
@@ -76,6 +87,25 @@ namespace Data_Manager2.Classes.DBManager
                 if (triggerChatChanged)
                 {
                     ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, delete));
+                }
+            }
+        }
+
+        public void setMUCChatInfo(MUCChatInfoTable info, bool delete, bool triggerMUCChanged)
+        {
+            if(info != null)
+            {
+                if (delete)
+                {
+                    dB.Delete(info);
+                }
+                else
+                {
+                    update(info);
+                }
+                if (triggerMUCChanged)
+                {
+                    // TODO add MUC changed event
                 }
             }
         }
@@ -203,12 +233,16 @@ namespace Data_Manager2.Classes.DBManager
         {
             dB.CreateTable<ChatTable>();
             dB.CreateTable<ChatMessageTable>();
+            dB.CreateTable<MUCChatInfoTable>();
+            dB.CreateTable<MUCMemberTable>();
         }
 
         protected override void dropTables()
         {
             dB.DropTable<ChatTable>();
             dB.DropTable<ChatMessageTable>();
+            dB.DropTable<MUCChatInfoTable>();
+            dB.DropTable<MUCMemberTable>();
         }
 
         #endregion

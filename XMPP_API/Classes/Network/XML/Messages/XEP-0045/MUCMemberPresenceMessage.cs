@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    class MUCPresenceMessage : PresenceMessage
+    class MUCMemberPresenceMessage : PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// <history>
         /// 07/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCPresenceMessage(XmlNode node) : base(node)
+        public MUCMemberPresenceMessage(XmlNode node) : base(node)
         {
             XmlNode xNode = XMLUtils.getChildNode(node, "x", "xmlns", "http://jabber.org/protocol/muc#user");
             if (xNode != null)

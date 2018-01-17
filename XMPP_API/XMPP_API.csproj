@@ -126,6 +126,7 @@
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
+    <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
@@ -139,9 +140,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCJoinHelper.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCJoinState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\RequestBookmarksMessage.cs" />

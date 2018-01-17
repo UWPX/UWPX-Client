@@ -2,10 +2,13 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 // https://xmpp.org/extensions/xep-0045.html
 // 7.2.2 Basic MUC Protocol
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace Data_Manager2.Classes
 {
     public class MUCJoinHelper
     {
@@ -22,10 +25,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </summary>
         public readonly string ROOM_JID;
         public readonly XMPPClient CLIENT;
-        public MUCJoinState state;
 
-        private Timer timer;
-        private TSTimedList<string> messageIdCache;
+        private TSTimedList<MessageResponseHelper> messageResponseHelpers;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -39,8 +40,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         {
             this.ROOM_JID = roomJid;
             this.CLIENT = client;
-            this.messageIdCache = new TSTimedList<string>();
-            this.state = MUCJoinState.NOT_STARTED;
+            this.messageResponseHelpers = new TSTimedList<MessageResponseHelper>();
+            this.messageResponseHelpers.itemTimeoutInMs = messageTimeout * 2;
         }
 
         #endregion
@@ -53,23 +54,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         #region --Misc Methods (Public)--
         public async Task requestReservedNicksAsync()
         {
-            if(state == MUCJoinState.NOT_STARTED)
+            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID);
+            await CLIENT.sendMessageAsync(msg, false);
+            MessageResponseHelper helper = new MessageResponseHelper(CLIENT, null, null)
             {
-                state = MUCJoinState.SEND_REQUESTING_RESERVED_NICKS;
-                DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID);
-                await CLIENT.sendMessageAsync(msg, false);
-                startTimer();
-            }
+                timeout = messageTimeout
+            };
         }
 
         public async Task enterRoomAsync(string nick, string roomPassword)
         {
-            if (state == MUCJoinState.RECEIVED_RESERVED_NICKS)
-            {
-                state = MUCJoinState.SEND_ENTER_ROOM;
-                JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID, nick);
-                await sendMessageAsync(msg);
-            }
+            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID, nick);
+            await sendMessageAsync(msg);
         }
 
         public async Task enterRoomAsync(string nick)
@@ -77,48 +73,31 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             await enterRoomAsync(nick, null);
         }
 
+        public void addChatToList()
+        {
+
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
-        private void stopTimer()
-        {
-            timer?.Dispose();
-        }
-
-        private void startTimer()
-        {
-
-        }
-
         private async Task sendMessageAsync(AbstractMessage msg)
         {
             CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
             CLIENT.NewValidMessage += CLIENT_NewValidMessage;
             await CLIENT.sendMessageAsync(msg, false);
-            startTimer();
+            //startTimer();
         }
 
         private void processMessage(AbstractMessage msg)
         {
-            switch (state)
+            if (msg is DiscoReservedRoomNicknamesResponseMessages)
             {
-                case MUCJoinState.SEND_REQUESTING_RESERVED_NICKS:
-                    if(msg is DiscoReservedRoomNicknamesResponseMessages)
-                    {
-                        state = MUCJoinState.RECEIVED_RESERVED_NICKS;
-                        DiscoReservedRoomNicknamesResponseMessages result = msg as DiscoReservedRoomNicknamesResponseMessages;
-                    }
-                    else if(msg is IQMessage)
-                    {
-                        IQMessage iq = msg as IQMessage;
-                        if (iq.getMessageType().Equals(IQMessage.ERROR))
-                        {
-                            state = MUCJoinState.RECEIVED_RESERVED_NICKS;
-                        }
-                    }
-                    break;
-                case MUCJoinState.SEND_ENTER_ROOM:
-                    break;
+                DiscoReservedRoomNicknamesResponseMessages result = msg as DiscoReservedRoomNicknamesResponseMessages;
+            }
+            else if (msg is IQMessage)
+            {
+                IQMessage iq = msg as IQMessage;
             }
         }
 
@@ -130,9 +109,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void CLIENT_NewValidMessage(XMPPClient client, Events.NewValidMessageEventArgs args)
+        private void CLIENT_NewValidMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
         {
-            if (messageIdCache.getTimed(args.getMessage().getId()) != null)
+            /*if (messageIdCache.getTimed(args.getMessage().getId()) != null)
             {
                 // Process the received message in a new task:
                 Task.Factory.StartNew(() => processMessage(args.getMessage()));
@@ -141,7 +120,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                 {
                     CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
                 }
-            }
+            }*/
         }
 
         #endregion

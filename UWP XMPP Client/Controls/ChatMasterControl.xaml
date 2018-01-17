@@ -9,7 +9,7 @@
 
     <Grid Margin="0, 5, 0, 5" RightTapped="Grid_RightTapped">
         <Grid.Resources>
-            <MenuFlyout x:Name="menuFlyout">
+            <MenuFlyout x:Name="chat_mfo">
                 <MenuFlyout.Items>
                     <MenuFlyoutSubItem Text="Presence subscription">
                         <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click"/>
@@ -26,6 +26,10 @@
                     <MenuFlyoutSeparator/>
                     <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile"/>
                 </MenuFlyout.Items>
+            </MenuFlyout>
+
+            <MenuFlyout x:Name="muc_mfo">
+
             </MenuFlyout>
         </Grid.Resources>
 

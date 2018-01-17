@@ -5,7 +5,6 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
@@ -78,11 +77,6 @@ namespace XMPP_API.Classes
         public ConnectionState getConnetionState()
         {
             return connection.state;
-        }
-
-        public MUCJoinHelper getNewMUCJoinHelper(string roomJid)
-        {
-            return new MUCJoinHelper(this, roomJid);
         }
 
         #endregion

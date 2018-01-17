@@ -8,20 +8,21 @@ namespace Data_Manager2.Classes.DBTables
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        // A hash value from userAccountId and
         [PrimaryKey]
+        // Generated in generateId()
         public string id { get; set; }
-        // userId@domain or chatId@domain
         [NotNull]
+        // The JID of the chat/room e.g. 'coven@chat.shakespeare.lit'
         public string chatJabberId { get; set; }
         [NotNull]
+        // The user account id (bare JID) e.g. 'wiccarocks@shakespeare.lit'
         public string userAccountId { get; set; }
         // Last new message
         public DateTime lastActive { get; set; }
         // Chat muted yes or no
         public bool muted { get; set; }
         public string subscription { get; set; }
-        // A part of your personal roster
+        // A part of your personal roster/rooster-subscription-list
         public bool inRoster { get; set; }
         // Subscription request status
         public string ask { get; set; }
@@ -29,13 +30,12 @@ namespace Data_Manager2.Classes.DBTables
         public string status { get; set; }
         // online, dnd, xa, ...
         public Presence presence { get; set; }
-        // The state of the chat (XEP-0083) - only interesting dunging app runtime
         [Ignore]
+        // The state of the chat (XEP-0083) - only interesting during runtime
         public string chatState { get; set; }
+        [NotNull]
         // The type of the chat e.g. MUC/MIX/...
         public ChatType chatType { get; set; }
-        // The name of the chat. Used for MUCs
-        public string chatName { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -58,9 +58,9 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string jabberID, string userAccountID)
+        public static string generateId(string chatJabberId, string userAccountId)
         {
-            return jabberID + userAccountID;
+            return chatJabberId + '_' + userAccountId;
         }
 
         public ChatTable clone()

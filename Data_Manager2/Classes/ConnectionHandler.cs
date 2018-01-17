@@ -124,6 +124,15 @@ namespace Data_Manager2.Classes
             });
         }
 
+        public void enterMUC(ChatTable chat, MUCChatInfoTable info, XMPPClient client)
+        {
+            Task.Factory.StartNew(async () => {
+                MUCJoinHelper helper = new MUCJoinHelper(client, chat.chatJabberId);
+                await helper.requestReservedNicksAsync();
+                await helper.enterRoomAsync(info.nickname);
+            });
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -285,8 +294,7 @@ namespace Data_Manager2.Classes
                             muted = false,
                             inRoster = true,
                             ask = item.getAsk(),
-                            chatType = ChatType.CHAT,
-                            chatName = null
+                            chatType = ChatType.CHAT
                         };
                     }
                     else
@@ -333,7 +341,6 @@ namespace Data_Manager2.Classes
                     status = null,
                     subscription = null,
                     chatType = Equals(msg.getType(), MessageMessage.TYPE_CHAT) ? ChatType.MUC : ChatType.CHAT,
-                    chatName = null
                 };
                 ChatManager.INSTANCE.setChat(chat, false, true);
             }
@@ -416,11 +423,10 @@ namespace Data_Manager2.Classes
                         lastActive = DateTime.Now,
                         muted = false,
                         status = null,
-                        subscription = null,
+                        subscription = null
                     };
                 }
                 chat.chatType = ChatType.MUC;
-                chat.chatName = c.NAME;
                 chat.inRoster = true;
                 chat.presence = Presence.Unavailable;
 
