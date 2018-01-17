@@ -106,6 +106,11 @@ namespace UWP_XMPP_Client.Controls
                         // Chat jabber id:
                         name_tblck.Text = string.IsNullOrWhiteSpace(mucInfo.name) ? Chat.chatJabberId : mucInfo.name;
                     }
+                    else
+                    {
+                        // Chat jabber id:
+                        name_tblck.Text = Chat.chatJabberId;
+                    }
                 }
                 else
                 {
