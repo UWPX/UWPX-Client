@@ -26,6 +26,7 @@ namespace XMPP_API.Classes.Network.TCP
         private HostName hostName;
         private StreamWriter writer;
         private StreamReader reader;
+        private static readonly SemaphoreSlim writeSema = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Used to cancel connectAsync().
@@ -177,8 +178,18 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 throw new InvalidOperationException("[TCPConnection]: Unable to send message! ConnectionState != Connected! state = " + state);
             }
-            await writer.WriteLineAsync(msg);
-            await writer.FlushAsync();
+
+            await writeSema.WaitAsync();
+            try
+            {
+                await writer.WriteLineAsync(msg);
+                await writer.FlushAsync();
+            }
+            finally
+            {
+                writeSema.Release();
+            }
+
             if (Consts.ENABLE_DEBUG_OUTPUT)
             {
                 Logger.Info("Send to (" + account.serverAddress + "):" + msg);
@@ -345,7 +356,7 @@ namespace XMPP_API.Classes.Network.TCP
                 // Cut the read string and remove everything starting from the first "\0":
                 result += new string(buffer).Substring(0, l);
 
-            // Is data left to read?
+                // Is data left to read?
             } while (reader.Peek() >= 0 && l >= 0);
             return result;
         }
