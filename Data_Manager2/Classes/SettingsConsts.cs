@@ -14,5 +14,10 @@
 
         public static readonly string PUSH_CHANNEL_TOKEN_URL = "push_channel_token_url";
         public static readonly string PUSH_CHANNEL_SEND_SUCCESS = "push_channel_send_success";
+
+        public static readonly string VERSION_MAJOR = "version_major";
+        public static readonly string VERSION_MINOR = "version_minor";
+        public static readonly string VERSION_BUILD = "version_build";
+        public static readonly string VERSION_REVISION = "version_revision";
     }
 }

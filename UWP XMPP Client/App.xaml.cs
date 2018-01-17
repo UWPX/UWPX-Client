@@ -12,18 +12,11 @@ using Data_Manager2.Classes.DBManager;
 
 namespace UWP_XMPP_Client
 {
-    /// <summary>
-    /// Stellt das anwendungsspezifische Verhalten bereit, um die Standardanwendungsklasse zu ergänzen.
-    /// </summary>
     sealed partial class App : Application
     {
-        /// <summary>
-        /// Initialisiert das Singletonanwendungsobjekt. Dies ist die erste Zeile von erstelltem Code
-        /// und daher das logische Äquivalent von main() bzw. WinMain().
-        /// </summary>
         public App()
         {
-            //Crash reports capturing
+            //Crash reports capturing:
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
             {
                 HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
@@ -31,6 +24,9 @@ namespace UWP_XMPP_Client
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+
+            // Perform App update tasks if necessary:
+            AppUpdateHandler.onAppStart();
         }
 
         /// <summary>

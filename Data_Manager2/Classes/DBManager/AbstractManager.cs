@@ -11,7 +11,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "data2.db");
-        protected static TSSQLiteConnection dB = new TSSQLiteConnection(DB_PATH);
+        public static TSSQLiteConnection dB = new TSSQLiteConnection(DB_PATH);
 
         public static readonly bool RESET_DB_ON_STARTUP = false;
 

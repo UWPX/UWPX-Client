@@ -65,6 +65,12 @@
             return obj == null ? -1 : (int)obj;
         }
 
+        public static ushort getSettingUshort(string token)
+        {
+            object obj = getSetting(token);
+            return obj == null ? (ushort)0 : (ushort)obj;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

@@ -100,6 +100,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\AppUpdateHandler.cs" />
     <Compile Include="Classes\BackgroundImageCache.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />
@@ -439,6 +440,10 @@
     <ProjectReference Include="..\Push_App_Server\Push_App_Server.csproj">
       <Project>{a8da7bd0-dc43-4f30-ab1e-3fcf942274e4}</Project>
       <Name>Push_App_Server</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
+      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
+      <Name>Thread_Save_Components</Name>
     </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{899fb043-af8b-4294-95b6-1482c79459ac}</Project>
