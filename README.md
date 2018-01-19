@@ -19,7 +19,7 @@ UWPX is an XMPP client, that connects to all your favourite XMPP servers.
 [MORE NOTES TO COME]
 
 ## Alpha/Beta tester:
-An alpha version of the App will get released on 01.01.2018 in the Windows Store [LINK](https://www.microsoft.com/store/apps/9NW16X9JB5WV).
+An alpha version of the App is available in the Windows Store [LINK](https://www.microsoft.com/store/apps/9NW16X9JB5WV).
 
 [<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="150">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
 
