@@ -13,7 +13,9 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Rectangle Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
-        <TextBlock Grid.Column="0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe MDL2 Assets" Text="&#xE2AF;" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <TextBlock x:Name="placeholder_tbx" Grid.Column="0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe MDL2 Assets" Text="&#xE2AF;" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3"/>
+        </Viewbox>
         <Border x:Name="presence_brdr" Grid.Column="0" BorderThickness="2" BorderBrush="#4C4A4B" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Image x:Name="user_img" Source="{x:Bind Image}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         </Border>

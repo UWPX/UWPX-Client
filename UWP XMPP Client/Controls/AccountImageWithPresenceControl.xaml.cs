@@ -130,6 +130,15 @@ namespace UWP_XMPP_Client.Controls
             if(Chat != null)
             {
                 Presence = Chat.presence;
+                switch (Chat.chatType)
+                {
+                    case Data_Manager2.Classes.ChatType.MUC:
+                        placeholder_tbx.Text = "\uE125";
+                        break;
+                    default:
+                        placeholder_tbx.Text = "\uE77B";
+                        break;
+                }
             }
         }
         #endregion
