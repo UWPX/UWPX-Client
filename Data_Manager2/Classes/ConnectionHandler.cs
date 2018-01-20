@@ -101,8 +101,7 @@ namespace Data_Manager2.Classes
             }
             Parallel.ForEach(clients, async (c) =>
             {
-                await c.disconnectAsync();
-                ChatManager.INSTANCE.resetPresence(c.getXMPPAccount().getIdAndDomain());
+                await disconnectClientAsync(c);
             });
         }
 
@@ -114,8 +113,7 @@ namespace Data_Manager2.Classes
             }
             Parallel.ForEach(clients, async (c) =>
             {
-                await c.disconnectAsync();
-                ChatManager.INSTANCE.resetPresence(c.getXMPPAccount().getIdAndDomain());
+                await disconnectClientAsync(c);
                 await Task.Delay(200);
                 if (!c.getXMPPAccount().disabled)
                 {
@@ -124,18 +122,16 @@ namespace Data_Manager2.Classes
             });
         }
 
-        public void enterMUC(ChatTable chat, MUCChatInfoTable info, XMPPClient client)
-        {
-            Task.Factory.StartNew(async () => {
-                MUCJoinHelper helper = new MUCJoinHelper(client, chat.chatJabberId);
-                await helper.requestReservedNicksAsync();
-                await helper.enterRoomAsync(info.nickname);
-            });
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--
+        private async Task disconnectClientAsync(XMPPClient client)
+        {
+            await client.disconnectAsync();
+            ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
+            MUCHandler.INSTANCE.onClientDisconnecting(client);
+        }
+
         private void loadAccounts()
         {
             if (clients == null)
@@ -192,6 +188,7 @@ namespace Data_Manager2.Classes
                 case ConnectionState.ERROR:
                 case ConnectionState.DISCONNECTED:
                     ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
+                    MUCHandler.INSTANCE.onClientDisconnected(client);
                     break;
             }
         }

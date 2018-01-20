@@ -12,7 +12,6 @@ using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages;
 using System.Threading.Tasks;
 using Windows.UI.Popups;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -24,7 +23,6 @@ namespace UWP_XMPP_Client.Dialogs
         private ObservableCollection<string> accounts;
         private ObservableCollection<string> servers;
         private List<XMPPClient> clients;
-        private string server;
 
         private string requestedServer;
 
@@ -119,15 +117,18 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     chatId = muc.id,
                     description = null,
-                    entered = false,
+                    enterState = MUCEnterState.DISCONNECTED,
                     name = null,
-                    password = null
+                    password = null,
+                    nickname = nick_tbx.Text
                 };
                 if ((bool)enablePassword_cbx.IsChecked)
                 {
                     info.password = password_pwb.Password;
                 }
                 ChatManager.INSTANCE.setMUCChatInfo(info, false, true);
+
+                Task t = MUCHandler.INSTANCE.enterMUCAsync(muc, info, c);
             }
         }
 

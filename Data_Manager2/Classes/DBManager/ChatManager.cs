@@ -71,6 +71,11 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public List<ChatTable> getAllMUCs(string userAccountId)
+        {
+            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
+        }
+
         public void setChat(ChatTable chat, bool delete, bool triggerChatChanged)
         {
             if (chat != null)
@@ -210,6 +215,11 @@ namespace Data_Manager2.Classes.DBManager
                     ChatChanged?.Invoke(this, new ChatChangedEventArgs(c, false));
                 }
             });
+        }
+
+        public void resetMUCEnterState(string userAccountId)
+        {
+            dB.Execute("UPDATE MUCChatInfoTable SET enterState = 0 WHERE EXISTS (SELECT * FROM MUCChatInfoTable m JOIN ChatTable c ON c.id = m.chatId WHERE c.chatJabberId = ?);", MUCEnterState.DISCONNECTED, userAccountId);
         }
 
         #endregion

@@ -18,9 +18,8 @@ namespace Data_Manager2.Classes.DBTables
         public string description { get; set; }
         // The password for the MUC
         public string password { get; set; }
-        [Ignore]
-        // Already send the join presence for this session?
-        public bool entered { get; set; }
+        // The current state for entering the MUC
+        public MUCEnterState enterState { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -132,10 +132,12 @@
     <Compile Include="Classes\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\MessageState.cs" />
     <Compile Include="Classes\MUCJoinHelper.cs" />
+    <Compile Include="Classes\MUCEnterState.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
     <Compile Include="Classes\ToastHelper.cs" />
     <Compile Include="Classes\Vault.cs" />
+    <Compile Include="Classes\MUCHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Data_Manager2.rd.xml" />
   </ItemGroup>
