@@ -16,33 +16,29 @@
             </Grid.RowDefinitions>
             <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE713;" Text="Misc"/>
             <StackPanel Grid.Row="1">
-                <TextBlock Text="Logs:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
-                <Button x:Name="openLogFolder_btn" Content="Open App Data Folder" Margin="10,15,0,0" Click="openLogFolder_btn_Click"/>
-                <Button x:Name="exportLogs_btn" Content="Export Logs" Margin="10,10,0,0" Click="exportLogs_btn_Click"/>
+                <controls:SeperatorControl Text="Logs:" />
+                <Button x:Name="openLogFolder_btn" Content="Open app data folder" Margin="10,15,0,0" Click="openLogFolder_btn_Click"/>
+                <Button x:Name="exportLogs_btn" Content="Export logs" Margin="10,10,0,0" Click="exportLogs_btn_Click"/>
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="deleteLogs_btn" Content="Delete Logs" Margin="10,10,0,0" Click="deleteLogs_btn_Click"/>
+                    <Button x:Name="deleteLogs_btn" Content="Delete logs" Margin="10,10,0,0" Click="deleteLogs_btn_Click"/>
                     <TextBlock x:Name="logSize_tblck" Text="calculating..." Foreground="{ThemeResource CalendarDatePickerTextForeground}" VerticalAlignment="Center" Margin="10, 10, 0, 0"/>
                 </StackPanel>
 
-                <TextBlock Text="Images:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
+                <controls:SeperatorControl Text="Images:"/>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="clearImagesCache_btn" Content="Clear image cache" Margin="10,10,0,0" Click="clearImagesCache_btn_Click"/>
                     <TextBlock x:Name="imageChacheSize_tblck" Text="calculating..." Foreground="{ThemeResource CalendarDatePickerTextForeground}" VerticalAlignment="Center" Margin="10, 10, 0, 0"/>
                 </StackPanel>
 
-                <TextBlock Text="Crash reporting:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
+                <controls:SeperatorControl Text="Crash reporting:"/>
                 <ToggleSwitch x:Name="disableCrashReporting_tgls"  Margin="10,10,0,0" Toggled="disableCrashReporting_tgls_Toggled" Header="Disable crash reporting"/>
                 <TextBlock x:Name="moreInformation_tblck" Text="More information" Margin="10, 0, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="moreInformation_tblck_Tapped"/>
 
-                <TextBlock Text="Misc:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
+                <controls:SeperatorControl Text="Misc:"/>
+                <Button x:Name="clearCache_btn" Content="Clear cache" Margin="10,10,0,0" Click="clearCache_btn_Click"/>
                 <ToggleSwitch x:Name="showInitialStartDialog_tgls"  Margin="10,10,0,0" Toggled="showInitialStartDialog_tgls_Toggled" Header="Show dialog on start"/>
 
-                <TextBlock Text="About and links:" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,0"/>
-                <controls:SeperatorControl Margin="0, 2, 0, 0"/>
+                <controls:SeperatorControl Text="About and links:"/>
                 <StackPanel x:Name="contributeGithub_stckp" Orientation="Horizontal" Margin="10,10,0,0" Tapped="contributeGithub_stckp_Tapped">
                     <Image Source="ms-appx:///Assets/Images/github_mark.png" Height="30"/>
                     <TextBlock Text="Contribute on GitHub" Margin="10,0,0,0" FontSize="30" VerticalAlignment="Center"/>

@@ -4,6 +4,7 @@ using Logging;
 using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Dialogs;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -208,6 +209,13 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
         }
+
+        private async void clearCache_btn_Click(object sender, RoutedEventArgs e)
+        {
+            ClearCacheDialog dialog = new ClearCacheDialog();
+            await dialog.ShowAsync();
+        }
+
         #endregion
     }
 }

@@ -84,8 +84,11 @@ namespace Thread_Save_Components.Classes.SQLite
 
         public int RecreateTable<T>() where T : class
         {
-            DropTable<T>();
-            return CreateTable<T>();
+            lock (_dBLocker)
+            {
+                dB.DropTable<T>();
+                return dB.CreateTable<T>();
+            }
         }
 
         public int Delete(object objectToDelete)

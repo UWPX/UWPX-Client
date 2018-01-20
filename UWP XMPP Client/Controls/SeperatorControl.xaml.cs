@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml.Controls;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -6,7 +7,23 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set
+            {
+                SetValue(TextProperty, value);
+                if (value == null)
+                {
+                    text_tbx.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    text_tbx.Visibility = Visibility.Visible;
+                }
+            }
+        }
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(SeperatorControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

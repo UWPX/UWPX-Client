@@ -1,0 +1,43 @@
+﻿<ContentDialog
+    x:Class="UWP_XMPP_Client.Dialogs.ClearCacheDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Title="Select options:"
+    PrimaryButtonText="Clear"
+    SecondaryButtonText="Cancel"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="main_sclv" Grid.Row="0" VerticalScrollMode="Auto" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <controls:SeperatorControl Text="General:"/>
+                <CheckBox x:Name="chatMessages_chbx" Content="Chat messages" IsChecked="True"/>
+                <CheckBox x:Name="chats_chbx" Content="Chats" IsChecked="True"/>
+                <CheckBox x:Name="images_chbx" Content="Images" IsChecked="True"/>
+
+                <controls:SeperatorControl Text="Disco:"/>
+                <CheckBox x:Name="discoFeatures_chbx" Content="Disco features" IsChecked="True"/>
+                <CheckBox x:Name="discoIdentities_chbx" Content="Disco Identities" IsChecked="True"/>
+                <CheckBox x:Name="discoItems_chbx" Content="Disco Items" IsChecked="True"/>
+
+                <controls:SeperatorControl Text="MUC:"/>
+                <CheckBox x:Name="mucChatInfo_chbx" Content="MUC chat info" IsChecked="True"/>
+                <CheckBox x:Name="mucMembers_chbx" Content="MUC members" IsChecked="True"/>
+
+                <controls:SeperatorControl Text="Clients:"/>
+                <CheckBox x:Name="reconnect_chbx" Content="Reconnect clients" IsChecked="True"/>
+            </StackPanel>
+        </ScrollViewer>
+        <ProgressRing x:Name="main_prgr" Grid.Row="0" IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>
+        <controls1:InAppNotification x:Name="done_notification" Grid.Row="0"/>
+    </Grid>
+</ContentDialog>
