@@ -11,6 +11,7 @@
         public static readonly string DISABLE_PUSH = "disable_push";
         public static readonly string DISABLE_DOWNLOAD_IMAGES_TO_LIBARY = "disable_download_images_to_libary";
         public static readonly string DISABLE_CRASH_REPORTING = "disable_crash_reporting";
+        public static readonly string DISABLE_AUTO_JOIN_MUC = "disable_auto_join_muc";
 
         public static readonly string PUSH_CHANNEL_TOKEN_URL = "push_channel_token_url";
         public static readonly string PUSH_CHANNEL_SEND_SUCCESS = "push_channel_send_success";

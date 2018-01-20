@@ -15,10 +15,14 @@
             </Grid.RowDefinitions>
             <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE15F;" Text="Chat"/>
             <StackPanel Margin="10, 0, 10, 0" Grid.Row="1">
+                <controls:SeperatorControl Text="General:"/>
                 <ToggleSwitch x:Name="enterToSend_tgls" Header="Enter to send a Message:" Margin="0, 10, 0, 0" Toggled="enterToSend_tgls_Toggled"/>
                 <ToggleSwitch x:Name="sendChatState_tgls" Header="Send chat state:" Margin="0, 10, 0, 0" Toggled="sendChatState_tgls_Toggled"/>
                 <ToggleSwitch x:Name="storeImagesInLibary_tgls" Header="Store images in library:" Margin="0, 10, 0, 0" Toggled="storeImagesInLibary_tgls_Toggled"/>
                 <TextBlock x:Name="clearCache_tblck" Text="Clear cache" Foreground="{ThemeResource SystemAccentColor}" Tapped="clearCache_tblck_Tapped"/>
+
+                <controls:SeperatorControl Text="MUC:"/>
+                <ToggleSwitch x:Name="autoJoinMUC_tgls" Header="Auto join MUC:" Margin="0, 10, 0, 0" Toggled="autoJoinMUC_tgls_Toggled"/>
             </StackPanel>
         </Grid>
     </ScrollViewer>

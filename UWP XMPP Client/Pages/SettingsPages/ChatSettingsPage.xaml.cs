@@ -44,6 +44,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             enterToSend_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
             sendChatState_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
             storeImagesInLibary_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
+            autoJoinMUC_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
         }
 
         #endregion
@@ -86,6 +87,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void clearCache_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(MiscSettingsPage));
+        }
+
+        private void autoJoinMUC_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.DISABLE_AUTO_JOIN_MUC, !autoJoinMUC_tgls.IsOn);
         }
         #endregion
     }
