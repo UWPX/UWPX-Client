@@ -109,7 +109,7 @@ namespace Thread_Save_Components.Classes.Collections
             {
                 for (int i = 0; i < LIST.Count; i++)
                 {
-                    if (DateTime.Now.Subtract(LIST[i].insertionTime).TotalMilliseconds >= itemTimeoutInMs)
+                    if (DateTime.Now.Subtract(LIST[i].insertionTime).TotalMilliseconds >= itemTimeoutInMs && LIST[i].canGetRemoved())
                     {
                         LIST.RemoveAt(i);
                         countRemoved++;

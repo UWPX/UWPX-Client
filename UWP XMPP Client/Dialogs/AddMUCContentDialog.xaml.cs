@@ -120,7 +120,8 @@ namespace UWP_XMPP_Client.Dialogs
                     enterState = MUCEnterState.DISCONNECTED,
                     name = null,
                     password = null,
-                    nickname = nick_tbx.Text
+                    nickname = nick_tbx.Text,
+                    autoEnterRoom = (bool)autoJoin_cbx.IsChecked
                 };
                 if ((bool)enablePassword_cbx.IsChecked)
                 {
@@ -128,7 +129,10 @@ namespace UWP_XMPP_Client.Dialogs
                 }
                 ChatManager.INSTANCE.setMUCChatInfo(info, false, true);
 
-                Task t = MUCHandler.INSTANCE.enterMUCAsync(muc, info, c);
+                if (info.autoEnterRoom)
+                {
+                    Task t = MUCHandler.INSTANCE.enterMUCAsync(muc, info, c);
+                }
             }
         }
 

@@ -2,7 +2,7 @@
 
 namespace Thread_Save_Components.Classes.Collections
 {
-    public class TimedListEntry<T>
+    public class TimedListEntry<T> : ITimedEntry
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -32,7 +32,14 @@ namespace Thread_Save_Components.Classes.Collections
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public bool canGetRemoved()
+        {
+            if(item is ITimedEntry)
+            {
+                return (item as ITimedEntry).canGetRemoved();
+            }
+            return true;
+        }
 
         #endregion
 

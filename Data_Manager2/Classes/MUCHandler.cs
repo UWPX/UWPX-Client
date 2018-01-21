@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes
@@ -14,7 +15,7 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly MUCHandler INSTANCE = new MUCHandler();
-
+        private TSTimedList<MUCJoinHelper> timedList;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -26,7 +27,10 @@ namespace Data_Manager2.Classes
         /// </history>
         public MUCHandler()
         {
-
+            timedList = new TSTimedList<MUCJoinHelper>
+            {
+                itemTimeoutInMs = (int)TimeSpan.FromSeconds(20).TotalMilliseconds
+            };
         }
 
         #endregion
@@ -40,7 +44,6 @@ namespace Data_Manager2.Classes
         public void onClientConnected(XMPPClient client)
         {
             ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain());
-
             enterAllMUCs(client);
         }
 
@@ -57,7 +60,8 @@ namespace Data_Manager2.Classes
         public async Task enterMUCAsync(ChatTable muc, MUCChatInfoTable info, XMPPClient client)
         {
             MUCJoinHelper helper = new MUCJoinHelper(client, muc.chatJabberId);
-            await helper.requestReservedNicksAsync();
+            timedList.addTimed(helper);
+            //await helper.requestReservedNicksAsync();
             if(info.password != null)
             {
                 await helper.enterRoomAsync(info.nickname, info.password);
@@ -83,10 +87,14 @@ namespace Data_Manager2.Classes
                         {
                             chatId = muc.id,
                             enterState = MUCEnterState.DISCONNECTED,
-                            nickname = muc.userAccountId
+                            nickname = muc.userAccountId,
+                            autoEnterRoom = true
                         };
                     }
-                    await enterMUCAsync(muc, info, client);
+                    if (info.autoEnterRoom)
+                    {
+                        await enterMUCAsync(muc, info, client);
+                    }
                 }
             });
         }

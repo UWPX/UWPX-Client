@@ -20,6 +20,8 @@ namespace Data_Manager2.Classes.DBTables
         public string password { get; set; }
         // The current state for entering the MUC
         public MUCEnterState enterState { get; set; }
+        // Whether to automatically enter the room as soon as the client is connected
+        public bool autoEnterRoom { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

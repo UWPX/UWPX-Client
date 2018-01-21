@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Data_Manager2.Classes.DBTables;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
@@ -10,7 +11,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 // 7.2.2 Basic MUC Protocol
 namespace Data_Manager2.Classes
 {
-    public class MUCJoinHelper
+    public class MUCJoinHelper : ITimedEntry
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -27,6 +28,7 @@ namespace Data_Manager2.Classes
         public readonly XMPPClient CLIENT;
 
         private TSTimedList<MessageResponseHelper> messageResponseHelpers;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -40,8 +42,10 @@ namespace Data_Manager2.Classes
         {
             this.ROOM_JID = roomJid;
             this.CLIENT = client;
-            this.messageResponseHelpers = new TSTimedList<MessageResponseHelper>();
-            this.messageResponseHelpers.itemTimeoutInMs = messageTimeout * 2;
+            this.messageResponseHelpers = new TSTimedList<MessageResponseHelper>
+            {
+                itemTimeoutInMs = messageTimeout * 2
+            };
         }
 
         #endregion
@@ -73,9 +77,14 @@ namespace Data_Manager2.Classes
             await enterRoomAsync(nick, null);
         }
 
-        public void addChatToList()
+        public void enterRoomAutomated(ChatTable muc, MUCChatInfoTable info)
         {
 
+        }
+
+        public bool canGetRemoved()
+        {
+            return true;
         }
 
         #endregion
