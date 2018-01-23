@@ -24,9 +24,11 @@ An alpha version of the App is available in the Windows Store [LINK](https://www
 [<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="150">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
 
 ## Installation (build it by your own):
-1. Clone the repo with Visual Studio
-2. Build the project for your target platform
-3. Install the app on your target system:
+1. Install [Visual Studio 2017](https://www.visualstudio.com/de/downloads)
+2. Install [SQLite for Universal Windows Platform](https://marketplace.visualstudio.com/items?itemName=SQLiteDevelopmentTeam.SQLiteforUniversalWindowsPlatform#overview)
+3. Clone the repo with Visual Studio
+4. Build the project for your target platform
+5. Install the app on your target system:
 [Here](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development) you can find more information about: How to install UWP apps, using the developer mode.
 
 ## Examples:
