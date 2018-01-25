@@ -23,6 +23,7 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private CustomObservableCollection<ChatTemplate> chatsList;
+        private static readonly object _chatListLocker = new object();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -65,7 +66,10 @@ namespace UWP_XMPP_Client.Pages
         private void removeChat(ChatTemplate c)
         {
             var selectedItem = masterDetail_pnl.SelectedItem;
-            chatsList.Remove(c);
+            lock (_chatListLocker)
+            {
+                chatsList.Remove(c);
+            }
             if (c != selectedItem)
             {
                 masterDetail_pnl.SelectedItem = selectedItem;
@@ -75,44 +79,56 @@ namespace UWP_XMPP_Client.Pages
         private void addToChatsSorted(ChatTemplate c)
         {
             var selecetItem = masterDetail_pnl.SelectedItem;
-            for (int i = 0; i < chatsList.Count; i++)
+            lock (_chatListLocker)
             {
-                if (DateTime.Compare(chatsList[i].chat.lastActive, c.chat.lastActive) <= 0)
+                for (int i = 0; i < chatsList.Count; i++)
                 {
-                    chatsList.Insert(i, c);
-                    masterDetail_pnl.SelectedItem = selecetItem;
-                    return;
+                    if (DateTime.Compare(chatsList[i].chat.lastActive, c.chat.lastActive) <= 0)
+                    {
+                        chatsList.Insert(i, c);
+                        masterDetail_pnl.SelectedItem = selecetItem;
+                        return;
+                    }
                 }
+                chatsList.Add(c);
             }
-            chatsList.Add(c);
             masterDetail_pnl.SelectedItem = selecetItem;
         }
 
         private void loadChats(string selectedChatId)
         {
             // Clear list:
-            chatsList.Clear();
+            lock (_chatListLocker)
+            {
+                chatsList.Clear();
+            }
 
             // Load all chats:
-            ChatTemplate selectedChat = null;
-            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+            Task.Factory.StartNew(() =>
             {
-                foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
+                ChatTemplate selectedChat = null;
+                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                 {
-                    ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
-                    addToChatsSorted(chatElement);
-                    if (string.Equals(selectedChatId, chat.id))
+                    foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                     {
-                        selectedChat = chatElement;
+                        ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => addToChatsSorted(chatElement)).AsTask();
+                        if (string.Equals(selectedChatId, chat.id))
+                        {
+                            selectedChat = chatElement;
+                        }
                     }
                 }
-            }
 
-            // Show selected chat:
-            if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
-            {
-                masterDetail_pnl.SelectedItem = selectedChat;
-            }
+                // Show selected chat:
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
+                    {
+                        masterDetail_pnl.SelectedItem = selectedChat;
+                    }
+                }).AsTask();
+            });
         }
 
         private async Task addChatAsync(XMPPClient client, string jabberId, bool addToRooster, bool requestSubscription)

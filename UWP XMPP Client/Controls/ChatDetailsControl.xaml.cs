@@ -295,15 +295,15 @@ namespace UWP_XMPP_Client.Controls
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
             {
-                await Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING);
+                Task t = Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING);
             }
         }
 
-        private async void message_tbx_LostFocus(object sender, RoutedEventArgs e)
+        private void message_tbx_LostFocus(object sender, RoutedEventArgs e)
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
             {
-                await Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE);
+                Task t = Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE);
             }
         }
 
