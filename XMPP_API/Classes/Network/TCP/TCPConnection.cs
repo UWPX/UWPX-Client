@@ -1,10 +1,10 @@
 ﻿using Logging;
 using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
+using Windows.Storage.Streams;
 using XMPP_API.Classes.Network.Events;
 
 namespace XMPP_API.Classes.Network.TCP
@@ -24,8 +24,12 @@ namespace XMPP_API.Classes.Network.TCP
 
         private StreamSocket socket;
         private HostName hostName;
-        private StreamWriter writer;
-        private StreamReader reader;
+        //private StreamWriter writer;
+        //private StreamReader reader;
+
+        private DataReader dataReader;
+        private DataWriter dataWriter;
+
         private static readonly SemaphoreSlim writeSema = new SemaphoreSlim(1, 1);
 
         /// <summary>
@@ -99,11 +103,9 @@ namespace XMPP_API.Classes.Network.TCP
                                 throw new TimeoutException("ConnectAsync timed out! CONNECTION_TIMEOUT = " + CONNECTION_TIMEOUT);
                             }
 
-                            // Setup writer:
-                            writer = new StreamWriter(socket.OutputStream.AsStreamForWrite());
-
-                            // Setup Reader:
-                            reader = new StreamReader(socket.InputStream.AsStreamForRead());
+                            // Setup stream reader and writer:
+                            dataWriter = new DataWriter(socket.OutputStream);
+                            dataReader = new DataReader(socket.InputStream) { InputStreamOptions = InputStreamOptions.Partial };
 
                             // Connection successfully established:
                             setState(ConnectionState.CONNECTED);
@@ -182,8 +184,9 @@ namespace XMPP_API.Classes.Network.TCP
             await writeSema.WaitAsync();
             try
             {
-                await writer.WriteLineAsync(msg);
-                await writer.FlushAsync();
+                dataWriter.WriteString(msg);
+                await dataWriter.StoreAsync();
+                await dataWriter.FlushAsync();
             }
             finally
             {
@@ -298,10 +301,10 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 try
                 {
-                    if (writer != null)
+                    if (dataWriter != null)
                     {
                         // Flush the writer to ensure everything got send:
-                        await writer.FlushAsync();
+                        await dataWriter.FlushAsync();
                     }
                 }
                 catch (Exception)
@@ -315,13 +318,13 @@ namespace XMPP_API.Classes.Network.TCP
                 {
                 }
 
-                writer?.Dispose();
-                reader?.Dispose();
+                dataWriter?.Dispose();
+                dataReader?.Dispose();
                 socket?.Dispose();
 
                 socket = null;
-                writer = null;
-                reader = null;
+                dataWriter = null;
+                dataReader = null;
                 GC.Collect();
             }
         }
@@ -329,35 +332,42 @@ namespace XMPP_API.Classes.Network.TCP
         protected string readNextString()
         {
             string result = "";
-            int l = -1;
-            char[] buffer;
-            do
+            if (state != ConnectionState.CONNECTED)
             {
-                if (state != ConnectionState.CONNECTED)
+                return null;
+            }
+
+            readingCTS = new CancellationTokenSource();
+
+            try
+            {
+                uint readCount = 0;
+
+                // Read the first batch:
+                Task<uint> t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
+                t.Wait(readingCTS.Token);
+                readCount = t.Result;
+                while (dataReader.UnconsumedBufferLength > 0)
                 {
-                    return null;
+                    result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
                 }
 
-                buffer = new char[BUFFER_SIZE];
-                readingCTS = new CancellationTokenSource();
-
-                // Read next BUFFER_SIZE chars:
-                try
+                // If there is still data left to read, continue until a timeout occurs or a close got requested:
+                while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
                 {
-                    Task<int> t = reader.ReadAsync(buffer, 0, BUFFER_SIZE);
-                    t.Wait(readingCTS.Token);
-                    l = t.Result;
+                    t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
+                    t.Wait(100, readingCTS.Token);
+                    readCount = t.Result;
+                    while (dataReader.UnconsumedBufferLength > 0)
+                    {
+                        result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                    }
                 }
-                catch (AggregateException)
-                {
-                    break;
-                }
+            }
+            catch (AggregateException)
+            {
+            }
 
-                // Cut the read string and remove everything starting from the first "\0":
-                result += new string(buffer).Substring(0, l);
-
-                // Is data left to read?
-            } while (reader.Peek() >= 0 && l >= 0);
             return result;
         }
 
