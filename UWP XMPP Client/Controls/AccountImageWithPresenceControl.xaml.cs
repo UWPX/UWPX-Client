@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 using System;
+using Data_Manager2.Classes.DBManager;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -50,11 +51,28 @@ namespace UWP_XMPP_Client.Controls
             get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
+                // Unsubscribe events:
+                if (Chat != null && Chat.chatType == Data_Manager2.Classes.ChatType.MUC)
+                {
+                    ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+                }
+
                 SetValue(ChatProperty, value);
+
+                // Subscribe to MUC info changed event if chat type is MUC:
+                if (value != null && value.chatType == Data_Manager2.Classes.ChatType.MUC)
+                {
+                    ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+                    mUCInfo = ChatManager.INSTANCE.getMUCInfo(Chat);
+                }
                 showCurrentPresence();
             }
         }
+
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
+
+        private MUCChatInfoTable mUCInfo;
+
         #endregion
 
         #endregion
@@ -111,7 +129,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void unsubscribeFromEvents()
         {
-            if(Client != null)
+            if (Client != null)
             {
                 Client.NewPresence -= Client_NewPresence;
             }
@@ -127,15 +145,24 @@ namespace UWP_XMPP_Client.Controls
 
         private void showCurrentPresence()
         {
-            if(Chat != null)
+            if (Chat != null)
             {
-                Presence = Chat.presence;
                 switch (Chat.chatType)
                 {
                     case Data_Manager2.Classes.ChatType.MUC:
                         placeholder_tbx.Text = "\uE125";
+                        if (mUCInfo != null)
+                        {
+                            Presence = mUCInfo.getMUCPresence();
+                        }
+                        else
+                        {
+                            Presence = Presence.Unavailable;
+                        }
                         break;
+
                     default:
+                        Presence = Chat.presence;
                         placeholder_tbx.Text = "\uE77B";
                         break;
                 }
@@ -158,6 +185,15 @@ namespace UWP_XMPP_Client.Controls
                      Presence = args.getPresence();
                  }
              });
+        }
+
+        private async void INSTANCE_MUCInfoChanged(ChatManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        {
+            if (!args.REMOVED && mUCInfo != null && mUCInfo.chatId.Equals(args.MUC_INFO.chatId))
+            {
+                mUCInfo = args.MUC_INFO;
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Presence = mUCInfo.getMUCPresence());
+            }
         }
 
         #endregion

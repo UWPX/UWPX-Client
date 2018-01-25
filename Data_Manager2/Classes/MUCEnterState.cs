@@ -3,7 +3,6 @@
     public enum MUCEnterState
     {
         DISCONNECTED,
-        REQUESTED_NICKS,
         ENTERING,
         ENTERD,
         ERROR

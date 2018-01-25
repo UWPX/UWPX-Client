@@ -183,6 +183,7 @@ namespace Data_Manager2.Classes
                 case ConnectionState.CONNECTED:
                     await client.requestRoosterAsync();
                     await client.requestBookmarksAsync();
+                    MUCHandler.INSTANCE.onClientConnected(client);
                     ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
                     break;
                 case ConnectionState.ERROR:

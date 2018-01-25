@@ -15,10 +15,12 @@ namespace Data_Manager2.Classes.DBManager
 
         public delegate void NewChatMessageHandler(ChatManager handler, NewChatMessageEventArgs args);
         public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
+        public delegate void MUCInfoChangedHandler(ChatManager handler, MUCInfoChangedEventArgs args);
         public delegate void ChatMessageChangedHandler(ChatManager handler, ChatMessageChangedEventArgs args);
 
         public event NewChatMessageHandler NewChatMessage;
         public event ChatChangedHandler ChatChanged;
+        public event MUCInfoChangedHandler MUCInfoChanged;
         public event ChatMessageChangedHandler ChatMessageChanged;
 
         #endregion
@@ -107,9 +109,10 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     update(info);
                 }
+
                 if (triggerMUCChanged)
                 {
-                    // TODO add MUC changed event
+                    MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, delete));
                 }
             }
         }

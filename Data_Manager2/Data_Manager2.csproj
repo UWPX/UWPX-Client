@@ -123,6 +123,7 @@
     <Compile Include="Classes\DBTables\MUCChatInfoTable.cs" />
     <Compile Include="Classes\DBTables\MUCMemberTable.cs" />
     <Compile Include="Classes\DownloadState.cs" />
+    <Compile Include="Classes\Events\MUCInfoChangedEventArgs.cs" />
     <Compile Include="Classes\Events\DownloadProgressChangedEventArgs.cs" />
     <Compile Include="Classes\Events\DownloadStateChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ClientConnectedEventArgs.cs" />

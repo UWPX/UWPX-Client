@@ -1,4 +1,5 @@
 ﻿using SQLite.Net.Attributes;
+using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -40,7 +41,21 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public Presence getMUCPresence()
+        {
+            switch (enterState)
+            {
+                case MUCEnterState.ENTERING:
+                    return Presence.Chat;
+                case MUCEnterState.ENTERD:
+                    return Presence.Online;
+                case MUCEnterState.ERROR:
+                    return Presence.Xa;
+                case MUCEnterState.DISCONNECTED:
+                default:
+                    return Presence.Unavailable;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

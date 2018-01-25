@@ -1,6 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System;
-using System.Threading;
+﻿using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
@@ -24,7 +23,8 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// The Full JID of the room e.g. 'coven@chat.shakespeare.lit'.
         /// </summary>
-        public readonly string ROOM_JID;
+        public readonly ChatTable MUC;
+        public readonly MUCChatInfoTable INFO;
         public readonly XMPPClient CLIENT;
 
         private TSTimedList<MessageResponseHelper> messageResponseHelpers;
@@ -38,10 +38,11 @@ namespace Data_Manager2.Classes
         /// <history>
         /// 06/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCJoinHelper(XMPPClient client, string roomJid)
+        public MUCJoinHelper(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
-            this.ROOM_JID = roomJid;
             this.CLIENT = client;
+            this.MUC = muc;
+            this.INFO = info;
             this.messageResponseHelpers = new TSTimedList<MessageResponseHelper>
             {
                 itemTimeoutInMs = messageTimeout * 2
@@ -58,7 +59,7 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public async Task requestReservedNicksAsync()
         {
-            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID);
+            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId);
             await CLIENT.sendMessageAsync(msg, false);
             MessageResponseHelper helper = new MessageResponseHelper(CLIENT, null, null)
             {
@@ -66,25 +67,27 @@ namespace Data_Manager2.Classes
             };
         }
 
-        public async Task enterRoomAsync(string nick, string roomPassword)
+        public async Task enterRoomAsync()
         {
-            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), ROOM_JID, nick);
+            INFO.enterState = MUCEnterState.ENTERING;
+            saveMUCInfo();
+            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
             await sendMessageAsync(msg);
-        }
-
-        public async Task enterRoomAsync(string nick)
-        {
-            await enterRoomAsync(nick, null);
-        }
-
-        public void enterRoomAutomated(ChatTable muc, MUCChatInfoTable info)
-        {
-
         }
 
         public bool canGetRemoved()
         {
-            return true;
+            switch (INFO.enterState)
+            {
+                case MUCEnterState.ENTERING:
+                    return false;
+
+                case MUCEnterState.ENTERD:
+                case MUCEnterState.ERROR:
+                case MUCEnterState.DISCONNECTED:
+                default:
+                    return true;
+            }
         }
 
         #endregion
@@ -95,7 +98,6 @@ namespace Data_Manager2.Classes
             CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
             CLIENT.NewValidMessage += CLIENT_NewValidMessage;
             await CLIENT.sendMessageAsync(msg, false);
-            //startTimer();
         }
 
         private void processMessage(AbstractMessage msg)
@@ -110,6 +112,11 @@ namespace Data_Manager2.Classes
             }
         }
 
+        private void saveMUCInfo()
+        {
+            ChatManager.INSTANCE.setMUCChatInfo(INFO, false, true);
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -120,16 +127,41 @@ namespace Data_Manager2.Classes
         #region --Events--
         private void CLIENT_NewValidMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
         {
-            /*if (messageIdCache.getTimed(args.getMessage().getId()) != null)
+            switch (INFO.enterState)
             {
-                // Process the received message in a new task:
-                Task.Factory.StartNew(() => processMessage(args.getMessage()));
-                // If the messageIdCache is empty, we can unsubscribe from the NewValidMessage event.
-                if (messageIdCache.isEmpty())
-                {
-                    CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
-                }
-            }*/
+                case MUCEnterState.ENTERING:
+                    if (args.getMessage() is MUCMemberPresenceMessage)
+                    {
+                        MUCMemberPresenceMessage msg = args.getMessage() as MUCMemberPresenceMessage;
+
+                        // Evaluate status codes:
+                        foreach (MUCPresenceStatusCode statusCode in msg.STATUS_CODES)
+                        {
+                            switch (statusCode)
+                            {
+                                case MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE:
+                                    CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
+                                    INFO.enterState = MUCEnterState.ENTERD;
+                                    saveMUCInfo();
+                                    break;
+                            }
+                        }
+
+                        // Save member:
+                        MUCMemberTable member = new MUCMemberTable()
+                        {
+                            id = MUCMemberTable.generateId(MUC.id, msg.NICKNAME),
+                            nickname = msg.NICKNAME,
+                            chatId = MUC.id,
+                            affiliation = msg.AFFILIATION,
+                            role = msg.ROLE
+                        };
+
+                        // Cancel event:
+                        args.Cancel = true;
+                    }
+                    break;
+            }
         }
 
         #endregion

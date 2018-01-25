@@ -59,16 +59,16 @@ namespace Data_Manager2.Classes
 
         public async Task enterMUCAsync(ChatTable muc, MUCChatInfoTable info, XMPPClient client)
         {
-            MUCJoinHelper helper = new MUCJoinHelper(client, muc.chatJabberId);
+            MUCJoinHelper helper = new MUCJoinHelper(client, muc, info);
             timedList.addTimed(helper);
-            //await helper.requestReservedNicksAsync();
+
             if(info.password != null)
             {
-                await helper.enterRoomAsync(info.nickname, info.password);
+                await helper.enterRoomAsync();
             }
             else
             {
-                await helper.enterRoomAsync(info.nickname);
+                await helper.enterRoomAsync();
             }
         }
 

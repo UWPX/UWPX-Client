@@ -77,6 +77,25 @@ namespace XMPP_API.Classes
             return null;
         }
 
+        /// <summary>
+        /// Returns the resource part of the given full JID.
+        /// e.g. 'coven@chat.shakespeare.lit/thirdwitch' => 'thirdwitch'
+        /// </summary>
+        /// <param name="jid">The full JID. e.g. 'coven@chat.shakespeare.lit/thirdwitch'.</param>
+        /// <returns>Returns the resource part of the given full JID. e.g. 'thirdwitch'</returns>
+        public static string getResourceFromFullJid(string jid)
+        {
+            if(jid != null)
+            {
+                int index = jid.IndexOf('/');
+                if(index >= 0)
+                {
+                    return jid.Substring(index + 1);
+                }
+            }
+            return null;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

@@ -3,13 +3,14 @@ using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    class MUCMemberPresenceMessage : PresenceMessage
+    public class MUCMemberPresenceMessage : PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly List<MUCPresenceStatusCode> STATUS_CODES;
         public readonly string AFFILIATION;
         public readonly string JID;
+        public readonly string NICKNAME;
         public readonly string ROLE;
         public readonly string ERROR_MESSAGE;
         public readonly string ERROR_TYPE;
@@ -28,6 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             XmlNode xNode = XMLUtils.getChildNode(node, "x", "xmlns", "http://jabber.org/protocol/muc#user");
             if (xNode != null)
             {
+                NICKNAME = Utils.getDomainFromBareJid(FROM);
                 STATUS_CODES = new List<MUCPresenceStatusCode>();
                 foreach (XmlNode n in xNode.ChildNodes)
                 {
