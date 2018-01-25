@@ -142,7 +142,6 @@ namespace UWP_XMPP_Client.Controls
                 ChatManager.INSTANCE.setChat(Chat, false, false);
 
                 message_tbx.Text = "";
-                message_tbx.Focus(FocusState.Programmatic);
             }
         }
 
