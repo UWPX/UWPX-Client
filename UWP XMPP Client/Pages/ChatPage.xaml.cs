@@ -202,7 +202,7 @@ namespace UWP_XMPP_Client.Pages
             if (e.Parameter is ShowAddMUCNavigationParameter)
             {
                 ShowAddMUCNavigationParameter parameter = e.Parameter as ShowAddMUCNavigationParameter;
-                AddMUCContentDialog dialog = new AddMUCContentDialog(parameter.ROOM_JID);
+                AddMUCDialog dialog = new AddMUCDialog(parameter.ROOM_JID);
                 await dialog.ShowAsync();
             }
         }
@@ -268,7 +268,7 @@ namespace UWP_XMPP_Client.Pages
 
         private async void addMUC_mfoi_Click(object sender, RoutedEventArgs e)
         {
-            AddMUCContentDialog dialog = new AddMUCContentDialog();
+            AddMUCDialog dialog = new AddMUCDialog();
             await dialog.ShowAsync();
 
             if (!dialog.cancled)

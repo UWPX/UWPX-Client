@@ -15,7 +15,7 @@ using Windows.UI.Popups;
 
 namespace UWP_XMPP_Client.Dialogs
 {
-    public sealed partial class AddMUCContentDialog : ContentDialog
+    public sealed partial class AddMUCDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -35,12 +35,12 @@ namespace UWP_XMPP_Client.Dialogs
         /// <history>
         /// 03/01/2018 Created [Fabian Sauter]
         /// </history>
-        public AddMUCContentDialog() : this(null)
+        public AddMUCDialog() : this(null)
         {
 
         }
 
-        public AddMUCContentDialog(string roomJid)
+        public AddMUCDialog(string roomJid)
         {
             this.cancled = true;
             this.accounts = new ObservableCollection<string>();
@@ -91,7 +91,7 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
-        private async Task addRoomAsync()
+        private async Task<bool> addRoomAsync()
         {
             if(await checkUserInputsAndWarnAsync())
             {
@@ -133,7 +133,9 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     Task t = MUCHandler.INSTANCE.enterMUCAsync(muc, info, c);
                 }
+                return true;
             }
+            return false;
         }
 
         private async Task<bool> checkUserInputsAndWarnAsync()
@@ -186,17 +188,6 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void add_btn_Click(object sender, RoutedEventArgs e)
-        {
-            await addRoomAsync();
-        }
-
-        private void cancle_btn_Click(object sender, RoutedEventArgs e)
-        {
-            cancled = true;
-            Hide();
-        }
-
         private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
         {
             if (account_cbx.Items.Count > 0)
@@ -277,6 +268,20 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 nick_tbx.Text = Utils.getUserFromBareJid(accounts[account_cbx.SelectedIndex]);
                 accountNotConnected_tblck.Visibility = clients[account_cbx.SelectedIndex].isConnected() ? Visibility.Collapsed : Visibility.Visible;
+            }
+        }
+
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            cancled = true;
+            Hide();
+        }
+
+        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            if(await addRoomAsync())
+            {
+                Hide();
             }
         }
         #endregion

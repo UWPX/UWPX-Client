@@ -1,16 +1,19 @@
 ﻿<ContentDialog
-    x:Class="UWP_XMPP_Client.Dialogs.AddMUCContentDialog"
+    x:Class="UWP_XMPP_Client.Dialogs.AddMUCDialog"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Title="Add MUC">
+    Title="Add MUC"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    PrimaryButtonText="Cancel"
+    SecondaryButtonText="Add">
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
             <StackPanel x:Name="addMUC_stckpnl">
@@ -42,14 +45,5 @@
                 <CheckBox x:Name="autoJoin_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Auto join chatroom"/>
             </StackPanel>
         </ScrollViewer>
-
-        <Grid Grid.Row="1" Margin="0, 10, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button x:Name="cancle_btn" Content="Cancel" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="cancle_btn_Click"/>
-            <Button x:Name="add_btn" Content="Add" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="add_btn_Click"/>
-        </Grid>
     </Grid>
 </ContentDialog>
