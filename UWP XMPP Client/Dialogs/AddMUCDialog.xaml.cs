@@ -49,7 +49,7 @@ namespace UWP_XMPP_Client.Dialogs
             loadAccounts();
             loadServers();
 
-            if(roomJid != null)
+            if (roomJid != null)
             {
                 requestedServer = Utils.getDomainFromBareJid(roomJid);
                 roomName_tbx.Text = Utils.getUserFromBareJid(roomJid) ?? "";
@@ -93,7 +93,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private async Task<bool> addRoomAsync()
         {
-            if(await checkUserInputsAndWarnAsync())
+            if (await checkUserInputsAndWarnAsync())
             {
                 XMPPClient c = clients[account_cbx.SelectedIndex];
 
@@ -106,7 +106,7 @@ namespace UWP_XMPP_Client.Dialogs
                     chatJabberId = roomJid,
                     userAccountId = c.getXMPPAccount().getIdAndDomain(),
                     chatType = ChatType.MUC,
-                    inRoster = (bool)remember_cbx.IsChecked,
+                    inRoster = (bool)bookmark_cbx.IsChecked,
                     muted = false,
                     lastActive = DateTime.Now,
                     subscription = "none"
@@ -133,6 +133,12 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     Task t = MUCHandler.INSTANCE.enterMUCAsync(muc, info, c);
                 }
+
+                if ((bool)bookmark_cbx.IsChecked)
+                {
+                    Task t = c.setBookmarkAsync(info.toConferenceItem(muc));
+                }
+
                 return true;
             }
             return false;
@@ -140,7 +146,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private async Task<bool> checkUserInputsAndWarnAsync()
         {
-            if(account_cbx.SelectedIndex < 0)
+            if (account_cbx.SelectedIndex < 0)
             {
                 await showErrorDialogAsync("No account selected!");
                 return false;
@@ -200,7 +206,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             if (server_cbx.Items.Count > 0)
             {
-                if(requestedServer != null)
+                if (requestedServer != null)
                 {
                     for (int i = 0; i < servers.Count; i++)
                     {
@@ -255,7 +261,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void browse_btn_Click(object sender, RoutedEventArgs e)
         {
             object o = server_cbx.SelectedItem;
-            if(o is string && account_cbx.SelectedIndex >= 0)
+            if (o is string && account_cbx.SelectedIndex >= 0)
             {
                 (Window.Current.Content as Frame).Navigate(typeof(BrowseMUCRoomsPage), new BrowseMUCNavigationParameter(o as string, clients[account_cbx.SelectedIndex]));
                 Hide();
@@ -264,7 +270,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(account_cbx.SelectedIndex >= 0)
+            if (account_cbx.SelectedIndex >= 0)
             {
                 nick_tbx.Text = Utils.getUserFromBareJid(accounts[account_cbx.SelectedIndex]);
                 accountNotConnected_tblck.Visibility = clients[account_cbx.SelectedIndex].isConnected() ? Visibility.Collapsed : Visibility.Visible;
@@ -279,7 +285,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if(await addRoomAsync())
+            if (await addRoomAsync())
             {
                 Hide();
             }

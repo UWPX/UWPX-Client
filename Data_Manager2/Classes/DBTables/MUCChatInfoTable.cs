@@ -1,5 +1,7 @@
-﻿using SQLite.Net.Attributes;
+﻿using Data_Manager2.Classes.DBManager;
+using SQLite.Net.Attributes;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -60,7 +62,18 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public ConferenceItem toConferenceItem(ChatTable muc)
+        {
+            return new ConferenceItem()
+            {
+                autoJoin = autoEnterRoom,
+                jid = muc.chatJabberId,
+                minimize = false,
+                name = name,
+                nick = nickname,
+                password = password
+            };
+        }
 
         #endregion
 

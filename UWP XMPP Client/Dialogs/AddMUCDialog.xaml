@@ -41,7 +41,7 @@
                           ItemsSource="{x:Bind servers}"/>
                 <Button x:Name="browse_btn" Content="Browse available rooms" Margin="0, 10, 0, 0" IsEnabled="False" Click="browse_btn_Click"/>
 
-                <CheckBox x:Name="remember_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Remember this chatroom"/>
+                <CheckBox x:Name="bookmark_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Bookmark"/>
                 <CheckBox x:Name="autoJoin_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Auto join chatroom"/>
             </StackPanel>
         </ScrollViewer>

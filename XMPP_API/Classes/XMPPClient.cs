@@ -74,6 +74,11 @@ namespace XMPP_API.Classes
             return presenceMessage.getId();
         }
 
+        public async Task setBookmarkAsync(ConferenceItem conference)
+        {
+            await connection.sendAsync(new SetBookmarksMessage(connection.account.getIdDomainAndResource(), conference), true, false);
+        }
+
         public ConnectionState getConnetionState()
         {
             return connection.state;

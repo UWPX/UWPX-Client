@@ -145,6 +145,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\BookmarksResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\SetBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />

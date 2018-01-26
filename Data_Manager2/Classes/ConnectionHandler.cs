@@ -407,7 +407,7 @@ namespace Data_Manager2.Classes
             foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.CONFERENCE_ITEMS)
             {
                 string to = client.getXMPPAccount().getIdAndDomain();
-                string from = c.JID;
+                string from = c.jid;
                 string id = ChatTable.generateId(from, to);
                 ChatTable chat = ChatManager.INSTANCE.getChat(id);
                 if(chat == null)

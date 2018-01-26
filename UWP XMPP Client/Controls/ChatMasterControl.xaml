@@ -11,31 +11,32 @@
         <Grid.Resources>
             <MenuFlyout x:Name="chat_mfo">
                 <MenuFlyout.Items>
+                    <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile" Click="showProfile_mfo_Click"/>
+                    <MenuFlyoutSeparator/>
                     <MenuFlyoutSubItem Text="Presence subscription">
                         <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click"/>
                         <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo" Text="Cancel subscription" Visibility="Collapsed" Click="cancelPresenceSubscription_mfo_Click"/>
                         <MenuFlyoutItem x:Name="cancelPresenceSubscriptionRequest" Text="Cancel subscription request" Visibility="Collapsed" Click="cancelPresenceSubscriptionRequest_Click"/>
                         <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo" Text="Reject subscription" Visibility="Collapsed" Click="rejectPresenceSubscription_mfo_Click"/>
                     </MenuFlyoutSubItem>
-                    <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click"/>
-                    <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click">
-                    </MenuFlyoutItem>
                     <MenuFlyoutSeparator/>
                     <ToggleMenuFlyoutItem x:Name="mute_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
                     <MenuFlyoutItem x:Name="block_tmfo" Text="Block"/>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile" Click="showProfile_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
                 </MenuFlyout.Items>
             </MenuFlyout>
 
             <MenuFlyout x:Name="muc_mfo">
                 <MenuFlyout.Items>
-                    <MenuFlyoutItem x:Name="deleteMUC_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="showInfo_mfo" Text="Show info" Click="showInfo_mfo_Click"/>
                     <MenuFlyoutSeparator/>
                     <ToggleMenuFlyoutItem x:Name="autoEnter_tmfo" Text="Auto join" Click="autoEnter_tmfo_Click"/>
-                    <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
+                    <MenuFlyoutItem x:Name="bookmark_tmfo" Text="Bookmark" Click="bookmark_tmfo_Click"/>
+                    <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo" Text="Mute" Click="muteMUC_tmfo_Click"/>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem x:Name="showInfo_mfo" Text="Show info" Click="showInfo_mfo_Click"/>
+                    <MenuFlyoutItem x:Name="deleteMUC_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
                 </MenuFlyout.Items>
             </MenuFlyout>
         </Grid.Resources>
