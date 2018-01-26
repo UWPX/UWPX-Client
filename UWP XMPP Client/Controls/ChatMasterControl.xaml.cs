@@ -10,6 +10,8 @@ using UWP_XMPP_Client.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Dialogs;
+using UWP_XMPP_Client.Pages;
+using UWP_XMPP_Client.Classes.Events;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -42,6 +44,7 @@ namespace UWP_XMPP_Client.Controls
 
         private bool subscriptionRequest;
         private ChatMessageTable lastChatMessage;
+        private MUCChatInfoTable mucInfo;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -57,6 +60,7 @@ namespace UWP_XMPP_Client.Controls
             this.InitializeComponent();
             this.subscriptionRequest = false;
             this.lastChatMessage = null;
+            this.mucInfo = null;
             ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
@@ -100,17 +104,25 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat.chatType == Data_Manager2.Classes.ChatType.MUC)
                 {
-                    MUCChatInfoTable mucInfo = ChatManager.INSTANCE.getMUCInfo(Chat);
+                    mucInfo = ChatManager.INSTANCE.getMUCInfo(Chat.id);
+                    ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+                    ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+
                     if (mucInfo != null)
                     {
                         // Chat jabber id:
                         name_tblck.Text = string.IsNullOrWhiteSpace(mucInfo.name) ? Chat.chatJabberId : mucInfo.name;
+
                     }
                     else
                     {
                         // Chat jabber id:
                         name_tblck.Text = Chat.chatJabberId;
                     }
+
+                    // Menu Flyout:
+                    muteMUC_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
+                    muteMUC_tmfo.IsChecked = Chat.muted;
                 }
                 else
                 {
@@ -152,6 +164,23 @@ namespace UWP_XMPP_Client.Controls
                             requestPresenceSubscription_mfo.Visibility = Visibility.Visible;
                             break;
                     }
+
+                    // Menu Flyout:
+                    mute_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
+                    mute_tmfo.IsChecked = Chat.muted;
+                    removeFromRoster_mfo.Text = Chat.inRoster ? "Remove from roster" : "Add to roster";
+                }
+
+                // Subscription pending:
+                if (Chat.ask != null && Chat.ask.Equals("subscribe"))
+                {
+                    presence_tblck.Visibility = Visibility.Visible;
+                    cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                    requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    presence_tblck.Visibility = Visibility.Collapsed;
                 }
 
                 // Last action date:
@@ -172,16 +201,6 @@ namespace UWP_XMPP_Client.Controls
                     lastAction_tblck.Text = "";
                 }
 
-                // Last chat message:
-                showLastChatMessage(ChatManager.INSTANCE.getLastChatMessageForChat(Chat));
-
-                // Status icons:
-                muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
-                inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
-
-                // Chat status:
-                image_aciwp.Presence = Chat.presence;
-
                 // Chat color:
                 if (UiUtils.isHexColor(Client.getXMPPAccount().color))
                 {
@@ -191,24 +210,14 @@ namespace UWP_XMPP_Client.Controls
                 {
                     color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
                 }
-            }
 
-            // Subscription pending:
-            if (Chat.ask != null && Chat.ask.Equals("subscribe"))
-            {
-                presence_tblck.Visibility = Visibility.Visible;
-                cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                presence_tblck.Visibility = Visibility.Collapsed;
-            }
+                // Last chat message:
+                showLastChatMessage(ChatManager.INSTANCE.getLastChatMessageForChat(Chat.id));
 
-            // Menu Flyout:
-            mute_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
-            mute_tmfo.IsChecked = Chat.muted;
-            removeFromRoster_mfo.Text = Chat.inRoster ? "Remove from roster" : "Add to roster";
+                // Status icons:
+                muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
+                inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private void linkEvents()
@@ -413,6 +422,42 @@ namespace UWP_XMPP_Client.Controls
                     showLastChatMessage(args.MESSAGE);
                 }
             });
+        }
+
+        private void autoEnter_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            if (mucInfo != null)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    mucInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
+                    ChatManager.INSTANCE.setMUCChatInfo(mucInfo, false, true);
+                });
+            }
+        }
+
+        private void showInfo_mfo_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        private void showProfile_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
+        }
+
+        private void INSTANCE_MUCInfoChanged(ChatManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        {
+            if (!args.REMOVED)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    if (Chat != null && args.MUC_INFO.chatId == Chat.id)
+                    {
+                        mucInfo = args.MUC_INFO;
+                        showChat();
+                    }
+                }).AsTask();
+            }
         }
 
         #endregion

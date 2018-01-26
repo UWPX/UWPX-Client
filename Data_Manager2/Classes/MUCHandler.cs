@@ -80,7 +80,7 @@ namespace Data_Manager2.Classes
             Task.Factory.StartNew(async () => {
                 foreach (ChatTable muc in ChatManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getIdAndDomain()))
                 {
-                    MUCChatInfoTable info = ChatManager.INSTANCE.getMUCInfo(muc);
+                    MUCChatInfoTable info = ChatManager.INSTANCE.getMUCInfo(muc.id);
                     if(info == null)
                     {
                         info = new MUCChatInfoTable()

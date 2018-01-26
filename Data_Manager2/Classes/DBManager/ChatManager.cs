@@ -45,9 +45,9 @@ namespace Data_Manager2.Classes.DBManager
             return getChat(id) != null;
         }
 
-        public MUCChatInfoTable getMUCInfo(ChatTable chat)
+        public MUCChatInfoTable getMUCInfo(string chatId)
         {
-            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>("SELECT * FROM MUCChatInfoTable WHERE chatId = ?;", chat.id);
+            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>("SELECT * FROM MUCChatInfoTable WHERE chatId = ?;", chatId);
             if(list != null && list.Count > 0)
             {
                 return list[0];
@@ -55,9 +55,9 @@ namespace Data_Manager2.Classes.DBManager
             return null;
         }
 
-        public IList<ChatMessageTable> getAllChatMessagesForChat(ChatTable chat)
+        public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
         {
-            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chat.id);
+            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chatId);
         }
 
         public ChatTable getChat(string id)
@@ -147,9 +147,9 @@ namespace Data_Manager2.Classes.DBManager
             return null;
         }
 
-        public ChatMessageTable getLastChatMessageForChat(ChatTable chat)
+        public ChatMessageTable getLastChatMessageForChat(string chatId)
         {
-            IList<ChatMessageTable> list = getAllChatMessagesForChat(chat);
+            IList<ChatMessageTable> list = getAllChatMessagesForChat(chatId);
             if (list.Count <= 0)
             {
                 return null;

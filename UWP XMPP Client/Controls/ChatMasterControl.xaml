@@ -24,12 +24,19 @@
                     <ToggleMenuFlyoutItem x:Name="mute_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
                     <MenuFlyoutItem x:Name="block_tmfo" Text="Block"/>
                     <MenuFlyoutSeparator/>
-                    <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile"/>
+                    <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile" Click="showProfile_mfo_Click"/>
                 </MenuFlyout.Items>
             </MenuFlyout>
 
             <MenuFlyout x:Name="muc_mfo">
-
+                <MenuFlyout.Items>
+                    <MenuFlyoutItem x:Name="deleteMUC_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
+                    <MenuFlyoutSeparator/>
+                    <ToggleMenuFlyoutItem x:Name="autoEnter_tmfo" Text="Auto join" Click="autoEnter_tmfo_Click"/>
+                    <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
+                    <MenuFlyoutSeparator/>
+                    <MenuFlyoutItem x:Name="showInfo_mfo" Text="Show info" Click="showInfo_mfo_Click"/>
+                </MenuFlyout.Items>
             </MenuFlyout>
         </Grid.Resources>
 

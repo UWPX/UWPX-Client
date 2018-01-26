@@ -63,7 +63,7 @@ namespace UWP_XMPP_Client.Controls
                 if (value != null && value.chatType == Data_Manager2.Classes.ChatType.MUC)
                 {
                     ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
-                    mUCInfo = ChatManager.INSTANCE.getMUCInfo(Chat);
+                    mUCInfo = ChatManager.INSTANCE.getMUCInfo(Chat.id);
                 }
                 showCurrentPresence();
             }

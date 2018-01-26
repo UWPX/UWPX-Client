@@ -108,7 +108,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
                 chatMessages.Clear();
-                foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat))
+                foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat.id))
                 {
                     addChatMessage(msg);
                 }
@@ -291,7 +291,7 @@ namespace UWP_XMPP_Client.Controls
             //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.INFO);
         }
 
-        private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)
+        private void message_tbx_GotFocus(object sender, RoutedEventArgs e)
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
             {
