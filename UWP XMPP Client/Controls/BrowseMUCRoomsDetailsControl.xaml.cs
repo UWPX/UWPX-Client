@@ -1,12 +1,16 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
+using UWP_XMPP_Client.Pages;
+using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -139,6 +143,12 @@ namespace UWP_XMPP_Client.Controls
             discoId = null;
         }
 
+        private void showBackgroundForViewState(MasterDetailsViewState state)
+        {
+            backgroundImage_img.Visibility = state == MasterDetailsViewState.Both ? Visibility.Collapsed : Visibility.Visible;
+            darkBackground_grid.Background = state == MasterDetailsViewState.Both ? new SolidColorBrush(Colors.Transparent) : main_grid.Background;
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -153,6 +163,28 @@ namespace UWP_XMPP_Client.Controls
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO as ExtendedDiscoResponseMessage));
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            UiUtils.setBackgroundImage(backgroundImage_img);
+            object o = (Window.Current.Content as Frame).Content;
+            if (o is BrowseMUCRoomsPage)
+            {
+                BrowseMUCRoomsPage page = o as BrowseMUCRoomsPage;
+                MasterDetailsView masterDetailsView = page.getMasterDetailsView();
+                if (masterDetailsView != null)
+                {
+                    masterDetailsView.ViewStateChanged -= MasterDetailsView_ViewStateChanged;
+                    masterDetailsView.ViewStateChanged += MasterDetailsView_ViewStateChanged;
+                    showBackgroundForViewState(masterDetailsView.ViewState);
+                }
+            }
+        }
+
+        private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
+        {
+            showBackgroundForViewState(e);
         }
 
         #endregion

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
@@ -57,7 +58,10 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public MasterDetailsView getMasterDetailsView()
+        {
+            return masterDetail_pnl;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -152,7 +156,7 @@ namespace UWP_XMPP_Client.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if(e.Parameter is BrowseMUCNavigationParameter)
+            if (e.Parameter is BrowseMUCNavigationParameter)
             {
                 BrowseMUCNavigationParameter parameter = e.Parameter as BrowseMUCNavigationParameter;
                 Client = parameter.client;
@@ -168,7 +172,7 @@ namespace UWP_XMPP_Client.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            if(Client != null)
+            if (Client != null)
             {
                 Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
             }
@@ -176,7 +180,7 @@ namespace UWP_XMPP_Client.Pages
 
         private async void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
         {
-            if(discoId != null && discoId.Equals(args.DISCO.getId()))
+            if (discoId != null && discoId.Equals(args.DISCO.getId()))
             {
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO));
             }

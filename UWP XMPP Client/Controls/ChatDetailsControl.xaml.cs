@@ -61,7 +61,6 @@ namespace UWP_XMPP_Client.Controls
         {
             this.chatMessages = new CustomObservableCollection<ChatMessageDataTemplate>();
             this.InitializeComponent();
-            UiUtils.setBackgroundImage(backgroundImage_img);
 
             // Disable the test button on release builds:
 #if !DEBUG
@@ -240,6 +239,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            UiUtils.setBackgroundImage(backgroundImage_img);
             object o = (Window.Current.Content as Frame).Content;
             if (o is ChatPage)
             {
