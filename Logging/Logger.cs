@@ -13,6 +13,7 @@ namespace Logging
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static readonly Object thisLock = new Object();
+        private static StorageFile logFile = null;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -225,7 +226,10 @@ namespace Logging
         /// <param name="code">The log code (INFO, DEBUG, ...)</param>
         private static async Task addToLogAsync(string message, Exception e, string code)
         {
-            StorageFile logFile = await (await getLogFolderAsync()).CreateFileAsync(getFilename(), CreationCollisionOption.OpenIfExists);
+            if(logFile == null)
+            {
+                logFile = await (await getLogFolderAsync()).CreateFileAsync(getFilename(), CreationCollisionOption.OpenIfExists);
+            }
             string s = "[" + code + "][" + getTimeStamp() + "]: " + message;
             if (e != null)
             {
