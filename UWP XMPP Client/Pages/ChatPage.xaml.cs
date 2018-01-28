@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
@@ -92,7 +93,9 @@ namespace UWP_XMPP_Client.Pages
             // Load all chats:
             Task.Factory.StartNew(() =>
             {
+                List<ChatTemplate> chats = new List<ChatTemplate>();
                 ChatTemplate selectedChat = null;
+
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                 {
                     foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
@@ -102,7 +105,7 @@ namespace UWP_XMPP_Client.Pages
                         {
                             chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(chat.id);
                         }
-                        addToChatsSorted(chatElement);
+                        chats.Add(chatElement);
                         if (string.Equals(selectedChatId, chat.id))
                         {
                             selectedChat = chatElement;
@@ -110,9 +113,13 @@ namespace UWP_XMPP_Client.Pages
                     }
                 }
 
+                // Sort chats:
+                chats.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
+
                 // Show selected chat:
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
+                    chatsList.AddRange(chats);
                     if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
                     {
                         masterDetail_pnl.SelectedItem = selectedChat;

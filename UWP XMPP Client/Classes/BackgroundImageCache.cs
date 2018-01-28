@@ -36,7 +36,7 @@ namespace UWP_XMPP_Client.Classes
                 return;
             }
 
-            Task t = Task.Factory.StartNew(async () =>
+            Task.WaitAny(Task.Factory.StartNew(async () =>
             {
                 Logger.Info("Started loading background images...");
                 DateTime timeStart = DateTime.Now;
@@ -84,8 +84,7 @@ namespace UWP_XMPP_Client.Classes
                     Logger.Error("Error during loading background images!", e);
                 }
                 loaded = true;
-            });
-            Task.WaitAny(t);
+            }));
         }
 
         #endregion
