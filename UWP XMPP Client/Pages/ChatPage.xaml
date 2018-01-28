@@ -16,7 +16,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}" Client="{x:Bind client, Mode=OneWay}"/>
+            <controls1:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}" Client="{x:Bind client, Mode=OneWay}" MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">
