@@ -69,7 +69,7 @@ namespace XMPP_API.Classes.Network.XML
 
         public List<MessageTable> getAllForAccount(string accountId)
         {
-            return dB.Query<MessageTable>("SELECT * FROM MessageTable WHERE accountId = ?", accountId);
+            return dB.Query<MessageTable>(true, "SELECT * FROM MessageTable WHERE accountId = ?", accountId);
         }
 
         public void removeEntry(MessageTable entry)

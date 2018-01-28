@@ -42,6 +42,22 @@ namespace UWP_XMPP_Client.DataTemplates
                 }
             }
         }
+        private MUCChatInfoTable _mucInfo;
+        public MUCChatInfoTable mucInfo
+        {
+            get
+            {
+                return _mucInfo;
+            }
+            set
+            {
+                if (value != _mucInfo)
+                {
+                    _mucInfo = value;
+                    onPropertyChanged("mucInfo");
+                }
+            }
+        }
         private XMPPClient _client;
         public XMPPClient client
         {

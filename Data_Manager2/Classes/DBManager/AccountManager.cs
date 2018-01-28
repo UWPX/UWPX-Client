@@ -82,7 +82,7 @@ namespace Data_Manager2.Classes.DBManager
         public IList<XMPPAccount> loadAllAccounts()
         {
             IList<XMPPAccount> results = new List<XMPPAccount>();
-            IList<AccountTable> accounts = dB.Query<AccountTable>("SELECT * FROM AccountTable;");
+            IList<AccountTable> accounts = dB.Query<AccountTable>(true, "SELECT * FROM AccountTable;");
             for (int i = 0; i < accounts.Count; i++)
             {
                 XMPPAccount acc = accounts[i].toXMPPAccount();

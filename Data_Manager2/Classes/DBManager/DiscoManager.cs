@@ -34,7 +34,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Set-, Get- Methods--
         public List<DiscoFeatureTable> getAllMUCServers()
         {
-            return dB.Query<DiscoFeatureTable>("SELECT * FROM DiscoFeatureTable WHERE var = 'http://jabber.org/protocol/muc';");
+            return dB.Query<DiscoFeatureTable>(true, "SELECT * FROM DiscoFeatureTable WHERE var = 'http://jabber.org/protocol/muc';");
         }
 
         #endregion

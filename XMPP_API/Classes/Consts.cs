@@ -25,6 +25,6 @@
         // XEP-0045 (MUC):
         public static readonly string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
 
-        public static readonly bool ENABLE_DEBUG_OUTPUT = true;
+        public static readonly bool ENABLE_DEBUG_OUTPUT = false;
     }
 }

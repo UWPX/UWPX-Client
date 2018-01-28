@@ -68,7 +68,7 @@ namespace Data_Manager2.Classes
             {
                 return;
             }
-            Parallel.ForEach(clients, async (c) =>
+            Parallel.ForEach(clients, (c) =>
             {
                 if (!c.getXMPPAccount().disabled)
                 {
@@ -77,7 +77,7 @@ namespace Data_Manager2.Classes
                         case ConnectionState.DISCONNECTED:
                         case ConnectionState.DISCONNECTING:
                         case ConnectionState.ERROR:
-                            await Task.Factory.StartNew(async () =>
+                            Task t = Task.Factory.StartNew(async () =>
                             {
                                 await c.connectAsync();
                             }, TaskCreationOptions.None).ContinueWith((Task prev) =>

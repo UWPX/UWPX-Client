@@ -9,6 +9,7 @@ using UWP_XMPP_Client.Classes;
 using Microsoft.HockeyApp;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
+using System.Threading.Tasks;
 
 namespace UWP_XMPP_Client
 {
@@ -65,14 +66,17 @@ namespace UWP_XMPP_Client
         }
 
         /// <summary>
-        /// Inits all db managers to force event subscriptions.
+        /// Inits all db managers in a new task to force event subscriptions.
         /// </summary>
         private void initAllDBManagers()
         {
-            AccountManager.INSTANCE.initManager();
-            ChatManager.INSTANCE.initManager();
-            DiscoManager.INSTANCE.initManager();
-            ImageManager.INSTANCE.initManager();
+            Task.Factory.StartNew(() =>
+            {
+                AccountManager.INSTANCE.initManager();
+                ChatManager.INSTANCE.initManager();
+                DiscoManager.INSTANCE.initManager();
+                ImageManager.INSTANCE.initManager();
+            });
         }
 
         protected override void OnActivated(IActivatedEventArgs args)

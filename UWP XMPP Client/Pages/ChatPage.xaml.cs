@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
@@ -23,7 +24,7 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private CustomObservableCollection<ChatTemplate> chatsList;
-        private static readonly object _chatListLocker = new object();
+        private int counter = 0;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -41,6 +42,8 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
             ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
+            ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+            ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
         }
 
         #endregion
@@ -66,10 +69,7 @@ namespace UWP_XMPP_Client.Pages
         private void removeChat(ChatTemplate c)
         {
             var selectedItem = masterDetail_pnl.SelectedItem;
-            lock (_chatListLocker)
-            {
-                chatsList.Remove(c);
-            }
+            chatsList.Remove(c);
             if (c != selectedItem)
             {
                 masterDetail_pnl.SelectedItem = selectedItem;
@@ -78,30 +78,21 @@ namespace UWP_XMPP_Client.Pages
 
         private void addToChatsSorted(ChatTemplate c)
         {
-            var selecetItem = masterDetail_pnl.SelectedItem;
-            lock (_chatListLocker)
+            for (int i = 0; i < chatsList.Count; i++)
             {
-                for (int i = 0; i < chatsList.Count; i++)
+                if (DateTime.Compare(chatsList[i].chat.lastActive, c.chat.lastActive) <= 0)
                 {
-                    if (DateTime.Compare(chatsList[i].chat.lastActive, c.chat.lastActive) <= 0)
-                    {
-                        chatsList.Insert(i, c);
-                        masterDetail_pnl.SelectedItem = selecetItem;
-                        return;
-                    }
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Insert(i, c)).AsTask();
+                    return;
                 }
-                chatsList.Add(c);
             }
-            masterDetail_pnl.SelectedItem = selecetItem;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Add(c)).AsTask();
         }
 
         private void loadChats(string selectedChatId)
         {
             // Clear list:
-            lock (_chatListLocker)
-            {
-                chatsList.Clear();
-            }
+            chatsList.Clear();
 
             // Load all chats:
             Task.Factory.StartNew(() =>
@@ -112,7 +103,11 @@ namespace UWP_XMPP_Client.Pages
                     foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                     {
                         ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
-                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => addToChatsSorted(chatElement)).AsTask();
+                        if (chat.chatType == ChatType.MUC)
+                        {
+                            chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(chat.id);
+                        }
+                        addToChatsSorted(chatElement);
                         if (string.Equals(selectedChatId, chat.id))
                         {
                             selectedChat = chatElement;
@@ -223,37 +218,55 @@ namespace UWP_XMPP_Client.Pages
 
         private void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
-            ChatTable chatTable = args.CHAT;
-            foreach (ChatTemplate c in chatsList)
+            Task.Factory.StartNew(() =>
             {
-                if (c.chat != null && string.Equals(c.chat.id, chatTable.id))
+                // Find chat in chatsList:
+                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
                 {
                     if (args.REMOVED)
                     {
-                        removeChat(c);
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => removeChat(chatTemplate)).AsTask();
                     }
                     else
                     {
-                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => c.chat = chatTable).AsTask();
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatTemplate.chat = args.CHAT).AsTask();
                     }
                     args.Cancel = true;
                     return;
                 }
-            }
-            if (args.REMOVED)
-            {
-                args.Cancel = true;
-                return;
-            }
 
-            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
-            {
-                if (chatTable.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
+                // If not found and should remove chat -> return:
+                if (args.REMOVED)
                 {
-                    ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
-                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => addToChatsSorted(chatElement)).AsTask();
+                    args.Cancel = true;
+                    return;
                 }
-            }
+
+                // Add the new chat to the list of chats:
+                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+                {
+                    if (args.CHAT.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
+                    {
+                        ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
+                        if (args.CHAT.chatType == ChatType.MUC)
+                        {
+                            chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(args.CHAT.id);
+                        }
+                        addToChatsSorted(chatElement);
+                    }
+                }
+            });
+        }
+
+        private void INSTANCE_MUCInfoChanged(ChatManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        {
+            Task.Factory.StartNew(() =>
+            {
+                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && x.chat.chatType == ChatType.MUC && Equals(x.chat.id, args.MUC_INFO.chatId)))
+                {
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatTemplate.mucInfo = args.MUC_INFO).AsTask();
+                }
+            });
         }
 
         private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)

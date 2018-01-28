@@ -47,7 +47,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public MUCChatInfoTable getMUCInfo(string chatId)
         {
-            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>("SELECT * FROM MUCChatInfoTable WHERE chatId = ?;", chatId);
+            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM MUCChatInfoTable WHERE chatId = ?;", chatId);
             if(list != null && list.Count > 0)
             {
                 return list[0];
@@ -57,12 +57,12 @@ namespace Data_Manager2.Classes.DBManager
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
         {
-            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chatId);
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chatId);
         }
 
         public ChatTable getChat(string id)
         {
-            IList<ChatTable> list = dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE id = ?;", id);
+            IList<ChatTable> list = dB.Query<ChatTable>(true, "SELECT * FROM ChatTable WHERE id = ?;", id);
             if (list.Count < 1)
             {
                 return null;
@@ -75,7 +75,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public List<ChatTable> getAllMUCs(string userAccountId)
         {
-            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
+            return dB.Query<ChatTable>(true, "SELECT * FROM ChatTable WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
         }
 
         public void setChat(ChatTable chat, bool delete, bool triggerChatChanged)
@@ -119,12 +119,12 @@ namespace Data_Manager2.Classes.DBManager
 
         private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
         {
-            return dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
         }
 
         public List<ChatTable> getAllChatsForClient(string userAccountId)
         {
-            return dB.Query<ChatTable>("SELECT * FROM ChatTable WHERE userAccountId LIKE ?;", userAccountId);
+            return dB.Query<ChatTable>(true, "SELECT * FROM ChatTable WHERE userAccountId LIKE ?;", userAccountId);
         }
 
         public void setAllNotInRoster(string userAccountId)
@@ -139,7 +139,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public ChatMessageTable getChatMessageById(string messageId)
         {
-            List<ChatMessageTable> list = dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE id = ?;", messageId);
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE id = ?;", messageId);
             if (list.Count > 0)
             {
                 return list[0];
@@ -163,7 +163,7 @@ namespace Data_Manager2.Classes.DBManager
         public void updateChatMessageState(string msgId, MessageState state)
         {
             dB.Execute("UPDATE ChatMessageTable SET state = ? WHERE id = ?", state, msgId);
-            List<ChatMessageTable> list = dB.Query<ChatMessageTable>("SELECT * FROM ChatMessageTable WHERE id = ?;", msgId);
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE id = ?;", msgId);
             Parallel.ForEach(list, (msg) =>
             {
                 ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));

@@ -66,7 +66,7 @@ namespace Data_Manager2.Classes.DBManager
             ImageTable img = downloading.Find(x => string.Equals(x.messageId, msg.id));
             if (img == null)
             {
-                List<ImageTable> list = dB.Query<ImageTable>("SELECT * FROM ImageTable WHERE messageId = ?;", msg.id);
+                List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM ImageTable WHERE messageId = ?;", msg.id);
                 if (list.Count > 0)
                 {
                     img = list[0];
@@ -137,7 +137,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </summary>
         private void contiuneAllDownloads()
         {
-            List<ImageTable> list = dB.Query<ImageTable>("SELECT * FROM ImageTable WHERE state = 0 OR state = 1;");
+            List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM ImageTable WHERE state = 0 OR state = 1;");
             foreach (ImageTable img in list)
             {
                 Task.Factory.StartNew(async () =>

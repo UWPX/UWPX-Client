@@ -32,7 +32,7 @@ namespace UWP_XMPP_Client.Controls
                 linkEvents();
             }
         }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatDetailsControl), null);
 
         public ChatTable Chat
         {
@@ -44,7 +44,15 @@ namespace UWP_XMPP_Client.Controls
                 showMessages();
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatDetailsControl), null);
+
+        public MUCChatInfoTable MUCInfo
+        {
+            get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
+            set
+            { SetValue(MUCInfoProperty, value); }
+        }
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatDetailsControl), null);
 
         private CustomObservableCollection<ChatMessageDataTemplate> chatMessages;
 
@@ -320,10 +328,7 @@ namespace UWP_XMPP_Client.Controls
                             if (chatMessages[i].message != null && Equals(chatMessages[i].message.id, args.MESSAGE.id))
                             {
                                 // Only the main thread should update the list to prevent problems:
-                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                {
-                                    chatMessages[i].message = args.MESSAGE;
-                                });
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatMessages[i].message = args.MESSAGE);
                             }
                         }
                     });
