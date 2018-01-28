@@ -1,6 +1,7 @@
 ﻿using SQLite.Net;
 using SQLite.Net.Platform.WinRT;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Thread_Save_Components.Classes.SQLite
 {
@@ -10,7 +11,9 @@ namespace Thread_Save_Components.Classes.SQLite
         #region --Attributes--
         protected SQLiteConnection dB;
 
-        private static readonly object _dBLocker = new object();
+        private static readonly SemaphoreSlim requestSema = new SemaphoreSlim(1, 1);
+        private static readonly SemaphoreSlim readSema = new SemaphoreSlim(10, 10); // Allow up to 10 threads to read from the db in parallel
+        private static readonly SemaphoreSlim writeSema = new SemaphoreSlim(1, 1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -36,67 +39,134 @@ namespace Thread_Save_Components.Classes.SQLite
         #region --Misc Methods (Public)--
         public int InsertOrReplace(object obj)
         {
-            lock (_dBLocker)
-            {
-                return dB.InsertOrReplace(obj);
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            int i = dB.InsertOrReplace(obj);
+
+            writeSema.Release();
+            readSema.Release();
+
+            return i;
         }
 
         public void Close()
         {
-            lock (_dBLocker)
-            {
-                dB.Close();
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            dB.Close();
+
+            writeSema.Release();
+            readSema.Release();
         }
 
         public int Execute(string query, params object[] args)
         {
-            lock (_dBLocker)
-            {
-                return dB.Execute(query, args);
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            int i = dB.Execute(query, args);
+
+            writeSema.Release();
+            readSema.Release();
+
+            return i;
         }
 
-        public List<T> Query<T>(string query, params object[] args) where T : class
+        public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : class
         {
-            lock (_dBLocker)
+            List<T> list;
+            if (readOnly)
             {
-                return dB.Query<T>(query, args);
+                requestSema.Wait();
+                readSema.Wait();
+                requestSema.Release();
+
+                list = dB.Query<T>(query, args);
+
+                readSema.Release();
             }
+            else
+            {
+                requestSema.Wait();
+                writeSema.Wait();
+                readSema.Wait();
+                requestSema.Release();
+
+                list = dB.Query<T>(query, args);
+
+                writeSema.Release();
+                readSema.Release();
+            }
+            return list;
         }
 
         public int CreateTable<T>() where T : class
         {
-            lock (_dBLocker)
-            {
-                return dB.CreateTable<T>();
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            int i = dB.CreateTable<T>();
+
+            writeSema.Release();
+            readSema.Release();
+
+            return i;
         }
 
         public int DropTable<T>() where T : class
         {
-            lock (_dBLocker)
-            {
-                return dB.DropTable<T>();
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            int i = dB.DropTable<T>();
+
+            writeSema.Release();
+            readSema.Release();
+
+            return i;
         }
 
         public int RecreateTable<T>() where T : class
         {
-            lock (_dBLocker)
-            {
-                dB.DropTable<T>();
-                return dB.CreateTable<T>();
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            dB.DropTable<T>();
+            int i = dB.CreateTable<T>();
+
+            writeSema.Release();
+            readSema.Release();
+
+            return i;
         }
 
         public int Delete(object objectToDelete)
         {
-            lock (_dBLocker)
-            {
-                return dB.Delete(objectToDelete);
-            }
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.Wait();
+            requestSema.Release();
+
+            int i = dB.Delete(objectToDelete);
+
+            writeSema.Release();
+            readSema.Release();
+
+            return i;
         }
 
         #endregion
