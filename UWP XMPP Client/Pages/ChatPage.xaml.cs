@@ -24,7 +24,6 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private CustomObservableCollection<ChatTemplate> chatsList;
-        private int counter = 0;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,10 +39,6 @@ namespace UWP_XMPP_Client.Pages
             this.chatsList = new CustomObservableCollection<ChatTemplate>();
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
-            ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
-            ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
         }
 
         #endregion
@@ -328,6 +323,12 @@ namespace UWP_XMPP_Client.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UiUtils.setBackgroundImage(backgroundImage_img);
+
+            // Subscribe to chat and MUC info changed events:
+            ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
+            ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
+            ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+            ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
         }
 
         #endregion

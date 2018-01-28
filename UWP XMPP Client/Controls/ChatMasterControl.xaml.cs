@@ -25,9 +25,17 @@ namespace UWP_XMPP_Client.Controls
             get { return (XMPPClient)GetValue(ClientProperty); }
             set
             {
+                if (Client != null)
+                {
+                    ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                }
                 SetValue(ClientProperty, value);
+                if (Client != null)
+                {
+                    ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                    ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+                }
                 showChat();
-                linkEvents();
             }
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
@@ -71,10 +79,6 @@ namespace UWP_XMPP_Client.Controls
             this.InitializeComponent();
             this.subscriptionRequest = false;
             this.lastChatMessage = null;
-            ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
-            ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
         }
 
         #endregion
@@ -220,15 +224,6 @@ namespace UWP_XMPP_Client.Controls
                 // Status icons:
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
                 inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
-            }
-        }
-
-        private void linkEvents()
-        {
-            if (Client != null)
-            {
-                ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-                ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
             }
         }
 
@@ -394,17 +389,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
-        {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                if (Chat.id.Equals(args.CHAT.id))
-                {
-                    showChat();
-                }
-            });
-        }
-
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
             await Client.requestPresenceSubscriptionAsync(Chat.chatJabberId);
@@ -488,6 +472,13 @@ namespace UWP_XMPP_Client.Controls
                 // ToDo remove MUC from bookmarks
                 ChatManager.INSTANCE.setChat(Chat, false, false);
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            // Subscribe to the chat message changed event:
+            ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+            ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
         }
 
         #endregion

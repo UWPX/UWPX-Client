@@ -27,9 +27,17 @@ namespace UWP_XMPP_Client.Controls
             get { return (XMPPClient)GetValue(ClientProperty); }
             set
             {
+                if (Client != null)
+                {
+                    Client.NewChatState -= Client_NewChatState;
+                }
                 SetValue(ClientProperty, value);
                 showMessages();
-                linkEvents();
+                if (Client != null)
+                {
+                    Client.NewChatState -= Client_NewChatState;
+                    Client.NewChatState += Client_NewChatState;
+                }
             }
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatDetailsControl), null);
@@ -49,8 +57,7 @@ namespace UWP_XMPP_Client.Controls
         public MUCChatInfoTable MUCInfo
         {
             get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
-            set
-            { SetValue(MUCInfoProperty, value); }
+            set { SetValue(MUCInfoProperty, value); }
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatDetailsControl), null);
 
@@ -123,19 +130,6 @@ namespace UWP_XMPP_Client.Controls
 
                 ChatTable cpy = Chat.clone();
                 Task.Factory.StartNew(() => ChatManager.INSTANCE.markAllMessagesAsRead(cpy));
-            }
-        }
-
-        private void linkEvents()
-        {
-            if (Client != null)
-            {
-                ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-                ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-                ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
-                ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
-                Client.NewChatState -= Client_NewChatState;
-                Client.NewChatState += Client_NewChatState;
             }
         }
 
@@ -260,6 +254,12 @@ namespace UWP_XMPP_Client.Controls
                     showBackgroundForViewState(masterDetailsView.ViewState);
                 }
             }
+
+            // Subscribe to chat and chat message changed events:
+            ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+            ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+            ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
         }
 
         private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
@@ -323,7 +323,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     Task.Factory.StartNew(async () =>
                     {
-                        for(int i = 0; i < chatMessages.Count; i++)
+                        for (int i = 0; i < chatMessages.Count; i++)
                         {
                             if (chatMessages[i].message != null && Equals(chatMessages[i].message.id, args.MESSAGE.id))
                             {
