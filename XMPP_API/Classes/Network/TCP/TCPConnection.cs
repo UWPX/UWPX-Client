@@ -1,15 +1,18 @@
 ﻿using Logging;
 using System;
+using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
+using Windows.Security.Cryptography.Certificates;
 using Windows.Storage.Streams;
 using XMPP_API.Classes.Network.Events;
 
 namespace XMPP_API.Classes.Network.TCP
 {
-    class TCPConnection : AbstractConnection
+    public class TCPConnection : AbstractConnection
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,8 +27,6 @@ namespace XMPP_API.Classes.Network.TCP
 
         private StreamSocket socket;
         private HostName hostName;
-        //private StreamWriter writer;
-        //private StreamReader reader;
 
         private DataReader dataReader;
         private DataWriter dataWriter;
@@ -62,7 +63,43 @@ namespace XMPP_API.Classes.Network.TCP
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Gets detailed certificate information.
+        /// Source: https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/StreamSocket/cs/Scenario5_Certificates.xaml.cs
+        /// </summary>
+        /// <param name="serverCert">The server certificate.</param>
+        /// <param name="intermediateCertificates">The server certificate chain.</param>
+        /// <returns>A string containing certificate details.</returns>
+        public string getCertificateInformation(Certificate serverCert, IReadOnlyList<Certificate> intermediateCertificates)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
 
+            stringBuilder.AppendLine("\tFriendly Name: " + serverCert.FriendlyName);
+            stringBuilder.AppendLine("\tSubject: " + serverCert.Subject);
+            stringBuilder.AppendLine("\tIssuer: " + serverCert.Issuer);
+            stringBuilder.AppendLine("\tValidity: " + serverCert.ValidFrom + " - " + serverCert.ValidTo);
+
+            // Enumerate the entire certificate chain.
+            if (intermediateCertificates.Count > 0)
+            {
+                stringBuilder.AppendLine("\tCertificate chain: ");
+                foreach (var cert in intermediateCertificates)
+                {
+                    stringBuilder.AppendLine("\t\tIntermediate Certificate Subject: " + cert.Subject);
+                }
+            }
+            else
+            {
+                stringBuilder.AppendLine("\tNo certificates within the intermediate chain.");
+            }
+
+            return stringBuilder.ToString();
+        }
+
+        public string getCertificateInformation()
+        {
+            return getCertificateInformation(socket.Information.ServerCertificate, socket.Information.ServerIntermediateCertificates);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -287,6 +324,48 @@ namespace XMPP_API.Classes.Network.TCP
             });
         }
 
+        public string readNextString()
+        {
+            string result = "";
+            if (state != ConnectionState.CONNECTED)
+            {
+                return null;
+            }
+
+            readingCTS = new CancellationTokenSource();
+
+            try
+            {
+                uint readCount = 0;
+
+                // Read the first batch:
+                Task<uint> t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
+                t.Wait(readingCTS.Token);
+                readCount = t.Result;
+                while (dataReader.UnconsumedBufferLength > 0)
+                {
+                    result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                }
+
+                // If there is still data left to read, continue until a timeout occurs or a close got requested:
+                while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
+                {
+                    t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
+                    t.Wait(100, readingCTS.Token);
+                    readCount = t.Result;
+                    while (dataReader.UnconsumedBufferLength > 0)
+                    {
+                        result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                    }
+                }
+            }
+            catch (AggregateException)
+            {
+            }
+
+            return result;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -327,48 +406,6 @@ namespace XMPP_API.Classes.Network.TCP
                 dataReader = null;
                 GC.Collect();
             }
-        }
-
-        protected string readNextString()
-        {
-            string result = "";
-            if (state != ConnectionState.CONNECTED)
-            {
-                return null;
-            }
-
-            readingCTS = new CancellationTokenSource();
-
-            try
-            {
-                uint readCount = 0;
-
-                // Read the first batch:
-                Task<uint> t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
-                t.Wait(readingCTS.Token);
-                readCount = t.Result;
-                while (dataReader.UnconsumedBufferLength > 0)
-                {
-                    result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
-                }
-
-                // If there is still data left to read, continue until a timeout occurs or a close got requested:
-                while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
-                {
-                    t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
-                    t.Wait(100, readingCTS.Token);
-                    readCount = t.Result;
-                    while (dataReader.UnconsumedBufferLength > 0)
-                    {
-                        result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
-                    }
-                }
-            }
-            catch (AggregateException)
-            {
-            }
-
-            return result;
         }
 
         #endregion

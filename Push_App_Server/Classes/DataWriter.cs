@@ -13,7 +13,7 @@ namespace Push_App_Server.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly TCPConnectionHandler TCP_CONNECTION_HANDLER;
+        private readonly PushConnection PUSH_CONNECTION;
         private XMPPClient client;
 
         #endregion
@@ -27,7 +27,7 @@ namespace Push_App_Server.Classes
         /// </history>
         public DataWriter(XMPPClient client)
         {
-            this.TCP_CONNECTION_HANDLER = new TCPConnectionHandler();
+            this.PUSH_CONNECTION = new PushConnection();
             this.client = client;
         }
 
@@ -80,7 +80,7 @@ namespace Push_App_Server.Classes
             string result = null;
             for (int i = 1; i < 4; i++)
             {
-                if(client.getConnetionState() != XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                if (client.getConnetionState() != XMPP_API.Classes.Network.ConnectionState.CONNECTED)
                 {
                     return false;
                 }
@@ -89,13 +89,12 @@ namespace Push_App_Server.Classes
                 {
                     Task<Task<string>> t = Task<Task<string>>.Factory.StartNew(async () =>
                     {
-                        await TCP_CONNECTION_HANDLER.disconnectAsync();
                         Logger.Info("Connecting to the push server (" + Consts.PUSH_SERVER_ADDRESS + ")...");
-                        await TCP_CONNECTION_HANDLER.connectAsync();
-                        TCP_CONNECTION_HANDLER.getCertificateInformation();
+                        await PUSH_CONNECTION.connectAsync();
+                        PUSH_CONNECTION.getCertificateInformation();
                         Logger.Info("Connected to the push server (" + Consts.PUSH_SERVER_ADDRESS + ").");
-                        await TCP_CONNECTION_HANDLER.sendMessageToServerAsync(getMessage(channel.Uri));
-                        return TCP_CONNECTION_HANDLER.readMessageFromServer();
+                        await PUSH_CONNECTION.sendAsync(getMessage(channel.Uri));
+                        return PUSH_CONNECTION.readNextString();
                     });
                     CancellationTokenSource cTS = new CancellationTokenSource();
                     if (t.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token) && t.Result.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token))

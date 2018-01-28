@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.Events;
 
 namespace XMPP_API.Classes.Network
 {
-    abstract class AbstractConnection
+    public abstract class AbstractConnection
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
