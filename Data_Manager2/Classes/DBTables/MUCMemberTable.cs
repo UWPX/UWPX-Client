@@ -2,6 +2,7 @@
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.MUC_MEMBER_TABLE)]
     public class MUCMemberTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\

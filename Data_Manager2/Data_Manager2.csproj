@@ -113,6 +113,7 @@
     <Compile Include="Classes\DBManager\ChatManager.cs" />
     <Compile Include="Classes\DBManager\DiscoManager.cs" />
     <Compile Include="Classes\DBManager\ImageManager.cs" />
+    <Compile Include="Classes\DBTables\DBTableConsts.cs" />
     <Compile Include="Classes\DBTables\DiscoFeatureTable.cs" />
     <Compile Include="Classes\DBTables\DiscoItemTable.cs" />
     <Compile Include="Classes\DBTables\ImageTable.cs" />

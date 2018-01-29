@@ -53,7 +53,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="disabled">Account disable true or false.</param>
         public void setAccountDisabled(XMPPAccount account, bool disabled)
         {
-            dB.Execute("UPDATE AccountTable SET disabled = ? WHERE id = ?", disabled, account.getIdAndDomain());
+            dB.Execute("UPDATE " + DBTableConsts.ACCOUNT_TABLE + " SET disabled = ? WHERE id = ?;", disabled, account.getIdAndDomain());
             AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, false));
         }
 
@@ -66,7 +66,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="account">The account to delete.</param>
         public void deleteAccount(XMPPAccount account, bool triggerAccountChanged)
         {
-            dB.Execute("DELETE FROM AccountTable WHERE id = ?;", account.getIdAndDomain());
+            dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_TABLE + " WHERE id = ?;", account.getIdAndDomain());
             Vault.deletePassword(account);
             if (triggerAccountChanged)
             {
@@ -82,7 +82,7 @@ namespace Data_Manager2.Classes.DBManager
         public IList<XMPPAccount> loadAllAccounts()
         {
             IList<XMPPAccount> results = new List<XMPPAccount>();
-            IList<AccountTable> accounts = dB.Query<AccountTable>(true, "SELECT * FROM AccountTable;");
+            IList<AccountTable> accounts = dB.Query<AccountTable>(true, "SELECT * FROM " + DBTableConsts.ACCOUNT_TABLE + ";");
             for (int i = 0; i < accounts.Count; i++)
             {
                 XMPPAccount acc = accounts[i].toXMPPAccount();

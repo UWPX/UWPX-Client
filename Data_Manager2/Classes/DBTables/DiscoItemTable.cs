@@ -2,6 +2,7 @@
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.DISCO_ITEM_TABLE)]
     public class DiscoItemTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\

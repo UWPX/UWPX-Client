@@ -34,7 +34,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Set-, Get- Methods--
         public List<DiscoFeatureTable> getAllMUCServers()
         {
-            return dB.Query<DiscoFeatureTable>(true, "SELECT * FROM DiscoFeatureTable WHERE var = 'http://jabber.org/protocol/muc';");
+            return dB.Query<DiscoFeatureTable>(true, "SELECT * FROM " + DBTableConsts.DISCO_FEATURE_TABLE + " WHERE var = 'http://jabber.org/protocol/muc';");
         }
 
         #endregion
@@ -49,7 +49,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (identities != null)
             {
-                dB.Execute("DELETE FROM DiscoIdentityTable WHERE fromServer = ?;", from);
+                dB.Execute("DELETE FROM " + DBTableConsts.DISCO_IDENTITY_TABLE + " WHERE fromServer = ?;", from);
                 foreach (DiscoIdentity i in identities)
                 {
                     if (from != null && i.TYPE != null && i.CATEGORY != null)
@@ -71,7 +71,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (features != null)
             {
-                dB.Execute("DELETE FROM DiscoFeatureTable WHERE fromServer = ?;", from);
+                dB.Execute("DELETE FROM " + DBTableConsts.DISCO_FEATURE_TABLE + " WHERE fromServer = ?;", from);
                 foreach (DiscoFeature f in features)
                 {
                     if (from != null && f.VAR != null)
@@ -91,7 +91,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (items != null)
             {
-                dB.Execute("DELETE FROM DiscoItemTable WHERE fromServer = ?;", from);
+                dB.Execute("DELETE FROM " + DBTableConsts.DISCO_ITEM_TABLE + " WHERE fromServer = ?;", from);
                 foreach (DiscoItem i in items)
                 {
                     if (from != null && i.JID != null)
@@ -147,7 +147,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 string from = args.DISCO.getFrom();
                 // Only store direct server results:
-                if(from != null && !from.Contains("@") && messageIdCache.getTimed(args.DISCO.getId()) != null)
+                if (from != null && !from.Contains("@") && messageIdCache.getTimed(args.DISCO.getId()) != null)
                 {
                     switch (args.DISCO.DISCO_TYPE)
                     {

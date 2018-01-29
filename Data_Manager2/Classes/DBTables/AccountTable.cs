@@ -4,6 +4,7 @@ using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.ACCOUNT_TABLE)]
     public class AccountTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -11,7 +12,7 @@ namespace Data_Manager2.Classes.DBTables
         [PrimaryKey]
         // An unique id: jabberId @ domain
         public string id { get; set; }
-        // The account jabber id 
+        // The account jabber id
         public string jabberId { get; set; }
         // XMPP domain e.g. phone or W10PC
         public string domain { get; set; }
@@ -60,7 +61,7 @@ namespace Data_Manager2.Classes.DBTables
             {
                 color = color,
                 presencePriorety = presencePriorety,
-                disabled = disabled 
+                disabled = disabled
             };
         }
 

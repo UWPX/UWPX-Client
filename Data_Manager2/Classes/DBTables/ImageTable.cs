@@ -7,6 +7,7 @@ using System;
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.IMAGE_TABLE)]
     public class ImageTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\

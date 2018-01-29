@@ -1,10 +1,10 @@
-﻿using Data_Manager2.Classes.DBManager;
-using SQLite.Net.Attributes;
+﻿using SQLite.Net.Attributes;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.MUC_CHAT_INFO_TABLE)]
     public class MUCChatInfoTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\

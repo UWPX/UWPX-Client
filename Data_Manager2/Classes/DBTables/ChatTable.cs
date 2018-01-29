@@ -4,6 +4,7 @@ using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.CHAT_TABLE)]
     public class ChatTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\

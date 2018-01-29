@@ -47,8 +47,8 @@ namespace Data_Manager2.Classes.DBManager
 
         public MUCChatInfoTable getMUCInfo(string chatId)
         {
-            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM MUCChatInfoTable WHERE chatId = ?;", chatId);
-            if(list != null && list.Count > 0)
+            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE chatId = ?;", chatId);
+            if (list != null && list.Count > 0)
             {
                 return list[0];
             }
@@ -57,12 +57,12 @@ namespace Data_Manager2.Classes.DBManager
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
         {
-            return dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE chatId = ? ORDER BY date ASC;", chatId);
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date ASC;", chatId);
         }
 
         public ChatTable getChat(string id)
         {
-            IList<ChatTable> list = dB.Query<ChatTable>(true, "SELECT * FROM ChatTable WHERE id = ?;", id);
+            IList<ChatTable> list = dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE id = ?;", id);
             if (list.Count < 1)
             {
                 return null;
@@ -75,7 +75,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public List<ChatTable> getAllMUCs(string userAccountId)
         {
-            return dB.Query<ChatTable>(true, "SELECT * FROM ChatTable WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
+            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
         }
 
         public void setChat(ChatTable chat, bool delete, bool triggerChatChanged)
@@ -99,7 +99,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public void setMUCChatInfo(MUCChatInfoTable info, bool delete, bool triggerMUCChanged)
         {
-            if(info != null)
+            if (info != null)
             {
                 if (delete)
                 {
@@ -119,12 +119,12 @@ namespace Data_Manager2.Classes.DBManager
 
         private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
         {
-            return dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
         }
 
         public List<ChatTable> getAllChatsForClient(string userAccountId)
         {
-            return dB.Query<ChatTable>(true, "SELECT * FROM ChatTable WHERE userAccountId LIKE ?;", userAccountId);
+            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId LIKE ?;", userAccountId);
         }
 
         public void setAllNotInRoster(string userAccountId)
@@ -139,7 +139,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public ChatMessageTable getChatMessageById(string messageId)
         {
-            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE id = ?;", messageId);
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE id = ?;", messageId);
             if (list.Count > 0)
             {
                 return list[0];
@@ -162,8 +162,8 @@ namespace Data_Manager2.Classes.DBManager
         #region --Misc Methods (Public)--
         public void updateChatMessageState(string msgId, MessageState state)
         {
-            dB.Execute("UPDATE ChatMessageTable SET state = ? WHERE id = ?", state, msgId);
-            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM ChatMessageTable WHERE id = ?;", msgId);
+            dB.Execute("UPDATE " + DBTableConsts.CHAT_MESSAGE_TABLE + " SET state = ? WHERE id = ?", state, msgId);
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE id = ?;", msgId);
             Parallel.ForEach(list, (msg) =>
             {
                 ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
@@ -172,7 +172,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public void deleteAllChatMessagesForAccount(ChatTable chat)
         {
-            dB.Execute("DELETE FROM ChatMessageTable WHERE chatId = ?;", chat.id);
+            dB.Execute("DELETE FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chat.id);
         }
 
         public void markAllMessagesAsRead(ChatTable chat)
@@ -211,7 +211,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>
             {
-                if(c.chatType == ChatType.CHAT)
+                if (c.chatType == ChatType.CHAT)
                 {
                     c.presence = Presence.Unavailable;
                     update(c);
@@ -222,7 +222,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public void resetMUCEnterState(string userAccountId)
         {
-            dB.Execute("UPDATE MUCChatInfoTable SET enterState = 0 WHERE EXISTS (SELECT * FROM MUCChatInfoTable m JOIN ChatTable c ON c.id = m.chatId WHERE c.chatJabberId = ?);", MUCEnterState.DISCONNECTED, userAccountId);
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET enterState = 0 WHERE EXISTS (SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " m JOIN " + DBTableConsts.CHAT_TABLE + " c ON c.id = m.chatId WHERE c.chatJabberId = ?);", MUCEnterState.DISCONNECTED, userAccountId);
         }
 
         #endregion
@@ -235,7 +235,7 @@ namespace Data_Manager2.Classes.DBManager
 
         private void resetPresences()
         {
-            dB.Execute("UPDATE ChatTable SET presence = ? WHERE chatType = ?;", Presence.Unavailable, ChatType.CHAT);
+            dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET presence = ? WHERE chatType = ?;", Presence.Unavailable, ChatType.CHAT);
         }
 
         #endregion

@@ -7,6 +7,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 
 namespace Data_Manager2.Classes.DBTables
 {
+    [Table(DBTableConsts.CHAT_MESSAGE_TABLE)]
     public class ChatMessageTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -14,13 +15,13 @@ namespace Data_Manager2.Classes.DBTables
         // Random message id
         [PrimaryKey]
         public string id { get; set; }
-        // the chat id e.g. alice@jabber.orgbob@jaber.de
+        // the chat id e.g. alice@jabber.org_bob@jaber.de
         public string chatId { get; set; }
         // error, chat, groupchat, ....
         public string type { get; set; }
         // The actual chat message
         public string message { get; set; }
-        // Which user has send the message (useful for group chats e.g muc or mix)
+        // Which user has send the message (useful for group chats e.g MUC or MIX)
         public string fromUser { get; set; }
         // The message date
         public DateTime date { get; set; }
@@ -48,18 +49,20 @@ namespace Data_Manager2.Classes.DBTables
 
         public ChatMessageTable(MessageMessage msg, ChatTable chat)
         {
-            if (msg.getType() != null && msg.getType().Equals("error"))
+            switch (msg.getType())
             {
-                this.id = msg.getId() + '_' + chat.id + "_error";
-            }
-            else
-            {
-                this.id = msg.getId() + '_' + chat.id;
+                case "error":
+                    this.id = msg.getId() + '_' + chat.id + "_error";
+                    break;
+
+                default:
+                    this.id = msg.getId() + '_' + chat.id;
+                    break;
             }
             this.chatId = chat.id;
             this.type = msg.getType();
             this.message = msg.getMessage();
-            this.fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
+            this.fromUser = Utils.getResourceFromFullJid(msg.getFrom());
             this.date = msg.getDelay();
             if (this.date == null || this.date.Equals(DateTime.MinValue))
             {
