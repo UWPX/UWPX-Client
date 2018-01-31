@@ -1,0 +1,28 @@
+﻿<ContentDialog
+    x:Class="UWP_XMPP_Client.Dialogs.WhatsNewDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d"
+    Title="What's new?">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" Margin="0, 10, 0, 0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer Grid.Row="0" MaxHeight="500">
+                <controls:MarkdownTextBlock x:Uid="whats_new_markdown" Margin="10" LinkClicked="MarkdownTextBlock_LinkClicked"/>
+            </ScrollViewer>
+            <CheckBox Grid.Row="1" x:Name="showOnStartup_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Show this on startup"/>
+        </Grid>
+        <Button x:Name="close_btn" Grid.Row="1" Content="Close" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0" Click="close_btn_Click"/>
+    </Grid>
+</ContentDialog>

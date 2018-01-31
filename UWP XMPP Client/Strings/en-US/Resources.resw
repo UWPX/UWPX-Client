@@ -132,4 +132,32 @@
   <data name="invalid_server_text" xml:space="preserve">
     <value>Invalid server addresse!</value>
   </data>
+  <data name="whats_new_markdown.Text" xml:space="preserve">
+    <value># v.0.2.0.0 [February 2018] Basic MUC support:
+
+Since I've decided to switch from feature driven releases to regular (probably monthly or so 😉) releases, here is the release for february:
+
+This release starts adding support for [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html).
+
+It adds MUC browsing, joining, adding and sending messages. You can also add your MUCs to your personal bookmarks **but** you can't remove them again. This is a topic for a later release.
+
+### Known bugs:
+* App locking up on startup, if a lot of your contacts are online (associated with presence changes) [#13](https://github.com/UWPX/UWPX-Client/issues/13)
+* Background image not loading [#9](https://github.com/UWPX/UWPX-Client/issues/9) 
+* Last active chat won't update [#8](https://github.com/UWPX/UWPX-Client/issues/8) 
+* App crashes, if not connected to the internet [#14](https://github.com/UWPX/UWPX-Client/issues/14)
+
+### Changes:
+* Started adding basic [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html) support
+* Improved [Disco (XEP-0030)](https://xmpp.org/extensions/xep-0030.html) support
+* Added message state indicators
+* Added support for updating chat messages
+* Fixed missing chat names
+* Fixed notification not hiding
+* Fixed last read message
+* Fixed various crashes
+
+
+[View on GitHub](https://github.com/UWPX/UWPX-Client/releases)</value>
+  </data>
 </root>

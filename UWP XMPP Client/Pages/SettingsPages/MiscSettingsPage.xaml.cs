@@ -104,6 +104,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             showImageChacheSize();
 
             showInitialStartDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            showWhatsNewDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG_ALPHA_2);
             disableCrashReporting_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
         }
 
@@ -173,6 +174,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void showInitialStartDialog_tgls_Toggled(object sender, RoutedEventArgs e)
         {
             Settings.setSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !showInitialStartDialog_tgls.IsOn);
+        }
+
+        private void showWhatsNewDialog_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.HIDE_WHATS_NEW_DIALOG_ALPHA_2, !showWhatsNewDialog_tgls.IsOn);
         }
 
         private void disableCrashReporting_tgls_Toggled(object sender, RoutedEventArgs e)

@@ -36,7 +36,8 @@
 
                 <controls:SeperatorControl Text="Misc:"/>
                 <Button x:Name="clearCache_btn" Content="Clear cache" Margin="10,10,0,0" Click="clearCache_btn_Click"/>
-                <ToggleSwitch x:Name="showInitialStartDialog_tgls"  Margin="10,10,0,0" Toggled="showInitialStartDialog_tgls_Toggled" Header="Show dialog on start"/>
+                <ToggleSwitch x:Name="showInitialStartDialog_tgls"  Margin="10,10,0,0" Toggled="showInitialStartDialog_tgls_Toggled" Header="Show welcome dialog on startup"/>
+                <ToggleSwitch x:Name="showWhatsNewDialog_tgls"  Margin="10,10,0,0" Toggled="showWhatsNewDialog_tgls_Toggled" Header="Show what's new dialog on startup"/>
 
                 <controls:SeperatorControl Text="About and links:"/>
                 <StackPanel x:Name="contributeGithub_stckp" Orientation="Horizontal" Margin="10,10,0,0" Tapped="contributeGithub_stckp_Tapped">

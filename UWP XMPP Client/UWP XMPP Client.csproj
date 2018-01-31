@@ -140,6 +140,9 @@
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
+      <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
       <DependentUpon>InitialStartDialog.xaml</DependentUpon>
     </Compile>
@@ -335,6 +338,10 @@
     <Page Include="Dialogs\ClearCacheDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\WhatsNewDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\InitialStartDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

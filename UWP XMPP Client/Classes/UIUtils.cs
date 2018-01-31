@@ -119,6 +119,16 @@ namespace UWP_XMPP_Client.Classes
             }
         }
 
+        public static async Task showWhatsNewDialog()
+        {
+            if (!Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG_ALPHA_2))
+            {
+                WhatsNewDialog dialog = new WhatsNewDialog();
+                await dialog.ShowAsync();
+                Settings.setSetting(SettingsConsts.HIDE_WHATS_NEW_DIALOG_ALPHA_2, !dialog.showOnStartup);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
