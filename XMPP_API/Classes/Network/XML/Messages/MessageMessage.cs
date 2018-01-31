@@ -11,12 +11,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private readonly string MESSAGE;
         private readonly string TYPE;
         private readonly DateTime DELAY;
+        private readonly string FROM_NICK;
         private DateTime delay;
         // Already shown as a toast:
         private bool toasted;
 
-        public static readonly string TYPE_CHAT = "chat";
-        public static readonly string TYPE_GROUPCHAT = "groupchat";
+        public const string TYPE_CHAT = "chat";
+        public const string TYPE_GROUPCHAT = "groupchat";
+        public const string TYPE_ERROR = "error";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,13 +33,18 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
         }
 
-        public MessageMessage(string from, string to, string message, string type) : base(from, to)
+        public MessageMessage(string from, string to, string message, string type) : this(from, to, message, type, null)
+        {
+        }
+
+        public MessageMessage(string from, string to, string message, string type, string from_nick) : base(from, to)
         {
             this.MESSAGE = message;
             this.TYPE = type;
             this.toasted = false;
             this.cacheUntilSend = true;
             this.delay = DateTime.MinValue;
+            this.FROM_NICK = from_nick;
         }
 
         public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, node.Attributes["id"]?.Value)
@@ -50,17 +57,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
 
             XmlAttribute typeAttribute = XMLUtils.getAttribute(node, "type");
-            if(typeAttribute != null)
+            if (typeAttribute != null)
             {
                 TYPE = typeAttribute.Value;
                 switch (TYPE)
                 {
-                    case "error":
+                    case TYPE_ERROR:
                         XmlNode error = XMLUtils.getChildNode(node, "error");
-                        if(error != null)
+                        if (error != null)
                         {
                             XmlNode text = XMLUtils.getChildNode(error, "text");
-                            if(text != null)
+                            if (text != null)
                             {
                                 MESSAGE = text.InnerText;
                             }
@@ -74,6 +81,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
                             MESSAGE = node.InnerXml;
                         }
                         return;
+
+                    case TYPE_GROUPCHAT:
+                        FROM_NICK = Utils.getResourceFromFullJid(FROM);
+                        break;
                 }
             }
 
@@ -87,7 +98,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             if (delay != null)
             {
                 XmlAttribute stamp = XMLUtils.getAttribute(delay, "stamp");
-                if(stamp != null)
+                if (stamp != null)
                 {
                     DateTimeParserHelper parserHelper = new DateTimeParserHelper();
                     DELAY = parserHelper.parse(stamp.Value);
@@ -121,6 +132,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public DateTime getDelay()
         {
             return DELAY;
+        }
+
+        public string getFromNick()
+        {
+            return FROM_NICK;
         }
 
         #endregion

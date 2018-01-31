@@ -50,6 +50,11 @@ namespace UWP_XMPP_Client.Pages
             return masterDetail_pnl;
         }
 
+        private bool shouldSendChatState(ChatTable chat)
+        {
+            return !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE) && chat != null && chat.chatType == ChatType.CHAT;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -304,23 +309,26 @@ namespace UWP_XMPP_Client.Pages
 
         private async void masterDetail_pnl_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
+            // Send active chat state:
+            foreach (var added in e.AddedItems)
             {
-                // Send active chat state:
-                foreach (var added in e.AddedItems)
+                if (added is ChatTemplate)
                 {
-                    if (added is ChatTemplate)
+                    ChatTemplate c = added as ChatTemplate;
+                    if (shouldSendChatState(c.chat))
                     {
-                        ChatTemplate c = added as ChatTemplate;
                         await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE);
                     }
                 }
-                // Send inactive chat state:
-                foreach (var added in e.RemovedItems)
+            }
+            // Send inactive chat state:
+            foreach (var added in e.RemovedItems)
+            {
+                if (added is ChatTemplate)
                 {
-                    if (added is ChatTemplate)
+                    ChatTemplate c = added as ChatTemplate;
+                    if (shouldSendChatState(c.chat))
                     {
-                        ChatTemplate c = added as ChatTemplate;
                         await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.INACTIVE);
                     }
                 }

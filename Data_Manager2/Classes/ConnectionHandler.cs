@@ -362,7 +362,19 @@ namespace Data_Manager2.Classes
             {
                 state = Data_Manager.Classes.MessageState.UNREAD
             };
-            ChatManager.INSTANCE.setChatMessageEntry(message, true, false);
+
+            // Filter MUC messages that got send
+            // and are now returned to the sender as a part of distributing them to everybody:
+            if(string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type))
+            {
+                if(Equals(message.fromUser, client.getXMPPAccount().getIdAndDomain()))
+                {
+                    return;
+                }
+            }
+
+            bool msgExists = ChatManager.INSTANCE.getChatMessageById(msg.getId() + '_' + chat.id) != null;
+            ChatManager.INSTANCE.setChatMessageEntry(message, !msgExists, msgExists);
         }
 
         private async void INSTANCE_AccountChanged(AccountManager handler, AccountChangedEventArgs args)

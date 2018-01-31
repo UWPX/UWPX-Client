@@ -1,5 +1,8 @@
-﻿using Windows.UI.Xaml;
+﻿using Data_Manager2.Classes.DBTables;
+using UWP_XMPP_Client.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
@@ -11,6 +14,9 @@ namespace UWP_XMPP_Client.DataTemplates
         public DataTemplate receivedMessageTemplate { get; set; }
         public DataTemplate errorMessageTemplate { get; set; }
 
+        private MUCChatInfoTable mucInfo;
+        bool requestedMUCInfo;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -20,12 +26,34 @@ namespace UWP_XMPP_Client.DataTemplates
         /// <history>
         /// 02/01/2018 Created [Fabian Sauter]
         /// </history>
-
+        public ChatMessageDataTemplateSelector()
+        {
+            this.mucInfo = null;
+            this.requestedMUCInfo = false;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private UIElement getParentChatDetailsControl(UIElement element)
+        {
+            while (element != null && !(element is ChatDetailsControl))
+            {
+                element = VisualTreeHelper.GetParent(element) as UIElement;
+            }
+            return element;
+        }
 
+        private MUCChatInfoTable getMUCInfo(DependencyObject container)
+        {
+            UIElement element = getParentChatDetailsControl(container as UIElement);
+            if (element != null)
+            {
+                ChatDetailsControl detailsControl = element as ChatDetailsControl;
+                return detailsControl.MUCInfo;
+            }
+            return null;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -56,6 +84,23 @@ namespace UWP_XMPP_Client.DataTemplates
                     {
                         case "error":
                             return errorMessageTemplate;
+
+                        case "groupchat":
+                            if (!requestedMUCInfo)
+                            {
+                                mucInfo = getMUCInfo(container);
+                                requestedMUCInfo = true;
+                            }
+
+                            if (mucInfo != null && Equals(mucInfo.nickname, template.message.fromUser))
+                            {
+                                return sendMessageTemplate;
+                            }
+                            else
+                            {
+                                return receivedMessageTemplate;
+                            }
+
                         default:
                             if (template.chat.userAccountId.Equals(template.message.fromUser))
                             {

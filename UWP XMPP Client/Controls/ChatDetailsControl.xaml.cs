@@ -15,6 +15,7 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes;
 using UWP_XMPP_Client.DataTemplates;
+using System.Collections.Generic;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -100,6 +101,11 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private bool shouldSendChatState()
+        {
+            return !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE) && Chat != null && Chat.chatType == ChatType.CHAT;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -123,10 +129,16 @@ namespace UWP_XMPP_Client.Controls
             {
                 accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
                 chatMessages.Clear();
+                List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                 foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat.id))
                 {
-                    addChatMessage(msg);
+                    msgs.Add(new ChatMessageDataTemplate()
+                    {
+                        message = msg,
+                        chat = Chat
+                    });
                 }
+                chatMessages.AddRange(msgs);
 
                 ChatTable cpy = Chat.clone();
                 Task.Factory.StartNew(() => ChatManager.INSTANCE.markAllMessagesAsRead(cpy));
@@ -137,7 +149,16 @@ namespace UWP_XMPP_Client.Controls
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
-                MessageMessage sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType());
+                MessageMessage sendMessage;
+                // For MUC messages also pass the nickname:
+                if (Chat.chatType == ChatType.MUC && MUCInfo != null)
+                {
+                    sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType(), MUCInfo.nickname);
+                }
+                else
+                {
+                    sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType());
+                }
                 ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
                 Chat.lastActive = DateTime.Now;
                 ChatManager.INSTANCE.setChat(Chat, false, false);
@@ -189,21 +210,16 @@ namespace UWP_XMPP_Client.Controls
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 ChatMessageTable msg = args.MESSAGE;
-                if (Chat.id.Equals(msg.chatId))
+                if (Chat != null && Chat.id.Equals(msg.chatId))
                 {
                     msg.state = MessageState.READ;
                     ChatManager.INSTANCE.setChatMessageEntry(msg, false, true);
-                    addChatMessage(msg);
+                    chatMessages.Add(new ChatMessageDataTemplate()
+                    {
+                        message = msg,
+                        chat = Chat
+                    });
                 }
-            });
-        }
-
-        private void addChatMessage(ChatMessageTable msg)
-        {
-            chatMessages.Add(new ChatMessageDataTemplate()
-            {
-                message = msg,
-                chat = Chat
             });
         }
 
@@ -301,7 +317,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void message_tbx_GotFocus(object sender, RoutedEventArgs e)
         {
-            if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
+            if (shouldSendChatState())
             {
                 Task t = Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING);
             }
@@ -309,7 +325,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void message_tbx_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (!Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE))
+            if (shouldSendChatState())
             {
                 Task t = Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE);
             }
@@ -335,6 +351,7 @@ namespace UWP_XMPP_Client.Controls
                 }
             });
         }
+
         #endregion
     }
 }

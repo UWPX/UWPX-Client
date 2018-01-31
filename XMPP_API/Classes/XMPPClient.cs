@@ -111,8 +111,13 @@ namespace XMPP_API.Classes
 
         public async Task<MessageMessage> sendAsync(string to, string msg, string chatType)
         {
+            return await sendAsync(to, msg, chatType, null);
+        }
+
+        public async Task<MessageMessage> sendAsync(string to, string msg, string chatType, string nickname)
+        {
             XMPPAccount account = connection.account;
-            MessageMessage sendMessgageMessage = new MessageMessage(account.getIdDomainAndResource(), to, msg, chatType);
+            MessageMessage sendMessgageMessage = new MessageMessage(account.getIdDomainAndResource(), to, msg, chatType, nickname);
             await connection.sendAsync(sendMessgageMessage, true, false);
             return sendMessgageMessage;
         }

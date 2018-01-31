@@ -13,6 +13,7 @@ using UWP_XMPP_Client.Dialogs;
 using UWP_XMPP_Client.Pages;
 using UWP_XMPP_Client.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
+using Data_Manager2.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -298,10 +299,10 @@ namespace UWP_XMPP_Client.Controls
                 Grid grid = (Grid)sender;
                 switch (Chat.chatType)
                 {
-                    case Data_Manager2.Classes.ChatType.CHAT:
+                    case ChatType.CHAT:
                         chat_mfo.ShowAt(grid, e.GetPosition(grid));
                         break;
-                    case Data_Manager2.Classes.ChatType.MUC:
+                    case ChatType.MUC:
                         muc_mfo.ShowAt(grid, e.GetPosition(grid));
                         break;
                     default:
@@ -364,7 +365,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     await Client.removeFromRosterAsync(Chat.chatJabberId);
                 }
-                if (Chat.chatType == Data_Manager2.Classes.ChatType.MUC && MUCInfo != null)
+                if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                 {
                     // ToDo remove MUC from bookmarks
                     ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);

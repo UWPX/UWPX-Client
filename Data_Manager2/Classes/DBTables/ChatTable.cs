@@ -13,7 +13,7 @@ namespace Data_Manager2.Classes.DBTables
         // Generated in generateId()
         public string id { get; set; }
         [NotNull]
-        // The JID of the chat/room e.g. 'coven@chat.shakespeare.lit'
+        // The bare JID of the chat/room e.g. 'coven@chat.shakespeare.lit'
         public string chatJabberId { get; set; }
         [NotNull]
         // The user account id (bare JID) e.g. 'wiccarocks@shakespeare.lit'
@@ -22,6 +22,7 @@ namespace Data_Manager2.Classes.DBTables
         public DateTime lastActive { get; set; }
         // Chat muted yes or no
         public bool muted { get; set; }
+        // Presence subscription e.g. 'both' or 'from'
         public string subscription { get; set; }
         // A part of your personal roster/rooster-subscription-list
         public bool inRoster { get; set; }

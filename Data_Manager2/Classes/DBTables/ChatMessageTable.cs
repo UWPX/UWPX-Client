@@ -51,18 +51,23 @@ namespace Data_Manager2.Classes.DBTables
         {
             switch (msg.getType())
             {
-                case "error":
+                case MessageMessage.TYPE_ERROR:
                     this.id = msg.getId() + '_' + chat.id + "_error";
+                    break;
+
+                case MessageMessage.TYPE_GROUPCHAT:
+                    this.id = msg.getId() + '_' + chat.id;
+                    this.fromUser = msg.getFromNick();
                     break;
 
                 default:
                     this.id = msg.getId() + '_' + chat.id;
+                    this.fromUser = Utils.getUserFromBareJid(Utils.getBareJidFromFullJid(msg.getFrom()));
                     break;
             }
             this.chatId = chat.id;
             this.type = msg.getType();
             this.message = msg.getMessage();
-            this.fromUser = Utils.getResourceFromFullJid(msg.getFrom());
             this.date = msg.getDelay();
             if (this.date == null || this.date.Equals(DateTime.MinValue))
             {
