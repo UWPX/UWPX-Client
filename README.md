@@ -1,4 +1,4 @@
-# UWP-XMPP-Client - Now with MUC support [read on...]()
+# UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.2.0.0)
 [This App is still in alpha stage!]
 
 Chat with all your XMPP contacts.<br/>
