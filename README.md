@@ -1,4 +1,4 @@
-# UWP-XMPP-Client
+# UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.2.0.0)
 [This App is still in alpha stage!]
 
 Chat with all your XMPP contacts.<br/>
@@ -7,8 +7,8 @@ UWPX is an XMPP client, that connects to all your favourite XMPP servers.
 ## ToDo:
 | Name          | XEPs         |
 | -------------     | ------------- |
-| OMEMO             | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
-| MUC               | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
+| OMEMO (status -> [#5](https://github.com/UWPX/UWPX-Client/issues/5)) | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
+| MUC (status -> [#10](https://github.com/UWPX/UWPX-Client/issues/10)) | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
 | Jingle            | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
 | HTTP-Upload       | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
 | Mix               | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") |
