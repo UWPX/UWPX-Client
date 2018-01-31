@@ -110,6 +110,7 @@
     <Compile Include="Classes\Collections\TSTimedList.cs" />
     <Compile Include="Classes\Collections\TimedListEntry.cs" />
     <Compile Include="Classes\SQLite\TSSQLiteConnection.cs" />
+    <Compile Include="Classes\Threading\MySemaphoreSlim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Thread_Save_Components.rd.xml" />
   </ItemGroup>

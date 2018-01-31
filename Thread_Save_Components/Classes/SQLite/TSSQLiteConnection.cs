@@ -1,7 +1,7 @@
 ﻿using SQLite.Net;
 using SQLite.Net.Platform.WinRT;
 using System.Collections.Generic;
-using System.Threading;
+using Thread_Save_Components.Classes.Threading;
 
 namespace Thread_Save_Components.Classes.SQLite
 {
@@ -11,9 +11,11 @@ namespace Thread_Save_Components.Classes.SQLite
         #region --Attributes--
         protected SQLiteConnection dB;
 
-        private static readonly SemaphoreSlim requestSema = new SemaphoreSlim(1, 1);
-        private static readonly SemaphoreSlim readSema = new SemaphoreSlim(10, 10); // Allow up to 10 threads to read from the db in parallel
-        private static readonly SemaphoreSlim writeSema = new SemaphoreSlim(1, 1);
+        public const int MAX_READ_COUNT = 10;
+
+        private static readonly MySemaphoreSlim requestSema = new MySemaphoreSlim(1, 1);
+        private static readonly MySemaphoreSlim readSema = new MySemaphoreSlim(MAX_READ_COUNT, MAX_READ_COUNT); // Allow up to MAX_READ_COUNT threads to read from the DB in parallel
+        private static readonly MySemaphoreSlim writeSema = new MySemaphoreSlim(1, 1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -41,13 +43,13 @@ namespace Thread_Save_Components.Classes.SQLite
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             int i = dB.InsertOrReplace(obj);
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
 
             return i;
         }
@@ -56,26 +58,26 @@ namespace Thread_Save_Components.Classes.SQLite
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             dB.Close();
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
         }
 
         public int Execute(string query, params object[] args)
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             int i = dB.Execute(query, args);
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
 
             return i;
         }
@@ -97,13 +99,13 @@ namespace Thread_Save_Components.Classes.SQLite
             {
                 requestSema.Wait();
                 writeSema.Wait();
-                readSema.Wait();
+                readSema.WaitCount(MAX_READ_COUNT);
                 requestSema.Release();
 
                 list = dB.Query<T>(query, args);
 
                 writeSema.Release();
-                readSema.Release();
+                readSema.Release(MAX_READ_COUNT);
             }
             return list;
         }
@@ -112,13 +114,13 @@ namespace Thread_Save_Components.Classes.SQLite
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             int i = dB.CreateTable<T>();
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
 
             return i;
         }
@@ -127,13 +129,13 @@ namespace Thread_Save_Components.Classes.SQLite
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             int i = dB.DropTable<T>();
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
 
             return i;
         }
@@ -142,14 +144,14 @@ namespace Thread_Save_Components.Classes.SQLite
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             dB.DropTable<T>();
             int i = dB.CreateTable<T>();
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
 
             return i;
         }
@@ -158,13 +160,13 @@ namespace Thread_Save_Components.Classes.SQLite
         {
             requestSema.Wait();
             writeSema.Wait();
-            readSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
             requestSema.Release();
 
             int i = dB.Delete(objectToDelete);
 
             writeSema.Release();
-            readSema.Release();
+            readSema.Release(MAX_READ_COUNT);
 
             return i;
         }
