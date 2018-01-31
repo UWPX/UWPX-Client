@@ -67,7 +67,7 @@
                                 <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
                                 <MenuFlyoutSeparator/>
                                 <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
-                                <MenuFlyoutItem x:Name="addMIX_mfoi" Text="Add Group Chat (MIX)" Click="addMIX_mfoi_Click"/>
+                                <MenuFlyoutItem x:Name="addMIX_mfoi" IsEnabled="False" Text="Add Group Chat (MIX)" Click="addMIX_mfoi_Click"/>
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
