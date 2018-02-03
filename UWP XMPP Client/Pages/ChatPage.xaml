@@ -53,7 +53,9 @@
                                         SelectionChanged="masterDetail_pnl_SelectionChanged">
                 <controls:MasterDetailsView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="0"/>
+                        <Setter Property="BorderThickness" Value="0"/>
                     </Style>
                 </controls:MasterDetailsView.ItemContainerStyle>
                 <controls:MasterDetailsView.MasterCommandBar>

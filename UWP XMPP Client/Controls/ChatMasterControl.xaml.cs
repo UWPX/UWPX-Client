@@ -14,6 +14,7 @@ using UWP_XMPP_Client.Pages;
 using UWP_XMPP_Client.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using Data_Manager2.Classes;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -125,6 +126,9 @@ namespace UWP_XMPP_Client.Controls
                 muteMUC_tmfo.IsChecked = Chat.muted;
                 bookmark_tmfo.Text = Chat.inRoster ? "Remove bookmark" : "Bookmark";
                 autoEnter_tmfo.IsChecked = autoEnter_tmfo.IsChecked = MUCInfo.autoEnterRoom;
+
+                //Slide list item:
+                slideListItem_sli.LeftLabel = bookmark_tmfo.Text;
             }
         }
 
@@ -132,7 +136,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null && Client != null)
             {
-                if (Chat.chatType != Data_Manager2.Classes.ChatType.MUC)
+                if (Chat.chatType != ChatType.MUC)
                 {
                     // Chat jabber id:
                     name_tblck.Text = Chat.chatJabberId;
@@ -173,10 +177,13 @@ namespace UWP_XMPP_Client.Controls
                             break;
                     }
 
-                    // Menu Flyout:
+                    // Menu flyout:
                     mute_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
                     mute_tmfo.IsChecked = Chat.muted;
                     removeFromRoster_mfo.Text = Chat.inRoster ? "Remove from roster" : "Add to roster";
+
+                    //Slide list item:
+                    slideListItem_sli.LeftLabel = removeFromRoster_mfo.Text;
                 }
 
                 // Subscription pending:
@@ -284,6 +291,66 @@ namespace UWP_XMPP_Client.Controls
             ChatManager.INSTANCE.setChat(Chat, false, false);
         }
 
+        private async Task switchChatInRoosterAsync()
+        {
+            if (Chat == null)
+            {
+                return;
+            }
+
+            if (Chat.inRoster)
+            {
+                await Client.removeFromRosterAsync(Chat.chatJabberId);
+            }
+            else
+            {
+                await Client.addToRosterAsync(Chat.chatJabberId);
+            }
+        }
+
+        private async Task switchMUCBookmarkesAsync()
+        {
+            if (MUCInfo != null && Chat != null)
+            {
+                Chat.inRoster = !Chat.inRoster;
+                if (Chat.inRoster)
+                {
+                    ConferenceItem cI = MUCInfo.toConferenceItem(Chat);
+                    Task t = Client.setBookmarkAsync(cI);
+                }
+                // ToDo remove MUC from bookmarks
+                ChatManager.INSTANCE.setChat(Chat, false, false);
+            }
+        }
+
+        private async Task deleteChatAsync()
+        {
+            if (Chat == null)
+            {
+                return;
+            }
+
+            DeleteChatDialog deleteChatDialog = new DeleteChatDialog();
+            await deleteChatDialog.ShowAsync();
+            if (deleteChatDialog.deleteChat)
+            {
+                if (Chat.inRoster)
+                {
+                    await Client.removeFromRosterAsync(Chat.chatJabberId);
+                }
+                if (Chat.chatType == ChatType.MUC && MUCInfo != null)
+                {
+                    // ToDo remove MUC from bookmarks
+                    ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
+                }
+                ChatManager.INSTANCE.setChat(Chat, true, true);
+                if (!deleteChatDialog.keepChat)
+                {
+                    ChatManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
+                }
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -357,37 +424,12 @@ namespace UWP_XMPP_Client.Controls
 
         private async void deleteChat_mfo_Click(object sender, RoutedEventArgs e)
         {
-            DeleteChatDialog deleteChatDialog = new DeleteChatDialog();
-            await deleteChatDialog.ShowAsync();
-            if (deleteChatDialog.deleteChat)
-            {
-                if (Chat.inRoster)
-                {
-                    await Client.removeFromRosterAsync(Chat.chatJabberId);
-                }
-                if (Chat.chatType == ChatType.MUC && MUCInfo != null)
-                {
-                    // ToDo remove MUC from bookmarks
-                    ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
-                }
-                ChatManager.INSTANCE.setChat(Chat, true, true);
-                if (!deleteChatDialog.keepChat)
-                {
-                    ChatManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
-                }
-            }
+            await deleteChatAsync();
         }
 
         private async void removeFromRoster_mfo_Click(object sender, RoutedEventArgs e)
         {
-            if (Chat.inRoster)
-            {
-                await Client.removeFromRosterAsync(Chat.chatJabberId);
-            }
-            else
-            {
-                await Client.addToRosterAsync(Chat.chatJabberId);
-            }
+            await switchChatInRoosterAsync();
         }
 
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
@@ -434,25 +476,18 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && MUCInfo.autoEnterRoom != autoEnter_tmfo.IsChecked)
             {
                 MUCInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
-                ConferenceItem cI = null;
+                Task.Factory.StartNew(() => ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
+
                 if (Chat.inRoster)
                 {
-                    cI = MUCInfo.toConferenceItem(Chat);
+                    MUCHandler.INSTANCE.updateBookmarks(Client, MUCInfo.toConferenceItem(Chat));
                 }
-
-                Task.Factory.StartNew(async () =>
-                {
-                    ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false);
-                    if (cI != null)
-                    {
-                        await Client.setBookmarkAsync(cI);
-                    }
-                });
             }
         }
 
         private void showInfo_mfo_Click(object sender, RoutedEventArgs e)
         {
+            (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToUserProfileEventArgs(Chat, Client));
         }
 
         private void showProfile_mfo_Click(object sender, RoutedEventArgs e)
@@ -460,19 +495,9 @@ namespace UWP_XMPP_Client.Controls
             (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
         }
 
-        private void bookmark_tmfo_Click(object sender, RoutedEventArgs e)
+        private async void bookmark_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            if (MUCInfo != null && Chat != null)
-            {
-                Chat.inRoster = !Chat.inRoster;
-                if (Chat.inRoster)
-                {
-                    ConferenceItem cI = MUCInfo.toConferenceItem(Chat);
-                    Task t = Client.setBookmarkAsync(cI);
-                }
-                // ToDo remove MUC from bookmarks
-                ChatManager.INSTANCE.setChat(Chat, false, false);
-            }
+            await switchMUCBookmarkesAsync();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -480,6 +505,37 @@ namespace UWP_XMPP_Client.Controls
             // Subscribe to the chat message changed event:
             ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
             ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+        }
+
+        private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+        {
+            if (args.NewValue == SwipeStatus.Starting)
+            {
+                // Swiping starting
+            }
+            else if (args.NewValue == SwipeStatus.Idle)
+            {
+                if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
+                {
+                    await deleteChatAsync();
+                }
+                else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
+                {
+                    switch (Chat.chatType)
+                    {
+                        case ChatType.CHAT:
+                            await switchChatInRoosterAsync();
+                            break;
+                        case ChatType.MUC:
+                            await switchMUCBookmarkesAsync();
+                            break;
+                    }
+                }
+                else
+                {
+                    // Swiping canceled
+                }
+            }
         }
 
         #endregion
