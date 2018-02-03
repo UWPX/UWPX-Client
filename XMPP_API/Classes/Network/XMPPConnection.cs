@@ -125,7 +125,7 @@ namespace XMPP_API.Classes.Network
         /// <param name="sendIfNotConnected">Sends the message if the underlaying TCP connection is connected to the server and ignores the connection state of the XMPPConnection.</param>
         public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
         {
-            if (state != ConnectionState.CONNECTED)
+            if (state != ConnectionState.CONNECTED && !sendIfNotConnected)
             {
                 Logger.Warn("Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
                 if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))

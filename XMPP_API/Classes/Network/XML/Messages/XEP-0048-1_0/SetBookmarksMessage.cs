@@ -33,7 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0
             XNamespace nsS = "storage:bookmarks";
             XElement sNode = new XElement(nsS + "storage");
             node.Add(sNode);
-            sNode.Add(conference.toXElement());
+            sNode.Add(conference.toXElement(nsS));
             return node;
         }
 

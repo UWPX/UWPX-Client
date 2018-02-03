@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             XNamespace ns = "jabber:iq:roster";
             XElement node = new XElement(ns + "query");
-            node.Add(new XElement("item", new XAttribute("jid", target)));
+            node.Add(new XElement(ns + "item", new XAttribute("jid", target)));
             return node;
         }
 

@@ -59,9 +59,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement()
+        public XElement toXElement(XNamespace ns)
         {
-            XElement confNode = new XElement("conference");
+            XElement confNode = new XElement(ns + "conference");
             confNode.Add(new XAttribute("autojoin", autoJoin));
             confNode.Add(new XAttribute("minimize", minimize));
             if (jid != null)
@@ -74,11 +74,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0
             }
             if (nick != null)
             {
-                confNode.Add(new XElement("nick", nick));
+                confNode.Add(new XElement(ns + "nick", nick));
             }
             if (password != null)
             {
-                confNode.Add(new XElement("password", password));
+                confNode.Add(new XElement(ns + "password", password));
             }
             return confNode;
         }

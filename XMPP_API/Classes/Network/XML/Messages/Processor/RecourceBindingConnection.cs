@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Xml.Linq;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
@@ -75,13 +74,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (features.containsFeature("bind"))
                         {
                             setMessageProcessed(args);
-                            id = AbstractMessage.getRandomId();
-                            XMPPAccount sCC = XMPP_CONNECTION.account;
-                            XNamespace ns = XNamespace.Get("urn:ietf:params:xml:ns:xmpp-bind");
-                            XElement node = new XElement(ns + "bind");
-                            node.Add(new XElement("resource", sCC.user.resource));
-                            string s = node.ToString();
-                            await XMPP_CONNECTION.sendAsync(new IQMessage(null, null, IQMessage.SET, id, node), false, true);
+                            BindResourceMessage bindMsg = new BindResourceMessage(XMPP_CONNECTION.account.user.resource);
+                            id = bindMsg.getId();
+                            await XMPP_CONNECTION.sendAsync(bindMsg, false, true);
                             state = RecourceBindingState.BINDING;
                         }
                     }
