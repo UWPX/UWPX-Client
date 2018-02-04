@@ -51,6 +51,8 @@
                                         Background="Transparent"
                                         MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         SelectionChanged="masterDetail_pnl_SelectionChanged">
+
+                <!--Style-->
                 <controls:MasterDetailsView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -58,6 +60,23 @@
                         <Setter Property="BorderThickness" Value="0"/>
                     </Style>
                 </controls:MasterDetailsView.ItemContainerStyle>
+
+                <!--Master Header-->
+                <controls:MasterDetailsView.MasterHeader>
+                    <StackPanel Margin="-12, 0, -12, 0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                        <AutoSuggestBox
+                            x:Name="searchChats_asb"
+                            PlaceholderText="Filter chats"
+                            Margin="10"
+                            TextChanged="searchChats_asb_TextChanged"
+                            QueryIcon="Find"
+                            QuerySubmitted="searchChats_asb_QuerySubmitted"
+                            BorderThickness="0"/>
+                        <controls1:SeperatorControl/>
+                    </StackPanel>
+                </controls:MasterDetailsView.MasterHeader>
+
+                <!--Master Command Bar-->
                 <controls:MasterDetailsView.MasterCommandBar>
                 <CommandBar Margin="0, 0, 0, -1">
                     <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add">

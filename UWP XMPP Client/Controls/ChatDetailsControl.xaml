@@ -60,21 +60,29 @@
                 </ListView.ItemContainerStyle>
             </ListView>
 
-            <Grid Grid.Row="0" Height="50" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <controls:AccountImageWithPresenceControl Grid.Column="0" Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}" Margin="10" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                    <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
-                    <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-                    <TextBlock x:Name="chatState_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-                </StackPanel>
-                <Button x:Name="profile_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
-                <Button x:Name="test_bnt" Grid.Column="3" FontFamily="Segoe MDL2 Assets" Content="&#xE81F;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="test_bnt_Click"/>
+            <Grid Grid.Row="0" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Grid Grid.Row="0" Height="52">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <controls:AccountImageWithPresenceControl Grid.Column="0" Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}" Margin="10" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                        <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
+                        <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                        <TextBlock x:Name="chatState_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                    </StackPanel>
+                    <Button x:Name="profile_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
+                    <Button x:Name="test_bnt" Grid.Column="3" FontFamily="Segoe MDL2 Assets" Content="&#xE81F;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="test_bnt_Click"/>
+                </Grid>
+                <controls:SeperatorControl Grid.Row="1"/>
             </Grid>
 
             <controls:SeperatorControl Grid.Row="1"/>

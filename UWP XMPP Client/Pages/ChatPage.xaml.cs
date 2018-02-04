@@ -25,6 +25,8 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private CustomObservableCollection<ChatTemplate> chatsList;
+        private List<ChatTemplate> allChats;
+        private string currentChatQuery;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -38,6 +40,8 @@ namespace UWP_XMPP_Client.Pages
         public ChatPage()
         {
             this.chatsList = new CustomObservableCollection<ChatTemplate>();
+            this.allChats = new List<ChatTemplate>();
+            this.currentChatQuery = null;
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
         }
@@ -71,34 +75,27 @@ namespace UWP_XMPP_Client.Pages
         {
             var selectedItem = masterDetail_pnl.SelectedItem;
             chatsList.Remove(c);
+            allChats.Remove(c);
             if (c != selectedItem)
             {
                 masterDetail_pnl.SelectedItem = selectedItem;
             }
         }
 
-        private void addToChatsSorted(ChatTemplate c)
+        private void sortAllChats()
         {
-            for (int i = 0; i < chatsList.Count; i++)
-            {
-                if (DateTime.Compare(chatsList[i].chat.lastActive, c.chat.lastActive) <= 0)
-                {
-                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Insert(i, c)).AsTask();
-                    return;
-                }
-            }
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Add(c)).AsTask();
+            allChats.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
         }
 
         private void loadChats(string selectedChatId)
         {
             // Clear list:
             chatsList.Clear();
+            allChats.Clear();
 
             // Load all chats:
             Task.Factory.StartNew(() =>
             {
-                List<ChatTemplate> chats = new List<ChatTemplate>();
                 ChatTemplate selectedChat = null;
 
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
@@ -110,7 +107,7 @@ namespace UWP_XMPP_Client.Pages
                         {
                             chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(chat.id);
                         }
-                        chats.Add(chatElement);
+                        allChats.Add(chatElement);
                         if (string.Equals(selectedChatId, chat.id))
                         {
                             selectedChat = chatElement;
@@ -119,12 +116,12 @@ namespace UWP_XMPP_Client.Pages
                 }
 
                 // Sort chats:
-                chats.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
+                sortAllChats();
 
                 // Show selected chat:
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    chatsList.AddRange(chats);
+                    chatsList.AddRange(allChats);
                     if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
                     {
                         masterDetail_pnl.SelectedItem = selectedChat;
@@ -170,6 +167,30 @@ namespace UWP_XMPP_Client.Pages
                 }, false, true);
             }
         }
+
+        /// <summary>
+        /// Filters all chats and only shows those that contain the given string.
+        /// </summary>
+        /// <param name="s">The string for filtering chats.</param>
+        private void filterChats(string s)
+        {
+            if (Equals(s, currentChatQuery))
+            {
+                return;
+            }
+
+            currentChatQuery = s;
+            chatsList.Clear();
+            if (string.IsNullOrEmpty(s))
+            {
+                chatsList.AddRange(allChats);
+            }
+            else
+            {
+                chatsList.AddRange(allChats.Where((x) => { return x.chat.chatJabberId.Contains(s) || (x.mucInfo != null && x.mucInfo.name != null && x.mucInfo.name.Contains(s)); }));
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -229,7 +250,7 @@ namespace UWP_XMPP_Client.Pages
             Task.Factory.StartNew(() =>
             {
                 // Find chat in chatsList:
-                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
+                foreach (ChatTemplate chatTemplate in allChats.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
                 {
                     if (args.REMOVED)
                     {
@@ -260,7 +281,8 @@ namespace UWP_XMPP_Client.Pages
                         {
                             chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(args.CHAT.id);
                         }
-                        addToChatsSorted(chatElement);
+                        allChats.Add(chatElement);
+                        sortAllChats();
                     }
                 }
             });
@@ -270,7 +292,7 @@ namespace UWP_XMPP_Client.Pages
         {
             Task.Factory.StartNew(() =>
             {
-                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && x.chat.chatType == ChatType.MUC && Equals(x.chat.id, args.MUC_INFO.chatId)))
+                foreach (ChatTemplate chatTemplate in allChats.Where((x) => x.chat != null && x.chat.chatType == ChatType.MUC && Equals(x.chat.id, args.MUC_INFO.chatId)))
                 {
                     Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatTemplate.mucInfo = args.MUC_INFO).AsTask();
                 }
@@ -345,6 +367,16 @@ namespace UWP_XMPP_Client.Pages
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
             ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+        }
+
+        private void searchChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            filterChats(searchChats_asb.Text);
+        }
+
+        private void searchChats_asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+            filterChats(args.QueryText);
         }
 
         #endregion
