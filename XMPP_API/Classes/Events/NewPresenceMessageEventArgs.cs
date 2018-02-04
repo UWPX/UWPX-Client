@@ -41,6 +41,7 @@ namespace XMPP_API.Classes.Events
                 case "dnd":
                     this.PRESENCE = Presence.Dnd;
                     break;
+                case "error":
                 case "unavailable":
                     this.PRESENCE = Presence.Unavailable;
                     break;
