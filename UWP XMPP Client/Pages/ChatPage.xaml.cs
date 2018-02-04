@@ -371,12 +371,12 @@ namespace UWP_XMPP_Client.Pages
 
         private void searchChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            filterChats(searchChats_asb.Text);
+            filterChats(searchChats_asb.Text.ToLower());
         }
 
         private void searchChats_asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            filterChats(args.QueryText);
+            filterChats((args.QueryText ?? searchChats_asb.Text).ToLower());
         }
 
         #endregion
