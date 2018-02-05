@@ -187,7 +187,7 @@ namespace UWP_XMPP_Client.Pages
             }
             else
             {
-                chatsList.AddRange(allChats.Where((x) => { return x.chat.chatJabberId.Contains(s) || (x.mucInfo != null && x.mucInfo.name != null && x.mucInfo.name.Contains(s)); }));
+                chatsList.AddRange(allChats.Where((x) => { return x.chat.chatJabberId.ToLower().Contains(s) || (x.mucInfo != null && x.mucInfo.name != null && x.mucInfo.name.ToLower().Contains(s)); }));
             }
         }
 
