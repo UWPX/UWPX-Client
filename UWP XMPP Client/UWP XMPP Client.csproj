@@ -104,6 +104,7 @@
     <Compile Include="Classes\BackgroundImageCache.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />
+    <Compile Include="Classes\Events\NavigatedToMUCInfoEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\MUCRoomInfo.cs" />

@@ -252,7 +252,14 @@ namespace UWP_XMPP_Client.Controls
 
         private void profile_btn_Click(object sender, RoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
+            if(Chat != null && Chat.chatType == ChatType.MUC)
+            {
+                (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat, Client, MUCInfo));
+            }
+            else
+            {
+                (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
+            }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)

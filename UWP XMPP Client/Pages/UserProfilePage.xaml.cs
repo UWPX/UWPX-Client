@@ -41,7 +41,7 @@ namespace UWP_XMPP_Client.Pages
         public UserProfilePage()
         {
             this.InitializeComponent();
-            UiUtils.setBackgroundImage(backgroundImage_img);
+            SystemNavigationManager.GetForCurrentView().BackRequested += UserProfilePage_BackRequested;
         }
 
         #endregion
@@ -128,8 +128,8 @@ namespace UWP_XMPP_Client.Pages
             if(e.Parameter is NavigatedToUserProfileEventArgs)
             {
                 NavigatedToUserProfileEventArgs args = e.Parameter as NavigatedToUserProfileEventArgs;
-                setChat(args.getChat());
-                setClient(args.getClient());
+                setChat(args.CHAT);
+                setClient(args.CLIENT);
                 ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
                 ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             }
@@ -144,6 +144,25 @@ namespace UWP_XMPP_Client.Pages
                     showProfile();
                 }
             });
+        }
+
+        private void UserProfilePage_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame == null)
+            {
+                return;
+            }
+            if (rootFrame.CanGoBack && e.Handled == false)
+            {
+                e.Handled = true;
+                rootFrame.GoBack();
+            }
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            UiUtils.setBackgroundImage(backgroundImage_img);
         }
 
         #endregion

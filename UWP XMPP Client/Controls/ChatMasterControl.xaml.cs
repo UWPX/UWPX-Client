@@ -487,7 +487,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void showInfo_mfo_Click(object sender, RoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToUserProfileEventArgs(Chat, Client));
+            (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat, Client, MUCInfo));
         }
 
         private void showProfile_mfo_Click(object sender, RoutedEventArgs e)

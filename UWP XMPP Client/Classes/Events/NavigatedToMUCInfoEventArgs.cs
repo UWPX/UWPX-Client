@@ -4,11 +4,12 @@ using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Classes.Events
 {
-    class NavigatedToUserProfileEventArgs : EventArgs
+    class NavigatedToMUCInfoEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly ChatTable CHAT;
+        public readonly MUCChatInfoTable MUC_INFO;
         public readonly XMPPClient CLIENT;
 
         #endregion
@@ -18,12 +19,13 @@ namespace UWP_XMPP_Client.Classes.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/09/2017 Created [Fabian Sauter]
+        /// 05/02/2018 Created [Fabian Sauter]
         /// </history>
-        public NavigatedToUserProfileEventArgs(ChatTable chat, XMPPClient client)
+        public NavigatedToMUCInfoEventArgs(ChatTable chat, XMPPClient client, MUCChatInfoTable mucInfo)
         {
             this.CHAT = chat;
             this.CLIENT = client;
+            this.MUC_INFO = mucInfo;
         }
 
         #endregion
