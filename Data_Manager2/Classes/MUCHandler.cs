@@ -4,6 +4,7 @@ using System;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
 namespace Data_Manager2.Classes
@@ -41,6 +42,9 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public void onClientConnected(XMPPClient client)
         {
+            client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
+            client.NewMUCMemberPresenceMessage += C_NewMUCMemberPresenceMessage;
+
             ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain());
             enterAllMUCs(client);
         }
@@ -116,7 +120,25 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void C_NewMUCMemberPresenceMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewMUCMemberPresenceMessageEventArgs args)
+        {
+            MUCMemberPresenceMessage msg = args.mucMemberPresenceMessage;
+            string room = Utils.getBareJidFromFullJid(msg.getFrom());
+            if (room == null)
+            {
+                return;
+            }
+            string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
+            MUCMemberTable member = new MUCMemberTable()
+            {
+                id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
+                nickname = msg.NICKNAME,
+                chatId = chatId,
+                affiliation = msg.AFFILIATION,
+                role = msg.ROLE
+            };
+            ChatManager.INSTANCE.setMUCMember(member, false);
+        }
 
         #endregion
     }

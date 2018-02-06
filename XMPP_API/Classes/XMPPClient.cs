@@ -5,6 +5,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
@@ -23,6 +24,7 @@ namespace XMPP_API.Classes
         public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client,  NewBookmarksResultMessageEventArgs args);
+        public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
         public delegate void NewValidMessageEventHandler(XMPPClient client, NewValidMessageEventArgs args);
 
         public event NewValidMessageEventHandler NewRoosterMessage;
@@ -33,6 +35,7 @@ namespace XMPP_API.Classes
         public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
         public event MessageSendEventHandler MessageSend;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
+        public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
         public event NewValidMessageEventHandler NewValidMessage;
 
         #endregion
@@ -243,7 +246,15 @@ namespace XMPP_API.Classes
 
         private void Connection_ConnectionNewPresenceMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
-            NewPresence?.Invoke(this, new Events.NewPresenceMessageEventArgs(args.getMessage() as PresenceMessage));
+            // XEP-0045 (MUC member presence):
+            if(args.getMessage() is MUCMemberPresenceMessage)
+            {
+                NewMUCMemberPresenceMessage?.Invoke(this, new NewMUCMemberPresenceMessageEventArgs(args.getMessage() as MUCMemberPresenceMessage));
+            }
+            else
+            {
+                NewPresence?.Invoke(this, new Events.NewPresenceMessageEventArgs(args.getMessage() as PresenceMessage));
+            }
         }
 
         private void Connection_MessageSend(XMPPConnection handler, MessageSendEventArgs args)

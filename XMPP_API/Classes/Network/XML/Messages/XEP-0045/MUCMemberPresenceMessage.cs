@@ -29,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             XmlNode xNode = XMLUtils.getChildNode(node, "x", "xmlns", "http://jabber.org/protocol/muc#user");
             if (xNode != null)
             {
-                NICKNAME = Utils.getDomainFromBareJid(FROM);
+                NICKNAME = Utils.getResourceFromFullJid(FROM);
                 STATUS_CODES = new List<MUCPresenceStatusCode>();
                 foreach (XmlNode n in xNode.ChildNodes)
                 {

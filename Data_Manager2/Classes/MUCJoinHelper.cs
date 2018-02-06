@@ -7,7 +7,6 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 // https://xmpp.org/extensions/xep-0045.html
-// 7.2.2 Basic MUC Protocol
 namespace Data_Manager2.Classes
 {
     public class MUCJoinHelper : ITimedEntry
@@ -69,10 +68,19 @@ namespace Data_Manager2.Classes
 
         public async Task enterRoomAsync()
         {
+            // Update MUC info:
             INFO.enterState = MUCEnterState.ENTERING;
             saveMUCInfo();
+
+            // Create message:
             JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
-            await sendMessageAsync(msg);
+
+            // Subscribe to events for receiving answers:
+            CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
+            CLIENT.NewMUCMemberPresenceMessage += CLIENT_NewMUCMemberPresenceMessage;
+
+            // Send message:
+            await CLIENT.sendMessageAsync(msg, false);
         }
 
         public bool canGetRemoved()
@@ -93,13 +101,6 @@ namespace Data_Manager2.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task sendMessageAsync(AbstractMessage msg)
-        {
-            CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
-            CLIENT.NewValidMessage += CLIENT_NewValidMessage;
-            await CLIENT.sendMessageAsync(msg, false);
-        }
-
         private void processMessage(AbstractMessage msg)
         {
             if (msg is DiscoReservedRoomNicknamesResponseMessages)
@@ -125,40 +126,31 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void CLIENT_NewValidMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
+        private void CLIENT_NewMUCMemberPresenceMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewMUCMemberPresenceMessageEventArgs args)
         {
+            string roomJId = Utils.getBareJidFromFullJid(args.mucMemberPresenceMessage.getFrom());
+            if (!Equals(roomJId, MUC.chatJabberId))
+            {
+                return;
+            }
+
             switch (INFO.enterState)
             {
                 case MUCEnterState.ENTERING:
-                    if (args.getMessage() is MUCMemberPresenceMessage)
+                    // Evaluate status codes:
+                    foreach (MUCPresenceStatusCode statusCode in args.mucMemberPresenceMessage.STATUS_CODES)
                     {
-                        MUCMemberPresenceMessage msg = args.getMessage() as MUCMemberPresenceMessage;
-
-                        // Evaluate status codes:
-                        foreach (MUCPresenceStatusCode statusCode in msg.STATUS_CODES)
+                        switch (statusCode)
                         {
-                            switch (statusCode)
-                            {
-                                case MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE:
-                                    CLIENT.NewValidMessage -= CLIENT_NewValidMessage;
-                                    INFO.enterState = MUCEnterState.ENTERD;
-                                    saveMUCInfo();
-                                    break;
-                            }
+                            case MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE:
+                                // Remove event subscription:
+                                CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
+
+                                // Update MUC info:
+                                INFO.enterState = MUCEnterState.ENTERD;
+                                saveMUCInfo();
+                                break;
                         }
-
-                        // Save member:
-                        MUCMemberTable member = new MUCMemberTable()
-                        {
-                            id = MUCMemberTable.generateId(MUC.id, msg.NICKNAME),
-                            nickname = msg.NICKNAME,
-                            chatId = MUC.id,
-                            affiliation = msg.AFFILIATION,
-                            role = msg.ROLE
-                        };
-
-                        // Cancel event:
-                        args.Cancel = true;
                     }
                     break;
             }

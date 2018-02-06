@@ -122,8 +122,15 @@
     <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MUCMemberControl.xaml.cs">
+      <DependentUpon>MUCMemberControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MUCMembersControl.xaml.cs">
+      <DependentUpon>MUCMembersControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplates\MUCMemberTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomDetailsTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
@@ -320,6 +327,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BrowseMUCRoomsMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MUCMemberControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MUCMembersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

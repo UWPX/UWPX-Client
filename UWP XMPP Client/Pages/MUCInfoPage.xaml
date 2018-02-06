@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
@@ -15,9 +16,19 @@
         <controls1:ImageEx x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
         <Pivot Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-            <PivotItem Header="Info"/>
-            <PivotItem Header="Members"/>
-            <PivotItem Header="Settings"/>
+            <PivotItem Header="Info">
+
+            </PivotItem>
+            <PivotItem Header="Members">
+                <ScrollViewer>
+                    <StackPanel>
+                        <controls:MUCMembersControl Height="200" Margin="10, 10, 10, 0" Chat="{x:Bind Chat, Mode=OneWay}" Client="{x:Bind Client}"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </PivotItem>
+            <PivotItem Header="Manage">
+
+            </PivotItem>
         </Pivot>
     </Grid>
 </Page>

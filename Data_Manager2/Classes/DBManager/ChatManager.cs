@@ -97,6 +97,21 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public void setMUCMember(MUCMemberTable member, bool delete)
+        {
+            if (member != null)
+            {
+                if (delete)
+                {
+                    dB.Delete(member);
+                }
+                else
+                {
+                    update(member);
+                }
+            }
+        }
+
         public void setMUCChatInfo(MUCChatInfoTable info, bool delete, bool triggerMUCChanged)
         {
             if (info != null)
@@ -155,6 +170,11 @@ namespace Data_Manager2.Classes.DBManager
                 return null;
             }
             return list[list.Count - 1];
+        }
+
+        public List<MUCMemberTable> getAllMUCMembers(string chatId)
+        {
+            return dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE chatId = ?;", chatId);
         }
 
         #endregion

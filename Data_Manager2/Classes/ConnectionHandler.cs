@@ -365,9 +365,9 @@ namespace Data_Manager2.Classes
 
             // Filter MUC messages that got send
             // and are now returned to the sender as a part of distributing them to everybody:
-            if(string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type))
+            if (string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type))
             {
-                if(Equals(message.fromUser, client.getXMPPAccount().getIdAndDomain()))
+                if (Equals(message.fromUser, client.getXMPPAccount().getIdAndDomain()))
                 {
                     return;
                 }
@@ -422,7 +422,7 @@ namespace Data_Manager2.Classes
                 string from = c.jid;
                 string id = ChatTable.generateId(from, to);
                 ChatTable chat = ChatManager.INSTANCE.getChat(id);
-                if(chat == null)
+                if (chat == null)
                 {
                     chat = new ChatTable()
                     {
