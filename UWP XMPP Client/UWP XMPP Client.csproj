@@ -122,6 +122,9 @@
     <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MUCInfoControl.xaml.cs">
+      <DependentUpon>MUCInfoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MUCMemberControl.xaml.cs">
       <DependentUpon>MUCMemberControl.xaml</DependentUpon>
     </Compile>
@@ -129,7 +132,9 @@
       <DependentUpon>MUCMembersControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="DataTemplates\MUCInfoOptionTemplateSelector.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
     <Compile Include="DataTemplates\MUCMemberTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomDetailsTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
@@ -330,6 +335,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\MUCInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MUCMemberControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -492,7 +501,9 @@
       <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\MUCInfo\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

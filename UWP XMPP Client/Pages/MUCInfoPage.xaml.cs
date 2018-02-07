@@ -18,7 +18,10 @@ namespace UWP_XMPP_Client.Pages
         public ChatTable Chat
         {
             get { return (ChatTable)GetValue(chatProperty); }
-            set { SetValue(chatProperty, value); }
+            set
+            {
+                SetValue(chatProperty, value);
+            }
         }
         public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoPage), null);
 

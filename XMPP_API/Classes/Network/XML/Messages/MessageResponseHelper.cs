@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class MessageResponseHelper
+    public class MessageResponseHelper : IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,9 +13,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private Func<AbstractMessage, bool> ON_MESSAGE;
         private Action ON_TIMEOUT;
 
+        /// <summary>
+        /// The default timeout is 5000 ms = 5 sec.
+        /// </summary>
         public int timeout;
 
         private Timer timer;
+
+        public const int TIMEOUT_5_SEC = 5000;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,6 +36,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.CLIENT = client;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
+            this.timeout = TIMEOUT_5_SEC;
         }
 
         #endregion
@@ -41,7 +47,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void start(AbstractMessage msg)
+        {
+            Task t = sendAndWaitAsync(msg);
+        }
 
         #endregion
 
@@ -68,6 +77,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             CLIENT.NewValidMessage -= Client_NewValidMessage;
             timer?.Dispose();
+        }
+
+        public void Dispose()
+        {
+            stopTimer();
         }
 
         #endregion

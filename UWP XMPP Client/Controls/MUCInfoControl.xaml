@@ -1,0 +1,71 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.MUCInfoControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="optionTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
+            <ToggleButton/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="fieldTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
+            <TextBox Header="{x:Bind option.label, Mode=OneWay}" Text="{x:Bind option.value, Mode=OneWay}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="titleTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
+            <TextBlock Text="{x:Bind option.value, Mode=OneWay}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="instructionsTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
+            <TextBlock Text="{x:Bind option.value, Mode=OneWay}"/>
+        </DataTemplate>
+
+        <datatemplates:MUCInfoOptionTemplateSelector x:Name="mucInfoOptionTemplateSelector"
+                                                       optionTemplate="{StaticResource optionTemplate}"
+                                                       fieldTemplate="{StaticResource fieldTemplate}"
+                                                       titleTemplate="{StaticResource titleTemplate}"
+                                                       instructionsTemplate="{StaticResource instructionsTemplate}"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ScrollViewer x:Name="info_srlv" Grid.Row="0" Visibility="Collapsed">
+            <ItemsControl ItemTemplateSelector="{StaticResource mucInfoOptionTemplateSelector}"
+                          ItemsSource="{x:Bind options, Mode=OneWay}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+            </ItemsControl>
+        </ScrollViewer>
+
+        <StackPanel x:Name="timeout_stckpnl" Visibility="Collapsed">
+            <TextBlock Text="The request timed out!"/>
+            <Button x:Name="retry_btn" Grid.Column="0" HorizontalAlignment="Left" Click="retry_btn_Click" IsEnabled="False">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+                    <TextBlock Text="Retry" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!--Loading Grid-->
+        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBlock Text="Loading..." FontSize="20" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Margin="0, 10, 0, 10"/>
+                <TextBlock Text="(Timeout = 5 seconds)" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

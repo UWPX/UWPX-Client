@@ -17,8 +17,9 @@
 
         <Pivot Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <PivotItem Header="Info">
-
+                <controls:MUCInfoControl Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}"/>
             </PivotItem>
+
             <PivotItem Header="Members">
                 <ScrollViewer>
                     <StackPanel>
@@ -26,6 +27,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
+
             <PivotItem Header="Manage">
 
             </PivotItem>

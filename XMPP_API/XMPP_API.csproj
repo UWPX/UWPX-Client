@@ -137,6 +137,12 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\IDiscoItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\AbstractConfigrurationOption.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\Field.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\Instructions.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\Title.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\Option.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomConfiguration.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
@@ -144,6 +150,8 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomInfoMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\BookmarksResultMessage.cs" />
