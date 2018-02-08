@@ -73,6 +73,8 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private void sendDisco()
         {
+            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
+            Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
             if (discoId == null && Client != null)
             {
                 main_grid.Visibility = Visibility.Collapsed;
@@ -103,6 +105,7 @@ namespace UWP_XMPP_Client.Pages
             stopTimer();
             loading_grid.Visibility = Visibility.Collapsed;
             main_grid.Visibility = Visibility.Visible;
+            rooms.Clear();
             if (disco == null || disco.ITEMS == null || disco.ITEMS.Count <= 0)
             {
                 // Show non found in app notification:
@@ -110,7 +113,6 @@ namespace UWP_XMPP_Client.Pages
                 discoId = null;
                 return;
             }
-            rooms.Clear();
             foreach (DiscoItem i in disco.ITEMS)
             {
                 rooms.Add(new MUCRoomTemplate()
@@ -123,6 +125,7 @@ namespace UWP_XMPP_Client.Pages
                     }
                 });
             }
+            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
             discoId = null;
         }
 
@@ -161,9 +164,6 @@ namespace UWP_XMPP_Client.Pages
                 BrowseMUCNavigationParameter parameter = e.Parameter as BrowseMUCNavigationParameter;
                 Client = parameter.client;
                 Server = parameter.server;
-
-                Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-                Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
 
                 sendDisco();
             }
