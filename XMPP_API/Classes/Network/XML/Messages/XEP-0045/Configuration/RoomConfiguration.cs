@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public List<AbstractConfigrurationOption> options;
+        public List<MUCInfoField> options;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,27 +20,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// </history>
         public RoomConfiguration(XmlNode node)
         {
-            this.options = new List<AbstractConfigrurationOption>();
+            this.options = new List<MUCInfoField>();
             if(node != null)
             {
                 foreach (XmlNode n in node.ChildNodes)
                 {
                     switch (n.Name)
                     {
-                        case "title":
-                            this.options.Add(new Title(n));
-                            break;
-
-                        case "instructions":
-                            this.options.Add(new Instructions(n));
-                            break;
-
                         case "field":
-                            this.options.Add(new Field(n));
+                            this.options.Add(new MUCInfoField(n));
                             break;
 
-                        case "option":
-                            this.options.Add(new Option(n));
+                        // Ignored for now:
+                        case "title":
+                        case "instructions":
                             break;
 
                         default:

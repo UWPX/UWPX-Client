@@ -1,6 +1,5 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using System;
-using System.Collections.Generic;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
@@ -93,15 +92,18 @@ namespace UWP_XMPP_Client.Controls
             {
                 RoomInfoResponseMessage responseMessage = msg as RoomInfoResponseMessage;
 
+                // Add controls and update viability:
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     options.Clear();
-                    List<MUCInfoOptionTemplate> list = new List<MUCInfoOptionTemplate>();
-                    foreach (AbstractConfigrurationOption o in responseMessage.roomConfig.options)
+                    foreach (MUCInfoField o in responseMessage.roomConfig.options)
                     {
-                        list.Add(new MUCInfoOptionTemplate() { option = o });
+                        if (o.type != MUCInfoFieldType.HIDDEN)
+                        {
+                            options.Add(new MUCInfoOptionTemplate() { option = o });
+                        }
                     }
-                    options.AddRange(list);
+                    reload_btn.IsEnabled = true;
                     loading_grid.Visibility = Visibility.Collapsed;
                     info_srlv.Visibility = Visibility.Visible;
                 }).AsTask();
@@ -114,9 +116,17 @@ namespace UWP_XMPP_Client.Controls
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                retry_btn.IsEnabled = true;
                 loading_grid.Visibility = Visibility.Collapsed;
                 timeout_stckpnl.Visibility = Visibility.Visible;
             }).AsTask();
+        }
+
+        private void save()
+        {
+            save_prgr.Visibility = Visibility.Visible;
+            save_prgr.IsActive = true;
+            save_btn.IsEnabled = false;
         }
 
         #endregion
@@ -129,9 +139,16 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void retry_btn_Click(object sender, RoutedEventArgs e)
         {
+            reload_btn.IsEnabled = false;
+            retry_btn.IsEnabled = false;
             messageResponseHelper?.Dispose();
             messageResponseHelper = null;
             requestRoomInfo();
+        }
+
+        private void save_btn_Click(object sender, RoutedEventArgs e)
+        {
+            save();
         }
 
         #endregion

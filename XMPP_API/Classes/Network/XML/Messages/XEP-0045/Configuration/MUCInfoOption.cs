@@ -2,11 +2,12 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
-    public class Instructions : Title
+    public class MUCInfoOption
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public string label;
+        public string value;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,16 +16,28 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 07/02/2018 Created [Fabian Sauter]
+        /// 08/02/2018 Created [Fabian Sauter]
         /// </history>
-        public Instructions(XmlNode node) : base(node)
+        public MUCInfoOption()
         {
+            this.label = null;
+            this.value = null;
+        }
+
+        public MUCInfoOption(XmlNode node)
+        {
+            this.label = node.Attributes["label"]?.Value;
+            this.value = getValue(node);
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private string getValue(XmlNode node)
+        {
+            XmlNode value = XMLUtils.getChildNode(node, "value");
+            return value?.InnerText;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

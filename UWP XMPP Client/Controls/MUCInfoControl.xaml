@@ -5,52 +5,60 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+    xmlns:mucinfo="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="optionTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
-            <ToggleButton/>
+        <DataTemplate x:Key="mucFieldTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
+            <mucinfo:MUCFieldControl Field="{x:Bind option}" Margin="10, 0, 10, 5"/>
         </DataTemplate>
-
-        <DataTemplate x:Key="fieldTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
-            <TextBox Header="{x:Bind option.label, Mode=OneWay}" Text="{x:Bind option.value, Mode=OneWay}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="titleTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
-            <TextBlock Text="{x:Bind option.value, Mode=OneWay}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="instructionsTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
-            <TextBlock Text="{x:Bind option.value, Mode=OneWay}"/>
-        </DataTemplate>
-
-        <datatemplates:MUCInfoOptionTemplateSelector x:Name="mucInfoOptionTemplateSelector"
-                                                       optionTemplate="{StaticResource optionTemplate}"
-                                                       fieldTemplate="{StaticResource fieldTemplate}"
-                                                       titleTemplate="{StaticResource titleTemplate}"
-                                                       instructionsTemplate="{StaticResource instructionsTemplate}"/>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ScrollViewer x:Name="info_srlv" Grid.Row="0" Visibility="Collapsed">
-            <ItemsControl ItemTemplateSelector="{StaticResource mucInfoOptionTemplateSelector}"
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ScrollViewer x:Name="info_srlv" Grid.Row="0" Visibility="Collapsed" Margin="-10, 0, -10, 0">
+                <ItemsControl ItemTemplate="{StaticResource mucFieldTemplate}"
                           ItemsSource="{x:Bind options, Mode=OneWay}">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-            </ItemsControl>
-        </ScrollViewer>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </ScrollViewer>
+
+            <Grid Grid.Row="1" Margin="0, 10, 0, 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="reload_btn" Grid.Column="0" HorizontalAlignment="Left" Click="retry_btn_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                        <TextBlock Text="Reload" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="save_btn" Grid.Column="1" Click="save_btn_Click" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Save"/>
+                        <ProgressRing x:Name="save_prgr" IsActive="False" Visibility="Collapsed" Margin="10, 0, 0, 0"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
 
         <StackPanel x:Name="timeout_stckpnl" Visibility="Collapsed">
-            <TextBlock Text="The request timed out!"/>
-            <Button x:Name="retry_btn" Grid.Column="0" HorizontalAlignment="Left" Click="retry_btn_Click" IsEnabled="False">
+            <TextBlock Text="The request timed out!" Margin="0, 0, 0, 10"/>
+            <Button x:Name="retry_btn" Grid.Column="0" HorizontalAlignment="Left" Click="retry_btn_Click">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
                     <TextBlock Text="Retry" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>

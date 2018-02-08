@@ -10,8 +10,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Attributes--
         private readonly XMPPClient CLIENT;
 
-        private Func<AbstractMessage, bool> ON_MESSAGE;
-        private Action ON_TIMEOUT;
+        private readonly Func<AbstractMessage, bool> ON_MESSAGE;
+        private readonly Action ON_TIMEOUT;
 
         /// <summary>
         /// The default timeout is 5000 ms = 5 sec.
@@ -21,6 +21,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private Timer timer;
 
         public const int TIMEOUT_5_SEC = 5000;
+
+        private bool stoped;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -37,6 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
             this.timeout = TIMEOUT_5_SEC;
+            this.stoped = false;
         }
 
         #endregion
@@ -66,15 +69,20 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void statTimer()
         {
+            stoped = false;
             timer = new Timer((o) =>
             {
-                ON_TIMEOUT();
+                if (!stoped)
+                {
+                    ON_TIMEOUT();
+                }
                 stopTimer();
             }, null, timeout, Timeout.Infinite);
         }
 
         private void stopTimer()
         {
+            stoped = true;
             CLIENT.NewValidMessage -= Client_NewValidMessage;
             timer?.Dispose();
         }

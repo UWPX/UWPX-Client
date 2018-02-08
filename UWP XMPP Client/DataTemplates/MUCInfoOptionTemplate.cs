@@ -8,8 +8,8 @@ namespace UWP_XMPP_Client.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private AbstractConfigrurationOption _option;
-        public AbstractConfigrurationOption option
+        private MUCInfoField _option;
+        public MUCInfoField option
         {
             get
             {
@@ -25,6 +25,8 @@ namespace UWP_XMPP_Client.DataTemplates
             }
         }
 
+        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -38,8 +40,6 @@ namespace UWP_XMPP_Client.DataTemplates
         {
 
         }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
