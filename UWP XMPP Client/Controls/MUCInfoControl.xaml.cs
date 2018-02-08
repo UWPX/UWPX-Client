@@ -105,7 +105,7 @@ namespace UWP_XMPP_Client.Controls
                     }
                     reload_btn.IsEnabled = true;
                     loading_grid.Visibility = Visibility.Collapsed;
-                    info_srlv.Visibility = Visibility.Visible;
+                    info_grid.Visibility = Visibility.Visible;
                 }).AsTask();
                 return true;
             }
@@ -129,6 +129,15 @@ namespace UWP_XMPP_Client.Controls
             save_btn.IsEnabled = false;
         }
 
+        private void reload()
+        {
+            reload_btn.IsEnabled = false;
+            retry_btn.IsEnabled = false;
+            messageResponseHelper?.Dispose();
+            messageResponseHelper = null;
+            requestRoomInfo();
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -139,11 +148,12 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void retry_btn_Click(object sender, RoutedEventArgs e)
         {
-            reload_btn.IsEnabled = false;
-            retry_btn.IsEnabled = false;
-            messageResponseHelper?.Dispose();
-            messageResponseHelper = null;
-            requestRoomInfo();
+            reload();
+        }
+
+        private void reload_btn_Click(object sender, RoutedEventArgs e)
+        {
+            reload();
         }
 
         private void save_btn_Click(object sender, RoutedEventArgs e)
