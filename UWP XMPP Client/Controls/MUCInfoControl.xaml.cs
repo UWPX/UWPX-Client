@@ -78,7 +78,7 @@ namespace UWP_XMPP_Client.Controls
             }
 
             loading_grid.Visibility = Visibility.Visible;
-            info_srlv.Visibility = Visibility.Collapsed;
+            info_grid.Visibility = Visibility.Collapsed;
             timeout_stckpnl.Visibility = Visibility.Collapsed;
 
             messageResponseHelper = new MessageResponseHelper(Client, onNewMessage, onTimeout);
