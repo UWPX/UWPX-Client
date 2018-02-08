@@ -72,6 +72,9 @@ namespace Data_Manager2.Classes
             INFO.enterState = MUCEnterState.ENTERING;
             saveMUCInfo();
 
+            // Clear MUC members:
+            ChatManager.INSTANCE.deleteAllMUCMemberforChat(MUC.id);
+
             // Create message:
             JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
 

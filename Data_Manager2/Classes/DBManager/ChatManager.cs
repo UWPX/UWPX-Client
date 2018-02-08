@@ -195,6 +195,11 @@ namespace Data_Manager2.Classes.DBManager
             dB.Execute("DELETE FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chat.id);
         }
 
+        public void deleteAllMUCMemberforChat(string chatId)
+        {
+            dB.Execute("DELETE FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE chatId = ?;", chatId);
+        }
+
         public void markAllMessagesAsRead(ChatTable chat)
         {
             List<ChatMessageTable> list = getAllUnreadMessages(chat);
