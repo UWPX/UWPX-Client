@@ -153,7 +153,7 @@ namespace UWP_XMPP_Client.Pages
                     chatJabberId = jabberId,
                     userAccountId = client.getXMPPAccount().getIdAndDomain(),
                     ask = null,
-                    inRoster = false,
+                    inRoster = addToRooster,
                     lastActive = DateTime.Now,
                     muted = false,
                     presence = Presence.Unavailable,
