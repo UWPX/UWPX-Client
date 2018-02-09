@@ -143,8 +143,8 @@
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddChatContentDialog.xaml.cs">
-      <DependentUpon>AddChatContentDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\AddChatDialog.xaml.cs">
+      <DependentUpon>AddChatDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BackgroundImageSelectionControl.xaml.cs">
       <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
@@ -357,7 +357,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\AddChatContentDialog.xaml">
+    <Page Include="Dialogs\AddChatDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

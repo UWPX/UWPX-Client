@@ -6,7 +6,11 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static string JID_REGEX_PATTERN = "^(?:([^@\\/<>'\"]+)@)?([^@\\/<>'\"]+)(?:\\/([^<>'\"]*))?$";
+        /// <summary>
+        /// The regex for a valid jabber id.
+        /// Source: https://www.codesd.com/item/what-is-the-regular-expression-for-the-validation-of-jabber-id.html [09.02.2018]
+        /// </summary>
+        private static string JID_REGEX_PATTERN = @"^\A([a-z0-9\.\-_\+]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z$";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

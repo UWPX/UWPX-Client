@@ -306,7 +306,7 @@ namespace UWP_XMPP_Client.Pages
 
         private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)
         {
-            AddChatContentDialog addChatContentDialog = new AddChatContentDialog();
+            AddChatDialog addChatContentDialog = new AddChatDialog();
             await addChatContentDialog.ShowAsync();
             if (!addChatContentDialog.cancled)
             {

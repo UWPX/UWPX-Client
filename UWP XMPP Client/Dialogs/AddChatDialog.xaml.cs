@@ -6,14 +6,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Pages.SettingsPages;
+using Windows.UI;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Dialogs
 {
-    public sealed partial class AddChatContentDialog : ContentDialog
+    public sealed partial class AddChatDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -34,7 +36,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// <history>
         /// 09/09/2017 Created [Fabian Sauter]
         /// </history>
-        public AddChatContentDialog()
+        public AddChatDialog()
         {
             this.InitializeComponent();
             loadAccounts();
@@ -158,6 +160,7 @@ namespace UWP_XMPP_Client.Dialogs
             jabberId_tbx.Text = jabberId_tbx.Text.ToLower();
             jabberId_tbx.SelectionStart = selectionStart;
             jabberId_tbx.SelectionLength = 0;
+            jabberId_tbx.BorderBrush = new SolidColorBrush(Utils.isJid(jabberId_tbx.Text) ? (Color)Application.Current.Resources["SystemAccentColor"] : Colors.Red);
         }
 
         private async void jabberId_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
