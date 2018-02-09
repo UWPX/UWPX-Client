@@ -6,6 +6,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -46,22 +48,32 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #region --Misc Methods (Private)--
         private void loadAccounts()
         {
-            accounts_stckp.Children.Clear();
-            foreach (XMPPAccount account in AccountManager.INSTANCE.loadAllAccounts())
+            Task.Factory.StartNew(() =>
             {
-                accounts_stckp.Children.Add(new AccountControl() { Account = account });
-            }
-            AccountManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
-            AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
-            if (accounts_stckp.Children.Count > 0)
-            {
-                reloadAccounts_btn.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                reloadAccounts_btn.Visibility = Visibility.Collapsed;
-            }
-            reloadAccounts_btn.IsEnabled = true;
+                IList<XMPPAccount> list = AccountManager.INSTANCE.loadAllAccounts();
+
+                AccountManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
+                AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
+
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    accounts_stckp.Children.Clear();
+                    foreach (XMPPAccount account in list)
+                    {
+                        accounts_stckp.Children.Add(new AccountControl() { Account = account });
+                    }
+
+                    if (accounts_stckp.Children.Count > 0)
+                    {
+                        reloadAccounts_btn.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        reloadAccounts_btn.Visibility = Visibility.Collapsed;
+                    }
+                    reloadAccounts_btn.IsEnabled = true;
+                }).AsTask();
+            });
         }
 
         #endregion
