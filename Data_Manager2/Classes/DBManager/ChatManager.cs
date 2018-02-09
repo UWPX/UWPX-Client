@@ -245,9 +245,15 @@ namespace Data_Manager2.Classes.DBManager
             });
         }
 
-        public void resetMUCEnterState(string userAccountId)
+        public void resetMUCEnterState(string userAccountId, bool triggerMUCChanged)
         {
-            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET enterState = 0 WHERE EXISTS (SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " m JOIN " + DBTableConsts.CHAT_TABLE + " c ON c.id = m.chatId WHERE c.chatJabberId = ?);", MUCEnterState.DISCONNECTED, userAccountId);
+            // Semi join:
+            List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE EXISTS (SELECT * FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND enterState != ?;", userAccountId, ChatType.MUC, MUCEnterState.DISCONNECTED);
+            foreach (MUCChatInfoTable info in list)
+            {
+                info.enterState = MUCEnterState.DISCONNECTED;
+                setMUCChatInfo(info, false, triggerMUCChanged);
+            }
         }
 
         #endregion

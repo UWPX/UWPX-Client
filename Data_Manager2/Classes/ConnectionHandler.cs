@@ -101,7 +101,7 @@ namespace Data_Manager2.Classes
             }
             Parallel.ForEach(clients, async (c) =>
             {
-                await disconnectClientAsync(c);
+                await c.disconnectAsync();
             });
         }
 
@@ -113,25 +113,13 @@ namespace Data_Manager2.Classes
             }
             Parallel.ForEach(clients, async (c) =>
             {
-                await disconnectClientAsync(c);
-                await Task.Delay(200);
-                if (!c.getXMPPAccount().disabled)
-                {
-                    await c.connectAsync();
-                }
+                await reconnectClientAsync(c);
             });
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task disconnectClientAsync(XMPPClient client)
-        {
-            await client.disconnectAsync();
-            ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
-            MUCHandler.INSTANCE.onClientDisconnecting(client);
-        }
-
         private void loadAccounts()
         {
             if (clients == null)
@@ -168,6 +156,54 @@ namespace Data_Manager2.Classes
             return c;
         }
 
+        private void unloadAccount(XMPPClient c)
+        {
+            c.NewChatMessage -= C_NewChatMessage;
+            c.NewRoosterMessage -= C_NewRoosterMessage;
+            c.NewPresence -= C_NewPresence;
+            // Requesting roster if connected
+            c.ConnectionStateChanged -= C_ConnectionStateChanged;
+            c.MessageSend -= C_MessageSend;
+            c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
+        }
+
+        private void onClientDisconnectedOrError(XMPPClient client)
+        {
+            ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
+            MUCHandler.INSTANCE.onClientDisconnected(client);
+        }
+
+        private void onClientDisconneting(XMPPClient client)
+        {
+            MUCHandler.INSTANCE.onClientDisconnecting(client);
+        }
+
+        private void onClientConnected(XMPPClient client)
+        {
+            Task.Factory.StartNew(async () =>
+            {
+                await client.requestRoosterAsync();
+                await client.requestBookmarksAsync();
+                MUCHandler.INSTANCE.onClientConnected(client);
+                ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+            });
+        }
+
+        private async Task reconnectClientAsync(XMPPClient client)
+        {
+            // Disconnect:
+            await client.disconnectAsync();
+
+            // Wait 500ms until a connect gets initiated:
+            await Task.Delay(500);
+
+            // Connect if account is enabled:
+            if (!client.getXMPPAccount().disabled)
+            {
+                await client.connectAsync();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -176,20 +212,21 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void C_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        private void C_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
             switch (args.newState)
             {
                 case ConnectionState.CONNECTED:
-                    await client.requestRoosterAsync();
-                    await client.requestBookmarksAsync();
-                    MUCHandler.INSTANCE.onClientConnected(client);
-                    ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+                    onClientConnected(client);
                     break;
+
+                case ConnectionState.DISCONNECTING:
+                    onClientDisconneting(client);
+                    break;
+
                 case ConnectionState.ERROR:
                 case ConnectionState.DISCONNECTED:
-                    ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
-                    MUCHandler.INSTANCE.onClientDisconnected(client);
+                    onClientDisconnectedOrError(client);
                     break;
             }
         }

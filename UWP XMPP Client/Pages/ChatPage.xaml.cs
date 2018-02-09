@@ -68,18 +68,13 @@ namespace UWP_XMPP_Client.Pages
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Removes the given chat from the chatList and keeps the selected item in the masterDetail_pnl.
+        /// Removes the given chat from the chatList and allChats list.
         /// </summary>
         /// <param name="c">The chat to remove.</param>
         private void removeChat(ChatTemplate c)
         {
-            var selectedItem = masterDetail_pnl.SelectedItem;
-            chatsList.Remove(c);
             allChats.Remove(c);
-            if (c != selectedItem)
-            {
-                masterDetail_pnl.SelectedItem = selectedItem;
-            }
+            chatsList.Remove(c);
         }
 
         private void sortAllChats()
@@ -172,9 +167,10 @@ namespace UWP_XMPP_Client.Pages
         /// Filters all chats and only shows those that contain the given string.
         /// </summary>
         /// <param name="s">The string for filtering chats.</param>
-        private void filterChats(string s)
+        /// <param name="force">Force filtering.</param>
+        private void filterChats(string s, bool force)
         {
-            if (Equals(s, currentChatQuery))
+            if (!force && Equals(s, currentChatQuery))
             {
                 return;
             }
@@ -187,8 +183,13 @@ namespace UWP_XMPP_Client.Pages
             }
             else
             {
-                chatsList.AddRange(allChats.Where((x) => { return x.chat.chatJabberId.ToLower().Contains(s) || (x.mucInfo != null && x.mucInfo.name != null && x.mucInfo.name.ToLower().Contains(s)); }));
+                chatsList.AddRange(allChats.Where((x) => { return doesChatTemplateMatchesFilter(x, s); }));
             }
+        }
+
+        private bool doesChatTemplateMatchesFilter(ChatTemplate template, string filter)
+        {
+            return template.chat.chatJabberId.ToLower().Contains(filter) || (template.mucInfo != null && template.mucInfo.name != null && template.mucInfo.name.ToLower().Contains(filter));
         }
 
         #endregion
@@ -283,6 +284,10 @@ namespace UWP_XMPP_Client.Pages
                         }
                         allChats.Add(chatElement);
                         sortAllChats();
+                        if (currentChatQuery == null || doesChatTemplateMatchesFilter(chatElement, currentChatQuery))
+                        {
+                            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Insert(0, chatElement)).AsTask();
+                        }
                     }
                 }
             });
@@ -365,18 +370,18 @@ namespace UWP_XMPP_Client.Pages
             // Subscribe to chat and MUC info changed events:
             ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
             ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+            ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
         }
 
         private void searchChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            filterChats(searchChats_asb.Text.ToLower());
+            filterChats(searchChats_asb.Text.ToLower(), false);
         }
 
         private void searchChats_asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            filterChats((args.QueryText ?? searchChats_asb.Text).ToLower());
+            filterChats((args.QueryText ?? searchChats_asb.Text).ToLower(), true);
         }
 
         #endregion

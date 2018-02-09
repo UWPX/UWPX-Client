@@ -45,7 +45,7 @@ namespace Data_Manager2.Classes
             client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
             client.NewMUCMemberPresenceMessage += C_NewMUCMemberPresenceMessage;
 
-            ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain());
+            ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain(), true);
             enterAllMUCs(client);
         }
 
@@ -56,7 +56,7 @@ namespace Data_Manager2.Classes
 
         public void onClientDisconnecting(XMPPClient client)
         {
-            ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain());
+            ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain(), true);
         }
 
         public async Task enterMUCAsync(ChatTable muc, MUCChatInfoTable info, XMPPClient client)

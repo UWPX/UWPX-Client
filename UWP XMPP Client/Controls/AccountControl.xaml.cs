@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Popups;
