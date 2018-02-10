@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace XMPP_API.Classes
 {
@@ -26,7 +28,7 @@ namespace XMPP_API.Classes
         /// </summary>
         /// <param name="s"></param>
         /// <returns></returns>
-        public static bool isJid(string s)
+        public static bool isBareJid(string s)
         {
             Regex regex = new Regex(JID_REGEX_PATTERN);
             return regex.IsMatch(s);
@@ -98,6 +100,50 @@ namespace XMPP_API.Classes
                 }
             }
             return null;
+        }
+
+        /// <summary>
+        /// Tries to parse the given string to a MUCRole.
+        /// Returns MUCRole.VISITOR as a default value if it fails.
+        /// </summary>
+        /// <param name="role">The string that should get parsed to a MUCRole.</param>
+        /// <returns>Returns the MUCRole based on the given string. Defaults to: MUCRole.VISITOR</returns>
+        public static MUCRole parseMUCRole(string role)
+        {
+            MUCRole r = MUCRole.VISITOR;
+            Enum.TryParse(role.ToUpper(), out r);
+            return r;
+        }
+
+        /// <summary>
+        /// Tries to parse the given string to a MUCAffiliation.
+        /// Returns MUCAffiliation.NONE as a default value if it fails.
+        /// </summary>
+        /// <param name="affiliation">The string that should get parsed to a MUCAffiliation.</param>
+        /// <returns>Returns the MUCAffiliation based on the given string. Defaults to: MUCAffiliation.NONE</returns>
+        public static MUCAffiliation parseMUCAffiliation(string affiliation)
+        {
+            MUCAffiliation a = MUCAffiliation.NONE;
+            Enum.TryParse(affiliation.ToUpper(), out a);
+            return a;
+        }
+
+        /// <summary>
+        /// Converts the given MUCRole to the equivalent string representation.
+        /// e.g. MUCRole.VISITOR => 'visitor'
+        /// </summary>
+        public static string MUCRoleToString(MUCRole role)
+        {
+            return role.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Converts the given MUCAffiliation to the equivalent string representation.
+        /// e.g. MUCAffiliation.NONE => 'none'
+        /// </summary>
+        public static string MUCAffiliationToString(MUCAffiliation affiliation)
+        {
+            return affiliation.ToString().ToLower();
         }
 
         #endregion

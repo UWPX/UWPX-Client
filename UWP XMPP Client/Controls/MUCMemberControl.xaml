@@ -6,12 +6,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+    <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Row="0" Text="{x:Bind Member.nickname, Mode=OneWay}" TextWrapping="Wrap"/>
-        <TextBlock Grid.Row="1" Text="{x:Bind Member.role, Mode=OneWay}"/>
+        <TextBlock Grid.Row="1" Text="{x:Bind Member.jId, Mode=OneWay}" TextWrapping="Wrap"/>
+        <TextBlock Grid.Row="2" Text="{x:Bind Member.role, Mode=OneWay}"/>
+        <TextBlock Grid.Row="3" Text="{x:Bind Member.affiliation, Mode=OneWay}"/>
     </Grid>
 </UserControl>

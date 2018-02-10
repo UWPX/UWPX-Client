@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -28,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <returns>Returns null if node does not exist, else the node.</returns>
         public static XmlNode getChildNode(XmlNode node, string name)
         {
-            return getChildNode(node, name, null, null);
+            return getChildNode(node, name, null, (string)null);
         }
 
         /// <summary>
@@ -48,6 +49,40 @@ namespace XMPP_API.Classes.Network.XML
                     if (n.Name.LocalName.Equals(name))
                     {
                         return n;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Tries to find the given node by its name, attribute and attribute value in the given XmlNode.
+        /// Returns null, if nothing found.
+        /// </summary>
+        /// <param name="node">The node, containing the node.</param>
+        /// <param name="name">The node name.</param>
+        /// <param name="attribute">The attribute name.</param>
+        /// <param name="attributeValueRegex">The attribute value regular expression.</param>
+        /// <returns>Returns null if node does not exist, else the node.</returns>
+        public static XmlNode getChildNode(XmlNode node, string name, string attribute, Regex attributeValueRegex)
+        {
+            if (node != null && node.HasChildNodes)
+            {
+                foreach (XmlNode n in node.ChildNodes)
+                {
+                    if (n.Name.Equals(name))
+                    {
+                        if (attribute != null)
+                        {
+                            if (n.Attributes[attribute] != null && attributeValueRegex.IsMatch(n.Attributes[attribute].Value))
+                            {
+                                return n;
+                            }
+                        }
+                        else
+                        {
+                            return n;
+                        }
                     }
                 }
             }

@@ -64,7 +64,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private async Task<bool> areEntriesValidAsync()
         {
-            if (!Utils.isJid(jabberId_tbx.Text))
+            if (!Utils.isBareJid(jabberId_tbx.Text))
             {
                 MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_jabber_id_text"), Localisation.getLocalizedString("error_text"));
                 await messageDialog.ShowAsync();

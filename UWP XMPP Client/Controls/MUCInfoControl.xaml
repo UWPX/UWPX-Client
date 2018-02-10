@@ -23,7 +23,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Row="0" Visibility="Collapsed" Margin="-10, 0, 0, 0">
+            <ScrollViewer Grid.Row="0" Margin="-10, 0, 0, 0">
                 <ItemsControl ItemTemplate="{StaticResource mucFieldTemplate}" ItemsSource="{x:Bind options, Mode=OneWay}"/>
             </ScrollViewer>
 

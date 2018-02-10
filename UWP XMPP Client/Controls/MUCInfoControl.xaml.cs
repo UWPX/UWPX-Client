@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
 using System;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
@@ -37,6 +38,17 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoControl), null);
 
+        public MUCChatInfoTable MUCInfo
+        {
+            get { return (MUCChatInfoTable)GetValue(mucInfoProperty); }
+            set
+            {
+                SetValue(mucInfoProperty, value);
+                requestRoomInfo();
+            }
+        }
+        public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
+
         private MessageResponseHelper messageResponseHelper;
 
         private CustomObservableCollection<MUCInfoOptionTemplate> options;
@@ -72,8 +84,9 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void requestRoomInfo()
         {
-            if (messageResponseHelper != null || Client == null || Chat == null)
+            if (messageResponseHelper != null || Client == null || Chat == null || MUCInfo == null)
             {
+                onTimeout();
                 return;
             }
 
@@ -81,9 +94,17 @@ namespace UWP_XMPP_Client.Controls
             info_grid.Visibility = Visibility.Collapsed;
             timeout_stckpnl.Visibility = Visibility.Collapsed;
 
-            messageResponseHelper = new MessageResponseHelper(Client, onNewMessage, onTimeout);
-            RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId);
-            messageResponseHelper.start(msg);
+            MUCMemberTable member = ChatManager.INSTANCE.getMUCMember(Chat.id, MUCInfo.nickname);
+            if (member != null)
+            {
+                messageResponseHelper = new MessageResponseHelper(Client, onNewMessage, onTimeout);
+                RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId, member.affiliation);
+                messageResponseHelper.start(msg);
+            }
+            else
+            {
+                // Show failed to request banner
+            }
         }
 
         private bool onNewMessage(AbstractMessage msg)
@@ -104,6 +125,7 @@ namespace UWP_XMPP_Client.Controls
                         }
                     }
                     reload_btn.IsEnabled = true;
+                    timeout_stckpnl.Visibility = Visibility.Collapsed;
                     loading_grid.Visibility = Visibility.Collapsed;
                     info_grid.Visibility = Visibility.Visible;
                 }).AsTask();

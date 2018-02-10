@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// </history>
         public RoomInfoResponseMessage(XmlNode answer) : base(answer)
         {
-            XmlNode qNode = XMLUtils.getChildNode(answer, "query", "xmlns", "http://jabber.org/protocol/muc#owner");
+            XmlNode qNode = XMLUtils.getChildNode(answer, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX);
             if(qNode != null)
             {
                 XmlNode x = XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data");

@@ -191,17 +191,7 @@ namespace XMPP_API.Classes.Network.XML
                                 messages.Add(new BookmarksResultMessage(n));
                             }
                             // XEP-0045 (MUC) room info owner:
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/muc#owner") != null)
-                            {
-                                messages.Add(new RoomInfoResponseMessage(n));
-                            }
-                            // XEP-0045 (MUC) room info admin:
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/muc#admin") != null)
-                            {
-                                messages.Add(new RoomInfoResponseMessage(n));
-                            }
-                            // XEP-0045 (MUC) room info user:
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/muc#user") != null)
+                            else if (XMLUtils.getChildNode(n, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
                             {
                                 messages.Add(new RoomInfoResponseMessage(n));
                             }

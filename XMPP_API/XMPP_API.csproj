@@ -146,10 +146,12 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCAffiliation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomInfoMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoResponseMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRole.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\BookmarksResultMessage.cs" />

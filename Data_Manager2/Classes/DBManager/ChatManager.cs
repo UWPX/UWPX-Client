@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -110,6 +111,16 @@ namespace Data_Manager2.Classes.DBManager
                     update(member);
                 }
             }
+        }
+
+        public MUCMemberTable getMUCMember(string chatId, string nickname)
+        {
+            List<MUCMemberTable> list = dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE id = ?;", MUCMemberTable.generateId(chatId, nickname));
+            if(list.Count <= 0)
+            {
+                return null;
+            }
+            return list[0];
         }
 
         public void setMUCChatInfo(MUCChatInfoTable info, bool delete, bool triggerMUCChanged)

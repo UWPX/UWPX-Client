@@ -8,10 +8,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly List<MUCPresenceStatusCode> STATUS_CODES;
-        public readonly string AFFILIATION;
         public readonly string JID;
         public readonly string NICKNAME;
-        public readonly string ROLE;
+        public readonly MUCAffiliation AFFILIATION;
+        public readonly MUCRole ROLE;
         public readonly string ERROR_MESSAGE;
         public readonly string ERROR_TYPE;
 
@@ -36,8 +36,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                     switch (n.Name)
                     {
                         case "item":
-                            AFFILIATION = n.Attributes["affiliation"]?.Value;
-                            ROLE = n.Attributes["role"]?.Value;
+                            AFFILIATION = Utils.parseMUCAffiliation(n.Attributes["affiliation"]?.Value);
+                            ROLE = Utils.parseMUCRole(n.Attributes["role"]?.Value);
                             JID = n.Attributes["jid"]?.Value;
                             break;
 

@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes
+﻿using System.Text.RegularExpressions;
+
+namespace XMPP_API.Classes
 {
     class Consts
     {
@@ -26,5 +28,7 @@
         public static readonly string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
 
         public static readonly bool ENABLE_DEBUG_OUTPUT = false;
+
+        public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
     }
 }

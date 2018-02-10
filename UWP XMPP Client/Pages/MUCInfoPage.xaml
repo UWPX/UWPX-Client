@@ -17,7 +17,16 @@
 
         <Pivot Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <PivotItem Header="Info">
-
+                <ScrollViewer>
+                    <StackPanel>
+                        <TextBlock Text="Description"/>
+                        <TextBox Text="{x:Bind MUCInfo.description, Mode=TwoWay}"/>
+                        <TextBlock Text="Nickname" Margin="0, 10, 0, 0"/>
+                        <TextBox Text="{x:Bind MUCInfo.nickname, Mode=TwoWay}"/>
+                        <PasswordBox Password="{x:Bind MUCInfo.password, Mode=TwoWay}" Header="Password" Margin="0, 10, 0, 0"/>
+                        <ToggleSwitch Header="Autojoin" Margin="0, 10, 0, 0" IsOn="{x:Bind MUCInfo.autoEnterRoom}"/>
+                    </StackPanel>
+                </ScrollViewer>
             </PivotItem>
 
             <PivotItem Header="Members">
@@ -29,7 +38,7 @@
             </PivotItem>
 
             <PivotItem Header="Manage">
-                <controls:MUCInfoControl Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}"/>
+                <controls:MUCInfoControl Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
     </Grid>

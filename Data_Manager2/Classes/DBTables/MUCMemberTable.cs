@@ -1,4 +1,5 @@
 ﻿using SQLite.Net.Attributes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -16,10 +17,12 @@ namespace Data_Manager2.Classes.DBTables
         [NotNull]
         // The user nickname e.g. 'thirdwitch'
         public string nickname { get; set; }
-        // The affiliation of the member e.g. 'owner'
-        public string affiliation { get; set; }
-        // The role of the member e.g. 'moderator'
-        public string role { get; set; }
+        // The full jabber id of the user e.g. 'coven@chat.shakespeare.lit/thirdwitch'
+        public string jId { get; set; }
+        // The affiliation of the user e.g. 'owner', 'admin', 'member' or 'none'
+        public MUCAffiliation affiliation { get; set; }
+        // The role of the user e.g. 'moderator', 'participant' or 'visitor'
+        public MUCRole role { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -43,9 +46,9 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string chatId, string user)
+        public static string generateId(string chatId, string nickname)
         {
-            return chatId + '_' + user;
+            return chatId + '_' + nickname;
         }
 
         #endregion
