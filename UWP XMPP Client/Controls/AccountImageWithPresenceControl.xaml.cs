@@ -98,22 +98,22 @@ namespace UWP_XMPP_Client.Controls
             switch (Presence)
             {
                 case Presence.Online:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 84, 168, 27));
+                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 84, 168, 27));
                     break;
                 case Presence.Chat:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Colors.White);
+                    presence_elipse.Fill = new SolidColorBrush(Colors.White);
                     break;
                 case Presence.Away:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
+                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
                     break;
                 case Presence.Xa:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 235, 73, 16));
+                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 235, 73, 16));
                     break;
                 case Presence.Dnd:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 162, 16, 37));
+                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 162, 16, 37));
                     break;
                 default:
-                    presence_brdr.BorderBrush = new SolidColorBrush(Color.FromArgb(255, 76, 74, 75));
+                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 76, 74, 75));
                     break;
             }
         }

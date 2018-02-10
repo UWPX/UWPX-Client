@@ -4,20 +4,47 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
     Width="40"
     Height="40">
 
+    <UserControl.Resources>
+        <Style TargetType="controls:DropShadowPanel" x:Key="ShadowPanelStyle">
+            <Setter Property="BlurRadius" Value="8"/>
+            <Setter Property="ShadowOpacity" Value="1.0"/>
+            <Setter Property="OffsetX" Value="0.0"/>
+            <Setter Property="OffsetY" Value="0.0"/>
+            <Setter Property="Color" Value="Black"/>
+            <Setter Property="Visibility" Value="Collapsed"/>
+            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-        <Rectangle Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
-        <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <TextBlock x:Name="placeholder_tbx" Grid.Column="0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe MDL2 Assets" Text="&#xE2AF;" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3"/>
-        </Viewbox>
-        <Border x:Name="presence_brdr" Grid.Column="0" BorderThickness="2" BorderBrush="#4C4A4B" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-            <Image x:Name="user_img" Source="{x:Bind Image}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        </Border>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:DropShadowPanel>
+            <Grid Grid.Row="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
+                <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                    <TextBlock x:Name="placeholder_tbx" Grid.Column="0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe MDL2 Assets" Text="&#xE2AF;" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3"/>
+                </Viewbox>
+            </Grid>
+        </controls:DropShadowPanel>
+
+        <Image x:Name="user_img" Grid.Row="0" Source="{x:Bind Image}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+
+        <controls:DropShadowPanel Grid.Row="0"
+                                  HorizontalAlignment="Right"
+                                  VerticalAlignment="Bottom"
+                                  Margin="0, 0, -4, -4">
+            <Ellipse x:Name="presence_elipse" Fill="#4C4A4B" Height="13" Width="13"/>
+        </controls:DropShadowPanel>
     </Grid>
 </UserControl>
