@@ -160,7 +160,7 @@ namespace UWP_XMPP_Client.Dialogs
             jabberId_tbx.Text = jabberId_tbx.Text.ToLower();
             jabberId_tbx.SelectionStart = selectionStart;
             jabberId_tbx.SelectionLength = 0;
-            jabberId_tbx.BorderBrush = new SolidColorBrush(Utils.isJid(jabberId_tbx.Text) ? (Color)Application.Current.Resources["SystemAccentColor"] : Colors.Red);
+            jabberId_tbx.BorderBrush = new SolidColorBrush(Utils.isJid(jabberId_tbx.Text) ? Colors.Green : Colors.Red);
         }
 
         private async void jabberId_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
