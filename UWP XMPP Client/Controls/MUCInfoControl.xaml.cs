@@ -86,7 +86,6 @@ namespace UWP_XMPP_Client.Controls
         {
             if (messageResponseHelper != null || Client == null || Chat == null || MUCInfo == null)
             {
-                onTimeout();
                 return;
             }
 

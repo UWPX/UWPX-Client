@@ -27,7 +27,7 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(RoomInfoProperty, value);
-                sendDisco();
+                Task t = sendDiscoAsync();
             }
         }
         public static readonly DependencyProperty RoomInfoProperty = DependencyProperty.Register("RoomInfo", typeof(MUCRoomInfo), typeof(BrowseMUCRoomsDetailsControl), null);
@@ -37,12 +37,8 @@ namespace UWP_XMPP_Client.Controls
             get { return (XMPPClient)GetValue(ClientProperty); }
             set
             {
-                if (Client != null)
-                {
-                    Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-                }
                 SetValue(ClientProperty, value);
-                sendDisco();
+                Task t = sendDiscoAsync();
             }
         }
 
@@ -87,7 +83,7 @@ namespace UWP_XMPP_Client.Controls
 
         }
 
-        private void sendDisco()
+        private async Task sendDiscoAsync()
         {
             if (discoId == null && RoomInfo != null && Client != null)
             {
@@ -97,9 +93,7 @@ namespace UWP_XMPP_Client.Controls
                 Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
                 Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
 
-                discoId = "";
-                Task<string> t = Client.createDiscoAsync(RoomInfo.jid, DiscoType.INFO);
-                Task.Factory.StartNew(async () => discoId = await t);
+                discoId = await Client.createDiscoAsync(RoomInfo.jid, DiscoType.INFO);
                 startTimer();
             }
         }
@@ -120,8 +114,12 @@ namespace UWP_XMPP_Client.Controls
         private void showResultDisco(ExtendedDiscoResponseMessage disco)
         {
             stopTimer();
+
+            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
+
             loading_grid.Visibility = Visibility.Collapsed;
             details_itmc.Visibility = Visibility.Visible;
+
             if (disco == null || (disco.FIELDS == null && disco.FEATURES == null))
             {
                 discoId = null;
@@ -140,7 +138,6 @@ namespace UWP_XMPP_Client.Controls
                 }
             }
             discoId = null;
-            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
         }
 
         private void showBackgroundForViewState(MasterDetailsViewState state)

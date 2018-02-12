@@ -47,14 +47,18 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="0">
+                <Grid Grid.Row="0" Margin="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Button x:Name="refresh_btn" Content="&#xE72C;" FontFamily="Segoe MDL2 Assets" Grid.Column="1" HorizontalAlignment="Right" Click="refresh_btn_Click"/>
-                    <TextBlock Text="{x:Bind Server}" VerticalAlignment="Center" Margin="10, 0, 10, 0" FontSize="20" Grid.Column="0"/>
+                    <TextBlock Grid.Column="0" Text="{x:Bind Server}" VerticalAlignment="Center" Margin="0, 0, 10, 0" FontSize="20"/>
+                    <Button x:Name="refresh_btn" Grid.Column="1" HorizontalAlignment="Right" Click="refresh_btn_Click">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="&#xE72C;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                            <TextBlock Margin="10, 0, 0, 0" Text="Refresh" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Button>
                 </Grid>
                 <controls1:SeperatorControl Grid.Row="1"/>
             </Grid>

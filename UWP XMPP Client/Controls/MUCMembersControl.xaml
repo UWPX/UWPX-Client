@@ -36,7 +36,7 @@
             <Button x:Name="add_btn" Grid.Column="1" HorizontalAlignment="Right" Click="add_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" Foreground="Green" VerticalAlignment="Center"/>
-                    <TextBlock Text="Remove" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Add" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
         </Grid>

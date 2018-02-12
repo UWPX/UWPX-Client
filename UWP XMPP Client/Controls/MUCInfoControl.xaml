@@ -18,16 +18,13 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="info_grid">
+        <Grid x:Name="info_grid" Visibility="Collapsed">
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <ScrollViewer Grid.Row="0" Margin="-10, 0, 0, 0">
-                <ItemsControl ItemTemplate="{StaticResource mucFieldTemplate}" ItemsSource="{x:Bind options, Mode=OneWay}"/>
-            </ScrollViewer>
 
-            <Grid Grid.Row="1" Margin="0, 10, 0, 10">
+            <Grid Grid.Row="0" Margin="0, 10, 10, 10">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -40,11 +37,16 @@
                 </Button>
                 <Button x:Name="save_btn" Grid.Column="1" Click="save_btn_Click" HorizontalAlignment="Right">
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Save"/>
-                        <ProgressRing x:Name="save_prgr" IsActive="False" Visibility="Collapsed" Margin="10, 0, 0, 0"/>
+                        <TextBlock Text="&#xE105;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                        <TextBlock Text="Save" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+                        <ProgressRing x:Name="save_prgr" IsActive="False" Visibility="Collapsed" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </Grid>
+
+            <ScrollViewer Grid.Row="1" Margin="-10, 0, 0, 0">
+                <ItemsControl ItemTemplate="{StaticResource mucFieldTemplate}" ItemsSource="{x:Bind options, Mode=OneWay}"/>
+            </ScrollViewer>
         </Grid>
 
         <StackPanel x:Name="timeout_stckpnl" Visibility="Collapsed">
