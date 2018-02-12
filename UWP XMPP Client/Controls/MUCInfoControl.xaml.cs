@@ -89,20 +89,25 @@ namespace UWP_XMPP_Client.Controls
                 return;
             }
 
-            loading_grid.Visibility = Visibility.Visible;
             info_grid.Visibility = Visibility.Collapsed;
-            timeout_stckpnl.Visibility = Visibility.Collapsed;
 
             MUCMemberTable member = ChatManager.INSTANCE.getMUCMember(Chat.id, MUCInfo.nickname);
             if (member != null)
             {
+                loading_grid.Visibility = Visibility.Visible;
+                timeout_stckpnl.Visibility = Visibility.Collapsed;
+
                 messageResponseHelper = new MessageResponseHelper(Client, onNewMessage, onTimeout);
                 RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId, member.affiliation);
                 messageResponseHelper.start(msg);
             }
             else
             {
-                // Show failed to request banner
+                timeout_stckpnl.Visibility = Visibility.Visible;
+                loading_grid.Visibility = Visibility.Collapsed;
+                reload_btn.IsEnabled = true;
+
+                faildToRequest_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
             }
         }
 

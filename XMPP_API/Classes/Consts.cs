@@ -26,9 +26,8 @@ namespace XMPP_API.Classes
         public static readonly string XML_XEP_0357_NAMESPACE = "urn:xmpp:push:0";
         // XEP-0045 (MUC):
         public static readonly string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
+        public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
 
         public static readonly bool ENABLE_DEBUG_OUTPUT = false;
-
-        public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
     }
 }

@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     xmlns:mucinfo="using:UWP_XMPP_Client.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -70,5 +71,7 @@
                 <TextBlock Text="(Timeout = 5 seconds)" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
+
+        <controls:InAppNotification x:Name="faildToRequest_ian" Grid.Row="0"/>
     </Grid>
 </UserControl>
