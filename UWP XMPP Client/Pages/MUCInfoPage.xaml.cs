@@ -37,7 +37,7 @@ namespace UWP_XMPP_Client.Pages
             get { return (MUCChatInfoTable)GetValue(mucInfoProperty); }
             set { SetValue(mucInfoProperty, value); }
         }
-        public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(UserProfilePage), null);
+        public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoPage), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

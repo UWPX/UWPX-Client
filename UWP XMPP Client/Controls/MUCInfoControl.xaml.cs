@@ -1,14 +1,10 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
-using System;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.DataTemplates;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -22,7 +18,6 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(chatProperty, value);
-                requestRoomInfo();
             }
         }
         public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoControl), null);
@@ -33,7 +28,6 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(clientProperty, value);
-                requestRoomInfo();
             }
         }
         public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoControl), null);
@@ -44,14 +38,10 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(mucInfoProperty, value);
-                requestRoomInfo();
+                showMUCInfo();
             }
         }
         public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
-
-        private MessageResponseHelper messageResponseHelper;
-
-        private CustomObservableCollection<MUCInfoOptionTemplate> options;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -60,12 +50,10 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 07/02/2018 Created [Fabian Sauter]
+        /// 12/02/2018 Created [Fabian Sauter]
         /// </history>
         public MUCInfoControl()
         {
-            this.options = new CustomObservableCollection<MUCInfoOptionTemplate>();
-            this.messageResponseHelper = null;
             this.InitializeComponent();
         }
 
@@ -82,86 +70,47 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void requestRoomInfo()
+        private void showMUCInfo()
         {
-            if (messageResponseHelper != null || Client == null || Chat == null || MUCInfo == null)
+            if (MUCInfo != null)
             {
-                return;
-            }
-
-            info_grid.Visibility = Visibility.Collapsed;
-
-            MUCMemberTable member = ChatManager.INSTANCE.getMUCMember(Chat.id, MUCInfo.nickname);
-            if (member != null)
-            {
-                loading_grid.Visibility = Visibility.Visible;
-                timeout_stckpnl.Visibility = Visibility.Collapsed;
-
-                messageResponseHelper = new MessageResponseHelper(Client, onNewMessage, onTimeout);
-                RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId, member.affiliation);
-                messageResponseHelper.start(msg);
-            }
-            else
-            {
-                timeout_stckpnl.Visibility = Visibility.Visible;
-                loading_grid.Visibility = Visibility.Collapsed;
-                reload_btn.IsEnabled = true;
-
-                faildToRequest_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
-            }
-        }
-
-        private bool onNewMessage(AbstractMessage msg)
-        {
-            if (msg is RoomInfoResponseMessage)
-            {
-                RoomInfoResponseMessage responseMessage = msg as RoomInfoResponseMessage;
-
-                // Add controls and update viability:
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                Presence presence = MUCInfo.getMUCPresence();
+                enterState_tbx.Foreground = UiUtils.getPresenceBrush(presence);
+                switch (presence)
                 {
-                    options.Clear();
-                    foreach (MUCInfoField o in responseMessage.roomConfig.options)
-                    {
-                        if (o.type != MUCInfoFieldType.HIDDEN)
-                        {
-                            options.Add(new MUCInfoOptionTemplate() { option = o });
-                        }
-                    }
-                    reload_btn.IsEnabled = true;
-                    timeout_stckpnl.Visibility = Visibility.Collapsed;
-                    loading_grid.Visibility = Visibility.Collapsed;
-                    info_grid.Visibility = Visibility.Visible;
-                }).AsTask();
-                return true;
+                    case Presence.Online:
+                        enterState_tbx.Text = "joined";
+                        join_btn.IsEnabled = false;
+                        leave_btn.IsEnabled = true;
+                        break;
+                    case Presence.Chat:
+                        enterState_tbx.Text = "joining/leaving...";
+                        join_btn.IsEnabled = false;
+                        leave_btn.IsEnabled = false;
+                        break;
+                    default:
+                        enterState_tbx.Text = "not joined yet";
+                        leave_btn.IsEnabled = false;
+                        join_btn.IsEnabled = true;
+                        break;
+                }
             }
-            return false;
         }
 
-        private void onTimeout()
+        private async Task leaveRoomAsync()
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if(Client != null && MUCInfo != null && Chat != null)
             {
-                retry_btn.IsEnabled = true;
-                loading_grid.Visibility = Visibility.Collapsed;
-                timeout_stckpnl.Visibility = Visibility.Visible;
-            }).AsTask();
+                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo);
+            }
         }
 
-        private void save()
+        private async Task joinRoomAsync()
         {
-            save_prgr.Visibility = Visibility.Visible;
-            save_prgr.IsActive = true;
-            save_btn.IsEnabled = false;
-        }
-
-        private void reload()
-        {
-            reload_btn.IsEnabled = false;
-            retry_btn.IsEnabled = false;
-            messageResponseHelper?.Dispose();
-            messageResponseHelper = null;
-            requestRoomInfo();
+            if (Client != null && MUCInfo != null && Chat != null)
+            {
+                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo);
+            }
         }
 
         #endregion
@@ -172,19 +121,14 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void retry_btn_Click(object sender, RoutedEventArgs e)
+        private async void join_btn_Click(object sender, RoutedEventArgs e)
         {
-            reload();
+            await joinRoomAsync();
         }
 
-        private void reload_btn_Click(object sender, RoutedEventArgs e)
+        private async void leave_btn_Click(object sender, RoutedEventArgs e)
         {
-            reload();
-        }
-
-        private void save_btn_Click(object sender, RoutedEventArgs e)
-        {
-            save();
+            await leaveRoomAsync();
         }
 
         #endregion

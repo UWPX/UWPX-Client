@@ -10,6 +10,12 @@
     -->
     <Application.Resources>
         <x:Double x:Key="AppBarThemeCompactHeight">41</x:Double>
+        <SolidColorBrush x:Key="PresenceOnline" Color="#54A81B"/>
+        <SolidColorBrush x:Key="PresenceChat" Color="White"/>
+        <SolidColorBrush x:Key="PresenceAway" Color="#EB8C10"/>
+        <SolidColorBrush x:Key="PresenceXa" Color="#EB4910"/>
+        <SolidColorBrush x:Key="PresenceDnd" Color="#A21025"/>
+        <SolidColorBrush x:Key="PresenceOffline" Color="#4C4A4B"/>
     </Application.Resources>
 
 </Application>

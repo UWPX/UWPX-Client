@@ -9,6 +9,7 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
+using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -78,6 +79,31 @@ namespace UWP_XMPP_Client.Classes
                     return "#FF5722";
                 default:
                     return "#607D8B";
+            }
+        }
+
+        public static SolidColorBrush getPresenceBrush(Presence presence)
+        {
+            switch (presence)
+            {
+                case Presence.Online:
+                    return (SolidColorBrush)Application.Current.Resources["PresenceOnline"];
+
+                case Presence.Chat:
+                    return (SolidColorBrush)Application.Current.Resources["PresenceChat"];
+
+                case Presence.Away:
+                    return (SolidColorBrush)Application.Current.Resources["PresenceAway"];
+
+                case Presence.Xa:
+                    return (SolidColorBrush)Application.Current.Resources["PresenceXa"];
+
+                case Presence.Dnd:
+                    return (SolidColorBrush)Application.Current.Resources["PresenceDnd"];
+
+                default:
+                    return (SolidColorBrush)Application.Current.Resources["PresenceOffline"];
+
             }
         }
 

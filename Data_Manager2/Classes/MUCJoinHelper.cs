@@ -70,7 +70,7 @@ namespace Data_Manager2.Classes
         {
             // Update MUC info:
             INFO.enterState = MUCEnterState.ENTERING;
-            saveMUCInfo();
+            saveMUCEnterState();
 
             // Clear MUC members:
             ChatManager.INSTANCE.deleteAllMUCMemberforChat(MUC.id);
@@ -116,9 +116,9 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void saveMUCInfo()
+        private void saveMUCEnterState()
         {
-            ChatManager.INSTANCE.setMUCChatInfo(INFO, false, true);
+            ChatManager.INSTANCE.setMUCEnterState(INFO.chatId, INFO.enterState, true);
         }
 
         #endregion
@@ -151,7 +151,7 @@ namespace Data_Manager2.Classes
 
                                 // Update MUC info:
                                 INFO.enterState = MUCEnterState.ENTERD;
-                                saveMUCInfo();
+                                saveMUCEnterState();
                                 break;
                         }
                     }

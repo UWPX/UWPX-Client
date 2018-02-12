@@ -59,7 +59,7 @@ namespace Data_Manager2.Classes
             ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain(), true);
         }
 
-        public async Task enterMUCAsync(ChatTable muc, MUCChatInfoTable info, XMPPClient client)
+        public async Task enterMUCAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
             MUCJoinHelper helper = new MUCJoinHelper(client, muc, info);
             timedList.addTimed(helper);
@@ -72,6 +72,15 @@ namespace Data_Manager2.Classes
             {
                 await helper.enterRoomAsync();
             }
+        }
+
+        public async Task leaveRoomAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
+        {
+            ChatManager.INSTANCE.setMUCEnterState(info.chatId, MUCEnterState.ENTERING, true);
+            string from = client.getXMPPAccount().getIdDomainAndResource();
+            string to = muc.chatJabberId + '/' + info.nickname;
+            LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
+            await client.sendMessageAsync(msg, false);
         }
 
         /// <summary>
@@ -106,7 +115,7 @@ namespace Data_Manager2.Classes
                     }
                     if (info.autoEnterRoom)
                     {
-                        await enterMUCAsync(muc, info, client);
+                        await enterMUCAsync(client, muc, info);
                     }
                 }
             });

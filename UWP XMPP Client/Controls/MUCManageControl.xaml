@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.MUCManageControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+    xmlns:mucinfo="using:UWP_XMPP_Client.Controls"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="mucFieldTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
+            <mucinfo:MUCFieldControl Field="{x:Bind option}" Margin="10, 0, 10, 5"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="info_grid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0" Margin="0, 10, 10, 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="reload_btn" Grid.Column="0" HorizontalAlignment="Left" Click="reload_btn_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                        <TextBlock Text="Reload" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="save_btn" Grid.Column="1" Click="save_btn_Click" HorizontalAlignment="Right">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="&#xE105;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                        <TextBlock Text="Save" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+                        <ProgressRing x:Name="save_prgr" IsActive="False" Visibility="Collapsed" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <ScrollViewer Grid.Row="1" Margin="-10, 0, 0, 0">
+                <ItemsControl ItemTemplate="{StaticResource mucFieldTemplate}" ItemsSource="{x:Bind options, Mode=OneWay}"/>
+            </ScrollViewer>
+        </Grid>
+
+        <StackPanel x:Name="timeout_stckpnl" Visibility="Collapsed">
+            <TextBlock Text="The request timed out!" Margin="0, 0, 0, 10"/>
+            <Button x:Name="retry_btn" Grid.Column="0" HorizontalAlignment="Left" Click="retry_btn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                    <TextBlock Text="Retry" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!--Loading Grid-->
+        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Center">
+                <TextBlock Text="Loading..." FontSize="20" HorizontalAlignment="Center"/>
+                <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Margin="0, 10, 0, 10"/>
+                <TextBlock Text="(Timeout = 5 seconds)" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </Grid>
+
+        <controls:InAppNotification x:Name="faildToRequest_ian" Grid.Row="0"/>
+    </Grid>
+</UserControl>

@@ -1,5 +1,5 @@
 ﻿using Data_Manager2.Classes.DBTables;
-using Windows.UI;
+using UWP_XMPP_Client.Classes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -95,27 +95,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void showPresenceColor()
         {
-            switch (Presence)
-            {
-                case Presence.Online:
-                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 84, 168, 27));
-                    break;
-                case Presence.Chat:
-                    presence_elipse.Fill = new SolidColorBrush(Colors.White);
-                    break;
-                case Presence.Away:
-                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 235, 140, 16));
-                    break;
-                case Presence.Xa:
-                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 235, 73, 16));
-                    break;
-                case Presence.Dnd:
-                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 162, 16, 37));
-                    break;
-                default:
-                    presence_elipse.Fill = new SolidColorBrush(Color.FromArgb(255, 76, 74, 75));
-                    break;
-            }
+            presence_elipse.Fill = UiUtils.getPresenceBrush(Presence);
         }
 
         private void showPresence()

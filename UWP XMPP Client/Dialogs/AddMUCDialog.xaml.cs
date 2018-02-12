@@ -131,7 +131,7 @@ namespace UWP_XMPP_Client.Dialogs
 
                 if (info.autoEnterRoom)
                 {
-                    Task t = MUCHandler.INSTANCE.enterMUCAsync(muc, info, c);
+                    Task t = MUCHandler.INSTANCE.enterMUCAsync(c, muc, info);
                 }
 
                 if ((bool)bookmark_cbx.IsChecked)

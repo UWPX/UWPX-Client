@@ -143,6 +143,19 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public void setMUCEnterState(string chatId, MUCEnterState state, bool triggerMUCChanged)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET enterState = ? WHERE chatId = ?", state, chatId);
+            if (triggerMUCChanged)
+            {
+                MUCChatInfoTable info = getMUCInfo(chatId);
+                if(info != null)
+                {
+                    MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, false));
+                }
+            }
+        }
+
         private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
         {
             return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
@@ -262,8 +275,7 @@ namespace Data_Manager2.Classes.DBManager
             List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE EXISTS (SELECT * FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND enterState != ?;", userAccountId, ChatType.MUC, MUCEnterState.DISCONNECTED);
             foreach (MUCChatInfoTable info in list)
             {
-                info.enterState = MUCEnterState.DISCONNECTED;
-                setMUCChatInfo(info, false, triggerMUCChanged);
+                setMUCEnterState(info.chatId, MUCEnterState.DISCONNECTED, triggerMUCChanged);
             }
         }
 
