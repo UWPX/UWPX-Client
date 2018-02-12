@@ -69,7 +69,7 @@ namespace Data_Manager2.Classes
         public async Task enterRoomAsync()
         {
             // Update MUC info:
-            INFO.enterState = MUCEnterState.ENTERING;
+            INFO.state = MUCState.ENTERING;
             saveMUCEnterState();
 
             // Clear MUC members:
@@ -88,14 +88,11 @@ namespace Data_Manager2.Classes
 
         public bool canGetRemoved()
         {
-            switch (INFO.enterState)
+            switch (INFO.state)
             {
-                case MUCEnterState.ENTERING:
+                case MUCState.ENTERING:
                     return false;
 
-                case MUCEnterState.ENTERD:
-                case MUCEnterState.ERROR:
-                case MUCEnterState.DISCONNECTED:
                 default:
                     return true;
             }
@@ -118,7 +115,7 @@ namespace Data_Manager2.Classes
 
         private void saveMUCEnterState()
         {
-            ChatManager.INSTANCE.setMUCEnterState(INFO.chatId, INFO.enterState, true);
+            ChatManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
         }
 
         #endregion
@@ -137,9 +134,9 @@ namespace Data_Manager2.Classes
                 return;
             }
 
-            switch (INFO.enterState)
+            switch (INFO.state)
             {
-                case MUCEnterState.ENTERING:
+                case MUCState.ENTERING:
                     // Evaluate status codes:
                     foreach (MUCPresenceStatusCode statusCode in args.mucMemberPresenceMessage.STATUS_CODES)
                     {
@@ -150,7 +147,7 @@ namespace Data_Manager2.Classes
                                 CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
 
                                 // Update MUC info:
-                                INFO.enterState = MUCEnterState.ENTERD;
+                                INFO.state = MUCState.ENTERD;
                                 saveMUCEnterState();
                                 break;
                         }

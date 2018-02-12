@@ -117,7 +117,7 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     chatId = muc.id,
                     description = null,
-                    enterState = MUCEnterState.DISCONNECTED,
+                    state = MUCState.DISCONNECTED,
                     name = null,
                     password = null,
                     nickname = nick_tbx.Text,

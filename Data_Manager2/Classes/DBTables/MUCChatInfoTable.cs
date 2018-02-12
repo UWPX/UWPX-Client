@@ -21,8 +21,8 @@ namespace Data_Manager2.Classes.DBTables
         public string description { get; set; }
         // The password for the MUC
         public string password { get; set; }
-        // The current state for entering the MUC
-        public MUCEnterState enterState { get; set; }
+        // The current state of the MUC e.g. 'ENTERING'
+        public MUCState state { get; set; }
         // Whether to automatically enter the room as soon as the client is connected
         public bool autoEnterRoom { get; set; }
 
@@ -45,15 +45,16 @@ namespace Data_Manager2.Classes.DBTables
         #region --Set-, Get- Methods--
         public Presence getMUCPresence()
         {
-            switch (enterState)
+            switch (state)
             {
-                case MUCEnterState.ENTERING:
+                case MUCState.ENTERING:
+                case MUCState.DISCONNECTING:
                     return Presence.Chat;
-                case MUCEnterState.ENTERD:
+                case MUCState.ENTERD:
                     return Presence.Online;
-                case MUCEnterState.ERROR:
+                case MUCState.ERROR:
                     return Presence.Xa;
-                case MUCEnterState.DISCONNECTED:
+                case MUCState.DISCONNECTED:
                 default:
                     return Presence.Unavailable;
             }

@@ -143,9 +143,9 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setMUCEnterState(string chatId, MUCEnterState state, bool triggerMUCChanged)
+        public void setMUCState(string chatId, MUCState state, bool triggerMUCChanged)
         {
-            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET enterState = ? WHERE chatId = ?", state, chatId);
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET state = ? WHERE chatId = ?", state, chatId);
             if (triggerMUCChanged)
             {
                 MUCChatInfoTable info = getMUCInfo(chatId);
@@ -269,13 +269,13 @@ namespace Data_Manager2.Classes.DBManager
             });
         }
 
-        public void resetMUCEnterState(string userAccountId, bool triggerMUCChanged)
+        public void resetMUCState(string userAccountId, bool triggerMUCChanged)
         {
             // Semi join:
-            List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE EXISTS (SELECT * FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND enterState != ?;", userAccountId, ChatType.MUC, MUCEnterState.DISCONNECTED);
+            List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE EXISTS (SELECT * FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND state != ?;", userAccountId, ChatType.MUC, MUCState.DISCONNECTED);
             foreach (MUCChatInfoTable info in list)
             {
-                setMUCEnterState(info.chatId, MUCEnterState.DISCONNECTED, triggerMUCChanged);
+                setMUCState(info.chatId, MUCState.DISCONNECTED, triggerMUCChanged);
             }
         }
 

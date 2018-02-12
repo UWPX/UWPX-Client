@@ -45,7 +45,7 @@ namespace Data_Manager2.Classes
             client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
             client.NewMUCMemberPresenceMessage += C_NewMUCMemberPresenceMessage;
 
-            ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain(), true);
+            ChatManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
             enterAllMUCs(client);
         }
 
@@ -56,7 +56,7 @@ namespace Data_Manager2.Classes
 
         public void onClientDisconnecting(XMPPClient client)
         {
-            ChatManager.INSTANCE.resetMUCEnterState(client.getXMPPAccount().getIdAndDomain(), true);
+            ChatManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
         }
 
         public async Task enterMUCAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
@@ -76,7 +76,7 @@ namespace Data_Manager2.Classes
 
         public async Task leaveRoomAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
-            ChatManager.INSTANCE.setMUCEnterState(info.chatId, MUCEnterState.ENTERING, true);
+            ChatManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTING, true);
             string from = client.getXMPPAccount().getIdDomainAndResource();
             string to = muc.chatJabberId + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
@@ -108,10 +108,11 @@ namespace Data_Manager2.Classes
                         info = new MUCChatInfoTable()
                         {
                             chatId = muc.id,
-                            enterState = MUCEnterState.DISCONNECTED,
+                            state = MUCState.DISCONNECTED,
                             nickname = muc.userAccountId,
                             autoEnterRoom = true
                         };
+                        ChatManager.INSTANCE.setMUCChatInfo(info, false, true);
                     }
                     if (info.autoEnterRoom)
                     {
@@ -138,15 +139,32 @@ namespace Data_Manager2.Classes
                 return;
             }
             string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
-            MUCMemberTable member = new MUCMemberTable()
+
+            MUCMemberTable member = ChatManager.INSTANCE.getMUCMember(chatId, msg.NICKNAME);
+            if(member == null)
             {
-                id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
-                nickname = msg.NICKNAME,
-                chatId = chatId,
-                affiliation = msg.AFFILIATION,
-                role = msg.ROLE
-            };
-            ChatManager.INSTANCE.setMUCMember(member, false);
+                member = new MUCMemberTable()
+                {
+                    id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
+                    nickname = msg.NICKNAME,
+                    chatId = chatId
+                };
+            }
+
+            member.affiliation = msg.AFFILIATION;
+            member.role = msg.ROLE;
+
+            foreach (MUCPresenceStatusCode s in msg.STATUS_CODES)
+            {
+                // Is self reference message:
+                if (s == MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE)
+                {
+                    ChatManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
+                }
+            }
+
+            // If the type equals 'unavailable', a user left the room:
+            ChatManager.INSTANCE.setMUCMember(member, Equals(msg.getType(), "unavailable"));
         }
 
         #endregion
