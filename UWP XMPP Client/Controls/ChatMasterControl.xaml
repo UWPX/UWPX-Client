@@ -83,7 +83,7 @@
                     <TextBlock x:Name="lastAction_tblck" Grid.Row="2" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right"/>
                 </Grid>
             </Grid>
-            <Grid Grid.Row="1" x:Name="accountAction_grid" Margin="0, 0, 0, 10" Visibility="Collapsed">
+            <Grid Grid.Row="1" x:Name="accountAction_grid" Margin="10, 0, 10, 10" Visibility="Collapsed">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
