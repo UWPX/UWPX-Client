@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private MessageResponseHelper messageResponseHelper;
+        private MessageResponseHelper<ExtendedDiscoResponseMessage> messageResponseHelper;
         private CustomObservableCollection<MUCInfoOptionTemplate> options;
 
         #endregion
@@ -69,20 +69,16 @@ namespace UWP_XMPP_Client.Controls
                     messageResponseHelper.Dispose();
                 }
 
-                messageResponseHelper = new MessageResponseHelper(client, onMessage, onTimeout);
+                messageResponseHelper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(client, onMessage, onTimeout);
                 DiscoRequestMessage disco = new DiscoRequestMessage(client.getXMPPAccount().getIdDomainAndResource(), info.jid, DiscoType.INFO);
                 messageResponseHelper.start(disco);
             }
         }
 
-        private bool onMessage(AbstractMessage msg)
+        private bool onMessage(ExtendedDiscoResponseMessage msg)
         {
-            if (msg is ExtendedDiscoResponseMessage)
-            {
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(msg as ExtendedDiscoResponseMessage)).AsTask();
-                return true;
-            }
-            return false;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(msg as ExtendedDiscoResponseMessage)).AsTask();
+            return true;
         }
 
         private void onTimeout()

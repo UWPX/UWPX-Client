@@ -26,7 +26,7 @@ namespace Data_Manager2.Classes
         public readonly MUCChatInfoTable INFO;
         public readonly XMPPClient CLIENT;
 
-        private TSTimedList<MessageResponseHelper> messageResponseHelpers;
+        private TSTimedList<MessageResponseHelper<AbstractAddressableMessage>> messageResponseHelpers;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -42,7 +42,7 @@ namespace Data_Manager2.Classes
             this.CLIENT = client;
             this.MUC = muc;
             this.INFO = info;
-            this.messageResponseHelpers = new TSTimedList<MessageResponseHelper>
+            this.messageResponseHelpers = new TSTimedList<MessageResponseHelper<AbstractAddressableMessage>>
             {
                 itemTimeoutInMs = messageTimeout * 2
             };
@@ -60,10 +60,6 @@ namespace Data_Manager2.Classes
         {
             DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId);
             await CLIENT.sendMessageAsync(msg, false);
-            MessageResponseHelper helper = new MessageResponseHelper(CLIENT, null, null)
-            {
-                timeout = messageTimeout
-            };
         }
 
         public async Task enterRoomAsync()

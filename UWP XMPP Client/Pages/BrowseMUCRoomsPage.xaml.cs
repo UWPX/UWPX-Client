@@ -30,7 +30,7 @@ namespace UWP_XMPP_Client.Pages
         }
         public static readonly DependencyProperty ServerProperty = DependencyProperty.Register("Server", typeof(string), typeof(BrowseMUCRoomsPage), null);
 
-        private MessageResponseHelper messageResponseHelper;
+        private MessageResponseHelper<DiscoResponseMessage> messageResponseHelper;
         private CustomObservableCollection<MUCRoomTemplate> rooms;
 
         #endregion
@@ -74,20 +74,16 @@ namespace UWP_XMPP_Client.Pages
                 loading_grid.Visibility = Visibility.Visible;
                 noneFound_notification.Dismiss();
 
-                messageResponseHelper = new MessageResponseHelper(Client, onMessage, onTimeout);
+                messageResponseHelper = new MessageResponseHelper<DiscoResponseMessage>(Client, onMessage, onTimeout);
                 DiscoRequestMessage disco = new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Server, DiscoType.ITEMS);
                 messageResponseHelper.start(disco);
             }
         }
 
-        private bool onMessage(AbstractMessage msg)
+        private bool onMessage(DiscoResponseMessage disco)
         {
-            if (msg is DiscoResponseMessage)
-            {
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(msg as DiscoResponseMessage)).AsTask();
-                return true;
-            }
-            return false;
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(disco as DiscoResponseMessage)).AsTask();
+            return true;
         }
 
         private void onTimeout()

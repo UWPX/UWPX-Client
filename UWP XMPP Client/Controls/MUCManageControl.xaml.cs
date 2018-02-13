@@ -49,7 +49,7 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCManageControl), null);
 
-        private MessageResponseHelper messageResponseHelper;
+        private MessageResponseHelper<RoomInfoResponseMessage> messageResponseHelper;
 
         private CustomObservableCollection<MUCInfoOptionTemplate> options;
 
@@ -97,7 +97,7 @@ namespace UWP_XMPP_Client.Controls
                 loading_grid.Visibility = Visibility.Visible;
                 timeout_stckpnl.Visibility = Visibility.Collapsed;
 
-                messageResponseHelper = new MessageResponseHelper(Client, onNewMessage, onTimeout);
+                messageResponseHelper = new MessageResponseHelper<RoomInfoResponseMessage>(Client, onNewMessage, onTimeout);
                 RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId, member.affiliation);
                 messageResponseHelper.start(msg);
             }
@@ -111,31 +111,25 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private bool onNewMessage(AbstractMessage msg)
+        private bool onNewMessage(RoomInfoResponseMessage responseMessage)
         {
-            if (msg is RoomInfoResponseMessage)
+            // Add controls and update viability:
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                RoomInfoResponseMessage responseMessage = msg as RoomInfoResponseMessage;
-
-                // Add controls and update viability:
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                options.Clear();
+                foreach (MUCInfoField o in responseMessage.roomConfig.options)
                 {
-                    options.Clear();
-                    foreach (MUCInfoField o in responseMessage.roomConfig.options)
+                    if (o.type != MUCInfoFieldType.HIDDEN)
                     {
-                        if (o.type != MUCInfoFieldType.HIDDEN)
-                        {
-                            options.Add(new MUCInfoOptionTemplate() { option = o });
-                        }
+                        options.Add(new MUCInfoOptionTemplate() { option = o });
                     }
-                    reload_btn.IsEnabled = true;
-                    timeout_stckpnl.Visibility = Visibility.Collapsed;
-                    loading_grid.Visibility = Visibility.Collapsed;
-                    info_grid.Visibility = Visibility.Visible;
-                }).AsTask();
-                return true;
-            }
-            return false;
+                }
+                reload_btn.IsEnabled = true;
+                timeout_stckpnl.Visibility = Visibility.Collapsed;
+                loading_grid.Visibility = Visibility.Collapsed;
+                info_grid.Visibility = Visibility.Visible;
+            }).AsTask();
+            return true;
         }
 
         private void onTimeout()

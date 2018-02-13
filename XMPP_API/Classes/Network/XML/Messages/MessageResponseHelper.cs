@@ -4,13 +4,13 @@ using System.Threading.Tasks;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class MessageResponseHelper : IDisposable
+    public class MessageResponseHelper<T> : IDisposable where T : AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly XMPPClient CLIENT;
 
-        private readonly Func<AbstractMessage, bool> ON_MESSAGE;
+        private readonly Func<T, bool> ON_MESSAGE;
         private readonly Action ON_TIMEOUT;
 
         /// <summary>
@@ -22,6 +22,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public const int TIMEOUT_5_SEC = 5000;
 
+        public bool matchId;
+        public string sendId;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -31,12 +34,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 09/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageResponseHelper(XMPPClient client, Func<AbstractMessage, bool> onMessage, Action onTimeout)
+        public MessageResponseHelper(XMPPClient client, Func<T, bool> onMessage, Action onTimeout)
         {
             this.CLIENT = client;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
             this.timeout = TIMEOUT_5_SEC;
+            this.matchId = true;
+            this.sendId = null;
         }
 
         #endregion
@@ -57,6 +62,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Private)--
         private async Task sendAndWaitAsync(AbstractMessage msg)
         {
+            sendId = msg.getId();
+
             CLIENT.NewValidMessage -= Client_NewValidMessage;
             CLIENT.NewValidMessage += Client_NewValidMessage;
 
@@ -98,9 +105,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Events--
         private void Client_NewValidMessage(XMPPClient client, Events.NewValidMessageEventArgs args)
         {
-            if (ON_MESSAGE(args.getMessage()))
+            if (args.getMessage() is T)
             {
-                stopTimer();
+                if (matchId && !Equals(sendId, args.getMessage().getId()))
+                {
+                    return;
+                }
+
+                if (ON_MESSAGE(args.getMessage() as T))
+                {
+                    stopTimer();
+                }
             }
         }
 
