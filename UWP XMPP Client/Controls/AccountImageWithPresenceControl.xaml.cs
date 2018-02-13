@@ -30,7 +30,6 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(AccountImageWithPresenceControl), null);
 
-        #region --Presence-Automation-- // Subscribes to the presence changed event
         public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(ClientProperty); }
@@ -63,8 +62,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(AccountImageWithPresenceControl), null);
-
-        #endregion
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

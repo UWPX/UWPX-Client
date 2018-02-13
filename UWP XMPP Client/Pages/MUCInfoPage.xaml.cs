@@ -17,24 +17,24 @@ namespace UWP_XMPP_Client.Pages
         #region --Attributes--
         public ChatTable Chat
         {
-            get { return (ChatTable)GetValue(chatProperty); }
-            set { SetValue(chatProperty, value); }
+            get { return (ChatTable)GetValue(ChatProperty); }
+            set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoPage), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoPage), null);
 
         public XMPPClient Client
         {
-            get { return (XMPPClient)GetValue(clientProperty); }
-            set { SetValue(clientProperty, value); }
+            get { return (XMPPClient)GetValue(ClientProperty); }
+            set { SetValue(ClientProperty, value); }
         }
-        public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoPage), null);
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoPage), null);
 
         public MUCChatInfoTable MUCInfo
         {
-            get { return (MUCChatInfoTable)GetValue(mucInfoProperty); }
-            set { SetValue(mucInfoProperty, value); }
+            get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
+            set { SetValue(MUCInfoProperty, value); }
         }
-        public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoPage), null);
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoPage), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
