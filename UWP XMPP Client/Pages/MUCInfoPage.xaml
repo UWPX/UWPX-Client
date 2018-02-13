@@ -17,19 +17,26 @@
 
         <Pivot Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <PivotItem Header="Info">
-                <controls:MUCInfoControl Client="{x:Bind Client}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
+                <controls:MUCInfoControl Client="{x:Bind Client}"
+                                         Chat="{x:Bind Chat, Mode=OneWay}"
+                                         MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
             </PivotItem>
 
             <PivotItem Header="Members">
                 <ScrollViewer>
                     <StackPanel>
-                        <controls:MUCMembersControl Height="200" Margin="10, 10, 10, 0" Client="{x:Bind Client}" Chat="{x:Bind Chat, Mode=OneWay}"/>
+                        <controls:MUCMembersControl Height="200"
+                                                    Margin="10, 10, 10, 0"
+                                                    Client="{x:Bind Client}"
+                                                    Chat="{x:Bind Chat, Mode=OneWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
 
             <PivotItem Header="Manage">
-                <controls:MUCManageControl Client="{x:Bind Client}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
+                <controls:MUCManageControl Client="{x:Bind Client}"
+                                           Chat="{x:Bind Chat, Mode=OneWay}"
+                                           MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
     </Grid>

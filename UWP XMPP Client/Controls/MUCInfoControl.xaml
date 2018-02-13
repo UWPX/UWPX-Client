@@ -17,7 +17,7 @@
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0">
                 <StackPanel Orientation="Horizontal">
-                    <controls:AccountImageWithPresenceControl Client="{x:Bind Client}" Chat="{x:Bind Chat}" MUCInfo="{x:Bind MUCInfo}" Grid.Column="0" Width="100" Height="100" HorizontalAlignment="Left"/>
+                    <controls:AccountImageWithPresenceControl Client="{x:Bind Client}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}" Grid.Column="0" Width="100" Height="100" HorizontalAlignment="Left"/>
                     <StackPanel Margin="10, 0, 0, 0">
                         <TextBlock Text="MUC join state:" FontSize="20"/>
                         <TextBlock x:Name="enterState_tbx" Text="disconnected" Foreground="{StaticResource PresenceOffline}"/>
@@ -48,10 +48,10 @@
 
             <StackPanel Grid.Row="3" Margin="0, 10, 0, 0">
                 <TextBlock Text="Description"/>
-                <TextBox Text="{x:Bind MUCInfo.description, Mode=TwoWay}"/>
+                <TextBox Text="{x:Bind MUCInfo.description}"/>
                 <TextBlock Text="Nickname" Margin="0, 10, 0, 0"/>
-                <TextBox Text="{x:Bind MUCInfo.nickname, Mode=TwoWay}"/>
-                <PasswordBox Password="{x:Bind MUCInfo.password, Mode=TwoWay}" Header="Password" Margin="0, 10, 0, 0"/>
+                <TextBox Text="{x:Bind MUCInfo.nickname}"/>
+                <PasswordBox Password="{x:Bind MUCInfo.password}" Header="Password" Margin="0, 10, 0, 0"/>
                 <ToggleSwitch Header="Autojoin" Margin="0, 10, 0, 0" IsOn="{x:Bind MUCInfo.autoEnterRoom}"/>
             </StackPanel>
         </Grid>
