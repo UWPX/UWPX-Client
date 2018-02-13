@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
@@ -8,7 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<DiscoField> FIELDS;
+        public RoomConfiguration roomConfig;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,23 +21,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public ExtendedDiscoResponseMessage(XmlNode n) : base(n)
         {
-            this.FIELDS = new List<DiscoField>();
+            this.roomConfig = null;
 
             XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
             if (qNode != null)
             {
-                XmlNode xNode = XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data");
-                if(xNode != null)
+                XmlNode x = XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data");
+                if (x != null)
                 {
-                    foreach (XmlNode n1 in xNode.ChildNodes)
-                    {
-                        switch (n1.Name)
-                        {
-                            case "field":
-                                FIELDS.Add(new DiscoField(n1));
-                                break;
-                        }
-                    }
+                    this.roomConfig = new RoomConfiguration(x);
+                    return;
                 }
             }
         }

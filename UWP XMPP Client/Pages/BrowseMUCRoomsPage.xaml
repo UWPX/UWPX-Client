@@ -16,7 +16,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:MUCRoomTemplate">
-            <controls1:BrowseMUCRoomsDetailsControl Grid.Row="0" RoomInfo="{x:Bind roomInfo, Mode=TwoWay}" Client="{x:Bind client, Mode=OneWay}"/>
+            <controls1:BrowseMUCRoomsDetailsControl Grid.Row="0"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">

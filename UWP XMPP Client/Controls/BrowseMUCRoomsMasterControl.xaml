@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    DataContextChanged="UserControl_DataContextChanged">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,6 +16,11 @@
             <TextBlock x:Name="name_tblck" TextTrimming="CharacterEllipsis"/>
             <TextBlock x:Name="jid_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" MaxLines="1"/>
         </StackPanel>
-        <Button x:Name="addRoom_btn" Grid.Column="1" Content="Add" VerticalAlignment="Center" Margin="10, 0, 10, 0" Click="addRoom_btn_Click"/>
+        <Button x:Name="addRoom_btn" Grid.Column="1" VerticalAlignment="Center" Margin="10, 0, 0, 0" Click="addRoom_btn_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" Foreground="Green" VerticalAlignment="Center"/>
+                <TextBlock Text="Add" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Button>
     </Grid>
 </UserControl>

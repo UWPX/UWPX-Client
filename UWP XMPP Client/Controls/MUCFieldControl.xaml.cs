@@ -20,6 +20,13 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty FieldProperty = DependencyProperty.Register("Field", typeof(MUCInfoField), typeof(MUCFieldControl), null);
 
+        public bool InputEnabled
+        {
+            get { return (bool)GetValue(ReadonlyProperty); }
+            set { SetValue(ReadonlyProperty, value); }
+        }
+        public static readonly DependencyProperty ReadonlyProperty = DependencyProperty.Register("InputEnabled", typeof(bool), typeof(MUCFieldControl), null);
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -32,6 +39,7 @@ namespace UWP_XMPP_Client.Controls
         public MUCFieldControl()
         {
             this.InitializeComponent();
+            this.InputEnabled = true;
         }
 
         #endregion

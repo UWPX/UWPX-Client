@@ -1,7 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
@@ -9,6 +7,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace UWP_XMPP_Client.Pages
@@ -17,10 +16,6 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private CustomObservableCollection<MUCRoomTemplate> rooms;
-        private string discoId;
-        private Timer timer;
-
         public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(ClientProperty); }
@@ -35,6 +30,9 @@ namespace UWP_XMPP_Client.Pages
         }
         public static readonly DependencyProperty ServerProperty = DependencyProperty.Register("Server", typeof(string), typeof(BrowseMUCRoomsPage), null);
 
+        private MessageResponseHelper messageResponseHelper;
+        private CustomObservableCollection<MUCRoomTemplate> rooms;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -47,10 +45,7 @@ namespace UWP_XMPP_Client.Pages
         public BrowseMUCRoomsPage()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
-            this.Client = null;
-            this.Server = null;
-            this.discoId = null;
-            this.timer = null;
+            this.messageResponseHelper = null;
             this.rooms = new CustomObservableCollection<MUCRoomTemplate>();
             this.InitializeComponent();
         }
@@ -73,60 +68,63 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private void sendDisco()
         {
-            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-            Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
-            if (discoId == null && Client != null)
+            if (Client != null)
             {
                 main_grid.Visibility = Visibility.Collapsed;
                 loading_grid.Visibility = Visibility.Visible;
                 noneFound_notification.Dismiss();
-                discoId = "";
-                Task<string> t = Client.createDiscoAsync(Server, DiscoType.ITEMS);
-                Task.Factory.StartNew(async () => discoId = await t);
-                startTimer();
+
+                messageResponseHelper = new MessageResponseHelper(Client, onMessage, onTimeout);
+                DiscoRequestMessage disco = new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Server, DiscoType.ITEMS);
+                messageResponseHelper.start(disco);
             }
         }
 
-        private void stopTimer()
+        private bool onMessage(AbstractMessage msg)
         {
-            timer?.Dispose();
+            if (msg is DiscoResponseMessage)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(msg as DiscoResponseMessage)).AsTask();
+                return true;
+            }
+            return false;
         }
 
-        private void startTimer()
+        private void onTimeout()
         {
-            timer = new Timer(async (obj) =>
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null));
-            }, null, 5000, Timeout.Infinite);
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null)).AsTask();
         }
 
         private void showResultDisco(DiscoResponseMessage disco)
         {
-            stopTimer();
-            loading_grid.Visibility = Visibility.Collapsed;
-            main_grid.Visibility = Visibility.Visible;
             rooms.Clear();
+            messageResponseHelper?.Dispose();
+            messageResponseHelper = null;
+
             if (disco == null || disco.ITEMS == null || disco.ITEMS.Count <= 0)
             {
                 // Show non found in app notification:
                 noneFound_notification.Show("None found. Please retry!", 0);
-                discoId = null;
                 return;
             }
-            foreach (DiscoItem i in disco.ITEMS)
+            else
             {
-                rooms.Add(new MUCRoomTemplate()
+                foreach (DiscoItem i in disco.ITEMS)
                 {
-                    client = Client,
-                    roomInfo = new MUCRoomInfo()
+                    rooms.Add(new MUCRoomTemplate()
                     {
-                        jid = i.JID ?? "",
-                        name = i.NAME ?? ""
-                    }
-                });
+                        client = Client,
+                        roomInfo = new MUCRoomInfo()
+                        {
+                            jid = i.JID ?? "",
+                            name = i.NAME ?? (i.JID ?? "")
+                        }
+                    });
+                }
             }
-            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-            discoId = null;
+
+            loading_grid.Visibility = Visibility.Collapsed;
+            main_grid.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -166,23 +164,6 @@ namespace UWP_XMPP_Client.Pages
                 Server = parameter.server;
 
                 sendDisco();
-            }
-        }
-
-        protected override void OnNavigatedFrom(NavigationEventArgs e)
-        {
-            base.OnNavigatedFrom(e);
-            if (Client != null)
-            {
-                Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-            }
-        }
-
-        private async void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
-        {
-            if (discoId != null && discoId.Equals(args.DISCO.getId()))
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO));
             }
         }
 

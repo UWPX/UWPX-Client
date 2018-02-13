@@ -1,8 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
-using System.Collections.ObjectModel;
-using System.Threading;
-using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Pages;
@@ -12,8 +9,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -21,32 +20,8 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCRoomInfo RoomInfo
-        {
-            get { return (MUCRoomInfo)GetValue(RoomInfoProperty); }
-            set
-            {
-                SetValue(RoomInfoProperty, value);
-                Task t = sendDiscoAsync();
-            }
-        }
-        public static readonly DependencyProperty RoomInfoProperty = DependencyProperty.Register("RoomInfo", typeof(MUCRoomInfo), typeof(BrowseMUCRoomsDetailsControl), null);
-
-        public XMPPClient Client
-        {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set
-            {
-                SetValue(ClientProperty, value);
-                Task t = sendDiscoAsync();
-            }
-        }
-
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(BrowseMUCRoomsDetailsControl), null);
-
-        private string discoId;
-        private Timer timer;
-        private ObservableCollection<MUCRoomDetailsTemplate> details;
+        private MessageResponseHelper messageResponseHelper;
+        private CustomObservableCollection<MUCInfoOptionTemplate> options;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -60,9 +35,8 @@ namespace UWP_XMPP_Client.Controls
         public BrowseMUCRoomsDetailsControl()
         {
             this.InitializeComponent();
-            this.timer = null;
-            this.discoId = null;
-            this.details = new ObservableCollection<MUCRoomDetailsTemplate>();
+            this.messageResponseHelper = null;
+            this.options = new CustomObservableCollection<MUCInfoOptionTemplate>();
         }
 
         #endregion
@@ -83,61 +57,58 @@ namespace UWP_XMPP_Client.Controls
 
         }
 
-        private async Task sendDiscoAsync()
+        private void sendDisco(XMPPClient client, MUCRoomInfo info)
         {
-            if (discoId == null && RoomInfo != null && Client != null)
+            if (info != null && client != null)
             {
                 details_itmc.Visibility = Visibility.Collapsed;
                 loading_grid.Visibility = Visibility.Visible;
 
-                Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-                Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
+                if (messageResponseHelper != null)
+                {
+                    messageResponseHelper.Dispose();
+                }
 
-                discoId = await Client.createDiscoAsync(RoomInfo.jid, DiscoType.INFO);
-                startTimer();
+                messageResponseHelper = new MessageResponseHelper(client, onMessage, onTimeout);
+                DiscoRequestMessage disco = new DiscoRequestMessage(client.getXMPPAccount().getIdDomainAndResource(), info.jid, DiscoType.INFO);
+                messageResponseHelper.start(disco);
             }
         }
 
-        private void stopTimer()
+        private bool onMessage(AbstractMessage msg)
         {
-            timer?.Dispose();
+            if (msg is ExtendedDiscoResponseMessage)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(msg as ExtendedDiscoResponseMessage)).AsTask();
+                return true;
+            }
+            return false;
         }
 
-        private void startTimer()
+        private void onTimeout()
         {
-            timer = new Timer(async (obj) =>
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null));
-            }, null, 5000, Timeout.Infinite);
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null)).AsTask();
         }
 
         private void showResultDisco(ExtendedDiscoResponseMessage disco)
         {
-            stopTimer();
+            options.Clear();
+            messageResponseHelper?.Dispose();
+            messageResponseHelper = null;
 
-            Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
+            if (disco != null && disco.roomConfig != null)
+            {
+                foreach (MUCInfoField o in disco.roomConfig.options)
+                {
+                    if (o.type != MUCInfoFieldType.HIDDEN)
+                    {
+                        options.Add(new MUCInfoOptionTemplate() { option = o });
+                    }
+                }
+            }
 
             loading_grid.Visibility = Visibility.Collapsed;
             details_itmc.Visibility = Visibility.Visible;
-
-            if (disco == null || (disco.FIELDS == null && disco.FEATURES == null))
-            {
-                discoId = null;
-                return;
-            }
-            details.Clear();
-            foreach (DiscoField i in disco.FIELDS)
-            {
-                if (!i.isHidden())
-                {
-                    details.Add(new MUCRoomDetailsTemplate()
-                    {
-                        label = i.LABEL,
-                        value = i.VALUE
-                    });
-                }
-            }
-            discoId = null;
         }
 
         private void showBackgroundForViewState(MasterDetailsViewState state)
@@ -154,14 +125,6 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
-        {
-            if (discoId != null && args.DISCO is ExtendedDiscoResponseMessage && args.DISCO.getId().Equals(discoId))
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO as ExtendedDiscoResponseMessage));
-            }
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             UiUtils.setBackgroundImage(backgroundImage_img);
@@ -182,6 +145,15 @@ namespace UWP_XMPP_Client.Controls
         private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
         {
             showBackgroundForViewState(e);
+        }
+
+        private void UserControl_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if(args.NewValue is MUCRoomTemplate)
+            {
+                MUCRoomTemplate template = args.NewValue as MUCRoomTemplate;
+                sendDisco(template.client, template.roomInfo);
+            }
         }
 
         #endregion

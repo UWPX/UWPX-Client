@@ -22,8 +22,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public const int TIMEOUT_5_SEC = 5000;
 
-        private bool stoped;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -39,7 +37,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
             this.timeout = TIMEOUT_5_SEC;
-            this.stoped = false;
         }
 
         #endregion
@@ -69,10 +66,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void statTimer()
         {
-            stoped = false;
             timer = new Timer((o) =>
             {
-                if (!stoped)
+                if (timer != null)
                 {
                     ON_TIMEOUT();
                 }
@@ -82,9 +78,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void stopTimer()
         {
-            stoped = true;
             CLIENT.NewValidMessage -= Client_NewValidMessage;
             timer?.Dispose();
+            timer = null;
         }
 
         public void Dispose()

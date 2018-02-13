@@ -70,6 +70,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
                 isPartialList = doesNodeContainPartialList(qNode);
             }
 
+            // Sort disco items alphabetically:
+            ITEMS.Sort((a, b) => {
+                if (a == null || a.NAME == null)
+                {
+                    if(b == null || b.NAME == null)
+                    {
+                        return 0;
+                    }
+                    return -1;
+                }
+
+                if (b == null || b.NAME == null)
+                {
+                    return 1;
+                }
+
+                return a.NAME.CompareTo(b.NAME);
+            });
+
         }
 
         #endregion

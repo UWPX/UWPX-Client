@@ -141,7 +141,6 @@
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
     <Compile Include="DataTemplates\MUCMemberTemplate.cs" />
-    <Compile Include="DataTemplates\MUCRoomDetailsTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
