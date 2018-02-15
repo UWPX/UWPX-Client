@@ -60,7 +60,7 @@ namespace UWP_XMPP_Client.Dialogs
             bool mucMembers = (bool)mucMembers_chbx.IsChecked;
             bool reconnect = (bool)reconnect_chbx.IsChecked;
 
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 // General:
                 if (chatMessages)

@@ -48,7 +48,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #region --Misc Methods (Private)--
         private void loadAccounts()
         {
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 IList<XMPPAccount> list = AccountDBManager.INSTANCE.loadAllAccounts();
 

@@ -103,7 +103,7 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Private)--
         private void enterAllMUCs(XMPPClient client)
         {
-            Task.Factory.StartNew(async () => {
+            Task.Run(async () => {
                 foreach (ChatTable muc in ChatDBManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getIdAndDomain()))
                 {
                     MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(muc.id);

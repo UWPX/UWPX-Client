@@ -50,7 +50,7 @@ namespace Push_App_Server.Classes
         #region --Events--
         private static void INSTANCE_ClientConnected(ConnectionHandler handler, Data_Manager.Classes.Events.ClientConnectedEventArgs args)
         {
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 DataWriter dW = new DataWriter(args.CLIENT);
                 await dW.connectAndSendAsync();

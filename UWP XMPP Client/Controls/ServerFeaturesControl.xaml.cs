@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 discoInfosId = "";
                 Task<string> t = Client.createDiscoAsync(Chat.chatJabberId, DiscoType.INFO);
-                Task.Factory.StartNew(async () => discoInfosId = await t);
+                Task.Run(async () => discoInfosId = await t);
                 startTimerInfos();
             }
         }
@@ -138,7 +138,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 discoItemsId = "";
                 Task<string> t = Client.createDiscoAsync(Chat.chatJabberId, DiscoType.ITEMS);
-                Task.Factory.StartNew(async () => discoItemsId = await t);
+                Task.Run(async () => discoItemsId = await t);
                 startTimerItems();
             }
         }

@@ -70,7 +70,7 @@ namespace UWP_XMPP_Client
         /// </summary>
         private void initAllDBManagers()
         {
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 AccountDBManager.INSTANCE.initManager();
                 ChatDBManager.INSTANCE.initManager();

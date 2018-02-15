@@ -178,7 +178,7 @@ namespace Logging
                 {
                     return;
                 }
-                await Task.Factory.StartNew(async () =>
+                await Task.Run(async () =>
                 {
                     try
                     {

@@ -180,7 +180,7 @@ namespace Data_Manager2.Classes
 
         private void onClientConnected(XMPPClient client)
         {
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 await client.requestRoosterAsync();
                 await client.requestBookmarksAsync();
@@ -381,7 +381,7 @@ namespace Data_Manager2.Classes
             }
 
             // ToDo re-implement show toast message
-            /*Task.Factory.StartNew(() =>
+            /*Task.Run(() =>
             {
                 if (!msg.getToasted())
                 {

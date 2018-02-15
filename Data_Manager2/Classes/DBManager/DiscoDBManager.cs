@@ -143,7 +143,7 @@ namespace Data_Manager2.Classes.DBManager
 
         private void CLIENT_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
         {
-            Task.Factory.StartNew(async () =>
+            Task.Run(async () =>
             {
                 string from = args.DISCO.getFrom();
                 // Only store direct server results:

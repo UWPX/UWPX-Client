@@ -476,7 +476,7 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && MUCInfo.autoEnterRoom != autoEnter_tmfo.IsChecked)
             {
                 MUCInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
-                Task.Factory.StartNew(() => MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
+                Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
 
                 if (Chat.inRoster)
                 {

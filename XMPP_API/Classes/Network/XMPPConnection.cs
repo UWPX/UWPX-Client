@@ -167,7 +167,7 @@ namespace XMPP_API.Classes.Network
         /// <param name="delayed">If the message got send delayed (e.g. stored in message cache).</param>
         private void onMessageSend(string id, bool delayed)
         {
-            Task.Factory.StartNew(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, delayed)));
+            Task.Run(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, delayed)));
         }
 
         #endregion

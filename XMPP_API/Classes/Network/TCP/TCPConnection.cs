@@ -246,7 +246,7 @@ namespace XMPP_API.Classes.Network.TCP
                 throw new InvalidOperationException("[TCPConnection]: Unable to start reader task! ConnectionState != Connected! state = " + state);
             }
 
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 string data = null;
                 int errorCount = 0;

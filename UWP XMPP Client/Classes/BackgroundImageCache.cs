@@ -36,7 +36,7 @@ namespace UWP_XMPP_Client.Classes
                 return;
             }
 
-            Task.WaitAny(Task.Factory.StartNew(async () =>
+            Task.WaitAny(Task.Run(async () =>
             {
                 Logger.Info("Started loading background images...");
                 DateTime timeStart = DateTime.Now;

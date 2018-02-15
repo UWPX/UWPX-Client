@@ -141,7 +141,7 @@ namespace UWP_XMPP_Client.Controls
                 chatMessages.AddRange(msgs);
 
                 ChatTable cpy = Chat.clone();
-                Task.Factory.StartNew(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(cpy));
+                Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(cpy));
             }
         }
 
@@ -344,7 +344,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat != null && Equals(args.MESSAGE.chatId, Chat.id))
                 {
-                    Task.Factory.StartNew(async () =>
+                    Task.Run(async () =>
                     {
                         for (int i = 0; i < chatMessages.Count; i++)
                         {

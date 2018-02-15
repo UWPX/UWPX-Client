@@ -140,7 +140,7 @@ namespace Data_Manager2.Classes.DBManager
             List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE state = 0 OR state = 1;");
             foreach (ImageTable img in list)
             {
-                Task.Factory.StartNew(async () =>
+                Task.Run(async () =>
                 {
                     // Reset image progress:
                     img.progress = 0;
@@ -205,7 +205,7 @@ namespace Data_Manager2.Classes.DBManager
                     img.path = null;
                 }
 
-                Task.Factory.StartNew(async () =>
+                Task.Run(async () =>
                 {
                     update(img);
                     await downloadImageAsync(img, msg.message);
@@ -238,7 +238,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (msg.isImage)
             {
-                Task.Factory.StartNew(async () =>
+                Task.Run(async () =>
                 {
                     ImageTable img = new ImageTable()
                     {

@@ -89,7 +89,7 @@ namespace UWP_XMPP_Client.Pages
             allChats.Clear();
 
             // Load all chats:
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 ChatTemplate selectedChat = null;
 
@@ -248,7 +248,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 // Find chat in chatsList:
                 foreach (ChatTemplate chatTemplate in allChats.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
@@ -295,7 +295,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
         {
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 foreach (ChatTemplate chatTemplate in allChats.Where((x) => x.chat != null && x.chat.chatType == ChatType.MUC && Equals(x.chat.id, args.MUC_INFO.chatId)))
                 {
