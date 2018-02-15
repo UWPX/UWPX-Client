@@ -76,6 +76,7 @@ namespace UWP_XMPP_Client
                 ChatDBManager.INSTANCE.initManager();
                 DiscoDBManager.INSTANCE.initManager();
                 ImageDBManager.INSTANCE.initManager();
+                MUCDBManager.INSTANCE.initManager();
             });
         }
 
