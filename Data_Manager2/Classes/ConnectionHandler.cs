@@ -77,10 +77,10 @@ namespace Data_Manager2.Classes
                         case ConnectionState.DISCONNECTED:
                         case ConnectionState.DISCONNECTING:
                         case ConnectionState.ERROR:
-                            Task t = Task.Factory.StartNew(async () =>
+                            Task t = Task.Run(async () =>
                             {
                                 await c.connectAsync();
-                            }, TaskCreationOptions.None).ContinueWith((Task prev) =>
+                            }).ContinueWith((Task prev) =>
                             {
                                 if (prev.Exception != null)
                                 {

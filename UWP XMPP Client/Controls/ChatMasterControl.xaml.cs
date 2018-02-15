@@ -37,7 +37,7 @@ namespace UWP_XMPP_Client.Controls
                     ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
                     ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
                 }
-                showChat();
+                showClient(Client);
             }
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
@@ -48,7 +48,7 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(ChatProperty, value);
-                showChat();
+                showChat(Chat);
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
@@ -132,14 +132,14 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void showChat()
+        private void showChat(ChatTable chat)
         {
-            if (Chat != null && Client != null)
+            if (chat != null)
             {
-                if (Chat.chatType != ChatType.MUC)
+                if (chat.chatType != ChatType.MUC)
                 {
                     // Chat jabber id:
-                    name_tblck.Text = Chat.chatJabberId;
+                    name_tblck.Text = chat.chatJabberId;
 
                     // Subscription state:
                     accountAction_grid.Visibility = Visibility.Collapsed;
@@ -148,7 +148,7 @@ namespace UWP_XMPP_Client.Controls
                     rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     cancelPresenceSubscriptionRequest.Visibility = Visibility.Collapsed;
 
-                    switch (Chat.subscription)
+                    switch (chat.subscription)
                     {
                         case "to":
                             cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
@@ -178,16 +178,16 @@ namespace UWP_XMPP_Client.Controls
                     }
 
                     // Menu flyout:
-                    mute_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
-                    mute_tmfo.IsChecked = Chat.muted;
-                    removeFromRoster_mfo.Text = Chat.inRoster ? "Remove from roster" : "Add to roster";
+                    mute_tmfo.Text = chat.muted ? "Unmute" : "Mute";
+                    mute_tmfo.IsChecked = chat.muted;
+                    removeFromRoster_mfo.Text = chat.inRoster ? "Remove from roster" : "Add to roster";
 
                     //Slide list item:
                     slideListItem_sli.LeftLabel = removeFromRoster_mfo.Text;
                 }
 
                 // Subscription pending:
-                if (Chat.ask != null && Chat.ask.Equals("subscribe"))
+                if (chat.ask != null && chat.ask.Equals("subscribe"))
                 {
                     presence_tblck.Visibility = Visibility.Visible;
                     cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
@@ -199,9 +199,9 @@ namespace UWP_XMPP_Client.Controls
                 }
 
                 // Last action date:
-                if (Chat.lastActive != null)
+                if (chat.lastActive != null)
                 {
-                    DateTime lastActiveLocal = Chat.lastActive.ToLocalTime();
+                    DateTime lastActiveLocal = chat.lastActive.ToLocalTime();
                     if (lastActiveLocal.Date.CompareTo(DateTime.Now.Date) == 0)
                     {
                         lastAction_tblck.Text = lastActiveLocal.ToString("HH:mm");
@@ -216,22 +216,29 @@ namespace UWP_XMPP_Client.Controls
                     lastAction_tblck.Text = "";
                 }
 
-                // Chat color:
-                if (UiUtils.isHexColor(Client.getXMPPAccount().color))
-                {
-                    color_rcta.Fill = UiUtils.convertHexColorToBrush(Client.getXMPPAccount().color);
-                }
-                else
-                {
-                    color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
-                }
-
                 // Last chat message:
-                showLastChatMessage(ChatDBManager.INSTANCE.getLastChatMessageForChat(Chat.id));
+                Task.Run(async () =>
+                {
+                    ChatMessageTable lastMsg = ChatDBManager.INSTANCE.getLastChatMessageForChat(chat.id);
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Low, () => showLastChatMessage(lastMsg));
+                });
 
                 // Status icons:
-                muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
-                inRooster_tbck.Visibility = Chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
+                muted_tbck.Visibility = chat.muted ? Visibility.Visible : Visibility.Collapsed;
+                inRooster_tbck.Visibility = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private void showClient(XMPPClient client)
+        {
+            // Chat color:
+            if (UiUtils.isHexColor(client.getXMPPAccount().color))
+            {
+                color_rcta.Fill = UiUtils.convertHexColorToBrush(client.getXMPPAccount().color);
+            }
+            else
+            {
+                color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
             }
         }
 
