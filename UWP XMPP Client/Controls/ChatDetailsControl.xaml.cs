@@ -33,7 +33,7 @@ namespace UWP_XMPP_Client.Controls
                     Client.NewChatState -= Client_NewChatState;
                 }
                 SetValue(ClientProperty, value);
-                showMessages();
+                showClient();
                 if (Client != null)
                 {
                     Client.NewChatState -= Client_NewChatState;
@@ -48,9 +48,10 @@ namespace UWP_XMPP_Client.Controls
             get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
+                showChatMessages(Chat, value);
                 SetValue(ChatProperty, value);
-                showChatDescription();
-                showMessages();
+                showChat();
+                showMUCInfo();
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatDetailsControl), null);
@@ -58,7 +59,11 @@ namespace UWP_XMPP_Client.Controls
         public MUCChatInfoTable MUCInfo
         {
             get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
-            set { SetValue(MUCInfoProperty, value); }
+            set
+            {
+                SetValue(MUCInfoProperty, value);
+                showMUCInfo();
+            }
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatDetailsControl), null);
 
@@ -114,21 +119,17 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showChatDescription()
+        private void showChatMessages(ChatTable newChat, ChatTable oldChat)
         {
-            if (Chat != null)
+            if (newChat != null)
             {
-                chatName_tblck.Text = Chat.chatJabberId ?? "";
-                chatState_tblck.Text = Chat.chatState ?? "";
-            }
-        }
+                // Only show chat messages if the chat changed:
+                if (oldChat != null && Equals(newChat.id, oldChat.id))
+                {
+                    return;
+                }
 
-        private void showMessages()
-        {
-            if (Client != null && Chat != null)
-            {
-                accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
-                chatMessages.Clear();
+                // Show all chat messages:
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                 foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(Chat.id))
                 {
@@ -138,10 +139,37 @@ namespace UWP_XMPP_Client.Controls
                         chat = Chat
                     });
                 }
+                chatMessages.Clear();
                 chatMessages.AddRange(msgs);
 
+                // Mark all unread messages as read for this chat:
                 ChatTable cpy = Chat.clone();
                 Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(cpy));
+            }
+        }
+
+        private void showChat()
+        {
+            if (Chat != null && Chat.chatType != ChatType.MUC)
+            {
+                chatName_tblck.Text = Chat.chatJabberId ?? "";
+                chatState_tblck.Text = Chat.chatState ?? "";
+            }
+        }
+
+        private void showClient()
+        {
+            if (Client != null)
+            {
+                accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
+            }
+        }
+
+        private void showMUCInfo()
+        {
+            if (MUCInfo != null && Chat != null)
+            {
+                chatName_tblck.Text = string.IsNullOrWhiteSpace(MUCInfo.name) ? Chat.chatJabberId : MUCInfo.name;
             }
         }
 
@@ -252,7 +280,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void profile_btn_Click(object sender, RoutedEventArgs e)
         {
-            if(Chat != null && Chat.chatType == ChatType.MUC)
+            if (Chat != null && Chat.chatType == ChatType.MUC)
             {
                 (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat, Client, MUCInfo));
             }
