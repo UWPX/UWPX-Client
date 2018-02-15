@@ -14,34 +14,28 @@ namespace UWP_XMPP_Client.Controls
         #region --Attributes--
         public ChatTable Chat
         {
-            get { return (ChatTable)GetValue(chatProperty); }
-            set
-            {
-                SetValue(chatProperty, value);
-            }
+            get { return (ChatTable)GetValue(ChatProperty); }
+            set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoControl), null);
 
         public XMPPClient Client
         {
-            get { return (XMPPClient)GetValue(clientProperty); }
-            set
-            {
-                SetValue(clientProperty, value);
-            }
+            get { return (XMPPClient)GetValue(ClientProperty); }
+            set { SetValue(ClientProperty, value); }
         }
-        public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoControl), null);
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoControl), null);
 
         public MUCChatInfoTable MUCInfo
         {
-            get { return (MUCChatInfoTable)GetValue(mucInfoProperty); }
+            get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
             set
             {
-                SetValue(mucInfoProperty, value);
+                SetValue(MUCInfoProperty, value);
                 showMUCInfo();
             }
         }
-        public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -99,7 +93,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task leaveRoomAsync()
         {
-            if(Client != null && MUCInfo != null && Chat != null)
+            if (Client != null && MUCInfo != null && Chat != null)
             {
                 await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo);
             }
