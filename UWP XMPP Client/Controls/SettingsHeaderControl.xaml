@@ -6,7 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" Padding="0, 10, 0, 20" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+    <Grid HorizontalAlignment="Stretch" Padding="0, 10, 0, 10" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
         <Grid Grid.Row="0" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
