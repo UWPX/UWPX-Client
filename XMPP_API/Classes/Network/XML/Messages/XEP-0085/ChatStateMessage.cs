@@ -21,7 +21,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
         /// </history>
         public ChatStateMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, node.Attributes["id"]?.Value)
         {
-            if (XMLUtils.getChildNode(node, "active", Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
+            if(XMLUtils.getChildNode(node, "error") != null)
+            {
+                STATE = ChatState.UNKNOWN;
+            }
+            else if (XMLUtils.getChildNode(node, "active", Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
             {
                 STATE = ChatState.ACTIVE;
             }
