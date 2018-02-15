@@ -48,7 +48,7 @@ namespace UWP_XMPP_Client.Controls
             get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
-                showChatMessages(Chat, value);
+                showChatMessages(value, Chat);
                 SetValue(ChatProperty, value);
                 showChat();
                 showMUCInfo();
@@ -131,19 +131,19 @@ namespace UWP_XMPP_Client.Controls
 
                 // Show all chat messages:
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(Chat.id))
+                foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(newChat.id))
                 {
                     msgs.Add(new ChatMessageDataTemplate()
                     {
                         message = msg,
-                        chat = Chat
+                        chat = newChat
                     });
                 }
                 chatMessages.Clear();
                 chatMessages.AddRange(msgs);
 
                 // Mark all unread messages as read for this chat:
-                ChatTable cpy = Chat.clone();
+                ChatTable cpy = newChat.clone();
                 Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(cpy));
             }
         }
