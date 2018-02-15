@@ -4,13 +4,13 @@ using System.Collections.Generic;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class MUCManager : AbstractManager
+    public class MUCDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly MUCManager INSTANCE = new MUCManager();
+        public static readonly MUCDBManager INSTANCE = new MUCDBManager();
 
-        public delegate void MUCInfoChangedHandler(MUCManager handler, MUCInfoChangedEventArgs args);
+        public delegate void MUCInfoChangedHandler(MUCDBManager handler, MUCInfoChangedEventArgs args);
 
         public event MUCInfoChangedHandler MUCInfoChanged;
 
@@ -23,7 +23,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <history>
         /// 15/02/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCManager()
+        public MUCDBManager()
         {
 
         }

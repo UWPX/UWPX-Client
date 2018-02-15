@@ -7,11 +7,11 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class DiscoManager : AbstractManager
+    public class DiscoDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly DiscoManager INSTANCE = new DiscoManager();
+        public static readonly DiscoDBManager INSTANCE = new DiscoDBManager();
         private TSTimedList<string> messageIdCache;
 
         #endregion
@@ -23,7 +23,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <history>
         /// 03/01/2018 Created [Fabian Sauter]
         /// </history>
-        public DiscoManager()
+        public DiscoDBManager()
         {
             this.messageIdCache = new TSTimedList<string>();
             ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;

@@ -50,10 +50,10 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             Task.Factory.StartNew(() =>
             {
-                IList<XMPPAccount> list = AccountManager.INSTANCE.loadAllAccounts();
+                IList<XMPPAccount> list = AccountDBManager.INSTANCE.loadAllAccounts();
 
-                AccountManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
-                AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
+                AccountDBManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
+                AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
 
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -110,7 +110,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             loadAccounts();
         }
 
-        private async void INSTANCE_AccountChanged(AccountManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        private async void INSTANCE_AccountChanged(AccountDBManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => loadAccounts());
         }

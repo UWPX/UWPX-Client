@@ -7,15 +7,15 @@ using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class ChatManager : AbstractManager
+    public class ChatDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly ChatManager INSTANCE = new ChatManager();
+        public static readonly ChatDBManager INSTANCE = new ChatDBManager();
 
-        public delegate void NewChatMessageHandler(ChatManager handler, NewChatMessageEventArgs args);
-        public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
-        public delegate void ChatMessageChangedHandler(ChatManager handler, ChatMessageChangedEventArgs args);
+        public delegate void NewChatMessageHandler(ChatDBManager handler, NewChatMessageEventArgs args);
+        public delegate void ChatChangedHandler(ChatDBManager handler, ChatChangedEventArgs args);
+        public delegate void ChatMessageChangedHandler(ChatDBManager handler, ChatMessageChangedEventArgs args);
 
         public event NewChatMessageHandler NewChatMessage;
         public event ChatChangedHandler ChatChanged;
@@ -30,7 +30,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <history>
         /// 18/11/2017 Created [Fabian Sauter]
         /// </history>
-        public ChatManager()
+        public ChatDBManager()
         {
             resetPresences();
         }
@@ -193,7 +193,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Misc Methods (Private)--
         private void cacheImage(ChatMessageTable msg)
         {
-            ImageManager.INSTANCE.downloadImage(msg);
+            ImageDBManager.INSTANCE.downloadImage(msg);
         }
 
         private void resetPresences()

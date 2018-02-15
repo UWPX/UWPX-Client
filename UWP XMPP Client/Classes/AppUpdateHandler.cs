@@ -99,7 +99,7 @@ namespace UWP_XMPP_Client.Classes
                         try
                         {
                             Logging.Logger.Info("Started updating db to version 0.2.0.0.");
-                            AbstractManager.dB.RecreateTable<ChatTable>();
+                            AbstractDBManager.dB.RecreateTable<ChatTable>();
                             Logging.Logger.Info("Finished updating db to version 0.2.0.0.");
                         }
                         catch (Exception e)

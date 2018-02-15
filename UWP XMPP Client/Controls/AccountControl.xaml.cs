@@ -105,7 +105,7 @@ namespace UWP_XMPP_Client.Controls
             }
             XMPPAccount oldAccount = Account;
             Account = account;
-            AccountManager.INSTANCE.replaceAccount(oldAccount, Account);
+            AccountDBManager.INSTANCE.replaceAccount(oldAccount, Account);
         }
 
         private async Task<bool> saveAccountAsync()
@@ -236,7 +236,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 return;
             }
-            AccountManager.INSTANCE.deleteAccount(Account, true);
+            AccountDBManager.INSTANCE.deleteAccount(Account, true);
         }
 
         private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)
@@ -253,7 +253,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 Account.disabled = !disableAccount_tggls.IsOn;
                 XMPPAccount newAccount = Account.clone();
-                Task.Factory.StartNew(() => AccountManager.INSTANCE.setAccountDisabled(newAccount, newAccount.disabled));
+                Task.Factory.StartNew(() => AccountDBManager.INSTANCE.setAccountDisabled(newAccount, newAccount.disabled));
             }
         }
 

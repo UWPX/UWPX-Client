@@ -72,10 +72,10 @@ namespace UWP_XMPP_Client
         {
             Task.Factory.StartNew(() =>
             {
-                AccountManager.INSTANCE.initManager();
-                ChatManager.INSTANCE.initManager();
-                DiscoManager.INSTANCE.initManager();
-                ImageManager.INSTANCE.initManager();
+                AccountDBManager.INSTANCE.initManager();
+                ChatDBManager.INSTANCE.initManager();
+                DiscoDBManager.INSTANCE.initManager();
+                ImageDBManager.INSTANCE.initManager();
             });
         }
 

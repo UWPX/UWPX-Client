@@ -85,7 +85,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void loadServers()
         {
             servers.Clear();
-            foreach (DiscoFeatureTable f in DiscoManager.INSTANCE.getAllMUCServers())
+            foreach (DiscoFeatureTable f in DiscoDBManager.INSTANCE.getAllMUCServers())
             {
                 servers.Add(f.fromServer);
             }
@@ -111,7 +111,7 @@ namespace UWP_XMPP_Client.Dialogs
                     lastActive = DateTime.Now,
                     subscription = "none"
                 };
-                ChatManager.INSTANCE.setChat(muc, false, true);
+                ChatDBManager.INSTANCE.setChat(muc, false, true);
 
                 MUCChatInfoTable info = new MUCChatInfoTable()
                 {
@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     info.password = password_pwb.Password;
                 }
-                MUCManager.INSTANCE.setMUCChatInfo(info, false, true);
+                MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true);
 
                 if (info.autoEnterRoom)
                 {

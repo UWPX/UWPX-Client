@@ -29,13 +29,13 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Client != null)
                 {
-                    ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                    ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
                 }
                 SetValue(ClientProperty, value);
                 if (Client != null)
                 {
-                    ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-                    ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+                    ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                    ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
                 }
                 showChat();
             }
@@ -227,7 +227,7 @@ namespace UWP_XMPP_Client.Controls
                 }
 
                 // Last chat message:
-                showLastChatMessage(ChatManager.INSTANCE.getLastChatMessageForChat(Chat.id));
+                showLastChatMessage(ChatDBManager.INSTANCE.getLastChatMessageForChat(Chat.id));
 
                 // Status icons:
                 muted_tbck.Visibility = Chat.muted ? Visibility.Visible : Visibility.Collapsed;
@@ -267,7 +267,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void INSTANCE_NewChatMessage(ChatManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
+        private async void INSTANCE_NewChatMessage(ChatDBManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -282,13 +282,13 @@ namespace UWP_XMPP_Client.Controls
         {
             await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted);
             Chat.ask = null;
-            ChatManager.INSTANCE.setChat(Chat, false, false);
+            ChatDBManager.INSTANCE.setChat(Chat, false, false);
         }
 
         private void resetAsk()
         {
             Chat.ask = null;
-            ChatManager.INSTANCE.setChat(Chat, false, false);
+            ChatDBManager.INSTANCE.setChat(Chat, false, false);
         }
 
         private async Task switchChatInRoosterAsync()
@@ -319,7 +319,7 @@ namespace UWP_XMPP_Client.Controls
                     Task t = Client.setBookmarkAsync(cI);
                 }
                 // ToDo remove MUC from bookmarks
-                ChatManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, false);
             }
         }
 
@@ -341,12 +341,12 @@ namespace UWP_XMPP_Client.Controls
                 if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                 {
                     // ToDo remove MUC from bookmarks
-                    MUCManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
+                    MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
                 }
-                ChatManager.INSTANCE.setChat(Chat, true, true);
+                ChatDBManager.INSTANCE.setChat(Chat, true, true);
                 if (!deleteChatDialog.keepChat)
                 {
-                    ChatManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
+                    ChatDBManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
                 }
             }
         }
@@ -383,7 +383,7 @@ namespace UWP_XMPP_Client.Controls
             if (Chat != null && Chat.muted != mute_tmfo.IsChecked)
             {
                 Chat.muted = mute_tmfo.IsChecked;
-                ChatManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, false);
             }
         }
 
@@ -392,7 +392,7 @@ namespace UWP_XMPP_Client.Controls
             if (Chat != null && Chat.muted != muteMUC_tmfo.IsChecked)
             {
                 Chat.muted = muteMUC_tmfo.IsChecked;
-                ChatManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, false);
             }
         }
 
@@ -405,7 +405,7 @@ namespace UWP_XMPP_Client.Controls
             else
             {
                 Chat.subscription = "none";
-                ChatManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, false);
             }
         }
 
@@ -418,7 +418,7 @@ namespace UWP_XMPP_Client.Controls
             else
             {
                 Chat.subscription = "none";
-                ChatManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, false);
             }
         }
 
@@ -460,7 +460,7 @@ namespace UWP_XMPP_Client.Controls
             showLastChatMessage(lastChatMessage);
         }
 
-        private async void INSTANCE_ChatMessageChanged(ChatManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -476,7 +476,7 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && MUCInfo.autoEnterRoom != autoEnter_tmfo.IsChecked)
             {
                 MUCInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
-                Task.Factory.StartNew(() => MUCManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
+                Task.Factory.StartNew(() => MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
 
                 if (Chat.inRoster)
                 {
@@ -503,8 +503,8 @@ namespace UWP_XMPP_Client.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             // Subscribe to the chat message changed event:
-            ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
-            ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
         }
 
         private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)

@@ -95,12 +95,12 @@ namespace UWP_XMPP_Client.Pages
 
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                 {
-                    foreach (ChatTable chat in ChatManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
+                    foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                     {
                         ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
                         if (chat.chatType == ChatType.MUC)
                         {
-                            chatElement.mucInfo = MUCManager.INSTANCE.getMUCInfo(chat.id);
+                            chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
                         }
                         allChats.Add(chatElement);
                         if (string.Equals(selectedChatId, chat.id))
@@ -147,7 +147,7 @@ namespace UWP_XMPP_Client.Pages
                 {
                     await client.requestPresenceSubscriptionAsync(jabberId);
                 }
-                ChatManager.INSTANCE.setChat(new ChatTable()
+                ChatDBManager.INSTANCE.setChat(new ChatTable()
                 {
                     id = ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain()),
                     chatJabberId = jabberId,
@@ -246,7 +246,7 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        private void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
             Task.Factory.StartNew(() =>
             {
@@ -280,7 +280,7 @@ namespace UWP_XMPP_Client.Pages
                         ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
                         if (args.CHAT.chatType == ChatType.MUC)
                         {
-                            chatElement.mucInfo = MUCManager.INSTANCE.getMUCInfo(args.CHAT.id);
+                            chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id);
                         }
                         allChats.Add(chatElement);
                         sortAllChats();
@@ -293,7 +293,7 @@ namespace UWP_XMPP_Client.Pages
             });
         }
 
-        private void INSTANCE_MUCInfoChanged(MUCManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
         {
             Task.Factory.StartNew(() =>
             {
@@ -368,10 +368,10 @@ namespace UWP_XMPP_Client.Pages
             UiUtils.setBackgroundImage(backgroundImage_img);
 
             // Subscribe to chat and MUC info changed events:
-            ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            MUCManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
-            MUCManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+            ChatDBManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
+            ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
         }
 
         private void searchChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

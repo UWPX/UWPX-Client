@@ -11,11 +11,11 @@ using Windows.Storage.Search;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class ImageManager : AbstractManager
+    public class ImageDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly ImageManager INSTANCE = new ImageManager();
+        public static readonly ImageDBManager INSTANCE = new ImageDBManager();
 
         // The interval for how often the ImageTable onDownloadProgressChanged() should get triggered (e.g 0.1 = every 10%):
         private static readonly double DOWNLOAD_PROGRESS_REPORT_INTERVAL = 0.05;
@@ -32,7 +32,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <history>
         /// 15/12/2017 Created [Fabian Sauter]
         /// </history>
-        public ImageManager()
+        public ImageDBManager()
         {
             downloading = new List<ImageTable>();
             contiuneAllDownloads();
@@ -145,7 +145,7 @@ namespace Data_Manager2.Classes.DBManager
                     // Reset image progress:
                     img.progress = 0;
 
-                    ChatMessageTable msg = ChatManager.INSTANCE.getChatMessageById(img.messageId);
+                    ChatMessageTable msg = ChatDBManager.INSTANCE.getChatMessageById(img.messageId);
                     await downloadImageAsync(img, msg.message);
                 });
             }

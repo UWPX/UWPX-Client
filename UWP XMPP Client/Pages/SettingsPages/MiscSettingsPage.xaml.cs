@@ -53,7 +53,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             imageChacheSize_tblck.Text = "calculating...";
             Task.Factory.StartNew(async () => {
-                long size = await ImageManager.INSTANCE.getCachedImagesFolderSizeAsync();
+                long size = await ImageDBManager.INSTANCE.getCachedImagesFolderSizeAsync();
                 string text = "~ ";
                 if (size >= 1024)
                 {
@@ -138,7 +138,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             IUICommand command = await dialog.ShowAsync();
             if ((int)command.Id == 1)
             {
-                await ImageManager.INSTANCE.deleteImageCacheAsync();
+                await ImageDBManager.INSTANCE.deleteImageCacheAsync();
             }
             showImageChacheSize();
         }

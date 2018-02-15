@@ -36,7 +36,7 @@ namespace Data_Manager2.Classes
         {
             clients = null;
             loadAccounts();
-            AccountManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
+            AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
         }
 
         #endregion
@@ -130,7 +130,7 @@ namespace Data_Manager2.Classes
             {
                 clients.Clear();
             }
-            foreach (XMPPAccount acc in AccountManager.INSTANCE.loadAllAccounts())
+            foreach (XMPPAccount acc in AccountDBManager.INSTANCE.loadAllAccounts())
             {
                 loadAccount(acc);
             }
@@ -169,7 +169,7 @@ namespace Data_Manager2.Classes
 
         private void onClientDisconnectedOrError(XMPPClient client)
         {
-            ChatManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
+            ChatDBManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
             MUCHandler.INSTANCE.onClientDisconnected(client);
         }
 
@@ -243,7 +243,7 @@ namespace Data_Manager2.Classes
 
             string to = client.getXMPPAccount().getIdAndDomain();
             string id = ChatTable.generateId(from, to);
-            ChatTable chat = ChatManager.INSTANCE.getChat(id);
+            ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             switch (args.getPresenceType())
             {
                 case "subscribe":
@@ -281,7 +281,7 @@ namespace Data_Manager2.Classes
                         chat.presence = args.getPresence();
                         break;
                 }
-                ChatManager.INSTANCE.setChat(chat, false, true);
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
         }
 
@@ -296,7 +296,7 @@ namespace Data_Manager2.Classes
 
                 if (string.Equals(type, IQMessage.RESULT))
                 {
-                    ChatManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
+                    ChatDBManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
                 }
                 else if (type == null || !string.Equals(type, IQMessage.SET))
                 {
@@ -307,7 +307,7 @@ namespace Data_Manager2.Classes
                 {
                     string from = item.getJabberId();
                     string id = ChatTable.generateId(from, to);
-                    ChatTable chat = ChatManager.INSTANCE.getChat(id);
+                    ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
                     if (chat != null)
                     {
                         chat.id = id;
@@ -349,7 +349,7 @@ namespace Data_Manager2.Classes
                             break;
                     }
 
-                    ChatManager.INSTANCE.setChat(chat, false, true);
+                    ChatDBManager.INSTANCE.setChat(chat, false, true);
                 }
             }
         }
@@ -360,7 +360,7 @@ namespace Data_Manager2.Classes
             string to = Utils.getBareJidFromFullJid(msg.getTo());
             string from = Utils.getBareJidFromFullJid(msg.getFrom());
             string id = ChatTable.generateId(from, to);
-            ChatTable chat = ChatManager.INSTANCE.getChat(id);
+            ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             if (chat == null)
             {
                 chat = new ChatTable()
@@ -377,7 +377,7 @@ namespace Data_Manager2.Classes
                     subscription = null,
                     chatType = Equals(msg.getType(), MessageMessage.TYPE_CHAT) ? ChatType.MUC : ChatType.CHAT,
                 };
-                ChatManager.INSTANCE.setChat(chat, false, true);
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
 
             // ToDo re-implement show toast message
@@ -410,11 +410,11 @@ namespace Data_Manager2.Classes
                 }
             }
 
-            bool msgExists = ChatManager.INSTANCE.getChatMessageById(msg.getId() + '_' + chat.id) != null;
-            ChatManager.INSTANCE.setChatMessageEntry(message, !msgExists, msgExists);
+            bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(msg.getId() + '_' + chat.id) != null;
+            ChatDBManager.INSTANCE.setChatMessageEntry(message, !msgExists, msgExists);
         }
 
-        private async void INSTANCE_AccountChanged(AccountManager handler, AccountChangedEventArgs args)
+        private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
         {
             if (clients != null && clients.Count > 0)
             {
@@ -446,7 +446,7 @@ namespace Data_Manager2.Classes
 
         private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
         {
-            ChatManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager.Classes.MessageState.SEND);
+            ChatDBManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager.Classes.MessageState.SEND);
         }
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
@@ -458,7 +458,7 @@ namespace Data_Manager2.Classes
                 string to = client.getXMPPAccount().getIdAndDomain();
                 string from = c.jid;
                 string id = ChatTable.generateId(from, to);
-                ChatTable chat = ChatManager.INSTANCE.getChat(id);
+                ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
                 if (chat == null)
                 {
                     chat = new ChatTable()
@@ -477,7 +477,7 @@ namespace Data_Manager2.Classes
                 chat.inRoster = true;
                 chat.presence = Presence.Unavailable;
 
-                ChatManager.INSTANCE.setChat(chat, false, true);
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
         }
 

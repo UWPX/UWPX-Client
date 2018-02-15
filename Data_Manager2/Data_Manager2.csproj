@@ -108,12 +108,12 @@
   <ItemGroup>
     <Compile Include="Classes\ChatType.cs" />
     <Compile Include="Classes\ConnectionHandler.cs" />
-    <Compile Include="Classes\DBManager\AbstractManager.cs" />
-    <Compile Include="Classes\DBManager\AccountManager.cs" />
-    <Compile Include="Classes\DBManager\ChatManager.cs" />
-    <Compile Include="Classes\DBManager\DiscoManager.cs" />
-    <Compile Include="Classes\DBManager\ImageManager.cs" />
-    <Compile Include="Classes\DBManager\MUCManager.cs" />
+    <Compile Include="Classes\DBManager\AbstractDBManager.cs" />
+    <Compile Include="Classes\DBManager\AccountDBManager.cs" />
+    <Compile Include="Classes\DBManager\ChatDBManager.cs" />
+    <Compile Include="Classes\DBManager\DiscoDBManager.cs" />
+    <Compile Include="Classes\DBManager\ImageDBManager.cs" />
+    <Compile Include="Classes\DBManager\MUCDBManager.cs" />
     <Compile Include="Classes\DBTables\DBTableConsts.cs" />
     <Compile Include="Classes\DBTables\DiscoFeatureTable.cs" />
     <Compile Include="Classes\DBTables\DiscoItemTable.cs" />

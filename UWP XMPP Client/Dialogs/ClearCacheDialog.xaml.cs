@@ -65,39 +65,39 @@ namespace UWP_XMPP_Client.Dialogs
                 // General:
                 if (chatMessages)
                 {
-                    AbstractManager.dB.RecreateTable<ChatMessageTable>();
+                    AbstractDBManager.dB.RecreateTable<ChatMessageTable>();
                 }
                 if (chat)
                 {
-                    AbstractManager.dB.RecreateTable<ChatTable>();
+                    AbstractDBManager.dB.RecreateTable<ChatTable>();
                 }
                 if (images)
                 {
-                    AbstractManager.dB.RecreateTable<ImageTable>();
+                    AbstractDBManager.dB.RecreateTable<ImageTable>();
                 }
 
                 // Disco:
                 if (discoFeatures)
                 {
-                    AbstractManager.dB.RecreateTable<DiscoFeatureTable>();
+                    AbstractDBManager.dB.RecreateTable<DiscoFeatureTable>();
                 }
                 if (discoIdentities)
                 {
-                    AbstractManager.dB.RecreateTable<DiscoIdentityTable>();
+                    AbstractDBManager.dB.RecreateTable<DiscoIdentityTable>();
                 }
                 if (discoItems)
                 {
-                    AbstractManager.dB.RecreateTable<DiscoItemTable>();
+                    AbstractDBManager.dB.RecreateTable<DiscoItemTable>();
                 }
 
                 // MUC:
                 if (mucChatInfo)
                 {
-                    AbstractManager.dB.RecreateTable<MUCChatInfoTable>();
+                    AbstractDBManager.dB.RecreateTable<MUCChatInfoTable>();
                 }
                 if (mucMembers)
                 {
-                    AbstractManager.dB.RecreateTable<MUCMemberTable>();
+                    AbstractDBManager.dB.RecreateTable<MUCMemberTable>();
                 }
 
                 // Reconnect clients:

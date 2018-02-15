@@ -6,7 +6,7 @@ using Windows.Storage;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public abstract class AbstractManager
+    public abstract class AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,7 +24,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <history>
         /// 17/11/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractManager()
+        public AbstractDBManager()
         {
             if (RESET_DB_ON_STARTUP)
             {

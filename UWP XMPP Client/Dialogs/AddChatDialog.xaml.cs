@@ -86,7 +86,7 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 jabberId = jabberId_tbx.Text;
                 client = clients[account_cbx.SelectedIndex];
-                if (ChatManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
+                if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
                 {
                     MessageDialog messageDialog = new MessageDialog("Error")
                     {

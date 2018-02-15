@@ -5,13 +5,13 @@ using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class AccountManager : AbstractManager
+    public class AccountDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static AccountManager INSTANCE = new AccountManager();
+        public static AccountDBManager INSTANCE = new AccountDBManager();
 
-        public delegate void AccountChangedHandler(AccountManager handler, AccountChangedEventArgs args);
+        public delegate void AccountChangedHandler(AccountDBManager handler, AccountChangedEventArgs args);
 
         public event AccountChangedHandler AccountChanged;
 
@@ -24,7 +24,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <history>
         /// 17/11/2017 Created [Fabian Sauter]
         /// </history>
-        public AccountManager()
+        public AccountDBManager()
         {
 
         }

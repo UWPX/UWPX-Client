@@ -130,12 +130,12 @@ namespace UWP_XMPP_Client.Pages
                 NavigatedToUserProfileEventArgs args = e.Parameter as NavigatedToUserProfileEventArgs;
                 setChat(args.CHAT);
                 setClient(args.CLIENT);
-                ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
-                ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
+                ChatDBManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
+                ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             }
         }
 
-        private async void INSTANCE_ChatChanged(ChatManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

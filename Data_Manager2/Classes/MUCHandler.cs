@@ -45,7 +45,7 @@ namespace Data_Manager2.Classes
             client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
             client.NewMUCMemberPresenceMessage += C_NewMUCMemberPresenceMessage;
 
-            MUCManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
+            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
 
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
             {
@@ -60,7 +60,7 @@ namespace Data_Manager2.Classes
 
         public void onClientDisconnecting(XMPPClient client)
         {
-            MUCManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
+            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
         }
 
         public async Task enterMUCAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
@@ -80,7 +80,7 @@ namespace Data_Manager2.Classes
 
         public async Task leaveRoomAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
-            MUCManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTING, true);
+            MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTING, true);
             string from = client.getXMPPAccount().getIdDomainAndResource();
             string to = muc.chatJabberId + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
@@ -104,9 +104,9 @@ namespace Data_Manager2.Classes
         private void enterAllMUCs(XMPPClient client)
         {
             Task.Factory.StartNew(async () => {
-                foreach (ChatTable muc in ChatManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getIdAndDomain()))
+                foreach (ChatTable muc in ChatDBManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getIdAndDomain()))
                 {
-                    MUCChatInfoTable info = MUCManager.INSTANCE.getMUCInfo(muc.id);
+                    MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(muc.id);
                     if(info == null)
                     {
                         info = new MUCChatInfoTable()
@@ -116,7 +116,7 @@ namespace Data_Manager2.Classes
                             nickname = muc.userAccountId,
                             autoEnterRoom = true
                         };
-                        MUCManager.INSTANCE.setMUCChatInfo(info, false, true);
+                        MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true);
                     }
                     if (info.autoEnterRoom)
                     {
@@ -144,7 +144,7 @@ namespace Data_Manager2.Classes
             }
             string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
 
-            MUCMemberTable member = MUCManager.INSTANCE.getMUCMember(chatId, msg.NICKNAME);
+            MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, msg.NICKNAME);
             if(member == null)
             {
                 member = new MUCMemberTable()
@@ -163,12 +163,12 @@ namespace Data_Manager2.Classes
                 // Is self reference message:
                 if (s == MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE)
                 {
-                    MUCManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
+                    MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
                 }
             }
 
             // If the type equals 'unavailable', a user left the room:
-            MUCManager.INSTANCE.setMUCMember(member, Equals(msg.getType(), "unavailable"));
+            MUCDBManager.INSTANCE.setMUCMember(member, Equals(msg.getType(), "unavailable"));
         }
 
         #endregion

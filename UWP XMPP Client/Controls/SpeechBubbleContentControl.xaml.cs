@@ -69,7 +69,7 @@ namespace UWP_XMPP_Client.Controls
                 if (ChatMessage.isImage)
                 {
                     message_tbx.Visibility = Visibility.Collapsed;
-                    ImageTable img = ImageManager.INSTANCE.getImageForMessage(ChatMessage);
+                    ImageTable img = ImageDBManager.INSTANCE.getImageForMessage(ChatMessage);
                     if (img != null)
                     {
                         switch (img.state)
@@ -181,7 +181,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task retryImageDownloadAsync()
         {
-            ImageTable img = ImageManager.INSTANCE.retryImageDownload(ChatMessage);
+            ImageTable img = ImageDBManager.INSTANCE.retryImageDownload(ChatMessage);
             if (img != null)
             {
                 waitForImageDownloadToFinish(img);

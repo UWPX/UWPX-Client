@@ -64,7 +64,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null)
             {
-                foreach (MUCMemberTable m in MUCManager.INSTANCE.getAllMUCMembers(Chat.id))
+                foreach (MUCMemberTable m in MUCDBManager.INSTANCE.getAllMUCMembers(Chat.id))
                 {
                     members.Add(new MUCMemberTemplate() { member = m });
                 }

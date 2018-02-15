@@ -130,7 +130,7 @@ namespace UWP_XMPP_Client.Controls
                 accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
                 chatMessages.Clear();
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                foreach (ChatMessageTable msg in ChatManager.INSTANCE.getAllChatMessagesForChat(Chat.id))
+                foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(Chat.id))
                 {
                     msgs.Add(new ChatMessageDataTemplate()
                     {
@@ -141,7 +141,7 @@ namespace UWP_XMPP_Client.Controls
                 chatMessages.AddRange(msgs);
 
                 ChatTable cpy = Chat.clone();
-                Task.Factory.StartNew(() => ChatManager.INSTANCE.markAllMessagesAsRead(cpy));
+                Task.Factory.StartNew(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(cpy));
             }
         }
 
@@ -159,9 +159,9 @@ namespace UWP_XMPP_Client.Controls
                 {
                     sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType());
                 }
-                ChatManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
+                ChatDBManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
                 Chat.lastActive = DateTime.Now;
-                ChatManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, false);
 
                 message_tbx.Text = "";
             }
@@ -205,7 +205,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_NewChatMessage(ChatManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
+        private async void INSTANCE_NewChatMessage(ChatDBManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -213,7 +213,7 @@ namespace UWP_XMPP_Client.Controls
                 if (Chat != null && Chat.id.Equals(msg.chatId))
                 {
                     msg.state = MessageState.READ;
-                    ChatManager.INSTANCE.setChatMessageEntry(msg, false, true);
+                    ChatDBManager.INSTANCE.setChatMessageEntry(msg, false, true);
                     chatMessages.Add(new ChatMessageDataTemplate()
                     {
                         message = msg,
@@ -279,10 +279,10 @@ namespace UWP_XMPP_Client.Controls
             }
 
             // Subscribe to chat and chat message changed events:
-            ChatManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-            ChatManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-            ChatManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
-            ChatManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+            ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+            ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
         }
 
         private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
@@ -338,7 +338,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void INSTANCE_ChatMessageChanged(ChatManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

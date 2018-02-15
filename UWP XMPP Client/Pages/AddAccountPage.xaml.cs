@@ -95,7 +95,7 @@ namespace UWP_XMPP_Client.Pages
         {
             if (await areEntriesValidAsync())
             {
-                AccountManager.INSTANCE.setAccount(getAccount(), true);
+                AccountDBManager.INSTANCE.setAccount(getAccount(), true);
                 moveOn();
             }
         }
