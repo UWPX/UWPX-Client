@@ -69,7 +69,7 @@ namespace Data_Manager2.Classes
             saveMUCEnterState();
 
             // Clear MUC members:
-            ChatManager.INSTANCE.deleteAllMUCMemberforChat(MUC.id);
+            MUCManager.INSTANCE.deleteAllMUCMembersforChat(MUC.id);
 
             // Create message:
             JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
@@ -111,7 +111,7 @@ namespace Data_Manager2.Classes
 
         private void saveMUCEnterState()
         {
-            ChatManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
+            MUCManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
         }
 
         #endregion

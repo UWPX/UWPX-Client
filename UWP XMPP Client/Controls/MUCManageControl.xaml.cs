@@ -91,7 +91,7 @@ namespace UWP_XMPP_Client.Controls
 
             info_grid.Visibility = Visibility.Collapsed;
 
-            MUCMemberTable member = ChatManager.INSTANCE.getMUCMember(Chat.id, MUCInfo.nickname);
+            MUCMemberTable member = MUCManager.INSTANCE.getMUCMember(Chat.id, MUCInfo.nickname);
             if (member != null)
             {
                 loading_grid.Visibility = Visibility.Visible;

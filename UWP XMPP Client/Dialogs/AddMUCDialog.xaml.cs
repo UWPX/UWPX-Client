@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     info.password = password_pwb.Password;
                 }
-                ChatManager.INSTANCE.setMUCChatInfo(info, false, true);
+                MUCManager.INSTANCE.setMUCChatInfo(info, false, true);
 
                 if (info.autoEnterRoom)
                 {

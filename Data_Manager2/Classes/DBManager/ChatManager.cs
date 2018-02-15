@@ -4,7 +4,6 @@ using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -16,12 +15,10 @@ namespace Data_Manager2.Classes.DBManager
 
         public delegate void NewChatMessageHandler(ChatManager handler, NewChatMessageEventArgs args);
         public delegate void ChatChangedHandler(ChatManager handler, ChatChangedEventArgs args);
-        public delegate void MUCInfoChangedHandler(ChatManager handler, MUCInfoChangedEventArgs args);
         public delegate void ChatMessageChangedHandler(ChatManager handler, ChatMessageChangedEventArgs args);
 
         public event NewChatMessageHandler NewChatMessage;
         public event ChatChangedHandler ChatChanged;
-        public event MUCInfoChangedHandler MUCInfoChanged;
         public event ChatMessageChangedHandler ChatMessageChanged;
 
         #endregion
@@ -44,16 +41,6 @@ namespace Data_Manager2.Classes.DBManager
         public bool doesChatExist(string id)
         {
             return getChat(id) != null;
-        }
-
-        public MUCChatInfoTable getMUCInfo(string chatId)
-        {
-            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE chatId = ?;", chatId);
-            if (list != null && list.Count > 0)
-            {
-                return list[0];
-            }
-            return null;
         }
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
@@ -98,64 +85,6 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setMUCMember(MUCMemberTable member, bool delete)
-        {
-            if (member != null)
-            {
-                if (delete)
-                {
-                    dB.Delete(member);
-                }
-                else
-                {
-                    update(member);
-                }
-            }
-        }
-
-        public MUCMemberTable getMUCMember(string chatId, string nickname)
-        {
-            List<MUCMemberTable> list = dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE id = ?;", MUCMemberTable.generateId(chatId, nickname));
-            if(list.Count <= 0)
-            {
-                return null;
-            }
-            return list[0];
-        }
-
-        public void setMUCChatInfo(MUCChatInfoTable info, bool delete, bool triggerMUCChanged)
-        {
-            if (info != null)
-            {
-                if (delete)
-                {
-                    dB.Delete(info);
-                }
-                else
-                {
-                    update(info);
-                }
-
-                if (triggerMUCChanged)
-                {
-                    MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, delete));
-                }
-            }
-        }
-
-        public void setMUCState(string chatId, MUCState state, bool triggerMUCChanged)
-        {
-            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET state = ? WHERE chatId = ?", state, chatId);
-            if (triggerMUCChanged)
-            {
-                MUCChatInfoTable info = getMUCInfo(chatId);
-                if(info != null)
-                {
-                    MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, false));
-                }
-            }
-        }
-
         private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
         {
             return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
@@ -196,11 +125,6 @@ namespace Data_Manager2.Classes.DBManager
             return list[list.Count - 1];
         }
 
-        public List<MUCMemberTable> getAllMUCMembers(string chatId)
-        {
-            return dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE chatId = ?;", chatId);
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -217,11 +141,6 @@ namespace Data_Manager2.Classes.DBManager
         public void deleteAllChatMessagesForAccount(ChatTable chat)
         {
             dB.Execute("DELETE FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chat.id);
-        }
-
-        public void deleteAllMUCMemberforChat(string chatId)
-        {
-            dB.Execute("DELETE FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE chatId = ?;", chatId);
         }
 
         public void markAllMessagesAsRead(ChatTable chat)
@@ -269,16 +188,6 @@ namespace Data_Manager2.Classes.DBManager
             });
         }
 
-        public void resetMUCState(string userAccountId, bool triggerMUCChanged)
-        {
-            // Semi join:
-            List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE EXISTS (SELECT * FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND state != ?;", userAccountId, ChatType.MUC, MUCState.DISCONNECTED);
-            foreach (MUCChatInfoTable info in list)
-            {
-                setMUCState(info.chatId, MUCState.DISCONNECTED, triggerMUCChanged);
-            }
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--
@@ -299,16 +208,12 @@ namespace Data_Manager2.Classes.DBManager
         {
             dB.CreateTable<ChatTable>();
             dB.CreateTable<ChatMessageTable>();
-            dB.CreateTable<MUCChatInfoTable>();
-            dB.CreateTable<MUCMemberTable>();
         }
 
         protected override void dropTables()
         {
             dB.DropTable<ChatTable>();
             dB.DropTable<ChatMessageTable>();
-            dB.DropTable<MUCChatInfoTable>();
-            dB.DropTable<MUCMemberTable>();
         }
 
         #endregion

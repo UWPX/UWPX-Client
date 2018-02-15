@@ -341,7 +341,7 @@ namespace UWP_XMPP_Client.Controls
                 if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                 {
                     // ToDo remove MUC from bookmarks
-                    ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
+                    MUCManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
                 }
                 ChatManager.INSTANCE.setChat(Chat, true, true);
                 if (!deleteChatDialog.keepChat)
@@ -476,7 +476,7 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && MUCInfo.autoEnterRoom != autoEnter_tmfo.IsChecked)
             {
                 MUCInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
-                Task.Factory.StartNew(() => ChatManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
+                Task.Factory.StartNew(() => MUCManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
 
                 if (Chat.inRoster)
                 {

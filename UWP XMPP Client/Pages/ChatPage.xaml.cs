@@ -100,7 +100,7 @@ namespace UWP_XMPP_Client.Pages
                         ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
                         if (chat.chatType == ChatType.MUC)
                         {
-                            chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(chat.id);
+                            chatElement.mucInfo = MUCManager.INSTANCE.getMUCInfo(chat.id);
                         }
                         allChats.Add(chatElement);
                         if (string.Equals(selectedChatId, chat.id))
@@ -280,7 +280,7 @@ namespace UWP_XMPP_Client.Pages
                         ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
                         if (args.CHAT.chatType == ChatType.MUC)
                         {
-                            chatElement.mucInfo = ChatManager.INSTANCE.getMUCInfo(args.CHAT.id);
+                            chatElement.mucInfo = MUCManager.INSTANCE.getMUCInfo(args.CHAT.id);
                         }
                         allChats.Add(chatElement);
                         sortAllChats();
@@ -293,7 +293,7 @@ namespace UWP_XMPP_Client.Pages
             });
         }
 
-        private void INSTANCE_MUCInfoChanged(ChatManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        private void INSTANCE_MUCInfoChanged(MUCManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
         {
             Task.Factory.StartNew(() =>
             {
@@ -370,8 +370,8 @@ namespace UWP_XMPP_Client.Pages
             // Subscribe to chat and MUC info changed events:
             ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-            ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
-            ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+            MUCManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+            MUCManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
         }
 
         private void searchChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

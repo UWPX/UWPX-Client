@@ -91,12 +91,12 @@ namespace UWP_XMPP_Client.Pages
 
                 ChatManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
                 ChatManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
-                ChatManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
-                ChatManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+                MUCManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+                MUCManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
             }
         }
 
-        private async void INSTANCE_MUCInfoChanged(ChatManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        private async void INSTANCE_MUCInfoChanged(MUCManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
