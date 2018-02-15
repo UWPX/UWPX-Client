@@ -129,22 +129,29 @@ namespace UWP_XMPP_Client.Controls
                     return;
                 }
 
+                ChatTable newChat_cpy = newChat.clone();
+
                 // Show all chat messages:
-                List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(newChat.id))
+                Task.Run(async () =>
                 {
-                    msgs.Add(new ChatMessageDataTemplate()
+                    List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
+                    foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(newChat_cpy.id))
                     {
-                        message = msg,
-                        chat = newChat
+                        msgs.Add(new ChatMessageDataTemplate()
+                        {
+                            message = msg,
+                            chat = newChat_cpy
+                        });
+                    }
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        chatMessages.Clear();
+                        chatMessages.AddRange(msgs);
                     });
-                }
-                chatMessages.Clear();
-                chatMessages.AddRange(msgs);
+                });
 
                 // Mark all unread messages as read for this chat:
-                ChatTable cpy = newChat.clone();
-                Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(cpy));
+                Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(newChat_cpy));
             }
         }
 
