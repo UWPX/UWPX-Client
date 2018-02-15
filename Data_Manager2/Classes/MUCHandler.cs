@@ -46,7 +46,11 @@ namespace Data_Manager2.Classes
             client.NewMUCMemberPresenceMessage += C_NewMUCMemberPresenceMessage;
 
             ChatManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
-            enterAllMUCs(client);
+
+            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
+            {
+                enterAllMUCs(client);
+            }
         }
 
         public void onClientDisconnected(XMPPClient client)
