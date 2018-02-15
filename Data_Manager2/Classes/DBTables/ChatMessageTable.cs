@@ -53,6 +53,7 @@ namespace Data_Manager2.Classes.DBTables
             {
                 case MessageMessage.TYPE_ERROR:
                     this.id = msg.getId() + '_' + chat.id + "_error";
+                    this.fromUser = msg.getFrom();
                     break;
 
                 case MessageMessage.TYPE_GROUPCHAT:
@@ -62,7 +63,7 @@ namespace Data_Manager2.Classes.DBTables
 
                 default:
                     this.id = msg.getId() + '_' + chat.id;
-                    this.fromUser = Utils.getUserFromBareJid(Utils.getBareJidFromFullJid(msg.getFrom()));
+                    this.fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
                     break;
             }
             this.chatId = chat.id;
