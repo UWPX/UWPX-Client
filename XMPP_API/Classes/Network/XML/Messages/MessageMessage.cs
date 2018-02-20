@@ -150,7 +150,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             node.Add(new XAttribute("id", ID));
             node.Add(new XAttribute("type", TYPE));
 
-            node.Add(new XElement("body", MESSAGE));
+            if(MESSAGE != null)
+            {
+                node.Add(new XElement("body", MESSAGE));
+            }
+
             if (delay != DateTime.MinValue)
             {
                 XElement delayNode = new XElement("delay");

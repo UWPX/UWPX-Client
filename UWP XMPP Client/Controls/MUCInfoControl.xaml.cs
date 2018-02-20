@@ -1,10 +1,13 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
+using System;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -107,6 +110,27 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private void saveSubject()
+        {
+            subject_stbx.onStartSaving();
+
+            string from = Client.getXMPPAccount().getIdAndDomain() + '/' + MUCInfo.nickname;
+            string to = Chat.chatJabberId;
+            string id = Chat.id;
+            MUCRoomSubjectMessage msg = new MUCRoomSubjectMessage(from, to, subject_stbx.Text);
+            Task t = Client.sendMessageAsync(msg, true);
+            Task.Run(async () =>
+            {
+                MUCDBManager.INSTANCE.setMUCSubject(id, msg.SUBJECT, false);
+
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    notificationBanner_ian.Show("Successfully updated the room subject!", 5000);
+                    subject_stbx.onSavingDone();
+                });
+            });
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -123,6 +147,21 @@ namespace UWP_XMPP_Client.Controls
         private async void leave_btn_Click(object sender, RoutedEventArgs e)
         {
             await leaveRoomAsync();
+        }
+
+        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void nickname_stbx_SaveClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void subject_stbx_SaveClick(object sender, RoutedEventArgs e)
+        {
+            saveSubject();
         }
 
         #endregion

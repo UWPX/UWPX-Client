@@ -116,7 +116,7 @@ namespace UWP_XMPP_Client.Dialogs
                 MUCChatInfoTable info = new MUCChatInfoTable()
                 {
                     chatId = muc.id,
-                    description = null,
+                    subject = null,
                     state = MUCState.DISCONNECTED,
                     name = null,
                     password = null,

@@ -51,16 +51,16 @@ namespace XMPP_API.Classes.Network.XML
                 return new List<AbstractMessage>() { new StreamFeaturesMessage(null) };
             }
             // Stream close:
-            else if((msg.Contains(Consts.XML_STREAM_CLOSE)))
+            else if ((msg.Contains(Consts.XML_STREAM_CLOSE)))
             {
                 string s = msg.Replace(Consts.XML_STREAM_CLOSE, "");
-                if(string.IsNullOrEmpty(s))
+                if (string.IsNullOrEmpty(s))
                 {
                     return new List<AbstractMessage>() { new CloseStreamMessage((XmlNode)null) };
                 }
                 else
                 {
-                    if(!s.Contains(Consts.XML_STREAM_START))
+                    if (!s.Contains(Consts.XML_STREAM_START))
                     {
                         msg = s;
                     }
@@ -86,7 +86,7 @@ namespace XMPP_API.Classes.Network.XML
             // Pars each node:
             foreach (XmlNode n in parseToXmlNodes(msg))
             {
-                if(n.Name == null)
+                if (n.Name == null)
                 {
                     continue;
                 }
@@ -123,9 +123,14 @@ namespace XMPP_API.Classes.Network.XML
                     // Messages:
                     case "message":
                         // Message:
-                        if(XMLUtils.getChildNode(n, "body") != null)
+                        if (XMLUtils.getChildNode(n, "body") != null)
                         {
                             messages.Add(new MessageMessage(n));
+                        }
+                        // XEP-0045 (MUC room subject):
+                        else if (XMLUtils.getChildNode(n, "subject") != null)
+                        {
+                            messages.Add(new MUCRoomSubjectMessage(n));
                         }
                         // XEP-0085 (chat state):
                         else
@@ -142,7 +147,7 @@ namespace XMPP_API.Classes.Network.XML
                     // Presence:
                     case "presence":
                         XmlNode xNode = XMLUtils.getChildNode(n, "x", "xmlns", "http://jabber.org/protocol/muc#user");
-                        if(xNode != null)
+                        if (xNode != null)
                         {
                             messages.Add(new MUCMemberPresenceMessage(n));
                         }
@@ -240,9 +245,9 @@ namespace XMPP_API.Classes.Network.XML
             XmlDocument doc = new XmlDocument();
             using (XmlReader reader = XmlReader.Create(new StringReader(msg), READER_SETTINGS))
             {
-                while(reader.Read())
+                while (reader.Read())
                 {
-                    if(reader.NodeType == XmlNodeType.Element)
+                    if (reader.NodeType == XmlNodeType.Element)
                     {
                         using (XmlReader fragmentReader = reader.ReadSubtree())
                         {

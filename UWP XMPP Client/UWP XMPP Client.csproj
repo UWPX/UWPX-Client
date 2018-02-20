@@ -137,6 +137,9 @@
     <Compile Include="Controls\MUCMembersControl.xaml.cs">
       <DependentUpon>MUCMembersControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SaveableTextBox.xaml.cs">
+      <DependentUpon>SaveableTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
@@ -356,6 +359,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MUCMembersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SaveableTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

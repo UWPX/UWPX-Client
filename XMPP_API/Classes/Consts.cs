@@ -28,6 +28,6 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
         public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
 
-        public const bool ENABLE_DEBUG_OUTPUT = false;
+        public const bool ENABLE_DEBUG_OUTPUT = true;
     }
 }

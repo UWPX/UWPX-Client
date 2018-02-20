@@ -17,8 +17,8 @@ namespace Data_Manager2.Classes.DBTables
         [NotNull]
         // The nickname for the chat
         public string nickname { get; set; }
-        // The chat description
-        public string description { get; set; }
+        // The room subject
+        public string subject { get; set; }
         // The password for the MUC
         public string password { get; set; }
         // The current state of the MUC e.g. 'ENTERING'

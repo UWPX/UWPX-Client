@@ -104,6 +104,18 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public void setMUCSubject(string chatId, string subject, bool triggerMUCChanged)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET subject = ? WHERE chatId = ?", subject, chatId);
+            if (triggerMUCChanged)
+            {
+                MUCChatInfoTable info = getMUCInfo(chatId);
+                if (info != null)
+                {
+                    MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, false));
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

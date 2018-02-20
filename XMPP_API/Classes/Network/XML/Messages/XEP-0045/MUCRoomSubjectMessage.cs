@@ -1,13 +1,13 @@
-﻿using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
+using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class RoomConfiguration
+    public class MUCRoomSubjectMessage : MessageMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public List<MUCInfoField> options;
+        public readonly string SUBJECT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,46 +16,36 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 07/02/2018 Created [Fabian Sauter]
+        /// 20/02/2018 Created [Fabian Sauter]
         /// </history>
-        public RoomConfiguration(XmlNode node)
+        public MUCRoomSubjectMessage(XmlNode node) : base(node)
         {
-            this.options = new List<MUCInfoField>();
-            if (node != null)
+            XmlNode sNode = XMLUtils.getChildNode(node, "subject");
+            if (sNode != null)
             {
-                foreach (XmlNode n in node.ChildNodes)
-                {
-                    switch (n.Name)
-                    {
-                        case "field":
-                            this.options.Add(new MUCInfoField(n));
-                            break;
-
-                        // Ignored for now:
-                        case "title":
-                        case "instructions":
-                            break;
-
-                        default:
-                            Logging.Logger.Warn("Unknown MUC room config element '" + n.Name + "' received!");
-                            break;
-                    }
-                }
+                this.SUBJECT = sNode.InnerText;
             }
+        }
+
+        public MUCRoomSubjectMessage(string from, string to, string subject) : base(from, to, null, TYPE_GROUPCHAT)
+        {
+            this.SUBJECT = subject;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public MUCInfoField getField(string var)
-        {
-            return options.Find((f) => { return Equals(var, f.var); });
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override XElement toXElement()
+        {
+            XElement node = base.toXElement();
+            node.Add(new XElement("subject", SUBJECT ?? ""));
+            return node;
+        }
 
         #endregion
 
