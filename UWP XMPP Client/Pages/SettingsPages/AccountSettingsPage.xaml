@@ -32,7 +32,7 @@
                     <StackPanel Orientation="Horizontal">
                         <TextBlock FontFamily="Segoe MDL2 Assets" Text="&#xE149;" Margin="0, -1, 5, 0" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
                         <TextBlock Text="Reload Accounts" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
-                        <ProgressRing x:Name="reloadAccounts_prgr" Visibility="Collapsed" Margin="10, 0, 0, 0" IsActive="False" VerticalAlignment="Center"/>
+                        <ProgressRing x:Name="reloadAccounts_prgr" Visibility="Collapsed" IsActive="True" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                     </StackPanel>
                 </Button>
             </Grid>

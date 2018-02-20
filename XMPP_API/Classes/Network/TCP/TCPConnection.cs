@@ -342,6 +342,12 @@ namespace XMPP_API.Classes.Network.TCP
                 Task<uint> t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
                 t.Wait(readingCTS.Token);
                 readCount = t.Result;
+
+                if(dataReader == null)
+                {
+                    return result;
+                }
+
                 while (dataReader.UnconsumedBufferLength > 0)
                 {
                     result += dataReader.ReadString(dataReader.UnconsumedBufferLength);

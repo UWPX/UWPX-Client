@@ -71,9 +71,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                     {
                         reloadAccounts_btn.Visibility = Visibility.Collapsed;
                     }
-                    reloadAccounts_btn.IsEnabled = true;
                     reloadAccounts_prgr.Visibility = Visibility.Collapsed;
-                    reloadAccounts_prgr.IsActive = false;
+                    reloadAccounts_btn.IsEnabled = true;
                 }).AsTask();
             });
         }
@@ -109,14 +108,16 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             reloadAccounts_btn.IsEnabled = false;
             reloadAccounts_prgr.Visibility = Visibility.Visible;
-            reloadAccounts_prgr.IsActive = true;
-            ConnectionHandler.INSTANCE.reconnectAll();
-            loadAccounts();
+            Task.Run(() =>
+            {
+                ConnectionHandler.INSTANCE.reconnectAll();
+                loadAccounts();
+            });
         }
 
-        private async void INSTANCE_AccountChanged(AccountDBManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        private void INSTANCE_AccountChanged(AccountDBManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => loadAccounts());
+            loadAccounts();
         }
 
         #endregion
