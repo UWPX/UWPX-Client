@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes.Network.Events;
@@ -45,6 +46,18 @@ namespace XMPP_API.Classes.Network
         public event ConnectionNewValidMessageEventHandler ConnectionNewPresenceMessage;
         public event MessageSendEventHandler MessageSend;
 
+        /// <summary>
+        /// The timer for connecting to a server.
+        /// If the server does not respond for a set amount of time during connection
+        /// it triggers a reconnect or switches to the error state.
+        /// It starts after the TCP connection got established.
+        /// </summary>
+        private Timer connectionTimer;
+        /// <summary>
+        /// The connection timeout in ms.
+        /// </summary>
+        private static readonly int CONNECTION_TIMEOUT = 1000;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -66,6 +79,8 @@ namespace XMPP_API.Classes.Network
             this.messageProcessors = new ArrayList(5);
             this.streamId = null;
             this.messageIdCache = new TSTimedList<string>();
+
+            this.connectionTimer = null;
 
             // The order in which new messages should get processed (TLS -- SASL -- COMPRESSION -- ...).
             // https://xmpp.org/extensions/xep-0170.html
@@ -170,6 +185,44 @@ namespace XMPP_API.Classes.Network
             Task.Run(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, delayed)));
         }
 
+        /// <summary>
+        /// Resets the connection timer.
+        /// </summary>
+        private void resetConnectionTimer()
+        {
+            stopConnectionTimer();
+            connectionTimer = new Timer(async (o) => await onConnetionTimerTimeoutAsync(), null, CONNECTION_TIMEOUT, Timeout.Infinite);
+        }
+
+        /// <summary>
+        /// Stops the connection timer by disposing it.
+        /// </summary>
+        private void stopConnectionTimer()
+        {
+            connectionTimer?.Dispose();
+            connectionTimer = null;
+        }
+
+        /// <summary>
+        /// Called once the connection timer got triggered.
+        /// </summary>
+        private async Task onConnetionTimerTimeoutAsync()
+        {
+            Logger.Warn("Connection timer got triggered for account: " + account.getIdAndDomain());
+
+            if (++connectionFaildCount >= 3)
+            {
+                // Establishing the connection failed for the third time:
+                setState(ConnectionState.ERROR, lastErrorMessage);
+            }
+            else
+            {
+                // Try to reconnect:
+                connectionFaildCount++;
+                await reconnectAsync();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -198,6 +251,7 @@ namespace XMPP_API.Classes.Network
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getIdAndDomain(), account.user.domain);
             await sendAsync(openStreamMessage, false, true);
+            resetConnectionTimer();
         }
 
         /// <summary>
@@ -335,6 +389,17 @@ namespace XMPP_API.Classes.Network
         private async void TCPConnection_NewDataReceived(AbstractConnection handler, NewDataReceivedEventArgs args)
         {
             await parseMessageAsync(args.data);
+
+            // Stop or reset the connection timer.
+            switch (state)
+            {
+                case ConnectionState.CONNECTING:
+                    resetConnectionTimer();
+                    break;
+                default:
+                    stopConnectionTimer();
+                    break;
+            }
         }
 
         private async void TCPConnection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs arg)
@@ -360,7 +425,7 @@ namespace XMPP_API.Classes.Network
                                 if (connectionFaildCount >= 3)
                                 {
                                     // Establishing the connection failed for the third time:
-                                    setState(ConnectionState.ERROR, lastErrorMessage);
+                                    setState(ConnectionState.ERROR, "Server did not respond during connection for " + CONNECTION_TIMEOUT + "ms.");
                                 }
                                 else
                                 {
@@ -386,6 +451,7 @@ namespace XMPP_API.Classes.Network
 
         private async void RecourceBindingConnection_ResourceBound(object sender, EventArgs e)
         {
+            stopConnectionTimer();
             await sendAsync(new PresenceMessage(account.presencePriorety), false, true);
             setState(ConnectionState.CONNECTED);
             await sendAllOutstandingMessagesAsync();
