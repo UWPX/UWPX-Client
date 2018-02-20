@@ -9,7 +9,7 @@ namespace Data_Manager2.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly string VAULT_NAME_PREFIX = "XMPP_LOGIN_DATA_VAULT_2_";
+        private const string VAULT_NAME_PREFIX = "XMPP_LOGIN_DATA_VAULT_2_";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

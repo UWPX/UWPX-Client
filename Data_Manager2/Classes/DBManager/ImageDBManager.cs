@@ -18,7 +18,7 @@ namespace Data_Manager2.Classes.DBManager
         public static readonly ImageDBManager INSTANCE = new ImageDBManager();
 
         // The interval for how often the ImageTable onDownloadProgressChanged() should get triggered (e.g 0.1 = every 10%):
-        private static readonly double DOWNLOAD_PROGRESS_REPORT_INTERVAL = 0.05;
+        private const double DOWNLOAD_PROGRESS_REPORT_INTERVAL = 0.05;
 
         // A list of all currently downloading images:
         private List<ImageTable> downloading;

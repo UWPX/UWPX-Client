@@ -9,8 +9,8 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly string BACKGROUND_TASK_NAME = "UwpXmppSocketBackgroundTask";
-        private static readonly string BACKGROUND_TASK_ENTRY_POINT = "BackgroundSocket.Classes.BackgroundSocketHandler";
+        private const string BACKGROUND_TASK_NAME = "UwpXmppSocketBackgroundTask";
+        private const string BACKGROUND_TASK_ENTRY_POINT = "BackgroundSocket.Classes.BackgroundSocketHandler";
         private static BackgroundTaskRegistration socketTask;
 
         #endregion

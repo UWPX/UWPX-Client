@@ -7,10 +7,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly string SET = "set";
-        public static readonly string GET = "get";
-        public static readonly string RESULT = "result";
-        public static readonly string ERROR = "error";
+        public const string SET = "set";
+        public const string GET = "get";
+        public const string RESULT = "result";
+        public const string ERROR = "error";
 
         protected readonly string TYPE;
         protected readonly string QUERY;

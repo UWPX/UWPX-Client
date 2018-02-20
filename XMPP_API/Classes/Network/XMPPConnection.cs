@@ -56,7 +56,7 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// The connection timeout in ms.
         /// </summary>
-        private static readonly int CONNECTION_TIMEOUT = 1000;
+        private const int CONNECTION_TIMEOUT = 1000;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

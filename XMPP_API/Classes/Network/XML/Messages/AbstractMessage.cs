@@ -7,9 +7,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly byte NO_RESTART = 0;
-        public static readonly byte HARD_RESTART = 1;
-        public static readonly byte SOFT_RESTART = 2;
+        public const byte NO_RESTART = 0;
+        public const byte HARD_RESTART = 1;
+        public const byte SOFT_RESTART = 2;
 
         protected readonly string ID;
         protected bool cacheUntilSend;

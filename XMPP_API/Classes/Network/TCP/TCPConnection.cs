@@ -19,11 +19,11 @@ namespace XMPP_API.Classes.Network.TCP
         /// <summary>
         /// How many characters should get read at once max.
         /// </summary>
-        private static readonly int BUFFER_SIZE = 4096;
+        private const int BUFFER_SIZE = 4096;
         /// <summary>
         /// The timeout in ms for TCP connections.
         /// </summary>
-        private static readonly int CONNECTION_TIMEOUT = 3000;
+        private const int CONNECTION_TIMEOUT = 3000;
 
         private StreamSocket socket;
         private HostName hostName;

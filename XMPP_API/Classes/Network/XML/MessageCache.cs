@@ -16,7 +16,7 @@ namespace XMPP_API.Classes.Network.XML
         private static readonly string DB_PATH = Path.Combine(ApplicationData.Current.LocalFolder.Path, "messages.db");
         protected static TSSQLiteConnection dB = new TSSQLiteConnection(DB_PATH);
 
-        public static readonly bool RESET_DB_ON_STARTUP = false;
+        public const bool RESET_DB_ON_STARTUP = false;
         public static readonly MessageCache INSTANCE = new MessageCache();
 
         #endregion
