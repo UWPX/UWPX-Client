@@ -246,7 +246,7 @@ namespace XMPP_API.Classes.Network.TCP
                 throw new InvalidOperationException("[TCPConnection]: Unable to start reader task! ConnectionState != Connected! state = " + state);
             }
 
-            Task.Run(() =>
+            Task.Factory.StartNew(() =>
             {
                 string data = null;
                 int errorCount = 0;
@@ -321,7 +321,7 @@ namespace XMPP_API.Classes.Network.TCP
                         return;
                     }
                 }
-            });
+            }, TaskCreationOptions.LongRunning);
         }
 
         public string readNextString()

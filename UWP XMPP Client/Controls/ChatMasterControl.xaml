@@ -25,7 +25,7 @@
                     <MenuFlyout.Items>
                         <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile" Click="showProfile_mfo_Click"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutSubItem Text="Presence subscription">
+                        <MenuFlyoutSubItem x:Name="presenceSubscription_mfo" Text="Presence subscription">
                             <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click"/>
                             <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo" Text="Cancel subscription" Visibility="Collapsed" Click="cancelPresenceSubscription_mfo_Click"/>
                             <MenuFlyoutItem x:Name="cancelPresenceSubscriptionRequest" Text="Cancel subscription request" Visibility="Collapsed" Click="cancelPresenceSubscriptionRequest_Click"/>

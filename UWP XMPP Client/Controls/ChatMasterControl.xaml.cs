@@ -147,6 +147,7 @@ namespace UWP_XMPP_Client.Controls
                     cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     cancelPresenceSubscriptionRequest.Visibility = Visibility.Collapsed;
+                    presenceSubscription_mfo.IsEnabled = true;
 
                     switch (chat.subscription)
                     {
@@ -161,6 +162,7 @@ namespace UWP_XMPP_Client.Controls
                             cancelPresenceSubscriptionRequest.Visibility = Visibility.Visible;
                             break;
                         case "subscribe":
+                            presenceSubscription_mfo.IsEnabled = false;
                             showPresenceSubscriptionRequest();
                             break;
                         case "unsubscribe":
@@ -289,13 +291,13 @@ namespace UWP_XMPP_Client.Controls
         {
             await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted);
             Chat.ask = null;
-            ChatDBManager.INSTANCE.setChat(Chat, false, false);
+            ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private void resetAsk()
         {
             Chat.ask = null;
-            ChatDBManager.INSTANCE.setChat(Chat, false, false);
+            ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private async Task switchChatInRoosterAsync()
@@ -407,7 +409,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (subscriptionRequest)
             {
-                await presenceSubscriptionRequestClickedAsync(false);
+                await presenceSubscriptionRequestClickedAsync(true);
             }
             else
             {

@@ -48,9 +48,9 @@ namespace XMPP_API.Classes.Events
                 case "unsubscribe":
                 case "unsubscribed":
                 case "subscribe":
-                case "subscribed":
                     this.PRESENCE = Presence.NotDefined;
                     break;
+                case "subscribed":
                 default:
                     this.PRESENCE = Presence.Online;
                     break;

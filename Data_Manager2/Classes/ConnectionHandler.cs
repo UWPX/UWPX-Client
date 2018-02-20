@@ -303,6 +303,7 @@ namespace Data_Manager2.Classes
                     // No roster result or set => return
                     return;
                 }
+
                 foreach (RosterItem item in msg.getItems())
                 {
                     string from = item.getJabberId();
@@ -343,9 +344,8 @@ namespace Data_Manager2.Classes
                         case "from":
                         case "none":
                         case "pending":
+                        case null:
                             chat.presence = Presence.Unavailable;
-                            break;
-                        default:
                             break;
                     }
 

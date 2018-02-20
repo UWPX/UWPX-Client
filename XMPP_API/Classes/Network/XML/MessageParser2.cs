@@ -155,54 +155,68 @@ namespace XMPP_API.Classes.Network.XML
                     // IQ:
                     case "iq":
                         XmlAttribute typeAtt = XMLUtils.getAttribute(n, "type");
-                        if(typeAtt != null && Equals(typeAtt.InnerText, "result"))
+                        switch (typeAtt?.InnerText)
                         {
-                            // XEP-0030 (disco result #info):
-                            XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
-                            if(qNode != null)
-                            {
-                                if (XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data") != null)
+                            case "set":
+                                // Rooster:
+                                if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
                                 {
-                                    messages.Add(new ExtendedDiscoResponseMessage(n));
-                                }
-                                // XEP-0045 (MUC discovering reserved room Nicknames):
-                                else if (qNode.Attributes["node"] != null)
-                                {
-                                    messages.Add(new DiscoReservedRoomNicknamesResponseMessages(n));
+                                    messages.Add(new RosterMessage(n));
                                 }
                                 else
                                 {
+                                    messages.Add(new IQMessage(n));
+                                }
+                                break;
+
+                            case "result":
+                                // XEP-0030 (disco result #info):
+                                XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
+                                if (qNode != null)
+                                {
+                                    if (XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data") != null)
+                                    {
+                                        messages.Add(new ExtendedDiscoResponseMessage(n));
+                                    }
+                                    // XEP-0045 (MUC discovering reserved room Nicknames):
+                                    else if (qNode.Attributes["node"] != null)
+                                    {
+                                        messages.Add(new DiscoReservedRoomNicknamesResponseMessages(n));
+                                    }
+                                    else
+                                    {
+                                        messages.Add(new DiscoResponseMessage(n));
+                                    }
+                                }
+                                // XEP-0030 (disco result #items):
+                                else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items") != null)
+                                {
                                     messages.Add(new DiscoResponseMessage(n));
                                 }
-                            }
-                            // XEP-0030 (disco result #items):
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items") != null)
-                            {
-                                messages.Add(new DiscoResponseMessage(n));
-                            }
-                            // Rooster:
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
-                            {
-                                messages.Add(new RosterMessage(n));
-                            }
-                            // XEP-0048-1.0 (bookmarks result):
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:private") != null)
-                            {
-                                messages.Add(new BookmarksResultMessage(n));
-                            }
-                            // XEP-0045 (MUC) room info owner:
-                            else if (XMLUtils.getChildNode(n, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
-                            {
-                                messages.Add(new RoomInfoResponseMessage(n));
-                            }
-                            else
-                            {
+                                // Rooster:
+                                else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
+                                {
+                                    messages.Add(new RosterMessage(n));
+                                }
+                                // XEP-0048-1.0 (bookmarks result):
+                                else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:private") != null)
+                                {
+                                    messages.Add(new BookmarksResultMessage(n));
+                                }
+                                // XEP-0045 (MUC) room info owner:
+                                else if (XMLUtils.getChildNode(n, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
+                                {
+                                    messages.Add(new RoomInfoResponseMessage(n));
+                                }
+                                else
+                                {
+                                    messages.Add(new IQMessage(n));
+                                }
+                                break;
+
+                            default:
                                 messages.Add(new IQMessage(n));
-                            }
-                        }
-                        else
-                        {
-                            messages.Add(new IQMessage(n));
+                                break;
                         }
                         break;
 

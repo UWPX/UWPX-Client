@@ -24,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML
         {
             this.JABBER_ID = n.Attributes["jid"].Value;
             this.NAME = n.Attributes["name"]?.Value;
-            this.SUBSCRIPTION = n.Attributes["subscription"]?.Value;
+            this.SUBSCRIPTION = n.Attributes["subscription"]?.Value ?? "none";
             this.ASK = n.Attributes["ask"]?.Value;
         }
 
