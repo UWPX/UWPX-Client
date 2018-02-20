@@ -248,7 +248,7 @@ namespace XMPP_API.Classes.Network
         protected async Task parseMessageAsync(string data)
         {
             // Parse message:
-            List<AbstractMessage> messages;
+            List<AbstractMessage> messages = null;
             try
             {
                 messages = parser.parseMessages(data);
