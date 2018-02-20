@@ -72,6 +72,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                         reloadAccounts_btn.Visibility = Visibility.Collapsed;
                     }
                     reloadAccounts_btn.IsEnabled = true;
+                    reloadAccounts_prgr.Visibility = Visibility.Collapsed;
+                    reloadAccounts_prgr.IsActive = false;
                 }).AsTask();
             });
         }
@@ -106,6 +108,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void reloadAccounts_btn_Click(object sender, RoutedEventArgs e)
         {
             reloadAccounts_btn.IsEnabled = false;
+            reloadAccounts_prgr.Visibility = Visibility.Visible;
+            reloadAccounts_prgr.IsActive = true;
             ConnectionHandler.INSTANCE.reconnectAll();
             loadAccounts();
         }
