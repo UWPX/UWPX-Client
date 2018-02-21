@@ -1,6 +1,8 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
@@ -49,7 +51,8 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCManageControl), null);
 
-        private MessageResponseHelper<RoomInfoResponseMessage> messageResponseHelper;
+        private MessageResponseHelper<RoomInfoMessage> messageResponseHelper;
+        private MessageResponseHelper<IQMessage> saveMessageResponseHelper;
 
         private CustomObservableCollection<MUCInfoOptionTemplate> options;
 
@@ -66,6 +69,7 @@ namespace UWP_XMPP_Client.Controls
         {
             this.options = new CustomObservableCollection<MUCInfoOptionTemplate>();
             this.messageResponseHelper = null;
+            this.saveMessageResponseHelper = null;
             this.InitializeComponent();
         }
 
@@ -97,7 +101,7 @@ namespace UWP_XMPP_Client.Controls
                 loading_grid.Visibility = Visibility.Visible;
                 timeout_stckpnl.Visibility = Visibility.Collapsed;
 
-                messageResponseHelper = new MessageResponseHelper<RoomInfoResponseMessage>(Client, onNewMessage, onTimeout);
+                messageResponseHelper = new MessageResponseHelper<RoomInfoMessage>(Client, onNewMessage, onTimeout);
                 RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId, member.affiliation);
                 messageResponseHelper.start(msg);
             }
@@ -107,16 +111,17 @@ namespace UWP_XMPP_Client.Controls
                 loading_grid.Visibility = Visibility.Collapsed;
                 reload_btn.IsEnabled = true;
 
-                faildToRequest_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
+                notificationBanner_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
             }
         }
 
-        private bool onNewMessage(RoomInfoResponseMessage responseMessage)
+        private bool onNewMessage(RoomInfoMessage responseMessage)
         {
             // Add controls and update viability:
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 options.Clear();
+                roomConfigType_tbx.Text = "Configuration level: " + Utils.MUCAffiliationToString(responseMessage.configType);
                 foreach (MUCInfoField o in responseMessage.roomConfig.options)
                 {
                     if (o.type != MUCInfoFieldType.HIDDEN)
@@ -144,9 +149,79 @@ namespace UWP_XMPP_Client.Controls
 
         private void save()
         {
+            if (Client == null || Chat == null)
+            {
+                return;
+            }
+
             save_prgr.Visibility = Visibility.Visible;
             save_prgr.IsActive = true;
             save_btn.IsEnabled = false;
+
+            List<MUCInfoField> list = new List<MUCInfoField>();
+            foreach (MUCInfoOptionTemplate t in options)
+            {
+                list.Add(t.option);
+            }
+
+            string chatId = Chat.id;
+            string nickname = MUCInfo.nickname;
+            Task.Run(async () =>
+            {
+                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, nickname);
+                if (member == null)
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notificationBanner_ian.Show("Failed to save! Seams like you are no member of the room any more. Please rejoin the room and try again."));
+                }
+
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    saveMessageResponseHelper = new MessageResponseHelper<IQMessage>(Client, onSaveMessage, onSaveTimeout);
+                    RoomInfoMessage msg = new RoomInfoMessage(Client.getXMPPAccount().getIdDomainAndResource(), Chat.chatJabberId, new RoomConfiguration(list), member.affiliation);
+                    saveMessageResponseHelper.start(msg);
+                });
+            });
+        }
+
+        private bool onSaveMessage(IQMessage msg)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (msg is IQErrorMessage)
+                {
+                    notificationBanner_ian.Show("Failed to save! Server responded: " + (msg as IQErrorMessage).ERROR_MESSAGE ?? "null");
+                }
+                else
+                {
+                    switch (msg.getMessageType())
+                    {
+                        case IQMessage.RESULT:
+                            notificationBanner_ian.Show("Successfully saved room configuration.", 5000);
+                            break;
+                        case IQMessage.ERROR:
+                        default:
+                            notificationBanner_ian.Show("Failed to save! Unknown error. Please retry.");
+                            break;
+                    }
+                }
+
+                save_prgr.Visibility = Visibility.Collapsed;
+                save_prgr.IsActive = false;
+                save_btn.IsEnabled = true;
+            }).AsTask();
+            return true;
+        }
+
+        private void onSaveTimeout()
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                notificationBanner_ian.Show("Failed to save! Server did not respond in time.");
+
+                save_prgr.Visibility = Visibility.Collapsed;
+                save_prgr.IsActive = false;
+                save_btn.IsEnabled = true;
+            }).AsTask();
         }
 
         private void reload()

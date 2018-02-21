@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
@@ -124,7 +125,38 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public XElement toXElement(XNamespace ns)
+        {
+            XElement fieldNode = new XElement(ns + "field");
+            fieldNode.Add(new XAttribute("var", var));
+            switch (type)
+            {
+                case MUCInfoFieldType.TEXT_SINGLE:
+                case MUCInfoFieldType.TEXT_MULTI:
+                case MUCInfoFieldType.TEXT_PRIVATE:
+                    fieldNode.Add(new XElement(ns + "value")
+                    {
+                        Value = (value?.ToString()) ?? ""
+                    });
+                    break;
 
+                case MUCInfoFieldType.LIST_SINGLE:
+                case MUCInfoFieldType.LIST_MULTI:
+                    foreach (MUCInfoOption o in selectedOptions)
+                    {
+                        fieldNode.Add(o.toXElement(ns));
+                    }
+                    break;
+
+                case MUCInfoFieldType.BOOLEAN:
+                    fieldNode.Add(new XElement(ns + "value")
+                    {
+                        Value = (bool)value ? "1" : "0"
+                    });
+                    break;
+            }
+            return fieldNode;
+        }
 
         #endregion
 

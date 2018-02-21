@@ -18,7 +18,11 @@ namespace UWP_XMPP_Client.Controls
         public ChatTable Chat
         {
             get { return (ChatTable)GetValue(ChatProperty); }
-            set { SetValue(ChatProperty, value); }
+            set
+            {
+                SetValue(ChatProperty, value);
+                showSubject();
+            }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoControl), null);
 
@@ -36,6 +40,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 SetValue(MUCInfoProperty, value);
                 showMUCInfo();
+                showSubject();
             }
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
@@ -91,6 +96,20 @@ namespace UWP_XMPP_Client.Controls
                         join_btn.IsEnabled = true;
                         break;
                 }
+            }
+        }
+
+        private void showSubject()
+        {
+            if (Chat != null && MUCInfo != null)
+            {
+                string chatJID = Chat.chatJabberId;
+                string nick = MUCInfo.nickname;
+                Task.Run(async () =>
+                {
+                    MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatJID, nick);
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => subject_stbx.IsReadOnly = !(member != null && member.role == MUCRole.MODERATOR));
+                });
             }
         }
 

@@ -73,14 +73,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void statTimer()
         {
-            timer = new Timer((o) =>
+            timer = new Timer((t) =>
             {
-                if (timer != null)
+                if (t != null)
                 {
                     ON_TIMEOUT();
                 }
                 stopTimer();
-            }, null, timeout, Timeout.Infinite);
+            }, timer, timeout, Timeout.Infinite);
         }
 
         private void stopTimer()

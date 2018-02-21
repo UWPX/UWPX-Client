@@ -8,9 +8,9 @@
 
     <StackPanel>
         <TextBlock x:Name="label_tblck" FontSize="20" TextWrapping="Wrap"/>
-        <PasswordBox x:Name="passwordField_pswd" Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}"/>
-        <ToggleSwitch x:Name="toggleField_tgls" Visibility="Collapsed" IsEnabled="{x:Bind InputEnabled}"/>
-        <TextBox x:Name="textField_tbx" Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}"/>
-        <ComboBox x:Name="listField_cmbb" PlaceholderText="Please select one..." Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}"/>
+        <PasswordBox x:Name="passwordField_pswd" Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}" PasswordChanged="passwordField_pswd_PasswordChanged"/>
+        <ToggleSwitch x:Name="toggleField_tgls" Visibility="Collapsed" IsEnabled="{x:Bind InputEnabled}" Toggled="toggleField_tgls_Toggled"/>
+        <TextBox x:Name="textField_tbx" Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}" TextChanged="textField_tbx_TextChanged"/>
+        <ComboBox x:Name="listField_cmbb" PlaceholderText="Please select one..." Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}" SelectionChanged="listField_cmbb_SelectionChanged"/>
     </StackPanel>
 </UserControl>

@@ -1,4 +1,5 @@
 ﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
@@ -42,7 +43,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public XElement toXElement(XNamespace ns)
+        {
+            return new XElement(ns + "value")
+            {
+                Value = (value?.ToString()) ?? ""
+            };
+        }
 
         #endregion
 

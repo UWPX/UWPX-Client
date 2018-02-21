@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
+using System.Linq;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -91,7 +92,7 @@ namespace UWP_XMPP_Client.Controls
                             {
                                 foreach (MUCInfoOption oSelected in Field.selectedOptions)
                                 {
-                                    if(Equals(oSelected.value, Field.selectedOptions[i].value))
+                                    if (Equals(oSelected.value, Field.selectedOptions[i].value))
                                     {
                                         selectedIndex = i;
                                         break;
@@ -136,7 +137,34 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void passwordField_pswd_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            Field.value = passwordField_pswd.Password;
+        }
 
+        private void toggleField_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Field.value = toggleField_tgls.IsOn;
+        }
+
+        private void textField_tbx_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            Field.value = textField_tbx.Text;
+        }
+
+        private void listField_cmbb_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (listField_cmbb.SelectedIndex >= 0)
+            {
+                Field.selectedOptions.Clear();
+                string selected = (string)listField_cmbb.SelectedItem;
+                MUCInfoOption o = Field.options.First((x) => { return Equals(x.label, selected) || Equals(x.value, selected); });
+                if (o != null)
+                {
+                    Field.selectedOptions.Add(o);
+                }
+            }
+        }
 
         #endregion
     }

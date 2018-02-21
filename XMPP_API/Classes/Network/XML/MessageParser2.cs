@@ -162,7 +162,7 @@ namespace XMPP_API.Classes.Network.XML
                         XmlAttribute typeAtt = XMLUtils.getAttribute(n, "type");
                         switch (typeAtt?.InnerText)
                         {
-                            case "set":
+                            case IQMessage.SET:
                                 // Rooster:
                                 if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
                                 {
@@ -174,7 +174,7 @@ namespace XMPP_API.Classes.Network.XML
                                 }
                                 break;
 
-                            case "result":
+                            case IQMessage.RESULT:
                                 // XEP-0030 (disco result #info):
                                 XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
                                 if (qNode != null)
@@ -211,12 +211,16 @@ namespace XMPP_API.Classes.Network.XML
                                 // XEP-0045 (MUC) room info owner:
                                 else if (XMLUtils.getChildNode(n, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
                                 {
-                                    messages.Add(new RoomInfoResponseMessage(n));
+                                    messages.Add(new RoomInfoMessage(n));
                                 }
                                 else
                                 {
                                     messages.Add(new IQMessage(n));
                                 }
+                                break;
+
+                            case IQMessage.ERROR:
+                                messages.Add(new IQErrorMessage(n));
                                 break;
 
                             default:

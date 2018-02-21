@@ -1,13 +1,13 @@
 ﻿using System.Xml;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
+namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class RoomInfoResponseMessage : IQMessage
+    public class IQErrorMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool isRoomConfigrationAllowed;
-        public RoomConfiguration roomConfig;
+        public readonly string ERROR_MESSAGE;
+        public readonly string ERROR_TYPE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,24 +16,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 07/07/2018 Created [Fabian Sauter]
+        /// 21/02/2018 Created [Fabian Sauter]
         /// </history>
-        public RoomInfoResponseMessage(XmlNode answer) : base(answer)
+        public IQErrorMessage(XmlNode answer) : base(answer)
         {
-            XmlNode qNode = XMLUtils.getChildNode(answer, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX);
-            if(qNode != null)
+            XmlNode eNode = XMLUtils.getChildNode(answer, ERROR);
+            if (eNode == null)
             {
-                XmlNode x = XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data");
-                if (x != null)
-                {
-                    this.isRoomConfigrationAllowed = true;
-                    this.roomConfig = new RoomConfiguration(x);
-                    return;
-                }
-                else
-                {
-                    isRoomConfigrationAllowed = false;
-                }
+                this.ERROR_MESSAGE = null;
+                this.ERROR_TYPE = null;
+            }
+            else
+            {
+                this.ERROR_MESSAGE = eNode.InnerText;
+                this.ERROR_TYPE = eNode.Attributes["type"]?.Value;
             }
         }
 

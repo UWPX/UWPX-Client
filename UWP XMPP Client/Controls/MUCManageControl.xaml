@@ -11,7 +11,7 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="mucFieldTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
-            <mucinfo:MUCFieldControl Field="{x:Bind option}" Margin="10, 0, 10, 5"/>
+            <mucinfo:MUCFieldControl Field="{x:Bind option, Mode=TwoWay}" Margin="10, 0, 10, 5"/>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -46,7 +46,10 @@
             </Grid>
 
             <ScrollViewer Grid.Row="1" Margin="-10, 0, 0, 0">
-                <ItemsControl ItemTemplate="{StaticResource mucFieldTemplate}" ItemsSource="{x:Bind options, Mode=OneWay}"/>
+                <StackPanel>
+                    <TextBlock x:Name="roomConfigType_tbx" FontSize="20" Margin="10, 0, 0, 0"/>
+                    <ItemsControl x:Name="mucFields_itmsc" ItemTemplate="{StaticResource mucFieldTemplate}" ItemsSource="{x:Bind options, Mode=TwoWay}" Margin="0, 10, 0, 0"/>
+                </StackPanel>
             </ScrollViewer>
         </Grid>
 
@@ -72,6 +75,6 @@
             </StackPanel>
         </Grid>
 
-        <controls:InAppNotification x:Name="faildToRequest_ian" Grid.Row="0"/>
+        <controls:InAppNotification x:Name="notificationBanner_ian" Grid.Row="0"/>
     </Grid>
 </UserControl>
