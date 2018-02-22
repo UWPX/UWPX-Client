@@ -8,6 +8,7 @@ using UWP_XMPP_Client.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.Network;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -69,7 +70,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private void showClient()
         {
-            if(Client == null)
+            if (Client == null)
             {
                 return;
             }
@@ -115,6 +116,30 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
+        private void showClientPresence()
+        {
+            switch (Client.getConnetionState())
+            {
+                case ConnectionState.DISCONNECTED:
+                    account_aiwp.Presence = Presence.Unavailable;
+                    break;
+                case ConnectionState.CONNECTING:
+                    account_aiwp.Presence = Presence.Chat;
+                    break;
+                case ConnectionState.CONNECTED:
+                    account_aiwp.Presence = Presence.Online;
+                    break;
+                case ConnectionState.DISCONNECTING:
+                    account_aiwp.Presence = Presence.Chat;
+                    break;
+                case ConnectionState.ERROR:
+                    account_aiwp.Presence = Presence.Dnd;
+                    break;
+                default:
+                    break;
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -125,21 +150,33 @@ namespace UWP_XMPP_Client.Pages
         #region --Events--
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(e.Parameter is NavigatedToUserProfileEventArgs)
+            if (e.Parameter is NavigatedToUserProfileEventArgs)
             {
                 NavigatedToUserProfileEventArgs args = e.Parameter as NavigatedToUserProfileEventArgs;
                 setChat(args.CHAT);
                 setClient(args.CLIENT);
                 ChatDBManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
                 ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
+
+                if (Client != null)
+                {
+                    Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                    Client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                    showClientPresence();
+                }
             }
+        }
+
+        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        {
+            showClientPresence();
         }
 
         private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if(Chat != null && Chat.id.Equals(args.CHAT.id))
+                if (Chat != null && Chat.id.Equals(args.CHAT.id))
                 {
                     showProfile();
                 }
