@@ -179,7 +179,7 @@ namespace XMPP_API.Classes.Network.XML
                                 XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
                                 if (qNode != null)
                                 {
-                                    if (XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data") != null)
+                                    if (XMLUtils.getChildNode(qNode, "x", "xmlns", Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE) != null)
                                     {
                                         messages.Add(new ExtendedDiscoResponseMessage(n));
                                     }
