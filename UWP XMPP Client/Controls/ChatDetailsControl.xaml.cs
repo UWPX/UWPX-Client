@@ -16,6 +16,7 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using System.Collections.Generic;
+using Windows.UI.Xaml.Input;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -68,6 +69,8 @@ namespace UWP_XMPP_Client.Controls
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatDetailsControl), null);
 
         private CustomObservableCollection<ChatMessageDataTemplate> chatMessages;
+
+        private static readonly char[] TRIM_CHARS = new char[] { ' ', '\t', '\n', '\r' };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -186,14 +189,19 @@ namespace UWP_XMPP_Client.Controls
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
                 MessageMessage sendMessage;
+
+                string messageText = message_tbx.Text;
+                // Remove all tailing whitespaces, tabs and newlines:
+                messageText = messageText.TrimEnd(TRIM_CHARS);
+
                 // For MUC messages also pass the nickname:
                 if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                 {
-                    sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType(), MUCInfo.nickname);
+                    sendMessage = await Client.sendAsync(Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname);
                 }
                 else
                 {
-                    sendMessage = await Client.sendAsync(Chat.chatJabberId, message_tbx.Text, getChatType());
+                    sendMessage = await Client.sendAsync(Chat.chatJabberId, messageText, getChatType());
                 }
                 ChatDBManager.INSTANCE.setChatMessageEntry(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
                 Chat.lastActive = DateTime.Now;
@@ -342,11 +350,19 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private async void message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private async void message_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                await sendMessageAsync();
+                if (Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+                {
+                    await sendMessageAsync();
+                }
+                else
+                {
+                    message_tbx.Text += "\r";
+                }
+                e.Handled = true;
             }
         }
 
