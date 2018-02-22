@@ -150,6 +150,13 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
+        private void saveAutoJoin()
+        {
+            string chatId = MUCInfo.chatId;
+            bool autoEnterRoom = autoJoin_tgls.IsOn;
+            Task.Run(() => MUCDBManager.INSTANCE.setMUCAutoEnter(chatId, autoEnterRoom, true));
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -184,5 +191,13 @@ namespace UWP_XMPP_Client.Controls
         }
 
         #endregion
+
+        private void autoJoin_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            if (MUCInfo.autoEnterRoom != autoJoin_tgls.IsOn)
+            {
+                saveAutoJoin();
+            }
+        }
     }
 }
