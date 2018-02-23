@@ -1,6 +1,5 @@
 ﻿using Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
@@ -11,6 +10,7 @@ using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network
@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network
         /// For parsing received messages.
         /// </summary>
         private MessageParser2 parser;
-        private ArrayList messageProcessors;
+        private AbstractMessageProcessor[] messageProcessors;
         private string streamId;
         private TSTimedList<string> messageIdCache;
 
@@ -57,6 +57,7 @@ namespace XMPP_API.Classes.Network
         /// The connection timeout in ms.
         /// </summary>
         private const int CONNECTION_TIMEOUT = 1000;
+        private bool reconnectRequested;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -76,27 +77,40 @@ namespace XMPP_API.Classes.Network
             this.tCPConnection.NewDataReceived += TCPConnection_NewDataReceived;
 
             this.parser = new MessageParser2();
-            this.messageProcessors = new ArrayList(5);
+            this.messageProcessors = new AbstractMessageProcessor[3];
             this.streamId = null;
             this.messageIdCache = new TSTimedList<string>();
 
             this.connectionTimer = null;
+            this.reconnectRequested = false;
 
-            // The order in which new messages should get processed (TLS -- SASL -- COMPRESSION -- ...).
+            // The order in which new messages should get processed (TLS -- SASL -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html
             //-------------------------------------------------------------
-            this.messageProcessors.Add(new TLSConnection(tCPConnection, this));
-            this.messageProcessors.Add(new SASLConnection(tCPConnection, this));
+            // TLS:
+            this.messageProcessors[0] = (new TLSConnection(tCPConnection, this));
+
+            // SASL:
+            this.messageProcessors[1] = (new SASLConnection(tCPConnection, this));
+
+            // Resource binding:
             RecourceBindingConnection recourceBindingConnection = new RecourceBindingConnection(tCPConnection, this);
             recourceBindingConnection.ResourceBound += RecourceBindingConnection_ResourceBound;
-            this.messageProcessors.Add(recourceBindingConnection);
+            this.messageProcessors[2] = (recourceBindingConnection);
             //-------------------------------------------------------------
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public override void setState(ConnectionState newState, object param)
+        {
+            base.setState(newState, param);
+            if (newState == ConnectionState.DISCONNECTED && reconnectRequested)
+            {
+                Task t = connectAsync();
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -117,19 +131,19 @@ namespace XMPP_API.Classes.Network
 
         public async override Task disconnectAsync()
         {
-            switch (state)
-            {
-                case ConnectionState.CONNECTING:
-                case ConnectionState.CONNECTED:
-                    setState(ConnectionState.DISCONNECTING);
-                    // Disconnect the TCPConnection:
-                    await tCPConnection.disconnectAsync();
+            setState(ConnectionState.DISCONNECTING);
+            // Disconnect the TCPConnection:
+            await tCPConnection.disconnectAsync();
 
-                    // Cleanup:
-                    await cleanupAsync();
-                    setState(ConnectionState.DISCONNECTED);
-                    break;
-            }
+            // Cleanup:
+            await cleanupAsync();
+            setState(ConnectionState.DISCONNECTED);
+        }
+
+        public async Task reconnectAsync()
+        {
+            reconnectRequested = true;
+            await disconnectAsync();
         }
 
         /// <summary>
@@ -169,12 +183,6 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task reconnectAsync()
-        {
-            await disconnectAsync();
-            await connectAsync();
-        }
-
         /// <summary>
         /// Triggers the MessageSend event in a new task.
         /// </summary>
@@ -199,8 +207,11 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private void stopConnectionTimer()
         {
-            connectionTimer?.Dispose();
-            connectionTimer = null;
+            if (connectionTimer != null)
+            {
+                connectionTimer.Dispose();
+                connectionTimer = null;
+            }
         }
 
         /// <summary>
@@ -237,9 +248,9 @@ namespace XMPP_API.Classes.Network
 
         protected void resetMessageProcessors()
         {
-            for (int i = 0; i < messageProcessors.Count; i++)
+            foreach (AbstractMessageProcessor mP in messageProcessors)
             {
-                (messageProcessors[i] as AbstractMessageProcessor).reset();
+                mP.reset();
             }
         }
 
@@ -251,7 +262,6 @@ namespace XMPP_API.Classes.Network
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getIdAndDomain(), account.user.domain);
             await sendAsync(openStreamMessage, false, true);
-            resetConnectionTimer();
         }
 
         /// <summary>
@@ -318,12 +328,12 @@ namespace XMPP_API.Classes.Network
             }
 
             // Process messages:
-            foreach (AbstractMessage message in messages)
+            foreach (AbstractMessage msg in messages)
             {
                 // Filter IQ messages which ids are not valid:
-                if (message is IQMessage)
+                if (msg is IQMessage)
                 {
-                    IQMessage iq = message as IQMessage;
+                    IQMessage iq = msg as IQMessage;
                     if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.getId()) != null)
                     {
                         Logger.Info("Invalid message id received!");
@@ -331,37 +341,42 @@ namespace XMPP_API.Classes.Network
                     }
                 }
 
+                if(msg is ProceedAnswerMessage)
+                {
+                    Logger.Info("Proceed");
+                }
+
                 // Invoke message processors:
-                ConnectionNewValidMessage?.Invoke(this, new NewValidMessageEventArgs(message));
+                ConnectionNewValidMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
 
                 // Should restart connection?
-                if (message.getRestartConnection() != AbstractMessage.NO_RESTART)
+                if (msg.getRestartConnection() != AbstractMessage.NO_RESTART)
                 {
-                    if (message.getRestartConnection() == AbstractMessage.SOFT_RESTART)
+                    if (msg.getRestartConnection() == AbstractMessage.SOFT_RESTART)
                     {
                         await softRestartAsync();
                     }
-                    else if (message.getRestartConnection() == AbstractMessage.HARD_RESTART)
+                    else if (msg.getRestartConnection() == AbstractMessage.HARD_RESTART)
                     {
                         await hardRestartAsync();
                     }
                     else
                     {
-                        throw new ArgumentException("Invalid restart type: " + message.getRestartConnection());
+                        throw new ArgumentException("Invalid restart type: " + msg.getRestartConnection());
                     }
                 }
 
                 // Filter already processed messages:
-                if (message.isProcessed())
+                if (msg.isProcessed())
                 {
                     return;
                 }
 
                 // --------------------------------------------------------------------
                 // Open stream:
-                if (message is OpenStreamAnswerMessage)
+                if (msg is OpenStreamAnswerMessage)
                 {
-                    OpenStreamAnswerMessage oA = message as OpenStreamAnswerMessage;
+                    OpenStreamAnswerMessage oA = msg as OpenStreamAnswerMessage;
                     if (oA.getId() == null)
                     {
                         // TODO Handle OpenStreamAnswerMessage id == null
@@ -371,14 +386,14 @@ namespace XMPP_API.Classes.Network
                     streamId = oA.getId();
                 }
                 // Rooster:
-                else if (message is RosterMessage)
+                else if (msg is RosterMessage)
                 {
-                    ConnectionNewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(message));
+                    ConnectionNewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
                 // Presence:
-                else if (message is PresenceMessage && (message as PresenceMessage).getFrom() != null)
+                else if (msg is PresenceMessage && (msg as PresenceMessage).getFrom() != null)
                 {
-                    ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(message));
+                    ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
             }
         }

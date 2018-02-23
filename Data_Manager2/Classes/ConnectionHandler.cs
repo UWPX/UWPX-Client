@@ -78,7 +78,7 @@ namespace Data_Manager2.Classes
                         case ConnectionState.DISCONNECTED:
                         case ConnectionState.DISCONNECTING:
                         case ConnectionState.ERROR:
-                            Task t = Task.Run(async () =>
+                            Task.Run(async () =>
                             {
                                 await c.connectAsync();
                             }).ContinueWith((Task prev) =>
@@ -192,16 +192,14 @@ namespace Data_Manager2.Classes
 
         private async Task reconnectClientAsync(XMPPClient client)
         {
-            // Disconnect:
-            await client.disconnectAsync();
-
-            // Wait 500ms until a connect gets initiated:
-            await Task.Delay(500);
-
-            // Connect if account is enabled:
-            if (!client.getXMPPAccount().disabled)
+            if (client.getXMPPAccount().disabled)
             {
-                await client.connectAsync();
+                // Only disconnect if the client is disabled:
+                await client.disconnectAsync();
+            }
+            else
+            {
+                await client.reconnectAsync();
             }
         }
 

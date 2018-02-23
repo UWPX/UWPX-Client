@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
@@ -93,7 +94,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected async override void processMessage(NewValidMessageEventArgs args)
+        protected async override Task processMessage(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (state == SASLState.CONNECTED || msg.isProcessed())

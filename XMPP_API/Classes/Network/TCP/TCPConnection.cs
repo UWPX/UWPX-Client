@@ -180,22 +180,16 @@ namespace XMPP_API.Classes.Network.TCP
 
         public async override Task disconnectAsync()
         {
-            switch (state)
+            setState(ConnectionState.DISCONNECTING);
+            // Stop all connectAsync():
+            if (connectingCTS != null)
             {
-                case ConnectionState.CONNECTING:
-                case ConnectionState.CONNECTED:
-                    setState(ConnectionState.DISCONNECTING);
-                    // Stop all connectAsync():
-                    if (connectingCTS != null)
-                    {
-                        connectingCTS.Cancel();
-                    }
-
-                    // Cleanup:
-                    await cleanupAsync();
-                    setState(ConnectionState.DISCONNECTED);
-                    break;
+                connectingCTS.Cancel();
             }
+
+            // Cleanup:
+            await cleanupAsync();
+            setState(ConnectionState.DISCONNECTED);
         }
 
         /// <summary>
@@ -246,7 +240,7 @@ namespace XMPP_API.Classes.Network.TCP
                 throw new InvalidOperationException("[TCPConnection]: Unable to start reader task! ConnectionState != Connected! state = " + state);
             }
 
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 string data = null;
                 int errorCount = 0;
@@ -266,7 +260,8 @@ namespace XMPP_API.Classes.Network.TCP
                             }
 
                             // Read 5 empty or null strings in an interval lower than 1 second:
-                            if (countNullOrEmptyStringRead > 5 && (DateTime.Now.Subtract(lastNullOrEmptyStringRead).TotalSeconds < 1))
+                            double c = DateTime.Now.Subtract(lastNullOrEmptyStringRead).TotalSeconds;
+                            if (countNullOrEmptyStringRead > 5 && c < 1)
                             {
                                 lastErrorMessage = "Loop detected!";
                                 errorCount = 3;
@@ -275,7 +270,7 @@ namespace XMPP_API.Classes.Network.TCP
                         else
                         {
                             // Trigger the NewDataReceived event:
-                            NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data));
+                            Task.Run(() => NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data)));
                             errorCount = 0;
                             countNullOrEmptyStringRead = 0;
                             if (Consts.ENABLE_DEBUG_OUTPUT)
@@ -321,7 +316,7 @@ namespace XMPP_API.Classes.Network.TCP
                         return;
                     }
                 }
-            }, TaskCreationOptions.LongRunning);
+            });
         }
 
         public string readNextString()
@@ -343,7 +338,7 @@ namespace XMPP_API.Classes.Network.TCP
                 t.Wait(readingCTS.Token);
                 readCount = t.Result;
 
-                if(dataReader == null)
+                if (dataReader == null)
                 {
                     return result;
                 }

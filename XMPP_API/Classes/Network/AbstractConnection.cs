@@ -43,7 +43,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="state">The state to set.</param>
         /// <param name="param">An additional parameter for invoking the ConnectionStateChangedEventHandler (e.g. a list of connection exceptions, ...).</param>
-        public void setState(ConnectionState newState, object param)
+        public virtual void setState(ConnectionState newState, object param)
         {
             ConnectionState oldState = this.state;
             this.state = newState;
