@@ -1,6 +1,5 @@
 ﻿using Logging;
 using System;
-using System.Threading;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
@@ -119,7 +118,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         XMPPAccount account = XMPP_CONNECTION.account;
 
                         // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
-                        Logger.Info("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
+                        Logger.Debug("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
                         try
                         {
                             Task.WaitAll(TCP_CONNECTION.upgradeToTLSAsync());
@@ -128,12 +127,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             Logger.Error("Error during upgrading " + account.getIdAndDomain() + " to TLS!", e);
                             state = TLSState.ERROR;
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(e.Message, true);
                         }
-                        Logger.Info("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
+                        Logger.Debug("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
 
                         // TLS established ==> resend stream header
                         msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
-
                     }
                     break;
             }

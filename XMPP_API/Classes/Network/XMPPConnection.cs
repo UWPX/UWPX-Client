@@ -1,7 +1,6 @@
 ﻿using Logging;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
@@ -10,7 +9,6 @@ using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network
@@ -56,7 +54,7 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// The connection timeout in ms.
         /// </summary>
-        private const int CONNECTION_TIMEOUT = 1000;
+        private const int CONNECTION_TIMEOUT = 2000;
         private bool reconnectRequested;
 
         #endregion
@@ -106,31 +104,57 @@ namespace XMPP_API.Classes.Network
         public override void setState(ConnectionState newState, object param)
         {
             base.setState(newState, param);
-            if (newState == ConnectionState.DISCONNECTED && reconnectRequested)
+            switch (newState)
             {
-                Task t = connectAsync();
+                case ConnectionState.DISCONNECTED:
+                    if (reconnectRequested)
+                    {
+                        Task.Run(async () => await connectAsync());
+                    }
+                    break;
+                case ConnectionState.ERROR:
+                    Task.Run(async () => await disconnectAsync());
+                    break;
             }
         }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Connects to the server.
+        /// Will reconnect, if already connected or connecting.
+        /// </summary>
+        /// <returns></returns>
         public async override Task connectAsync()
         {
             switch (state)
             {
                 case ConnectionState.DISCONNECTED:
                 case ConnectionState.ERROR:
-                    setState(ConnectionState.DISCONNECTING);
+                    setState(ConnectionState.CONNECTING);
                     await tCPConnection.connectAsync();
                     break;
+
                 default:
-                    throw new InvalidOperationException("[XMPPConnection]: Unable to connect! state != Error or Disconnected! state = " + state);
+                    Logger.Warn("[XMPPConnection]: Trying to connect but state is not " + ConnectionState.DISCONNECTED + " or " + ConnectionState.ERROR + "! State = " + state);
+                    await reconnectAsync();
+                    break;
             }
         }
 
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
+        /// <returns></returns>
         public async override Task disconnectAsync()
         {
+            stopConnectionTimer();
+            if (state == ConnectionState.DISCONNECTED)
+            {
+                return;
+            }
+
             setState(ConnectionState.DISCONNECTING);
             // Disconnect the TCPConnection:
             await tCPConnection.disconnectAsync();
@@ -140,6 +164,9 @@ namespace XMPP_API.Classes.Network
             setState(ConnectionState.DISCONNECTED);
         }
 
+        /// <summary>
+        /// Reconnects to the server.
+        /// </summary>
         public async Task reconnectAsync()
         {
             reconnectRequested = true;
@@ -154,6 +181,11 @@ namespace XMPP_API.Classes.Network
         /// <param name="sendIfNotConnected">Sends the message if the underlaying TCP connection is connected to the server and ignores the connection state of the XMPPConnection.</param>
         public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
         {
+            if(state == ConnectionState.CONNECTING)
+            {
+                resetConnectionTimer();
+            }
+
             if (state != ConnectionState.CONNECTED && !sendIfNotConnected)
             {
                 Logger.Warn("Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
@@ -171,12 +203,32 @@ namespace XMPP_API.Classes.Network
             {
                 messageIdCache.addTimed(msg.getId());
             }
-            await tCPConnection.sendAsync(msg.toXmlString());
+            try
+            {
+                await tCPConnection.sendAsync(msg.toXmlString());
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error during sending message for account: " + account.getIdAndDomain(), e);
+                if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
+                {
+                    MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                }
+            }
 
             // Only trigger onMessageSend(...) for chat messages:
             if (msg is MessageMessage)
             {
                 onMessageSend(msg.getId(), false);
+            }
+        }
+
+        public async Task onMessageProcessorFailedAsync(string errorMessage, bool criticalError)
+        {
+            if (criticalError)
+            {
+                lastErrorMessage = errorMessage;
+                await onConnectionErrorAsync();
             }
         }
 
@@ -199,7 +251,13 @@ namespace XMPP_API.Classes.Network
         private void resetConnectionTimer()
         {
             stopConnectionTimer();
-            connectionTimer = new Timer(async (o) => await onConnetionTimerTimeoutAsync(), null, CONNECTION_TIMEOUT, Timeout.Infinite);
+            connectionTimer = new Timer(async (timer) =>
+            {
+                if (timer != null)
+                {
+                    await onConnetionTimerTimeoutAsync();
+                }
+            }, connectionTimer, CONNECTION_TIMEOUT, Timeout.Infinite);
         }
 
         /// <summary>
@@ -219,17 +277,22 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task onConnetionTimerTimeoutAsync()
         {
-            Logger.Warn("Connection timer got triggered for account: " + account.getIdAndDomain());
+            Logger.Warn("Connection timeout got triggered for account: " + account.getIdAndDomain());
 
+            await onConnectionErrorAsync();
+        }
+
+        private async Task onConnectionErrorAsync()
+        {
             if (++connectionFaildCount >= 3)
             {
                 // Establishing the connection failed for the third time:
+                await disconnectAsync();
                 setState(ConnectionState.ERROR, lastErrorMessage);
             }
             else
             {
                 // Try to reconnect:
-                connectionFaildCount++;
                 await reconnectAsync();
             }
         }
@@ -320,10 +383,6 @@ namespace XMPP_API.Classes.Network
             catch (Exception e)
             {
                 Logger.Error("Error during message parsing." + e);
-                if (Consts.ENABLE_DEBUG_OUTPUT)
-                {
-                    Debug.WriteLine("Error during message parsing: " + e.Message + "\n" + e.StackTrace + "\n" + data);
-                }
                 return;
             }
 
@@ -336,14 +395,9 @@ namespace XMPP_API.Classes.Network
                     IQMessage iq = msg as IQMessage;
                     if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.getId()) != null)
                     {
-                        Logger.Info("Invalid message id received!");
+                        Logger.Warn("Invalid message id received!");
                         return;
                     }
-                }
-
-                if(msg is ProceedAnswerMessage)
-                {
-                    Logger.Info("Proceed");
                 }
 
                 // Invoke message processors:
@@ -432,22 +486,12 @@ namespace XMPP_API.Classes.Network
                 case ConnectionState.ERROR:
                     if (arg.oldState == ConnectionState.CONNECTED)
                     {
-                        connectionFaildCount++;
                         switch (state)
                         {
                             case ConnectionState.CONNECTING:
                             case ConnectionState.CONNECTED:
-                                if (connectionFaildCount >= 3)
-                                {
-                                    // Establishing the connection failed for the third time:
-                                    setState(ConnectionState.ERROR, "Server did not respond during connection for " + CONNECTION_TIMEOUT + "ms.");
-                                }
-                                else
-                                {
-                                    // Try to reconnect:
-                                    connectionFaildCount++;
-                                    await reconnectAsync();
-                                }
+                                lastErrorMessage = "Server TCP connection failed!";
+                                await onConnectionErrorAsync();
                                 break;
 
                             case ConnectionState.DISCONNECTING:
@@ -458,6 +502,7 @@ namespace XMPP_API.Classes.Network
                     else
                     {
                         // Unable to connect to server:
+                        await disconnectAsync();
                         setState(ConnectionState.ERROR, arg.param);
                     }
                     break;

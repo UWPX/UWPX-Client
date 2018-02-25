@@ -132,7 +132,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (selectedMechanism == null)
                         {
                             state = SASLState.ERROR;
-                            throw new InvalidOperationException("selectedMechanism == null");
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync("selectedMechanism == null", true);
+                            return;
                         }
                         await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), false, true);
                         state = SASLState.REQUESTED;

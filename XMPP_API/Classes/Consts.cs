@@ -29,7 +29,5 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE = "jabber:x:data";
         public const string XML_XEP_0045_ROOM_CONFIG_VALUE = "http://jabber.org/protocol/muc#roomconfig";
         public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
-
-        public const bool ENABLE_DEBUG_OUTPUT = true;
     }
 }

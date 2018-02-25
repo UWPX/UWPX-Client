@@ -225,6 +225,15 @@ namespace XMPP_API.Classes
 
         private void Connection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs args)
         {
+            if (args.newState == ConnectionState.CONNECTED)
+            {
+                Logger.Info("Connected to account: " + getXMPPAccount().getIdAndDomain());
+            }
+            else if (args.newState == ConnectionState.DISCONNECTED)
+            {
+                Logger.Info("Disconnected account: " + getXMPPAccount().getIdAndDomain());
+            }
+
             ConnectionStateChanged?.Invoke(this, args);
         }
 
