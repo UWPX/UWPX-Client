@@ -15,6 +15,8 @@ namespace Logging
         private static readonly Object thisLock = new Object();
         private static StorageFile logFile = null;
 
+        public static LogLevel logLevel;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -92,7 +94,10 @@ namespace Logging
         /// </history>
         public static void Debug(string message)
         {
-            addToLog(message, null, "DEBUG");
+            if (logLevel >= LogLevel.DEBUG)
+            {
+                addToLog(message, null, "DEBUG");
+            }
         }
 
         /// <summary>
@@ -103,7 +108,10 @@ namespace Logging
         /// </history>
         public static void Info(string message)
         {
-            addToLog(message, null, "INFO");
+            if (logLevel >= LogLevel.INFO)
+            {
+                addToLog(message, null, "INFO");
+            }
         }
 
         /// <summary>
@@ -114,7 +122,10 @@ namespace Logging
         /// </history>
         public static void Warn(string message)
         {
-            addToLog(message, null, "WARN");
+            if (logLevel >= LogLevel.WARNING)
+            {
+                addToLog(message, null, "WARN");
+            }
         }
 
         /// <summary>
@@ -125,7 +136,10 @@ namespace Logging
         /// </history>
         public static void Error(string message, Exception e)
         {
-            addToLog(message, e, "ERROR");
+            if (logLevel >= LogLevel.ERROR)
+            {
+                addToLog(message, e, "ERROR");
+            }
         }
 
         /// <summary>
@@ -194,11 +208,11 @@ namespace Logging
                             StorageFile f = file as StorageFile;
                             await f.CopyAndReplaceAsync(target);
                         }
-                        Logger.Info("Exported logs successfully to:" + target.Path);
+                        Info("Exported logs successfully to:" + target.Path);
                     }
                     catch (Exception e)
                     {
-                        Logger.Error("Error during exporting logs", e);
+                        Error("Error during exporting logs", e);
                     }
                 });
             }
@@ -215,7 +229,7 @@ namespace Logging
         /// <param name="code">The log code (INFO, DEBUG, ...)</param>
         private static void addToLog(string message, Exception e, string code)
         {
-            Task t = addToLogAsync(message, e, code);
+            Task.Run(async () => await addToLogAsync(message, e, code));
         }
 
         /// <summary>
@@ -226,7 +240,7 @@ namespace Logging
         /// <param name="code">The log code (INFO, DEBUG, ...)</param>
         private static async Task addToLogAsync(string message, Exception e, string code)
         {
-            if(logFile == null)
+            if (logFile == null)
             {
                 logFile = await (await getLogFolderAsync()).CreateFileAsync(getFilename(), CreationCollisionOption.OpenIfExists);
             }

@@ -14,10 +14,20 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+
             <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE713;" Text="Misc"/>
             <StackPanel Grid.Row="1">
                 <controls:SeperatorControl Text="Logs:" />
                 <Button x:Name="openLogFolder_btn" Content="Open app data folder" Margin="10,15,0,0" Click="openLogFolder_btn_Click"/>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox x:Name="logLevel_cbx" Grid.Column="0" Header="Log-Level:" Margin="10, 10, 0, 0" SelectionChanged="logLevel_cbx_SelectionChanged" VerticalAlignment="Center"/>
+                    <Button x:Name="logLevelDebug_btn" Grid.Column="1" Click="logLevelDebug_btn_Click" Foreground="Red" VerticalAlignment="Bottom" Margin="10, 0, 0, 0" Content="&#xE7BA;" FontFamily="Segoe MDL2 Assets"/>
+                </Grid>
                 <Button x:Name="exportLogs_btn" Content="Export logs" Margin="10,10,0,0" Click="exportLogs_btn_Click"/>
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="deleteLogs_btn" Content="Delete logs" Margin="10,10,0,0" Click="deleteLogs_btn_Click"/>

@@ -21,5 +21,6 @@
         public const string VERSION_MINOR = "version_minor";
         public const string VERSION_BUILD = "version_build";
         public const string VERSION_REVISION = "version_revision";
+        public const string LOG_LEVEL = "log_level";
     }
 }

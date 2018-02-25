@@ -10,6 +10,7 @@ using Microsoft.HockeyApp;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using System.Threading.Tasks;
+using Logging;
 
 namespace UWP_XMPP_Client
 {
@@ -80,6 +81,23 @@ namespace UWP_XMPP_Client
             });
         }
 
+        /// <summary>
+        /// Sets the log level for the logger class.
+        /// </summary>
+        private void initLogLevel()
+        {
+            object o = Settings.getSetting(SettingsConsts.LOG_LEVEL);
+            if (o is int)
+            {
+                Logger.logLevel = (LogLevel)o;
+            }
+            else
+            {
+                Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
+                Logger.logLevel = LogLevel.INFO;
+            }
+        }
+
         protected override void OnActivated(IActivatedEventArgs args)
         {
             onActivatedOrLaunched(args);
@@ -87,6 +105,9 @@ namespace UWP_XMPP_Client
 
         private void onActivatedOrLaunched(IActivatedEventArgs args)
         {
+            // Sets the log level:
+            initLogLevel();
+
             // Init all db managers to force event subscriptions:
             initAllDBManagers();
 
