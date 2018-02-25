@@ -46,7 +46,7 @@
                 </Grid>
             </Grid>
             <TextBlock x:Name="message_tbx" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
-            <Grid HorizontalAlignment="Right">
+            <Grid HorizontalAlignment="Right" Margin="0, 5, 0, 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>

@@ -173,29 +173,30 @@ namespace XMPP_API.Classes.Network.TCP
                     setState(ConnectionState.ERROR, lastExceptionMessage);
                     break;
                 default:
-                    // Throw an exception, because the server is already trying to connect:
                     throw new InvalidOperationException("[TCPConnection]: Unable to connect! state != Error or Disconnected! state = " + state);
             }
         }
 
+        /// <summary>
+        /// Disconnects the TCP connection.
+        /// </summary>
         public async override Task disconnectAsync()
         {
-            switch (state)
+            if (state == ConnectionState.DISCONNECTED)
             {
-                case ConnectionState.CONNECTING:
-                case ConnectionState.CONNECTED:
-                    setState(ConnectionState.DISCONNECTING);
-                    // Stop all connectAsync():
-                    if (connectingCTS != null)
-                    {
-                        connectingCTS.Cancel();
-                    }
-
-                    // Cleanup:
-                    await cleanupAsync();
-                    setState(ConnectionState.DISCONNECTED);
-                    break;
+                return;
             }
+
+            setState(ConnectionState.DISCONNECTING);
+            // Stop all connectAsync():
+            if (connectingCTS != null)
+            {
+                connectingCTS.Cancel();
+            }
+
+            // Cleanup:
+            await cleanupAsync();
+            setState(ConnectionState.DISCONNECTED);
         }
 
         /// <summary>
@@ -211,6 +212,12 @@ namespace XMPP_API.Classes.Network.TCP
             await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName);
         }
 
+        /// <summary>
+        /// Sends a given string to the server if connected.
+        /// Will throw an exception if not connected.
+        /// </summary>
+        /// <param name="msg"></param>
+        /// <returns></returns>
         public async Task sendAsync(string msg)
         {
             if (state != ConnectionState.CONNECTED)
@@ -230,10 +237,7 @@ namespace XMPP_API.Classes.Network.TCP
                 writeSema.Release();
             }
 
-            if (Consts.ENABLE_DEBUG_OUTPUT)
-            {
-                Logger.Info("Send to (" + account.serverAddress + "):" + msg);
-            }
+            Logger.Debug("Send to (" + account.serverAddress + "):" + msg);
         }
 
         /// <summary>
@@ -246,7 +250,7 @@ namespace XMPP_API.Classes.Network.TCP
                 throw new InvalidOperationException("[TCPConnection]: Unable to start reader task! ConnectionState != Connected! state = " + state);
             }
 
-            Task.Factory.StartNew(() =>
+            Task.Run(() =>
             {
                 string data = null;
                 int errorCount = 0;
@@ -266,7 +270,8 @@ namespace XMPP_API.Classes.Network.TCP
                             }
 
                             // Read 5 empty or null strings in an interval lower than 1 second:
-                            if (countNullOrEmptyStringRead > 5 && (DateTime.Now.Subtract(lastNullOrEmptyStringRead).TotalSeconds < 1))
+                            double c = DateTime.Now.Subtract(lastNullOrEmptyStringRead).TotalSeconds;
+                            if (countNullOrEmptyStringRead > 5 && c < 1)
                             {
                                 lastErrorMessage = "Loop detected!";
                                 errorCount = 3;
@@ -275,13 +280,10 @@ namespace XMPP_API.Classes.Network.TCP
                         else
                         {
                             // Trigger the NewDataReceived event:
-                            NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data));
+                            Task.Run(() => NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data)));
                             errorCount = 0;
                             countNullOrEmptyStringRead = 0;
-                            if (Consts.ENABLE_DEBUG_OUTPUT)
-                            {
-                                Logger.Info("Received from (" + account.serverAddress + "):" + data);
-                            }
+                            Logger.Debug("Received from (" + account.serverAddress + "):" + data);
                         }
                     }
                     catch (OperationCanceledException e)
@@ -321,7 +323,7 @@ namespace XMPP_API.Classes.Network.TCP
                         return;
                     }
                 }
-            }, TaskCreationOptions.LongRunning);
+            });
         }
 
         public string readNextString()
@@ -343,7 +345,7 @@ namespace XMPP_API.Classes.Network.TCP
                 t.Wait(readingCTS.Token);
                 readCount = t.Result;
 
-                if(dataReader == null)
+                if (dataReader == null)
                 {
                     return result;
                 }
@@ -356,7 +358,7 @@ namespace XMPP_API.Classes.Network.TCP
                 // If there is still data left to read, continue until a timeout occurs or a close got requested:
                 while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
                 {
-                    t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
+                    t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
                     t.Wait(100, readingCTS.Token);
                     readCount = t.Result;
                     while (dataReader.UnconsumedBufferLength > 0)
@@ -366,6 +368,9 @@ namespace XMPP_API.Classes.Network.TCP
                 }
             }
             catch (AggregateException)
+            {
+            }
+            catch (NullReferenceException)
             {
             }
 
@@ -382,36 +387,30 @@ namespace XMPP_API.Classes.Network.TCP
         #region --Misc Methods (Protected)--
         protected async override Task cleanupAsync()
         {
-            if (socket != null)
+            try
             {
-                try
-                {
-                    if (dataWriter != null)
-                    {
-                        // Flush the writer to ensure everything got send:
-                        await dataWriter.FlushAsync();
-                    }
-                }
-                catch (Exception)
-                {
-                }
-                try
-                {
-                    await socket.CancelIOAsync();
-                }
-                catch (Exception)
-                {
-                }
-
-                dataWriter?.Dispose();
-                dataReader?.Dispose();
-                socket?.Dispose();
-
-                socket = null;
-                dataWriter = null;
-                dataReader = null;
-                GC.Collect();
+                // Flush the writer to ensure everything got send:
+                await dataWriter?.FlushAsync();
             }
+            catch (Exception)
+            {
+            }
+            try
+            {
+                await socket?.CancelIOAsync();
+            }
+            catch (Exception)
+            {
+            }
+
+            dataWriter?.Dispose();
+            dataReader?.Dispose();
+            socket?.Dispose();
+
+            socket = null;
+            dataWriter = null;
+            dataReader = null;
+            GC.Collect();
         }
 
         #endregion

@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using Logging;
+using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
@@ -74,7 +74,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected async override void processMessage(NewValidMessageEventArgs args)
+        protected async override Task processMessage(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (msg.isProcessed())
@@ -114,20 +114,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     if (msg is ProceedAnswerMessage)
                     {
                         setMessageProcessed(args);
+
+                        XMPPAccount account = XMPP_CONNECTION.account;
+
+                        // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
+                        Logger.Debug("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
                         try
                         {
-                            // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
-                            TCP_CONNECTION.upgradeToTLSAsync().Wait();
-                            XMPPAccount sCC = XMPP_CONNECTION.account;
-
-                            // TLS established ==> resend stream header
-                            msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
+                            Task.WaitAll(TCP_CONNECTION.upgradeToTLSAsync());
                         }
                         catch (Exception e)
                         {
-                            Debug.WriteLine("Unable to establish TLS connection! " + e.Message + "\n" + e.StackTrace);
+                            Logger.Error("Error during upgrading " + account.getIdAndDomain() + " to TLS!", e);
                             state = TLSState.ERROR;
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(e.Message, true);
                         }
+                        Logger.Debug("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
+
+                        // TLS established ==> resend stream header
+                        msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
                     }
                     break;
             }

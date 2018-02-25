@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Logger.cs" />
+    <Compile Include="LogLevel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Logging.rd.xml" />
   </ItemGroup>

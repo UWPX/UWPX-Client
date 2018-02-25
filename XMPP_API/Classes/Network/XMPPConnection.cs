@@ -1,8 +1,6 @@
 ﻿using Logging;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
@@ -34,7 +32,7 @@ namespace XMPP_API.Classes.Network
         /// For parsing received messages.
         /// </summary>
         private MessageParser2 parser;
-        private ArrayList messageProcessors;
+        private AbstractMessageProcessor[] messageProcessors;
         private string streamId;
         private TSTimedList<string> messageIdCache;
 
@@ -56,7 +54,8 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// The connection timeout in ms.
         /// </summary>
-        private const int CONNECTION_TIMEOUT = 1000;
+        private const int CONNECTION_TIMEOUT = 2000;
+        private bool reconnectRequested;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -76,60 +75,102 @@ namespace XMPP_API.Classes.Network
             this.tCPConnection.NewDataReceived += TCPConnection_NewDataReceived;
 
             this.parser = new MessageParser2();
-            this.messageProcessors = new ArrayList(5);
+            this.messageProcessors = new AbstractMessageProcessor[3];
             this.streamId = null;
             this.messageIdCache = new TSTimedList<string>();
 
             this.connectionTimer = null;
+            this.reconnectRequested = false;
 
-            // The order in which new messages should get processed (TLS -- SASL -- COMPRESSION -- ...).
+            // The order in which new messages should get processed (TLS -- SASL -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html
             //-------------------------------------------------------------
-            this.messageProcessors.Add(new TLSConnection(tCPConnection, this));
-            this.messageProcessors.Add(new SASLConnection(tCPConnection, this));
+            // TLS:
+            this.messageProcessors[0] = (new TLSConnection(tCPConnection, this));
+
+            // SASL:
+            this.messageProcessors[1] = (new SASLConnection(tCPConnection, this));
+
+            // Resource binding:
             RecourceBindingConnection recourceBindingConnection = new RecourceBindingConnection(tCPConnection, this);
             recourceBindingConnection.ResourceBound += RecourceBindingConnection_ResourceBound;
-            this.messageProcessors.Add(recourceBindingConnection);
+            this.messageProcessors[2] = (recourceBindingConnection);
             //-------------------------------------------------------------
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public override void setState(ConnectionState newState, object param)
+        {
+            base.setState(newState, param);
+            switch (newState)
+            {
+                case ConnectionState.DISCONNECTED:
+                    if (reconnectRequested)
+                    {
+                        Task.Run(async () => await connectAsync());
+                    }
+                    break;
+                case ConnectionState.ERROR:
+                    Task.Run(async () => await disconnectAsync());
+                    break;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Connects to the server.
+        /// Will reconnect, if already connected or connecting.
+        /// </summary>
+        /// <returns></returns>
         public async override Task connectAsync()
         {
             switch (state)
             {
                 case ConnectionState.DISCONNECTED:
                 case ConnectionState.ERROR:
-                    setState(ConnectionState.DISCONNECTING);
+                    setState(ConnectionState.CONNECTING);
                     await tCPConnection.connectAsync();
                     break;
+
                 default:
-                    throw new InvalidOperationException("[XMPPConnection]: Unable to connect! state != Error or Disconnected! state = " + state);
+                    Logger.Warn("[XMPPConnection]: Trying to connect but state is not " + ConnectionState.DISCONNECTED + " or " + ConnectionState.ERROR + "! State = " + state);
+                    await reconnectAsync();
+                    break;
             }
         }
 
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
+        /// <returns></returns>
         public async override Task disconnectAsync()
         {
-            switch (state)
+            stopConnectionTimer();
+            if (state == ConnectionState.DISCONNECTED)
             {
-                case ConnectionState.CONNECTING:
-                case ConnectionState.CONNECTED:
-                    setState(ConnectionState.DISCONNECTING);
-                    // Disconnect the TCPConnection:
-                    await tCPConnection.disconnectAsync();
-
-                    // Cleanup:
-                    await cleanupAsync();
-                    setState(ConnectionState.DISCONNECTED);
-                    break;
+                return;
             }
+
+            setState(ConnectionState.DISCONNECTING);
+            // Disconnect the TCPConnection:
+            await tCPConnection.disconnectAsync();
+
+            // Cleanup:
+            await cleanupAsync();
+            setState(ConnectionState.DISCONNECTED);
+        }
+
+        /// <summary>
+        /// Reconnects to the server.
+        /// </summary>
+        public async Task reconnectAsync()
+        {
+            reconnectRequested = true;
+            await disconnectAsync();
         }
 
         /// <summary>
@@ -140,6 +181,11 @@ namespace XMPP_API.Classes.Network
         /// <param name="sendIfNotConnected">Sends the message if the underlaying TCP connection is connected to the server and ignores the connection state of the XMPPConnection.</param>
         public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
         {
+            if(state == ConnectionState.CONNECTING)
+            {
+                resetConnectionTimer();
+            }
+
             if (state != ConnectionState.CONNECTED && !sendIfNotConnected)
             {
                 Logger.Warn("Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
@@ -157,7 +203,18 @@ namespace XMPP_API.Classes.Network
             {
                 messageIdCache.addTimed(msg.getId());
             }
-            await tCPConnection.sendAsync(msg.toXmlString());
+            try
+            {
+                await tCPConnection.sendAsync(msg.toXmlString());
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error during sending message for account: " + account.getIdAndDomain(), e);
+                if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
+                {
+                    MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                }
+            }
 
             // Only trigger onMessageSend(...) for chat messages:
             if (msg is MessageMessage)
@@ -166,15 +223,18 @@ namespace XMPP_API.Classes.Network
             }
         }
 
+        public async Task onMessageProcessorFailedAsync(string errorMessage, bool criticalError)
+        {
+            if (criticalError)
+            {
+                lastErrorMessage = errorMessage;
+                await onConnectionErrorAsync();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task reconnectAsync()
-        {
-            await disconnectAsync();
-            await connectAsync();
-        }
-
         /// <summary>
         /// Triggers the MessageSend event in a new task.
         /// </summary>
@@ -191,7 +251,13 @@ namespace XMPP_API.Classes.Network
         private void resetConnectionTimer()
         {
             stopConnectionTimer();
-            connectionTimer = new Timer(async (o) => await onConnetionTimerTimeoutAsync(), null, CONNECTION_TIMEOUT, Timeout.Infinite);
+            connectionTimer = new Timer(async (timer) =>
+            {
+                if (timer != null)
+                {
+                    await onConnetionTimerTimeoutAsync();
+                }
+            }, connectionTimer, CONNECTION_TIMEOUT, Timeout.Infinite);
         }
 
         /// <summary>
@@ -199,8 +265,11 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private void stopConnectionTimer()
         {
-            connectionTimer?.Dispose();
-            connectionTimer = null;
+            if (connectionTimer != null)
+            {
+                connectionTimer.Dispose();
+                connectionTimer = null;
+            }
         }
 
         /// <summary>
@@ -208,17 +277,22 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task onConnetionTimerTimeoutAsync()
         {
-            Logger.Warn("Connection timer got triggered for account: " + account.getIdAndDomain());
+            Logger.Warn("Connection timeout got triggered for account: " + account.getIdAndDomain());
 
+            await onConnectionErrorAsync();
+        }
+
+        private async Task onConnectionErrorAsync()
+        {
             if (++connectionFaildCount >= 3)
             {
                 // Establishing the connection failed for the third time:
+                await disconnectAsync();
                 setState(ConnectionState.ERROR, lastErrorMessage);
             }
             else
             {
                 // Try to reconnect:
-                connectionFaildCount++;
                 await reconnectAsync();
             }
         }
@@ -237,9 +311,9 @@ namespace XMPP_API.Classes.Network
 
         protected void resetMessageProcessors()
         {
-            for (int i = 0; i < messageProcessors.Count; i++)
+            foreach (AbstractMessageProcessor mP in messageProcessors)
             {
-                (messageProcessors[i] as AbstractMessageProcessor).reset();
+                mP.reset();
             }
         }
 
@@ -251,7 +325,6 @@ namespace XMPP_API.Classes.Network
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getIdAndDomain(), account.user.domain);
             await sendAsync(openStreamMessage, false, true);
-            resetConnectionTimer();
         }
 
         /// <summary>
@@ -310,58 +383,54 @@ namespace XMPP_API.Classes.Network
             catch (Exception e)
             {
                 Logger.Error("Error during message parsing." + e);
-                if (Consts.ENABLE_DEBUG_OUTPUT)
-                {
-                    Debug.WriteLine("Error during message parsing: " + e.Message + "\n" + e.StackTrace + "\n" + data);
-                }
                 return;
             }
 
             // Process messages:
-            foreach (AbstractMessage message in messages)
+            foreach (AbstractMessage msg in messages)
             {
                 // Filter IQ messages which ids are not valid:
-                if (message is IQMessage)
+                if (msg is IQMessage)
                 {
-                    IQMessage iq = message as IQMessage;
+                    IQMessage iq = msg as IQMessage;
                     if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.getId()) != null)
                     {
-                        Logger.Info("Invalid message id received!");
+                        Logger.Warn("Invalid message id received!");
                         return;
                     }
                 }
 
                 // Invoke message processors:
-                ConnectionNewValidMessage?.Invoke(this, new NewValidMessageEventArgs(message));
+                ConnectionNewValidMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
 
                 // Should restart connection?
-                if (message.getRestartConnection() != AbstractMessage.NO_RESTART)
+                if (msg.getRestartConnection() != AbstractMessage.NO_RESTART)
                 {
-                    if (message.getRestartConnection() == AbstractMessage.SOFT_RESTART)
+                    if (msg.getRestartConnection() == AbstractMessage.SOFT_RESTART)
                     {
                         await softRestartAsync();
                     }
-                    else if (message.getRestartConnection() == AbstractMessage.HARD_RESTART)
+                    else if (msg.getRestartConnection() == AbstractMessage.HARD_RESTART)
                     {
                         await hardRestartAsync();
                     }
                     else
                     {
-                        throw new ArgumentException("Invalid restart type: " + message.getRestartConnection());
+                        throw new ArgumentException("Invalid restart type: " + msg.getRestartConnection());
                     }
                 }
 
                 // Filter already processed messages:
-                if (message.isProcessed())
+                if (msg.isProcessed())
                 {
                     return;
                 }
 
                 // --------------------------------------------------------------------
                 // Open stream:
-                if (message is OpenStreamAnswerMessage)
+                if (msg is OpenStreamAnswerMessage)
                 {
-                    OpenStreamAnswerMessage oA = message as OpenStreamAnswerMessage;
+                    OpenStreamAnswerMessage oA = msg as OpenStreamAnswerMessage;
                     if (oA.getId() == null)
                     {
                         // TODO Handle OpenStreamAnswerMessage id == null
@@ -371,14 +440,14 @@ namespace XMPP_API.Classes.Network
                     streamId = oA.getId();
                 }
                 // Rooster:
-                else if (message is RosterMessage)
+                else if (msg is RosterMessage)
                 {
-                    ConnectionNewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(message));
+                    ConnectionNewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
                 // Presence:
-                else if (message is PresenceMessage && (message as PresenceMessage).getFrom() != null)
+                else if (msg is PresenceMessage && (msg as PresenceMessage).getFrom() != null)
                 {
-                    ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(message));
+                    ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
             }
         }
@@ -417,22 +486,12 @@ namespace XMPP_API.Classes.Network
                 case ConnectionState.ERROR:
                     if (arg.oldState == ConnectionState.CONNECTED)
                     {
-                        connectionFaildCount++;
                         switch (state)
                         {
                             case ConnectionState.CONNECTING:
                             case ConnectionState.CONNECTED:
-                                if (connectionFaildCount >= 3)
-                                {
-                                    // Establishing the connection failed for the third time:
-                                    setState(ConnectionState.ERROR, "Server did not respond during connection for " + CONNECTION_TIMEOUT + "ms.");
-                                }
-                                else
-                                {
-                                    // Try to reconnect:
-                                    connectionFaildCount++;
-                                    await reconnectAsync();
-                                }
+                                lastErrorMessage = "Server TCP connection failed!";
+                                await onConnectionErrorAsync();
                                 break;
 
                             case ConnectionState.DISCONNECTING:
@@ -443,6 +502,7 @@ namespace XMPP_API.Classes.Network
                     else
                     {
                         // Unable to connect to server:
+                        await disconnectAsync();
                         setState(ConnectionState.ERROR, arg.param);
                     }
                     break;

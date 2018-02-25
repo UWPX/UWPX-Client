@@ -23,7 +23,7 @@ namespace XMPP_API.Classes
         public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
         public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
-        public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client,  NewBookmarksResultMessageEventArgs args);
+        public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client, NewBookmarksResultMessageEventArgs args);
         public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
         public delegate void NewValidMessageEventHandler(XMPPClient client, NewValidMessageEventArgs args);
 
@@ -97,6 +97,7 @@ namespace XMPP_API.Classes
 
         public async Task connectAsync()
         {
+            Logger.Info("Connecting account: " + getXMPPAccount().getIdAndDomain());
             try
             {
                 await connection.connectAsync();
@@ -107,8 +108,15 @@ namespace XMPP_API.Classes
             }
         }
 
+        public async Task reconnectAsync()
+        {
+            Logger.Info("Reconnecting account: " + getXMPPAccount().getIdAndDomain());
+            await connection.reconnectAsync();
+        }
+
         public async Task disconnectAsync()
         {
+            Logger.Info("Disconnecting account: " + getXMPPAccount().getIdAndDomain());
             await connection.disconnectAsync();
         }
 
@@ -217,6 +225,15 @@ namespace XMPP_API.Classes
 
         private void Connection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs args)
         {
+            if (args.newState == ConnectionState.CONNECTED)
+            {
+                Logger.Info("Connected to account: " + getXMPPAccount().getIdAndDomain());
+            }
+            else if (args.newState == ConnectionState.DISCONNECTED)
+            {
+                Logger.Info("Disconnected account: " + getXMPPAccount().getIdAndDomain());
+            }
+
             ConnectionStateChanged?.Invoke(this, args);
         }
 
@@ -247,7 +264,7 @@ namespace XMPP_API.Classes
         private void Connection_ConnectionNewPresenceMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
             // XEP-0045 (MUC member presence):
-            if(args.getMessage() is MUCMemberPresenceMessage)
+            if (args.getMessage() is MUCMemberPresenceMessage)
             {
                 NewMUCMemberPresenceMessage?.Invoke(this, new NewMUCMemberPresenceMessageEventArgs(args.getMessage() as MUCMemberPresenceMessage));
             }

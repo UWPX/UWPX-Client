@@ -93,7 +93,23 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="clip_btn" IsEnabled="False" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE723;" FontSize="27" Click="clip_btn_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Bottom"/>
-                <TextBox x:Name="message_tbx" Grid.Column="1" InputScope="Chat" IsSpellCheckEnabled="True" TextWrapping="Wrap" MaxHeight="200" PlaceholderText="Message..." VerticalAlignment="Stretch" HorizontalAlignment="Stretch" FontSize="20" BorderBrush="Transparent" TextChanged="message_tbx_TextChanged" Background="Transparent" KeyUp="message_tbx_KeyUp" GotFocus="message_tbx_GotFocus" LostFocus="message_tbx_LostFocus" IsFocusEngagementEnabled="True"/>
+                <TextBox x:Name="message_tbx"
+                         Grid.Column="1"
+                         InputScope="Chat"
+                         IsSpellCheckEnabled="True"
+                         TextWrapping="Wrap"
+                         MaxHeight="200"
+                         PlaceholderText="Message..."
+                         VerticalAlignment="Stretch"
+                         HorizontalAlignment="Stretch"
+                         FontSize="20"
+                         BorderBrush="Transparent"
+                         TextChanged="message_tbx_TextChanged"
+                         Background="Transparent"
+                         GotFocus="message_tbx_GotFocus"
+                         LostFocus="message_tbx_LostFocus"
+                         KeyUp="message_tbx_KeyUp"
+                         IsFocusEngagementEnabled="True"/>
                 <Button x:Name="send_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE122;" FontSize="27" Click="send_btn_Click" BorderBrush="Transparent" Background="{ThemeResource SystemAccentColor}" IsEnabled="False" VerticalAlignment="Bottom"/>
             </Grid>
         </Grid>

@@ -2,6 +2,7 @@
 using Data_Manager2.Classes.DBManager;
 using Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Dialogs;
@@ -52,7 +53,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void showImageChacheSize()
         {
             imageChacheSize_tblck.Text = "calculating...";
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 long size = await ImageDBManager.INSTANCE.getCachedImagesFolderSizeAsync();
                 string text = "~ ";
                 if (size >= 1024)
@@ -74,13 +76,14 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void showLogSize()
         {
             logSize_tblck.Text = "calculating...";
-            Task.Run(async () => {
+            Task.Run(async () =>
+            {
                 long size = await Logger.getLogFolderSizeAsync();
                 string text = "~ ";
                 if (size >= 1024)
                 {
                     size /= 1024;
-                    if(size >= 1024)
+                    if (size >= 1024)
                     {
                         size /= 1024;
                         text += size + " GB";
@@ -100,12 +103,44 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void loadSettings()
         {
+            showLogLevels();
             showLogSize();
             showImageChacheSize();
 
             showInitialStartDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
             showWhatsNewDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG_ALPHA_2);
             disableCrashReporting_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
+        }
+
+        private void showLogLevels()
+        {
+            List<string> items = new List<string>();
+            foreach (LogLevel l in Enum.GetValues(typeof(LogLevel)))
+            {
+                switch (l)
+                {
+                    case LogLevel.NONE:
+                        items.Add("None");
+                        break;
+                    case LogLevel.ERROR:
+                        items.Add("Error");
+                        break;
+                    case LogLevel.WARNING:
+                        items.Add("Warning");
+                        break;
+                    case LogLevel.INFO:
+                        items.Add("Info");
+                        break;
+                    case LogLevel.DEBUG:
+                        items.Add("Debug");
+                        break;
+                    default:
+                        items.Add(l.ToString());
+                        break;
+                }
+            }
+            logLevel_cbx.ItemsSource = items;
+            logLevel_cbx.SelectedIndex = (int)Logger.logLevel;
         }
 
         #endregion
@@ -219,6 +254,25 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private async void clearCache_btn_Click(object sender, RoutedEventArgs e)
         {
             ClearCacheDialog dialog = new ClearCacheDialog();
+            await dialog.ShowAsync();
+        }
+
+        private void logLevel_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (logLevel_cbx.SelectedIndex >= 0)
+            {
+                Settings.setSetting(SettingsConsts.LOG_LEVEL, logLevel_cbx.SelectedIndex);
+                logLevelDebug_btn.Visibility = logLevel_cbx.SelectedIndex >= (int)LogLevel.DEBUG ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
+
+        private async void logLevelDebug_btn_Click(object sender, RoutedEventArgs e)
+        {
+            TextDialog dialog = new TextDialog()
+            {
+                Title = "Warning",
+                Text = "If you set the log-level to 'Debug' you may experience performance and connection problems, because EVERY send and received XML message gets logged!"
+            };
             await dialog.ShowAsync();
         }
 
