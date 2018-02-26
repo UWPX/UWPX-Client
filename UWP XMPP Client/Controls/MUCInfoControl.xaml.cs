@@ -77,6 +77,7 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null)
             {
                 Presence presence = MUCInfo.getMUCPresence();
+                autoJoin_tgls.IsOn = MUCInfo.autoEnterRoom;
                 enterState_tbx.Foreground = UiUtils.getPresenceBrush(presence);
                 switch (presence)
                 {
@@ -88,7 +89,7 @@ namespace UWP_XMPP_Client.Controls
                     case Presence.Chat:
                         enterState_tbx.Text = "joining/leaving...";
                         join_btn.IsEnabled = false;
-                        leave_btn.IsEnabled = false;
+                        leave_btn.IsEnabled = true;
                         break;
                     default:
                         enterState_tbx.Text = "not joined yet";
@@ -190,8 +191,6 @@ namespace UWP_XMPP_Client.Controls
             saveSubject();
         }
 
-        #endregion
-
         private void autoJoin_tgls_Toggled(object sender, RoutedEventArgs e)
         {
             if (MUCInfo.autoEnterRoom != autoJoin_tgls.IsOn)
@@ -199,5 +198,7 @@ namespace UWP_XMPP_Client.Controls
                 saveAutoJoin();
             }
         }
+
+        #endregion
     }
 }
