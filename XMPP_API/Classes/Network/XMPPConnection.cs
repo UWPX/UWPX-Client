@@ -213,6 +213,7 @@ namespace XMPP_API.Classes.Network
                 if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
                 {
                     MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                    return;
                 }
             }
 
