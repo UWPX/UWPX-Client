@@ -58,6 +58,16 @@ namespace Thread_Save_Components.Classes.Collections
             return LIST.Count <= 0;
         }
 
+        public List<T> getEntries()
+        {
+            List<T> list = new List<T>();
+            foreach (TimedListEntry<T> item in LIST)
+            {
+                list.Add(item.item);
+            }
+            return list;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

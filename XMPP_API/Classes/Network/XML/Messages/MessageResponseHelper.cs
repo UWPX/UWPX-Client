@@ -57,6 +57,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             Task t = sendAndWaitAsync(msg);
         }
 
+        public void stop()
+        {
+            stopTimer();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -92,7 +97,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public void Dispose()
         {
-            stopTimer();
+            stop();
         }
 
         #endregion

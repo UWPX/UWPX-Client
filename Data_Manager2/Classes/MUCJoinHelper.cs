@@ -22,8 +22,8 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// The Full JID of the room e.g. 'coven@chat.shakespeare.lit'.
         /// </summary>
-        public readonly ChatTable MUC;
-        public readonly MUCChatInfoTable INFO;
+        public ChatTable muc;
+        public MUCChatInfoTable info;
         public readonly XMPPClient CLIENT;
 
         private TSTimedList<MessageResponseHelper<AbstractAddressableMessage>> messageResponseHelpers;
@@ -40,8 +40,8 @@ namespace Data_Manager2.Classes
         public MUCJoinHelper(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
             this.CLIENT = client;
-            this.MUC = muc;
-            this.INFO = info;
+            this.muc = muc;
+            this.info = info;
             this.messageResponseHelpers = new TSTimedList<MessageResponseHelper<AbstractAddressableMessage>>
             {
                 itemTimeoutInMs = messageTimeout * 2
@@ -58,25 +58,28 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public async Task requestReservedNicksAsync()
         {
-            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId);
+            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), muc.chatJabberId);
             await CLIENT.sendMessageAsync(msg, false);
         }
 
         public async Task enterRoomAsync()
         {
             // Update MUC info:
-            INFO.state = MUCState.ENTERING;
+            info.state = MUCState.ENTERING;
             saveMUCEnterState();
 
             // Clear MUC members:
-            MUCDBManager.INSTANCE.deleteAllMUCMembersforChat(MUC.id);
+            MUCDBManager.INSTANCE.deleteAllMUCMembersforChat(muc.id);
 
             // Create message:
-            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
+            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), muc.chatJabberId, info.nickname, info.password);
 
             // Subscribe to events for receiving answers:
             CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
             CLIENT.NewMUCMemberPresenceMessage += CLIENT_NewMUCMemberPresenceMessage;
+
+            MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
 
             // Send message:
             await CLIENT.sendMessageAsync(msg, false);
@@ -84,7 +87,7 @@ namespace Data_Manager2.Classes
 
         public bool canGetRemoved()
         {
-            switch (INFO.state)
+            switch (info.state)
             {
                 case MUCState.ENTERING:
                     return false;
@@ -111,7 +114,7 @@ namespace Data_Manager2.Classes
 
         private void saveMUCEnterState()
         {
-            MUCDBManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
+            MUCDBManager.INSTANCE.setMUCState(info.chatId, info.state, true);
         }
 
         #endregion
@@ -125,12 +128,12 @@ namespace Data_Manager2.Classes
         private void CLIENT_NewMUCMemberPresenceMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewMUCMemberPresenceMessageEventArgs args)
         {
             string roomJId = Utils.getBareJidFromFullJid(args.mucMemberPresenceMessage.getFrom());
-            if (!Equals(roomJId, MUC.chatJabberId))
+            if (!Equals(roomJId, muc.chatJabberId))
             {
                 return;
             }
 
-            switch (INFO.state)
+            switch (info.state)
             {
                 case MUCState.ENTERING:
                     // Evaluate status codes:
@@ -143,12 +146,20 @@ namespace Data_Manager2.Classes
                                 CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
 
                                 // Update MUC info:
-                                INFO.state = MUCState.ENTERD;
+                                info.state = MUCState.ENTERD;
                                 saveMUCEnterState();
                                 break;
                         }
                     }
                     break;
+            }
+        }
+
+        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        {
+            if (Equals(args.MUC_INFO.chatId, info.chatId))
+            {
+                this.info = args.MUC_INFO;
             }
         }
 
