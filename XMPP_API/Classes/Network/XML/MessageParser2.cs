@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Logging;
+using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
@@ -86,11 +87,6 @@ namespace XMPP_API.Classes.Network.XML
             // Pars each node:
             foreach (XmlNode n in parseToXmlNodes(msg))
             {
-                if (n.Name == null)
-                {
-                    continue;
-                }
-
                 switch (n.Name)
                 {
                     // Stream start and end:
@@ -232,6 +228,10 @@ namespace XMPP_API.Classes.Network.XML
                     // SASL:
                     case "challenge":
                         messages.Add(new ScramSha1ChallengeMessage(n));
+                        break;
+
+                    default:
+                        Logger.Warn("Unknown message received: " + n.ToString());
                         break;
                 }
             }
