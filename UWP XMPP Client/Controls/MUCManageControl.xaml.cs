@@ -93,26 +93,38 @@ namespace UWP_XMPP_Client.Controls
                 return;
             }
 
+            loading_grid.Visibility = Visibility.Visible;
             info_grid.Visibility = Visibility.Collapsed;
+            timeout_stckpnl.Visibility = Visibility.Collapsed;
 
-            MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(Chat.id, MUCInfo.nickname);
-            if (member != null)
+            string chatJID = Chat.chatJabberId;
+            string chatID = Chat.id;
+            string nickname = MUCInfo.nickname;
+            messageResponseHelper = new MessageResponseHelper<RoomInfoMessage>(Client, onNewMessage, onTimeout);
+
+            Task.Run(async () =>
             {
-                loading_grid.Visibility = Visibility.Visible;
-                timeout_stckpnl.Visibility = Visibility.Collapsed;
+                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatID, nickname);
+                if (member != null)
+                {
+                    RequestRoomInfoMessage msg = new RequestRoomInfoMessage(chatJID, member.affiliation);
+                    messageResponseHelper.start(msg);
+                }
+                else
+                {
+                    messageResponseHelper?.Dispose();
+                    messageResponseHelper = null;
 
-                messageResponseHelper = new MessageResponseHelper<RoomInfoMessage>(Client, onNewMessage, onTimeout);
-                RequestRoomInfoMessage msg = new RequestRoomInfoMessage(Chat.chatJabberId, member.affiliation);
-                messageResponseHelper.start(msg);
-            }
-            else
-            {
-                timeout_stckpnl.Visibility = Visibility.Visible;
-                loading_grid.Visibility = Visibility.Collapsed;
-                reload_btn.IsEnabled = true;
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        timeout_stckpnl.Visibility = Visibility.Visible;
+                        loading_grid.Visibility = Visibility.Collapsed;
+                        reload_btn.IsEnabled = true;
 
-                notificationBanner_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
-            }
+                        notificationBanner_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
+                    });
+                }
+            });
         }
 
         private bool onNewMessage(RoomInfoMessage responseMessage)

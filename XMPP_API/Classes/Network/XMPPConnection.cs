@@ -266,11 +266,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private void stopConnectionTimer()
         {
-            if (connectionTimer != null)
-            {
-                connectionTimer.Dispose();
-                connectionTimer = null;
-            }
+            connectionTimer = null;
         }
 
         /// <summary>
