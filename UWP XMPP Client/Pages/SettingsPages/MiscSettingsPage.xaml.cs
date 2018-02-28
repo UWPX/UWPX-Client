@@ -262,6 +262,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             if (logLevel_cbx.SelectedIndex >= 0)
             {
                 Settings.setSetting(SettingsConsts.LOG_LEVEL, logLevel_cbx.SelectedIndex);
+                Logger.logLevel = (LogLevel)logLevel_cbx.SelectedIndex;
                 logLevelDebug_btn.Visibility = logLevel_cbx.SelectedIndex >= (int)LogLevel.DEBUG ? Visibility.Visible : Visibility.Collapsed;
             }
         }
