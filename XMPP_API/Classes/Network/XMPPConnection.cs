@@ -444,6 +444,17 @@ namespace XMPP_API.Classes.Network
                     }
                     streamId = oA.getId();
                 }
+                // Close stream message:
+                else if (msg is CloseStreamMessage)
+                {
+                    switch (state)
+                    {
+                        case ConnectionState.CONNECTING:
+                        case ConnectionState.CONNECTED:
+                            await disconnectAsync();
+                            break;
+                    }
+                }
                 // Rooster:
                 else if (msg is RosterMessage)
                 {
