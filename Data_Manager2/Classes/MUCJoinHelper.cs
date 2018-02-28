@@ -1,5 +1,7 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Logging;
+using System;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
@@ -9,7 +11,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 // https://xmpp.org/extensions/xep-0045.html
 namespace Data_Manager2.Classes
 {
-    public class MUCJoinHelper : ITimedEntry
+    public class MUCJoinHelper : ITimedEntry, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -22,8 +24,8 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// The Full JID of the room e.g. 'coven@chat.shakespeare.lit'.
         /// </summary>
-        public ChatTable muc;
-        public MUCChatInfoTable info;
+        public readonly ChatTable MUC;
+        public readonly MUCChatInfoTable INFO;
         public readonly XMPPClient CLIENT;
 
         private TSTimedList<MessageResponseHelper<AbstractAddressableMessage>> messageResponseHelpers;
@@ -40,8 +42,8 @@ namespace Data_Manager2.Classes
         public MUCJoinHelper(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
             this.CLIENT = client;
-            this.muc = muc;
-            this.info = info;
+            this.MUC = muc;
+            this.INFO = info;
             this.messageResponseHelpers = new TSTimedList<MessageResponseHelper<AbstractAddressableMessage>>
             {
                 itemTimeoutInMs = messageTimeout * 2
@@ -58,42 +60,48 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public async Task requestReservedNicksAsync()
         {
-            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), muc.chatJabberId);
+            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId);
             await CLIENT.sendMessageAsync(msg, false);
         }
 
         public async Task enterRoomAsync()
         {
             // Update MUC info:
-            info.state = MUCState.ENTERING;
+            INFO.state = MUCState.ENTERING;
             saveMUCEnterState();
 
             // Clear MUC members:
-            MUCDBManager.INSTANCE.deleteAllMUCMembersforChat(muc.id);
+            MUCDBManager.INSTANCE.deleteAllMUCMembersforChat(MUC.id);
 
             // Create message:
-            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), muc.chatJabberId, info.nickname, info.password);
+            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
 
             // Subscribe to events for receiving answers:
             CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
             CLIENT.NewMUCMemberPresenceMessage += CLIENT_NewMUCMemberPresenceMessage;
 
-            MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
-            MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
-
             // Send message:
             await CLIENT.sendMessageAsync(msg, false);
+            Logger.Info("Entering MUC room '" + MUC.chatJabberId + "' as '" + INFO.nickname + '\'');
         }
 
         public bool canGetRemoved()
         {
-            switch (info.state)
+            switch (INFO.state)
             {
                 case MUCState.ENTERING:
                     return false;
 
                 default:
                     return true;
+            }
+        }
+
+        public void Dispose()
+        {
+            foreach (MessageResponseHelper<AbstractAddressableMessage> h in messageResponseHelpers.getEntries())
+            {
+                h?.Dispose();
             }
         }
 
@@ -114,7 +122,7 @@ namespace Data_Manager2.Classes
 
         private void saveMUCEnterState()
         {
-            MUCDBManager.INSTANCE.setMUCState(info.chatId, info.state, true);
+            MUCDBManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
         }
 
         #endregion
@@ -128,12 +136,12 @@ namespace Data_Manager2.Classes
         private void CLIENT_NewMUCMemberPresenceMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewMUCMemberPresenceMessageEventArgs args)
         {
             string roomJId = Utils.getBareJidFromFullJid(args.mucMemberPresenceMessage.getFrom());
-            if (!Equals(roomJId, muc.chatJabberId))
+            if (!Equals(roomJId, MUC.chatJabberId))
             {
                 return;
             }
 
-            switch (info.state)
+            switch (INFO.state)
             {
                 case MUCState.ENTERING:
                     // Evaluate status codes:
@@ -146,20 +154,13 @@ namespace Data_Manager2.Classes
                                 CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;
 
                                 // Update MUC info:
-                                info.state = MUCState.ENTERD;
+                                INFO.state = MUCState.ENTERD;
                                 saveMUCEnterState();
+                                Logger.Info("Entered MUC room '" + roomJId + "' as '" + INFO.nickname + '\'');
                                 break;
                         }
                     }
                     break;
-            }
-        }
-
-        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
-        {
-            if (Equals(args.MUC_INFO.chatId, info.chatId))
-            {
-                this.info = args.MUC_INFO;
             }
         }
 

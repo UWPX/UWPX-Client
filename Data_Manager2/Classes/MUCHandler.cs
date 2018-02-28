@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Logging;
 using System;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
@@ -49,6 +50,7 @@ namespace Data_Manager2.Classes
 
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
             {
+                Logger.Info("Entering all MUC rooms for '" + client.getXMPPAccount().getIdAndDomain() + '\'');
                 enterAllMUCs(client);
             }
         }
@@ -60,6 +62,7 @@ namespace Data_Manager2.Classes
 
         public void onClientDisconnecting(XMPPClient client)
         {
+            client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
             MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
         }
 
@@ -89,6 +92,14 @@ namespace Data_Manager2.Classes
 
         public async Task leaveRoomAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
+            foreach (MUCJoinHelper h in timedList.getEntries())
+            {
+                if (Equals(h.MUC.id, muc.id))
+                {
+                    h.Dispose();
+                }
+            }
+
             MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTING, true);
             string from = client.getXMPPAccount().getIdDomainAndResource();
             string to = muc.chatJabberId + '/' + info.nickname;
@@ -146,39 +157,46 @@ namespace Data_Manager2.Classes
         #region --Events--
         private void C_NewMUCMemberPresenceMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewMUCMemberPresenceMessageEventArgs args)
         {
-            MUCMemberPresenceMessage msg = args.mucMemberPresenceMessage;
-            string room = Utils.getBareJidFromFullJid(msg.getFrom());
-            if (room == null)
+            Task.Run(() =>
             {
-                return;
-            }
-            string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
-
-            MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, msg.NICKNAME);
-            if (member == null)
-            {
-                member = new MUCMemberTable()
+                MUCMemberPresenceMessage msg = args.mucMemberPresenceMessage;
+                string room = Utils.getBareJidFromFullJid(msg.getFrom());
+                if (room == null)
                 {
-                    id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
-                    nickname = msg.NICKNAME,
-                    chatId = chatId
-                };
-            }
-
-            member.affiliation = msg.AFFILIATION;
-            member.role = msg.ROLE;
-
-            foreach (MUCPresenceStatusCode s in msg.STATUS_CODES)
-            {
-                // Is self reference message:
-                if (s == MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE)
-                {
-                    MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
+                    return;
                 }
-            }
+                string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
 
-            // If the type equals 'unavailable', a user left the room:
-            MUCDBManager.INSTANCE.setMUCMember(member, Equals(msg.getType(), "unavailable"));
+                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, msg.NICKNAME);
+                if (member == null)
+                {
+                    member = new MUCMemberTable()
+                    {
+                        id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
+                        nickname = msg.NICKNAME,
+                        chatId = chatId
+                    };
+                }
+
+                member.affiliation = msg.AFFILIATION;
+                member.role = msg.ROLE;
+
+                bool isUnavailable = Equals(msg.getType(), "unavailable");
+                if (isUnavailable)
+                {
+                    foreach (MUCPresenceStatusCode s in msg.STATUS_CODES)
+                    {
+                        // Is self reference message:
+                        if (s == MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE)
+                        {
+                            MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
+                        }
+                    }
+                }
+
+                // If the type equals 'unavailable', a user left the room:
+                MUCDBManager.INSTANCE.setMUCMember(member, isUnavailable);
+            });
         }
 
         #endregion
