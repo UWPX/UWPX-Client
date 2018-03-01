@@ -1,13 +1,14 @@
 ﻿using System.Xml;
 
-namespace XMPP_API.Classes.Network.XML.Messages
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class StreamError
+    public class MUCErrorMessage : PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string TYPE;
-        public readonly string CONTENT;
+        public readonly int ERROR_CODE;
+        public readonly string ERROR_TYPE;
+        public readonly string ERROR_MESSAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,14 +17,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 10/11/2017 Created [Fabian Sauter]
+        /// 01/03/2018 Created [Fabian Sauter]
         /// </history>
-        public StreamError(XmlNode n)
+        public MUCErrorMessage(XmlNode node) : base(node)
         {
-            if(n != null)
+            XmlNode errorNode = XMLUtils.getChildNode(node, "error");
+            if (errorNode != null)
             {
-                TYPE = n.Attributes["type"]?.Value;
-                CONTENT = n.InnerXml;
+                string code = errorNode.Attributes["code"]?.Value;
+                int.TryParse(code, out ERROR_CODE);
+                ERROR_TYPE = errorNode.Attributes["type"]?.Value;
+                ERROR_MESSAGE = errorNode.InnerText;
             }
         }
 

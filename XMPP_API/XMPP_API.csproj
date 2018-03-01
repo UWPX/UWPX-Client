@@ -130,7 +130,7 @@
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
-    <Compile Include="Classes\Network\XML\Messages\StreamError.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoItem.cs" />
@@ -149,6 +149,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCAffiliation.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomInfoMessage.cs" />

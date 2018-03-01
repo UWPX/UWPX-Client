@@ -1,12 +1,13 @@
-﻿using System.Xml.Linq;
+﻿using System.Xml;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class JoinRoomRequestMessage : PresenceMessage
+    public class StreamErrorMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string ROOM_PASSWORD;
+        public readonly string TYPE;
+        public readonly string CONTENT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +16,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 06/01/2018 Created [Fabian Sauter]
+        /// 10/11/2017 Created [Fabian Sauter]
         /// </history>
-        public JoinRoomRequestMessage(string from, string room, string nick, string roomPassword) : base(from, room + '/' + nick, Presence.NotDefined, null, int.MinValue)
+        public StreamErrorMessage(XmlNode n)
         {
-            this.ROOM_PASSWORD = roomPassword;
+            if(n != null)
+            {
+                TYPE = n.Attributes["type"]?.Value;
+                CONTENT = n.InnerXml;
+            }
         }
 
         #endregion
@@ -30,21 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override XElement toXElement()
-        {
-            XElement node = base.toXElement();
-            XNamespace ns = Consts.XML_XEP_0045_NAMESPACE;
-            XElement xNode = new XElement(ns + "x");
-            if (ROOM_PASSWORD != null)
-            {
-                xNode.Add(new XElement(ns + "password")
-                {
-                    Value = ROOM_PASSWORD
-                });
-            }
-            node.Add(xNode);
-            return node;
-        }
+
 
         #endregion
 

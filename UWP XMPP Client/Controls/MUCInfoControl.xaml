@@ -58,7 +58,8 @@
                                            Text="disconnected"
                                            Foreground="{StaticResource PresenceOffline}"
                                            VerticalAlignment="Center"
-                                           HorizontalAlignment="Center"/>
+                                           HorizontalAlignment="Center"
+                                           TextWrapping="Wrap"/>
                             </controls1:DropShadowPanel>
                         </Grid>
                     </StackPanel>

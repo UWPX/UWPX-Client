@@ -86,11 +86,19 @@ namespace UWP_XMPP_Client.Controls
                         join_btn.IsEnabled = false;
                         leave_btn.IsEnabled = true;
                         break;
+
                     case Presence.Chat:
                         enterState_tbx.Text = "joining/leaving...";
                         join_btn.IsEnabled = false;
                         leave_btn.IsEnabled = true;
                         break;
+
+                    case Presence.Xa:
+                        enterState_tbx.Text = "ERROR - view the log for more information";
+                        leave_btn.IsEnabled = false;
+                        join_btn.IsEnabled = true;
+                        break;
+
                     default:
                         enterState_tbx.Text = "not joined yet";
                         leave_btn.IsEnabled = false;

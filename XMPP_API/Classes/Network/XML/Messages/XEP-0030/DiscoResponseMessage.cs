@@ -10,7 +10,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         public readonly List<DiscoIdentity> IDENTITIES;
         public readonly List<DiscoFeature> FEATURES;
         public readonly List<DiscoItem> ITEMS;
-        public readonly StreamError ERROR_RESULT;
+        public readonly StreamErrorMessage ERROR_RESULT;
         public readonly DiscoType DISCO_TYPE;
         public readonly bool isPartialList;
 
@@ -63,7 +63,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
                             ITEMS.Add(new DiscoItem(n1));
                             break;
                         case "error":
-                            ERROR_RESULT = new StreamError(n1);
+                            ERROR_RESULT = new StreamErrorMessage(n1);
                             break;
                     }
                 }
