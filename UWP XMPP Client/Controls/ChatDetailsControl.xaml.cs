@@ -360,7 +360,9 @@ namespace UWP_XMPP_Client.Controls
                 }
                 else
                 {
+                    int selectionStart = message_tbx.SelectionStart;
                     message_tbx.Text += "\r";
+                    message_tbx.SelectionStart = selectionStart + 1;
                 }
                 e.Handled = true;
             }
