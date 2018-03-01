@@ -82,6 +82,19 @@ namespace Thread_Save_Components.Classes.SQLite
             return i;
         }
 
+        public void Commit()
+        {
+            requestSema.Wait();
+            writeSema.Wait();
+            readSema.WaitCount(MAX_READ_COUNT);
+            requestSema.Release();
+
+            dB.Commit();
+
+            writeSema.Release();
+            readSema.Release(MAX_READ_COUNT);
+        }
+
         public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : class
         {
             List<T> list;

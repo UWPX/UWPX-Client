@@ -149,7 +149,9 @@ namespace XMPP_API.Classes.Network.XML
                         }
                         else
                         {
-                            messages.Add(new PresenceMessage(n));
+                            PresenceMessage pM = new PresenceMessage(n);
+                            Logger.Info("Presence received from: " + pM.getFrom() + " with presence: " + pM.PRESENCE);
+                            messages.Add(pM);
                         }
                         break;
 

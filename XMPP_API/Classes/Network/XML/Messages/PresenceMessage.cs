@@ -7,10 +7,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string SHOW;
-        private readonly string STATUS;
-        private readonly string TYPE;
-        private readonly int PRIORETY;
+        public readonly Presence PRESENCE;
+        public readonly string STATUS;
+        public readonly string TYPE;
+        public readonly int PRIORETY;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,9 +21,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 25/08/2017 Created [Fabian Sauter]
         /// </history>
-        public PresenceMessage(string from, string to, string show, string status, int priorety) : base(from, to)
+        public PresenceMessage(string from, string to, Presence presence, string status, int priorety) : base(from, to)
         {
-            this.SHOW = show;
+            this.PRESENCE = presence;
             this.STATUS = status;
             this.PRIORETY = priorety;
             this.cacheUntilSend = true;
@@ -36,47 +36,34 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.cacheUntilSend = true;
         }
 
-        public PresenceMessage(string show, string status, int priorety) : this(null, null, show, status, priorety)
+        public PresenceMessage(Presence presence, string status, int priorety) : this(null, null, presence, status, priorety)
         {
         }
 
-        public PresenceMessage() : this(null, null, null, null, int.MinValue)
+        public PresenceMessage() : this(int.MinValue)
         {
 
         }
 
-        public PresenceMessage(int priorety) : this(null, null, null, null, priorety)
+        public PresenceMessage(int priorety) : this(null, null, Presence.NotDefined, null, priorety)
         {
 
         }
 
         public PresenceMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value)
         {
-            if(node.Attributes["type"] != null)
+            if (node.Attributes["type"] != null)
             {
                 this.TYPE = node.Attributes["type"].Value;
             }
-            this.SHOW = XMLUtils.getChildNode(node, "show")?.InnerText;
+            this.PRESENCE = Utils.parsePresence(XMLUtils.getChildNode(node, "show")?.InnerText);
             this.STATUS = XMLUtils.getChildNode(node, "status")?.InnerText;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getStatus()
-        {
-            return STATUS;
-        }
 
-        public string getShow()
-        {
-            return SHOW;
-        }
-
-        public string getType()
-        {
-            return TYPE;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -96,9 +83,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 node.Add(new XAttribute("type", TYPE));
             }
-            if (SHOW != null)
+            if (PRESENCE != Presence.NotDefined)
             {
-                node.Add(new XElement("show", SHOW));
+                node.Add(new XElement("show", Utils.presenceToString(PRESENCE)));
             }
             if (PRIORETY > -128 && PRIORETY < 129)
             {

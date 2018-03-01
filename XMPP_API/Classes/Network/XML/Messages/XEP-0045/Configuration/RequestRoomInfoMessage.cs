@@ -27,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         #region --Set-, Get- Methods--
         private static XElement getRequestQuery(MUCAffiliation senderAffiliation)
         {
-            XNamespace ns = "http://jabber.org/protocol/muc#" + Utils.MUCAffiliationToString(senderAffiliation);
+            XNamespace ns = "http://jabber.org/protocol/muc#" + Utils.mucAffiliationToString(senderAffiliation);
             return new XElement(ns + "query");
         }
 

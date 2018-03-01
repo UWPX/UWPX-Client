@@ -181,7 +181,7 @@ namespace Data_Manager2.Classes
                 member.affiliation = msg.AFFILIATION;
                 member.role = msg.ROLE;
 
-                bool isUnavailable = Equals(msg.getType(), "unavailable");
+                bool isUnavailable = Equals(msg.TYPE, "unavailable");
                 if (isUnavailable)
                 {
                     foreach (MUCPresenceStatusCode s in msg.STATUS_CODES)

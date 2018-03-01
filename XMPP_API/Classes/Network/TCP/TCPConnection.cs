@@ -280,7 +280,7 @@ namespace XMPP_API.Classes.Network.TCP
                         else
                         {
                             // Trigger the NewDataReceived event:
-                            Task.Run(() => NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data)));
+                            NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(data));
                             errorCount = 0;
                             countNullOrEmptyStringRead = 0;
                             Logger.Debug("Received from (" + account.serverAddress + "):" + data);

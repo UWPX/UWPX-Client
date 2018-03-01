@@ -48,9 +48,9 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date ASC;", chatId);
         }
 
-        public ChatTable getChat(string id)
+        public ChatTable getChat(string chatId)
         {
-            IList<ChatTable> list = dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE id = ?;", id);
+            IList<ChatTable> list = dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE id = ?;", chatId);
             if (list.Count < 1)
             {
                 return null;
@@ -80,7 +80,7 @@ namespace Data_Manager2.Classes.DBManager
                 }
                 if (triggerChatChanged)
                 {
-                    ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, delete));
+                    onChatChanged(chat, delete);
                 }
             }
         }
@@ -92,7 +92,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public List<ChatTable> getAllChatsForClient(string userAccountId)
         {
-            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId LIKE ?;", userAccountId);
+            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
         public void setAllNotInRoster(string userAccountId)
@@ -101,7 +101,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 c.inRoster = false;
                 update(c);
-                ChatChanged?.Invoke(this, new ChatChangedEventArgs(c, false));
+                onChatChanged(c, false);
             });
         }
 
@@ -177,20 +177,33 @@ namespace Data_Manager2.Classes.DBManager
 
         public void resetPresence(string userAccountId)
         {
-            Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>
+            foreach (ChatTable c in getAllChatsForClient(userAccountId))
             {
                 if (c.chatType == ChatType.CHAT)
                 {
                     c.presence = Presence.Unavailable;
                     update(c);
-                    ChatChanged?.Invoke(this, new ChatChangedEventArgs(c, false));
+                    onChatChanged(c, false);
                 }
-            });
+            }
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void onChatChanged(ChatTable chat, bool deleted)
+        {
+            if (chat != null)
+            {
+                ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, deleted));
+            }
+        }
+
+        private void onChatChanged(string chatId)
+        {
+            onChatChanged(getChat(chatId), false);
+        }
+
         private void cacheImage(ChatMessageTable msg)
         {
             ImageDBManager.INSTANCE.downloadImage(msg);
@@ -199,6 +212,9 @@ namespace Data_Manager2.Classes.DBManager
         private void resetPresences()
         {
             dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET presence = ? WHERE chatType = ?;", Presence.Unavailable, ChatType.CHAT);
+
+            // Commit changes to the DB to prevent it getting executed late:
+            dB.Commit();
         }
 
         #endregion

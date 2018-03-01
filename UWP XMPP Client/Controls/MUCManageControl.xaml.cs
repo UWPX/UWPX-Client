@@ -133,7 +133,7 @@ namespace UWP_XMPP_Client.Controls
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 options.Clear();
-                roomConfigType_tbx.Text = "Configuration level: " + Utils.MUCAffiliationToString(responseMessage.configType);
+                roomConfigType_tbx.Text = "Configuration level: " + Utils.mucAffiliationToString(responseMessage.configType);
                 foreach (MUCInfoField o in responseMessage.roomConfig.options)
                 {
                     if (o.type != MUCInfoFieldType.HIDDEN)

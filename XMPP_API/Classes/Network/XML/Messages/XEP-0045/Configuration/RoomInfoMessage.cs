@@ -64,7 +64,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         #region --Misc Methods (Private)--
         private static XElement getQuery(RoomConfiguration roomConfig, MUCAffiliation configType)
         {
-            XNamespace qNs = "http://jabber.org/protocol/muc#" + Utils.MUCAffiliationToString(configType);
+            XNamespace qNs = "http://jabber.org/protocol/muc#" + Utils.mucAffiliationToString(configType);
             XElement query = new XElement(qNs + "query");
 
             XNamespace xNs = Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE;

@@ -65,14 +65,14 @@ namespace XMPP_API.Classes
             return connection != null && connection.state == ConnectionState.CONNECTED;
         }
 
-        public async Task<string> setPreseceAsync(string show, string status)
+        public async Task<string> setPreseceAsync(Presence presence, string status)
         {
-            return await setPreseceAsync(null, null, show, status);
+            return await setPreseceAsync(null, null, presence, status);
         }
 
-        public async Task<string> setPreseceAsync(string from, string to, string show, string status)
+        public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
         {
-            PresenceMessage presenceMessage = new PresenceMessage(from, to, show, status, connection.account.presencePriorety);
+            PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, connection.account.presencePriorety);
             await connection.sendAsync(presenceMessage, false, false);
             return presenceMessage.getId();
         }

@@ -6,10 +6,10 @@ namespace XMPP_API.Classes.Network.XML
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string JABBER_ID;
-        private readonly string NAME;
-        private readonly string SUBSCRIPTION;
-        private readonly string ASK;
+        public readonly string JID;
+        public readonly string NAME;
+        public readonly string SUBSCRIPTION;
+        public readonly string ASK;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML
         /// </history>
         public RosterItem(XmlNode n)
         {
-            this.JABBER_ID = n.Attributes["jid"].Value;
+            this.JID = n.Attributes["jid"].Value;
             this.NAME = n.Attributes["name"]?.Value;
             this.SUBSCRIPTION = n.Attributes["subscription"]?.Value ?? "none";
             this.ASK = n.Attributes["ask"]?.Value;
@@ -31,25 +31,7 @@ namespace XMPP_API.Classes.Network.XML
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getJabberId()
-        {
-            return JABBER_ID;
-        }
 
-        public string getName()
-        {
-            return NAME;
-        }
-
-        public string getSubscription()
-        {
-            return SUBSCRIPTION;
-        }
-
-        public string getAsk()
-        {
-            return ASK;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

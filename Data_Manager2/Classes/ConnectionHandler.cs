@@ -140,18 +140,16 @@ namespace Data_Manager2.Classes
         private XMPPClient loadAccount(XMPPAccount acc)
         {
             XMPPClient c = new XMPPClient(acc);
-            c.NewChatMessage -= C_NewChatMessage;
+
+            // Ensure no event gets bound multiple times:
+            unloadAccount(c);
+
             c.NewChatMessage += C_NewChatMessage;
-            c.NewRoosterMessage -= C_NewRoosterMessage;
             c.NewRoosterMessage += C_NewRoosterMessage;
-            c.NewPresence -= C_NewPresence;
             c.NewPresence += C_NewPresence;
             // Requesting roster if connected
-            c.ConnectionStateChanged -= C_ConnectionStateChanged;
             c.ConnectionStateChanged += C_ConnectionStateChanged;
-            c.MessageSend -= C_MessageSend;
             c.MessageSend += C_MessageSend;
-            c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
             c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
             clients.Add(c);
             return c;
@@ -162,7 +160,6 @@ namespace Data_Manager2.Classes
             c.NewChatMessage -= C_NewChatMessage;
             c.NewRoosterMessage -= C_NewRoosterMessage;
             c.NewPresence -= C_NewPresence;
-            // Requesting roster if connected
             c.ConnectionStateChanged -= C_ConnectionStateChanged;
             c.MessageSend -= C_MessageSend;
             c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
@@ -232,7 +229,7 @@ namespace Data_Manager2.Classes
 
         private void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
         {
-            string from = Utils.getBareJidFromFullJid(args.getFrom());
+            string from = Utils.getBareJidFromFullJid(args.PRESENCE_MESSAGE.getFrom());
 
             // If received a presence message from your own account return
             if (string.Equals(from, client.getXMPPAccount().getIdAndDomain()))
@@ -243,7 +240,7 @@ namespace Data_Manager2.Classes
             string to = client.getXMPPAccount().getIdAndDomain();
             string id = ChatTable.generateId(from, to);
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
-            switch (args.getPresenceType())
+            switch (args.PRESENCE_MESSAGE.TYPE)
             {
                 case "subscribe":
                 case "unsubscribed":
@@ -262,25 +259,19 @@ namespace Data_Manager2.Classes
                             chatState = null
                         };
                     }
-                    chat.subscription = args.getPresenceType();
+                    chat.subscription = args.PRESENCE_MESSAGE.TYPE;
                     break;
             }
 
             if (chat != null)
             {
-                chat.id = id;
-                chat.chatJabberId = from;
-                chat.userAccountId = to;
-                chat.status = args.getStatus();
-                switch (args.getPresence())
-                {
-                    case Presence.NotDefined:
-                        break;
-                    default:
-                        chat.presence = args.getPresence();
-                        break;
-                }
+                chat.status = args.PRESENCE_MESSAGE.STATUS;
+                chat.presence = args.PRESENCE_MESSAGE.PRESENCE;
                 ChatDBManager.INSTANCE.setChat(chat, false, true);
+            }
+            else
+            {
+                Logger.Warn("Received a presence message for an unknown chat from: " + from + ", to: " + to);
             }
         }
 
@@ -305,30 +296,27 @@ namespace Data_Manager2.Classes
 
                 foreach (RosterItem item in msg.getItems())
                 {
-                    string from = item.getJabberId();
+                    string from = item.JID;
                     string id = ChatTable.generateId(from, to);
                     ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
                     if (chat != null)
                     {
-                        chat.id = id;
-                        chat.chatJabberId = from;
-                        chat.userAccountId = to;
-                        chat.subscription = item.getSubscription();
-                        chat.inRoster = !item.getSubscription().Equals("remove");
-                        chat.ask = item.getAsk();
+                        chat.subscription = item.SUBSCRIPTION;
+                        chat.inRoster = !item.SUBSCRIPTION.Equals("remove");
+                        chat.ask = item.ASK;
                     }
-                    else if (!string.Equals(item.getSubscription(), "remove"))
+                    else if (!Equals(item.SUBSCRIPTION, "remove"))
                     {
                         chat = new ChatTable()
                         {
                             id = id,
                             chatJabberId = from,
                             userAccountId = to,
-                            subscription = item.getSubscription(),
+                            subscription = item.SUBSCRIPTION,
                             lastActive = DateTime.Now,
                             muted = false,
                             inRoster = true,
-                            ask = item.getAsk(),
+                            ask = item.ASK,
                             chatType = ChatType.CHAT
                         };
                     }

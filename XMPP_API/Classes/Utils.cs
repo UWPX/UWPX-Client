@@ -132,7 +132,7 @@ namespace XMPP_API.Classes
         /// Converts the given MUCRole to the equivalent string representation.
         /// e.g. MUCRole.VISITOR => 'visitor'
         /// </summary>
-        public static string MUCRoleToString(MUCRole role)
+        public static string mucRoleToString(MUCRole role)
         {
             return role.ToString().ToLower();
         }
@@ -141,9 +141,75 @@ namespace XMPP_API.Classes
         /// Converts the given MUCAffiliation to the equivalent string representation.
         /// e.g. MUCAffiliation.NONE => 'none'
         /// </summary>
-        public static string MUCAffiliationToString(MUCAffiliation affiliation)
+        public static string mucAffiliationToString(MUCAffiliation affiliation)
         {
             return affiliation.ToString().ToLower();
+        }
+
+        /// <summary>
+        /// Converts the given string to a presence.
+        /// 'null' and empty strings return Presence.Online.
+        /// The default return value is Presence.Unavailable.
+        /// e.g. 'chat' => Presence.Chat, '' => return Presence.Online
+        /// </summary>
+        /// <param name="presence">The string that should get converted to a presence.</param>
+        public static Presence parsePresence(string presence)
+        {
+            switch (presence?.ToLower())
+            {
+                case "chat":
+                    return Presence.Chat;
+
+                case "away":
+                    return Presence.Away;
+
+                case "xa":
+                    return Presence.Xa;
+
+                case "dnd":
+                    return Presence.Dnd;
+
+                case null:
+                case "":
+                    return Presence.Online;
+
+                case "unavailable":
+                default:
+                    return Presence.Unavailable;
+            }
+        }
+
+        /// <summary>
+        /// Converts the given presence to its string representation.
+        /// e.g. Presence.Unavailable => 'unavailable'
+        /// </summary>
+        /// <param name="presence">The presence, that should get converted to a string.</param>
+        /// <returns>Returns the string representation of the given presence.</returns>
+        public static string presenceToString(Presence presence)
+        {
+            switch (presence)
+            {
+                case Presence.Unavailable:
+                    return "unavailable";
+
+                case Presence.Dnd:
+                    return "dnd";
+
+                case Presence.Xa:
+                    return "xa";
+
+                case Presence.Away:
+                    return "away";
+
+                case Presence.Online:
+                    return "online";
+
+                case Presence.Chat:
+                    return "chat";
+
+                default:
+                    return presence.ToString().ToLower();
+            }
         }
 
         #endregion
