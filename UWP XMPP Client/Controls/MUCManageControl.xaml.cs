@@ -51,7 +51,7 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty mucInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCManageControl), null);
 
-        private MessageResponseHelper<RoomInfoMessage> messageResponseHelper;
+        private MessageResponseHelper<IQMessage> messageResponseHelper;
         private MessageResponseHelper<IQMessage> saveMessageResponseHelper;
 
         private CustomObservableCollection<MUCInfoOptionTemplate> options;
@@ -100,7 +100,7 @@ namespace UWP_XMPP_Client.Controls
             string chatJID = Chat.chatJabberId;
             string chatID = Chat.id;
             string nickname = MUCInfo.nickname;
-            messageResponseHelper = new MessageResponseHelper<RoomInfoMessage>(Client, onNewMessage, onTimeout);
+            messageResponseHelper = new MessageResponseHelper<IQMessage>(Client, onNewMessage, onTimeout);
 
             Task.Run(async () =>
             {
@@ -121,32 +121,51 @@ namespace UWP_XMPP_Client.Controls
                         loading_grid.Visibility = Visibility.Collapsed;
                         reload_btn.IsEnabled = true;
 
-                        notificationBanner_ian.Show("Failed to request information! It seems like you are no member of this room. Please reconnect or retry.");
+                        notificationBanner_ian.Show("Failed to request information!\nIt seems like you are no member of this room. Please reconnect or retry.");
                     });
                 }
             });
         }
 
-        private bool onNewMessage(RoomInfoMessage responseMessage)
+        private bool onNewMessage(IQMessage iq)
         {
-            // Add controls and update viability:
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (iq is RoomInfoMessage)
             {
-                options.Clear();
-                roomConfigType_tbx.Text = "Configuration level: " + Utils.mucAffiliationToString(responseMessage.configType);
-                foreach (MUCInfoField o in responseMessage.roomConfig.options)
+                RoomInfoMessage responseMessage = iq as RoomInfoMessage;
+
+                // Add controls and update viability:
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    if (o.type != MUCInfoFieldType.HIDDEN)
+                    options.Clear();
+                    roomConfigType_tbx.Text = "Configuration level: " + Utils.mucAffiliationToString(responseMessage.configType);
+                    foreach (MUCInfoField o in responseMessage.roomConfig.options)
                     {
-                        options.Add(new MUCInfoOptionTemplate() { option = o });
+                        if (o.type != MUCInfoFieldType.HIDDEN)
+                        {
+                            options.Add(new MUCInfoOptionTemplate() { option = o });
+                        }
                     }
-                }
-                reload_btn.IsEnabled = true;
-                timeout_stckpnl.Visibility = Visibility.Collapsed;
-                loading_grid.Visibility = Visibility.Collapsed;
-                info_grid.Visibility = Visibility.Visible;
-            }).AsTask();
-            return true;
+                    reload_btn.IsEnabled = true;
+                    timeout_stckpnl.Visibility = Visibility.Collapsed;
+                    loading_grid.Visibility = Visibility.Collapsed;
+                    info_grid.Visibility = Visibility.Visible;
+                }).AsTask();
+                return true;
+            }
+            else if (iq is IQErrorMessage)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    options.Clear();
+                    retry_btn.IsEnabled = true;
+                    info_grid.Visibility = Visibility.Collapsed;
+                    loading_grid.Visibility = Visibility.Collapsed;
+                    timeout_stckpnl.Visibility = Visibility.Visible;
+
+                    notificationBanner_ian.Show("Failed to request configuration! Server responded:\n" + (iq as IQErrorMessage).ERROR_MESSAGE ?? "null");
+                }).AsTask();
+            }
+            return false;
         }
 
         private void onTimeout()
@@ -154,6 +173,7 @@ namespace UWP_XMPP_Client.Controls
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 retry_btn.IsEnabled = true;
+                info_grid.Visibility = Visibility.Collapsed;
                 loading_grid.Visibility = Visibility.Collapsed;
                 timeout_stckpnl.Visibility = Visibility.Visible;
             }).AsTask();
@@ -183,7 +203,7 @@ namespace UWP_XMPP_Client.Controls
                 MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, nickname);
                 if (member == null)
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notificationBanner_ian.Show("Failed to save! Seams like you are no member of the room any more. Please rejoin the room and try again."));
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notificationBanner_ian.Show("Failed to save!\nSeams like you are no member of the room any more. Please rejoin the room and try again."));
                 }
 
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -201,7 +221,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (msg is IQErrorMessage)
                 {
-                    notificationBanner_ian.Show("Failed to save! Server responded: " + (msg as IQErrorMessage).ERROR_MESSAGE ?? "null");
+                    notificationBanner_ian.Show("Failed to save! Server responded:\n" + (msg as IQErrorMessage).ERROR_MESSAGE ?? "null");
                 }
                 else
                 {
@@ -228,7 +248,7 @@ namespace UWP_XMPP_Client.Controls
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                notificationBanner_ian.Show("Failed to save! Server did not respond in time.");
+                notificationBanner_ian.Show("Failed to save!\nServer did not respond in time.");
 
                 save_prgr.Visibility = Visibility.Collapsed;
                 save_prgr.IsActive = false;

@@ -54,7 +54,7 @@
         </Grid>
 
         <StackPanel x:Name="timeout_stckpnl" Visibility="Collapsed">
-            <TextBlock Text="The request timed out!" Margin="0, 0, 0, 10"/>
+            <TextBlock Text="The request timed out or failed!" Margin="0, 0, 0, 10"/>
             <Button x:Name="retry_btn" Grid.Column="0" HorizontalAlignment="Left" Click="retry_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE8EE;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>

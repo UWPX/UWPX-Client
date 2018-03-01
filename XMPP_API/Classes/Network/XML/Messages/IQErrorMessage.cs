@@ -28,7 +28,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
             else
             {
-                this.ERROR_MESSAGE = eNode.InnerText;
+                this.ERROR_MESSAGE = eNode.InnerXml;
                 this.ERROR_TYPE = eNode.Attributes["type"]?.Value;
             }
         }
