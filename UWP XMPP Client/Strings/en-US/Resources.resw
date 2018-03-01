@@ -155,9 +155,9 @@ If you are missing a MUC feature please tell me [here](https://github.com/UWPX/U
 * Added a MUC info page
 * Added swiping to manipulate chats
 * Added a log-level selection control
-* Added searchin for chats
+* Added searching for chats
 * Fixed MUC browsing
-* Started improved account connection reliabillity (not final, still a little bit bugy from time to time)
+* Started improved account connection reliabillity (not final, still a little bit buggy from time to time)
 
 ### Plans for april:
 * Finish implementation of all planed MUC features #10 
