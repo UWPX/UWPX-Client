@@ -407,7 +407,7 @@ namespace Data_Manager2.Classes
             }
 
             bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(msg.getId() + '_' + chat.id) != null;
-            ChatDBManager.INSTANCE.setChatMessageEntry(message, !msgExists, msgExists);
+            ChatDBManager.INSTANCE.setChatMessage(message, !msgExists, msgExists);
         }
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)

@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 
@@ -170,8 +171,25 @@ namespace Data_Manager2.Classes
 
                         stopMUCJoinHelper(muc);
 
-                        await sendMUCLeaveMessageAsync(client, muc, info);
+                        if (info.state != MUCState.DISCONNECTED)
+                        {
+                            await sendMUCLeaveMessageAsync(client, muc, info);
+                        }
                         MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.ERROR, true);
+
+                        // Add an error chat message:
+                        ChatMessageTable msg = new ChatMessageTable()
+                        {
+                            id = ChatMessageTable.generateErrorMessageId(errorMessage.getId() ?? AbstractMessage.getRandomId(), muc.id),
+                            chatId = muc.id,
+                            date = DateTime.Now,
+                            fromUser = errorMessage.getFrom(),
+                            isImage = false,
+                            message = "Code: " + errorMessage.ERROR_CODE + "\nType: " + errorMessage.ERROR_TYPE + "\nMessage:\n" + errorMessage.ERROR_MESSAGE,
+                            state = Data_Manager.Classes.MessageState.UNREAD,
+                            type = MessageMessage.TYPE_ERROR
+                        };
+                        ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
                     }
                 }
             }

@@ -27,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                 string code = errorNode.Attributes["code"]?.Value;
                 int.TryParse(code, out ERROR_CODE);
                 ERROR_TYPE = errorNode.Attributes["type"]?.Value;
-                ERROR_MESSAGE = errorNode.InnerText;
+                ERROR_MESSAGE = errorNode.InnerXml;
             }
         }
 

@@ -158,7 +158,7 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setChatMessageEntry(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
+        public void setChatMessage(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
         {
             update(message);
             if (triggerNewChatMessage)
@@ -212,9 +212,6 @@ namespace Data_Manager2.Classes.DBManager
         private void resetPresences()
         {
             dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET presence = ? WHERE chatType = ?;", Presence.Unavailable, ChatType.CHAT);
-
-            // Commit changes to the DB to prevent it getting executed late:
-            dB.Commit();
         }
 
         #endregion

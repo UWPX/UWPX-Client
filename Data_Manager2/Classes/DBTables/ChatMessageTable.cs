@@ -52,17 +52,17 @@ namespace Data_Manager2.Classes.DBTables
             switch (msg.getType())
             {
                 case MessageMessage.TYPE_ERROR:
-                    this.id = msg.getId() + '_' + chat.id + "_error";
+                    this.id = generateErrorMessageId(msg.getId(), chat.id);
                     this.fromUser = msg.getFrom();
                     break;
 
                 case MessageMessage.TYPE_GROUPCHAT:
-                    this.id = msg.getId() + '_' + chat.id;
+                    this.id = generateId(msg.getId(), chat.id);
                     this.fromUser = msg.getFromNick();
                     break;
 
                 default:
-                    this.id = msg.getId() + '_' + chat.id;
+                    this.id = generateId(msg.getId(), chat.id);
                     this.fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
                     break;
             }
@@ -102,6 +102,26 @@ namespace Data_Manager2.Classes.DBTables
         private bool isMessageAnImageUrl(string msg)
         {
             return msg != null && IMAGE_URL_REGEX.IsMatch(msg.ToLower());
+        }
+
+        /// <summary>
+        /// Generates the message id based on the given msg id and chat id.
+        /// </summary>
+        /// <param name="msgId">The message id.</param>
+        /// <param name="chatId">The id of the chat, this message is for.</param>
+        public static string generateId(string msgId, string chatId)
+        {
+            return msgId + '_' + chatId;
+        }
+
+        /// <summary>
+        /// Generates the message id based on the given msg id and chat id.
+        /// </summary>
+        /// <param name="msgId">The message id.</param>
+        /// <param name="chatId">The id of the chat, this message is for.</param>
+        public static string generateErrorMessageId(string msgId, string chatId)
+        {
+            return msgId + '_' + chatId + "_error";
         }
 
         #endregion
