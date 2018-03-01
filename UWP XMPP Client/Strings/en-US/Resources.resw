@@ -133,31 +133,38 @@
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.2.0.0 [February 2018] Basic MUC support:
+    <value># v.0.3.0.0 [March 2018] Performance and MUC:
 
-Since I've decided to switch from feature driven releases to regular (probably monthly or so 😉) releases, here is the release for february:
-
-This release starts adding support for [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html).
-
-It adds MUC browsing, joining, adding and sending messages. You can also add your MUCs to your personal bookmarks **but** you can't remove them again. This is a topic for a later release.
+This release improves the Apps performance quiet a bit. All pages should load faster and navigation between pages should be quiet smooth now.
+This months release also improves the [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html) support. For example now you can make quiet a few changes for your MUC rooms (have a look at the screenshoots for examples).
+By now the MUC support is about 90% done. It still needs quiet a bit of work that as to be done and then there are still all those MUC related bugs to fix. But my plans are to finish implementation of all MUC features this month, so I can start fixing bugs by the end march.
+If you are missing a MUC feature please tell me [here](https://github.com/UWPX/UWPX-Client/issues/10) about it.
+**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
-* App locking up on startup, if a lot of your contacts are online (associated with presence changes) [#13](https://github.com/UWPX/UWPX-Client/issues/13)
-* Background image not loading [#9](https://github.com/UWPX/UWPX-Client/issues/9) 
-* Last active chat won't update [#8](https://github.com/UWPX/UWPX-Client/issues/8) 
-* App crashes, if not connected to the internet [#14](https://github.com/UWPX/UWPX-Client/issues/14)
+* Background image not loading #9 
+* Last active chat won't update #8 
+* App crashes, if not connected to the internet #14 
+* MUC configuration: 'list multi' are not supported #21
+* MUC configuration: 'list single' field won't save #20
+* Accounts don't connect from time to time #18
+* MUC messages showing up on wrong side #17
+* Remove bookmark not working #22
 
 ### Changes:
-* Started adding basic [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html) support
-* Improved [Disco (XEP-0030)](https://xmpp.org/extensions/xep-0030.html) support
-* Added message state indicators
-* Added support for updating chat messages
-* Fixed missing chat names
-* Fixed notification not hiding
-* Fixed last read message
-* Fixed various crashes
+* Added a MUC info page
+* Added swiping to manipulate chats
+* Added a log-level selection control
+* Added searchin for chats
+* Fixed MUC browsing
+* Started improved account connection reliabillity (not final, still a little bit bugy from time to time)
 
+### Plans for april:
+* Finish implementation of all planed MUC features #10 
+* Start adding [vcard-temp(XEP-0054)](https://xmpp.org/extensions/xep-0054.html) support
+* Fix [bugs](https://github.com/UWPX/UWPX-Client/issues)
 
-[View on GitHub](https://github.com/UWPX/UWPX-Client/releases)</value>
+### Examples:
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.3.0.0)</value>
   </data>
 </root>
