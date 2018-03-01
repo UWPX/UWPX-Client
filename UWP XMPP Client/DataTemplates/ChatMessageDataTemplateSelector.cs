@@ -3,6 +3,7 @@ using UWP_XMPP_Client.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
@@ -82,10 +83,10 @@ namespace UWP_XMPP_Client.DataTemplates
                 {
                     switch (template.message.type)
                     {
-                        case "error":
+                        case MessageMessage.TYPE_ERROR:
                             return errorMessageTemplate;
 
-                        case "groupchat":
+                        case MessageMessage.TYPE_GROUPCHAT:
                             if (!requestedMUCInfo)
                             {
                                 mucInfo = getMUCInfo(container);
