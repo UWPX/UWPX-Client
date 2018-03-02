@@ -1,4 +1,4 @@
-# UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.2.0.0)
+# UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases)
 [This App is still in alpha stage!]
 
 Chat with all your XMPP contacts.<br/>
@@ -15,6 +15,7 @@ UWPX is an XMPP client, that connects to all your favourite XMPP servers.
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") |
 | HTTP File Upload  | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
 | User Avatar       | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") |
+| vcard-temp        | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") |
 
 [MORE NOTES TO COME]
 
