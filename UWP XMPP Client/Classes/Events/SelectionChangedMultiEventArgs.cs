@@ -1,14 +1,13 @@
-﻿using System.Xml;
-using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
+namespace UWP_XMPP_Client.Classes.Events
 {
-    public class MUCInfoOption
+    public class SelectionChangedMultiEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string label;
-        public string value;
+        public readonly List<object> SELECTED_ITEMS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,54 +16,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/02/2018 Created [Fabian Sauter]
+        /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCInfoOption()
+        public SelectionChangedMultiEventArgs(List<object> selectedItems)
         {
-            this.label = null;
-            this.value = null;
-        }
-
-        public MUCInfoOption(XmlNode node)
-        {
-            this.label = node.Attributes["label"]?.Value;
-            this.value = getValue(node);
+            this.SELECTED_ITEMS = selectedItems;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private string getValue(XmlNode node)
-        {
-            XmlNode value = XMLUtils.getChildNode(node, "value");
-            return value?.InnerText;
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement(XNamespace ns)
-        {
-            return new XElement(ns + "value")
-            {
-                Value = (value?.ToString()) ?? ""
-            };
-        }
 
-        public override string ToString()
-        {
-            return (label ?? value) ?? "null";
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is MUCInfoOption)
-            {
-                MUCInfoOption o = obj as MUCInfoOption;
-                return Equals(o.label, label) && Equals(o.value, value);
-            }
-            return false;
-        }
 
         #endregion
 

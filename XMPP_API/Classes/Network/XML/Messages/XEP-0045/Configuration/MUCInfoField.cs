@@ -57,13 +57,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 
                 case "list-single":
                     this.options = getOptions(node);
-                    this.selectedOptions = getSelectedOptions(node);
+                    this.selectedOptions = getSelectedOptions(node, this.options);
                     this.type = MUCInfoFieldType.LIST_SINGLE;
                     break;
 
                 case "list-multi":
                     this.options = getOptions(node);
-                    this.selectedOptions = getSelectedOptions(node);
+                    this.selectedOptions = getSelectedOptions(node, this.options);
                     this.type = MUCInfoFieldType.LIST_MULTI;
                     break;
 
@@ -107,7 +107,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             return list;
         }
 
-        private List<MUCInfoOption> getSelectedOptions(XmlNode node)
+        private List<MUCInfoOption> getSelectedOptions(XmlNode node, List<MUCInfoOption> options)
         {
             List<MUCInfoOption> list = new List<MUCInfoOption>();
 
@@ -115,7 +115,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             {
                 if (Equals(n.Name, "value"))
                 {
-                    list.Add(new MUCInfoOption() { label = null, value = n.InnerText });
+                    for (int i = 0; i < options.Count; i++)
+                    {
+                        if (Equals(options[i].value, n.InnerText))
+                        {
+                            list.Add(options[i]);
+                            break;
+                        }
+                    }
                 }
             }
 

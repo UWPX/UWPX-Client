@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -12,5 +13,6 @@
         <ToggleSwitch x:Name="toggleField_tgls" Visibility="Collapsed" IsEnabled="{x:Bind InputEnabled}" Toggled="toggleField_tgls_Toggled"/>
         <TextBox x:Name="textField_tbx" Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}" TextChanged="textField_tbx_TextChanged"/>
         <ComboBox x:Name="listField_cmbb" PlaceholderText="Please select one..." Visibility="Collapsed" Margin="0, 5, 0, 0" IsEnabled="{x:Bind InputEnabled}" SelectionChanged="listField_cmbb_SelectionChanged"/>
+        <controls:MultiSelectControl x:Name="listMulti_msc" Visibility="Collapsed" SelectionChanged="listMulti_msc_SelectionChanged"/>
     </StackPanel>
 </UserControl>

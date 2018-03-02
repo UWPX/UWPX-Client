@@ -1,43 +1,41 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using UWP_XMPP_Client.Classes;
-using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class MUCRoomTemplate : INotifyPropertyChanged
+    class MultiSelectTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private MUCRoomInfo _roomInfo;
-        public MUCRoomInfo roomInfo
+        private object _item;
+        public object item
         {
             get
             {
-                return _roomInfo;
+                return _item;
             }
             set
             {
-                if (value != _roomInfo)
+                if (value != _item)
                 {
-                    _roomInfo = value;
-                    onPropertyChanged("roomInfo");
+                    _item = value;
+                    onPropertyChanged("item");
                 }
             }
         }
-        private XMPPClient _client;
-        public XMPPClient client
+        private bool _isSelected;
+        public bool isSelected
         {
             get
             {
-                return _client;
+                return _isSelected;
             }
             set
             {
-                if (value != _client)
+                if (value != _isSelected)
                 {
-                    _client = value;
-                    onPropertyChanged("client");
+                    _isSelected = value;
+                    onPropertyChanged("isSelected");
                 }
             }
         }
@@ -47,16 +45,7 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 04/01/2018 Created [Fabian Sauter]
-        /// </history>
-        public MUCRoomTemplate()
-        {
 
-        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -66,15 +55,15 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
-
-        #endregion
-
-        #region --Misc Methods (Private)--
         private void onPropertyChanged([CallerMemberName] string name = "")
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+
 
         #endregion
 

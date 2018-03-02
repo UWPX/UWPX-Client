@@ -146,6 +146,7 @@ namespace UWP_XMPP_Client.Controls
                         }
                     }
                     reload_btn.IsEnabled = true;
+                    notificationBanner_ian.Dismiss();
                     timeout_stckpnl.Visibility = Visibility.Collapsed;
                     loading_grid.Visibility = Visibility.Collapsed;
                     info_grid.Visibility = Visibility.Visible;
@@ -173,6 +174,7 @@ namespace UWP_XMPP_Client.Controls
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 retry_btn.IsEnabled = true;
+                notificationBanner_ian.Dismiss();
                 info_grid.Visibility = Visibility.Collapsed;
                 loading_grid.Visibility = Visibility.Collapsed;
                 timeout_stckpnl.Visibility = Visibility.Visible;

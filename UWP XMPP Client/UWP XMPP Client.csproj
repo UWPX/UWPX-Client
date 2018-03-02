@@ -106,6 +106,7 @@
     <Compile Include="Classes\CustomObservableCollection.cs" />
     <Compile Include="Classes\Events\NavigatedToMUCInfoEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
+    <Compile Include="Classes\Events\SelectionChangedMultiEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\MUCRoomInfo.cs" />
     <Compile Include="Classes\ShowAddMUCNavigationParameter.cs" />
@@ -137,6 +138,9 @@
     <Compile Include="Controls\MUCMembersControl.xaml.cs">
       <DependentUpon>MUCMembersControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\MultiSelectControl.xaml.cs">
+      <DependentUpon>MultiSelectControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SaveableTextBox.xaml.cs">
       <DependentUpon>SaveableTextBox.xaml</DependentUpon>
     </Compile>
@@ -145,6 +149,7 @@
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
     <Compile Include="DataTemplates\MUCMemberTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
+    <Compile Include="DataTemplates\MultiSelectTemplate.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>
@@ -362,6 +367,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MUCMembersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\MultiSelectControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,7 +2,6 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
-using System.Linq;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -83,34 +82,23 @@ namespace UWP_XMPP_Client.Controls
                         toggleField_tgls.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.LIST_SINGLE:
-                        List<string> items = new List<string>();
-                        int selectedIndex = -1;
-                        for (int i = 0; i < Field.options.Count; i++)
+                    case MUCInfoFieldType.LIST_MULTI:
+                        listField_cmbb.ItemsSource = Field.options;
+                        if (Field.selectedOptions.Count > 0)
                         {
-                            if (selectedIndex < 0)
-                            {
-                                foreach (MUCInfoOption oSelected in Field.selectedOptions)
-                                {
-                                    if (Equals(oSelected.value, Field.selectedOptions[i].value))
-                                    {
-                                        selectedIndex = i;
-                                        break;
-                                    }
-                                }
-                            }
-                            items.Add(Field.options[i].label ?? Field.options[i].value);
-                        }
-
-                        listField_cmbb.ItemsSource = items;
-                        if (selectedIndex >= 0)
-                        {
-                            listField_cmbb.SelectedIndex = selectedIndex;
+                            listField_cmbb.SelectedItem = Field.selectedOptions[0];
                         }
                         listField_cmbb.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.LIST_MULTI:
+                    case MUCInfoFieldType.LIST_SINGLE:
+                        label_tblck.Visibility = Visibility.Collapsed;
+
+                        listMulti_msc.header = Field.label ?? (Field.var ?? "No description / 'var' given!");
+                        listMulti_msc.setItems(new List<object>(Field.options));
+                        listMulti_msc.setSelectedItems(new List<object>(Field.selectedOptions));
+
+                        listMulti_msc.Visibility = Visibility.Visible;
                         break;
 
                     case MUCInfoFieldType.HIDDEN:
@@ -127,6 +115,7 @@ namespace UWP_XMPP_Client.Controls
             textField_tbx.Visibility = Visibility.Collapsed;
             toggleField_tgls.Visibility = Visibility.Collapsed;
             listField_cmbb.Visibility = Visibility.Collapsed;
+            label_tblck.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -154,16 +143,23 @@ namespace UWP_XMPP_Client.Controls
 
         private void listField_cmbb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (listField_cmbb.SelectedIndex >= 0)
+            if (listField_cmbb.SelectedItem is MUCInfoOption)
             {
-                Field.selectedOptions.Clear();
-                string selected = (string)listField_cmbb.SelectedItem;
-                MUCInfoOption o = Field.options.First((x) => { return Equals(x.label, selected) || Equals(x.value, selected); });
-                if (o != null)
+                Field.selectedOptions.Add(listField_cmbb.SelectedItem as MUCInfoOption);
+            }
+        }
+
+        private void listMulti_msc_SelectionChanged(MultiSelectControl sender, Classes.Events.SelectionChangedMultiEventArgs args)
+        {
+            List<MUCInfoOption> list = new List<MUCInfoOption>();
+            foreach (object o in args.SELECTED_ITEMS)
+            {
+                if (o is MUCInfoOption)
                 {
-                    Field.selectedOptions.Add(o);
+                    list.Add(o as MUCInfoOption);
                 }
             }
+            Field.selectedOptions = list;
         }
 
         #endregion

@@ -1,0 +1,31 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.MultiSelectControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+    mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="listItem" x:DataType="datatemplates:MultiSelectTemplate">
+            <CheckBox Grid.Column="0"
+                      IsChecked="{x:Bind isSelected, Mode=TwoWay}"
+                      Content="{x:Bind item.ToString()}"
+                      Margin="10"
+                      Checked="CheckBox_CheckedChanged"
+                      Unchecked="CheckBox_CheckedChanged"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <controls:Expander Header="{x:Bind header}"
+                       HorizontalContentAlignment="Stretch">
+        <ListView x:Name="items_listv"
+                  ItemsSource="{x:Bind items, Mode=TwoWay}"
+                  MaxHeight="{x:Bind MaxHeight}"
+                  ItemTemplate="{StaticResource listItem}"
+                  SelectionMode="None"
+                  DataContextChanged="items_listv_DataContextChanged"/>
+    </controls:Expander>
+</UserControl>
