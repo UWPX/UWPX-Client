@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Classes.Events;
-using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -25,13 +23,17 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty maxContentHeightProperty = DependencyProperty.Register("maxContentHeight", typeof(int), typeof(MultiSelectControl), null);
 
-        private CustomObservableCollection<MultiSelectTemplate> items;
+        public List<object> itemSource
+        {
+            get { return (List<object>)GetValue(itemSourceProperty); }
+            set { SetValue(itemSourceProperty, value); }
+        }
+        public static readonly DependencyProperty itemSourceProperty = DependencyProperty.Register("itemSource", typeof(List<object>), typeof(MultiSelectControl), null);
+
         private List<object> selectedItems;
 
         public delegate void SelectionChangedMultiEventHandler(MultiSelectControl sender, SelectionChangedMultiEventArgs args);
         public event SelectionChangedMultiEventHandler SelectionChanged;
-
-        private static object selectedItemsLock = new object();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,7 +48,6 @@ namespace UWP_XMPP_Client.Controls
         {
             this.MaxHeight = 200;
             this.selectedItems = new List<object>();
-            this.items = new CustomObservableCollection<MultiSelectTemplate>();
             this.InitializeComponent();
         }
 
@@ -60,26 +61,8 @@ namespace UWP_XMPP_Client.Controls
 
         public void setSelectedItems(List<object> list)
         {
-            lock (selectedItemsLock)
-            {
-                selectedItems.Clear();
-                selectedItems.AddRange(list);
-            }
-        }
-
-        public void setItems(List<object> list)
-        {
-            items.Clear();
-            List<MultiSelectTemplate> templateList = new List<MultiSelectTemplate>();
-            for (int i = 0; i < list.Count; i++)
-            {
-                templateList.Add(new MultiSelectTemplate()
-                {
-                    isSelected = false,
-                    item = list[i]
-                });
-            }
-            items.AddRange(templateList);
+            selectedItems.Clear();
+            selectedItems.AddRange(list);
         }
 
         #endregion
@@ -90,36 +73,12 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void updateSelectedItems()
-        {
-            lock (selectedItemsLock)
-            {
-                selectedItems.Clear();
-                for (int i = 0; i < items.Count; i++)
-                {
-                    if (items[i].isSelected)
-                    {
-                        selectedItems.Add(items[i].item);
-                    }
-                }
-            }
-            SelectionChanged?.Invoke(this, new SelectionChangedMultiEventArgs(selectedItems));
-        }
-
         private void showSelectedItems()
         {
-            lock (selectedItemsLock)
+            items_listv.SelectedItems.Clear();
+            for (int i = 0; i < selectedItems.Count; i++)
             {
-                for (int i = 0; i < selectedItems.Count; i++)
-                {
-                    for (int e = 0; e < items.Count; e++)
-                    {
-                        if (Equals(selectedItems[i], items[e].item))
-                        {
-                            items[e].isSelected = true;
-                        }
-                    }
-                }
+                items_listv.SelectedItems.Add(selectedItems[i]);
             }
         }
 
@@ -131,14 +90,30 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void items_listv_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             showSelectedItems();
         }
 
-        private void CheckBox_CheckedChanged(object sender, RoutedEventArgs e)
+        private void items_listv_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            updateSelectedItems();
+            // Remove items:
+            for (int i = 0; i < e.RemovedItems.Count; i++)
+            {
+                selectedItems.Remove(e.RemovedItems[i]);
+            }
+
+            // Add items:
+            for (int i = 0; i < e.AddedItems.Count; i++)
+            {
+                if (!selectedItems.Contains(e.AddedItems[i]))
+                {
+                    selectedItems.Add(e.AddedItems[i]);
+                }
+            }
+
+            // Trigger the event:
+            SelectionChanged?.Invoke(this, new SelectionChangedMultiEventArgs(selectedItems));
         }
 
         #endregion

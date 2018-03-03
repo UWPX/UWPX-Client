@@ -82,7 +82,7 @@ namespace UWP_XMPP_Client.Controls
                         toggleField_tgls.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.LIST_MULTI:
+                    case MUCInfoFieldType.LIST_SINGLE:
                         listField_cmbb.ItemsSource = Field.options;
                         if (Field.selectedOptions.Count > 0)
                         {
@@ -91,11 +91,11 @@ namespace UWP_XMPP_Client.Controls
                         listField_cmbb.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.LIST_SINGLE:
+                    case MUCInfoFieldType.LIST_MULTI:
                         label_tblck.Visibility = Visibility.Collapsed;
 
                         listMulti_msc.header = Field.label ?? (Field.var ?? "No description / 'var' given!");
-                        listMulti_msc.setItems(new List<object>(Field.options));
+                        listMulti_msc.itemSource = new List<object>(Field.options);
                         listMulti_msc.setSelectedItems(new List<object>(Field.selectedOptions));
 
                         listMulti_msc.Visibility = Visibility.Visible;
@@ -145,6 +145,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (listField_cmbb.SelectedItem is MUCInfoOption)
             {
+                Field.selectedOptions.Clear();
                 Field.selectedOptions.Add(listField_cmbb.SelectedItem as MUCInfoOption);
             }
         }
