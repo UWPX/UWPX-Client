@@ -132,9 +132,6 @@
     <Compile Include="Controls\MUCFieldControl.xaml.cs">
       <DependentUpon>MUCFieldControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MUCMemberControl.xaml.cs">
-      <DependentUpon>MUCMemberControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\MUCMembersControl.xaml.cs">
       <DependentUpon>MUCMembersControl.xaml</DependentUpon>
     </Compile>
@@ -362,10 +359,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MUCMemberControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\MUCMembersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -507,6 +500,9 @@
     </PackageReference>
     <PackageReference Include="SQLite.Net-PCL">
       <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
+      <Version>1.0.0.9</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

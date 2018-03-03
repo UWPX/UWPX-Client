@@ -1,6 +1,9 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -14,21 +17,28 @@ namespace UWP_XMPP_Client.Controls
         #region --Attributes--
         public ChatTable Chat
         {
-            get { return (ChatTable)GetValue(chatProperty); }
+            get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
-                SetValue(chatProperty, value);
+                SetValue(ChatProperty, value);
                 loadMembers();
             }
         }
-        public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCMembersControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCMembersControl), null);
 
         public XMPPClient Client
         {
-            get { return (XMPPClient)GetValue(clientProperty); }
-            set { SetValue(clientProperty, value); }
+            get { return (XMPPClient)GetValue(ClientProperty); }
+            set { SetValue(ClientProperty, value); }
         }
-        public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCMembersControl), null);
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCMembersControl), null);
+
+        public string Header
+        {
+            get { return (string)GetValue(HeaderProperty); }
+            set { SetValue(HeaderProperty, value); }
+        }
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MUCMembersControl), null);
 
         private ObservableCollection<MUCMemberTemplate> members;
 
@@ -64,10 +74,19 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null)
             {
-                foreach (MUCMemberTable m in MUCDBManager.INSTANCE.getAllMUCMembers(Chat.id))
+                string chatId = Chat.id;
+                Task.Run(async () =>
                 {
-                    members.Add(new MUCMemberTemplate() { member = m });
-                }
+                    List<MUCMemberTable> list = MUCDBManager.INSTANCE.getAllMUCMembers(chatId);
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        members.Clear();
+                        foreach (MUCMemberTable m in list)
+                        {
+                            members.Add(new MUCMemberTemplate() { member = m });
+                        }
+                    });
+                });
             }
         }
 
@@ -79,12 +98,12 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void members_dgrid_SelectionChanged(object sender, Telerik.UI.Xaml.Controls.Grid.DataGridSelectionChangedEventArgs e)
         {
-            remove_btn.IsEnabled = members_lstv.SelectedItems.Count > 0;
+            remove_btn.IsEnabled = members_dgrid.SelectedItems.Count > 0;
         }
 
-        private void add_btn_Click(object sender, RoutedEventArgs e)
+        private void invite_btn_Click(object sender, RoutedEventArgs e)
         {
 
         }

@@ -18,7 +18,7 @@ namespace Data_Manager2.Classes.DBTables
         // The user nickname e.g. 'thirdwitch'
         public string nickname { get; set; }
         // The full jabber id of the user e.g. 'coven@chat.shakespeare.lit/thirdwitch'
-        public string jId { get; set; }
+        public string jid { get; set; }
         // The affiliation of the user e.g. 'owner', 'admin', 'member' or 'none'
         public MUCAffiliation affiliation { get; set; }
         // The role of the user e.g. 'moderator', 'participant' or 'visitor'

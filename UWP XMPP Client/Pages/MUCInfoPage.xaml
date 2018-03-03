@@ -28,7 +28,14 @@
                         <controls:MUCMembersControl Height="200"
                                                     Margin="10, 10, 10, 0"
                                                     Client="{x:Bind Client}"
-                                                    Chat="{x:Bind Chat, Mode=OneWay}"/>
+                                                    Chat="{x:Bind Chat, Mode=OneWay}"
+                                                    Header="Members:"/>
+
+                        <controls:MUCMembersControl Height="200"
+                                                    Margin="10, 10, 10, 0"
+                                                    Client="{x:Bind Client}"
+                                                    Chat="{x:Bind Chat, Mode=OneWay}"
+                                                    Header="Banlist:"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
