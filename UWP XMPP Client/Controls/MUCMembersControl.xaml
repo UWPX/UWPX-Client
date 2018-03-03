@@ -44,7 +44,7 @@
                     <TextBlock Text="Remove" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
-            <Button x:Name="invite_btn" Grid.Column="1" HorizontalAlignment="Right" Click="invite_btn_Click" IsEnabled="False">
+            <Button x:Name="invite_btn" Grid.Column="1" HorizontalAlignment="Right" Click="invite_btn_Click" IsEnabled="True">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" Foreground="Green" VerticalAlignment="Center"/>
                     <TextBlock Text="Invite" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>

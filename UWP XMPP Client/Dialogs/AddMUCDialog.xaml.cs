@@ -247,7 +247,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void roomName_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var selectionStart = roomName_tbx.SelectionStart;
+            int selectionStart = roomName_tbx.SelectionStart;
             roomName_tbx.Text = roomName_tbx.Text.ToLower();
             roomName_tbx.SelectionStart = selectionStart;
             roomName_tbx.SelectionLength = 0;

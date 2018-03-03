@@ -145,6 +145,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\InviteMemberMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\LeaveRoomMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />

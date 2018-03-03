@@ -39,6 +39,39 @@ namespace Thread_Save_Components.Classes.SQLite
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public SQLiteCommand CreateCommand(string cmdText, params object[] args)
+        {
+            return dB.CreateCommand(cmdText, args);
+        }
+
+        public List<T> ExecuteCommand<T>(bool readOnly, SQLiteCommand cmd) where T : class
+        {
+            List<T> list;
+            if (readOnly)
+            {
+                requestSema.Wait();
+                readSema.Wait();
+                requestSema.Release();
+
+                list = cmd.ExecuteQuery<T>();
+
+                readSema.Release();
+            }
+            else
+            {
+                requestSema.Wait();
+                writeSema.Wait();
+                readSema.WaitCount(MAX_READ_COUNT);
+                requestSema.Release();
+
+                list = cmd.ExecuteQuery<T>();
+
+                writeSema.Release();
+                readSema.Release(MAX_READ_COUNT);
+            }
+            return list;
+        }
+
         public int InsertOrReplace(object obj)
         {
             requestSema.Wait();

@@ -1,6 +1,7 @@
 ﻿using Data_Manager.Classes;
 using Data_Manager.Classes.Events;
 using Data_Manager2.Classes.DBTables;
+using SQLite.Net;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
@@ -128,6 +129,14 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public List<ChatTable> findUsers(string text)
+        {
+            SQLiteCommand cmd = dB.CreateCommand("SELECT chatJabberId FROM " + DBTableConsts.CHAT_TABLE + " WHERE chatJabberId LIKE @TEXT AND chatType = @CHAT_TYPE;");
+            cmd.Bind("@CHAT_TYPE", ChatType.CHAT);
+            cmd.Bind("@TEXT", '%' + text + '%');
+            return dB.ExecuteCommand<ChatTable>(true, cmd);
+        }
+
         public void updateChatMessageState(string msgId, MessageState state)
         {
             dB.Execute("UPDATE " + DBTableConsts.CHAT_MESSAGE_TABLE + " SET state = ? WHERE id = ?", state, msgId);

@@ -1,0 +1,23 @@
+﻿<ContentDialog
+    x:Class="UWP_XMPP_Client.Dialogs.InviteUserMUCDialog"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Title="Invite user:"
+    PrimaryButtonText="Cancel"
+    SecondaryButtonText="Invite"
+    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Loaded="ContentDialog_Loaded">
+
+    <AutoSuggestBox x:Name="user_asbox"
+                    Text="{x:Bind Text, Mode=TwoWay}"
+                    PlaceholderText="e.g. 'somebody@example.com'"
+                    BorderBrush="Red"
+                    ItemsSource="{x:Bind suggestions, Mode=OneWay}"
+                    KeyDown="user_asbox_KeyDown"
+                    KeyUp="user_asbox_KeyUp"
+                    TextChanged="user_asbox_TextChanged"/>
+</ContentDialog>

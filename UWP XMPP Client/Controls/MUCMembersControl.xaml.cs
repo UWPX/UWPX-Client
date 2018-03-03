@@ -8,6 +8,7 @@ using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
+using UWP_XMPP_Client.Dialogs;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -90,6 +91,17 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private async Task inviteUserAsync()
+        {
+            InviteUserMUCDialog dialog = new InviteUserMUCDialog();
+            await dialog.ShowAsync();
+
+            if (!dialog.canceled)
+            {
+
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -103,9 +115,9 @@ namespace UWP_XMPP_Client.Controls
             remove_btn.IsEnabled = members_dgrid.SelectedItems.Count > 0;
         }
 
-        private void invite_btn_Click(object sender, RoutedEventArgs e)
+        private async void invite_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            await inviteUserAsync();
         }
 
         private void remove_btn_Click(object sender, RoutedEventArgs e)

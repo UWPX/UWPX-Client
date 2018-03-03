@@ -156,7 +156,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            var selectionStart = jabberId_tbx.SelectionStart;
+            int selectionStart = jabberId_tbx.SelectionStart;
             jabberId_tbx.Text = jabberId_tbx.Text.ToLower();
             jabberId_tbx.SelectionStart = selectionStart;
             jabberId_tbx.SelectionLength = 0;
