@@ -305,13 +305,13 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
             cancled = true;
             Hide();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void add_btn_Click(object sender, RoutedEventArgs e)
         {
             if (addRoom())
             {
@@ -319,6 +319,7 @@ namespace UWP_XMPP_Client.Dialogs
                 Hide();
             }
         }
+
         #endregion
     }
 }

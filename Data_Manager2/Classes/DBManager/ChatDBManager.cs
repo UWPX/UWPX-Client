@@ -90,6 +90,20 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
         }
 
+        public bool doesMUCExist(string id)
+        {
+            IList<ChatTable> list = dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE id = ? AND chatType = ?;", id, ChatType.MUC);
+            return list.Count > 0;
+        }
+
+        public bool doesOutstandingMUCInviteExist(string chatId, string roomJid)
+        {
+            IList<ChatMessageTable> messages = dB.Query<ChatMessageTable>(true, "SELECT c.* "
+                + "FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " c JOIN " + DBTableConsts.MUC_DIRECT_INVITATION_TABLE + " i ON c.id = i.chatMessageId "
+                + "WHERE c.chatId = ? AND i.state = ?;", chatId, MUCDirectInvitationState.REQUESTED);
+            return messages.Count > 0;
+        }
+
         public void setChat(ChatTable chat, bool delete, bool triggerChatChanged)
         {
             if (chat != null)

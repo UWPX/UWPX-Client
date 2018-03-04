@@ -18,6 +18,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="invalidJid_stckp" Orientation="Horizontal" Grid.Row="0">
@@ -30,8 +31,18 @@
             <TextBlock Text="Valid JID." VerticalAlignment="Stretch" Foreground="Green" Margin="5, 0, 0, 0"/>
         </StackPanel>
 
+        <StackPanel x:Name="selfInvite_stckp" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
+            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+            <TextBlock Text="You can't invite yourself!" VerticalAlignment="Stretch" Foreground="Red" Margin="5, 0, 0, 0"/>
+        </StackPanel>
+
+        <StackPanel x:Name="memberInvite_stckp" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
+            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+            <TextBlock Text="User already in this MUC!" VerticalAlignment="Stretch" Foreground="Red" Margin="5, 0, 0, 0"/>
+        </StackPanel>
+
         <AutoSuggestBox x:Name="user_asbox"
-                        Grid.Row="1"
+                        Grid.Row="2"
                         Header="JID:"
                         Margin="0, 5, 0, 0"
                         Text="{x:Bind UserJid, Mode=TwoWay}"
@@ -41,13 +52,14 @@
                         KeyUp="user_asbox_KeyUp"
                         TextChanged="user_asbox_TextChanged"/>
         <TextBox x:Name="reason_tbx"
-                 Grid.Row="2"
+                 Grid.Row="3"
                  Header="Reason:"
                  Margin="0, 10, 0, 0"
                  InputScope="Chat"
                  IsSpellCheckEnabled="True"
                  TextWrapping="Wrap"
                  MaxHeight="200"
+                 AcceptsReturn="True"
                  Text="{x:Bind Reason, Mode=TwoWay}"
                  PlaceholderText="Some reason..."/>
     </Grid>

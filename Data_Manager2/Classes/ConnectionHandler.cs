@@ -400,8 +400,17 @@ namespace Data_Manager2.Classes
             // Handle MUC inite messages:
             if (msg is DirectMUCInvitationMessage)
             {
-                MUCDirectInvitationTable invite = new MUCDirectInvitationTable(msg as DirectMUCInvitationMessage, message.id);
-                ChatDBManager.INSTANCE.setMUCDirectInvitation(invite);
+                DirectMUCInvitationMessage inviteMessage = msg as DirectMUCInvitationMessage;
+                bool doesRoomExist = ChatDBManager.INSTANCE.doesMUCExist(ChatTable.generateId(inviteMessage.ROOM_JID, msg.getTo()));
+                bool doesOutstandingInviteExist = ChatDBManager.INSTANCE.doesOutstandingMUCInviteExist(id, inviteMessage.ROOM_JID);
+
+                if(doesRoomExist && doesOutstandingInviteExist)
+                {
+                    return;
+                }
+
+                MUCDirectInvitationTable inviteTable = new MUCDirectInvitationTable(inviteMessage, message.id);
+                ChatDBManager.INSTANCE.setMUCDirectInvitation(inviteTable);
             }
 
             // Filter MUC messages that got send

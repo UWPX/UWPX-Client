@@ -101,7 +101,15 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task inviteUserAsync()
         {
-            InviteUserMUCDialog dialog = new InviteUserMUCDialog();
+            List<string> membersJidList = new List<string>();
+            foreach (MUCMemberTemplate m in members)
+            {
+                if (m.jid != null)
+                {
+                    membersJidList.Add(m.jid);
+                }
+            }
+            InviteUserMUCDialog dialog = new InviteUserMUCDialog(Client, membersJidList);
             await dialog.ShowAsync();
 
             if (!dialog.canceled)

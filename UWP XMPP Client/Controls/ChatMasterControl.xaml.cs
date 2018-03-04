@@ -15,6 +15,8 @@ using UWP_XMPP_Client.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
+using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -268,7 +270,35 @@ namespace UWP_XMPP_Client.Controls
                         lastChat_tblck.Foreground = (SolidColorBrush)Resources["SystemControlBackgroundBaseMediumBrush"];
                         break;
                 }
-                lastChat_tblck.Text = chatMessage.message ?? "";
+
+                if (lastChatMessage.isImage)
+                {
+                    lastChatIcon_tblck.Visibility = Visibility.Visible;
+                    lastChatIcon_tblck.Text = "\uE722";
+                    lastChat_tblck.Text = chatMessage.message ?? "You received an image";
+                }
+                else
+                {
+                    switch (lastChatMessage.type)
+                    {
+                        case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
+                            lastChatIcon_tblck.Visibility = Visibility.Visible;
+                            lastChatIcon_tblck.Text = "\uE8F2";
+                            lastChat_tblck.Text = "You have been invited to a MUC room";
+                            break;
+
+                        case MessageMessage.TYPE_ERROR:
+                            lastChatIcon_tblck.Visibility = Visibility.Visible;
+                            lastChatIcon_tblck.Text = "\uE783";
+                            lastChat_tblck.Text = chatMessage.message ?? "You received an error message";
+                            break;
+
+                        default:
+                            lastChatIcon_tblck.Visibility = Visibility.Collapsed;
+                            lastChat_tblck.Text = chatMessage.message ?? "";
+                            break;
+                    }
+                }
             }
             else
             {

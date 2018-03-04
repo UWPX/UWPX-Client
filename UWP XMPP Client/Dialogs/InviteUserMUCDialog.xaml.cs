@@ -33,6 +33,8 @@ namespace UWP_XMPP_Client.Dialogs
         private TextBox tbx;
         public bool canceled;
         private ObservableCollection<string> suggestions;
+        private string userAccountId;
+        private List<string> memberList;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -43,8 +45,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// <history>
         /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public InviteUserMUCDialog()
+        public InviteUserMUCDialog(XMPPClient client, List<string> memberList)
         {
+            this.userAccountId = client.getXMPPAccount().getIdAndDomain();
+            this.memberList = memberList;
             this.canceled = true;
             this.suggestions = new ObservableCollection<string>();
             this.InitializeComponent();
@@ -54,7 +58,7 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -69,6 +73,10 @@ namespace UWP_XMPP_Client.Dialogs
             Task.Run(async () =>
             {
                 List<ChatTable> list = ChatDBManager.INSTANCE.findUsers(text);
+                list.RemoveAll((chat) =>
+                {
+                    return Equals(chat.chatJabberId, userAccountId) || memberList.Contains(chat.chatJabberId);
+                });
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
@@ -110,7 +118,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void user_asbox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if(e.Key == Windows.System.VirtualKey.Escape)
+            if (e.Key == Windows.System.VirtualKey.Escape)
             {
                 user_asbox.IsSuggestionListOpen = false;
                 Focus(FocusState.Keyboard);
@@ -135,28 +143,49 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void Tbx_SelectionChanged(object sender, RoutedEventArgs e)
         {
+            int selectionLengt = tbx.SelectionLength;
             int selectionStart = tbx.SelectionStart;
-            user_asbox.Text = user_asbox.Text.ToLower();
+            tbx.Text = tbx.Text.ToLower();
             tbx.SelectionStart = selectionStart;
-            tbx.SelectionLength = 0;
+            tbx.SelectionLength = selectionLengt;
 
-            if (Utils.isBareJid(user_asbox.Text))
+            bool isJid = Utils.isBareJid(tbx.Text);
+            bool isOwnAccount = Equals(tbx.Text, userAccountId);
+
+            memberInvite_stckp.Visibility = Visibility.Collapsed;
+            selfInvite_stckp.Visibility = Visibility.Collapsed;
+            invalidJid_stckp.Visibility = Visibility.Collapsed;
+            validJid_stckp.Visibility = Visibility.Collapsed;
+            IsSecondaryButtonEnabled = false;
+
+            // Check if valid JID:
+            if (!Utils.isBareJid(tbx.Text))
             {
-                invalidJid_stckp.Visibility = Visibility.Collapsed;
-                validJid_stckp.Visibility = Visibility.Visible;
-                IsSecondaryButtonEnabled = true;
-            }
-            else
-            {
-                validJid_stckp.Visibility = Visibility.Collapsed;
                 invalidJid_stckp.Visibility = Visibility.Visible;
-                IsSecondaryButtonEnabled = false;
+                return;
             }
+            validJid_stckp.Visibility = Visibility.Visible;
+
+            // Check for self invite:
+            if (Equals(tbx.Text, userAccountId))
+            {
+                selfInvite_stckp.Visibility = Visibility.Visible;
+                return;
+            }
+
+            // Check for member invite:
+            if (memberList.Contains(tbx.Text))
+            {
+                memberInvite_stckp.Visibility = Visibility.Visible;
+                return;
+            }
+
+            IsSecondaryButtonEnabled = true;
         }
 
         private void user_asbox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            if(args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
             {
                 updateSuggestedUsers(sender.Text);
             }
