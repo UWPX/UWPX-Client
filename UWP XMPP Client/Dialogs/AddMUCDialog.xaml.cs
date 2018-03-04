@@ -11,7 +11,6 @@ using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages;
 using System.Threading.Tasks;
-using Windows.UI.Popups;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -25,6 +24,7 @@ namespace UWP_XMPP_Client.Dialogs
         private List<XMPPClient> clients;
 
         private string requestedServer;
+        private string requestedAccount;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,9 +40,18 @@ namespace UWP_XMPP_Client.Dialogs
 
         }
 
+        public AddMUCDialog(string roomJid, string password, string userAccountId) : this(roomJid)
+        {
+            this.enablePassword_cbx.IsChecked = true;
+            this.password_pwb.Password = password;
+            this.password_pwb.Visibility = Visibility.Visible;
+            this.requestedAccount = userAccountId;
+        }
+
         public AddMUCDialog(string roomJid)
         {
             this.cancled = true;
+            this.requestedAccount = null;
             this.accounts = new ObservableCollection<string>();
             this.servers = new ObservableCollection<string>();
             InitializeComponent();
@@ -91,9 +100,9 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
-        private async Task<bool> addRoomAsync()
+        private bool addRoom()
         {
-            if (await checkUserInputsAndWarnAsync())
+            if (checkUserInputsAndWarn())
             {
                 XMPPClient c = clients[account_cbx.SelectedIndex];
 
@@ -144,46 +153,54 @@ namespace UWP_XMPP_Client.Dialogs
             return false;
         }
 
-        private async Task<bool> checkUserInputsAndWarnAsync()
+        private bool checkUserInputsAndWarn()
         {
             if (account_cbx.SelectedIndex < 0)
             {
-                await showErrorDialogAsync("No account selected!");
+                showErrorDialog("No account selected!");
                 return false;
             }
 
             if (!clients[account_cbx.SelectedIndex].isConnected())
             {
-                await showErrorDialogAsync("Account is not connected!");
+                showErrorDialog("Account is not connected!");
                 accountNotConnected_tblck.Visibility = Visibility.Visible;
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(nick_tbx.Text))
             {
-                await showErrorDialogAsync("No nickname given!");
+                showErrorDialog("No nickname given!");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(roomName_tbx.Text))
             {
-                await showErrorDialogAsync("No room name given!");
+                showErrorDialog("No room name given!");
                 return false;
             }
 
             if (server_cbx.SelectedIndex < 0)
             {
-                await showErrorDialogAsync("No server selected!");
+                showErrorDialog("No server selected!");
+                return false;
+            }
+
+            string roomJid = roomName_tbx.Text + '@' + servers[server_cbx.SelectedIndex];
+            XMPPClient c = clients[account_cbx.SelectedIndex];
+            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, c.getXMPPAccount().getIdAndDomain())))
+            {
+                showErrorDialog("You already joined this room!");
                 return false;
             }
 
             return true;
         }
 
-        private async Task showErrorDialogAsync(string msg)
+        private void showErrorDialog(string msg)
         {
-            MessageDialog dialog = new MessageDialog(msg, "Error!");
-            await dialog.ShowAsync();
+            error_tbx.Text = msg;
+            error_tbx.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -198,6 +215,17 @@ namespace UWP_XMPP_Client.Dialogs
         {
             if (account_cbx.Items.Count > 0)
             {
+                if (requestedAccount != null)
+                {
+                    for (int i = 0; i < servers.Count; i++)
+                    {
+                        if (accounts[i].Equals(requestedAccount))
+                        {
+                            account_cbx.SelectedIndex = i;
+                            return;
+                        }
+                    }
+                }
                 account_cbx.SelectedIndex = 0;
             }
         }
@@ -283,10 +311,11 @@ namespace UWP_XMPP_Client.Dialogs
             Hide();
         }
 
-        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            if (await addRoomAsync())
+            if (addRoom())
             {
+                cancled = false;
                 Hide();
             }
         }

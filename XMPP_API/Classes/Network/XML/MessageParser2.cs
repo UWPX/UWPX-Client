@@ -12,6 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -128,6 +129,11 @@ namespace XMPP_API.Classes.Network.XML
                         {
                             messages.Add(new MUCRoomSubjectMessage(n));
                         }
+                        // XEP-0249 (Direct MUC Invitations):
+                        else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
+                        {
+                            messages.Add(new DirectMUCInvitationMessage(n));
+                        }
                         // XEP-0085 (chat state):
                         else
                         {
@@ -166,7 +172,7 @@ namespace XMPP_API.Classes.Network.XML
                         {
                             case IQMessage.SET:
                                 // Rooster:
-                                if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
+                                if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:roster") != null)
                                 {
                                     messages.Add(new RosterMessage(n));
                                 }
@@ -178,10 +184,10 @@ namespace XMPP_API.Classes.Network.XML
 
                             case IQMessage.RESULT:
                                 // XEP-0030 (disco result #info):
-                                XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
+                                XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
                                 if (qNode != null)
                                 {
-                                    if (XMLUtils.getChildNode(qNode, "x", "xmlns", Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE) != null)
+                                    if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE) != null)
                                     {
                                         messages.Add(new ExtendedDiscoResponseMessage(n));
                                     }
@@ -196,22 +202,22 @@ namespace XMPP_API.Classes.Network.XML
                                     }
                                 }
                                 // XEP-0030 (disco result #items):
-                                else if (XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items") != null)
+                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#items") != null)
                                 {
                                     messages.Add(new DiscoResponseMessage(n));
                                 }
                                 // Rooster:
-                                else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:roster") != null)
+                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:roster") != null)
                                 {
                                     messages.Add(new RosterMessage(n));
                                 }
                                 // XEP-0048-1.0 (bookmarks result):
-                                else if (XMLUtils.getChildNode(n, "query", "xmlns", "jabber:iq:private") != null)
+                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:private") != null)
                                 {
                                     messages.Add(new BookmarksResultMessage(n));
                                 }
                                 // XEP-0045 (MUC) room info owner:
-                                else if (XMLUtils.getChildNode(n, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
+                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
                                 {
                                     messages.Add(new RoomInfoMessage(n));
                                 }

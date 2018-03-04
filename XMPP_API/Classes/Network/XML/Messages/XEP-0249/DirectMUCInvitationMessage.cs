@@ -1,20 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0249
 {
-    class InviteMemberMessage : MessageMessage
+    // https://xmpp.org/extensions/xep-0249.html
+    public class DirectMUCInvitationMessage : MessageMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string ROOM_JID;
         public readonly string ROOM_PASSWORD;
         public readonly string REASON;
+
+        public const string TYPE_MUC_DIRECT_INVITATION = "muc_direct_invitation";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,33 +23,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// <history>
         /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public InviteMemberMessage(string from, string to, string roomJid, string roomPassword, string reason) : base(from, to, null)
+        public DirectMUCInvitationMessage(string from, string to, string roomJid, string roomPassword, string reason) : base(from, to, null, null)
         {
             this.ROOM_JID = roomJid;
             this.ROOM_PASSWORD = roomPassword;
             this.REASON = reason;
         }
 
-        public InviteMemberMessage(XmlNode node) : base(node)
+        public DirectMUCInvitationMessage(XmlNode node) : base(node, TYPE_MUC_DIRECT_INVITATION)
         {
-            XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_USER);
+            XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE);
             if (xNode != null)
             {
-                XmlNode inviteNode = XMLUtils.getChildNode(xNode, "invite");
-                if (inviteNode != null)
-                {
-                    ROOM_JID = inviteNode.Attributes["from"].Value;
-                    XmlNode reasonNode = XMLUtils.getChildNode(inviteNode, "reason");
-                    if (reasonNode != null)
-                    {
-                        REASON = reasonNode.InnerText;
-                    }
-                }
-                XmlNode passwordNode = XMLUtils.getChildNode(xNode, "password");
-                if (inviteNode != null)
-                {
-                    ROOM_JID = passwordNode.InnerText;
-                }
+                ROOM_JID = xNode.Attributes["jid"]?.Value;
+                ROOM_PASSWORD = xNode.Attributes["password"]?.Value;
+                REASON = xNode.Attributes["reason"]?.Value;
             }
         }
 
@@ -67,31 +53,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         {
             XElement node = base.toXElement();
 
-            XNamespace ns = Consts.XML_XEP_0045_NAMESPACE_USER;
+            XNamespace ns = Consts.XML_XEP_0249_NAMESPACE;
             XElement xNode = new XElement(ns + "x");
-            XElement invNode = new XElement(ns + "invite");
+
             if (ROOM_JID != null)
             {
-                invNode.Add(new XAttribute("to", ROOM_JID));
-                if (REASON != null)
-                {
-                    invNode.Add(new XElement(ns + "reason")
-                    {
-                        Value = REASON
-                    });
-                }
+                xNode.Add(new XAttribute("jid", ROOM_JID));
             }
-            xNode.Add(invNode);
 
             if (ROOM_PASSWORD != null)
             {
-                xNode.Add(new XElement(ns + "password")
-                {
-                    Value = ROOM_PASSWORD
-                });
+                xNode.Add(new XAttribute("password", ROOM_PASSWORD));
             }
-            node.Add(xNode);
 
+            if (REASON != null)
+            {
+                xNode.Add(new XAttribute("reason", REASON));
+            }
+
+            node.Add(xNode);
             return node;
         }
 

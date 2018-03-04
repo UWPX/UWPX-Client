@@ -20,10 +20,14 @@
         <DataTemplate x:Key="errorMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleErrorControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
+        <DataTemplate x:Key="mucDirectInvitationTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleMUCDirectInvitationControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
+        </DataTemplate>
         <datatemplates:ChatMessageDataTemplateSelector x:Name="chatMessageDataTemplateSelector"
                                                        sendMessageTemplate="{StaticResource sendMessageTemplate}"
                                                        receivedMessageTemplate="{StaticResource receivedMessageTemplate}"
-                                                       errorMessageTemplate="{StaticResource errorMessageTemplate}"/>
+                                                       errorMessageTemplate="{StaticResource errorMessageTemplate}"
+                                                       mucDirectInvitationTemplate="{StaticResource mucDirectInvitationTemplate}"/>
     </UserControl.Resources>
 
     <Grid Background="Transparent">

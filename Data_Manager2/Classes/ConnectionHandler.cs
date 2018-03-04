@@ -11,6 +11,7 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace Data_Manager2.Classes
 {
@@ -396,6 +397,13 @@ namespace Data_Manager2.Classes
                 state = Data_Manager.Classes.MessageState.UNREAD
             };
 
+            // Handle MUC inite messages:
+            if (msg is DirectMUCInvitationMessage)
+            {
+                MUCDirectInvitationTable invite = new MUCDirectInvitationTable(msg as DirectMUCInvitationMessage, message.id);
+                ChatDBManager.INSTANCE.setMUCDirectInvitation(invite);
+            }
+
             // Filter MUC messages that got send
             // and are now returned to the sender as a part of distributing them to everybody:
             if (string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type))
@@ -406,7 +414,7 @@ namespace Data_Manager2.Classes
                 }
             }
 
-            bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(msg.getId() + '_' + chat.id) != null;
+            bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(message.id) != null;
             ChatDBManager.INSTANCE.setChatMessage(message, !msgExists, msgExists);
         }
 

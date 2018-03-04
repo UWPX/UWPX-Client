@@ -23,10 +23,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         {
             this.roomConfig = null;
 
-            XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
+            XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
             if (qNode != null)
             {
-                XmlNode x = XMLUtils.getChildNode(qNode, "x", "xmlns", "jabber:x:data");
+                XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, "jabber:x:data");
                 if (x != null)
                 {
                     this.roomConfig = new RoomConfiguration(x);

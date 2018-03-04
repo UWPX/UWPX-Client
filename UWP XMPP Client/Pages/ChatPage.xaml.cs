@@ -275,7 +275,7 @@ namespace UWP_XMPP_Client.Pages
                 // Add the new chat to the list of chats:
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                 {
-                    if (args.CHAT.userAccountId.Equals(c.getXMPPAccount().getIdAndDomain()))
+                    if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getIdAndDomain()))
                     {
                         ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
                         if (args.CHAT.chatType == ChatType.MUC)

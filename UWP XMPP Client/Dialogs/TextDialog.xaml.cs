@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Dialogs
@@ -29,6 +26,12 @@ namespace UWP_XMPP_Client.Dialogs
         public TextDialog()
         {
             this.InitializeComponent();
+        }
+
+        public TextDialog(string text, string titel)
+        {
+            this.Text = text;
+            this.Title = titel;
         }
 
         #endregion

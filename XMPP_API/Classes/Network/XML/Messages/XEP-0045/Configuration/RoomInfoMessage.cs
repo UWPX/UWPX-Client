@@ -22,11 +22,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// </history>
         public RoomInfoMessage(XmlNode answer) : base(answer)
         {
-            XmlNode qNode = XMLUtils.getChildNode(answer, "query", "xmlns", Consts.MUC_ROOM_INFO_NAMESPACE_REGEX);
+            XmlNode qNode = XMLUtils.getChildNode(answer, "query", Consts.XML_XMLNS, Consts.MUC_ROOM_INFO_NAMESPACE_REGEX);
             if (qNode != null)
             {
-                configType = getRoomConfigType(qNode.Attributes["xmlns"].Value);
-                XmlNode x = XMLUtils.getChildNode(qNode, "x", "xmlns", Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE);
+                configType = getRoomConfigType(qNode.Attributes[Consts.XML_XMLNS].Value);
+                XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE);
                 if (x != null)
                 {
                     this.isRoomConfigrationAllowed = true;

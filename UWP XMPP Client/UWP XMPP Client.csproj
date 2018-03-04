@@ -141,6 +141,9 @@
     <Compile Include="Controls\SaveableTextBox.xaml.cs">
       <DependentUpon>SaveableTextBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SpeechBubbleMUCDirectInvitationControl.xaml.cs">
+      <DependentUpon>SpeechBubbleMUCDirectInvitationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
@@ -371,6 +374,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SaveableTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SpeechBubbleMUCDirectInvitationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

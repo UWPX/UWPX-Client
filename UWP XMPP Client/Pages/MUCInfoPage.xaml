@@ -29,12 +29,14 @@
                                                     Margin="10, 10, 10, 0"
                                                     Client="{x:Bind Client}"
                                                     Chat="{x:Bind Chat, Mode=OneWay}"
+                                                    MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
                                                     Header="Members:"/>
 
                         <controls:MUCMembersControl Height="200"
                                                     Margin="10, 10, 10, 0"
                                                     Client="{x:Bind Client}"
                                                     Chat="{x:Bind Chat, Mode=OneWay}"
+                                                    MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
                                                     Header="Banlist:"/>
                     </StackPanel>
                 </ScrollViewer>

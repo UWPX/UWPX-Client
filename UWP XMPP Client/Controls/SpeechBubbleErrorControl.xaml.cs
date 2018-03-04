@@ -15,7 +15,7 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(ChatMessageProperty, value);
-                showMessage();
+                showDate();
             }
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleErrorControl), null);
@@ -47,9 +47,8 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showMessage()
+        private void showDate()
         {
-            message_tbx.Text = ChatMessage.message ?? "";
             if (ChatMessage.date.Date.CompareTo(DateTime.Now.Date) == 0)
             {
                 date_tbx.Text = ChatMessage.date.ToString("HH:mm");

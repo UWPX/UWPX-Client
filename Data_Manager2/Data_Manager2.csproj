@@ -123,6 +123,7 @@
     <Compile Include="Classes\DBTables\ChatTable.cs" />
     <Compile Include="Classes\DBTables\DiscoIdentityTable.cs" />
     <Compile Include="Classes\DBTables\MUCChatInfoTable.cs" />
+    <Compile Include="Classes\DBTables\MUCDirectInvitationTable.cs" />
     <Compile Include="Classes\DBTables\MUCMemberTable.cs" />
     <Compile Include="Classes\DownloadState.cs" />
     <Compile Include="Classes\Events\MUCInfoChangedEventArgs.cs" />
@@ -134,6 +135,7 @@
     <Compile Include="Classes\Events\ChatMessageChangedEventArgs.cs" />
     <Compile Include="Classes\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\MessageState.cs" />
+    <Compile Include="Classes\MUCDirectInvitationState.cs" />
     <Compile Include="Classes\MUCJoinHelper.cs" />
     <Compile Include="Classes\MUCEnterState.cs" />
     <Compile Include="Classes\Settings.cs" />

@@ -47,7 +47,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.FROM_NICK = from_nick;
         }
 
-        public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, node.Attributes["id"]?.Value)
+        public MessageMessage(XmlNode node, string type) : this(node)
+        {
+            this.TYPE = type;
+        }
+
+        public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
         {
             if (!node.HasChildNodes)
             {
@@ -94,7 +99,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 MESSAGE = body.InnerText;
             }
 
-            XmlNode delay = XMLUtils.getChildNode(node, "delay", "xmlns", "urn:xmpp:delay");
+            XmlNode delay = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, "urn:xmpp:delay");
             if (delay != null)
             {
                 XmlAttribute stamp = XMLUtils.getAttribute(delay, "stamp");
@@ -144,15 +149,31 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public override XElement toXElement()
         {
-            XElement node = new XElement("message");
-            node.Add(new XAttribute("from", FROM));
-            node.Add(new XAttribute("to", TO));
-            node.Add(new XAttribute("id", ID));
-            node.Add(new XAttribute("type", TYPE));
+            XElement msgNode = new XElement("message");
+
+            if (FROM != null)
+            {
+                msgNode.Add(new XAttribute("from", FROM));
+            }
+
+            if (TO != null)
+            {
+                msgNode.Add(new XAttribute("to", TO));
+            }
+
+            if(ID != null)
+            {
+                msgNode.Add(new XAttribute("id", ID));
+            }
+
+            if(TYPE != null)
+            {
+                msgNode.Add(new XAttribute("type", TYPE));
+            }
 
             if(MESSAGE != null)
             {
-                node.Add(new XElement("body", MESSAGE));
+                msgNode.Add(new XElement("body", MESSAGE));
             }
 
             if (delay != DateTime.MinValue)
@@ -162,10 +183,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 delayNode.Add(new XAttribute("stamp", parserHelper.toString(DateTime.Now)));
                 delayNode.Add(new XAttribute("from", FROM));
                 delayNode.Add("Offline Storage");
-                delayNode.Add(new XAttribute("xmlns", "urn:xmpp:delay"));
-                node.Add(delay);
+                delayNode.Add(new XAttribute(Consts.XML_XMLNS, "urn:xmpp:delay"));
+                msgNode.Add(delay);
             }
-            return node;
+            return msgNode;
         }
 
         public void addDelay()

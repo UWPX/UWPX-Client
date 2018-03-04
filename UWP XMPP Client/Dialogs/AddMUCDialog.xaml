@@ -17,6 +17,7 @@
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
             <StackPanel x:Name="addMUC_stckpnl">
+                <TextBlock x:Name="error_tbx" TextWrapping="Wrap" Foreground="Red" Margin="0, 0, 0, 10" Visibility="Collapsed"/>
                 <ComboBox x:Name="account_cbx"
                           HorizontalAlignment="Stretch"
                           Header="Select account:"

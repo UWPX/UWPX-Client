@@ -83,19 +83,6 @@ namespace Data_Manager2.Classes.DBTables
             };
         }
 
-        public bool equalsExceptPresence(ChatTable chat)
-        {
-            return Equals(id, chat.id)
-                && Equals(lastActive, chat.lastActive)
-                && muted == chat.muted
-                && Equals(subscription, chat.subscription)
-                && inRoster == chat.inRoster
-                && Equals(ask, chat.ask)
-                && Equals(status, chat.status)
-                && chatState == chat.chatState
-                && chatType == chat.chatType;
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--

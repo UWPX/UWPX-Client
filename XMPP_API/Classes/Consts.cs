@@ -18,8 +18,8 @@ namespace XMPP_API.Classes
         // Error:
         public const string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
 
-        // Name spaces:
         public const string XML_XMLNS = "xmlns";
+
         // XEP-0085 (chat state):
         public const string XML_XEP_0085_NAMESPACE = "http://jabber.org/protocol/chatstates";
         // XEP-0357 (push notifications):
@@ -30,5 +30,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE = "jabber:x:data";
         public const string XML_XEP_0045_ROOM_CONFIG_VALUE = "http://jabber.org/protocol/muc#roomconfig";
         public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
+        // XEP-0249 (Direct MUC Invitations):
+        public const string XML_XEP_0249_NAMESPACE = "jabber:x:conference";
     }
 }

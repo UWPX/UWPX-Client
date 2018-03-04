@@ -5,11 +5,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Reflection;
 using System.Threading.Tasks;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Dialogs
@@ -18,12 +16,19 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string Text
+        public string UserJid
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get { return (string)GetValue(UserJidProperty); }
+            set { SetValue(UserJidProperty, value); }
         }
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(InviteUserMUCDialog), null);
+        public static readonly DependencyProperty UserJidProperty = DependencyProperty.Register("UserJid", typeof(string), typeof(InviteUserMUCDialog), null);
+
+        public string Reason
+        {
+            get { return (string)GetValue(ReasonProperty); }
+            set { SetValue(ReasonProperty, value); }
+        }
+        public static readonly DependencyProperty ReasonProperty = DependencyProperty.Register("Reason", typeof(string), typeof(InviteUserMUCDialog), null);
 
         private TextBox tbx;
         public bool canceled;
@@ -43,6 +48,7 @@ namespace UWP_XMPP_Client.Dialogs
             this.canceled = true;
             this.suggestions = new ObservableCollection<string>();
             this.InitializeComponent();
+            this.Reason = "Hi, I'd like to invite you to a MUC chat room.";
         }
 
         #endregion
@@ -104,13 +110,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void user_asbox_KeyUp(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key == Windows.System.VirtualKey.Enter)
-            {
-                e.Handled = true;
-                canceled = false;
-                Hide();
-            }
-            else if(e.Key == Windows.System.VirtualKey.Escape)
+            if(e.Key == Windows.System.VirtualKey.Escape)
             {
                 user_asbox.IsSuggestionListOpen = false;
                 Focus(FocusState.Keyboard);
@@ -139,7 +139,19 @@ namespace UWP_XMPP_Client.Dialogs
             user_asbox.Text = user_asbox.Text.ToLower();
             tbx.SelectionStart = selectionStart;
             tbx.SelectionLength = 0;
-            user_asbox.BorderBrush = new SolidColorBrush(Utils.isBareJid(user_asbox.Text) ? Colors.Green : Colors.Red);
+
+            if (Utils.isBareJid(user_asbox.Text))
+            {
+                invalidJid_stckp.Visibility = Visibility.Collapsed;
+                validJid_stckp.Visibility = Visibility.Visible;
+                IsSecondaryButtonEnabled = true;
+            }
+            else
+            {
+                validJid_stckp.Visibility = Visibility.Collapsed;
+                invalidJid_stckp.Visibility = Visibility.Visible;
+                IsSecondaryButtonEnabled = false;
+            }
         }
 
         private void user_asbox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

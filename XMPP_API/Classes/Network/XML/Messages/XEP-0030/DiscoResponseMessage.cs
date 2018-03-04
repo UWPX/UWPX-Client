@@ -29,10 +29,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
             FEATURES = new List<DiscoFeature>();
             ITEMS = new List<DiscoItem>();
             ERROR_RESULT = null;
-            XmlNode qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#info");
+            XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
             if (qNode == null)
             {
-                qNode = XMLUtils.getChildNode(n, "query", "xmlns", "http://jabber.org/protocol/disco#items");
+                qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#items");
                 if (qNode == null)
                 {
                     Logging.Logger.Warn("Invalid disco result message received! " + n.ToString().Replace('\n', ' '));
@@ -111,7 +111,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         #region --Misc Methods (Protected)--
         protected bool doesNodeContainPartialList(XmlNode n)
         {
-            return XMLUtils.getChildNode(n, "set", "xmlns", "http://jabber.org/protocol/rsm") != null;
+            return XMLUtils.getChildNode(n, "set", Consts.XML_XMLNS, "http://jabber.org/protocol/rsm") != null;
         }
 
         #endregion

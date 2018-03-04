@@ -25,7 +25,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public MUCDBManager()
         {
-
+            resetMUCJoinStates();
         }
 
         #endregion
@@ -146,6 +146,11 @@ namespace Data_Manager2.Classes.DBManager
             {
                 MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, false));
             }
+        }
+
+        private void resetMUCJoinStates()
+        {
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET state = ?;", MUCState.DISCONNECTED);
         }
 
         #endregion

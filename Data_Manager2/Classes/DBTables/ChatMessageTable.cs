@@ -15,7 +15,7 @@ namespace Data_Manager2.Classes.DBTables
         // Random message id
         [PrimaryKey]
         public string id { get; set; }
-        // the chat id e.g. alice@jabber.org_bob@jaber.de
+        // The chat id e.g. 'alice@jabber.org'
         public string chatId { get; set; }
         // error, chat, groupchat, ....
         public string type { get; set; }

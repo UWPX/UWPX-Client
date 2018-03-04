@@ -4,6 +4,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
@@ -14,6 +15,7 @@ namespace UWP_XMPP_Client.DataTemplates
         public DataTemplate sendMessageTemplate { get; set; }
         public DataTemplate receivedMessageTemplate { get; set; }
         public DataTemplate errorMessageTemplate { get; set; }
+        public DataTemplate mucDirectInvitationTemplate { get; set; }
 
         private MUCChatInfoTable mucInfo;
         bool requestedMUCInfo;
@@ -101,6 +103,9 @@ namespace UWP_XMPP_Client.DataTemplates
                             {
                                 return receivedMessageTemplate;
                             }
+
+                        case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
+                            return mucDirectInvitationTemplate;
 
                         default:
                             if (template.chat.userAccountId.Equals(template.message.fromUser))

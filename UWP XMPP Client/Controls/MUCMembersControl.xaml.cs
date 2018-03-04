@@ -9,6 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using UWP_XMPP_Client.Dialogs;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -33,6 +34,13 @@ namespace UWP_XMPP_Client.Controls
             set { SetValue(ClientProperty, value); }
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCMembersControl), null);
+
+        public MUCChatInfoTable MUCInfo
+        {
+            get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
+            set { SetValue(MUCInfoProperty, value); }
+        }
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCMembersControl), null);
 
         public string Header
         {
@@ -98,7 +106,13 @@ namespace UWP_XMPP_Client.Controls
 
             if (!dialog.canceled)
             {
-
+                string reason = null;
+                if (!string.IsNullOrWhiteSpace(dialog.Reason))
+                {
+                    reason = dialog.Reason;
+                }
+                DirectMUCInvitationMessage msg = new DirectMUCInvitationMessage(Client.getXMPPAccount().getIdAndDomain(), dialog.UserJid, Chat.chatJabberId, MUCInfo.password, reason);
+                await Client.sendMessageAsync(msg, true);
             }
         }
 

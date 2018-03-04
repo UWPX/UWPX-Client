@@ -11,5 +11,6 @@
         public const string IMAGE_TABLE = "ImageTable";
         public const string MUC_CHAT_INFO_TABLE = "MUCChatInfoTable_3";
         public const string MUC_MEMBER_TABLE = "MUCMemberTable_3";
+        public const string MUC_DIRECT_INVITATION_TABLE = "MUCDirectInvitationTable";
     }
 }

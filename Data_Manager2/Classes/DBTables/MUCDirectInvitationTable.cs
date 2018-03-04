@@ -1,13 +1,25 @@
-﻿using System.Xml;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+﻿using SQLite.Net.Attributes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace Data_Manager2.Classes.DBTables
 {
-    public class DiscoReservedRoomNicknamesResponseMessages : DiscoResponseMessage
+    [Table(DBTableConsts.MUC_DIRECT_INVITATION_TABLE)]
+    public class MUCDirectInvitationTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE;
+        [PrimaryKey]
+        // The id of the chat message
+        public string chatMessageId { get; set; }
+        // A small comment
+        public string reason { get; set; }
+        [NotNull]
+        // The room JID e.g. 'darkcave@macbeth.shakespeare.lit'
+        public string roomJid { get; set; }
+        // The password for the room
+        public string roomPassword { get; set; }
+        // The state of the invitation e.g. ACCEPTED or DECLINED
+        public MUCDirectInvitationState state { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,15 +28,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 06/01/2018 Created [Fabian Sauter]
+        /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public DiscoReservedRoomNicknamesResponseMessages(XmlNode n) : base(n)
+        public MUCDirectInvitationTable()
         {
-            XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
-            if(qNode != null)
-            {
-                NODE = qNode.Attributes["node"]?.Value;
-            }
+
+        }
+
+        public MUCDirectInvitationTable(DirectMUCInvitationMessage invitationMessage, string chatMessageId)
+        {
+            this.chatMessageId = chatMessageId;
+            this.reason = invitationMessage.REASON;
+            this.roomJid = invitationMessage.ROOM_JID;
+            this.roomPassword = invitationMessage.ROOM_PASSWORD;
+            this.state = MUCDirectInvitationState.REQUESTED;
         }
 
         #endregion

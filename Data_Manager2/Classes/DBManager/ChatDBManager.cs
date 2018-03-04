@@ -62,6 +62,29 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public void setMUCDirectInvitation(MUCDirectInvitationTable invite)
+        {
+            update(invite);
+        }
+
+        public void setMUCDirectInvitationState(string chatMessageId,  MUCDirectInvitationState state)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.MUC_DIRECT_INVITATION_TABLE + " SET state = ? WHERE chatMessageId = ?;", state, chatMessageId);
+        }
+
+        public MUCDirectInvitationTable getMUCDirectInvitation(string chatMessageId)
+        {
+            IList<MUCDirectInvitationTable> list = dB.Query<MUCDirectInvitationTable>(true, "SELECT * FROM " + DBTableConsts.MUC_DIRECT_INVITATION_TABLE + " WHERE chatMessageId = ?;", chatMessageId);
+            if (list.Count < 1)
+            {
+                return null;
+            }
+            else
+            {
+                return list[0];
+            }
+        }
+
         public List<ChatTable> getAllMUCs(string userAccountId)
         {
             return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ? AND chatType = ?;", userAccountId, ChatType.MUC);
@@ -131,7 +154,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Misc Methods (Public)--
         public List<ChatTable> findUsers(string text)
         {
-            SQLiteCommand cmd = dB.CreateCommand("SELECT chatJabberId FROM " + DBTableConsts.CHAT_TABLE + " WHERE chatJabberId LIKE @TEXT AND chatType = @CHAT_TYPE;");
+            SQLiteCommand cmd = dB.CreateCommand("SELECT DISTINCT chatJabberId FROM " + DBTableConsts.CHAT_TABLE + " WHERE chatJabberId LIKE @TEXT AND chatType = @CHAT_TYPE;");
             cmd.Bind("@CHAT_TYPE", ChatType.CHAT);
             cmd.Bind("@TEXT", '%' + text + '%');
             return dB.ExecuteCommand<ChatTable>(true, cmd);
@@ -230,12 +253,14 @@ namespace Data_Manager2.Classes.DBManager
         {
             dB.CreateTable<ChatTable>();
             dB.CreateTable<ChatMessageTable>();
+            dB.CreateTable<MUCDirectInvitationTable>();
         }
 
         protected override void dropTables()
         {
             dB.DropTable<ChatTable>();
             dB.DropTable<ChatMessageTable>();
+            dB.DropTable<MUCDirectInvitationTable>();
         }
 
         #endregion

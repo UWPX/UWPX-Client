@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public MUCMemberPresenceMessage(XmlNode node) : base(node)
         {
-            XmlNode xNode = XMLUtils.getChildNode(node, "x", "xmlns", "http://jabber.org/protocol/muc#user");
+            XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, "http://jabber.org/protocol/muc#user");
             if (xNode != null)
             {
                 NICKNAME = Utils.getResourceFromFullJid(FROM);

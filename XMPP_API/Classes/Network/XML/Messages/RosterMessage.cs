@@ -52,7 +52,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Private)--
         private void loadItems()
         {
-            XmlNode query = XMLUtils.getChildNode(ANSWER, "query", "xmlns", "jabber:iq:roster");
+            XmlNode query = XMLUtils.getChildNode(ANSWER, "query", Consts.XML_XMLNS, "jabber:iq:roster");
             items = new ArrayList();
             if (query != null)
             {

@@ -77,7 +77,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
                 {
                     FEATURES.Add(new TLSStreamFeature(n.Name, n.FirstChild != null && n.FirstChild.Name.Equals("required")));
                 }
-                else if(n.Name != null && n.Name.Equals("mechanisms") && n.Attributes["xmlns"] != null)
+                else if(n.Name != null && n.Name.Equals("mechanisms") && n.Attributes[Consts.XML_XMLNS] != null)
                 {
                     FEATURES.Add(new SASLStreamFeature(n.Name, n));
                 }
