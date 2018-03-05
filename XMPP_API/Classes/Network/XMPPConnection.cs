@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
+using Windows.System.Threading;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
@@ -50,12 +51,13 @@ namespace XMPP_API.Classes.Network
         /// it triggers a reconnect or switches to the error state.
         /// It starts after the TCP connection got established.
         /// </summary>
-        private Timer connectionTimer;
+        private ThreadPoolTimer connectionTimer;
         /// <summary>
         /// The connection timeout in ms.
         /// </summary>
         private const int CONNECTION_TIMEOUT = 2000;
         private bool reconnectRequested;
+        private TimeSpan timeout;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -81,6 +83,7 @@ namespace XMPP_API.Classes.Network
 
             this.connectionTimer = null;
             this.reconnectRequested = false;
+            this.timeout = TimeSpan.FromMilliseconds(CONNECTION_TIMEOUT);
 
             // The order in which new messages should get processed (TLS -- SASL -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html
@@ -260,13 +263,8 @@ namespace XMPP_API.Classes.Network
         private void resetConnectionTimer()
         {
             stopConnectionTimer();
-            connectionTimer = new Timer(async (timer) =>
-            {
-                if (timer != null)
-                {
-                    await onConnetionTimerTimeoutAsync();
-                }
-            }, connectionTimer, CONNECTION_TIMEOUT, Timeout.Infinite);
+
+            connectionTimer = ThreadPoolTimer.CreateTimer(async (source) => await onConnetionTimerTimeoutAsync(), timeout);
         }
 
         /// <summary>
@@ -274,6 +272,14 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private void stopConnectionTimer()
         {
+            try
+            {
+                connectionTimer?.Cancel();
+            }
+            catch (Exception)
+            {
+            }
+
             connectionTimer = null;
         }
 
