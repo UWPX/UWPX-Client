@@ -67,7 +67,7 @@ namespace Data_Manager2.Classes.DBManager
             update(invite);
         }
 
-        public void setMUCDirectInvitationState(string chatMessageId,  MUCDirectInvitationState state)
+        public void setMUCDirectInvitationState(string chatMessageId, MUCDirectInvitationState state)
         {
             dB.Execute("UPDATE " + DBTableConsts.MUC_DIRECT_INVITATION_TABLE + " SET state = ? WHERE chatMessageId = ?;", state, chatMessageId);
         }
@@ -128,14 +128,25 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
         }
 
-        public List<ChatTable> getAllChatsForClient(string userAccountId)
+        public List<ChatTable> getAllChatsForClient(string userAccountId, string filter)
         {
-            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
+            if (string.IsNullOrEmpty(filter))
+            {
+                return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
+            }
+            else
+            {
+                SQLiteCommand cmd = dB.CreateCommand("SELECT * FROM " + DBTableConsts.CHAT_TABLE
+                + " WHERE userAccountId = @USER_ACCOUNT_ID AND chatJabberId LIKE @FILTER;");
+                cmd.Bind("@USER_ACCOUNT_ID", userAccountId);
+                cmd.Bind("@FILTER", '%' + filter + '%');
+                return dB.ExecuteCommand<ChatTable>(true, cmd);
+            }
         }
 
         public void setAllNotInRoster(string userAccountId)
         {
-            Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>
+            Parallel.ForEach(getAllChatsForClient(userAccountId, null), (c) =>
             {
                 c.inRoster = false;
                 update(c);
@@ -223,7 +234,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public void resetPresence(string userAccountId)
         {
-            foreach (ChatTable c in getAllChatsForClient(userAccountId))
+            foreach (ChatTable c in getAllChatsForClient(userAccountId, null))
             {
                 if (c.chatType == ChatType.CHAT)
                 {

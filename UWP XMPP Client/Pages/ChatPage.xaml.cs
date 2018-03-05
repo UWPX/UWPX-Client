@@ -5,6 +5,7 @@ using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
@@ -25,7 +26,6 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private CustomObservableCollection<ChatTemplate> chatsList;
-        private List<ChatTemplate> allChats;
         private string currentChatQuery;
 
         #endregion
@@ -40,7 +40,6 @@ namespace UWP_XMPP_Client.Pages
         public ChatPage()
         {
             this.chatsList = new CustomObservableCollection<ChatTemplate>();
-            this.allChats = new List<ChatTemplate>();
             this.currentChatQuery = null;
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
@@ -73,50 +72,66 @@ namespace UWP_XMPP_Client.Pages
         /// <param name="c">The chat to remove.</param>
         private void removeChat(ChatTemplate c)
         {
-            allChats.Remove(c);
             chatsList.Remove(c);
         }
 
-        private void sortAllChats()
+        private void sortObservableCollection(ObservableCollection<ChatTemplate> collection)
         {
-            allChats.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
+            List<ChatTemplate> sorted = collection.OrderBy(c => c.chat.lastActive).ToList();
+            for (int i = 0; i < sorted.Count; i++)
+            {
+                collection.Move(collection.IndexOf(sorted[i]), i);
+            }
+        }
+
+        private void sortList(List<ChatTemplate> list)
+        {
+            list.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
+        }
+
+        private List<ChatTemplate> getFilterdChats(string filter)
+        {
+            List<ChatTemplate> list = new List<ChatTemplate>();
+            foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+            {
+                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain(), filter))
+                {
+                    ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
+                    if (chat.chatType == ChatType.MUC)
+                    {
+                        chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
+                    }
+                    list.Add(chatElement);
+                }
+            }
+            return list;
         }
 
         private void loadChats(string selectedChatId)
         {
             // Clear list:
             chatsList.Clear();
-            allChats.Clear();
 
             // Load all chats:
             Task.Run(() =>
             {
                 ChatTemplate selectedChat = null;
-
-                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+                List<ChatTemplate> chats = getFilterdChats(null);
+                for (int i = 0; i < chats.Count; i++)
                 {
-                    foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
+                    if (string.Equals(selectedChatId, chats[i].chat.chatJabberId))
                     {
-                        ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
-                        if (chat.chatType == ChatType.MUC)
-                        {
-                            chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
-                        }
-                        allChats.Add(chatElement);
-                        if (string.Equals(selectedChatId, chat.id))
-                        {
-                            selectedChat = chatElement;
-                        }
+                        selectedChat = chats[i];
                     }
                 }
 
                 // Sort chats:
-                sortAllChats();
+                sortList(chats);
 
                 // Show selected chat:
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    chatsList.AddRange(allChats);
+                    this.chatsList.AddRange(chats);
                     if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
                     {
                         masterDetail_pnl.SelectedItem = selectedChat;
@@ -176,15 +191,17 @@ namespace UWP_XMPP_Client.Pages
             }
 
             currentChatQuery = s;
-            chatsList.Clear();
-            if (string.IsNullOrEmpty(s))
+            Task.Run(async () =>
             {
-                chatsList.AddRange(allChats);
-            }
-            else
-            {
-                chatsList.AddRange(allChats.Where((x) => { return doesChatTemplateMatchesFilter(x, s); }));
-            }
+                List<ChatTemplate> chats = getFilterdChats(s);
+                sortList(chats);
+
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    chatsList.Clear();
+                    chatsList.AddRange(chats);
+                });
+            });
         }
 
         private bool doesChatTemplateMatchesFilter(ChatTemplate template, string filter)
@@ -248,18 +265,18 @@ namespace UWP_XMPP_Client.Pages
 
         private void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
         {
-            Task.Run(() =>
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // Find chat in chatsList:
-                foreach (ChatTemplate chatTemplate in allChats.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
+                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
                 {
                     if (args.REMOVED)
                     {
-                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => removeChat(chatTemplate)).AsTask();
+                        removeChat(chatTemplate);
                     }
                     else
                     {
-                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatTemplate.chat = args.CHAT).AsTask();
+                        chatTemplate.chat = args.CHAT;
                     }
                     args.Cancel = true;
                     return;
@@ -272,36 +289,38 @@ namespace UWP_XMPP_Client.Pages
                     return;
                 }
 
-                // Add the new chat to the list of chats:
-                foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
+                Task.Run(() =>
                 {
-                    if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getIdAndDomain()))
+                    // Add the new chat to the list of chats:
+                    foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                     {
-                        ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
-                        if (args.CHAT.chatType == ChatType.MUC)
+                        if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getIdAndDomain()))
                         {
-                            chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id);
-                        }
-                        allChats.Add(chatElement);
-                        sortAllChats();
-                        if (currentChatQuery == null || doesChatTemplateMatchesFilter(chatElement, currentChatQuery))
-                        {
-                            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Insert(0, chatElement)).AsTask();
+                            ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
+                            if (args.CHAT.chatType == ChatType.MUC)
+                            {
+                                chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id);
+                            }
+
+                            if (currentChatQuery == null || doesChatTemplateMatchesFilter(chatElement, currentChatQuery))
+                            {
+                                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Insert(0, chatElement)).AsTask();
+                            }
                         }
                     }
-                }
-            });
+                });
+            }).AsTask();
         }
 
         private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
         {
-            Task.Run(() =>
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                foreach (ChatTemplate chatTemplate in allChats.Where((x) => x.chat != null && x.chat.chatType == ChatType.MUC && Equals(x.chat.id, args.MUC_INFO.chatId)))
+                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && x.chat.chatType == ChatType.MUC && Equals(x.chat.id, args.MUC_INFO.chatId)))
                 {
-                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatTemplate.mucInfo = args.MUC_INFO).AsTask();
+                    chatTemplate.mucInfo = args.MUC_INFO;
                 }
-            });
+            }).AsTask();
         }
 
         private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)
