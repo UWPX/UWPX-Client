@@ -32,6 +32,7 @@
                 <controls:SeperatorControl Text="MUC:"/>
                 <CheckBox x:Name="mucChatInfo_chbx" Content="MUC chat info" IsChecked="True"/>
                 <CheckBox x:Name="mucMembers_chbx" Content="MUC members" IsChecked="True"/>
+                <CheckBox x:Name="mucDirectInvites_chbx" Content="MUC direct invites" IsChecked="True"/>
 
                 <controls:SeperatorControl Text="Clients:"/>
                 <CheckBox x:Name="reconnect_chbx" Content="Reconnect clients" IsChecked="True"/>

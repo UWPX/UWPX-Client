@@ -58,6 +58,8 @@ namespace UWP_XMPP_Client.Dialogs
 
             bool mucChatInfo = (bool)mucChatInfo_chbx.IsChecked;
             bool mucMembers = (bool)mucMembers_chbx.IsChecked;
+            bool mucDirectInvites = (bool)mucDirectInvites_chbx.IsChecked;
+
             bool reconnect = (bool)reconnect_chbx.IsChecked;
 
             Task.Run(async () =>
@@ -98,6 +100,10 @@ namespace UWP_XMPP_Client.Dialogs
                 if (mucMembers)
                 {
                     AbstractDBManager.dB.RecreateTable<MUCMemberTable>();
+                }
+                if (mucDirectInvites)
+                {
+                    AbstractDBManager.dB.RecreateTable<MUCDirectInvitationTable>();
                 }
 
                 // Reconnect clients:
