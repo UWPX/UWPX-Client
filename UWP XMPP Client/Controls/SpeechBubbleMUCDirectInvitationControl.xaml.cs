@@ -87,7 +87,7 @@ namespace UWP_XMPP_Client.Controls
             if (!invitationLoaded && ChatMessage != null)
             {
                 invitationLoaded = true;
-                main_grid.Visibility = Visibility.Collapsed;
+                main_expdr.Visibility = Visibility.Collapsed;
                 error_grid.Visibility = Visibility.Collapsed;
                 loading_grid.Visibility = Visibility.Visible;
 
@@ -109,7 +109,7 @@ namespace UWP_XMPP_Client.Controls
 
             if (Invitation != null)
             {
-                text_tbx.Text = ChatMessage.fromUser + " has invited you to join:";
+                text_tbx.Text = ChatMessage.fromUser + " has send you an invite to join a MUC room.";
                 if (Invitation.roomJid == null)
                 {
                     error_tbx.Text = "No JID given!";
@@ -118,16 +118,18 @@ namespace UWP_XMPP_Client.Controls
                     return;
                 }
 
-                roomJid_tbx.Text = Invitation.roomJid;
+                main_expdr.Header = "Invitation to room: " + Invitation.roomJid;
 
                 switch (Invitation.state)
                 {
                     case MUCDirectInvitationState.REQUESTED:
+                        main_expdr.IsExpanded = true;
                         result_tbx.Visibility = Visibility.Collapsed;
                         buttons_grid.Visibility = Visibility.Visible;
                         break;
 
                     case MUCDirectInvitationState.ACCEPTED:
+                        main_expdr.IsExpanded = false;
                         result_tbx.Text = "You have accepted the invitation.";
                         buttons_grid.Visibility = Visibility.Collapsed;
                         result_tbx.Visibility = Visibility.Visible;
@@ -135,13 +137,14 @@ namespace UWP_XMPP_Client.Controls
 
                     case MUCDirectInvitationState.DECLINED:
                         result_tbx.Text = "You have declined the invitation.";
+                        main_expdr.IsExpanded = false;
                         buttons_grid.Visibility = Visibility.Collapsed;
                         result_tbx.Visibility = Visibility.Visible;
                         break;
                 }
 
                 loading_grid.Visibility = Visibility.Collapsed;
-                main_grid.Visibility = Visibility.Visible;
+                main_expdr.Visibility = Visibility.Visible;
             }
             else
             {
