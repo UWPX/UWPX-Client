@@ -4,8 +4,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Dialogs;
 using Windows.UI;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -46,17 +46,29 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Public)--
         public XMPPAccount getAccount()
         {
-            XMPPAccount account = new XMPPAccount(getUser(), serverAddress_tbx.Text.ToLower(), int.Parse(serverPort_tbx.Text));
-            account.presencePriorety = (int)presencePriorety_slider.Value;
-            account.color = color_tbx.Text;
-            return account;
+            XMPPUser user = getUser();
+            if (user != null)
+            {
+                XMPPAccount account = new XMPPAccount(user, serverAddress_tbx.Text.ToLower(), int.Parse(serverPort_tbx.Text))
+                {
+                    presencePriorety = (int)presencePriorety_slider.Value,
+                    color = color_tbx.Text
+                };
+                return account;
+            }
+            return null;
         }
 
         public XMPPUser getUser()
         {
-            string userId = jabberId_tbx.Text.ToLower().Substring(0, jabberId_tbx.Text.IndexOf('@'));
-            string domain = jabberId_tbx.Text.ToLower().Substring(jabberId_tbx.Text.IndexOf('@') + 1);
-            return new XMPPUser(userId, password_pwb.Password, domain, resource_tbx.Text);
+            int index = jabberId_tbx.Text.IndexOf('@');
+            if (index > 0)
+            {
+                string userId = jabberId_tbx.Text.ToLower().Substring(0, index);
+                string domain = jabberId_tbx.Text.ToLower().Substring(index + 1);
+                return new XMPPUser(userId, password_pwb.Password, domain, resource_tbx.Text);
+            }
+            return null;
         }
 
         #endregion
@@ -66,37 +78,44 @@ namespace UWP_XMPP_Client.Pages
         {
             if (!Utils.isBareJid(jabberId_tbx.Text))
             {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_jabber_id_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
+                await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
                 return false;
             }
-            if (resource_tbx.Text == "")
+            if (string.IsNullOrEmpty(resource_tbx.Text))
             {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_resource_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
+                await showErrorDialogAsync(Localisation.getLocalizedString("invalid_resource_text"));
                 return false;
             }
-            if (serverAddress_tbx.Text == "")
+            if (string.IsNullOrEmpty(serverAddress_tbx.Text))
             {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_server_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
+                await showErrorDialogAsync(Localisation.getLocalizedString("invalid_server_text"));
                 return false;
             }
-            if (serverPort_tbx.Text == "")
+            if (string.IsNullOrEmpty(serverPort_tbx.Text))
             {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_port_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
+                await showErrorDialogAsync(Localisation.getLocalizedString("invalid_port_text"));
                 return false;
             }
             return true;
+        }
+
+        private async Task showErrorDialogAsync(string text)
+        {
+            TextDialog dialog = new TextDialog(text, Localisation.getLocalizedString("error_text"));
+            await dialog.ShowAsync();
         }
 
         private async Task acceptAsync()
         {
             if (await areEntriesValidAsync())
             {
-                AccountDBManager.INSTANCE.setAccount(getAccount(), true);
-                moveOn();
+                XMPPAccount account = getAccount();
+                if (account != null)
+                {
+                    AccountDBManager.INSTANCE.setAccount(getAccount(), true);
+                    moveOn();
+                }
+                await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
             }
         }
 
@@ -200,7 +219,7 @@ namespace UWP_XMPP_Client.Pages
 
         protected async override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if(e.NavigationMode == NavigationMode.New && e.Parameter is string && (e.Parameter as string).Equals("App.xaml.cs"))
+            if (e.NavigationMode == NavigationMode.New && e.Parameter is string && (e.Parameter as string).Equals("App.xaml.cs"))
             {
                 await UiUtils.showInitialStartDialogAsync();
             }
