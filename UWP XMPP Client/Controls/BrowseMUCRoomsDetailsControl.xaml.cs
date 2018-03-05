@@ -94,6 +94,7 @@ namespace UWP_XMPP_Client.Controls
 
             if (disco != null && disco.roomConfig != null)
             {
+                disco.roomConfig.options.Sort((a, b) => { return a.type - b.type; });
                 foreach (MUCInfoField o in disco.roomConfig.options)
                 {
                     if (o.type != MUCInfoFieldType.HIDDEN)

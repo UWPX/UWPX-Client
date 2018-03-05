@@ -19,30 +19,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// <history>
         /// 07/02/2018 Created [Fabian Sauter]
         /// </history>
-        public RoomConfiguration(XmlNode node)
+        public RoomConfiguration() : this(new List<MUCInfoField>())
         {
-            this.options = new List<MUCInfoField>();
-            if (node != null)
-            {
-                foreach (XmlNode n in node.ChildNodes)
-                {
-                    switch (n.Name)
-                    {
-                        case "field":
-                            this.options.Add(new MUCInfoField(n));
-                            break;
-
-                        // Ignored for now:
-                        case "title":
-                        case "instructions":
-                            break;
-
-                        default:
-                            Logging.Logger.Warn("Unknown MUC room config element '" + n.Name + "' received!");
-                            break;
-                    }
-                }
-            }
         }
 
         public RoomConfiguration(List<MUCInfoField> options)
@@ -61,6 +39,28 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void loadRoomConfig(XmlNode node)
+        {
+            foreach (XmlNode n in node.ChildNodes)
+            {
+                switch (n.Name)
+                {
+                    case "field":
+                        this.options.Add(new MUCInfoField(n));
+                        break;
+
+                    // Ignored for now:
+                    case "title":
+                    case "instructions":
+                        break;
+
+                    default:
+                        Logging.Logger.Warn("Unknown MUC room config element '" + n.Name + "' received!");
+                        break;
+                }
+            }
+        }
+
         public void addToXElement(XElement n, XNamespace ns)
         {
             XElement fieldNode = new XElement(ns + "field");

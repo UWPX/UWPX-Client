@@ -30,7 +30,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
                 if (x != null)
                 {
                     this.isRoomConfigrationAllowed = true;
-                    this.roomConfig = new RoomConfiguration(x);
+                    this.roomConfig = new RoomConfiguration();
+                    this.roomConfig.loadRoomConfig(x);
                     return;
                 }
                 else
