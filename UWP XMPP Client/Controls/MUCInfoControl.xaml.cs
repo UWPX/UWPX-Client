@@ -184,11 +184,6 @@ namespace UWP_XMPP_Client.Controls
             await leaveRoomAsync();
         }
 
-        private void ToggleSwitch_Toggled(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void nickname_stbx_SaveClick(object sender, RoutedEventArgs e)
         {
 
@@ -205,11 +200,6 @@ namespace UWP_XMPP_Client.Controls
             {
                 saveAutoJoin();
             }
-        }
-
-        private void roomName_stbx_SaveClick(object sender, RoutedEventArgs e)
-        {
-
         }
 
         #endregion

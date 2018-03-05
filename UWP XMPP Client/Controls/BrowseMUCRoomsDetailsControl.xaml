@@ -27,7 +27,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <ItemsControl x:Name="details_itmc" Grid.Row="0" ItemsSource="{x:Bind options}" ItemTemplate="{StaticResource mucFieldTemplate}"/>
+            <ScrollViewer Grid.Row="0">
+                <ItemsControl x:Name="details_itmc" ItemsSource="{x:Bind options}" ItemTemplate="{StaticResource mucFieldTemplate}"/>
+            </ScrollViewer>
 
             <!--Loading Grid-->
             <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
