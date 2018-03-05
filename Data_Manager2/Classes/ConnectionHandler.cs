@@ -404,7 +404,7 @@ namespace Data_Manager2.Classes
                 bool doesRoomExist = ChatDBManager.INSTANCE.doesMUCExist(ChatTable.generateId(inviteMessage.ROOM_JID, msg.getTo()));
                 bool doesOutstandingInviteExist = ChatDBManager.INSTANCE.doesOutstandingMUCInviteExist(id, inviteMessage.ROOM_JID);
 
-                if(doesRoomExist && doesOutstandingInviteExist)
+                if (doesRoomExist && doesOutstandingInviteExist)
                 {
                     return;
                 }
@@ -468,9 +468,12 @@ namespace Data_Manager2.Classes
 
             foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.CONFERENCE_ITEMS)
             {
+                bool newMUC = false;
                 string to = client.getXMPPAccount().getIdAndDomain();
                 string from = c.jid;
                 string id = ChatTable.generateId(from, to);
+
+                // Create / update chat:
                 ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
                 if (chat == null)
                 {
@@ -485,12 +488,39 @@ namespace Data_Manager2.Classes
                         status = null,
                         subscription = null
                     };
+                    newMUC = true;
                 }
                 chat.chatType = ChatType.MUC;
                 chat.inRoster = true;
                 chat.presence = Presence.Unavailable;
 
                 ChatDBManager.INSTANCE.setChat(chat, false, true);
+
+                // Create / update MUC info:
+                MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
+                if (info == null)
+                {
+                    info = new MUCChatInfoTable()
+                    {
+                        chatId = chat.id,
+                        subject = null
+                    };
+                    newMUC = true;
+                }
+
+                info.autoEnterRoom = c.autoJoin;
+                info.name = c.name;
+                info.nickname = c.nick;
+                info.password = c.password;
+
+                MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true);
+
+
+                // Enter MUC manually if the MUC is new for this client:
+                if (newMUC && info.autoEnterRoom && !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
+                {
+                    Task.Run(() => MUCHandler.INSTANCE.enterMUCAsync(client, chat, info));
+                }
             }
         }
 

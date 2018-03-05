@@ -207,6 +207,11 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private void roomName_stbx_SaveClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
     }
 }
