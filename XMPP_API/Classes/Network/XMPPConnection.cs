@@ -1,7 +1,6 @@
 ﻿using Logging;
 using System;
 using System.Collections.Generic;
-using System.Threading;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using Windows.System.Threading;
