@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.System.Threading;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -16,11 +17,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <summary>
         /// The default timeout is 5000 ms = 5 sec.
         /// </summary>
-        public int timeout;
+        public TimeSpan timeout;
 
-        private Timer timer;
+        private ThreadPoolTimer timer;
 
-        public const int TIMEOUT_5_SEC = 5000;
+        public const int TIMEOUT_5_SEC = 5;
 
         public bool matchId;
         public string sendId;
@@ -39,7 +40,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.CLIENT = client;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
-            this.timeout = TIMEOUT_5_SEC;
+            this.timeout = TimeSpan.FromSeconds(5);
             this.matchId = true;
             this.sendId = null;
         }
@@ -78,20 +79,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void statTimer()
         {
-            timer = new Timer((t) =>
-            {
-                if (t != null)
-                {
-                    ON_TIMEOUT();
-                }
-                stopTimer();
-            }, timer, timeout, Timeout.Infinite);
+            timer = ThreadPoolTimer.CreateTimer((source) => ON_TIMEOUT(), timeout);
         }
 
         private void stopTimer()
         {
             CLIENT.NewValidMessage -= Client_NewValidMessage;
-            timer?.Dispose();
+            timer.Cancel();
             timer = null;
         }
 

@@ -101,7 +101,6 @@ namespace UWP_XMPP_Client.Pages
             {
                 // Show non found in app notification:
                 noneFound_notification.Show("None found. Please retry!", 0);
-                return;
             }
             else
             {
