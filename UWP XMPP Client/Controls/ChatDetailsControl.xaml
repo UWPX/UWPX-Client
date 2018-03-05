@@ -77,13 +77,23 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <controls:AccountImageWithPresenceControl Grid.Column="0" Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}" Margin="10" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <controls:AccountImageWithPresenceControl Grid.Column="0" Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}" Margin="10" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="AccountImageWithPresenceControl_Tapped"/>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Tapped="StackPanel_Tapped">
                         <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
                         <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
                         <TextBlock x:Name="chatState_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
                     </StackPanel>
-                    <Button x:Name="profile_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xEA4A;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="profile_btn_Click"/>
+                    <Button x:Name="more_btn" Grid.Column="2" Content="&#xE712;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem Text="Info" Click="MenuFlyoutItem_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xEA4A;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                     <Button x:Name="test_bnt" Grid.Column="3" FontFamily="Segoe MDL2 Assets" Content="&#xE81F;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="test_bnt_Click"/>
                 </Grid>
                 <controls:SeperatorControl Grid.Row="1"/>

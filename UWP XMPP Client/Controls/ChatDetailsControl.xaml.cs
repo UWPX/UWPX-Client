@@ -241,6 +241,19 @@ namespace UWP_XMPP_Client.Controls
             }
             chatState_tblck.Text = Chat.chatState;
         }
+
+        private void showProfile()
+        {
+            if (Chat != null && Chat.chatType == ChatType.MUC)
+            {
+                (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat, Client, MUCInfo));
+            }
+            else
+            {
+                (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -291,18 +304,6 @@ namespace UWP_XMPP_Client.Controls
             else
             {
                 send_btn.IsEnabled = true;
-            }
-        }
-
-        private void profile_btn_Click(object sender, RoutedEventArgs e)
-        {
-            if (Chat != null && Chat.chatType == ChatType.MUC)
-            {
-                (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat, Client, MUCInfo));
-            }
-            else
-            {
-                (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
             }
         }
 
@@ -411,6 +412,21 @@ namespace UWP_XMPP_Client.Controls
                     });
                 }
             });
+        }
+
+        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            showProfile();
+        }
+
+        private void AccountImageWithPresenceControl_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            showProfile();
+        }
+
+        private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            showProfile();
         }
 
         #endregion

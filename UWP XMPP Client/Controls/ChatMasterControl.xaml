@@ -23,20 +23,52 @@
             <Grid.Resources>
                 <MenuFlyout x:Name="chat_mfo">
                     <MenuFlyout.Items>
-                        <MenuFlyoutItem x:Name="showProfile_mfo" Text="Show profile" Click="showProfile_mfo_Click"/>
+                        <MenuFlyoutItem x:Name="showProfile_mfo" Text="Info" Click="showProfile_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEA4A;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem x:Name="presenceSubscription_mfo" Text="Presence subscription">
-                            <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click"/>
-                            <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo" Text="Cancel subscription" Visibility="Collapsed" Click="cancelPresenceSubscription_mfo_Click"/>
-                            <MenuFlyoutItem x:Name="cancelPresenceSubscriptionRequest" Text="Cancel subscription request" Visibility="Collapsed" Click="cancelPresenceSubscriptionRequest_Click"/>
-                            <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo" Text="Reject subscription" Visibility="Collapsed" Click="rejectPresenceSubscription_mfo_Click"/>
+                            <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE711;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo" Text="Cancel subscription" Visibility="Collapsed" Click="cancelPresenceSubscription_mfo_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE738;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="cancelPresenceSubscriptionRequest" Text="Cancel subscription request" Visibility="Collapsed" Click="cancelPresenceSubscriptionRequest_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE711;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo" Text="Reject subscription" Visibility="Collapsed" Click="rejectPresenceSubscription_mfo_Click">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE711;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator/>
                         <ToggleMenuFlyoutItem x:Name="mute_tmfo" Text="Mute" Click="mute_tmfo_Click"/>
-                        <MenuFlyoutItem x:Name="block_tmfo" Text="Block"/>
+                        <MenuFlyoutItem x:Name="block_tmfo" Text="Block">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE8F8;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click"/>
-                        <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
+                        <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE734;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE74D;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout.Items>
                 </MenuFlyout>
 
