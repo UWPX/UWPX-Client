@@ -413,18 +413,20 @@ namespace Data_Manager2.Classes
                 ChatDBManager.INSTANCE.setMUCDirectInvitation(inviteTable);
             }
 
-            // Filter MUC messages that got send
-            // and are now returned to the sender as a part of distributing them to everybody:
-            if (string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type))
+            bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);
+            bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(message.id) != null;
+            // Filter MUC messages that already exist:
+            // ToDo: Allow MUC messages beeing edited and detect it
+            if (isMUCMessage)
             {
-                if (Equals(message.fromUser, client.getXMPPAccount().getIdAndDomain()))
+                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(message.id);
+                if (msgExists || mucInfo != null && Equals(message.fromUser, mucInfo.nickname))
                 {
                     return;
                 }
             }
 
-            bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(message.id) != null;
-            ChatDBManager.INSTANCE.setChatMessage(message, !msgExists, msgExists);
+            ChatDBManager.INSTANCE.setChatMessage(message, !msgExists, msgExists && !isMUCMessage);
         }
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
