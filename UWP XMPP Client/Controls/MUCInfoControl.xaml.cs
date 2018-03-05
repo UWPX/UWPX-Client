@@ -112,7 +112,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Chat != null && MUCInfo != null)
             {
-                string chatJID = Chat.chatJabberId;
+                string chatJID = Chat.id;
                 string nick = MUCInfo.nickname;
                 Task.Run(async () =>
                 {
