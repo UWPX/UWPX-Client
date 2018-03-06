@@ -37,13 +37,17 @@ namespace Data_Manager2.Classes
         public ConnectionHandler()
         {
             clients = null;
-            loadAccounts();
+            loadClients();
             AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Returns the XMPPClient that matches the given id and domain.
+        /// </summary>
+        /// <param name="iDAndDomain">The id and domain of the requested XMPPClient. e.g. 'alice@jabber.org'</param>
         public XMPPClient getClient(string iDAndDomain)
         {
             foreach (XMPPClient c in clients)
@@ -56,6 +60,9 @@ namespace Data_Manager2.Classes
             return null;
         }
 
+        /// <summary>
+        /// Returns all available XMPPClients.
+        /// </summary>
         public List<XMPPClient> getClients()
         {
             return clients;
@@ -64,6 +71,9 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Starts connecting all XMPPClients.
+        /// </summary>
         public void connectAll()
         {
             if (clients == null || clients.Count <= 0)
@@ -95,6 +105,9 @@ namespace Data_Manager2.Classes
             });
         }
 
+        /// <summary>
+        /// Disconnects all XMPPClients.
+        /// </summary>
         public void disconnectAll()
         {
             if (clients == null || clients.Count <= 0)
@@ -107,6 +120,9 @@ namespace Data_Manager2.Classes
             });
         }
 
+        /// <summary>
+        /// Reconnects all XMPPClients.
+        /// </summary>
         public void reconnectAll()
         {
             if (clients == null || clients.Count <= 0)
@@ -122,7 +138,10 @@ namespace Data_Manager2.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private void loadAccounts()
+        /// <summary>
+        /// Loads all XMPPClients from the DB and inserts them into the clients list.
+        /// </summary>
+        private void loadClients()
         {
             if (clients == null)
             {
@@ -138,6 +157,11 @@ namespace Data_Manager2.Classes
             }
         }
 
+        /// <summary>
+        /// Loads one specific XMPPAccount and subscribes to all its events.
+        /// </summary>
+        /// <param name="acc">The account which should get loaded.</param>
+        /// <returns></returns>
         private XMPPClient loadAccount(XMPPAccount acc)
         {
             XMPPClient c = new XMPPClient(acc);
@@ -156,6 +180,9 @@ namespace Data_Manager2.Classes
             return c;
         }
 
+        /// <summary>
+        /// Unsubscribes from all events of the given XMPPClient.
+        /// </summary>
         private void unloadAccount(XMPPClient c)
         {
             c.NewChatMessage -= C_NewChatMessage;
@@ -166,17 +193,29 @@ namespace Data_Manager2.Classes
             c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
         }
 
+        /// <summary>
+        /// Called once a client enters the 'Disconnected' or 'Error' state.
+        /// </summary>
+        /// <param name="client">The Client which entered the state.</param>
         private void onClientDisconnectedOrError(XMPPClient client)
         {
             ChatDBManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
             MUCHandler.INSTANCE.onClientDisconnected(client);
         }
 
+        /// <summary>
+        /// Called once a client enters the 'Disconnecting' state.
+        /// </summary>
+        /// <param name="client">The Client which entered the state.</param>
         private void onClientDisconneting(XMPPClient client)
         {
             MUCHandler.INSTANCE.onClientDisconnecting(client);
         }
 
+        /// <summary>
+        /// Called once a client enters the 'Connected' state.
+        /// </summary>
+        /// <param name="client">The Client which entered the state.</param>
         private void onClientConnected(XMPPClient client)
         {
             Task.Run(async () =>
@@ -188,6 +227,11 @@ namespace Data_Manager2.Classes
             });
         }
 
+        /// <summary>
+        /// Reconnects a given client.
+        /// </summary>
+        /// <param name="client">The client, for which a reconnect should get performed.</param>
+        /// <returns></returns>
         private async Task reconnectClientAsync(XMPPClient client)
         {
             if (client.getXMPPAccount().disabled)
@@ -398,7 +442,7 @@ namespace Data_Manager2.Classes
                 state = Data_Manager.Classes.MessageState.UNREAD
             };
 
-            // Handle MUC inite messages:
+            // Handle MUC invite messages:
             if (msg is DirectMUCInvitationMessage)
             {
                 DirectMUCInvitationMessage inviteMessage = msg as DirectMUCInvitationMessage;
@@ -417,7 +461,7 @@ namespace Data_Manager2.Classes
             bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);
             bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(message.id) != null;
             // Filter MUC messages that already exist:
-            // ToDo: Allow MUC messages beeing edited and detect it
+            // ToDo: Allow MUC messages being edited and detect it
             if (isMUCMessage)
             {
                 MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(message.id);
