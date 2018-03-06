@@ -48,11 +48,19 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Returns the current MasterDetailsView control.
+        /// </summary>
         public MasterDetailsView getMasterDetailsView()
         {
             return masterDetail_pnl;
         }
 
+        /// <summary>
+        /// Returns true if the chat type of the given chat is CHAT and chat state messages aren't disabled.
+        /// </summary>
+        /// <param name="chat">The chat which </param>
+        /// <returns></returns>
         private bool shouldSendChatState(ChatTable chat)
         {
             return !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE) && chat != null && chat.chatType == ChatType.CHAT;
@@ -67,28 +75,47 @@ namespace UWP_XMPP_Client.Pages
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Removes the given chat from the chatList and allChats list.
+        /// Moves the changed item in the given collection to it's appropriate place based on the chats lastActive date.
         /// </summary>
-        /// <param name="c">The chat to remove.</param>
-        private void removeChat(ChatTemplate c)
+        /// <param name="collection">The collection containing the item which got changed.</param>
+        /// <param name="changedIndex">The index of the changed item.</param>
+        /// <returns>Returns true if the item got actually moved or false if it already is on its appropriate position.</returns>
+        private bool sortChangedItemInObservableCollection(ObservableCollection<ChatTemplate> collection, int changedIndex)
         {
-            chatsList.Remove(c);
-        }
-
-        private void sortObservableCollection(ObservableCollection<ChatTemplate> collection)
-        {
-            List<ChatTemplate> sorted = collection.OrderBy(c => c.chat.lastActive).ToList();
-            for (int i = 0; i < sorted.Count; i++)
+            for (int i = 0; i < collection.Count; i++)
             {
-                collection.Move(collection.IndexOf(sorted[i]), i);
+                if (collection[i].chat.lastActive.CompareTo(collection[changedIndex].chat.lastActive) <= 0)
+                {
+                    if (i != changedIndex)
+                    {
+                        collection.Move(changedIndex, i);
+                        return true;
+                    }
+                    return false;
+                }
             }
+
+            if (changedIndex != collection.Count - 1)
+            {
+                collection.Move(changedIndex, collection.Count - 1);
+                return true;
+            }
+            return false;
         }
 
+        /// <summary>
+        /// Sorts the given list based on the chats lastActive date.
+        /// </summary>
+        /// <param name="list">The list which should get sorted.</param>
         private void sortList(List<ChatTemplate> list)
         {
             list.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
         }
 
+        /// <summary>
+        /// Returns a list of ChatTemplates which match the given filter.
+        /// </summary>
+        /// <param name="filter">The filter for filtering the chats.</param>
         private List<ChatTemplate> getFilterdChats(string filter)
         {
             List<ChatTemplate> list = new List<ChatTemplate>();
@@ -107,6 +134,10 @@ namespace UWP_XMPP_Client.Pages
             return list;
         }
 
+        /// <summary>
+        /// Loads all chats and inserts them into the chatsList.
+        /// </summary>
+        /// <param name="selectedChatId">The id of the chat which should get selected.</param>
         private void loadChats(string selectedChatId)
         {
             // Clear list:
@@ -140,11 +171,18 @@ namespace UWP_XMPP_Client.Pages
             });
         }
 
-        private async Task addChatAsync(XMPPClient client, string jabberId, bool addToRooster, bool requestSubscription)
+        /// <summary>
+        /// Adds a new chat to the chatsList and the DB.
+        /// </summary>
+        /// <param name="client">Which account/client owns this chat?</param>
+        /// <param name="jID">The JID if the new chat.</param>
+        /// <param name="addToRooster">Should the chat get added to the users rooster?</param>
+        /// <param name="requestSubscription">Request a presence subscription?</param>
+        private async Task addChatAsync(XMPPClient client, string jID, bool addToRooster, bool requestSubscription)
         {
-            if (client == null || jabberId == null)
+            if (client == null || jID == null)
             {
-                string errorMessage = "Unable to add chat! client ?= " + (client == null) + " jabberId ?=" + (jabberId == null);
+                string errorMessage = "Unable to add chat! client ?= " + (client == null) + " jabberId ?=" + (jID == null);
                 Logger.Error(errorMessage);
                 MessageDialog messageDialog = new MessageDialog("Error")
                 {
@@ -156,16 +194,16 @@ namespace UWP_XMPP_Client.Pages
             {
                 if (addToRooster)
                 {
-                    await client.addToRosterAsync(jabberId);
+                    await client.addToRosterAsync(jID);
                 }
                 if (requestSubscription)
                 {
-                    await client.requestPresenceSubscriptionAsync(jabberId);
+                    await client.requestPresenceSubscriptionAsync(jID);
                 }
                 ChatDBManager.INSTANCE.setChat(new ChatTable()
                 {
-                    id = ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain()),
-                    chatJabberId = jabberId,
+                    id = ChatTable.generateId(jID, client.getXMPPAccount().getIdAndDomain()),
+                    chatJabberId = jID,
                     userAccountId = client.getXMPPAccount().getIdAndDomain(),
                     ask = null,
                     inRoster = addToRooster,
@@ -204,6 +242,11 @@ namespace UWP_XMPP_Client.Pages
             });
         }
 
+        /// <summary>
+        /// Check if the given ChatTemplate matches the given filter.
+        /// </summary>
+        /// <param name="template">The ChatTemplate which should get checked.</param>
+        /// <param name="filter">The filter that should get applied.</param>
         private bool doesChatTemplateMatchesFilter(ChatTemplate template, string filter)
         {
             return template.chat.chatJabberId.ToLower().Contains(filter) || (template.mucInfo != null && template.mucInfo.name != null && template.mucInfo.name.ToLower().Contains(filter));
@@ -268,18 +311,34 @@ namespace UWP_XMPP_Client.Pages
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // Find chat in chatsList:
-                foreach (ChatTemplate chatTemplate in chatsList.Where((x) => x.chat != null && Equals(x.chat.id, args.CHAT.id)))
+                for (int i = 0; i < chatsList.Count; i++)
                 {
-                    if (args.REMOVED)
+                    if (chatsList[i] != null && Equals(chatsList[i].chat.id, args.CHAT.id))
                     {
-                        removeChat(chatTemplate);
+                        if (args.REMOVED)
+                        {
+                            chatsList.RemoveAt(i);
+                        }
+                        else
+                        {
+                            if (!chatsList[i].chat.lastActive.Equals(args.CHAT.lastActive))
+                            {
+                                chatsList[i].chat = args.CHAT;
+
+                                object selectedItem = masterDetail_pnl.SelectedItem;
+                                if (sortChangedItemInObservableCollection(chatsList, i))
+                                {
+                                    masterDetail_pnl.SelectedItem = selectedItem;
+                                }
+                            }
+                            else
+                            {
+                                chatsList[i].chat = args.CHAT;
+                            }
+                        }
+                        args.Cancel = true;
+                        return;
                     }
-                    else
-                    {
-                        chatTemplate.chat = args.CHAT;
-                    }
-                    args.Cancel = true;
-                    return;
                 }
 
                 // If not found and should remove chat -> return:
@@ -304,7 +363,12 @@ namespace UWP_XMPP_Client.Pages
 
                             if (currentChatQuery == null || doesChatTemplateMatchesFilter(chatElement, currentChatQuery))
                             {
-                                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatsList.Insert(0, chatElement)).AsTask();
+                                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                {
+                                    object selectedItem = masterDetail_pnl.SelectedItem;
+                                    chatsList.Insert(0, chatElement);
+                                    masterDetail_pnl.SelectedItem = selectedItem;
+                                }).AsTask();
                             }
                         }
                     }
@@ -337,11 +401,6 @@ namespace UWP_XMPP_Client.Pages
         {
             AddMUCDialog dialog = new AddMUCDialog();
             await dialog.ShowAsync();
-
-            if (!dialog.cancled)
-            {
-
-            }
         }
 
         private void addMIX_mfoi_Click(object sender, RoutedEventArgs e)

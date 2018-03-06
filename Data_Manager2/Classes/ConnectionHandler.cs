@@ -358,8 +358,10 @@ namespace Data_Manager2.Classes
             string id = ChatTable.generateId(from, to);
 
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
+            bool chatChanged = false;
             if (chat == null)
             {
+                chatChanged = true;
                 chat = new ChatTable()
                 {
                     id = id,
@@ -367,14 +369,13 @@ namespace Data_Manager2.Classes
                     userAccountId = to,
                     ask = null,
                     inRoster = false,
-                    lastActive = DateTime.Now,
+                    lastActive = msg.getDelay(),
                     muted = false,
                     presence = Presence.Unavailable,
                     status = null,
                     subscription = null,
                     chatType = Equals(msg.getType(), MessageMessage.TYPE_CHAT) ? ChatType.MUC : ChatType.CHAT,
                 };
-                ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
 
             // ToDo re-implement show toast message
@@ -424,6 +425,17 @@ namespace Data_Manager2.Classes
                 {
                     return;
                 }
+            }
+
+            if (chat.lastActive.CompareTo(msg.getDelay()) < 0)
+            {
+                chatChanged = true;
+                chat.lastActive = msg.getDelay();
+            }
+
+            if (chatChanged)
+            {
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
 
             ChatDBManager.INSTANCE.setChatMessage(message, !msgExists, msgExists && !isMUCMessage);

@@ -10,7 +10,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Attributes--
         private readonly string MESSAGE;
         private readonly string TYPE;
-        private readonly DateTime DELAY;
         private readonly string FROM_NICK;
         private DateTime delay;
         // Already shown as a toast:
@@ -99,15 +98,19 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 MESSAGE = body.InnerText;
             }
 
-            XmlNode delay = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, "urn:xmpp:delay");
-            if (delay != null)
+            XmlNode delayNode = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, "urn:xmpp:delay");
+            if (delayNode != null)
             {
-                XmlAttribute stamp = XMLUtils.getAttribute(delay, "stamp");
+                XmlAttribute stamp = XMLUtils.getAttribute(delayNode, "stamp");
                 if (stamp != null)
                 {
                     DateTimeParserHelper parserHelper = new DateTimeParserHelper();
-                    DELAY = parserHelper.parse(stamp.Value);
+                    delay = parserHelper.parse(stamp.Value);
                 }
+            }
+            else
+            {
+                delay = DateTime.Now;
             }
         }
 
@@ -136,7 +139,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public DateTime getDelay()
         {
-            return DELAY;
+            return delay;
         }
 
         public string getFromNick()
