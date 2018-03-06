@@ -215,13 +215,13 @@ namespace Data_Manager2.Classes
                 }
                 string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
 
-                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, msg.NICKNAME);
+                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, msg.FROM_NICKNAME);
                 if (member == null)
                 {
                     member = new MUCMemberTable()
                     {
-                        id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
-                        nickname = msg.NICKNAME,
+                        id = MUCMemberTable.generateId(chatId, msg.FROM_NICKNAME),
+                        nickname = msg.FROM_NICKNAME,
                         chatId = chatId
                     };
                 }
@@ -232,9 +232,9 @@ namespace Data_Manager2.Classes
                 bool isUnavailable = Equals(msg.TYPE, "unavailable");
                 if (isUnavailable)
                 {
-                    // Nickname got changed by user or room:
                     if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE))
                     {
+                        // Nickname got changed by user or room:
                         if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED) || msg.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED))
                         {
                             MUCDBManager.INSTANCE.setNickname(chatId, msg.NICKNAME, true);

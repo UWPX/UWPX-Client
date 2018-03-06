@@ -10,6 +10,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         public readonly List<MUCPresenceStatusCode> STATUS_CODES;
         public readonly string JID;
         public readonly string NICKNAME;
+        public readonly string FROM_NICKNAME;
         public readonly MUCAffiliation AFFILIATION;
         public readonly MUCRole ROLE;
         public readonly string ERROR_MESSAGE;
@@ -26,6 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public MUCMemberPresenceMessage(XmlNode node) : base(node)
         {
+            this.FROM_NICKNAME = Utils.getResourceFromFullJid(FROM);
             this.STATUS_CODES = new List<MUCPresenceStatusCode>();
             XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, "http://jabber.org/protocol/muc#user");
             if (xNode != null)
@@ -50,11 +52,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                             break;
                     }
                 }
-            }
-
-            if (NICKNAME == null)
-            {
-                this.NICKNAME = Utils.getResourceFromFullJid(FROM);
             }
 
             XmlNode eNode = XMLUtils.getChildNode(node, "error");

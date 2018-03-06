@@ -84,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private void stopTimer()
         {
             CLIENT.NewValidMessage -= Client_NewValidMessage;
-            timer.Cancel();
+            timer?.Cancel();
             timer = null;
         }
 

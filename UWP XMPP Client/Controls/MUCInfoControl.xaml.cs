@@ -9,6 +9,7 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using System;
 using XMPP_API.Classes.Network.XML.Messages;
+using UWP_XMPP_Client.Pages.SettingsPages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -19,18 +20,26 @@ namespace UWP_XMPP_Client.Controls
         public ChatTable Chat
         {
             get { return (ChatTable)GetValue(ChatProperty); }
-            set
-            {
-                SetValue(ChatProperty, value);
-                showSubject();
-            }
+            set { SetValue(ChatProperty, value); }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCInfoControl), null);
 
         public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(ClientProperty); }
-            set { SetValue(ClientProperty, value); }
+            set
+            {
+                if (Client != null)
+                {
+                    Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                }
+                SetValue(ClientProperty, value);
+                if (Client != null)
+                {
+                    Client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                    showMUCInfo();
+                }
+            }
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCInfoControl), null);
 
@@ -41,7 +50,6 @@ namespace UWP_XMPP_Client.Controls
             {
                 SetValue(MUCInfoProperty, value);
                 showMUCInfo();
-                showSubject();
             }
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
@@ -78,51 +86,64 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void showMUCInfo()
         {
-            if (MUCInfo != null)
+            if (MUCInfo != null && Client != null)
             {
                 Presence presence = MUCInfo.getMUCPresence();
                 autoJoin_tgls.IsOn = MUCInfo.autoEnterRoom;
                 enterState_tbx.Foreground = UiUtils.getPresenceBrush(presence);
+
+                if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                {
+                    notConnected_itbx.Visibility = Visibility.Collapsed;
+                    nickname_stbx.IsEnabled = true;
+                    subject_stbx.IsEnabled = true;
+                    password_spwbx.IsEnabled = true;
+                }
+                else
+                {
+                    notConnected_itbx.Visibility = Visibility.Visible;
+                    nickname_stbx.IsEnabled = false;
+                    subject_stbx.IsEnabled = false;
+                    password_spwbx.IsEnabled = false;
+                }
+
+                join_btn.IsEnabled = false;
+                leave_btn.IsEnabled = false;
+
                 switch (presence)
                 {
                     case Presence.Online:
                         enterState_tbx.Text = "joined";
-                        join_btn.IsEnabled = false;
-                        leave_btn.IsEnabled = true;
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            leave_btn.IsEnabled = true;
+                        }
                         break;
 
                     case Presence.Chat:
                         enterState_tbx.Text = "joining/leaving...";
-                        join_btn.IsEnabled = false;
-                        leave_btn.IsEnabled = true;
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            leave_btn.IsEnabled = true;
+                        }
                         break;
 
                     case Presence.Xa:
                         enterState_tbx.Text = "ERROR - view the log for more information";
-                        leave_btn.IsEnabled = false;
-                        join_btn.IsEnabled = true;
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            leave_btn.IsEnabled = true;
+                        }
                         break;
 
                     default:
                         enterState_tbx.Text = "not joined yet";
-                        leave_btn.IsEnabled = false;
-                        join_btn.IsEnabled = true;
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            join_btn.IsEnabled = true;
+                        }
                         break;
                 }
-            }
-        }
-
-        private void showSubject()
-        {
-            if (Chat != null && MUCInfo != null)
-            {
-                string chatJID = Chat.id;
-                string nick = MUCInfo.nickname;
-                Task.Run(async () =>
-                {
-                    MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatJID, nick);
-                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => subject_stbx.IsReadOnly = !(member != null && member.role == MUCRole.MODERATOR));
-                });
             }
         }
 
@@ -145,6 +166,7 @@ namespace UWP_XMPP_Client.Controls
         private void saveSubject()
         {
             subject_stbx.onStartSaving();
+            notificationBanner_ian.Dismiss();
 
             string from = Client.getXMPPAccount().getIdAndDomain() + '/' + MUCInfo.nickname;
             string to = Chat.chatJabberId;
@@ -173,6 +195,16 @@ namespace UWP_XMPP_Client.Controls
         private void updateNick()
         {
             nickname_stbx.onStartSaving();
+
+            if (string.IsNullOrEmpty(nickname_stbx.Text))
+            {
+                notificationBanner_ian.Show("Invalid nickname!");
+                nickname_stbx.onSavingDone();
+                return;
+            }
+
+            notificationBanner_ian.Dismiss();
+
             MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(Client.getXMPPAccount().getIdDomainAndResource(), Chat.chatJabberId, nickname_stbx.Text);
             changeNickHelper = new MessageResponseHelper<PresenceMessage>(Client, onChangeNickMessage, onChangeNickTimeout)
             {
@@ -185,6 +217,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (msg is MUCMemberPresenceMessage)
             {
+                // Success:
                 MUCMemberPresenceMessage mPMessage = msg as MUCMemberPresenceMessage;
                 if (mPMessage.STATUS_CODES.Contains(MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE) && (mPMessage.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED) || mPMessage.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED)))
                 {
@@ -197,6 +230,7 @@ namespace UWP_XMPP_Client.Controls
                     return true;
                 }
             }
+            // Error:
             else if (msg is MUCErrorMessage && Equals(msg.getId(), changeNickHelper.sendId))
             {
                 MUCErrorMessage errorMessage = msg as MUCErrorMessage;
@@ -218,6 +252,17 @@ namespace UWP_XMPP_Client.Controls
                 nickname_stbx.onSavingDone();
                 notificationBanner_ian.Show("Changing nickname failed (time out)!\nPlease retry.");
             }).AsTask();
+        }
+
+        private void savePassword()
+        {
+            password_spwbx.onStartSaving();
+            notificationBanner_ian.Dismiss();
+            MUCInfo.password = password_spwbx.Password;
+            MUCChatInfoTable info = MUCInfo;
+            Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, false));
+            password_spwbx.onSavingDone();
+            notificationBanner_ian.Show("Successfully saved password!", 5000);
         }
 
         #endregion
@@ -254,6 +299,21 @@ namespace UWP_XMPP_Client.Controls
             {
                 saveAutoJoin();
             }
+        }
+
+        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        {
+            showMUCInfo();
+        }
+
+        private void notConnected_itbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+        }
+
+        private void password_spwbx_SaveClick(object sender, RoutedEventArgs e)
+        {
+            savePassword();
         }
 
         #endregion
