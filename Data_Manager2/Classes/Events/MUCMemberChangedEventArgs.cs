@@ -1,12 +1,14 @@
-﻿using System;
+﻿using Data_Manager2.Classes.DBTables;
+using System;
 
 namespace Data_Manager2.Classes.Events
 {
-    public class DownloadProgressChangedEventArgs : EventArgs
+    public class MUCMemberChangedEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly double PROGRESS;
+        public readonly MUCMemberTable MUC_MEMBER;
+        public readonly bool REMOVED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +17,12 @@ namespace Data_Manager2.Classes.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 18/12/2017 Created [Fabian Sauter]
+        /// 06/03/2018 Created [Fabian Sauter]
         /// </history>
-        public DownloadProgressChangedEventArgs(double progress)
+        public MUCMemberChangedEventArgs(MUCMemberTable member, bool removed)
         {
-            this.PROGRESS = progress;
+            this.MUC_MEMBER = member;
+            this.REMOVED = removed;
         }
 
         #endregion

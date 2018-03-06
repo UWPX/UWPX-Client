@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace Data_Manager2.Classes.Events
+﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class DownloadProgressChangedEventArgs : EventArgs
+    public class MUCChangeNicknameMessage : PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly double PROGRESS;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +13,10 @@ namespace Data_Manager2.Classes.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 18/12/2017 Created [Fabian Sauter]
+        /// 06/03/2018 Created [Fabian Sauter]
         /// </history>
-        public DownloadProgressChangedEventArgs(double progress)
+        public MUCChangeNicknameMessage(string from, string roomJid, string newNickname) : base(from, roomJid + '/' + newNickname, Presence.NotDefined, null, int.MinValue)
         {
-            this.PROGRESS = progress;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -306,7 +307,7 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        private void INSTANCE_ChatChanged(ChatDBManager handler, ChatChangedEventArgs args)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -376,7 +377,7 @@ namespace UWP_XMPP_Client.Pages
             }).AsTask();
         }
 
-        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, MUCInfoChangedEventArgs args)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

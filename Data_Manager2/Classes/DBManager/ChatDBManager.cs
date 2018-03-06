@@ -1,5 +1,4 @@
-﻿using Data_Manager.Classes;
-using Data_Manager.Classes.Events;
+﻿using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.DBTables;
 using SQLite.Net;
 using System.Collections.Generic;

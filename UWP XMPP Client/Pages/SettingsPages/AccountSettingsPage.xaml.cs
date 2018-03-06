@@ -8,6 +8,7 @@ using XMPP_API.Classes.Network;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data_Manager2.Classes.Events;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -85,7 +86,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void AbstractBackRequestPage_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
+        private void AbstractBackRequestPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
             if (rootFrame == null)
@@ -115,7 +116,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             });
         }
 
-        private void INSTANCE_AccountChanged(AccountDBManager handler, Data_Manager.Classes.Events.AccountChangedEventArgs args)
+        private void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
         {
             loadAccounts();
         }

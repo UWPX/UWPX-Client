@@ -1,7 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using System;
 
-namespace Data_Manager.Classes.Events
+namespace Data_Manager2.Classes.Events
 {
     public class DownloadStateChangedEventArgs : EventArgs
     {

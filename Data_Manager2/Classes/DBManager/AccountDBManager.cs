@@ -1,4 +1,4 @@
-﻿using Data_Manager.Classes.Events;
+﻿using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using XMPP_API.Classes.Network;

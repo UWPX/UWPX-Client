@@ -9,14 +9,14 @@ using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.Classes.Events;
-using Data_Manager.Classes;
+using Data_Manager2.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Input;
+using Data_Manager2.Classes.Events;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -262,7 +262,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_NewChatMessage(ChatDBManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
+        private async void INSTANCE_NewChatMessage(ChatDBManager handler, NewChatMessageEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -393,7 +393,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, ChatMessageChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

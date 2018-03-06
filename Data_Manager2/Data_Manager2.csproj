@@ -133,6 +133,7 @@
     <Compile Include="Classes\Events\AccountChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ChatChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ChatMessageChangedEventArgs.cs" />
+    <Compile Include="Classes\Events\MUCMemberChangedEventArgs.cs" />
     <Compile Include="Classes\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\MessageState.cs" />
     <Compile Include="Classes\MUCDirectInvitationState.cs" />

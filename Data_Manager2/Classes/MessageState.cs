@@ -1,4 +1,4 @@
-﻿namespace Data_Manager.Classes
+﻿namespace Data_Manager2.Classes
 {
     public enum MessageState
     {

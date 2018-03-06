@@ -1,4 +1,4 @@
-﻿using Data_Manager.Classes.Events;
+﻿using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
@@ -439,7 +439,7 @@ namespace Data_Manager2.Classes
 
             ChatMessageTable message = new ChatMessageTable(msg, chat)
             {
-                state = Data_Manager.Classes.MessageState.UNREAD
+                state = Data_Manager2.Classes.MessageState.UNREAD
             };
 
             // Handle MUC invite messages:
@@ -517,7 +517,7 @@ namespace Data_Manager2.Classes
 
         private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
         {
-            ChatDBManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager.Classes.MessageState.SEND);
+            ChatDBManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager2.Classes.MessageState.SEND);
         }
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)

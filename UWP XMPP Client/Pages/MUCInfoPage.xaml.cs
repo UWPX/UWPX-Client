@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
 using System;
+using Data_Manager2.Classes.Events;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -96,7 +97,7 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private async void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager.Classes.Events.MUCInfoChangedEventArgs args)
+        private async void INSTANCE_MUCInfoChanged(MUCDBManager handler, MUCInfoChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -107,7 +108,7 @@ namespace UWP_XMPP_Client.Pages
             });
         }
 
-        private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        private async void INSTANCE_ChatChanged(ChatDBManager handler, ChatChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

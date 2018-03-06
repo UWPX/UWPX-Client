@@ -55,7 +55,7 @@
         /// <summary>
         /// Inform user that the service has assigned or modified the occupant's roomnick.
         /// </summary>
-        MEMBER_NICK_CHANGED = 210, // 210
+        ROOM_NICK_CHANGED = 210, // 210
         /// <summary>
         /// Inform user that he or she has been banned from the room.
         /// </summary>
@@ -63,7 +63,7 @@
         /// <summary>
         /// Inform all occupants of new room nickname.
         /// </summary>
-        ROOM_NICK_CHANGED = 303, // 303
+        MEMBER_NICK_CHANGED = 303, // 303
         /// <summary>
         /// Inform user that he or she has been kicked from the room.
         /// </summary>

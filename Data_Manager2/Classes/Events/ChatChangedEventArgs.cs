@@ -1,7 +1,7 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using System.ComponentModel;
 
-namespace Data_Manager.Classes.Events
+namespace Data_Manager2.Classes.Events
 {
     public class ChatChangedEventArgs : CancelEventArgs
     {

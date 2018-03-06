@@ -26,37 +26,42 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public MUCMemberPresenceMessage(XmlNode node) : base(node)
         {
+            this.STATUS_CODES = new List<MUCPresenceStatusCode>();
             XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, "http://jabber.org/protocol/muc#user");
             if (xNode != null)
             {
-                NICKNAME = Utils.getResourceFromFullJid(FROM);
-                STATUS_CODES = new List<MUCPresenceStatusCode>();
                 foreach (XmlNode n in xNode.ChildNodes)
                 {
                     switch (n.Name)
                     {
                         case "item":
-                            AFFILIATION = Utils.parseMUCAffiliation(n.Attributes["affiliation"]?.Value);
-                            ROLE = Utils.parseMUCRole(n.Attributes["role"]?.Value);
-                            JID = n.Attributes["jid"]?.Value;
+                            this.AFFILIATION = Utils.parseMUCAffiliation(n.Attributes["affiliation"]?.Value);
+                            this.ROLE = Utils.parseMUCRole(n.Attributes["role"]?.Value);
+                            this.JID = n.Attributes["jid"]?.Value;
+                            this.NICKNAME = n.Attributes["nick"]?.Value;
                             break;
 
                         case "status":
                             string s = n.Attributes["code"]?.Value;
                             if (s != null)
                             {
-                                STATUS_CODES.Add(parseStatusCode(s));
+                                this.STATUS_CODES.Add(parseStatusCode(s));
                             }
                             break;
                     }
                 }
             }
 
+            if (NICKNAME == null)
+            {
+                this.NICKNAME = Utils.getResourceFromFullJid(FROM);
+            }
+
             XmlNode eNode = XMLUtils.getChildNode(node, "error");
             if (eNode != null)
             {
-                ERROR_TYPE = eNode.Attributes["type"]?.Value;
-                ERROR_MESSAGE = eNode.InnerText;
+                this.ERROR_TYPE = eNode.Attributes["type"]?.Value;
+                this.ERROR_MESSAGE = eNode.InnerText;
             }
         }
 

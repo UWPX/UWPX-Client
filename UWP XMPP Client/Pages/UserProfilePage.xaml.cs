@@ -9,6 +9,7 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBManager;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.Network;
+using Data_Manager2.Classes.Events;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -172,7 +173,7 @@ namespace UWP_XMPP_Client.Pages
             showClientPresence();
         }
 
-        private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatChangedEventArgs args)
+        private async void INSTANCE_ChatChanged(ChatDBManager handler, ChatChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

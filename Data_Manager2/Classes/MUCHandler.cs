@@ -186,7 +186,7 @@ namespace Data_Manager2.Classes
                             fromUser = errorMessage.getFrom(),
                             isImage = false,
                             message = "Code: " + errorMessage.ERROR_CODE + "\nType: " + errorMessage.ERROR_TYPE + "\nMessage:\n" + errorMessage.ERROR_MESSAGE,
-                            state = Data_Manager.Classes.MessageState.UNREAD,
+                            state = MessageState.UNREAD,
                             type = MessageMessage.TYPE_ERROR
                         };
                         ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
@@ -232,10 +232,15 @@ namespace Data_Manager2.Classes
                 bool isUnavailable = Equals(msg.TYPE, "unavailable");
                 if (isUnavailable)
                 {
-                    foreach (MUCPresenceStatusCode s in msg.STATUS_CODES)
+                    // Nickname got changed by user or room:
+                    if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE))
                     {
-                        // Is self reference message:
-                        if (s == MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE)
+                        if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED) || msg.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED))
+                        {
+                            MUCDBManager.INSTANCE.setNickname(chatId, msg.NICKNAME, true);
+                            return;
+                        }
+                        else
                         {
                             MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
                         }
@@ -243,7 +248,7 @@ namespace Data_Manager2.Classes
                 }
 
                 // If the type equals 'unavailable', a user left the room:
-                MUCDBManager.INSTANCE.setMUCMember(member, isUnavailable);
+                MUCDBManager.INSTANCE.setMUCMember(member, isUnavailable, true);
             });
         }
 

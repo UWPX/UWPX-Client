@@ -1,5 +1,7 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
 using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
@@ -110,16 +112,16 @@ namespace UWP_XMPP_Client.Controls
                 }
                 switch (ChatMessage.state)
                 {
-                    case Data_Manager.Classes.MessageState.SENDING:
+                    case MessageState.SENDING:
                         state_tbx.Text = "\uE724";
                         break;
-                    case Data_Manager.Classes.MessageState.SEND:
+                    case MessageState.SEND:
                         state_tbx.Text = "\uE725";
                         break;
-                    case Data_Manager.Classes.MessageState.UNREAD:
+                    case MessageState.UNREAD:
                         state_tbx.Text = "\uEA63";
                         break;
-                    case Data_Manager.Classes.MessageState.READ:
+                    case MessageState.READ:
                         state_tbx.Text = "\uEA64";
                         break;
                     default:
@@ -223,12 +225,12 @@ namespace UWP_XMPP_Client.Controls
             message_tbx.Visibility = Visibility.Visible;
         }
 
-        private async void Img_DownloadStateChanged(ImageTable img, Data_Manager.Classes.Events.DownloadStateChangedEventArgs args)
+        private async void Img_DownloadStateChanged(ImageTable img, DownloadStateChangedEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () => await showImageAsync(img));
         }
 
-        private async void Img_DownloadProgressChanged(ImageTable img, Data_Manager.Classes.Events.DownloadProgressChangedEventArgs args)
+        private async void Img_DownloadProgressChanged(ImageTable img, DownloadProgressChangedEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => loading_prgrb.Value = 100 * img.progress);
         }

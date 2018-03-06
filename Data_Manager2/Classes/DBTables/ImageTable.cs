@@ -1,4 +1,4 @@
-﻿using Data_Manager.Classes.Events;
+﻿using Data_Manager2.Classes.Events;
 using SQLite.Net.Attributes;
 using System.Threading.Tasks;
 using Windows.Storage;

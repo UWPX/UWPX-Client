@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.Events;
 using System.Threading.Tasks;
 
 namespace Push_App_Server.Classes
@@ -48,7 +49,7 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void INSTANCE_ClientConnected(ConnectionHandler handler, Data_Manager.Classes.Events.ClientConnectedEventArgs args)
+        private static void INSTANCE_ClientConnected(ConnectionHandler handler, ClientConnectedEventArgs args)
         {
             Task.Run(async () =>
             {

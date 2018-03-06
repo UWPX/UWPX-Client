@@ -17,6 +17,7 @@ using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages;
+using Data_Manager2.Classes.Events;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -260,12 +261,12 @@ namespace UWP_XMPP_Client.Controls
                 chatMessage.ChatMessageChanged += ChatMessage_ChatMessageChanged;
                 switch (chatMessage.state)
                 {
-                    case Data_Manager.Classes.MessageState.UNREAD:
+                    case MessageState.UNREAD:
                         lastChat_tblck.Foreground = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
                         break;
-                    case Data_Manager.Classes.MessageState.SENDING:
-                    case Data_Manager.Classes.MessageState.SEND:
-                    case Data_Manager.Classes.MessageState.READ:
+                    case MessageState.SENDING:
+                    case MessageState.SEND:
+                    case MessageState.READ:
                     default:
                         lastChat_tblck.Foreground = (SolidColorBrush)Resources["SystemControlBackgroundBaseMediumBrush"];
                         break;
@@ -306,7 +307,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void INSTANCE_NewChatMessage(ChatDBManager handler, Data_Manager.Classes.Events.NewChatMessageEventArgs args)
+        private async void INSTANCE_NewChatMessage(ChatDBManager handler, NewChatMessageEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -499,7 +500,7 @@ namespace UWP_XMPP_Client.Controls
             showLastChatMessage(lastChatMessage);
         }
 
-        private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, Data_Manager.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, ChatMessageChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

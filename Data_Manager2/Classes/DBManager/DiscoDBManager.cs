@@ -132,7 +132,7 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_ClientConnected(ConnectionHandler handler, Data_Manager.Classes.Events.ClientConnectedEventArgs args)
+        private async void INSTANCE_ClientConnected(ConnectionHandler handler, Events.ClientConnectedEventArgs args)
         {
             args.CLIENT.NewDiscoResponseMessage -= CLIENT_NewDiscoResponseMessage;
             args.CLIENT.NewDiscoResponseMessage += CLIENT_NewDiscoResponseMessage;

@@ -1,5 +1,4 @@
-﻿using Data_Manager.Classes;
-using SQLite.Net.Attributes;
+﻿using SQLite.Net.Attributes;
 using System;
 using System.Text.RegularExpressions;
 using XMPP_API.Classes;

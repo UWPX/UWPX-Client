@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using System;
+using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -45,6 +46,8 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCInfoControl), null);
 
+        private MessageResponseHelper<PresenceMessage> changeNickHelper;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -56,6 +59,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public MUCInfoControl()
         {
+            this.changeNickHelper = null;
             this.InitializeComponent();
         }
 
@@ -166,6 +170,56 @@ namespace UWP_XMPP_Client.Controls
             Task.Run(() => MUCDBManager.INSTANCE.setMUCAutoEnter(chatId, autoEnterRoom, true));
         }
 
+        private void updateNick()
+        {
+            nickname_stbx.onStartSaving();
+            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(Client.getXMPPAccount().getIdDomainAndResource(), Chat.chatJabberId, nickname_stbx.Text);
+            changeNickHelper = new MessageResponseHelper<PresenceMessage>(Client, onChangeNickMessage, onChangeNickTimeout)
+            {
+                matchId = false
+            };
+            changeNickHelper.start(msg);
+        }
+
+        private bool onChangeNickMessage(PresenceMessage msg)
+        {
+            if (msg is MUCMemberPresenceMessage)
+            {
+                MUCMemberPresenceMessage mPMessage = msg as MUCMemberPresenceMessage;
+                if (mPMessage.STATUS_CODES.Contains(MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE) && (mPMessage.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED) || mPMessage.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED)))
+                {
+                    Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        nickname_stbx.Text = mPMessage.NICKNAME;
+                        nickname_stbx.onSavingDone();
+                        notificationBanner_ian.Show("Successfully changed nickname to: " + mPMessage.NICKNAME, 5000);
+                    }).AsTask();
+                    return true;
+                }
+            }
+            else if (msg is MUCErrorMessage && Equals(msg.getId(), changeNickHelper.sendId))
+            {
+                MUCErrorMessage errorMessage = msg as MUCErrorMessage;
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    nickname_stbx.Text = MUCInfo.nickname;
+                    nickname_stbx.onSavingDone();
+                    notificationBanner_ian.Show("Changing nickname failed:\nCode: " + errorMessage.ERROR_CODE + "\nType: " + errorMessage.ERROR_TYPE + "\nMessage:\n" + errorMessage.ERROR_MESSAGE);
+                }).AsTask();
+            }
+            return false;
+        }
+
+        private void onChangeNickTimeout()
+        {
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                nickname_stbx.Text = MUCInfo.nickname;
+                nickname_stbx.onSavingDone();
+                notificationBanner_ian.Show("Changing nickname failed (time out)!\nPlease retry.");
+            }).AsTask();
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -186,7 +240,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void nickname_stbx_SaveClick(object sender, RoutedEventArgs e)
         {
-
+            updateNick();
         }
 
         private void subject_stbx_SaveClick(object sender, RoutedEventArgs e)

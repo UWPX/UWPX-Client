@@ -1,4 +1,4 @@
-﻿using Data_Manager.Classes.Events;
+﻿using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 
@@ -11,8 +11,10 @@ namespace Data_Manager2.Classes.DBManager
         public static readonly MUCDBManager INSTANCE = new MUCDBManager();
 
         public delegate void MUCInfoChangedHandler(MUCDBManager handler, MUCInfoChangedEventArgs args);
+        public delegate void MUCMemberChangedHandler(MUCDBManager handler, MUCMemberChangedEventArgs args);
 
         public event MUCInfoChangedHandler MUCInfoChanged;
+        public event MUCMemberChangedHandler MUCMemberChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -41,18 +43,20 @@ namespace Data_Manager2.Classes.DBManager
             return null;
         }
 
-        public void setMUCMember(MUCMemberTable member, bool delete)
+        public void setMUCMember(MUCMemberTable member, bool delete, bool triggerMUCMemberChanged)
         {
-            if (member != null)
+            if (delete)
             {
-                if (delete)
-                {
-                    dB.Delete(member);
-                }
-                else
-                {
-                    update(member);
-                }
+                dB.Delete(member);
+            }
+            else
+            {
+                update(member);
+            }
+
+            if (triggerMUCMemberChanged)
+            {
+                onMUCMemberChanged(member.id);
             }
         }
 
@@ -72,7 +76,12 @@ namespace Data_Manager2.Classes.DBManager
 
         public MUCMemberTable getMUCMember(string chatId, string nickname)
         {
-            List<MUCMemberTable> list = dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE id = ?;", MUCMemberTable.generateId(chatId, nickname));
+            return getMUCMember(MUCMemberTable.generateId(chatId, nickname));
+        }
+
+        public MUCMemberTable getMUCMember(string id)
+        {
+            List<MUCMemberTable> list = dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE id = ?;", id);
             if (list.Count <= 0)
             {
                 return null;
@@ -118,6 +127,15 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public void setNickname(string chatId, string nickname, bool triggerMUCChanged)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET nickname = ? WHERE chatId = ?;", nickname, chatId);
+            if (triggerMUCChanged)
+            {
+                onMUCInfoChanged(chatId);
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -145,6 +163,15 @@ namespace Data_Manager2.Classes.DBManager
             if (info != null)
             {
                 MUCInfoChanged?.Invoke(this, new MUCInfoChangedEventArgs(info, false));
+            }
+        }
+
+        private void onMUCMemberChanged(string id)
+        {
+            MUCMemberTable member = getMUCMember(id);
+            if (member != null)
+            {
+                MUCMemberChanged?.Invoke(this, new MUCMemberChangedEventArgs(member, false));
             }
         }
 

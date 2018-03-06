@@ -1,8 +1,7 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using XMPP_API.Classes.Network;
 
-namespace Data_Manager.Classes.Events
+namespace Data_Manager2.Classes.Events
 {
     public class AccountChangedEventArgs : CancelEventArgs
     {
