@@ -36,8 +36,16 @@
                     </StackPanel>
                 </Button>
             </Grid>
-            <StackPanel x:Name="accounts_stckp" Grid.Row="2" Margin="10">
-                <!--Accounts-->
+
+            <!--Accounts:-->
+            <ScrollViewer x:Name="accounts_scrlv" Grid.Row="2" Margin="10" Visibility="Collapsed">
+                <StackPanel x:Name="accounts_stckp"/>
+            </ScrollViewer>
+
+            <!--Loading:-->
+            <StackPanel x:Name="loading_grid" Grid.Row="2" Margin="10">
+                <TextBlock FontSize="20" Text="Loading accounts..." HorizontalAlignment="Center"/>
+                <ProgressRing Height="30" Width="30" Margin="0, 10, 0, 0" IsActive="True"/>
             </StackPanel>
         </Grid>
     </ScrollViewer>

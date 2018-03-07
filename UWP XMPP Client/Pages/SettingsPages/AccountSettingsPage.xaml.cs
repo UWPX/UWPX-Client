@@ -72,6 +72,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                     {
                         reloadAccounts_btn.Visibility = Visibility.Collapsed;
                     }
+                    accounts_scrlv.Visibility = Visibility.Visible;
+                    loading_grid.Visibility = Visibility.Collapsed;
                     reloadAccounts_prgr.Visibility = Visibility.Collapsed;
                     reloadAccounts_btn.IsEnabled = true;
                 }).AsTask();
