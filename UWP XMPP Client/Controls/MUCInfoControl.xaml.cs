@@ -9,6 +9,7 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using System;
 using XMPP_API.Classes.Network.XML.Messages;
+using UWP_XMPP_Client.Pages.SettingsPages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -307,6 +308,11 @@ namespace UWP_XMPP_Client.Controls
         private async void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => showMUCInfo());
+        }
+
+        private void notConnected_itbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
         }
 
         private void password_spwbx_SaveClick(object sender, RoutedEventArgs e)

@@ -487,7 +487,7 @@ namespace Data_Manager2.Classes
                     }
                     else
                     {
-                        clients[i] = loadAccount(args.ACCOUNT);
+                        clients[i].setAccount(args.ACCOUNT);
                         if (!clients[i].getXMPPAccount().disabled)
                         {
                             await clients[i].connectAsync();

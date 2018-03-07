@@ -67,6 +67,7 @@
                                                        Text="Account not connected!"
                                                        Margin="0, 10, 0, 0"
                                                        IconForeground="Red"
+                                                       Tapped="notConnected_itbx_Tapped"
                                                        Visibility="Collapsed"/>
                     </StackPanel>
                 </Grid>

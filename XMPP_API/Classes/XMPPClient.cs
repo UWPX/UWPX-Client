@@ -49,12 +49,7 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPClient(XMPPAccount account)
         {
-            connection = new XMPPConnection(account);
-            connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
-            connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
-            connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
-            connection.ConnectionNewPresenceMessage += Connection_ConnectionNewPresenceMessage;
-            connection.MessageSend += Connection_MessageSend;
+            initConnection(account);
         }
 
         #endregion
@@ -85,6 +80,32 @@ namespace XMPP_API.Classes
         public ConnectionState getConnetionState()
         {
             return connection.state;
+        }
+
+        /// <summary>
+        /// Sets the given XMPPAccount.
+        /// Make sure you call disconnectAsyc() before to prevent memory leaks!
+        /// </summary>
+        /// <param name="account">The new XMPPAccount.</param>
+        public void setAccount(XMPPAccount account)
+        {
+            // Cleanup old connection:
+            if(connection != null)
+            {
+                switch (connection.state)
+                {
+                    case ConnectionState.CONNECTING:
+                    case ConnectionState.CONNECTED:
+                        throw new InvalidOperationException("Unable to set account, if the client is still connecting or connected! state = " + connection.state);
+                }
+                connection.ConnectionNewRoosterMessage -= Connection_ConnectionNewRoosterMessage;
+                connection.ConnectionStateChanged -= Connection_ConnectionStateChanged;
+                connection.ConnectionNewValidMessage -= Connection_ConnectionNewValidMessage;
+                connection.ConnectionNewPresenceMessage -= Connection_ConnectionNewPresenceMessage;
+                connection.MessageSend -= Connection_MessageSend;
+            }
+
+            initConnection(account);
         }
 
         #endregion
@@ -208,7 +229,15 @@ namespace XMPP_API.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void initConnection(XMPPAccount account)
+        {
+            connection = new XMPPConnection(account);
+            connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
+            connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
+            connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
+            connection.ConnectionNewPresenceMessage += Connection_ConnectionNewPresenceMessage;
+            connection.MessageSend += Connection_MessageSend;
+        }
 
         #endregion
 
