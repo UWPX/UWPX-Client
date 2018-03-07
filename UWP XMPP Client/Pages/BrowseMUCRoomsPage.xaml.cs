@@ -30,7 +30,7 @@ namespace UWP_XMPP_Client.Pages
         }
         public static readonly DependencyProperty ServerProperty = DependencyProperty.Register("Server", typeof(string), typeof(BrowseMUCRoomsPage), null);
 
-        private MessageResponseHelper<DiscoResponseMessage> messageResponseHelper;
+        private MessageResponseHelper<IQMessage> messageResponseHelper;
         private CustomObservableCollection<MUCRoomTemplate> rooms;
 
         #endregion
@@ -74,16 +74,31 @@ namespace UWP_XMPP_Client.Pages
                 loading_grid.Visibility = Visibility.Visible;
                 noneFound_notification.Dismiss();
 
-                messageResponseHelper = new MessageResponseHelper<DiscoResponseMessage>(Client, onMessage, onTimeout);
+                messageResponseHelper = new MessageResponseHelper<IQMessage>(Client, onMessage, onTimeout);
                 DiscoRequestMessage disco = new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Server, DiscoType.ITEMS);
                 messageResponseHelper.start(disco);
             }
         }
 
-        private bool onMessage(DiscoResponseMessage disco)
+        private bool onMessage(IQMessage iq)
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(disco as DiscoResponseMessage)).AsTask();
-            return true;
+            if(iq is DiscoResponseMessage)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(iq as DiscoResponseMessage)).AsTask();
+                return true;
+            }
+            else if(iq is IQErrorMessage)
+            {
+                IQErrorMessage errorMessage = iq as IQErrorMessage;
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    loading_grid.Visibility = Visibility.Collapsed;
+                    main_grid.Visibility = Visibility.Visible;
+                    noneFound_notification.Show("Failed to request rooms!\nError type: " + errorMessage.ERROR_TYPE + "\nError Message: " + errorMessage.ERROR_MESSAGE);
+                }).AsTask();
+                return true;
+            }
+            return false;
         }
 
         private void onTimeout()
@@ -100,7 +115,7 @@ namespace UWP_XMPP_Client.Pages
             if (disco == null || disco.ITEMS == null || disco.ITEMS.Count <= 0)
             {
                 // Show non found in app notification:
-                noneFound_notification.Show("None found. Please retry!", 0);
+                noneFound_notification.Show("None found. Please retry!");
             }
             else
             {
