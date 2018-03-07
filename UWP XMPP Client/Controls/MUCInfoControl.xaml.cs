@@ -9,7 +9,6 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using System;
 using XMPP_API.Classes.Network.XML.Messages;
-using UWP_XMPP_Client.Pages.SettingsPages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -29,7 +28,7 @@ namespace UWP_XMPP_Client.Controls
             get { return (XMPPClient)GetValue(ClientProperty); }
             set
             {
-                if (Client != null)
+                if(Client != null)
                 {
                     Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
@@ -74,7 +73,20 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void setSubjectIsEnabled()
+        {
+            subject_stbx.IsEnabled = Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED;
+        }
 
+        private void setNicknameIsEnabled()
+        {
+            nickname_stbx.IsEnabled = Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED;
+        }
+
+        private void setNotConnectedVisibility()
+        {
+            notConnected_itbx.Visibility = Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED ? Visibility.Collapsed : Visibility.Visible;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -84,6 +96,8 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+
+
         private void showMUCInfo()
         {
             if (MUCInfo != null && Client != null)
@@ -92,20 +106,9 @@ namespace UWP_XMPP_Client.Controls
                 autoJoin_tgls.IsOn = MUCInfo.autoEnterRoom;
                 enterState_tbx.Foreground = UiUtils.getPresenceBrush(presence);
 
-                if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
-                {
-                    notConnected_itbx.Visibility = Visibility.Collapsed;
-                    nickname_stbx.IsEnabled = true;
-                    subject_stbx.IsEnabled = true;
-                    password_spwbx.IsEnabled = true;
-                }
-                else
-                {
-                    notConnected_itbx.Visibility = Visibility.Visible;
-                    nickname_stbx.IsEnabled = false;
-                    subject_stbx.IsEnabled = false;
-                    password_spwbx.IsEnabled = false;
-                }
+                setNicknameIsEnabled();
+                setSubjectIsEnabled();
+                setNotConnectedVisibility();
 
                 join_btn.IsEnabled = false;
                 leave_btn.IsEnabled = false;
@@ -301,14 +304,9 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        private async void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            showMUCInfo();
-        }
-
-        private void notConnected_itbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => showMUCInfo());
         }
 
         private void password_spwbx_SaveClick(object sender, RoutedEventArgs e)

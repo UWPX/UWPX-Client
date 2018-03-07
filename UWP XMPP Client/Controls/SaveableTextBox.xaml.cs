@@ -32,6 +32,8 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty EnableSavingProperty = DependencyProperty.Register("EnableSaving", typeof(bool), typeof(SaveableTextBox), null);
 
+        private bool isSaving;
+
         public event RoutedEventHandler SaveClick;
 
         #endregion
@@ -45,6 +47,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public SaveableTextBox()
         {
+            this.isSaving = false;
             this.EnableSaving = true;
             IsEnabledChanged += SaveableTextBox_IsEnabledChanged;
             this.InitializeComponent();
@@ -60,20 +63,26 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Public)--
         public void onSavingDone()
         {
-            IsEnabled = true;
+            isSaving = false;
+            updateControlsEnabled();
             save_prgr.Visibility = Visibility.Collapsed;
         }
 
         public void onStartSaving()
         {
-            IsEnabled = false;
+            isSaving = true;
+            updateControlsEnabled();
             save_prgr.Visibility = Visibility.Visible;
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void updateControlsEnabled()
+        {
+            save_btn.IsEnabled = EnableSaving && IsEnabled && !isSaving;
+            text_tbx.IsEnabled = IsEnabled && !isSaving;
+        }
 
         #endregion
 
@@ -99,7 +108,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void SaveableTextBox_IsEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
-            save_btn.IsEnabled = EnableSaving && IsEnabled;
+            updateControlsEnabled();
         }
 
         #endregion

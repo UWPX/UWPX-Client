@@ -45,6 +45,12 @@ namespace XMPP_API.Classes.Network
         /// <param name="param">An additional parameter for invoking the ConnectionStateChangedEventHandler (e.g. a list of connection exceptions, ...).</param>
         public virtual void setState(ConnectionState newState, object param)
         {
+            // Only trigger if the state actually changed:
+            if(newState == state)
+            {
+                return;
+            }
+
             ConnectionState oldState = this.state;
             this.state = newState;
             ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(newState, oldState, param));

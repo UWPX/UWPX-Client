@@ -76,10 +76,6 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void connectAll()
         {
-            if (clients == null || clients.Count <= 0)
-            {
-                return;
-            }
             Parallel.ForEach(clients, (c) =>
             {
                 if (!c.getXMPPAccount().disabled)
@@ -110,10 +106,6 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void disconnectAll()
         {
-            if (clients == null || clients.Count <= 0)
-            {
-                return;
-            }
             Parallel.ForEach(clients, async (c) =>
             {
                 await c.disconnectAsync();
@@ -125,10 +117,6 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void reconnectAll()
         {
-            if (clients == null || clients.Count <= 0)
-            {
-                return;
-            }
             Parallel.ForEach(clients, async (c) =>
             {
                 await reconnectClientAsync(c);
@@ -153,7 +141,7 @@ namespace Data_Manager2.Classes
             }
             foreach (XMPPAccount acc in AccountDBManager.INSTANCE.loadAllAccounts())
             {
-                loadAccount(acc);
+                clients.Add(loadAccount(acc));
             }
         }
 
@@ -176,7 +164,6 @@ namespace Data_Manager2.Classes
             c.ConnectionStateChanged += C_ConnectionStateChanged;
             c.MessageSend += C_MessageSend;
             c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
-            clients.Add(c);
             return c;
         }
 
@@ -439,7 +426,7 @@ namespace Data_Manager2.Classes
 
             ChatMessageTable message = new ChatMessageTable(msg, chat)
             {
-                state = Data_Manager2.Classes.MessageState.UNREAD
+                state = MessageState.UNREAD
             };
 
             // Handle MUC invite messages:
@@ -487,37 +474,32 @@ namespace Data_Manager2.Classes
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
         {
-            if (clients != null && clients.Count > 0)
+            for (int i = 0; i < clients.Count; i++)
             {
-                Parallel.ForEach(clients.ToArray(), async (c) =>
+                if (Equals(clients[i].getXMPPAccount().getIdAndDomain(), args.ACCOUNT.getIdAndDomain()))
                 {
-                    if (c.getXMPPAccount().getIdAndDomain().Equals(args.ACCOUNT.getIdAndDomain()))
-                    {
-                        clients.Remove(c);
-                        try
-                        {
-                            await c.disconnectAsync();
-                        }
-                        catch
-                        {
+                    // Disconnect first:
+                    await clients[i].disconnectAsync();
 
+                    if (args.REMOVED)
+                    {
+                        clients.RemoveAt(i);
+                    }
+                    else
+                    {
+                        clients[i] = loadAccount(args.ACCOUNT);
+                        if (!clients[i].getXMPPAccount().disabled)
+                        {
+                            await clients[i].connectAsync();
                         }
                     }
-                });
-            }
-            if (!args.REMOVED)
-            {
-                XMPPClient c = loadAccount(args.ACCOUNT);
-                if (!c.getXMPPAccount().disabled)
-                {
-                    await c.connectAsync();
                 }
             }
         }
 
         private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
         {
-            ChatDBManager.INSTANCE.updateChatMessageState(args.ID, Data_Manager2.Classes.MessageState.SEND);
+            ChatDBManager.INSTANCE.updateChatMessageState(args.ID, MessageState.SEND);
         }
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
