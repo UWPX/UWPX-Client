@@ -85,10 +85,20 @@
                     </StackPanel>
                     <Button x:Name="more_btn" Grid.Column="2" Content="&#xE712;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0">
                         <Button.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem Text="Info" Click="MenuFlyoutItem_Click">
+                            <MenuFlyout Opening="MenuFlyout_Opening">
+                                <MenuFlyoutItem x:Name="info_mfo" Text="Info" Click="info_mfo_Click">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xEA4A;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="join_mfo" Text="Join room" Click="join_mfo_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xEA4A;" Foreground="Green"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="leave_mfo" Text="Leave room" Click="leave_mfo_Click">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE89B;" Foreground="Red"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>

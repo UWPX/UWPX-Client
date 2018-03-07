@@ -391,6 +391,22 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private async Task leaveRoomAsync()
+        {
+            if (Client != null && MUCInfo != null && Chat != null)
+            {
+                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo);
+            }
+        }
+
+        private async Task joinRoomAsync()
+        {
+            if (Client != null && MUCInfo != null && Chat != null)
+            {
+                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -576,6 +592,47 @@ namespace UWP_XMPP_Client.Controls
                     // Swiping canceled
                 }
             }
+        }
+
+        private void muc_mfo_Opening(object sender, object e)
+        {
+            if (MUCInfo != null)
+            {
+                switch (MUCInfo.state)
+                {
+                    case MUCState.ERROR:
+                    case MUCState.DISCONNECTED:
+                        join_mfo.Visibility = Visibility.Visible;
+                        leave_mfo.Visibility = Visibility.Collapsed;
+                        break;
+
+                    case MUCState.DISCONNECTING:
+                        join_mfo.Visibility = Visibility.Collapsed;
+                        leave_mfo.Visibility = Visibility.Collapsed;
+                        break;
+
+                    case MUCState.ENTERING:
+                    case MUCState.ENTERD:
+                        join_mfo.Visibility = Visibility.Collapsed;
+                        leave_mfo.Visibility = Visibility.Visible;
+                        break;
+                }
+            }
+            else
+            {
+                join_mfo.Visibility = Visibility.Collapsed;
+                leave_mfo.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private async void leave_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await leaveRoomAsync();
+        }
+
+        private async void join_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await joinRoomAsync();
         }
 
         #endregion

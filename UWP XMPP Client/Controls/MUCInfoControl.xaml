@@ -81,13 +81,13 @@
                     <Button x:Name="join_btn" Grid.Column="0" HorizontalAlignment="Left" Click="join_btn_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE8BD;" FontFamily="Segoe MDL2 Assets" Foreground="Green" VerticalAlignment="Center"/>
-                            <TextBlock Text="Join room" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Join" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                     <Button x:Name="leave_btn" Grid.Column="1" HorizontalAlignment="Right" Click="leave_btn_Click" IsEnabled="False">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Text="&#xE89B;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
-                            <TextBlock Text="Leave room" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Leave" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                         </StackPanel>
                     </Button>
                 </Grid>

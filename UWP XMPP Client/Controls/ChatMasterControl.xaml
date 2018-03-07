@@ -32,22 +32,22 @@
                         <MenuFlyoutSubItem x:Name="presenceSubscription_mfo" Text="Presence subscription">
                             <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo" Text="Request subscription" Visibility="Collapsed" Click="requestPresenceSubscription_mfo_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE711;"/>
+                                    <FontIcon Glyph="&#xE109;" Foreground="Green"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo" Text="Cancel subscription" Visibility="Collapsed" Click="cancelPresenceSubscription_mfo_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE738;"/>
+                                    <FontIcon Glyph="&#xE738;" Foreground="Red"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem x:Name="cancelPresenceSubscriptionRequest" Text="Cancel subscription request" Visibility="Collapsed" Click="cancelPresenceSubscriptionRequest_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE711;"/>
+                                    <FontIcon Glyph="&#xE711;" Foreground="Red"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo" Text="Reject subscription" Visibility="Collapsed" Click="rejectPresenceSubscription_mfo_Click">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE711;"/>
+                                    <FontIcon Glyph="&#xE711;" Foreground="Red"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyoutSubItem>
@@ -61,26 +61,48 @@
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutItem x:Name="removeFromRoster_mfo" Click="removeFromRoster_mfo_Click">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE734;"/>
+                                <FontIcon Glyph="&#xE734;" Foreground="Gold"/>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Name="deleteChat_mfo" Text="Delete" Click="deleteChat_mfo_Click">
                             <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE74D;"/>
+                                <FontIcon Glyph="&#xE74D;" Foreground="Red"/>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                     </MenuFlyout.Items>
                 </MenuFlyout>
 
-                <MenuFlyout x:Name="muc_mfo">
+                <MenuFlyout x:Name="muc_mfo" Opening="muc_mfo_Opening">
                     <MenuFlyout.Items>
-                        <MenuFlyoutItem x:Name="showInfo_mfo" Text="Show info" Click="showInfo_mfo_Click"/>
+                        <MenuFlyoutItem x:Name="showInfo_mfo" Text="Show info" Click="showInfo_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEA4A;"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Name="join_mfo" Text="Join room" Click="join_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xEA4A;" Foreground="Green"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
+                        <MenuFlyoutItem x:Name="leave_mfo" Text="Leave room" Click="leave_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE89B;" Foreground="Red"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <MenuFlyoutSeparator/>
                         <ToggleMenuFlyoutItem x:Name="autoEnter_tmfo" Text="Auto join" Click="autoEnter_tmfo_Click"/>
-                        <MenuFlyoutItem x:Name="bookmark_tmfo" Text="Bookmark" Click="bookmark_tmfo_Click"/>
+                        <MenuFlyoutItem x:Name="bookmark_tmfo" Text="Bookmark" Click="bookmark_tmfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE734;" Foreground="Gold"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                         <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo" Text="Mute" Click="muteMUC_tmfo_Click"/>
                         <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="deleteMUC_mfo" Text="Delete" Click="deleteChat_mfo_Click"/>
+                        <MenuFlyoutItem x:Name="deleteMUC_mfo" Text="Delete" Click="deleteChat_mfo_Click">
+                            <MenuFlyoutItem.Icon>
+                                <FontIcon Glyph="&#xE74D;" Foreground="Red"/>
+                            </MenuFlyoutItem.Icon>
+                        </MenuFlyoutItem>
                     </MenuFlyout.Items>
                 </MenuFlyout>
             </Grid.Resources>

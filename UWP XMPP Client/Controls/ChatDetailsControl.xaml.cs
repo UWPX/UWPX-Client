@@ -160,10 +160,17 @@ namespace UWP_XMPP_Client.Controls
 
         private void showChat()
         {
-            if (Chat != null && Chat.chatType != ChatType.MUC)
+            if (Chat != null)
             {
-                chatName_tblck.Text = Chat.chatJabberId ?? "";
-                chatState_tblck.Text = Chat.chatState ?? "";
+                switch (Chat.chatType)
+                {
+                    case ChatType.CHAT:
+                        chatName_tblck.Text = Chat.chatJabberId ?? "";
+                        chatState_tblck.Text = Chat.chatState ?? "";
+                        join_mfo.Visibility = Visibility.Collapsed;
+                        leave_mfo.Visibility = Visibility.Collapsed;
+                        break;
+                }
             }
         }
 
@@ -251,6 +258,22 @@ namespace UWP_XMPP_Client.Controls
             else
             {
                 (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
+            }
+        }
+
+        private async Task leaveRoomAsync()
+        {
+            if (Client != null && MUCInfo != null && Chat != null)
+            {
+                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo);
+            }
+        }
+
+        private async Task joinRoomAsync()
+        {
+            if (Client != null && MUCInfo != null && Chat != null)
+            {
+                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo);
             }
         }
 
@@ -414,11 +437,6 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private void MenuFlyoutItem_Click(object sender, RoutedEventArgs e)
-        {
-            showProfile();
-        }
-
         private void AccountImageWithPresenceControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
             showProfile();
@@ -427,6 +445,52 @@ namespace UWP_XMPP_Client.Controls
         private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
         {
             showProfile();
+        }
+
+        private async void leave_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await leaveRoomAsync();
+        }
+
+        private async void join_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await joinRoomAsync();
+        }
+
+        private void info_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            showProfile();
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+            if (MUCInfo != null)
+            {
+                switch (MUCInfo.state)
+                {
+                    case MUCState.ERROR:
+                    case MUCState.DISCONNECTED:
+                        join_mfo.Visibility = Visibility.Visible;
+                        leave_mfo.Visibility = Visibility.Collapsed;
+                        break;
+
+                    case MUCState.DISCONNECTING:
+                        join_mfo.Visibility = Visibility.Collapsed;
+                        leave_mfo.Visibility = Visibility.Collapsed;
+                        break;
+
+                    case MUCState.ENTERING:
+                    case MUCState.ENTERD:
+                        join_mfo.Visibility = Visibility.Collapsed;
+                        leave_mfo.Visibility = Visibility.Visible;
+                        break;
+                }
+            }
+            else
+            {
+                join_mfo.Visibility = Visibility.Collapsed;
+                leave_mfo.Visibility = Visibility.Collapsed;
+            }
         }
 
         #endregion
