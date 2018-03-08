@@ -215,12 +215,12 @@ namespace Data_Manager2.Classes
                 }
                 string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
 
-                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, msg.FROM_NICKNAME);
+                MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, msg.FROM_NICKNAME);
                 if (member == null)
                 {
-                    member = new MUCMemberTable()
+                    member = new MUCOccupantTable()
                     {
-                        id = MUCMemberTable.generateId(chatId, msg.FROM_NICKNAME),
+                        id = MUCOccupantTable.generateId(chatId, msg.FROM_NICKNAME),
                         nickname = msg.FROM_NICKNAME,
                         chatId = chatId
                     };
@@ -239,12 +239,12 @@ namespace Data_Manager2.Classes
                         if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED) || msg.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED))
                         {
                             // Update MUC info:
-                            MUCDBManager.INSTANCE.setNickname(chatId, msg.NICKNAME, true);
+                            MUCDBManager.INSTANCE.setMUCInfoNickname(chatId, msg.NICKNAME, true);
 
                             // Add new member:
-                            MUCDBManager.INSTANCE.setMUCMember(new MUCMemberTable()
+                            MUCDBManager.INSTANCE.setMUCOccupant(new MUCOccupantTable()
                             {
-                                id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
+                                id = MUCOccupantTable.generateId(chatId, msg.NICKNAME),
                                 nickname = msg.NICKNAME,
                                 chatId = member.chatId,
                                 affiliation = member.affiliation,
@@ -260,7 +260,7 @@ namespace Data_Manager2.Classes
                 }
 
                 // If the type equals 'unavailable', a user left the room:
-                MUCDBManager.INSTANCE.setMUCMember(member, isUnavailable, true);
+                MUCDBManager.INSTANCE.setMUCOccupant(member, isUnavailable, true);
             });
         }
 

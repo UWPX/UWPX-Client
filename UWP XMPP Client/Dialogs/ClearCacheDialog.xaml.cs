@@ -99,7 +99,7 @@ namespace UWP_XMPP_Client.Dialogs
                 }
                 if (mucMembers)
                 {
-                    AbstractDBManager.dB.RecreateTable<MUCMemberTable>();
+                    AbstractDBManager.dB.RecreateTable<MUCOccupantTable>();
                 }
                 if (mucDirectInvites)
                 {

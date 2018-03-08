@@ -3,56 +3,56 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class MUCMemberTemplate
+    class MUCOccupantTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCMemberTable member;
+        public MUCOccupantTable occupant;
 
         public string nickname
         {
-            get => member?.nickname;
+            get => occupant?.nickname;
             set
             {
-                if (member != null)
+                if (occupant != null)
                 {
-                    member.nickname = value;
+                    occupant.nickname = value;
                 }
             }
         }
 
         public string jid
         {
-            get => member?.jid;
+            get => occupant?.jid;
             set
             {
-                if (member != null)
+                if (occupant != null)
                 {
-                    member.jid = value;
+                    occupant.jid = value;
                 }
             }
         }
 
         public MUCAffiliation affiliation
         {
-            get => member == null ? MUCAffiliation.NONE : member.affiliation;
+            get => occupant == null ? MUCAffiliation.NONE : occupant.affiliation;
             set
             {
-                if (member != null)
+                if (occupant != null)
                 {
-                    member.affiliation = value;
+                    occupant.affiliation = value;
                 }
             }
         }
 
         public MUCRole role
         {
-            get => member == null ? MUCRole.VISITOR : member.role;
+            get => occupant == null ? MUCRole.VISITOR : occupant.role;
             set
             {
-                if (member != null)
+                if (occupant != null)
                 {
-                    member.role = value;
+                    occupant.role = value;
                 }
             }
         }
@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.DataTemplates
         /// <history>
         /// 06/02/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCMemberTemplate()
+        public MUCOccupantTemplate()
         {
 
         }

@@ -11,10 +11,10 @@ namespace Data_Manager2.Classes.DBManager
         public static readonly MUCDBManager INSTANCE = new MUCDBManager();
 
         public delegate void MUCInfoChangedHandler(MUCDBManager handler, MUCInfoChangedEventArgs args);
-        public delegate void MUCMemberChangedHandler(MUCDBManager handler, MUCMemberChangedEventArgs args);
+        public delegate void MUCOccupantChangedHandler(MUCDBManager handler, MUCOccupantChangedEventArgs args);
 
         public event MUCInfoChangedHandler MUCInfoChanged;
-        public event MUCMemberChangedHandler MUCMemberChanged;
+        public event MUCOccupantChangedHandler MUCOccupantChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -43,24 +43,24 @@ namespace Data_Manager2.Classes.DBManager
             return null;
         }
 
-        public void setMUCMember(MUCMemberTable member, bool delete, bool triggerMUCMemberChanged)
+        public void setMUCOccupant(MUCOccupantTable occupant, bool delete, bool triggerMUCOccupantChanged)
         {
             if (delete)
             {
-                dB.Delete(member);
+                dB.Delete(occupant);
 
-                if (triggerMUCMemberChanged)
+                if (triggerMUCOccupantChanged)
                 {
-                    onMUCMemberChanged(member, delete);
+                    onMUCOccupantChanged(occupant, delete);
                 }
             }
             else
             {
-                update(member);
+                update(occupant);
 
-                if (triggerMUCMemberChanged)
+                if (triggerMUCOccupantChanged)
                 {
-                    onMUCMemberChanged(member.id, delete);
+                    onMUCOccupantChanged(occupant.id, delete);
                 }
             }
         }
@@ -74,19 +74,19 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public List<MUCMemberTable> getAllMUCMembers(string chatId)
+        public List<MUCOccupantTable> getAllMUCMembers(string chatId)
         {
-            return dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE chatId = ?;", chatId);
+            return dB.Query<MUCOccupantTable>(true, "SELECT * FROM " + DBTableConsts.MUC_OCCUPANT_TABLE + " WHERE chatId = ?;", chatId);
         }
 
-        public MUCMemberTable getMUCMember(string chatId, string nickname)
+        public MUCOccupantTable getMUCOccupant(string chatId, string nickname)
         {
-            return getMUCMember(MUCMemberTable.generateId(chatId, nickname));
+            return getMUCOccupant(MUCOccupantTable.generateId(chatId, nickname));
         }
 
-        public MUCMemberTable getMUCMember(string id)
+        public MUCOccupantTable getMUCOccupant(string id)
         {
-            List<MUCMemberTable> list = dB.Query<MUCMemberTable>(true, "SELECT * FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE id = ?;", id);
+            List<MUCOccupantTable> list = dB.Query<MUCOccupantTable>(true, "SELECT * FROM " + DBTableConsts.MUC_OCCUPANT_TABLE + " WHERE id = ?;", id);
             if (list.Count <= 0)
             {
                 return null;
@@ -132,7 +132,7 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setNickname(string chatId, string nickname, bool triggerMUCChanged)
+        public void setMUCInfoNickname(string chatId, string nickname, bool triggerMUCChanged)
         {
             dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET nickname = ? WHERE chatId = ?;", nickname, chatId);
             if (triggerMUCChanged)
@@ -144,9 +144,9 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void deleteAllMUCMembersforChat(string chatId)
+        public void deleteAllOccupantsforChat(string chatId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.MUC_MEMBER_TABLE + " WHERE chatId = ?;", chatId);
+            dB.Execute("DELETE FROM " + DBTableConsts.MUC_OCCUPANT_TABLE + " WHERE chatId = ?;", chatId);
         }
 
         public void resetMUCState(string userAccountId, bool triggerMUCChanged)
@@ -171,17 +171,17 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        private void onMUCMemberChanged(MUCMemberTable member, bool delete)
+        private void onMUCOccupantChanged(MUCOccupantTable occupants, bool delete)
         {
-            if (member != null)
+            if (occupants != null)
             {
-                MUCMemberChanged?.Invoke(this, new MUCMemberChangedEventArgs(member, delete));
+                MUCOccupantChanged?.Invoke(this, new MUCOccupantChangedEventArgs(occupants, delete));
             }
         }
 
-        private void onMUCMemberChanged(string id, bool delete)
+        private void onMUCOccupantChanged(string id, bool delete)
         {
-            onMUCMemberChanged(getMUCMember(id), delete);
+            onMUCOccupantChanged(getMUCOccupant(id), delete);
         }
 
         private void resetMUCJoinStates()
@@ -195,13 +195,13 @@ namespace Data_Manager2.Classes.DBManager
         protected override void createTables()
         {
             dB.CreateTable<MUCChatInfoTable>();
-            dB.CreateTable<MUCMemberTable>();
+            dB.CreateTable<MUCOccupantTable>();
         }
 
         protected override void dropTables()
         {
             dB.DropTable<MUCChatInfoTable>();
-            dB.DropTable<MUCMemberTable>();
+            dB.DropTable<MUCOccupantTable>();
         }
 
         #endregion

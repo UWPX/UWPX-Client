@@ -13,7 +13,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class MUCMembersControl : UserControl
+    public sealed partial class MUCOccupantsControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -26,30 +26,30 @@ namespace UWP_XMPP_Client.Controls
                 loadMembers();
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCMembersControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(MUCOccupantsControl), null);
 
         public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(ClientProperty); }
             set { SetValue(ClientProperty, value); }
         }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCMembersControl), null);
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MUCOccupantsControl), null);
 
         public MUCChatInfoTable MUCInfo
         {
             get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
             set { SetValue(MUCInfoProperty, value); }
         }
-        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCMembersControl), null);
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCOccupantsControl), null);
 
         public string Header
         {
             get { return (string)GetValue(HeaderProperty); }
             set { SetValue(HeaderProperty, value); }
         }
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MUCMembersControl), null);
+        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MUCOccupantsControl), null);
 
-        private ObservableCollection<MUCMemberTemplate> members;
+        private ObservableCollection<MUCOccupantTemplate> occupants;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -60,10 +60,10 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 06/02/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCMembersControl()
+        public MUCOccupantsControl()
         {
-            this.members = new ObservableCollection<MUCMemberTemplate>();
-            MUCDBManager.INSTANCE.MUCMemberChanged += INSTANCE_MUCMemberChanged;
+            this.occupants = new ObservableCollection<MUCOccupantTemplate>();
+            MUCDBManager.INSTANCE.MUCOccupantChanged += INSTANCE_MUCMemberChanged;
             this.InitializeComponent();
         }
 
@@ -87,13 +87,13 @@ namespace UWP_XMPP_Client.Controls
                 string chatId = Chat.id;
                 Task.Run(async () =>
                 {
-                    List<MUCMemberTable> list = MUCDBManager.INSTANCE.getAllMUCMembers(chatId);
+                    List<MUCOccupantTable> list = MUCDBManager.INSTANCE.getAllMUCMembers(chatId);
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        members.Clear();
-                        foreach (MUCMemberTable m in list)
+                        occupants.Clear();
+                        foreach (MUCOccupantTable m in list)
                         {
-                            members.Add(new MUCMemberTemplate() { member = m });
+                            occupants.Add(new MUCOccupantTemplate() { occupant = m });
                         }
                     });
                 });
@@ -103,7 +103,7 @@ namespace UWP_XMPP_Client.Controls
         private async Task inviteUserAsync()
         {
             List<string> membersJidList = new List<string>();
-            foreach (MUCMemberTemplate m in members)
+            foreach (MUCOccupantTemplate m in occupants)
             {
                 if (m.jid != null)
                 {
@@ -143,34 +143,34 @@ namespace UWP_XMPP_Client.Controls
             await inviteUserAsync();
         }
 
-        private async void INSTANCE_MUCMemberChanged(MUCDBManager handler, Data_Manager2.Classes.Events.MUCMemberChangedEventArgs args)
+        private async void INSTANCE_MUCMemberChanged(MUCDBManager handler, Data_Manager2.Classes.Events.MUCOccupantChangedEventArgs args)
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                if (Chat == null || !Equals(args.MUC_MEMBER.chatId, Chat.id))
+                if (Chat == null || !Equals(args.MUC_OCCUPANT.chatId, Chat.id))
                 {
                     return;
                 }
 
-                for (int i = 0; i < members.Count; i++)
+                for (int i = 0; i < occupants.Count; i++)
                 {
-                    if (Equals(members[i].member.id, args.MUC_MEMBER.id))
+                    if (Equals(occupants[i].occupant.id, args.MUC_OCCUPANT.id))
                     {
                         if (args.REMOVED)
                         {
-                            members.RemoveAt(i);
+                            occupants.RemoveAt(i);
                         }
                         else
                         {
-                            members[i] = new MUCMemberTemplate()
+                            occupants[i] = new MUCOccupantTemplate()
                             {
-                                member = args.MUC_MEMBER
+                                occupant = args.MUC_OCCUPANT
                             };
                         }
                         return;
                     }
                 }
-                members.Add(new MUCMemberTemplate() { member = args.MUC_MEMBER });
+                occupants.Add(new MUCOccupantTemplate() { occupant = args.MUC_OCCUPANT });
             });
         }
 

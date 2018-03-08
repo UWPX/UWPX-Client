@@ -104,7 +104,7 @@ namespace UWP_XMPP_Client.Controls
 
             Task.Run(async () =>
             {
-                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatID, nickname);
+                MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatID, nickname);
                 if (member != null)
                 {
                     RequestRoomInfoMessage msg = new RequestRoomInfoMessage(chatJID, member.affiliation);
@@ -202,7 +202,7 @@ namespace UWP_XMPP_Client.Controls
             string nickname = MUCInfo.nickname;
             Task.Run(async () =>
             {
-                MUCMemberTable member = MUCDBManager.INSTANCE.getMUCMember(chatId, nickname);
+                MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, nickname);
                 if (member == null)
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notificationBanner_ian.Show("Failed to save!\nSeams like you are no member of the room any more. Please rejoin the room and try again."));

@@ -1,28 +1,25 @@
-﻿using SQLite.Net.Attributes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
-namespace Data_Manager2.Classes.DBTables
+namespace UWP_XMPP_Client.Dialogs
 {
-    [Table(DBTableConsts.MUC_MEMBER_TABLE)]
-    public class MUCMemberTable
+    public sealed partial class MUCKickOccupantDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        // Generated in generateId()
-        public string id { get; set; }
-        [NotNull]
-        // The id entry of the ChatTable
-        public string chatId { get; set; }
-        [NotNull]
-        // The user nickname e.g. 'thirdwitch'
-        public string nickname { get; set; }
-        // The full jabber id of the user e.g. 'coven@chat.shakespeare.lit/thirdwitch'
-        public string jid { get; set; }
-        // The affiliation of the user e.g. 'owner', 'admin', 'member' or 'none'
-        public MUCAffiliation affiliation { get; set; }
-        // The role of the user e.g. 'moderator', 'participant' or 'visitor'
-        public MUCRole role { get; set; }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,11 +28,11 @@ namespace Data_Manager2.Classes.DBTables
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/01/2018 Created [Fabian Sauter]
+        /// 08/03/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCMemberTable()
+        public MUCKickOccupantDialog()
         {
-
+            this.InitializeComponent();
         }
 
         #endregion
@@ -46,10 +43,7 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string chatId, string nickname)
-        {
-            return chatId + '_' + nickname;
-        }
+
 
         #endregion
 
@@ -64,7 +58,13 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+        }
 
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+        }
 
         #endregion
     }

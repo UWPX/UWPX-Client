@@ -135,8 +135,8 @@
     <Compile Include="Controls\MUCFieldControl.xaml.cs">
       <DependentUpon>MUCFieldControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MUCMembersControl.xaml.cs">
-      <DependentUpon>MUCMembersControl.xaml</DependentUpon>
+    <Compile Include="Controls\MUCOccupantsControl.xaml.cs">
+      <DependentUpon>MUCOccupantsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
@@ -153,7 +153,7 @@
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
-    <Compile Include="DataTemplates\MUCMemberTemplate.cs" />
+    <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="DataTemplates\MultiSelectTemplate.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
@@ -173,6 +173,9 @@
     </Compile>
     <Compile Include="Dialogs\InviteUserMUCDialog.xaml.cs">
       <DependentUpon>InviteUserMUCDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\MUCKickOccupantDialog.xaml.cs">
+      <DependentUpon>MUCKickOccupantDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\TextDialog.xaml.cs">
       <DependentUpon>TextDialog.xaml</DependentUpon>
@@ -375,7 +378,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MUCMembersControl.xaml">
+    <Page Include="Controls\MUCOccupantsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -416,6 +419,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\InviteUserMUCDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\MUCKickOccupantDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
