@@ -46,7 +46,7 @@
             <Button x:Name="remove_btn" Grid.Column="0" HorizontalAlignment="Left" Click="remove_btn_Click" IsEnabled="False">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="&#xE738;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
-                    <TextBlock Text="Remove" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
+                    <TextBlock Text="Kick/Ban" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                 </StackPanel>
             </Button>
             <Button x:Name="invite_btn" Grid.Column="1" HorizontalAlignment="Right" Click="invite_btn_Click" IsEnabled="True">

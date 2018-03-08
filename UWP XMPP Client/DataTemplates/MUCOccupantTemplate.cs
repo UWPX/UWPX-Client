@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class MUCOccupantTemplate
+    public class MUCOccupantTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

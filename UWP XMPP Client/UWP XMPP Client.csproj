@@ -126,6 +126,9 @@
     <Compile Include="Controls\IconTextBlockControl.xaml.cs">
       <DependentUpon>IconTextBlockControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\KickBanOccupantControl.xaml.cs">
+      <DependentUpon>KickBanOccupantControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MUCInfoControl.xaml.cs">
       <DependentUpon>MUCInfoControl.xaml</DependentUpon>
     </Compile>
@@ -174,8 +177,8 @@
     <Compile Include="Dialogs\InviteUserMUCDialog.xaml.cs">
       <DependentUpon>InviteUserMUCDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\MUCKickOccupantDialog.xaml.cs">
-      <DependentUpon>MUCKickOccupantDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\MUCKickBanOccupantDialog.xaml.cs">
+      <DependentUpon>MUCKickBanOccupantDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\TextDialog.xaml.cs">
       <DependentUpon>TextDialog.xaml</DependentUpon>
@@ -366,6 +369,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\KickBanOccupantControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\MUCInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -422,7 +429,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\MUCKickOccupantDialog.xaml">
+    <Page Include="Dialogs\MUCKickBanOccupantDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

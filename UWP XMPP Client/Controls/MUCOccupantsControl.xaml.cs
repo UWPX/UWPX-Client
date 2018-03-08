@@ -176,8 +176,20 @@ namespace UWP_XMPP_Client.Controls
 
         private async void remove_btn_Click(object sender, RoutedEventArgs e)
         {
-            MUCKickOccupantDialog dialog = new MUCKickOccupantDialog();
-            await dialog.ShowAsync();
+            if(members_dgrid.SelectedItems.Count > 0)
+            {
+                ObservableCollection<MUCOccupantTemplate> collection = new ObservableCollection<MUCOccupantTemplate>();
+                foreach (object o in members_dgrid.SelectedItems)
+                {
+                    if(o is MUCOccupantTemplate)
+                    {
+                        collection.Add(o as MUCOccupantTemplate);
+                    }
+                }
+
+                MUCKickBanOccupantDialog dialog = new MUCKickBanOccupantDialog(collection);
+                await dialog.ShowAsync();
+            }
         }
 
         #endregion

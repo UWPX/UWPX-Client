@@ -1,25 +1,26 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Data_Manager2.Classes.DBTables;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
-namespace UWP_XMPP_Client.Dialogs
+namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class MUCKickOccupantDialog : ContentDialog
+    public sealed partial class KickBanOccupantControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public MUCOccupantTable Occupant
+        {
+            get { return (MUCOccupantTable)GetValue(OccupantProperty); }
+            set { SetValue(OccupantProperty, value); }
+        }
+        public static readonly DependencyProperty OccupantProperty = DependencyProperty.Register("Occupant", typeof(MUCOccupantTable), typeof(KickBanOccupantControl), null);
 
+        public string Reason
+        {
+            get { return (string)GetValue(ReasonProperty); }
+            set { SetValue(ReasonProperty, value); }
+        }
+        public static readonly DependencyProperty ReasonProperty = DependencyProperty.Register("Reason", typeof(string), typeof(KickBanOccupantControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,9 +29,9 @@ namespace UWP_XMPP_Client.Dialogs
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/03/2018 Created [Fabian Sauter]
+        /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCKickOccupantDialog()
+        public KickBanOccupantControl()
         {
             this.InitializeComponent();
         }
@@ -58,12 +59,14 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void banSingle_btn_Click(object sender, RoutedEventArgs e)
         {
+
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void kickSingle_btn_Click(object sender, RoutedEventArgs e)
         {
+
         }
 
         #endregion
