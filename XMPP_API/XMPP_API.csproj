@@ -110,6 +110,7 @@
     <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
+    <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
@@ -154,7 +155,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomInfoMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomConfigurationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRole.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRoomSubjectMessage.cs" />

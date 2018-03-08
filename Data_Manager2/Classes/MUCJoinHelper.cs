@@ -28,8 +28,6 @@ namespace Data_Manager2.Classes
         public readonly MUCChatInfoTable INFO;
         public readonly XMPPClient CLIENT;
 
-        private TSTimedList<MessageResponseHelper<AbstractAddressableMessage>> messageResponseHelpers;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -44,10 +42,6 @@ namespace Data_Manager2.Classes
             this.CLIENT = client;
             this.MUC = muc;
             this.INFO = info;
-            this.messageResponseHelpers = new TSTimedList<MessageResponseHelper<AbstractAddressableMessage>>
-            {
-                itemTimeoutInMs = messageTimeout * 2
-            };
         }
 
         #endregion
@@ -99,10 +93,6 @@ namespace Data_Manager2.Classes
 
         public void Dispose()
         {
-            foreach (MessageResponseHelper<AbstractAddressableMessage> h in messageResponseHelpers.getEntries())
-            {
-                h?.Dispose();
-            }
         }
 
         #endregion

@@ -174,9 +174,10 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private void remove_btn_Click(object sender, RoutedEventArgs e)
+        private async void remove_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            MUCKickOccupantDialog dialog = new MUCKickOccupantDialog();
+            await dialog.ShowAsync();
         }
 
         #endregion

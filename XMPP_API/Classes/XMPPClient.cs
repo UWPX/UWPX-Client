@@ -38,6 +38,8 @@ namespace XMPP_API.Classes
         public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
         public event NewValidMessageEventHandler NewValidMessage;
 
+        public readonly MUCCommandHelper MUC_COMMAND_HELPER;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -49,6 +51,7 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPClient(XMPPAccount account)
         {
+            this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
             initConnection(account);
         }
 

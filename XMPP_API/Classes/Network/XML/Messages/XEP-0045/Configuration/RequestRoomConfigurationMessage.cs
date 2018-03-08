@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
-    public class RequestRoomInfoMessage : IQMessage
+    public class RequestRoomConfigurationMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// <history>
         /// 07/02/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestRoomInfoMessage(string to, MUCAffiliation senderAffiliation) : base(null, to, GET, getRandomId(), getRequestQuery(senderAffiliation))
+        public RequestRoomConfigurationMessage(string to, MUCAffiliation senderAffiliation) : base(null, to, GET, getRandomId(), getRequestQuery(senderAffiliation))
         {
             this.senderAffiliation = senderAffiliation;
         }

@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void sendDisco()
+        private void requestRooms()
         {
             if (Client != null)
             {
@@ -74,9 +74,7 @@ namespace UWP_XMPP_Client.Pages
                 loading_grid.Visibility = Visibility.Visible;
                 noneFound_notification.Dismiss();
 
-                messageResponseHelper = new MessageResponseHelper<IQMessage>(Client, onMessage, onTimeout);
-                DiscoRequestMessage disco = new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Server, DiscoType.ITEMS);
-                messageResponseHelper.start(disco);
+                messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRooms(Server, onMessage, onTimeout);
             }
         }
 
@@ -173,13 +171,13 @@ namespace UWP_XMPP_Client.Pages
                 Client = parameter.client;
                 Server = parameter.server;
 
-                sendDisco();
+                requestRooms();
             }
         }
 
         private void refresh_btn_Click(object sender, RoutedEventArgs e)
         {
-            sendDisco();
+            requestRooms();
         }
         #endregion
     }

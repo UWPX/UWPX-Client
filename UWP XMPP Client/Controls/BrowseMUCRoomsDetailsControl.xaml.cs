@@ -10,7 +10,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
@@ -69,9 +68,7 @@ namespace UWP_XMPP_Client.Controls
                     messageResponseHelper.Dispose();
                 }
 
-                messageResponseHelper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(client, onMessage, onTimeout);
-                DiscoRequestMessage disco = new DiscoRequestMessage(client.getXMPPAccount().getIdDomainAndResource(), info.jid, DiscoType.INFO);
-                messageResponseHelper.start(disco);
+                messageResponseHelper = client.MUC_COMMAND_HELPER.requestRoomInfo(info.jid, onMessage, onTimeout);
             }
         }
 

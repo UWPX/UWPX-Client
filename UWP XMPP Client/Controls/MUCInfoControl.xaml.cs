@@ -219,12 +219,7 @@ namespace UWP_XMPP_Client.Controls
 
             notificationBanner_ian.Dismiss();
 
-            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(Client.getXMPPAccount().getIdDomainAndResource(), Chat.chatJabberId, nickname_stbx.Text);
-            changeNickHelper = new MessageResponseHelper<PresenceMessage>(Client, onChangeNickMessage, onChangeNickTimeout)
-            {
-                matchId = false
-            };
-            changeNickHelper.start(msg);
+            changeNickHelper = Client.MUC_COMMAND_HELPER.changeNickname(Chat.chatJabberId, nickname_stbx.Text, onChangeNickMessage, onChangeNickTimeout);
         }
 
         private bool onChangeNickMessage(PresenceMessage msg)

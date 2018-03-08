@@ -100,21 +100,16 @@ namespace UWP_XMPP_Client.Controls
             string chatJID = Chat.chatJabberId;
             string chatID = Chat.id;
             string nickname = MUCInfo.nickname;
-            messageResponseHelper = new MessageResponseHelper<IQMessage>(Client, onNewMessage, onTimeout);
 
             Task.Run(async () =>
             {
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatID, nickname);
                 if (member != null)
                 {
-                    RequestRoomInfoMessage msg = new RequestRoomInfoMessage(chatJID, member.affiliation);
-                    messageResponseHelper.start(msg);
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRoomConfiguration(Chat.chatJabberId, member.affiliation, onNewMessage, onTimeout));
                 }
                 else
                 {
-                    messageResponseHelper?.Dispose();
-                    messageResponseHelper = null;
-
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         timeout_stckpnl.Visibility = Visibility.Visible;
@@ -206,13 +201,12 @@ namespace UWP_XMPP_Client.Controls
                 if (member == null)
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notificationBanner_ian.Show("Failed to save!\nSeams like you are no member of the room any more. Please rejoin the room and try again."));
+                    return;
                 }
 
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    saveMessageResponseHelper = new MessageResponseHelper<IQMessage>(Client, onSaveMessage, onSaveTimeout);
-                    RoomInfoMessage msg = new RoomInfoMessage(Client.getXMPPAccount().getIdDomainAndResource(), Chat.chatJabberId, new RoomConfiguration(list), member.affiliation);
-                    saveMessageResponseHelper.start(msg);
+                    saveMessageResponseHelper = Client.MUC_COMMAND_HELPER.saveRoomConfiguration(Chat.chatJabberId, new RoomConfiguration(list), member.affiliation, onSaveMessage, onSaveTimeout);
                 });
             });
         }
