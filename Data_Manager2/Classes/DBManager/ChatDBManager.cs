@@ -105,20 +105,18 @@ namespace Data_Manager2.Classes.DBManager
 
         public void setChat(ChatTable chat, bool delete, bool triggerChatChanged)
         {
-            if (chat != null)
+            if (delete)
             {
-                if (delete)
-                {
-                    dB.Delete(chat);
-                }
-                else
-                {
-                    update(chat);
-                }
-                if (triggerChatChanged)
-                {
-                    onChatChanged(chat, delete);
-                }
+                dB.Delete(chat);
+            }
+            else
+            {
+                update(chat);
+            }
+
+            if (triggerChatChanged)
+            {
+                onChatChanged(chat, delete);
             }
         }
 

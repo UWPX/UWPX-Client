@@ -7,7 +7,7 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool keepChat;
+        public bool keepChatLog;
         public bool deleteChat;
 
         #endregion
@@ -21,6 +21,8 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public DeleteChatDialog()
         {
+            this.deleteChat = false;
+            this.keepChatLog = true;
             this.InitializeComponent();
         }
 
@@ -49,14 +51,14 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Events--
         private void no_btn_Click(object sender, RoutedEventArgs e)
         {
-            keepChat = (bool)keepChat_cbx.IsChecked;
+            keepChatLog = (bool)keepChat_cbx.IsChecked;
             deleteChat = false;
             Hide();
         }
 
         private void yes_btn_Click(object sender, RoutedEventArgs e)
         {
-            keepChat = (bool)keepChat_cbx.IsChecked;
+            keepChatLog = (bool)keepChat_cbx.IsChecked;
             deleteChat = true;
             Hide();
         }

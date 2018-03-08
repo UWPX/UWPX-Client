@@ -384,7 +384,7 @@ namespace UWP_XMPP_Client.Controls
                     MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
-                if (!deleteChatDialog.keepChat)
+                if (!deleteChatDialog.keepChatLog)
                 {
                     ChatDBManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
                 }
