@@ -63,6 +63,7 @@ namespace UWP_XMPP_Client.Controls
         public MUCMembersControl()
         {
             this.members = new ObservableCollection<MUCMemberTemplate>();
+            MUCDBManager.INSTANCE.MUCMemberChanged += INSTANCE_MUCMemberChanged;
             this.InitializeComponent();
         }
 
@@ -140,6 +141,37 @@ namespace UWP_XMPP_Client.Controls
         private async void invite_btn_Click(object sender, RoutedEventArgs e)
         {
             await inviteUserAsync();
+        }
+
+        private async void INSTANCE_MUCMemberChanged(MUCDBManager handler, Data_Manager2.Classes.Events.MUCMemberChangedEventArgs args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (Chat == null || !Equals(args.MUC_MEMBER.chatId, Chat.id))
+                {
+                    return;
+                }
+
+                for (int i = 0; i < members.Count; i++)
+                {
+                    if (Equals(members[i].member.id, args.MUC_MEMBER.id))
+                    {
+                        if (args.REMOVED)
+                        {
+                            members.RemoveAt(i);
+                        }
+                        else
+                        {
+                            members[i] = new MUCMemberTemplate()
+                            {
+                                member = args.MUC_MEMBER
+                            };
+                        }
+                        return;
+                    }
+                }
+                members.Add(new MUCMemberTemplate() { member = args.MUC_MEMBER });
+            });
         }
 
         private void remove_btn_Click(object sender, RoutedEventArgs e)

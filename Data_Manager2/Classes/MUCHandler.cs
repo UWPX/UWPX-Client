@@ -228,6 +228,7 @@ namespace Data_Manager2.Classes
 
                 member.affiliation = msg.AFFILIATION;
                 member.role = msg.ROLE;
+                member.jid = msg.JID;
 
                 bool isUnavailable = Equals(msg.TYPE, "unavailable");
                 if (isUnavailable)
@@ -237,8 +238,19 @@ namespace Data_Manager2.Classes
                         // Nickname got changed by user or room:
                         if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED) || msg.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED))
                         {
+                            // Update MUC info:
                             MUCDBManager.INSTANCE.setNickname(chatId, msg.NICKNAME, true);
-                            return;
+
+                            // Add new member:
+                            MUCDBManager.INSTANCE.setMUCMember(new MUCMemberTable()
+                            {
+                                id = MUCMemberTable.generateId(chatId, msg.NICKNAME),
+                                nickname = msg.NICKNAME,
+                                chatId = member.chatId,
+                                affiliation = member.affiliation,
+                                role = member.role,
+                                jid = member.jid,
+                            }, false, true);
                         }
                         else
                         {

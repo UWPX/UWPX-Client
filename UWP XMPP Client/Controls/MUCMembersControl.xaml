@@ -7,16 +7,21 @@
     xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
     mc:Ignorable="d">
 
-    <Grid Height="{x:Bind Height}">
+    <Grid MaxHeight="{x:Bind MaxHeight}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="{x:Bind Header}" FontSize="20" TextTrimming="CharacterEllipsis"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="0">
+            <TextBlock Text="Number of occupants: " FontSize="20"/>
+            <TextBlock Text="{x:Bind members.Count, Mode=OneWay, FallbackValue='unknown'}" FontSize="20" Margin="10, 0, 0, 0"/>
+        </StackPanel>
+        <TextBlock Grid.Row="1" Text="{x:Bind Header}" FontSize="20" TextTrimming="CharacterEllipsis" Margin="0, 10, 0, 0"/>
         <telerikGrid:RadDataGrid x:Name="members_dgrid"
-                                 Grid.Row="1"
+                                 Grid.Row="2"
                                  Margin="0, 5, 0, 0"
                                  ItemsSource="{x:Bind members}"
                                  UserGroupMode="Disabled"
@@ -32,7 +37,7 @@
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
 
-        <Grid Grid.Row="2">
+        <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

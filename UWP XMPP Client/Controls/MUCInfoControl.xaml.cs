@@ -29,7 +29,7 @@ namespace UWP_XMPP_Client.Controls
             get { return (XMPPClient)GetValue(ClientProperty); }
             set
             {
-                if(Client != null)
+                if (Client != null)
                 {
                     Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
@@ -76,17 +76,27 @@ namespace UWP_XMPP_Client.Controls
         #region --Set-, Get- Methods--
         private void setSubjectIsEnabled()
         {
-            subject_stbx.IsEnabled = Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED;
+            subject_stbx.IsEnabled = isClientConnected() && isMUCEntered();
         }
 
         private void setNicknameIsEnabled()
         {
-            nickname_stbx.IsEnabled = Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED;
+            nickname_stbx.IsEnabled = isClientConnected() && isMUCEntered();
         }
 
         private void setNotConnectedVisibility()
         {
-            notConnected_itbx.Visibility = Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED ? Visibility.Collapsed : Visibility.Visible;
+            notConnected_itbx.Visibility = isClientConnected() ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private bool isMUCEntered()
+        {
+            return MUCInfo != null && MUCInfo.state == MUCState.ENTERD;
+        }
+
+        private bool isClientConnected()
+        {
+            return Client != null && Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED;
         }
 
         #endregion

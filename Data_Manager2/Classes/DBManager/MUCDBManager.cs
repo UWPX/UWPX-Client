@@ -48,15 +48,20 @@ namespace Data_Manager2.Classes.DBManager
             if (delete)
             {
                 dB.Delete(member);
+
+                if (triggerMUCMemberChanged)
+                {
+                    onMUCMemberChanged(member, delete);
+                }
             }
             else
             {
                 update(member);
-            }
 
-            if (triggerMUCMemberChanged)
-            {
-                onMUCMemberChanged(member.id);
+                if (triggerMUCMemberChanged)
+                {
+                    onMUCMemberChanged(member.id, delete);
+                }
             }
         }
 
@@ -166,13 +171,17 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        private void onMUCMemberChanged(string id)
+        private void onMUCMemberChanged(MUCMemberTable member, bool delete)
         {
-            MUCMemberTable member = getMUCMember(id);
             if (member != null)
             {
-                MUCMemberChanged?.Invoke(this, new MUCMemberChangedEventArgs(member, false));
+                MUCMemberChanged?.Invoke(this, new MUCMemberChangedEventArgs(member, delete));
             }
+        }
+
+        private void onMUCMemberChanged(string id, bool delete)
+        {
+            onMUCMemberChanged(getMUCMember(id), delete);
         }
 
         private void resetMUCJoinStates()

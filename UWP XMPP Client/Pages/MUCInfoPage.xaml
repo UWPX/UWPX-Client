@@ -22,22 +22,15 @@
                                          MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
             </PivotItem>
 
-            <PivotItem Header="Members">
+            <PivotItem Header="Occupants">
                 <ScrollViewer>
                     <StackPanel>
-                        <controls:MUCMembersControl Height="200"
+                        <controls:MUCMembersControl MaxHeight="400"
                                                     Margin="10, 10, 10, 0"
                                                     Client="{x:Bind Client}"
                                                     Chat="{x:Bind Chat, Mode=OneWay}"
                                                     MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
-                                                    Header="Members:"/>
-
-                        <controls:MUCMembersControl Height="200"
-                                                    Margin="10, 10, 10, 0"
-                                                    Client="{x:Bind Client}"
-                                                    Chat="{x:Bind Chat, Mode=OneWay}"
-                                                    MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
-                                                    Header="Banlist:"/>
+                                                    Header="Occupants:"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
