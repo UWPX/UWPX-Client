@@ -27,8 +27,9 @@ namespace XMPP_API.Classes
         // XEP-0045 (MUC):
         public const string XML_XEP_0045_NAMESPACE = "http://jabber.org/protocol/muc";
         public const string XML_XEP_0045_NAMESPACE_USER = "http://jabber.org/protocol/muc#user";
+        public const string XML_XEP_0045_NAMESPACE_ADMIN = "http://jabber.org/protocol/muc#admin";
+        public const string XML_XEP_0045_NAMESPACE_ROOM_CONFIG = "http://jabber.org/protocol/muc#roomconfig";
         public const string XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE = "jabber:x:data";
-        public const string XML_XEP_0045_ROOM_CONFIG_VALUE = "http://jabber.org/protocol/muc#roomconfig";
         public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
         // XEP-0249 (Direct MUC Invitations):
         public const string XML_XEP_0249_NAMESPACE = "jabber:x:conference";

@@ -146,6 +146,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\KickOccupantMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0249\DirectMUCInvitationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\LeaveRoomMessage.cs" />

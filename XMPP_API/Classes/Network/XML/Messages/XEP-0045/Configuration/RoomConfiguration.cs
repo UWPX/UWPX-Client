@@ -67,7 +67,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             fieldNode.Add(new XAttribute("var", "FORM_TYPE"));
             fieldNode.Add(new XElement(ns + "value")
             {
-                Value = Consts.XML_XEP_0045_ROOM_CONFIG_VALUE
+                Value = Consts.XML_XEP_0045_NAMESPACE_ROOM_CONFIG
             });
             n.Add(fieldNode);
 

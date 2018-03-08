@@ -35,7 +35,7 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Creates a DiscoRequestMessage and requests all MUC rooms for the given server.
+        /// Sends a DiscoRequestMessage and requests all MUC rooms for the given server.
         /// </summary>
         /// <param name="server">The server the rooms should get requested for. e.g. 'conference.jabber.org'</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
@@ -50,7 +50,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Creates a DiscoRequestMessage and requests the MUC room info for the given room.
+        /// Sends a DiscoRequestMessage and requests the MUC room info for the given room.
         /// </summary>
         /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
@@ -65,7 +65,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Creates a RequestRoomConfigurationMessage and requests the current room configuration.
+        /// Sends a RequestRoomConfigurationMessage and requests the current room configuration.
         /// </summary>
         /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="configLevel">The requested configuration level (the senders affiliation).</param>
@@ -81,7 +81,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Creates a RoomInfoMessage and saves the given room configuration.
+        /// Sends a RoomInfoMessage and saves the given room configuration.
         /// </summary>
         /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="roomConfiguration">The new room configuration.</param>
@@ -112,6 +112,23 @@ namespace XMPP_API.Classes
                 matchId = false
             };
             MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, newNickname);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a KickOccupantMessage to kick the given occupant out of the given room.
+        /// </summary>
+        /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="nickname">The occupants nickname that should get kicked.</param>
+        /// <param name="reason">An optional reason why the occupant should get kicked.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for KickOccupantMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> kickOccupant(string roomJid, string nickname, string reason, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            KickOccupantMessage msg = new KickOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, nickname, reason);
             helper.start(msg);
             return helper;
         }
