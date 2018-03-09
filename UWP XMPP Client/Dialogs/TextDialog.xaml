@@ -8,5 +8,5 @@
     SecondaryButtonText="Close"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <TextBlock Text="{x:Bind Text}" TextWrapping="Wrap"/>
+    <TextBlock Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap"/>
 </ContentDialog>

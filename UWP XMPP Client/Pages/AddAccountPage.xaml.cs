@@ -115,7 +115,10 @@ namespace UWP_XMPP_Client.Pages
                     AccountDBManager.INSTANCE.setAccount(getAccount(), true);
                     moveOn();
                 }
-                await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
+                else
+                {
+                    await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
+                }
             }
         }
 
@@ -168,14 +171,14 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private async void accept_btn_Click(object sender, RoutedEventArgs e)
-        {
-            await acceptAsync();
-        }
-
-        private void cancel_btn_Click(object sender, RoutedEventArgs e)
+        private void cancel_btn_Click_1(object sender, RoutedEventArgs e)
         {
             moveOn();
+        }
+
+        private async void accept_btn_Click_1(object sender, RoutedEventArgs e)
+        {
+            await acceptAsync();
         }
 
         private async void resource_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
