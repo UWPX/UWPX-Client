@@ -25,7 +25,7 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// Handling connection exceptions.
         /// </summary>
-        private int connectionFaildCount;
+        private int connectionErrorCount;
         private string lastErrorMessage;
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public XMPPConnection(XMPPAccount account) : base(account)
         {
-            this.connectionFaildCount = 0;
+            this.connectionErrorCount = 0;
             this.lastErrorMessage = null;
             this.tCPConnection = new TCPConnection(account);
             this.tCPConnection.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
@@ -111,7 +111,7 @@ namespace XMPP_API.Classes.Network
                 case ConnectionState.DISCONNECTED:
                     if (reconnectRequested)
                     {
-                        Task.Run(async () => await connectAsync());
+                        Task.Run(async () => await internalConnectAsync());
                     }
                     break;
                 case ConnectionState.ERROR:
@@ -124,25 +124,16 @@ namespace XMPP_API.Classes.Network
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Connects to the server.
+        /// Connects to the server and resets the connectionErrorCount.
         /// Will reconnect, if already connected or connecting.
         /// </summary>
-        /// <returns></returns>
         public async override Task connectAsync()
         {
-            switch (state)
-            {
-                case ConnectionState.DISCONNECTED:
-                case ConnectionState.ERROR:
-                    setState(ConnectionState.CONNECTING);
-                    await tCPConnection.connectAsync();
-                    break;
+            // Reset connection error count:
+            connectionErrorCount = 0;
 
-                default:
-                    Logger.Warn("[XMPPConnection]: Trying to connect but state is not " + ConnectionState.DISCONNECTED + " or " + ConnectionState.ERROR + "! State = " + state);
-                    await reconnectAsync();
-                    break;
-            }
+            // Connect:
+            await internalConnectAsync();
         }
 
         /// <summary>
@@ -247,6 +238,26 @@ namespace XMPP_API.Classes.Network
 
         #region --Misc Methods (Private)--
         /// <summary>
+        /// Connects to the server.
+        /// </summary>
+        private async Task internalConnectAsync()
+        {
+            switch (state)
+            {
+                case ConnectionState.DISCONNECTED:
+                case ConnectionState.ERROR:
+                    setState(ConnectionState.CONNECTING);
+                    await tCPConnection.connectAsync();
+                    break;
+
+                default:
+                    Logger.Warn("[XMPPConnection]: Trying to connect but state is not " + ConnectionState.DISCONNECTED + " or " + ConnectionState.ERROR + "! State = " + state);
+                    await reconnectAsync();
+                    break;
+            }
+        }
+
+        /// <summary>
         /// Triggers the MessageSend event in a new task.
         /// </summary>
         /// <param name="id">The id of the message that got send.</param>
@@ -294,7 +305,7 @@ namespace XMPP_API.Classes.Network
 
         private async Task onConnectionErrorAsync()
         {
-            if (++connectionFaildCount >= 3)
+            if (++connectionErrorCount >= 3)
             {
                 // Establishing the connection failed for the third time:
                 await disconnectAsync();
@@ -315,7 +326,6 @@ namespace XMPP_API.Classes.Network
             streamId = null;
             messageIdCache = new TSTimedList<string>();
             resetMessageProcessors();
-            connectionFaildCount = 0;
             lastErrorMessage = null;
         }
 

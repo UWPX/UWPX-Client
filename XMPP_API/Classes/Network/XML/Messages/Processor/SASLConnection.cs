@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
@@ -152,6 +153,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         state = SASLState.CONNECTED;
                         msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
                         setMessageProcessed(args);
+                    }
+                    else if (msg is SASLFailureMessage)
+                    {
+                        SASLFailureMessage saslFailureMessage = msg as SASLFailureMessage;
+                        Logger.Error("Error during SASL authentication: " + saslFailureMessage.ERROR_MESSAGE);
+                        state = SASLState.ERROR;
+                        await XMPP_CONNECTION.onMessageProcessorFailedAsync(saslFailureMessage.ERROR_MESSAGE, true);
                     }
                     break;
                 case SASLState.CONNECTED:

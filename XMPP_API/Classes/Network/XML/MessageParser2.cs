@@ -242,8 +242,18 @@ namespace XMPP_API.Classes.Network.XML
                         messages.Add(new ScramSha1ChallengeMessage(n));
                         break;
 
+                    // SASL failure:
+                    case "failure":
+                        switch (n.Attributes[Consts.XML_XMLNS]?.Value)
+                        {
+                            case Consts.XML_SASL_FAILURE_NAMESPACE:
+                                messages.Add(new SASLFailureMessage(n));
+                                break;
+                        }
+                        break;
+
                     default:
-                        Logger.Warn("Unknown message received: " + n.ToString());
+                        Logger.Warn("Unknown message received: " + msg);
                         break;
                 }
             }
