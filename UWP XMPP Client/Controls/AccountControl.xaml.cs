@@ -90,7 +90,7 @@ namespace UWP_XMPP_Client.Controls
                 XMPPClient client = ConnectionHandler.INSTANCE.getClient(Account.getIdAndDomain());
                 if (client != null)
                 {
-                    showConnectionState(client.getConnetionState(), null);
+                    showConnectionState(client.getConnetionState(), client.getLastErrorMessage());
                     client.ConnectionStateChanged += Client_ConnectionStateChanged;
                 }
                 IsEnabled = true;

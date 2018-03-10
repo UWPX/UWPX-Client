@@ -85,6 +85,11 @@ namespace XMPP_API.Classes
             return connection.state;
         }
 
+        public string getLastErrorMessage()
+        {
+            return connection.lastErrorMessage;
+        }
+
         /// <summary>
         /// Sets the given XMPPAccount.
         /// Make sure you call disconnectAsyc() before to prevent memory leaks!

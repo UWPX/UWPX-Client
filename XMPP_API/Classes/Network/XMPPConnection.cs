@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network
         /// Handling connection exceptions.
         /// </summary>
         private int connectionErrorCount;
-        private string lastErrorMessage;
+        public string lastErrorMessage;
 
         /// <summary>
         /// For parsing received messages.
@@ -114,9 +114,6 @@ namespace XMPP_API.Classes.Network
                         Task.Run(async () => await internalConnectAsync());
                     }
                     break;
-                case ConnectionState.ERROR:
-                    Task.Run(async () => await disconnectAsync());
-                    break;
             }
         }
 
@@ -152,8 +149,6 @@ namespace XMPP_API.Classes.Network
             // Disconnect the TCPConnection:
             await tCPConnection.disconnectAsync();
 
-            // Cleanup:
-            await cleanupAsync();
             setState(ConnectionState.DISCONNECTED);
         }
 
@@ -246,8 +241,15 @@ namespace XMPP_API.Classes.Network
             {
                 case ConnectionState.DISCONNECTED:
                 case ConnectionState.ERROR:
-                    setState(ConnectionState.CONNECTING);
-                    await tCPConnection.connectAsync();
+                    if(connectionErrorCount < 3)
+                    {
+                        // Cleanup:
+                        await cleanupAsync();
+
+                        // Connect:
+                        setState(ConnectionState.CONNECTING);
+                        await tCPConnection.connectAsync();
+                    }
                     break;
 
                 default:
