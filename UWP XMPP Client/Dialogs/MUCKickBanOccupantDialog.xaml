@@ -4,19 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Title="Kick/Ban occupant(s):"
     SecondaryButtonText="Cancel"
-    SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
-
-    <ContentControl.Resources>
-        <DataTemplate x:DataType="datatemplates:MUCOccupantTemplate"
-                      x:Key="occupantTemplate">
-            <controls:KickBanOccupantControl Occupant="{x:Bind occupant}" Margin="0, 10, 0, 10"/>
-        </DataTemplate>
-    </ContentControl.Resources>
+    SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+    Loaded="ContentDialog_Loaded">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -42,10 +35,13 @@
                   Header="Occupants:"
                   Margin="0, 10, 0, 0"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  ItemsSource="{x:Bind OCCUPANTS}"
-                  SelectionMode="None"
-                  ItemTemplate="{StaticResource occupantTemplate}"
-                  HorizontalContentAlignment="Stretch"/>
+                  SelectionMode="None">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"  Value="Stretch"></Setter>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
 
         <controls:SeperatorControl Grid.Row="3"
                                    Margin="0, 10, 0, 10"/>

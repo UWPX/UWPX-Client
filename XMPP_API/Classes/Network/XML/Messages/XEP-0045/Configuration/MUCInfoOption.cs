@@ -40,6 +40,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             return value?.InnerText;
         }
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

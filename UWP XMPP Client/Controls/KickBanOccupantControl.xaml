@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d">
 
     <Grid HorizontalAlignment="Stretch">
@@ -15,6 +16,7 @@
         <StackPanel Grid.Row="0">
             <TextBlock Text="{x:Bind Occupant.nickname, Mode=OneWay, FallbackValue='INVALID OCCUPANT!'}" FontSize="20" TextTrimming="CharacterEllipsis"/>
             <TextBlock Text="{x:Bind Occupant.jid, Mode=OneWay, FallbackValue='NO JID AVAILABLE!'}" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis"/>
+            <controls:IconTextBlockControl x:Name="error_itbx" Icon="&#xE7BA;" IconForeground="Red" Visibility="Collapsed"/>
         </StackPanel>
 
         <Grid x:Name="buttons_grid"
@@ -38,6 +40,10 @@
                     <TextBlock Text="Ban single"
                                Margin="10, 0, 0, 0"
                                VerticalAlignment="Center"/>
+                    <ProgressRing x:Name="banSingle_prgr"
+                                  Margin="10, 0, 0, 0"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
             <Button x:Name="kickSingle_btn"
@@ -53,6 +59,10 @@
                     <TextBlock Text="Kick single"
                                Margin="10, 0, 0, 0"
                                VerticalAlignment="Center"/>
+                    <ProgressRing x:Name="kickSingle_prgr"
+                                  Margin="10, 0, 0, 0"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
         </Grid>

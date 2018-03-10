@@ -187,7 +187,7 @@ namespace UWP_XMPP_Client.Controls
                     }
                 }
 
-                MUCKickBanOccupantDialog dialog = new MUCKickBanOccupantDialog(collection);
+                MUCKickBanOccupantDialog dialog = new MUCKickBanOccupantDialog(collection, Client, Chat);
                 await dialog.ShowAsync();
             }
         }

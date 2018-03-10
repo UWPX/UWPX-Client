@@ -252,6 +252,11 @@ namespace Data_Manager2.Classes
                                 jid = member.jid,
                             }, false, true);
                         }
+                        // Occupant got kicked:
+                        else if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_KICKED))
+                        {
+
+                        }
                         else
                         {
                             MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
