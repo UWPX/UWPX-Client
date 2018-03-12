@@ -294,6 +294,11 @@ namespace UWP_XMPP_Client.Controls
                             lastChat_tblck.Text = chatMessage.message ?? "You received an error message";
                             break;
 
+                        case MUCHandler.TYPE_MUC_OCCUPANT_KICKED:
+                            lastChatIcon_tblck.Visibility = Visibility.Collapsed;
+                            lastChat_tblck.Text = (chatMessage.message ?? "-") + " got kicked!";
+                            break;
+
                         default:
                             lastChatIcon_tblck.Visibility = Visibility.Collapsed;
                             lastChat_tblck.Text = chatMessage.message ?? "";
