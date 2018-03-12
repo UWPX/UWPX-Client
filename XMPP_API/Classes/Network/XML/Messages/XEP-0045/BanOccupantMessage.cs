@@ -2,13 +2,13 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    // https://xmpp.org/extensions/xep-0045.html#kick
-    class KickOccupantMessage : IQMessage
+    // https://xmpp.org/extensions/xep-0045.html#ban
+    class BanOccupantMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string REASON;
-        public readonly string NICKNAME;
+        public readonly string JID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,25 +17,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/03/2018 Created [Fabian Sauter]
+        /// 12/03/2018 Created [Fabian Sauter]
         /// </history>
-        public KickOccupantMessage(string from, string roomJid, string nickname, string reason) : base(from, roomJid, SET, getRandomId(), getKickQuery(reason, nickname))
+        public BanOccupantMessage(string from, string roomJid, string jid, string reason) : base(from, roomJid, SET, getRandomId(), getKickQuery(reason, jid))
         {
             this.REASON = reason;
-            this.NICKNAME = nickname;
+            this.JID = jid;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getKickQuery(string reason, string nickname)
+        private static XElement getKickQuery(string reason, string jid)
         {
             XNamespace ns = Consts.XML_XEP_0045_NAMESPACE_ADMIN;
             XElement query = new XElement(ns + "query");
 
             XElement item = new XElement(ns + "item");
-            item.Add(new XAttribute("nick", nickname));
-            item.Add(new XAttribute("role", Utils.mucRoleToString(MUCRole.NONE)));
+            item.Add(new XAttribute("jid", jid));
+            item.Add(new XAttribute("affiliation", "outcast"));
             if (reason != null)
             {
                 item.Add(new XElement(ns + "reason")

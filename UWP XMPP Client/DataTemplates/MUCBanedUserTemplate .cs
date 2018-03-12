@@ -1,14 +1,36 @@
-﻿using System.Xml.Linq;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace UWP_XMPP_Client.DataTemplates
 {
-    // https://xmpp.org/extensions/xep-0045.html#kick
-    class KickOccupantMessage : IQMessage
+    public class MUCBanedUserTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string REASON;
-        public readonly string NICKNAME;
+        public BanedUser banedUser;
+
+        public string reason
+        {
+            get => banedUser?.reason;
+            set
+            {
+                if (banedUser != null)
+                {
+                    banedUser.reason = value;
+                }
+            }
+        }
+
+        public string jid
+        {
+            get => banedUser?.jid;
+            set
+            {
+                if (banedUser != null)
+                {
+                    banedUser.jid = value;
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,36 +39,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/03/2018 Created [Fabian Sauter]
+        /// 12/03/2018 Created [Fabian Sauter]
         /// </history>
-        public KickOccupantMessage(string from, string roomJid, string nickname, string reason) : base(from, roomJid, SET, getRandomId(), getKickQuery(reason, nickname))
+        public MUCBanedUserTemplate()
         {
-            this.REASON = reason;
-            this.NICKNAME = nickname;
+
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getKickQuery(string reason, string nickname)
-        {
-            XNamespace ns = Consts.XML_XEP_0045_NAMESPACE_ADMIN;
-            XElement query = new XElement(ns + "query");
 
-            XElement item = new XElement(ns + "item");
-            item.Add(new XAttribute("nick", nickname));
-            item.Add(new XAttribute("role", Utils.mucRoleToString(MUCRole.NONE)));
-            if (reason != null)
-            {
-                item.Add(new XElement(ns + "reason")
-                {
-                    Value = reason
-                });
-            }
-            query.Add(item);
-
-            return query;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

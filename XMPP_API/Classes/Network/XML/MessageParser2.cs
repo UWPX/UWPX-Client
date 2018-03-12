@@ -221,6 +221,11 @@ namespace XMPP_API.Classes.Network.XML
                                 {
                                     messages.Add(new RoomInfoMessage(n));
                                 }
+                                // XEP-0045 (MUC) ban list:
+                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_ADMIN) != null)
+                                {
+                                    messages.Add(new BanListMessage(n));
+                                }
                                 else
                                 {
                                     messages.Add(new IQMessage(n));

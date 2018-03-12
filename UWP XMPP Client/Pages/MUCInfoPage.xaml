@@ -26,11 +26,14 @@
                 <ScrollViewer>
                     <StackPanel>
                         <controls:MUCOccupantsControl MaxHeight="400"
-                                                    Margin="10, 10, 10, 0"
-                                                    Client="{x:Bind Client}"
-                                                    Chat="{x:Bind Chat, Mode=OneWay}"
-                                                    MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
-                                                    Header="Occupants:"/>
+                                                      Margin="10, 10, 10, 0"
+                                                      Client="{x:Bind Client}"
+                                                      Chat="{x:Bind Chat, Mode=OneWay}"
+                                                      MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
+                        <controls:BanListControl Margin="10, 10, 10, 0"
+                                                 Client="{x:Bind Client}"
+                                                 Chat="{x:Bind Chat, Mode=OneWay}"
+                                                 MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

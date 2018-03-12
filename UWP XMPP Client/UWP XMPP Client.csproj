@@ -117,6 +117,9 @@
     <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
       <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\BanListControl.xaml.cs">
+      <DependentUpon>BanListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\BrowseMUCRoomsDetailsControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsDetailsControl.xaml</DependentUpon>
     </Compile>
@@ -159,6 +162,7 @@
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
+    <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="DataTemplates\MultiSelectTemplate.cs" />
@@ -357,6 +361,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AccountImageWithPresenceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\BanListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

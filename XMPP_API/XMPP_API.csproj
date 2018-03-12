@@ -140,6 +140,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\IDiscoItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanedUser.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\MUCInfoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\MUCInfoFieldType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\MUCInfoOption.cs" />
@@ -147,8 +148,10 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanOccupantMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\KickOccupantMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0249\DirectMUCInvitationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\LeaveRoomMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />

@@ -1,14 +1,15 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    // https://xmpp.org/extensions/xep-0045.html#kick
-    class KickOccupantMessage : IQMessage
+    // https://xmpp.org/extensions/xep-0045.html#ban
+    public class BanListMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string REASON;
-        public readonly string NICKNAME;
+        public List<BanedUser> banedUsers;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,35 +18,43 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/03/2018 Created [Fabian Sauter]
+        /// 12/03/2018 Created [Fabian Sauter]
         /// </history>
-        public KickOccupantMessage(string from, string roomJid, string nickname, string reason) : base(from, roomJid, SET, getRandomId(), getKickQuery(reason, nickname))
+        public BanListMessage(string from, string roomJid) : base(from, roomJid, GET, getRandomId(), getQueryNode())
         {
-            this.REASON = reason;
-            this.NICKNAME = nickname;
+            this.banedUsers = null;
+        }
+
+        public BanListMessage(XmlNode node) : base(node)
+        {
+            this.banedUsers = new List<BanedUser>();
+
+            XmlNode qNode = XMLUtils.getChildNode(node, "query", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_ADMIN);
+            if (qNode != null)
+            {
+                foreach (XmlNode n in qNode.ChildNodes)
+                {
+                    if (Equals(n.Name, "item"))
+                    {
+                        banedUsers.Add(new BanedUser(n));
+                    }
+                }
+            }
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getKickQuery(string reason, string nickname)
+        private static XElement getQueryNode()
         {
             XNamespace ns = Consts.XML_XEP_0045_NAMESPACE_ADMIN;
-            XElement query = new XElement(ns + "query");
+            XElement queryNode = new XElement(ns + "query");
 
-            XElement item = new XElement(ns + "item");
-            item.Add(new XAttribute("nick", nickname));
-            item.Add(new XAttribute("role", Utils.mucRoleToString(MUCRole.NONE)));
-            if (reason != null)
-            {
-                item.Add(new XElement(ns + "reason")
-                {
-                    Value = reason
-                });
-            }
-            query.Add(item);
+            XElement itemNode = new XElement(ns + "item");
+            itemNode.Add(new XAttribute("affiliation", Utils.mucAffiliationToString(MUCAffiliation.OUTCAST)));
+            queryNode.Add(itemNode);
 
-            return query;
+            return queryNode;
         }
 
         #endregion

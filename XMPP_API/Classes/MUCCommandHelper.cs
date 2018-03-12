@@ -67,7 +67,7 @@ namespace XMPP_API.Classes
         /// <summary>
         /// Sends a RequestRoomConfigurationMessage and requests the current room configuration.
         /// </summary>
-        /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="roomJid">The bare JID if the room you would like to request the room configuration for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="configLevel">The requested configuration level (the senders affiliation).</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
@@ -83,7 +83,7 @@ namespace XMPP_API.Classes
         /// <summary>
         /// Sends a RoomInfoMessage and saves the given room configuration.
         /// </summary>
-        /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="roomJid">The bare JID if the room you would like to save the room configuration for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="roomConfiguration">The new room configuration.</param>
         /// <param name="configLevel">The requested configuration level (the senders affiliation).</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
@@ -100,7 +100,7 @@ namespace XMPP_API.Classes
         /// <summary>
         /// Sends a MUCChangeNicknameMessage for changing your own MUC nickname.
         /// </summary>
-        /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="roomJid">The bare JID if the room you would like to change your nickname for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="newNickname">The new nickname for the given room.</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
@@ -117,9 +117,9 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a KickOccupantMessage to kick the given occupant out of the given room.
+        /// Sends a KickOccupantMessage to kick the given occupant from the given room.
         /// </summary>
-        /// <param name="roomJid">The bare JID if the room you would like to request the information for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="roomJid">The bare JID if the room you would like to kick the user for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="nickname">The occupants nickname that should get kicked.</param>
         /// <param name="reason">An optional reason why the occupant should get kicked.</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
@@ -129,6 +129,39 @@ namespace XMPP_API.Classes
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             KickOccupantMessage msg = new KickOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, nickname, reason);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a BanOccupantMessage to ban the given occupant from the given room.
+        /// </summary>
+        /// <param name="roomJid">The bare JID if the room you would like to ban the user for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="jid">The bare JID of the occupant you want to ban. e.g. 'witch@jabber.org'</param>
+        /// <param name="reason">An optional reason why the occupant should get kicked.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for BanOccupantMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> banOccupant(string roomJid, string jid, string reason, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            BanOccupantMessage msg = new BanOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, jid, reason);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a BanListMessage for requesting the ban list of the given room.
+        /// Only the room owner and admins can request this list.
+        /// </summary>
+        /// <param name="roomJid">The bare JID if the room you would like to request the ban list for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for BanListMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> requestBanList(string roomJid, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            BanListMessage msg = new BanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid);
             helper.start(msg);
             return helper;
         }

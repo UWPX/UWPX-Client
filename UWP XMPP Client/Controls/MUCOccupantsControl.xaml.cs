@@ -42,13 +42,6 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MUCOccupantsControl), null);
 
-        public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
-        public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register("Header", typeof(string), typeof(MUCOccupantsControl), null);
-
         private ObservableCollection<MUCOccupantTemplate> occupants;
 
         #endregion

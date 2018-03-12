@@ -2,6 +2,7 @@
 {
     public enum MUCRole
     {
+        NONE,
         VISITOR,
         PARTICIPANT,
         MODERATOR,
