@@ -470,6 +470,8 @@ namespace UWP_XMPP_Client.Controls
                 {
                     case MUCState.ERROR:
                     case MUCState.DISCONNECTED:
+                    case MUCState.KICKED:
+                    case MUCState.BANED:
                         join_mfo.Visibility = Visibility.Visible;
                         leave_mfo.Visibility = Visibility.Collapsed;
                         break;

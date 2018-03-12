@@ -15,6 +15,8 @@ namespace Data_Manager2.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public const string TYPE_MUC_OCCUPANT_KICKED = "muc_occupant_kicked";
+
         public static readonly MUCHandler INSTANCE = new MUCHandler();
         private TSTimedList<MUCJoinHelper> timedList;
         #endregion
@@ -195,6 +197,22 @@ namespace Data_Manager2.Classes
             }
         }
 
+        private void addOccupantKickedMessage(string chatId, string roomJid, string nickname)
+        {
+            ChatMessageTable msg = new ChatMessageTable()
+            {
+                id = ChatMessageTable.generateId(AbstractMessage.getRandomId(), chatId),
+                chatId = chatId,
+                date = DateTime.Now,
+                fromUser = roomJid,
+                isImage = false,
+                message = nickname,
+                state = MessageState.UNREAD,
+                type = TYPE_MUC_OCCUPANT_KICKED
+            };
+            ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -208,12 +226,12 @@ namespace Data_Manager2.Classes
             Task.Run(() =>
             {
                 MUCMemberPresenceMessage msg = args.mucMemberPresenceMessage;
-                string room = Utils.getBareJidFromFullJid(msg.getFrom());
-                if (room == null)
+                string roomJid = Utils.getBareJidFromFullJid(msg.getFrom());
+                if (roomJid == null)
                 {
                     return;
                 }
-                string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
+                string chatId = ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain());
 
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, msg.FROM_NICKNAME);
                 if (member == null)
@@ -255,12 +273,21 @@ namespace Data_Manager2.Classes
                         // Occupant got kicked:
                         else if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_KICKED))
                         {
-
+                            // Update MUC state:
+                            MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.KICKED, true);
                         }
                         else
                         {
+                            // Update MUC state:
                             MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.DISCONNECTED, true);
                         }
+                    }
+
+
+                    if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_KICKED))
+                    {
+                        // Add kicked chat message:
+                        addOccupantKickedMessage(chatId, roomJid, member.nickname);
                     }
                 }
 

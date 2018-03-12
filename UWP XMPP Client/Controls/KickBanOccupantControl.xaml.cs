@@ -56,17 +56,37 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         public void kick()
         {
+            if (!kickSingle_btn.IsEnabled)
+            {
+                return;
+            }
+
             kickSingle_btn.IsEnabled = false;
             kickSingle_prgr.Visibility = Visibility.Visible;
             banSingle_btn.IsEnabled = false;
             error_itbx.Visibility = Visibility.Collapsed;
+            done_itbx.Visibility = Visibility.Collapsed;
 
             kickMessageResponseHelper = client.MUC_COMMAND_HELPER.kickOccupant(chat.chatJabberId, Occupant.nickname, dialog.Reason, onKickMessage, onKickTimeout);
         }
 
+        public void ban()
+        {
+            if (!banSingle_btn.IsEnabled)
+            {
+                return;
+            }
+
+            kickSingle_btn.IsEnabled = false;
+            banSingle_prgr.Visibility = Visibility.Visible;
+            banSingle_btn.IsEnabled = false;
+            error_itbx.Visibility = Visibility.Collapsed;
+            done_itbx.Visibility = Visibility.Collapsed;
+        }
+
         private bool onKickMessage(IQMessage msg)
         {
-            if(msg is IQErrorMessage)
+            if (msg is IQErrorMessage)
             {
                 IQErrorMessage errorMessage = msg as IQErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
@@ -77,12 +97,13 @@ namespace UWP_XMPP_Client.Controls
                 }).AsTask();
                 return true;
             }
-            if(Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (Equals(msg.getMessageType(), IQMessage.RESULT))
             {
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    enableButtons();
-                    dialog.removeOccupant(Occupant);
+                    done_itbx.Text = "Success! Occupant got kicked.";
+                    done_itbx.Visibility = Visibility.Visible;
+                    kickSingle_prgr.Visibility = Visibility.Collapsed;
                 }).AsTask();
                 return true;
             }
@@ -117,7 +138,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void banSingle_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            ban();
         }
 
         private void kickSingle_btn_Click(object sender, RoutedEventArgs e)

@@ -50,10 +50,15 @@ namespace Data_Manager2.Classes.DBTables
                 case MUCState.ENTERING:
                 case MUCState.DISCONNECTING:
                     return Presence.Chat;
+
                 case MUCState.ENTERD:
                     return Presence.Online;
+
                 case MUCState.ERROR:
+                case MUCState.KICKED:
+                case MUCState.BANED:
                     return Presence.Xa;
+
                 case MUCState.DISCONNECTED:
                 default:
                     return Presence.Unavailable;

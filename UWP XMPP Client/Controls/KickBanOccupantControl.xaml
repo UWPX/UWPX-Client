@@ -17,6 +17,7 @@
             <TextBlock Text="{x:Bind Occupant.nickname, Mode=OneWay, FallbackValue='INVALID OCCUPANT!'}" FontSize="20" TextTrimming="CharacterEllipsis"/>
             <TextBlock Text="{x:Bind Occupant.jid, Mode=OneWay, FallbackValue='NO JID AVAILABLE!'}" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis"/>
             <controls:IconTextBlockControl x:Name="error_itbx" Icon="&#xE7BA;" IconForeground="Red" Visibility="Collapsed"/>
+            <controls:IconTextBlockControl x:Name="done_itbx" Icon="&#xE8FB;" IconForeground="Green" Visibility="Collapsed"/>
         </StackPanel>
 
         <Grid x:Name="buttons_grid"

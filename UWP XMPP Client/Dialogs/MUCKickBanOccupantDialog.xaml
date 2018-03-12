@@ -7,7 +7,7 @@
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Title="Kick/Ban occupant(s):"
-    SecondaryButtonText="Cancel"
+    SecondaryButtonText="Close"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
     Loaded="ContentDialog_Loaded">
 

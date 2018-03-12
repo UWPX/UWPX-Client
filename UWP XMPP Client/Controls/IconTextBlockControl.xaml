@@ -6,8 +6,13 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal">
-        <TextBlock FontFamily="Segoe MDL2 Assets" Text="{x:Bind Icon, Mode=OneWay}" Foreground="{x:Bind IconForeground, Mode=OneWay}" VerticalAlignment="Center"/>
-        <TextBlock Text="{x:Bind Text, Mode=OneWay}" Margin="5, 0, 0, 0" VerticalAlignment="Center"/>
-    </StackPanel>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+
+        <TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Icon, Mode=OneWay}" Foreground="{x:Bind IconForeground, Mode=OneWay}" VerticalAlignment="Center"/>
+        <TextBlock Grid.Column="1" Text="{x:Bind Text, Mode=OneWay}" Margin="5, 0, 0, 0" VerticalAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis"/>
+    </Grid>
 </UserControl>

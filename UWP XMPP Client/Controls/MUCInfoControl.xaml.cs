@@ -124,9 +124,33 @@ namespace UWP_XMPP_Client.Controls
                 join_btn.IsEnabled = false;
                 leave_btn.IsEnabled = false;
 
-                switch (presence)
+                switch (MUCInfo.state)
                 {
-                    case Presence.Online:
+                    case MUCState.DISCONNECTED:
+                        enterState_tbx.Text = "not joined yet";
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            join_btn.IsEnabled = true;
+                        }
+                        break;
+
+                    case MUCState.DISCONNECTING:
+                        enterState_tbx.Text = "leaving...";
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            leave_btn.IsEnabled = true;
+                        }
+                        break;
+
+                    case MUCState.ENTERING:
+                        enterState_tbx.Text = "joining...";
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            leave_btn.IsEnabled = true;
+                        }
+                        break;
+
+                    case MUCState.ENTERD:
                         enterState_tbx.Text = "joined";
                         if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
                         {
@@ -134,27 +158,28 @@ namespace UWP_XMPP_Client.Controls
                         }
                         break;
 
-                    case Presence.Chat:
-                        enterState_tbx.Text = "joining/leaving...";
+                    case MUCState.KICKED:
+                        enterState_tbx.Text = "You have been kicked!";
                         if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
                         {
-                            leave_btn.IsEnabled = true;
+                            join_btn.IsEnabled = true;
                         }
                         break;
 
-                    case Presence.Xa:
+                    case MUCState.BANED:
+                        enterState_tbx.Text = "You have been baned!";
+                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
+                        {
+                            join_btn.IsEnabled = true;
+                        }
+                        break;
+
+                    case MUCState.ERROR:
+                    default:
                         enterState_tbx.Text = "ERROR - view the log for more information";
                         if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
                         {
                             leave_btn.IsEnabled = true;
-                        }
-                        break;
-
-                    default:
-                        enterState_tbx.Text = "not joined yet";
-                        if (Client.getConnetionState() == XMPP_API.Classes.Network.ConnectionState.CONNECTED)
-                        {
-                            join_btn.IsEnabled = true;
                         }
                         break;
                 }

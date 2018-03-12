@@ -48,10 +48,7 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void removeOccupant(MUCOccupantTable occupant)
-        {
 
-        }
 
         #endregion
 
@@ -60,9 +57,34 @@ namespace UWP_XMPP_Client.Dialogs
         {
             foreach (MUCOccupantTemplate t in OCCUPANTS)
             {
-                occupants_itmsc.Items.Add(new KickBanOccupantControl(this, client, chat) {
+                occupants_itmsc.Items.Add(new KickBanOccupantControl(this, client, chat)
+                {
                     Occupant = t.occupant
                 });
+            }
+        }
+
+        private void kickAll()
+        {
+            foreach (object o in occupants_itmsc.Items)
+            {
+                if (o is KickBanOccupantControl)
+                {
+                    KickBanOccupantControl c = o as KickBanOccupantControl;
+                    c.kick();
+                }
+            }
+        }
+
+        private void banAll()
+        {
+            foreach (object o in occupants_itmsc.Items)
+            {
+                if (o is KickBanOccupantControl)
+                {
+                    KickBanOccupantControl c = o as KickBanOccupantControl;
+                    c.ban();
+                }
             }
         }
 
@@ -76,16 +98,17 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Events--
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            Hide();
         }
 
         private void banAll_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            banAll();
         }
 
         private void kickAll_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            kickAll();
         }
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)

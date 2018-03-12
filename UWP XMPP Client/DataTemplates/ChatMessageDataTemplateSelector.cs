@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBTables;
 using UWP_XMPP_Client.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +17,7 @@ namespace UWP_XMPP_Client.DataTemplates
         public DataTemplate receivedMessageTemplate { get; set; }
         public DataTemplate errorMessageTemplate { get; set; }
         public DataTemplate mucDirectInvitationTemplate { get; set; }
+        public DataTemplate mucOccupantKickedTemplate { get; set; }
 
         private MUCChatInfoTable mucInfo;
         bool requestedMUCInfo;
@@ -106,6 +108,9 @@ namespace UWP_XMPP_Client.DataTemplates
 
                         case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
                             return mucDirectInvitationTemplate;
+
+                        case MUCHandler.TYPE_MUC_OCCUPANT_KICKED:
+                            return mucOccupantKickedTemplate;
 
                         default:
                             if (template.chat.userAccountId.Equals(template.message.fromUser))

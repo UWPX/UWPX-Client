@@ -23,11 +23,15 @@
         <DataTemplate x:Key="mucDirectInvitationTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleMUCDirectInvitationControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
         </DataTemplate>
+        <DataTemplate x:Key="mucOccupantKickedTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleOccupantKickedControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
+        </DataTemplate>
         <datatemplates:ChatMessageDataTemplateSelector x:Name="chatMessageDataTemplateSelector"
                                                        sendMessageTemplate="{StaticResource sendMessageTemplate}"
                                                        receivedMessageTemplate="{StaticResource receivedMessageTemplate}"
                                                        errorMessageTemplate="{StaticResource errorMessageTemplate}"
-                                                       mucDirectInvitationTemplate="{StaticResource mucDirectInvitationTemplate}"/>
+                                                       mucDirectInvitationTemplate="{StaticResource mucDirectInvitationTemplate}"
+                                                       mucOccupantKickedTemplate="{StaticResource mucOccupantKickedTemplate}"/>
     </UserControl.Resources>
 
     <Grid Background="Transparent">

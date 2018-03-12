@@ -6,6 +6,8 @@
         DISCONNECTING,
         ENTERING,
         ENTERD,
+        KICKED,
+        BANED,
         ERROR
     }
 }
