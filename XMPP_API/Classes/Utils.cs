@@ -12,7 +12,14 @@ namespace XMPP_API.Classes
         /// The regex for a valid jabber id.
         /// Source: https://www.codesd.com/item/what-is-the-regular-expression-for-the-validation-of-jabber-id.html [09.02.2018]
         /// </summary>
-        private static string JID_REGEX_PATTERN = @"^\A([a-z0-9\.\-_\+]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z$";
+        private const string JID_REGEX_PATTERN = @"^\A([a-z0-9\.\-_\+]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z$";
+        private static readonly Regex JID_REGEX = new Regex(JID_REGEX_PATTERN);
+
+        /// <summary>
+        /// The regex for a valid server address.
+        /// </summary>
+        private const string SERVER_ADDRESS_REGEX_PATTERN = @"((?:[-a-z0-9]+\.)+[a-z]{2,})\Z$";
+        private static readonly Regex SERVER_ADDRESS_REGEX = new Regex(SERVER_ADDRESS_REGEX_PATTERN);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,15 +30,23 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
+        /// Checks if the given string is a valid server address.
+        /// e.g. 'chat.shakespeare.lit'
+        /// </summary>
+        /// <param name="s">The string, that should get checked.</param>
+        public static bool isValidServerAddress(string s)
+        {
+            return SERVER_ADDRESS_REGEX.IsMatch(s);
+        }
+
+        /// <summary>
         /// Checks if the given JID is a bare JID.
         /// e.g. 'coven@chat.shakespeare.lit'
         /// </summary>
-        /// <param name="s"></param>
-        /// <returns></returns>
+        /// <param name="s">The string, that should get checked.</param>
         public static bool isBareJid(string s)
         {
-            Regex regex = new Regex(JID_REGEX_PATTERN);
-            return regex.IsMatch(s);
+            return JID_REGEX.IsMatch(s);
         }
 
         /// <summary>

@@ -20,6 +20,7 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Attributes--
         public bool cancled;
         private ObservableCollection<string> accounts;
+        private List<DiscoFeatureTable> serverList;
         private ObservableCollection<string> servers;
         private List<XMPPClient> clients;
 
@@ -37,7 +38,6 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public AddMUCDialog() : this(null)
         {
-
         }
 
         public AddMUCDialog(string roomJid, string password, string userAccountId) : this(roomJid)
@@ -53,6 +53,7 @@ namespace UWP_XMPP_Client.Dialogs
             this.cancled = true;
             this.requestedAccount = null;
             this.accounts = new ObservableCollection<string>();
+            this.serverList = new List<DiscoFeatureTable>();
             this.servers = new ObservableCollection<string>();
             InitializeComponent();
             loadAccounts();
@@ -78,6 +79,9 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
+        /// <summary>
+        /// Loads all accounts.
+        /// </summary>
         public void loadAccounts()
         {
             clients = ConnectionHandler.INSTANCE.getClients();
@@ -91,22 +95,54 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
+        /// <summary>
+        /// Loads all servers from the DB.
+        /// </summary>
         private void loadServers()
         {
-            servers.Clear();
-            foreach (DiscoFeatureTable f in DiscoDBManager.INSTANCE.getAllMUCServers())
+            serverList = DiscoDBManager.INSTANCE.getAllMUCServers();
+
+            showServersFiltered(null);
+        }
+
+        /// <summary>
+        /// Updates the auto suggest list based on the given filter text.
+        /// </summary>
+        /// <param name="filter">The filter for showing servers.</param>
+        private void showServersFiltered(string filter)
+        {
+            if (string.IsNullOrEmpty(filter))
             {
-                servers.Add(f.fromServer);
+                servers.Clear();
+                foreach (DiscoFeatureTable f in serverList)
+                {
+                    servers.Add(f.fromServer);
+                }
+            }
+            else
+            {
+                servers.Clear();
+                foreach (DiscoFeatureTable f in serverList)
+                {
+                    if (f.fromServer.Contains(filter))
+                    {
+                        servers.Add(f.fromServer);
+                    }
+                }
             }
         }
 
+        /// <summary>
+        /// Tries to add the room.
+        /// </summary>
+        /// <returns>Returns true if the account got added.</returns>
         private bool addRoom()
         {
             if (checkUserInputsAndWarn())
             {
                 XMPPClient c = clients[account_cbx.SelectedIndex];
 
-                string roomJid = roomName_tbx.Text + '@' + servers[server_cbx.SelectedIndex];
+                string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLower();
 
                 ChatTable muc = new ChatTable()
                 {
@@ -153,51 +189,59 @@ namespace UWP_XMPP_Client.Dialogs
             return false;
         }
 
+        /// <summary>
+        /// Checks if the user input is valid.
+        /// </summary>
+        /// <returns>Returns whether the user input is valid.</returns>
         private bool checkUserInputsAndWarn()
         {
             if (account_cbx.SelectedIndex < 0)
             {
-                showErrorDialog("No account selected!");
+                showErrorTextBlock("No account selected!");
                 return false;
             }
 
             if (!clients[account_cbx.SelectedIndex].isConnected())
             {
-                showErrorDialog("Account is not connected!");
+                showErrorTextBlock("Account is not connected!");
                 accountNotConnected_tblck.Visibility = Visibility.Visible;
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(nick_tbx.Text))
             {
-                showErrorDialog("No nickname given!");
+                showErrorTextBlock("No nickname given!");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(roomName_tbx.Text))
             {
-                showErrorDialog("No room name given!");
+                showErrorTextBlock("No room name given!");
                 return false;
             }
 
-            if (server_cbx.SelectedIndex < 0)
+            if (!Utils.isValidServerAddress(server_asbx.Text))
             {
-                showErrorDialog("No server selected!");
+                showErrorTextBlock("Invalid server!");
                 return false;
             }
 
-            string roomJid = roomName_tbx.Text + '@' + servers[server_cbx.SelectedIndex];
+            string roomJid = roomName_tbx.Text + '@' + server_asbx.Text;
             XMPPClient c = clients[account_cbx.SelectedIndex];
             if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, c.getXMPPAccount().getIdAndDomain())))
             {
-                showErrorDialog("You already joined this room!");
+                showErrorTextBlock("You already joined this room!");
                 return false;
             }
 
             return true;
         }
 
-        private void showErrorDialog(string msg)
+        /// <summary>
+        /// Shows the error text block with the given text.
+        /// </summary>
+        /// <param name="msg">The text that should get shown in the error text block.</param>
+        private void showErrorTextBlock(string msg)
         {
             error_tbx.Text = msg;
             error_tbx.Visibility = Visibility.Visible;
@@ -227,25 +271,6 @@ namespace UWP_XMPP_Client.Dialogs
                     }
                 }
                 account_cbx.SelectedIndex = 0;
-            }
-        }
-
-        private void server_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (server_cbx.Items.Count > 0)
-            {
-                if (requestedServer != null)
-                {
-                    for (int i = 0; i < servers.Count; i++)
-                    {
-                        if (servers[i].Equals(requestedServer))
-                        {
-                            server_cbx.SelectedIndex = i;
-                            return;
-                        }
-                    }
-                }
-                server_cbx.SelectedIndex = 0;
             }
         }
 
@@ -281,19 +306,17 @@ namespace UWP_XMPP_Client.Dialogs
             roomName_tbx.SelectionLength = 0;
         }
 
-        private void server_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            browse_btn.IsEnabled = server_cbx.SelectedIndex >= 0;
-        }
-
         private void browse_btn_Click(object sender, RoutedEventArgs e)
         {
-            object o = server_cbx.SelectedItem;
-            if (o is string && account_cbx.SelectedIndex >= 0)
+            // Check if the current server address is valid:
+            if (!Utils.isValidServerAddress(server_asbx.Text))
             {
-                (Window.Current.Content as Frame).Navigate(typeof(BrowseMUCRoomsPage), new BrowseMUCNavigationParameter(o as string, clients[account_cbx.SelectedIndex]));
-                Hide();
+                showErrorTextBlock("Invalid server!");
             }
+
+            // Navigate to browse MUC page:
+            (Window.Current.Content as Frame).Navigate(typeof(BrowseMUCRoomsPage), new BrowseMUCNavigationParameter(server_asbx.Text, clients[account_cbx.SelectedIndex]));
+            Hide();
         }
 
         private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -318,6 +341,12 @@ namespace UWP_XMPP_Client.Dialogs
                 cancled = false;
                 Hide();
             }
+        }
+
+        private void server_asbx_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            showServersFiltered(server_asbx.Text);
+            browse_btn.IsEnabled = Utils.isValidServerAddress(server_asbx.Text);
         }
 
         #endregion

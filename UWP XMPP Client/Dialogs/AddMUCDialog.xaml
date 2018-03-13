@@ -25,18 +25,17 @@
                 <TextBlock x:Name="accountNotConnected_tblck" Foreground="#D50000" Text="Account not connected!" Tapped="addAccount_tblck_Tapped" Visibility="Collapsed"/>
                 <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
                 <TextBox x:Name="nick_tbx" Margin="0, 10, 0, 0" Header="Your nickname:"/>
-                <TextBox x:Name="roomName_tbx" Margin="0, 10, 0, 0" Header="Chatroom name:" KeyDown="roomName_tbx_KeyDown" TextChanged="roomName_tbx_TextChanged"/>
+                <TextBox x:Name="roomName_tbx" Margin="0, 10, 0, 0" Header="Chatroom name:" KeyDown="roomName_tbx_KeyDown" TextChanged="roomName_tbx_TextChanged" PlaceholderText="e.g. 'someRoomName'"/>
                 <CheckBox x:Name="enablePassword_cbx" Margin="0, 10, 0, 0" Content="Enable room password" Checked="enablePassword_cbx_Checked" Unchecked="enablePassword_cbx_Unchecked"/>
                 <PasswordBox x:Name="password_pwb" Margin="0, 10, 0, 0" Header="Password:" Visibility="Collapsed"/>
 
-                <ComboBox x:Name="server_cbx"
-                          HorizontalAlignment="Stretch"
-                          Header="Select server:"
-                          PlaceholderText="None of your servers supports MUC!"
-                          Margin="0, 10, 0, 0"
-                          DataContextChanged="server_cbx_DataContextChanged"
-                          SelectionChanged="server_cbx_SelectionChanged"
-                          ItemsSource="{x:Bind servers}"/>
+                <AutoSuggestBox x:Name="server_asbx"
+                                PlaceholderText="e.g. 'chat.shakespeare.lit'"
+                                Margin="0, 10, 0, 0"
+                                Header="Server:"
+                                TextChanged="server_asbx_TextChanged"
+                                ItemsSource="{x:Bind servers}"
+                                Text="{x:Bind requestedServer, Mode=OneWay}"/>
                 <Button x:Name="browse_btn" Content="Browse available rooms" Margin="0, 10, 0, 0" IsEnabled="False" Click="browse_btn_Click"/>
 
                 <CheckBox x:Name="bookmark_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Bookmark"/>

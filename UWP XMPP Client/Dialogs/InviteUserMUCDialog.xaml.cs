@@ -68,6 +68,10 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
+        /// <summary>
+        /// Updates the list of suggestions for the auto suggest box.
+        /// </summary>
+        /// <param name="text">The filter text.</param>
         private void updateSuggestedUsers(string text)
         {
             Task.Run(async () =>
