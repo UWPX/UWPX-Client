@@ -5,9 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="UserControl_Loaded">
 
-    <Grid HorizontalAlignment="Stretch">
+    <Grid Margin="0, 0, 0, 5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -38,7 +39,7 @@
                                FontFamily="Segoe MDL2 Assets"
                                Foreground="Red"
                                VerticalAlignment="Center"/>
-                    <TextBlock Text="Ban single"
+                    <TextBlock Text="Ban"
                                Margin="10, 0, 0, 0"
                                VerticalAlignment="Center"/>
                     <ProgressRing x:Name="banSingle_prgr"
@@ -57,7 +58,7 @@
                                FontFamily="Segoe MDL2 Assets"
                                Foreground="Red"
                                VerticalAlignment="Center"/>
-                    <TextBlock Text="Kick single"
+                    <TextBlock Text="Kick"
                                Margin="10, 0, 0, 0"
                                VerticalAlignment="Center"/>
                     <ProgressRing x:Name="kickSingle_prgr"

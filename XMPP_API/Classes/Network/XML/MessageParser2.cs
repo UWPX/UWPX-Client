@@ -184,52 +184,66 @@ namespace XMPP_API.Classes.Network.XML
 
                             case IQMessage.RESULT:
                                 // XEP-0030 (disco result #info):
-                                XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
+                                XmlNode qNode = XMLUtils.getChildNode(n, "query");
                                 if (qNode != null)
                                 {
-                                    if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE) != null)
+                                    switch (qNode.NamespaceURI)
                                     {
-                                        messages.Add(new ExtendedDiscoResponseMessage(n));
+                                        case "http://jabber.org/protocol/disco#info":
+                                            if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE) != null)
+                                            {
+                                                messages.Add(new ExtendedDiscoResponseMessage(n));
+                                            }
+                                            // XEP-0045 (MUC discovering reserved room Nicknames):
+                                            else if (qNode.Attributes["node"] != null)
+                                            {
+                                                messages.Add(new DiscoReservedRoomNicknamesResponseMessages(n));
+                                            }
+                                            else
+                                            {
+                                                messages.Add(new DiscoResponseMessage(n));
+                                            }
+                                            break;
+
+                                        // XEP-0030 (disco result #items):
+                                        case "http://jabber.org/protocol/disco#items":
+                                            messages.Add(new DiscoResponseMessage(n));
+                                            break;
+
+                                        // Rooster:
+                                        case "jabber:iq:roster":
+                                            messages.Add(new RosterMessage(n));
+                                            break;
+
+                                        // XEP-0048-1.0 (bookmarks result):
+                                        case "jabber:iq:private":
+                                            messages.Add(new BookmarksResultMessage(n));
+                                            break;
+
+                                        default:
+                                            if (Consts.MUC_ROOM_INFO_NAMESPACE_REGEX.IsMatch(qNode.NamespaceURI))
+                                            {
+                                                // XEP-0045 (MUC) room info owner:
+                                                XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE);
+                                                if (x != null)
+                                                {
+                                                    messages.Add(new RoomInfoMessage(n));
+                                                    break;
+                                                }
+
+                                                // XEP-0045 (MUC) ban list:
+                                                if (Equals(qNode.NamespaceURI, Consts.XML_XEP_0045_NAMESPACE_ADMIN))
+                                                {
+                                                    messages.Add(new BanListMessage(n));
+                                                    break;
+                                                }
+                                            }
+                                            break;
                                     }
-                                    // XEP-0045 (MUC discovering reserved room Nicknames):
-                                    else if (qNode.Attributes["node"] != null)
-                                    {
-                                        messages.Add(new DiscoReservedRoomNicknamesResponseMessages(n));
-                                    }
-                                    else
-                                    {
-                                        messages.Add(new DiscoResponseMessage(n));
-                                    }
                                 }
-                                // XEP-0030 (disco result #items):
-                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#items") != null)
-                                {
-                                    messages.Add(new DiscoResponseMessage(n));
-                                }
-                                // Rooster:
-                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:roster") != null)
-                                {
-                                    messages.Add(new RosterMessage(n));
-                                }
-                                // XEP-0048-1.0 (bookmarks result):
-                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:private") != null)
-                                {
-                                    messages.Add(new BookmarksResultMessage(n));
-                                }
-                                // XEP-0045 (MUC) room info owner:
-                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.MUC_ROOM_INFO_NAMESPACE_REGEX) != null)
-                                {
-                                    messages.Add(new RoomInfoMessage(n));
-                                }
-                                // XEP-0045 (MUC) ban list:
-                                else if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_ADMIN) != null)
-                                {
-                                    messages.Add(new BanListMessage(n));
-                                }
-                                else
-                                {
-                                    messages.Add(new IQMessage(n));
-                                }
+
+                                // Default to IQMessage:
+                                messages.Add(new IQMessage(n));
                                 break;
 
                             case IQMessage.ERROR:

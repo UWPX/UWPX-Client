@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -162,6 +163,22 @@ namespace XMPP_API.Classes
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             BanListMessage msg = new BanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a UpdateBanListMessage which updates the ban list for the given room.
+        /// </summary>
+        /// <param name="roomJid">The bare JID if the room you would like to update the ban list for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="changedUsers"></param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for UpdateBanListMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> updateBanList(string roomJid, List<BanedUser> changedUsers, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            UpdateBanListMessage msg = new UpdateBanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, changedUsers);
             helper.start(msg);
             return helper;
         }

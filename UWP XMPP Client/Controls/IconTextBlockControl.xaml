@@ -9,7 +9,7 @@
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Icon, Mode=OneWay}" Foreground="{x:Bind IconForeground, Mode=OneWay}" VerticalAlignment="Center"/>

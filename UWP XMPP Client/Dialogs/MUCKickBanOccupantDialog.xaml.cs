@@ -23,6 +23,9 @@ namespace UWP_XMPP_Client.Dialogs
         private ChatTable chat;
         private readonly ObservableCollection<MUCOccupantTemplate> OCCUPANTS;
 
+        private bool canBan;
+        private bool canKick;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -32,11 +35,13 @@ namespace UWP_XMPP_Client.Dialogs
         /// <history>
         /// 08/03/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCKickBanOccupantDialog(ObservableCollection<MUCOccupantTemplate> occupants, XMPPClient client, ChatTable chat)
+        public MUCKickBanOccupantDialog(ObservableCollection<MUCOccupantTemplate> occupants, XMPPClient client, ChatTable chat, bool canKick, bool canBan)
         {
             this.OCCUPANTS = occupants;
             this.client = client;
             this.chat = chat;
+            this.canKick = canKick;
+            this.canBan = canBan;
             this.InitializeComponent();
         }
 
@@ -57,7 +62,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             foreach (MUCOccupantTemplate t in OCCUPANTS)
             {
-                occupants_itmsc.Items.Add(new KickBanOccupantControl(this, client, chat)
+                occupants_itmsc.Items.Add(new KickBanOccupantControl(this, client, chat, canKick, canBan)
                 {
                     Occupant = t.occupant
                 });
@@ -113,6 +118,9 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
+            banAll_btn.IsEnabled = canBan;
+            kickAll_btn.IsEnabled = canKick;
+
             showOccupants();
         }
 

@@ -22,7 +22,10 @@ namespace UWP_XMPP_Client.Controls
         private XMPPClient client;
         private MUCKickBanOccupantDialog dialog;
         private ChatTable chat;
-        private MessageResponseHelper<IQMessage> kickMessageResponseHelper;
+        private MessageResponseHelper<IQMessage> messageResponseHelper;
+
+        private bool canBan;
+        private bool canKick;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -33,11 +36,13 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public KickBanOccupantControl(MUCKickBanOccupantDialog dialog, XMPPClient client, ChatTable chat)
+        public KickBanOccupantControl(MUCKickBanOccupantDialog dialog, XMPPClient client, ChatTable chat, bool canKick, bool canBan)
         {
             this.dialog = dialog;
             this.client = client;
             this.chat = chat;
+            this.canKick = canKick;
+            this.canBan = canBan;
             this.InitializeComponent();
         }
 
@@ -56,7 +61,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         public void kick()
         {
-            if (!kickSingle_btn.IsEnabled)
+            if (!kickSingle_btn.IsEnabled && canKick)
             {
                 return;
             }
@@ -67,13 +72,21 @@ namespace UWP_XMPP_Client.Controls
             error_itbx.Visibility = Visibility.Collapsed;
             done_itbx.Visibility = Visibility.Collapsed;
 
-            kickMessageResponseHelper = client.MUC_COMMAND_HELPER.kickOccupant(chat.chatJabberId, Occupant.nickname, dialog.Reason, onKickMessage, onKickTimeout);
+            string reason = string.IsNullOrEmpty(dialog.Reason) ? null : dialog.Reason;
+            messageResponseHelper = client.MUC_COMMAND_HELPER.kickOccupant(chat.chatJabberId, Occupant.nickname, reason, onKickMessage, onKickTimeout);
         }
 
         public void ban()
         {
-            if (!banSingle_btn.IsEnabled)
+            if (!banSingle_btn.IsEnabled && canBan)
             {
+                return;
+            }
+
+            if(Occupant.jid == null)
+            {
+                error_itbx.Text = "Unable to occupant - JID is null!";
+                error_itbx.Visibility = Visibility.Visible;
                 return;
             }
 
@@ -82,6 +95,35 @@ namespace UWP_XMPP_Client.Controls
             banSingle_btn.IsEnabled = false;
             error_itbx.Visibility = Visibility.Collapsed;
             done_itbx.Visibility = Visibility.Collapsed;
+
+            string reason = string.IsNullOrEmpty(dialog.Reason) ? null : dialog.Reason;
+            messageResponseHelper = client.MUC_COMMAND_HELPER.banOccupant(chat.chatJabberId, Occupant.jid, reason, onBanMessage, onBanTimeout);
+        }
+
+        private bool onBanMessage(IQMessage msg)
+        {
+            if (msg is IQErrorMessage)
+            {
+                IQErrorMessage errorMessage = msg as IQErrorMessage;
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    error_itbx.Text = "Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE;
+                    error_itbx.Visibility = Visibility.Visible;
+                    enableButtons();
+                }).AsTask();
+                return true;
+            }
+            if (Equals(msg.getMessageType(), IQMessage.RESULT))
+            {
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    done_itbx.Text = "Success! Occupant got baned.";
+                    done_itbx.Visibility = Visibility.Visible;
+                    banSingle_prgr.Visibility = Visibility.Collapsed;
+                }).AsTask();
+                return true;
+            }
+            return false;
         }
 
         private bool onKickMessage(IQMessage msg)
@@ -91,7 +133,7 @@ namespace UWP_XMPP_Client.Controls
                 IQErrorMessage errorMessage = msg as IQErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    error_itbx.Text = "Type: " + errorMessage.ERROR_TYPE + ", Message: " + errorMessage.ERROR_MESSAGE;
+                    error_itbx.Text = "Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE;
                     error_itbx.Visibility = Visibility.Visible;
                     enableButtons();
                 }).AsTask();
@@ -120,11 +162,21 @@ namespace UWP_XMPP_Client.Controls
             }).AsTask();
         }
 
+        private void onBanTimeout()
+        {
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                error_itbx.Text = "Failed to ban occupant - timeout!";
+                error_itbx.Visibility = Visibility.Visible;
+                enableButtons();
+            }).AsTask();
+        }
+
         private void enableButtons()
         {
-            kickSingle_btn.IsEnabled = true;
+            kickSingle_btn.IsEnabled = canKick;
             kickSingle_prgr.Visibility = Visibility.Collapsed;
-            banSingle_btn.IsEnabled = true;
+            banSingle_btn.IsEnabled = canBan;
             banSingle_prgr.Visibility = Visibility.Collapsed;
         }
 
@@ -144,6 +196,11 @@ namespace UWP_XMPP_Client.Controls
         private void kickSingle_btn_Click(object sender, RoutedEventArgs e)
         {
             kick();
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            enableButtons();
         }
 
         #endregion

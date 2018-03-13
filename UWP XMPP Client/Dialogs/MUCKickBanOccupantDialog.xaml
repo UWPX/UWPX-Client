@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
+    xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
     mc:Ignorable="d"
     Title="Kick/Ban occupant(s):"
     SecondaryButtonText="Close"
@@ -35,13 +36,9 @@
                   Header="Occupants:"
                   Margin="0, 10, 0, 0"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
-                  SelectionMode="None">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="HorizontalContentAlignment"  Value="Stretch"></Setter>
-                </Style>
-            </ListView.ItemContainerStyle>
-        </ListView>
+                  SelectionMode="None"
+                  extensions:ListViewBase.StretchItemContainerDirection="Horizontal"
+                  extensions:ListViewBase.AlternateColor="{ThemeResource SystemControlBackgroundListLowBrush}"/>
 
         <controls:SeperatorControl Grid.Row="3"
                                    Margin="0, 10, 0, 10"/>

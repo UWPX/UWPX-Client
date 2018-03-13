@@ -9,6 +9,7 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using System.Collections.ObjectModel;
 using UWP_XMPP_Client.DataTemplates;
+using System.Collections.Generic;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -39,7 +40,7 @@ namespace UWP_XMPP_Client.Controls
 
         private ObservableCollection<MUCBanedUserTemplate> banedUsers;
 
-        MessageResponseHelper<IQMessage> requestBanListHelper;
+        MessageResponseHelper<IQMessage> responseHelper;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -52,7 +53,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public BanListControl()
         {
-            this.requestBanListHelper = null;
+            this.responseHelper = null;
             this.banedUsers = new ObservableCollection<MUCBanedUserTemplate>();
             this.InitializeComponent();
         }
@@ -74,10 +75,21 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+        private void showErrorMessage(string msg)
+        {
+
+            error_itbx.Text = msg;
+            error_itbx.Visibility = Visibility.Visible;
+        }
+
         private void requestBanList()
         {
             if (MUCInfo != null && Chat != null && Client != null && MUCInfo.state == Data_Manager2.Classes.MUCState.ENTERD && Client.isConnected())
             {
+                reload_btn.IsEnabled = false;
+                reload_prgr.Visibility = Visibility.Visible;
+                error_itbx.Visibility = Visibility.Collapsed;
+
                 string chatId = MUCInfo.chatId;
                 string nickname = MUCInfo.nickname;
                 string roomJid = Chat.chatJabberId;
@@ -85,26 +97,37 @@ namespace UWP_XMPP_Client.Controls
                 {
                     if (isAllowedToRequestBanList(chatId, nickname))
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => requestBanListHelper = Client.MUC_COMMAND_HELPER.requestBanList(roomJid, onMessage, onTimeout));
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => responseHelper = Client.MUC_COMMAND_HELPER.requestBanList(roomJid, onRequestBanListMessage, onRequestBanListTimeout));
                     }
                     else
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => Visibility = Visibility.Collapsed);
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => showErrorMessage("Unable to request ban list - missing permissions!"));
                     }
                 });
             }
         }
 
-        private void onTimeout()
+        private void onRequestBanListTimeout()
         {
-
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                showErrorMessage("Unable to request ban list - timeout!");
+                reload_btn.IsEnabled = true;
+                reload_prgr.Visibility = Visibility.Collapsed;
+            }).AsTask();
         }
 
-        private bool onMessage(IQMessage iq)
+        private bool onRequestBanListMessage(IQMessage iq)
         {
-            if(iq is IQErrorMessage)
+            if (iq is IQErrorMessage)
             {
-
+                IQErrorMessage errorMessage = iq as IQErrorMessage;
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    showErrorMessage("Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE);
+                    reload_btn.IsEnabled = true;
+                    reload_prgr.Visibility = Visibility.Collapsed;
+                }).AsTask();
                 return true;
             }
             else if (iq is BanListMessage)
@@ -117,12 +140,43 @@ namespace UWP_XMPP_Client.Controls
                     {
                         banedUsers.Add(new MUCBanedUserTemplate() { banedUser = user });
                     }
-                    Visibility = Visibility.Visible;
+                    reload_btn.IsEnabled = true;
+                    reload_prgr.Visibility = Visibility.Collapsed;
                 }).AsTask();
                 return true;
             }
 
             return false;
+        }
+
+        private bool onUpdateBanListMessage(IQMessage iq)
+        {
+            if (iq is IQErrorMessage)
+            {
+                IQErrorMessage errorMessage = iq as IQErrorMessage;
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    showErrorMessage("Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE);
+                    reload_btn.IsEnabled = true;
+                    reload_prgr.Visibility = Visibility.Collapsed;
+                }).AsTask();
+                return true;
+            }
+            else
+            {
+
+                return true;
+            }
+        }
+
+        private void onUpdateBanListTimeout()
+        {
+
+        }
+
+        private void unbanUsers(List<BanedUser> changedUsers)
+        {
+            responseHelper = Client.MUC_COMMAND_HELPER.updateBanList(Chat.chatJabberId, changedUsers, onUpdateBanListMessage, onUpdateBanListTimeout);
         }
 
         #endregion
@@ -138,9 +192,35 @@ namespace UWP_XMPP_Client.Controls
             requestBanList();
         }
 
-        private void members_dgrid_SelectionChanged(object sender, Telerik.UI.Xaml.Controls.Grid.DataGridSelectionChangedEventArgs e)
+        private void banedUsers_dgrid_SelectionChanged(object sender, Telerik.UI.Xaml.Controls.Grid.DataGridSelectionChangedEventArgs e)
         {
+            unban_btn.IsEnabled = banedUsers_dgrid.SelectedItems.Count > 0;
+        }
 
+        private void unban_btn_Click(object sender, RoutedEventArgs e)
+        {
+            List<BanedUser> list = new List<BanedUser>();
+            if (banedUsers_dgrid.SelectedItems.Count > 0)
+            {
+                foreach (object o in banedUsers_dgrid.SelectedItems)
+                {
+                    if (o is MUCBanedUserTemplate)
+                    {
+                        BanedUser bU = (o as MUCBanedUserTemplate).banedUser;
+
+                        // Set affiliation to none => unban user:
+                        bU.affiliation = MUCAffiliation.NONE;
+
+                        list.Add(bU);
+                    }
+                }
+            }
+            unbanUsers(list);
+        }
+
+        private void reload_btn_Click(object sender, RoutedEventArgs e)
+        {
+            requestBanList();
         }
 
         #endregion

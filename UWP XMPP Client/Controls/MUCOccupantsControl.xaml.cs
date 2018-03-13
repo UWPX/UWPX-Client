@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using UWP_XMPP_Client.Dialogs;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -44,6 +45,9 @@ namespace UWP_XMPP_Client.Controls
 
         private ObservableCollection<MUCOccupantTemplate> occupants;
 
+        private bool canBan;
+        private bool canKick;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -57,13 +61,48 @@ namespace UWP_XMPP_Client.Controls
         {
             this.occupants = new ObservableCollection<MUCOccupantTemplate>();
             MUCDBManager.INSTANCE.MUCOccupantChanged += INSTANCE_MUCMemberChanged;
+            this.canBan = false;
+            this.canKick = false;
             this.InitializeComponent();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void setCanKickBan()
+        {
+            if (MUCInfo != null)
+            {
+                string chatId = MUCInfo.chatId;
+                string nickname = MUCInfo.nickname;
+                Task.Run(() =>
+                {
+                    MUCOccupantTable occupant = MUCDBManager.INSTANCE.getMUCOccupant(chatId, nickname);
+                    if (occupant == null)
+                    {
+                        canBan = false;
+                        canKick = false;
+                    }
+                    else
+                    {
+                        canKick = occupant.role >= MUCRole.MODERATOR;
+                        canBan = occupant.affiliation >= MUCAffiliation.ADMIN;
+                    }
+                    Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => setIfKickBanButtonEnabled()).AsTask();
+                });
+            }
+            else
+            {
+                canBan = false;
+                canKick = false;
+                setIfKickBanButtonEnabled();
+            }
+        }
 
+        private void setIfKickBanButtonEnabled()
+        {
+            kickBan_btn.IsEnabled = (canBan || canKick) && members_dgrid.SelectedItems.Count > 0;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -128,7 +167,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void members_dgrid_SelectionChanged(object sender, Telerik.UI.Xaml.Controls.Grid.DataGridSelectionChangedEventArgs e)
         {
-            remove_btn.IsEnabled = members_dgrid.SelectedItems.Count > 0;
+            setIfKickBanButtonEnabled();
         }
 
         private async void invite_btn_Click(object sender, RoutedEventArgs e)
@@ -145,6 +184,14 @@ namespace UWP_XMPP_Client.Controls
                     return;
                 }
 
+                // Update kick ban button IsEnabled:
+                if (MUCInfo != null && Equals(args.MUC_OCCUPANT.nickname, MUCInfo.nickname))
+                {
+                    setCanKickBan();
+                    setIfKickBanButtonEnabled();
+                }
+
+                // Add occupant to collection:
                 for (int i = 0; i < occupants.Count; i++)
                 {
                     if (Equals(occupants[i].occupant.id, args.MUC_OCCUPANT.id))
@@ -167,22 +214,27 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private async void remove_btn_Click(object sender, RoutedEventArgs e)
+        private async void kickBan_btn_Click(object sender, RoutedEventArgs e)
         {
-            if(members_dgrid.SelectedItems.Count > 0)
+            if (members_dgrid.SelectedItems.Count > 0)
             {
                 ObservableCollection<MUCOccupantTemplate> collection = new ObservableCollection<MUCOccupantTemplate>();
                 foreach (object o in members_dgrid.SelectedItems)
                 {
-                    if(o is MUCOccupantTemplate)
+                    if (o is MUCOccupantTemplate)
                     {
                         collection.Add(o as MUCOccupantTemplate);
                     }
                 }
 
-                MUCKickBanOccupantDialog dialog = new MUCKickBanOccupantDialog(collection, Client, Chat);
+                MUCKickBanOccupantDialog dialog = new MUCKickBanOccupantDialog(collection, Client, Chat, canKick, canBan);
                 await dialog.ShowAsync();
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            setCanKickBan();
         }
 
         #endregion

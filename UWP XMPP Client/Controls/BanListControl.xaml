@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded">
 
@@ -13,22 +14,74 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="Ban users:" FontSize="20" TextTrimming="CharacterEllipsis" Margin="0, 10, 0, 0"/>
-        <telerikGrid:RadDataGrid x:Name="members_dgrid"
-                                 Grid.Row="1"
+        <TextBlock Grid.Row="0"
+                   Text="Baned users:"
+                   FontSize="20"
+                   TextTrimming="CharacterEllipsis"
+                   Margin="0, 10, 0, 0"/>
+        <controls:IconTextBlockControl x:Name="error_itbx"
+                                       Grid.Row="1"
+                                       Icon="&#xE7BA;"
+                                       IconForeground="Red"
+                                       Visibility="Collapsed"/>
+        <telerikGrid:RadDataGrid x:Name="banedUsers_dgrid"
+                                 Grid.Row="2"
                                  Margin="0, 5, 0, 0"
                                  ItemsSource="{x:Bind banedUsers}"
                                  UserGroupMode="Disabled"
                                  AutoGenerateColumns="False"
                                  SelectionMode="Multiple"
-                                 SelectionChanged="members_dgrid_SelectionChanged"
+                                 SelectionChanged="banedUsers_dgrid_SelectionChanged"
                                  UserFilterMode="Disabled">
             <telerikGrid:RadDataGrid.Columns>
                 <telerikGrid:DataGridTextColumn PropertyName="jid" Header="JID"/>
                 <telerikGrid:DataGridTextColumn PropertyName="reason" Header="Reason"/>
             </telerikGrid:RadDataGrid.Columns>
         </telerikGrid:RadDataGrid>
+
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button x:Name="unban_btn"
+                    Grid.Column="0"
+                    Margin="0, 0, 1, 0"
+                    IsEnabled="False"
+                    Click="unban_btn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8F8;"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="Red"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Unban"
+                               Margin="10, 0, 0, 0"
+                               VerticalAlignment="Center"/>
+                </StackPanel>
+            </Button>
+            <Button x:Name="reload_btn"
+                    Grid.Column="1"
+                    Margin="1, 0, 0, 0"
+                    Click="reload_btn_Click"
+                    HorizontalAlignment="Right">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="&#xE8EE;"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="{ThemeResource SystemAccentColor}"
+                               VerticalAlignment="Center"/>
+                    <TextBlock Text="Reload"
+                               Margin="10, 0, 0, 0"
+                               VerticalAlignment="Center"/>
+                    <ProgressRing x:Name="reload_prgr"
+                                  Margin="10, 0, 0, 0"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
+                </StackPanel>
+            </Button>
+        </Grid>
     </Grid>
 </UserControl>
