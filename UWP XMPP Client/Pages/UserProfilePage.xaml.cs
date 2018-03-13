@@ -170,7 +170,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            showClientPresence();
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showClientPresence()).AsTask();
         }
 
         private async void INSTANCE_ChatChanged(ChatDBManager handler, ChatChangedEventArgs args)
