@@ -29,11 +29,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.cacheUntilSend = true;
         }
 
-        public PresenceMessage(string from, string to, string type) : base(from, to)
+        public PresenceMessage(string from, string to, string type) : this(from, to, Presence.NotDefined, null, int.MinValue)
         {
             this.TYPE = type;
-            this.PRIORETY = int.MinValue;
-            this.cacheUntilSend = true;
         }
 
         public PresenceMessage(int priorety) : this(null, null, Presence.NotDefined, null, priorety)
