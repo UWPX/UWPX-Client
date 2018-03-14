@@ -392,7 +392,7 @@ namespace UWP_XMPP_Client.Controls
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
                 if (!deleteChatDialog.keepChatLog)
                 {
-                    ChatDBManager.INSTANCE.deleteAllChatMessagesForAccount(Chat);
+                    ChatDBManager.INSTANCE.deleteAllChatMessagesForChat(Chat.id);
                 }
             }
         }

@@ -11,6 +11,8 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
+using UWP_XMPP_Client.Dialogs;
+using Data_Manager2.Classes.DBTables;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -147,15 +149,6 @@ namespace UWP_XMPP_Client.Controls
             return true;
         }
 
-        private async Task<bool> shouldDeleteAsync()
-        {
-            MessageDialog dialog = new MessageDialog("Do you really want to delete this account?");
-            dialog.Commands.Add(new UICommand { Label = "Yes", Id = 0 });
-            dialog.Commands.Add(new UICommand { Label = "No", Id = 1 });
-            IUICommand command = await dialog.ShowAsync();
-            return ((int)command.Id) == 0;
-        }
-
         private void showConnectionState(ConnectionState state, object param)
         {
             error_tblck.Visibility = Visibility.Collapsed;
@@ -232,11 +225,31 @@ namespace UWP_XMPP_Client.Controls
 
         private async void deleteAccount_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (!await shouldDeleteAsync())
+            DeleteAccountDialog dialog = new DeleteAccountDialog();
+            await dialog.ShowAsync();
+            XMPPAccount account = Account;
+            Task t = Task.Run(async () =>
             {
-                return;
-            }
-            AccountDBManager.INSTANCE.deleteAccount(Account, true);
+                if (dialog.deleteAccount)
+                {
+                    await ConnectionHandler.INSTANCE.removeAccountAsync(account.getIdAndDomain());
+
+                    AccountDBManager.INSTANCE.deleteAccount(account, true);
+
+                    if (!dialog.keepChatMessages)
+                    {
+                        foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(account.getIdAndDomain(), null))
+                        {
+                            ChatDBManager.INSTANCE.deleteAllChatMessagesForChat(chat.id);
+                        }
+                    }
+
+                    if (!dialog.keepChats)
+                    {
+                        ChatDBManager.INSTANCE.deleteAllChatsForAccount(account.getIdAndDomain());
+                    }
+                }
+            });
         }
 
         private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)

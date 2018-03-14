@@ -192,9 +192,14 @@ namespace Data_Manager2.Classes.DBManager
             });
         }
 
-        public void deleteAllChatMessagesForAccount(ChatTable chat)
+        public void deleteAllChatMessagesForChat(string chatId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chat.id);
+            dB.Execute("DELETE FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chatId);
+        }
+
+        public void deleteAllChatsForAccount(string userAccountId)
+        {
+            dB.Execute("DELETE FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
         public void markAllMessagesAsRead(ChatTable chat)

@@ -113,6 +113,22 @@ namespace Data_Manager2.Classes
         }
 
         /// <summary>
+        /// Disconnects and removes the given account from the client list.
+        /// </summary>
+        /// <param name="accountId">The account id of the client you would like to remove.</param>
+        public async Task removeAccountAsync(string accountId)
+        {
+            for (int i = 0; i < clients.Count; i++)
+            {
+                if(Equals(clients[i].getXMPPAccount().getIdAndDomain(), accountId))
+                {
+                    await clients[i].disconnectAsync();
+                    clients.RemoveAt(i);
+                }
+            }
+        }
+
+        /// <summary>
         /// Reconnects all XMPPClients.
         /// </summary>
         public void reconnectAll()
