@@ -300,6 +300,11 @@ namespace Data_Manager2.Classes
                             // Update MUC state:
                             MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.KICKED, true);
                         }
+                        else if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_BANED))
+                        {
+                            // Update MUC state:
+                            MUCDBManager.INSTANCE.setMUCState(chatId, MUCState.BANED, true);
+                        }
                         else
                         {
                             // Update MUC state:
