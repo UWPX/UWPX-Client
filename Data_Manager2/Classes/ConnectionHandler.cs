@@ -120,7 +120,7 @@ namespace Data_Manager2.Classes
         {
             for (int i = 0; i < clients.Count; i++)
             {
-                if(Equals(clients[i].getXMPPAccount().getIdAndDomain(), accountId))
+                if (Equals(clients[i].getXMPPAccount().getIdAndDomain(), accountId))
                 {
                     await clients[i].disconnectAsync();
                     clients.RemoveAt(i);
@@ -509,7 +509,19 @@ namespace Data_Manager2.Classes
                             await clients[i].connectAsync();
                         }
                     }
+                    return;
                 }
+            }
+
+            // Account got added:
+            if (!args.REMOVED)
+            {
+                XMPPClient client = loadAccount(args.ACCOUNT);
+                if (!client.getXMPPAccount().disabled)
+                {
+                    await client.connectAsync();
+                }
+                clients.Add(client);
             }
         }
 
