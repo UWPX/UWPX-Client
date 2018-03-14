@@ -61,6 +61,10 @@
                     <TextBlock Text="Unban"
                                Margin="10, 0, 0, 0"
                                VerticalAlignment="Center"/>
+                    <ProgressRing x:Name="unban_prgr"
+                                  Margin="10, 0, 0, 0"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
             <Button x:Name="reload_btn"

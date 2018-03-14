@@ -34,8 +34,20 @@ namespace UWP_XMPP_Client.Controls
         public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(ClientProperty); }
-            set { SetValue(ClientProperty, value); }
+            set
+            {
+                if (Client != null)
+                {
+                    Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                }
+                SetValue(ClientProperty, value);
+                if (Client != null)
+                {
+                    Client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                }
+            }
         }
+
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(BanListControl), null);
 
         private ObservableCollection<MUCBanedUserTemplate> banedUsers;
@@ -77,15 +89,20 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void showErrorMessage(string msg)
         {
-
             error_itbx.Text = msg;
             error_itbx.Visibility = Visibility.Visible;
         }
 
         private void requestBanList()
         {
-            if (MUCInfo != null && Chat != null && Client != null && MUCInfo.state == Data_Manager2.Classes.MUCState.ENTERD && Client.isConnected())
+            if (MUCInfo != null && Chat != null && Client != null)
             {
+                if (MUCInfo.state != Data_Manager2.Classes.MUCState.ENTERD || !Client.isConnected())
+                {
+                    showErrorMessage("Room not joined!");
+                    return;
+                }
+
                 reload_btn.IsEnabled = false;
                 reload_prgr.Visibility = Visibility.Visible;
                 error_itbx.Visibility = Visibility.Collapsed;
@@ -157,25 +174,42 @@ namespace UWP_XMPP_Client.Controls
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
                     showErrorMessage("Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE);
+                    unban_btn.IsEnabled = true;
                     reload_btn.IsEnabled = true;
-                    reload_prgr.Visibility = Visibility.Collapsed;
+                    unban_prgr.Visibility = Visibility.Collapsed;
                 }).AsTask();
                 return true;
             }
             else
             {
-
+                Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                {
+                    requestBanList();
+                    unban_btn.IsEnabled = true;
+                    reload_btn.IsEnabled = true;
+                    unban_prgr.Visibility = Visibility.Collapsed;
+                }).AsTask();
                 return true;
             }
         }
 
         private void onUpdateBanListTimeout()
         {
-
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                showErrorMessage("Unable to unban user - timeout!");
+                unban_btn.IsEnabled = true;
+                reload_btn.IsEnabled = true;
+                unban_prgr.Visibility = Visibility.Collapsed;
+            }).AsTask();
         }
 
         private void unbanUsers(List<BanedUser> changedUsers)
         {
+            unban_btn.IsEnabled = false;
+            reload_btn.IsEnabled = false;
+            unban_prgr.Visibility = Visibility.Visible;
+            error_itbx.Visibility = Visibility.Collapsed;
             responseHelper = Client.MUC_COMMAND_HELPER.updateBanList(Chat.chatJabberId, changedUsers, onUpdateBanListMessage, onUpdateBanListTimeout);
         }
 
@@ -219,6 +253,11 @@ namespace UWP_XMPP_Client.Controls
         }
 
         private void reload_btn_Click(object sender, RoutedEventArgs e)
+        {
+            requestBanList();
+        }
+
+        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
             requestBanList();
         }

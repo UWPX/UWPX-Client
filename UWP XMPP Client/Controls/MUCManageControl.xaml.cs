@@ -104,7 +104,7 @@ namespace UWP_XMPP_Client.Controls
             Task.Run(async () =>
             {
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatID, nickname);
-                if (member != null)
+                if (member != null && MUCInfo.state == Data_Manager2.Classes.MUCState.ENTERD)
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRoomConfiguration(Chat.chatJabberId, member.affiliation, onNewMessage, onTimeout));
                 }
@@ -116,7 +116,7 @@ namespace UWP_XMPP_Client.Controls
                         loading_grid.Visibility = Visibility.Collapsed;
                         reload_btn.IsEnabled = true;
 
-                        notificationBanner_ian.Show("Failed to request information!\nIt seems like you are no member of this room. Please reconnect or retry.");
+                        notificationBanner_ian.Show("Failed to request information!\nIt seems like you are no member or have not entered this room. Please reconnect and/or retry.");
                     });
                 }
             });
