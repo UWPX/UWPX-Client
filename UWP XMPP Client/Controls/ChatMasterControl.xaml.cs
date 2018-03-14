@@ -274,8 +274,8 @@ namespace UWP_XMPP_Client.Controls
 
                 if (lastChatMessage.isImage)
                 {
-                    lastChatIcon_tblck.Visibility = Visibility.Visible;
                     lastChatIcon_tblck.Text = "\uE722";
+                    lastChatIcon_tblck.Visibility = Visibility.Visible;
                     lastChat_tblck.Text = chatMessage.message ?? "You received an image";
                 }
                 else
@@ -283,19 +283,20 @@ namespace UWP_XMPP_Client.Controls
                     switch (lastChatMessage.type)
                     {
                         case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
-                            lastChatIcon_tblck.Visibility = Visibility.Visible;
                             lastChatIcon_tblck.Text = "\uE8F2";
+                            lastChatIcon_tblck.Visibility = Visibility.Visible;
                             lastChat_tblck.Text = "You have been invited to a MUC room";
                             break;
 
                         case MessageMessage.TYPE_ERROR:
+                            lastChatIcon_tblck.Text = "\xE7BA";
                             lastChatIcon_tblck.Visibility = Visibility.Visible;
-                            lastChatIcon_tblck.Text = "\uE783";
                             lastChat_tblck.Text = chatMessage.message ?? "You received an error message";
                             break;
 
-                        case MUCHandler.TYPE_MUC_OCCUPANT_KICKED:
-                            lastChatIcon_tblck.Visibility = Visibility.Collapsed;
+                        case MUCHandler.TYPE_CHAT_INFO:
+                            lastChatIcon_tblck.Text = "\uE946";
+                            lastChatIcon_tblck.Visibility = Visibility.Visible;
                             lastChat_tblck.Text = (chatMessage.message ?? "-") + " got kicked!";
                             break;
 

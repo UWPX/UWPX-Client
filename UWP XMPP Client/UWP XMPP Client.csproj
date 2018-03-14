@@ -156,8 +156,8 @@
     <Compile Include="Controls\SpeechBubbleMUCDirectInvitationControl.xaml.cs">
       <DependentUpon>SpeechBubbleMUCDirectInvitationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleOccupantKickedControl.xaml.cs">
-      <DependentUpon>SpeechBubbleOccupantKickedControl.xaml</DependentUpon>
+    <Compile Include="Controls\SpeechBubbleInfoControl.xaml.cs">
+      <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
@@ -416,7 +416,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpeechBubbleOccupantKickedControl.xaml">
+    <Page Include="Controls\SpeechBubbleInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

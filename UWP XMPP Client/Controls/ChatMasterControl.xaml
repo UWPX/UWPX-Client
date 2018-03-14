@@ -122,9 +122,9 @@
                 <controls:AccountImageWithPresenceControl x:Name="image_aciwp" Grid.Column="1" Margin="5, 0, 0, 0" Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
                 <StackPanel Grid.Column="2" HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock x:Name="lastChatIcon_tblck" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
-                        <TextBlock x:Name="lastChat_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 10, 0" TextTrimming="CharacterEllipsis" MaxLines="1" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal" Margin="10, 0, 10, 0">
+                        <TextBlock x:Name="lastChatIcon_tblck" FontFamily="Segoe MDL2 Assets" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="lastChat_tblck" FontSize="12" Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}" Margin="5, 0, 0, 0" TextTrimming="CharacterEllipsis" MaxLines="1" VerticalAlignment="Center"/>
                     </StackPanel>
                     <TextBlock x:Name="presence_tblck" Grid.Column="0" Text="Subscription pending..." FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>

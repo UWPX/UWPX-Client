@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class SpeechBubbleOccupantKickedControl : UserControl
+    public sealed partial class SpeechBubbleInfoControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,10 +16,9 @@ namespace UWP_XMPP_Client.Controls
             {
                 SetValue(ChatMessageProperty, value);
                 showDate();
-                showMessage();
             }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleOccupantKickedControl), null);
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleInfoControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,7 +29,7 @@ namespace UWP_XMPP_Client.Controls
         /// <history>
         /// 12/03/2018 Created [Fabian Sauter]
         /// </history>
-        public SpeechBubbleOccupantKickedControl()
+        public SpeechBubbleInfoControl()
         {
             this.InitializeComponent();
         }
@@ -48,14 +47,6 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showMessage()
-        {
-            if(ChatMessage != null)
-            {
-                message_tbx.Text = (ChatMessage.message ?? "-") + " has been kicked from the room!";
-            }
-        }
-
         private void showDate()
         {
             if(ChatMessage != null)

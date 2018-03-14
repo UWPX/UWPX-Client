@@ -23,15 +23,15 @@
         <DataTemplate x:Key="mucDirectInvitationTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleMUCDirectInvitationControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
         </DataTemplate>
-        <DataTemplate x:Key="mucOccupantKickedTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
-            <controls:SpeechBubbleOccupantKickedControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
+        <DataTemplate x:Key="infoMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleInfoControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
         <datatemplates:ChatMessageDataTemplateSelector x:Name="chatMessageDataTemplateSelector"
                                                        sendMessageTemplate="{StaticResource sendMessageTemplate}"
                                                        receivedMessageTemplate="{StaticResource receivedMessageTemplate}"
                                                        errorMessageTemplate="{StaticResource errorMessageTemplate}"
                                                        mucDirectInvitationTemplate="{StaticResource mucDirectInvitationTemplate}"
-                                                       mucOccupantKickedTemplate="{StaticResource mucOccupantKickedTemplate}"/>
+                                                       infoMessageTemplate="{StaticResource infoMessageTemplate}"/>
     </UserControl.Resources>
 
     <Grid Background="Transparent">
@@ -97,7 +97,7 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Name="join_mfo" Text="Join room" Click="join_mfo_Click">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xEA4A;" Foreground="Green"/>
+                                        <FontIcon Glyph="&#xE8BD;" Foreground="Green"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Name="leave_mfo" Text="Leave room" Click="leave_mfo_Click">

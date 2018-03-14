@@ -15,7 +15,7 @@ namespace Data_Manager2.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const string TYPE_MUC_OCCUPANT_KICKED = "muc_occupant_kicked";
+        public const string TYPE_CHAT_INFO = "chat_info";
 
         public static readonly MUCHandler INSTANCE = new MUCHandler();
         private TSTimedList<MUCJoinHelper> timedList;
@@ -177,7 +177,19 @@ namespace Data_Manager2.Classes
                         {
                             await sendMUCLeaveMessageAsync(client, muc, info);
                         }
-                        MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.ERROR, true);
+
+                        switch (errorMessage.ERROR_CODE)
+                        {
+                            // No access - user got baned:
+                            case 403:
+                                MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.BANED, true);
+                                addChatInfoMessage(info.chatId, room, "Unable to join room!\nYou are baned from this room.");
+                                return;
+
+                            default:
+                                MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.ERROR, true);
+                                break;
+                        }
 
                         // Add an error chat message:
                         ChatMessageTable msg = new ChatMessageTable()
@@ -199,16 +211,28 @@ namespace Data_Manager2.Classes
 
         private void addOccupantKickedMessage(string chatId, string roomJid, string nickname)
         {
+            string msg = nickname + " got kicked from the room.";
+            addChatInfoMessage(chatId, roomJid, msg);
+        }
+
+        private void addOccupantBanedMessage(string chatId, string roomJid, string nickname)
+        {
+            string msg = nickname + " got baned from the room.";
+            addChatInfoMessage(chatId, roomJid, msg);
+        }
+
+        private void addChatInfoMessage(string chatId, string fromUser, string message)
+        {
             ChatMessageTable msg = new ChatMessageTable()
             {
                 id = ChatMessageTable.generateId(AbstractMessage.getRandomId(), chatId),
                 chatId = chatId,
                 date = DateTime.Now,
-                fromUser = roomJid,
+                fromUser = fromUser,
                 isImage = false,
-                message = nickname,
+                message = message,
                 state = MessageState.UNREAD,
-                type = TYPE_MUC_OCCUPANT_KICKED
+                type = TYPE_CHAT_INFO
             };
             ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
         }
@@ -288,6 +312,12 @@ namespace Data_Manager2.Classes
                     {
                         // Add kicked chat message:
                         addOccupantKickedMessage(chatId, roomJid, member.nickname);
+                    }
+
+                    if (msg.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_GOT_BANED))
+                    {
+                        // Add baned chat message:
+                        addOccupantBanedMessage(chatId, roomJid, member.nickname);
                     }
                 }
 

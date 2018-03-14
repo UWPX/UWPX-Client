@@ -17,7 +17,7 @@ namespace UWP_XMPP_Client.DataTemplates
         public DataTemplate receivedMessageTemplate { get; set; }
         public DataTemplate errorMessageTemplate { get; set; }
         public DataTemplate mucDirectInvitationTemplate { get; set; }
-        public DataTemplate mucOccupantKickedTemplate { get; set; }
+        public DataTemplate infoMessageTemplate { get; set; }
 
         private MUCChatInfoTable mucInfo;
         bool requestedMUCInfo;
@@ -109,8 +109,8 @@ namespace UWP_XMPP_Client.DataTemplates
                         case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
                             return mucDirectInvitationTemplate;
 
-                        case MUCHandler.TYPE_MUC_OCCUPANT_KICKED:
-                            return mucOccupantKickedTemplate;
+                        case MUCHandler.TYPE_CHAT_INFO:
+                            return infoMessageTemplate;
 
                         default:
                             if (template.chat.userAccountId.Equals(template.message.fromUser))

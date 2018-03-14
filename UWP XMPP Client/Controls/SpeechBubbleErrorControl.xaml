@@ -17,7 +17,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock x:Name="date_tbx" Grid.Column="0" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="0, 0, 10, 0"/>
                     <Grid Grid.Column="1">
-                        <TextBlock Text="&#xE783;" FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="#F7630C" Margin="5" VerticalAlignment="Center"/>
+                        <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" FontSize="30" Foreground="#F7630C" Margin="5" VerticalAlignment="Center"/>
                     </Grid>
                 </Grid>
             </StackPanel>
