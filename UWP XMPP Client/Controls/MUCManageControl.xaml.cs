@@ -93,6 +93,17 @@ namespace UWP_XMPP_Client.Controls
                 return;
             }
 
+            if (MUCInfo.state != Data_Manager2.Classes.MUCState.ENTERD)
+            {
+                timeout_stckpnl.Visibility = Visibility.Visible;
+                loading_grid.Visibility = Visibility.Collapsed;
+                info_grid.Visibility = Visibility.Collapsed;
+                reload_btn.IsEnabled = true;
+                retry_btn.IsEnabled = true;
+                notificationBanner_ian.Show("Failed to request information!\nIt seems like you are no member or have not entered this room. Please reconnect and/or retry.");
+                return;
+            }
+
             loading_grid.Visibility = Visibility.Visible;
             info_grid.Visibility = Visibility.Collapsed;
             timeout_stckpnl.Visibility = Visibility.Collapsed;
@@ -104,7 +115,7 @@ namespace UWP_XMPP_Client.Controls
             Task.Run(async () =>
             {
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatID, nickname);
-                if (member != null && MUCInfo.state == Data_Manager2.Classes.MUCState.ENTERD)
+                if (member != null)
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRoomConfiguration(Chat.chatJabberId, member.affiliation, onNewMessage, onTimeout));
                 }
@@ -115,6 +126,7 @@ namespace UWP_XMPP_Client.Controls
                         timeout_stckpnl.Visibility = Visibility.Visible;
                         loading_grid.Visibility = Visibility.Collapsed;
                         reload_btn.IsEnabled = true;
+                        retry_btn.IsEnabled = true;
 
                         notificationBanner_ian.Show("Failed to request information!\nIt seems like you are no member or have not entered this room. Please reconnect and/or retry.");
                     });
