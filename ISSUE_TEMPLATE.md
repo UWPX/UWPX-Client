@@ -41,11 +41,16 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 App Version(s): 
 v.X.Y.Z <!-- Which version of the App are you using (e.g. v.0.2.0) -->
 
-Windows 10 Build Number:
-- [ ] Anniversary Update (14393) 
-- [ ] Creators Update (15063)
-- [ ] Fall Creators Update (16299)
+Windows 10 Version Number: <!-- https://en.wikipedia.org/wiki/Windows_10_version_history -->
+- [ ] 1809
+- [ ] 1803
+- [ ] 1709
+- [ ] 1703
+- [ ] 1607
+- [ ] 1511
+- [ ] 1507
 - [ ] Insider Build (build number: )
+- [ ] Misc:
 
 Device form factor:
 - [ ] Desktop
