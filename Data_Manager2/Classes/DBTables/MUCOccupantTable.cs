@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿using SQLite;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace Data_Manager2.Classes.DBTables

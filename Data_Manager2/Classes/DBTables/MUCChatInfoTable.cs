@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿using SQLite;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 

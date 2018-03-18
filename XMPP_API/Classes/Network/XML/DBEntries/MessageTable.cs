@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿using SQLite;
 
 namespace XMPP_API.Classes.Network.XML.DBEntries
 {

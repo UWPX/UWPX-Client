@@ -1,5 +1,5 @@
 ﻿using Data_Manager2.Classes.Events;
-using SQLite.Net.Attributes;
+using SQLite;
 using System.Threading.Tasks;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;

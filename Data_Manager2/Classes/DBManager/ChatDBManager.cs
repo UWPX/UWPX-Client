@@ -1,6 +1,6 @@
 ﻿using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.DBTables;
-using SQLite.Net;
+using SQLite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;

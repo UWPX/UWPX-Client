@@ -1,5 +1,4 @@
-﻿using SQLite.Net;
-using SQLite.Net.Platform.WinRT;
+﻿using SQLite;
 using System.Collections.Generic;
 using Thread_Save_Components.Classes.Threading;
 
@@ -28,7 +27,7 @@ namespace Thread_Save_Components.Classes.SQLite
         /// </history>
         public TSSQLiteConnection(string dBPath)
         {
-            dB = new SQLiteConnection(new SQLitePlatformWinRT(), dBPath);
+            dB = new SQLiteConnection(dBPath);
         }
 
         #endregion
@@ -128,7 +127,7 @@ namespace Thread_Save_Components.Classes.SQLite
             readSema.Release(MAX_READ_COUNT);
         }
 
-        public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : class
+        public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : new()
         {
             List<T> list;
             if (readOnly)

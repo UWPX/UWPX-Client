@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿using SQLite;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes;
 

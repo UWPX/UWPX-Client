@@ -1,4 +1,4 @@
-﻿using SQLite.Net.Attributes;
+﻿using SQLite;
 
 namespace Data_Manager2.Classes.DBTables
 {
