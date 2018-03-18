@@ -1,6 +1,5 @@
 ﻿using SQLite;
 using System.Collections.Generic;
-using Thread_Save_Components.Classes.Threading;
 
 namespace Thread_Save_Components.Classes.SQLite
 {
@@ -9,12 +8,6 @@ namespace Thread_Save_Components.Classes.SQLite
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         protected SQLiteConnection dB;
-
-        public const int MAX_READ_COUNT = 10;
-
-        private static readonly MySemaphoreSlim requestSema = new MySemaphoreSlim(1, 1);
-        private static readonly MySemaphoreSlim readSema = new MySemaphoreSlim(MAX_READ_COUNT, MAX_READ_COUNT); // Allow up to MAX_READ_COUNT threads to read from the DB in parallel
-        private static readonly MySemaphoreSlim writeSema = new MySemaphoreSlim(1, 1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,7 +20,7 @@ namespace Thread_Save_Components.Classes.SQLite
         /// </history>
         public TSSQLiteConnection(string dBPath)
         {
-            dB = new SQLiteConnection(dBPath);
+            dB = new SQLiteConnection(dBPath, SQLiteOpenFlags.ReadWrite | SQLiteOpenFlags.Create | SQLiteOpenFlags.SharedCache);
         }
 
         #endregion
@@ -43,177 +36,55 @@ namespace Thread_Save_Components.Classes.SQLite
             return dB.CreateCommand(cmdText, args);
         }
 
-        public List<T> ExecuteCommand<T>(bool readOnly, SQLiteCommand cmd) where T : class
+        public List<T> ExecuteCommand<T>(bool readOnly, SQLiteCommand cmd) where T : new()
         {
-            List<T> list;
-            if (readOnly)
-            {
-                requestSema.Wait();
-                readSema.Wait();
-                requestSema.Release();
-
-                list = cmd.ExecuteQuery<T>();
-
-                readSema.Release();
-            }
-            else
-            {
-                requestSema.Wait();
-                writeSema.Wait();
-                readSema.WaitCount(MAX_READ_COUNT);
-                requestSema.Release();
-
-                list = cmd.ExecuteQuery<T>();
-
-                writeSema.Release();
-                readSema.Release(MAX_READ_COUNT);
-            }
-            return list;
+            return cmd.ExecuteQuery<T>();
         }
 
         public int InsertOrReplace(object obj)
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
-            int i = dB.InsertOrReplace(obj);
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
-
-            return i;
+            return dB.InsertOrReplace(obj); ;
         }
 
         public void Close()
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
             dB.Close();
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
         }
 
         public int Execute(string query, params object[] args)
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
-            int i = dB.Execute(query, args);
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
-
-            return i;
+            return dB.Execute(query, args);
         }
 
         public void Commit()
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
             dB.Commit();
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
         }
 
         public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : new()
         {
-            List<T> list;
-            if (readOnly)
-            {
-                requestSema.Wait();
-                readSema.Wait();
-                requestSema.Release();
-
-                list = dB.Query<T>(query, args);
-
-                readSema.Release();
-            }
-            else
-            {
-                requestSema.Wait();
-                writeSema.Wait();
-                readSema.WaitCount(MAX_READ_COUNT);
-                requestSema.Release();
-
-                list = dB.Query<T>(query, args);
-
-                writeSema.Release();
-                readSema.Release(MAX_READ_COUNT);
-            }
-            return list;
+            return dB.Query<T>(query, args);
         }
 
-        public int CreateTable<T>() where T : class
+        public int CreateTable<T>() where T : new()
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
-            int i = dB.CreateTable<T>();
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
-
-            return i;
+            return dB.CreateTable<T>();
         }
 
-        public int DropTable<T>() where T : class
+        public int DropTable<T>() where T : new()
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
-            int i = dB.DropTable<T>();
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
-
-            return i;
+            return dB.DropTable<T>();
         }
 
-        public int RecreateTable<T>() where T : class
+        public int RecreateTable<T>() where T : new()
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
             dB.DropTable<T>();
-            int i = dB.CreateTable<T>();
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
-
-            return i;
+            return dB.CreateTable<T>();
         }
 
         public int Delete(object objectToDelete)
         {
-            requestSema.Wait();
-            writeSema.Wait();
-            readSema.WaitCount(MAX_READ_COUNT);
-            requestSema.Release();
-
-            int i = dB.Delete(objectToDelete);
-
-            writeSema.Release();
-            readSema.Release(MAX_READ_COUNT);
-
-            return i;
+            return dB.Delete(objectToDelete);
         }
 
         #endregion
