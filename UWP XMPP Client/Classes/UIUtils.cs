@@ -102,7 +102,7 @@ namespace UWP_XMPP_Client.Classes
                     return (SolidColorBrush)Application.Current.Resources["PresenceDnd"];
 
                 default:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceOffline"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceUnavailable"];
 
             }
         }

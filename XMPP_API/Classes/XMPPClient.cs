@@ -70,7 +70,7 @@ namespace XMPP_API.Classes
 
         public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
         {
-            PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, connection.account.presencePriorety);
+            PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);
             await connection.sendAsync(presenceMessage, false, false);
             return presenceMessage.getId();
         }

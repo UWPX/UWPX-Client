@@ -341,7 +341,7 @@ namespace XMPP_API.Classes.Network.TCP
                 uint readCount = 0;
 
                 // Read the first batch:
-                Task<uint> t = dataReader.LoadAsync((uint)BUFFER_SIZE).AsTask();
+                Task<uint> t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
                 t.Wait(readingCTS.Token);
                 readCount = t.Result;
 

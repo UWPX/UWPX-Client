@@ -463,6 +463,17 @@ namespace UWP_XMPP_Client.Pages
             filterChats((args.QueryText ?? searchChats_asb.Text).ToLower(), true);
         }
 
+        private void master_cmdb_Opening(object sender, object e)
+        {
+            changePresence_apbb.IsEnabled = ConnectionHandler.INSTANCE.getClients().Count > 0;
+        }
+
+        private async void changePresence_apbb_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeAccountPresenceDialog dialog = new ChangeAccountPresenceDialog();
+            await dialog.ShowAsync();
+        }
+
         #endregion
     }
 }

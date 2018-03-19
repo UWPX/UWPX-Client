@@ -44,7 +44,7 @@
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Bottom"
                                   Margin="0, 0, -4, -4">
-            <Ellipse x:Name="presence_elipse" Fill="{StaticResource PresenceOffline}" Height="13" Width="13"/>
+            <Ellipse x:Name="presence_elipse" Fill="{StaticResource PresenceUnavailable}" Height="13" Width="13"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>

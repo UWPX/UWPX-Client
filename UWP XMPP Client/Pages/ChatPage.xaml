@@ -78,26 +78,36 @@
 
                 <!--Master Command Bar-->
                 <controls:MasterDetailsView.MasterCommandBar>
-                <CommandBar Margin="0, 0, 0, -1">
-                    <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets"/>
-                        </AppBarButton.Icon>
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
-                                <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
-                                <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
-                                <MenuFlyoutItem x:Name="addMIX_mfoi" IsEnabled="False" Text="Add Group Chat (MIX)" Click="addMIX_mfoi_Click"/>
-                            </MenuFlyout>
-                        </AppBarButton.Flyout>
-                    </AppBarButton>
-                    <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
-                        <AppBarButton.Icon>
-                            <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets"/>
-                        </AppBarButton.Icon>
-                    </AppBarButton>
-                </CommandBar>
+                    <CommandBar x:Name="master_cmdb"
+                                Opening="master_cmdb_Opening"
+                                Margin="0, 0, 0, -1">
+                        <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add">
+                            <AppBarButton.Icon>
+                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets"/>
+                            </AppBarButton.Icon>
+                            <AppBarButton.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
+                                    <MenuFlyoutItem x:Name="addMIX_mfoi" IsEnabled="False" Text="Add Group Chat (MIX)" Click="addMIX_mfoi_Click"/>
+                                </MenuFlyout>
+                            </AppBarButton.Flyout>
+                        </AppBarButton>
+                            <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
+                                <AppBarButton.Icon>
+                                    <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+
+                        <CommandBar.SecondaryCommands>
+                            <AppBarButton x:Name="changePresence_apbb" Label="Change presence" Click="changePresence_apbb_Click">
+                                <AppBarButton.Icon>
+                                    <FontIcon Foreground="{StaticResource PresenceOnline}" Glyph="&#xEDAF;"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
+                        </CommandBar.SecondaryCommands>
+                    </CommandBar>
                 </controls:MasterDetailsView.MasterCommandBar>
             </controls:MasterDetailsView>
         </Grid>

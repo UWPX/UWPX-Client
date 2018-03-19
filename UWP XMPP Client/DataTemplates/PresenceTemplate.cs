@@ -1,51 +1,28 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Windows.UI.Xaml.Media;
+using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class MultiSelectTemplate : INotifyPropertyChanged
+    class PresenceTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private object _item;
-        public object item
-        {
-            get
-            {
-                return _item;
-            }
-            set
-            {
-                if (value != _item)
-                {
-                    _item = value;
-                    onPropertyChanged("item");
-                }
-            }
-        }
-        private bool _isSelected;
-        public bool isSelected
-        {
-            get
-            {
-                return _isSelected;
-            }
-            set
-            {
-                if (value != _isSelected)
-                {
-                    _isSelected = value;
-                    onPropertyChanged("isSelected");
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public SolidColorBrush brush { get; set; }
+        public string text { get; set; }
+        public Presence presence { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        /// <summary>
+        /// Basic Constructor
+        /// </summary>
+        /// <history>
+        /// 19/03/2018 Created [Fabian Sauter]
+        /// </history>
+        public PresenceTemplate()
+        {
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -55,10 +32,7 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        private void onPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+
 
         #endregion
 
