@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace XMPP_API.Classes.Network
+﻿namespace XMPP_API.Classes.Network
 {
     public class XMPPAccount
     {
@@ -12,6 +10,8 @@ namespace XMPP_API.Classes.Network
         public int presencePriorety;
         public bool disabled;
         public string color;
+        public Presence presence;
+        public string status;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,6 +27,11 @@ namespace XMPP_API.Classes.Network
             this.user = user;
             this.serverAddress = serverAddress;
             this.port = port;
+            this.presencePriorety = 0;
+            this.disabled = false;
+            this.color = null;
+            this.presence = Presence.Online;
+            this.status = null;
         }
 
         #endregion
@@ -52,7 +57,7 @@ namespace XMPP_API.Classes.Network
             if (obj is XMPPAccount)
             {
                 XMPPAccount o = obj as XMPPAccount;
-                return o.disabled == disabled && o.port == port && o.presencePriorety == presencePriorety && string.Equals(o.serverAddress, serverAddress) && XMPPUser.Equals(o.user, user) && string.Equals(o.color, color);
+                return o.disabled == disabled && o.port == port && o.presencePriorety == presencePriorety && string.Equals(o.serverAddress, serverAddress) && Equals(o.user, user) && string.Equals(o.color, color);
             }
             return false;
         }
@@ -64,6 +69,8 @@ namespace XMPP_API.Classes.Network
                 color = color,
                 disabled = disabled,
                 presencePriorety = presencePriorety,
+                presence = presence,
+                status = status
             };
         }
 

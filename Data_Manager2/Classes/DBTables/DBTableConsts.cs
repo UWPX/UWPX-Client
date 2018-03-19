@@ -2,7 +2,7 @@
 {
     class DBTableConsts
     {
-        public const string ACCOUNT_TABLE = "AccountTable";
+        public const string ACCOUNT_TABLE = "AccountTable_2";
         public const string CHAT_MESSAGE_TABLE = "ChatMessageTable";
         public const string CHAT_TABLE = "ChatTable";
         public const string DISCO_FEATURE_TABLE = "DiscoFeatureTable";

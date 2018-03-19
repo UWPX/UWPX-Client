@@ -10,24 +10,32 @@ namespace Data_Manager2.Classes.DBTables
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
-        // An unique id: jabberId @ domain
+        // An unique id: jabberId @ domain e.g. 'coven@chat.shakespeare.lit'
         public string id { get; set; }
-        // The account jabber id
-        public string jabberId { get; set; }
-        // XMPP domain e.g. phone or W10PC
+        [NotNull]
+        // The account user id e.g. 'coven'
+        public string userId { get; set; }
+        [NotNull]
+        // XMPP domain e.g. 'xmpp.shakespeare.lit'
         public string domain { get; set; }
-        // Some device name
+        [NotNull]
+        // The device/resource name e.g. 'phone' or 'W10PC'
         public string resource { get; set; }
+        [NotNull]
         // The XMPP server address e.g. xmpp.jabber.org
         public string serverAddress { get; set; }
         // Server port e.g. 5222
         public int port { get; set; }
-        // The presence priority default = 0
-        public int presencePriorety { get; set; }
-        // Connect to the account true or false
+        // The presence priority with range -127 to 128 e.g. 0
+        public short presencePriorety { get; set; }
+        // Auto connect?
         public bool disabled { get; set; }
-        // A color in hex format e.g. #E91E63
+        // A color in hex format e.g. '#E91E63'
         public string color { get; set; }
+        // The current presence for the account e.g. 'online'
+        public Presence presence { get; set; }
+        // The current status message for account e.g. 'My status'
+        public string status { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,22 +54,26 @@ namespace Data_Manager2.Classes.DBTables
         public AccountTable(XMPPAccount account)
         {
             this.id = account.getIdAndDomain();
-            this.jabberId = account.user.userId;
+            this.userId = account.user.userId;
             this.domain = account.user.domain;
             this.resource = account.user.resource;
             this.serverAddress = account.serverAddress;
             this.port = account.port;
             this.disabled = account.disabled;
             this.color = account.color;
+            this.presence = account.presence;
+            this.status = account.status;
         }
 
         internal XMPPAccount toXMPPAccount()
         {
-            return new XMPPAccount(new XMPPUser(jabberId, domain, resource), serverAddress, port)
+            return new XMPPAccount(new XMPPUser(userId, domain, resource), serverAddress, port)
             {
                 color = color,
                 presencePriorety = presencePriorety,
-                disabled = disabled
+                disabled = disabled,
+                presence = presence,
+                status = status
             };
         }
 

@@ -31,7 +31,8 @@
                           Header="Select account:"
                           ItemsSource="{x:Bind accounts}"
                           PlaceholderText="No accounts found!"
-                          SelectionChanged="account_cbx_SelectionChanged"/>
+                          SelectionChanged="account_cbx_SelectionChanged"
+                  DataContextChanged="account_cbx_DataContextChanged"/>
         <controls:IconTextBlockControl x:Name="error_itbx"
                                        Margin="0, 0, 0, 10"
                                        Visibility="Collapsed"

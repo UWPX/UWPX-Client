@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">

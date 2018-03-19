@@ -31,7 +31,6 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
-            loadAccounts();
         }
 
         #endregion
@@ -119,6 +118,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         }
 
         private void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
+        {
+            loadAccounts();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             loadAccounts();
         }

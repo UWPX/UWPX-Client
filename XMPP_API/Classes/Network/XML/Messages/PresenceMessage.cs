@@ -34,18 +34,32 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.TYPE = type;
         }
 
-        public PresenceMessage(int priorety) : this(null, null, Presence.NotDefined, null, priorety)
+        public PresenceMessage(int priorety, Presence presence, string status) : this(null, null, presence, status, priorety)
         {
 
         }
 
         public PresenceMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value)
         {
-            if (node.Attributes["type"] != null)
+            XmlNode showNode = XMLUtils.getChildNode(node, "show");
+            if (showNode != null)
             {
-                this.TYPE = node.Attributes["type"].Value;
+                this.PRESENCE = Utils.parsePresence(showNode.InnerText);
             }
-            this.PRESENCE = Utils.parsePresence(XMLUtils.getChildNode(node, "show")?.InnerText);
+
+            XmlAttribute typeAttribute = node.Attributes["type"];
+            if (typeAttribute != null)
+            {
+                this.TYPE = typeAttribute.Value;
+                if (showNode == null)
+                {
+                    this.PRESENCE = Utils.parsePresence(typeAttribute.Value);
+                }
+            }
+            else if (showNode == null)
+            {
+                this.PRESENCE = Presence.Online;
+            }
             this.STATUS = XMLUtils.getChildNode(node, "status")?.InnerText;
         }
 
@@ -72,9 +86,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 node.Add(new XAttribute("type", TYPE));
             }
-            if (PRESENCE != Presence.NotDefined)
+            if (PRESENCE != Presence.NotDefined && PRESENCE != Presence.Online)
             {
-                node.Add(new XElement("show", Utils.presenceToString(PRESENCE)));
+                if (PRESENCE != Presence.Online)
+                {
+                    node.Add(new XElement("show", Utils.presenceToString(PRESENCE)));
+                }
             }
             if (PRIORETY > -128 && PRIORETY < 129)
             {

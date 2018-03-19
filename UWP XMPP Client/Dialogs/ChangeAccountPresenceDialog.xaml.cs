@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
@@ -67,7 +68,8 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void savePresence()
         {
-            if(account_cbx.SelectedIndex < 0)
+            hideErrorMessage();
+            if (account_cbx.SelectedIndex < 0)
             {
                 showErrorMessage("No account selected!");
                 return;
@@ -87,16 +89,25 @@ namespace UWP_XMPP_Client.Dialogs
 
             save_btn.IsEnabled = false;
 
-            if(presence_cbx.SelectedIndex < 0)
+            if (presence_cbx.SelectedIndex < 0)
             {
                 showErrorMessage("No presence selected!");
                 return;
             }
 
-            if(presence_cbx.SelectedItem is PresenceTemplate)
+            if (presence_cbx.SelectedItem is PresenceTemplate)
             {
-                PresenceTemplate item = presence_cbx.SelectedItem as PresenceTemplate;
-                Task t = c.setPreseceAsync(item.presence, status_tbx.Text);
+                PresenceTemplate templateItem = presence_cbx.SelectedItem as PresenceTemplate;
+                string status = string.IsNullOrEmpty(status_tbx.Text) ? null : status_tbx.Text;
+
+                // Save presence and status:
+                c.getXMPPAccount().presence = templateItem.presence;
+                c.getXMPPAccount().status = status;
+
+                AccountDBManager.INSTANCE.setAccount(c.getXMPPAccount(), false);
+
+                // Send the updated presence and status to the server:
+                Task t = c.setPreseceAsync(templateItem.presence, status);
             }
             else
             {
@@ -131,7 +142,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if(account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
+            if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
             {
                 XMPPClient c = clients[account_cbx.SelectedIndex];
                 if (!c.isConnected())
@@ -142,6 +153,20 @@ namespace UWP_XMPP_Client.Dialogs
                     return;
                 }
                 presence_cbx.IsEnabled = true;
+
+                Presence accountPresence = c.getXMPPAccount().presence;
+                for (int i = 0; i < presence_cbx.Items.Count; i++)
+                {
+                    if (presence_cbx.Items[i] is PresenceTemplate)
+                    {
+                        if ((presence_cbx.Items[i] as PresenceTemplate).presence == accountPresence)
+                        {
+                            presence_cbx.SelectedIndex = i;
+                            break;
+                        }
+                    }
+                }
+                status_tbx.Text = c.getXMPPAccount().status ?? "";
             }
             else
             {
@@ -164,6 +189,14 @@ namespace UWP_XMPP_Client.Dialogs
         private void save_btn_Click(object sender, RoutedEventArgs e)
         {
             savePresence();
+        }
+
+        private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            if (account_cbx.SelectedIndex < 0 && account_cbx.Items.Count > 0)
+            {
+                account_cbx.SelectedIndex = 0;
+            }
         }
 
         #endregion

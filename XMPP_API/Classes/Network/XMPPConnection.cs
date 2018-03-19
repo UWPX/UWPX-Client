@@ -545,8 +545,12 @@ namespace XMPP_API.Classes.Network
         private async void RecourceBindingConnection_ResourceBound(object sender, EventArgs e)
         {
             stopConnectionTimer();
-            await sendAsync(new PresenceMessage(account.presencePriorety), false, true);
+
+            // Send the initial presence message:
+            await sendAsync(new PresenceMessage(account.presencePriorety, account.presence, account.status), false, true);
+
             setState(ConnectionState.CONNECTED);
+
             await sendAllOutstandingMessagesAsync();
         }
 
