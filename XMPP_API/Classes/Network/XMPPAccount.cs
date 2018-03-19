@@ -57,7 +57,14 @@
             if (obj is XMPPAccount)
             {
                 XMPPAccount o = obj as XMPPAccount;
-                return o.disabled == disabled && o.port == port && o.presencePriorety == presencePriorety && string.Equals(o.serverAddress, serverAddress) && Equals(o.user, user) && string.Equals(o.color, color);
+                return o.disabled == disabled &&
+                    o.port == port &&
+                    o.presencePriorety == presencePriorety &&
+                    string.Equals(o.serverAddress, serverAddress) &&
+                    Equals(o.user, user) &&
+                    string.Equals(o.color, color) &&
+                    o.presence == presence &&
+                    string.Equals(o.status, status);
             }
             return false;
         }

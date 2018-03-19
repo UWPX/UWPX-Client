@@ -503,6 +503,7 @@ namespace Data_Manager2.Classes
 
                     if (args.REMOVED)
                     {
+                        unloadAccount(clients[i]);
                         clients.RemoveAt(i);
                     }
                     else

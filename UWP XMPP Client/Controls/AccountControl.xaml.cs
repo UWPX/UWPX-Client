@@ -31,6 +31,8 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountControl), null);
 
+        private XMPPClient client;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -42,6 +44,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public AccountControl()
         {
+            this.client = null;
             this.InitializeComponent();
         }
 
@@ -89,11 +92,19 @@ namespace UWP_XMPP_Client.Controls
                 disableAccount_tggls.IsOn = !Account.disabled;
                 color_tbx.Text = Account.color ?? "";
                 updateColor(color_tbx.Text);
-                XMPPClient client = ConnectionHandler.INSTANCE.getClient(Account.getIdAndDomain());
+
+                if(client != null)
+                {
+                    client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                }
+
+                client = ConnectionHandler.INSTANCE.getClient(Account.getIdAndDomain());
+
                 if (client != null)
                 {
-                    showConnectionState(client.getConnetionState(), client.getLastErrorMessage());
+                    client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                     client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                    showConnectionState(client.getConnetionState(), client.getLastErrorMessage());
                 }
                 IsEnabled = true;
             }
