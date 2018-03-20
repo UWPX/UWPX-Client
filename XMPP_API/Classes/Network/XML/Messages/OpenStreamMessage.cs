@@ -36,7 +36,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
             s += " " + new XAttribute("to", TO).ToString();
             s += " " + new XAttribute("version", Consts.XML_VERSION).ToString();
             s += " " + new XAttribute(XNamespace.Xml + "lang", Consts.XML_LANG).ToString();
-            s += Consts.XML_CLIENT + Consts.XML_STREAM_NAMESPACE + '>';
+            s += " " + Consts.XML_XMLNS + "=\"" + Consts.XML_CLIENT + '\"';
+            s += " " + Consts.XML_STREAM_NAMESPACE + '>';
             return s;
         }
 

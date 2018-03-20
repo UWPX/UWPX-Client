@@ -85,6 +85,9 @@ namespace XMPP_API.Classes.Network.XML
             msg = msg.Replace(Consts.XML_STREAM_FEATURE_START, "<stream:features " + Consts.XML_STREAM_NAMESPACE + ">");
             msg = msg.Replace(Consts.XML_STREAM_ERROR_START, "<stream:error " + Consts.XML_STREAM_NAMESPACE + ">");
 
+            // Fix for compatibility with the 'smartsupp.com' XMPP server:
+            msg = msg.Replace("xmlns=\"http://etherx.jabber.org/streams\"", Consts.XML_STREAM_NAMESPACE);
+
             // Pars each node:
             foreach (XmlNode n in parseToXmlNodes(msg))
             {

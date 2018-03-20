@@ -6,11 +6,11 @@ namespace XMPP_API.Classes
     {
         public const string XML_VERSION = "1.0";
         public const string XML_LANG = "en";
-        public const string XML_CLIENT = " xmlns=\"jabber:client\"";
+        public const string XML_CLIENT = "jabber:client";
 
         public const string XML_HEADER = "<?xml version=\"1.0\"?>";
         public const string XML_STREAM_START = "<stream:stream";
-        public const string XML_STREAM_NAMESPACE = " xmlns:stream=\"http://etherx.jabber.org/streams\"";
+        public const string XML_STREAM_NAMESPACE = "xmlns:stream=\"http://etherx.jabber.org/streams\"";
         public const string XML_STREAM_CLOSE = "</stream:stream>";
         public const string XML_STREAM_ERROR_START = "<stream:error>";
         public const string XML_STREAM_FEATURE_START = "<stream:features>";
