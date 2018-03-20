@@ -56,7 +56,7 @@
                                 <TextBlock x:Name="enterState_tbx"
                                            FontWeight="Bold"
                                            Text="disconnected"
-                                           Foreground="{StaticResource PresenceOffline}"
+                                           Foreground="{StaticResource PresenceUnavailable}"
                                            VerticalAlignment="Center"
                                            HorizontalAlignment="Center"
                                            TextWrapping="Wrap"/>
