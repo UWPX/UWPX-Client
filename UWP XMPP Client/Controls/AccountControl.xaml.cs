@@ -116,9 +116,12 @@ namespace UWP_XMPP_Client.Controls
             {
                 return;
             }
+
             XMPPAccount oldAccount = Account;
+
+            Task.Run(() => AccountDBManager.INSTANCE.replaceAccount(oldAccount, account));
+
             Account = account;
-            AccountDBManager.INSTANCE.replaceAccount(oldAccount, Account);
         }
 
         private async Task<bool> saveAccountAsync()

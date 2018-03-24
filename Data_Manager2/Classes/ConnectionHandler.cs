@@ -12,6 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
+using System.Threading;
 
 namespace Data_Manager2.Classes
 {
@@ -19,8 +20,9 @@ namespace Data_Manager2.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private static readonly SemaphoreSlim CLIENT_SEMA = new SemaphoreSlim(1);
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
-        private static List<XMPPClient> clients;
+        private readonly List<XMPPClient> CLIENTS;
 
         public delegate void ClientConnectedHandler(ConnectionHandler handler, ClientConnectedEventArgs args);
 
@@ -36,7 +38,7 @@ namespace Data_Manager2.Classes
         /// </history>
         public ConnectionHandler()
         {
-            clients = null;
+            this.CLIENTS = new List<XMPPClient>();
             loadClients();
             AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
         }
@@ -50,7 +52,7 @@ namespace Data_Manager2.Classes
         /// <param name="iDAndDomain">The id and domain of the requested XMPPClient. e.g. 'alice@jabber.org'</param>
         public XMPPClient getClient(string iDAndDomain)
         {
-            foreach (XMPPClient c in clients)
+            foreach (XMPPClient c in CLIENTS)
             {
                 if (c.getXMPPAccount().getIdAndDomain().Equals(iDAndDomain))
                 {
@@ -65,7 +67,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public List<XMPPClient> getClients()
         {
-            return clients;
+            return CLIENTS;
         }
 
         #endregion
@@ -76,7 +78,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void connectAll()
         {
-            Parallel.ForEach(clients, (c) =>
+            Parallel.ForEach(CLIENTS, (c) =>
             {
                 if (!c.getXMPPAccount().disabled)
                 {
@@ -106,7 +108,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void disconnectAll()
         {
-            Parallel.ForEach(clients, async (c) =>
+            Parallel.ForEach(CLIENTS, async (c) =>
             {
                 await c.disconnectAsync();
             });
@@ -118,14 +120,16 @@ namespace Data_Manager2.Classes
         /// <param name="accountId">The account id of the client you would like to remove.</param>
         public async Task removeAccountAsync(string accountId)
         {
-            for (int i = 0; i < clients.Count; i++)
+            CLIENT_SEMA.Wait();
+            for (int i = 0; i < CLIENTS.Count; i++)
             {
-                if (Equals(clients[i].getXMPPAccount().getIdAndDomain(), accountId))
+                if (Equals(CLIENTS[i].getXMPPAccount().getIdAndDomain(), accountId))
                 {
-                    await clients[i].disconnectAsync();
-                    clients.RemoveAt(i);
+                    await CLIENTS[i].disconnectAsync();
+                    CLIENTS.RemoveAt(i);
                 }
             }
+            CLIENT_SEMA.Release();
         }
 
         /// <summary>
@@ -133,7 +137,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void reconnectAll()
         {
-            Parallel.ForEach(clients, async (c) =>
+            Parallel.ForEach(CLIENTS, async (c) =>
             {
                 await reconnectClientAsync(c);
             });
@@ -147,18 +151,13 @@ namespace Data_Manager2.Classes
         /// </summary>
         private void loadClients()
         {
-            if (clients == null)
-            {
-                clients = new List<XMPPClient>();
-            }
-            else
-            {
-                clients.Clear();
-            }
+            CLIENT_SEMA.Wait();
+            CLIENTS.Clear();
             foreach (XMPPAccount acc in AccountDBManager.INSTANCE.loadAllAccounts())
             {
-                clients.Add(loadAccount(acc));
+                CLIENTS.Add(loadAccount(acc));
             }
+            CLIENT_SEMA.Release();
         }
 
         /// <summary>
@@ -494,26 +493,28 @@ namespace Data_Manager2.Classes
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
         {
-            for (int i = 0; i < clients.Count; i++)
+            CLIENT_SEMA.Wait();
+            for (int i = 0; i < CLIENTS.Count; i++)
             {
-                if (Equals(clients[i].getXMPPAccount().getIdAndDomain(), args.ACCOUNT.getIdAndDomain()))
+                if (Equals(CLIENTS[i].getXMPPAccount().getIdAndDomain(), args.ACCOUNT.getIdAndDomain()))
                 {
                     // Disconnect first:
-                    await clients[i].disconnectAsync();
+                    await CLIENTS[i].disconnectAsync();
 
                     if (args.REMOVED)
                     {
-                        unloadAccount(clients[i]);
-                        clients.RemoveAt(i);
+                        unloadAccount(CLIENTS[i]);
+                        CLIENTS.RemoveAt(i);
                     }
                     else
                     {
-                        clients[i].setAccount(args.ACCOUNT);
-                        if (!clients[i].getXMPPAccount().disabled)
+                        CLIENTS[i].setAccount(args.ACCOUNT);
+                        if (!CLIENTS[i].getXMPPAccount().disabled)
                         {
-                            await clients[i].connectAsync();
+                            await CLIENTS[i].connectAsync();
                         }
                     }
+                    CLIENT_SEMA.Release();
                     return;
                 }
             }
@@ -526,8 +527,9 @@ namespace Data_Manager2.Classes
                 {
                     await client.connectAsync();
                 }
-                clients.Add(client);
+                CLIENTS.Add(client);
             }
+            CLIENT_SEMA.Release();
         }
 
         private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)

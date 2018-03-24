@@ -184,7 +184,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void showMUCInfo()
         {
-            if (MUCInfo != null && Chat != null)
+            if (MUCInfo != null && Chat != null && Equals(MUCInfo.chatId, Chat.id))
             {
                 chatName_tblck.Text = string.IsNullOrWhiteSpace(MUCInfo.name) ? Chat.chatJabberId : MUCInfo.name;
                 chatState_tblck.Text = MUCInfo.subject ?? "";
@@ -364,9 +364,10 @@ namespace UWP_XMPP_Client.Controls
             {
                 return;
             }
+            string chatId = ChatTable.generateId(args.FROM, args.TO);
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (string.Equals(ChatTable.generateId(args.FROM, args.TO), Chat.id))
+                if (string.Equals(chatId, Chat.id))
                 {
                     storeChatState(args.STATE);
                     args.Cancel = true;

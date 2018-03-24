@@ -124,6 +124,29 @@ namespace XMPP_API.Classes.Network.XML
         }
 
         /// <summary>
+        /// Tries to find the given node by its attribute and attribute value in the given XmlNode.
+        /// Returns null, if nothing found.
+        /// </summary>
+        /// <param name="node">The node, containing the node.</param>
+        /// <param name="attribute">The attribute name.</param>
+        /// <param name="attributeValue">The value of the attribute.</param>
+        /// <returns>Returns null if node does not exist, else the node.</returns>
+        public static XmlNode getChildNode(XmlNode node, string attribute, string attributeValue)
+        {
+            if (node != null && node.HasChildNodes)
+            {
+                foreach (XmlNode n in node.ChildNodes)
+                {
+                    if (n.Attributes[attribute] != null && n.Attributes[attribute].Value.Equals(attributeValue))
+                    {
+                        return n;
+                    }
+                }
+            }
+            return null;
+        }
+
+        /// <summary>
         /// returns the xml attribute from the given node, if it exists. Else null.
         /// </summary>
         /// <param name="node">The node containing the attribute.</param>

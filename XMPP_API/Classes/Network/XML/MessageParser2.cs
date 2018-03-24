@@ -122,8 +122,19 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Messages:
                     case "message":
+                        // XEP-0085 (chat state):
+                        if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
+                        {
+                            messages.Add(new ChatStateMessage(n));
+
+                            // Chat state messages can contain a body:
+                            if (XMLUtils.getChildNode(n, "body") != null)
+                            {
+                                messages.Add(new MessageMessage(n));
+                            }
+                        }
                         // Message:
-                        if (XMLUtils.getChildNode(n, "body") != null)
+                        else if (XMLUtils.getChildNode(n, "body") != null)
                         {
                             messages.Add(new MessageMessage(n));
                         }
@@ -136,16 +147,6 @@ namespace XMPP_API.Classes.Network.XML
                         else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
                         {
                             messages.Add(new DirectMUCInvitationMessage(n));
-                        }
-                        // XEP-0085 (chat state):
-                        else
-                        {
-                            ChatStateMessage chatStateMessage = new ChatStateMessage(n);
-                            // Check if containing a valid chat state:
-                            if (chatStateMessage.getState() != ChatState.UNKNOWN)
-                            {
-                                messages.Add(chatStateMessage);
-                            }
                         }
                         break;
 
