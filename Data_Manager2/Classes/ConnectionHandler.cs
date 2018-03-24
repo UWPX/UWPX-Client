@@ -466,14 +466,22 @@ namespace Data_Manager2.Classes
 
             bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);
             bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(message.id) != null;
-            // Filter MUC messages that already exist:
-            // ToDo: Allow MUC messages being edited and detect it
+
             if (isMUCMessage)
             {
                 MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(message.id);
-                if (msgExists || mucInfo != null && Equals(message.fromUser, mucInfo.nickname))
+                if (mucInfo != null && Equals(message.fromUser, mucInfo.nickname))
                 {
-                    return;
+                    // Filter MUC messages that already exist:
+                    // ToDo: Allow MUC messages being edited and detect it
+                    if (msgExists)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        message.state = MessageState.SEND;
+                    }
                 }
             }
 
