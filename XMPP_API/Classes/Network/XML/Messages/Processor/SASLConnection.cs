@@ -95,7 +95,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected async override Task processMessage(NewValidMessageEventArgs args)
+        protected async override Task processMessageAsync(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (state == SASLState.CONNECTED || msg.isProcessed())

@@ -129,6 +129,9 @@ namespace XMPP_API.Classes.Network
             // Reset connection error count:
             connectionErrorCount = 0;
 
+            // Reset last error message:
+            lastErrorMessage = null;
+
             // Connect:
             await internalConnectAsync();
         }
@@ -328,7 +331,6 @@ namespace XMPP_API.Classes.Network
             streamId = null;
             messageIdCache = new TSTimedList<string>();
             resetMessageProcessors();
-            lastErrorMessage = null;
         }
 
         protected void resetMessageProcessors()
@@ -517,13 +519,13 @@ namespace XMPP_API.Classes.Network
                     break;
 
                 case ConnectionState.ERROR:
+                    lastErrorMessage = arg.param.ToString() ?? "Server TCP connection failed!";
                     if (arg.oldState == ConnectionState.CONNECTED)
                     {
                         switch (state)
                         {
                             case ConnectionState.CONNECTING:
                             case ConnectionState.CONNECTED:
-                                lastErrorMessage = "Server TCP connection failed!";
                                 await onConnectionErrorAsync();
                                 break;
 
@@ -535,6 +537,7 @@ namespace XMPP_API.Classes.Network
                     else
                     {
                         // Unable to connect to server:
+                        connectionErrorCount = 3;
                         await disconnectAsync();
                         setState(ConnectionState.ERROR, arg.param);
                     }

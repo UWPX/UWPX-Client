@@ -55,14 +55,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract Task processMessage(NewValidMessageEventArgs args);
+        protected abstract Task processMessageAsync(NewValidMessageEventArgs args);
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
         protected async void XMPP_CONNECTION_ConnectionNewValidMessage(XMPPConnection handler, NewValidMessageEventArgs args)
         {
-            await processMessage(args);
+            await processMessageAsync(args);
         }
 
         #endregion

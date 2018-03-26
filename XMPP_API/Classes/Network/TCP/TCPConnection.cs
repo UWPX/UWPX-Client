@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Security.Cryptography.Certificates;
@@ -24,6 +25,10 @@ namespace XMPP_API.Classes.Network.TCP
         /// The timeout in ms for TCP connections.
         /// </summary>
         private const int CONNECTION_TIMEOUT = 3000;
+        /// <summary>
+        /// The timeout for upgrading to a TLS connection in ms.
+        /// </summary>
+        private const int TLS_UPGRADE_TIMEOUT = 3000;
 
         private StreamSocket socket;
         private HostName hostName;
@@ -131,14 +136,11 @@ namespace XMPP_API.Classes.Network.TCP
                             hostName = new HostName(account.serverAddress);
 
                             // Connect with timeout:
-                            connectingCTS = new CancellationTokenSource();
-                            Task t = socket.ConnectAsync(hostName, account.port.ToString()).AsTask();
-                            int waitResult = Task.WaitAny(t, Task.Delay(CONNECTION_TIMEOUT, connectingCTS.Token));
-                            connectingCTS = null;
-                            if (waitResult != 0)
-                            {
-                                throw new TimeoutException("ConnectAsync timed out! CONNECTION_TIMEOUT = " + CONNECTION_TIMEOUT);
-                            }
+                            connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT);
+                            Task connectTask = socket.ConnectAsync(hostName, account.port.ToString()).AsTask(connectingCTS.Token);
+
+                            // Await connection with timeout:
+                            await connectTask;
 
                             // Setup stream reader and writer:
                             dataWriter = new DataWriter(socket.OutputStream);
@@ -148,9 +150,9 @@ namespace XMPP_API.Classes.Network.TCP
                             setState(ConnectionState.CONNECTED);
                             return;
                         }
-                        catch (TimeoutException e)
+                        catch (TaskCanceledException e)
                         {
-                            Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- TimeoutException - " + e.Message);
+                            Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- TaskCanceledException - " + e.Message);
                             lastExceptionMessage = SocketErrorStatus.ConnectionTimedOut.ToString();
                             await cleanupAsync();
                         }
@@ -167,7 +169,6 @@ namespace XMPP_API.Classes.Network.TCP
                             }
                             lastExceptionMessage = socketErrorStatus.ToString();
                             await cleanupAsync();
-                            throw;
                         }
                     }
                     setState(ConnectionState.ERROR, lastExceptionMessage);
@@ -201,6 +202,7 @@ namespace XMPP_API.Classes.Network.TCP
 
         /// <summary>
         /// Upgrades the connection to TLS 1.2.
+        /// Timeout is TLS_UPGRADE_TIMEOUT.
         /// </summary>
         public async Task upgradeToTLSAsync()
         {
@@ -208,7 +210,7 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 throw new InvalidOperationException("[TCPConnection]: Unable to upgrade to TLS! ConnectionState != Connected! state = " + state);
             }
-
+            CancellationTokenSource cancellationToken = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT);
             await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName);
         }
 
@@ -390,14 +392,10 @@ namespace XMPP_API.Classes.Network.TCP
             try
             {
                 // Flush the writer to ensure everything got send:
-                await dataWriter?.FlushAsync();
-            }
-            catch (Exception)
-            {
-            }
-            try
-            {
-                await socket?.CancelIOAsync();
+                if(dataWriter != null)
+                {
+                    await dataWriter.FlushAsync();
+                }
             }
             catch (Exception)
             {
