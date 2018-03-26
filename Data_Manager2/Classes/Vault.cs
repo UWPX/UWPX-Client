@@ -10,6 +10,7 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private const string VAULT_NAME_PREFIX = "XMPP_LOGIN_DATA_VAULT_2_";
+        private static readonly PasswordVault PASSWORD_VAULT = new PasswordVault();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,31 +29,36 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Returns the corresponding PasswordCredential object for the given XMPPAccount.
+        /// Will return null if an error occurs or none exists.
+        /// </summary>
+        /// <param name="account">The XMPPAccount you want to retrieve the PasswordCredential for.</param>
+        private static PasswordCredential getPasswordCredentialForAccount(XMPPAccount account)
+        {
+            string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
+            try
+            {
+                return PASSWORD_VAULT.Retrieve(vaultName, account.user.userId);
+            }
+            catch (Exception)
+            {
+            }
 
+            return null;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
         /// Tries to load the password for the given XMPPAccount and sets the password property.
-        /// If no password got found, it will save an empty string as the password property.
+        /// If no password got found, an empty string will get set as the password property.
         /// </summary>
-        /// <param name="account">The Account, the password should get loaded for.</param>
+        /// <param name="account">The XMPPAccount, the password should get loaded for.</param>
         public static void loadPassword(XMPPAccount account)
         {
-            PasswordVault vault = new PasswordVault();
-            string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
-            PasswordCredential passwordCredential;
-            try
-            {
-                passwordCredential = vault.Retrieve(vaultName, account.user.userId);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Error during loadPassword - Vault", e);
-                account.user.userPassword = "";
-                return;
-            }
+            PasswordCredential passwordCredential = getPasswordCredentialForAccount(account);
             if (passwordCredential == null)
             {
                 Logger.Warn("No password found for: " + account.user.getIdAndDomain());
@@ -66,35 +72,28 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// Creates a secure password vault for the given account and stores the password in it.
         /// </summary>
-        /// <param name="account">The Account, a password vault should get created for.</param>
+        /// <param name="account">The XMPPAccount a password vault should get created for.</param>
         public static void storePassword(XMPPAccount account)
         {
-            PasswordVault vault = new PasswordVault();
+            // Delete existing password vaults:
+            deletePassword(account);
+
+            // Store the new password:
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
-            vault.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
+            PASSWORD_VAULT.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
         }
 
         /// <summary>
         /// Deletes the password vault for the given XMPPAccount, if one exists.
         /// </summary>
-        /// <param name="account">The XMPPAccount the corresponding vault should get deleted.</param>
+        /// <param name="account">The XMPPAccount for the corresponding vault that should get deleted.</param>
         public static void deletePassword(XMPPAccount account)
         {
-            PasswordVault vault = new PasswordVault();
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
-            PasswordCredential passwordCredential = null;
-            try
-            {
-                passwordCredential = vault.Retrieve(vaultName, account.user.userId);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Unable to delete vault!", e);
-                return;
-            }
+            PasswordCredential passwordCredential = getPasswordCredentialForAccount(account);
             if (passwordCredential != null)
             {
-                vault.Remove(passwordCredential);
+                PASSWORD_VAULT.Remove(passwordCredential);
             }
         }
 
