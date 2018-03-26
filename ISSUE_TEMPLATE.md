@@ -5,8 +5,10 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 
 ## Bevor you create a new issue:
 <!-- Check the following checkboxes with an "x" -->
+```
 - [ ] I searched for similar issues and did not find one
 - [ ] I'm using the latest version available in the [Windows Store](https://www.microsoft.com/store/apps/9NW16X9JB5WV)
+```
 
 ## I'm submitting a...:
 <!-- Please uncomment one or more that apply to this issue -->
