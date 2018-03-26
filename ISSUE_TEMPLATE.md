@@ -4,7 +4,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 -->
 
 ## Bevor you create a new issue:
-<!-- Check the following checkboxes with an "x" -->
+<!-- Check the following checkboxes with an "x" ([ x ] <= checked, [ ] <= unchecked) -->
 ```
 - [ ] I searched for similar issues and did not find one
 - [ ] I'm using the latest version available in the [Windows Store](https://www.microsoft.com/store/apps/9NW16X9JB5WV)
@@ -38,7 +38,7 @@ ISSUES MISSING IMPORTANT INFORMATION MAY BE CLOSED WITHOUT INVESTIGATION.
 
 
 ## Environment:
-<!-- For bug reports Check one or more of the following options with "x" -->
+<!-- Check the following checkboxes with an "x" ([ x ] <= checked, [ ] <= unchecked) -->
 ```
 App Version(s): 
 v.X.Y.Z <!-- Which version of the App are you using (e.g. v.0.2.0) -->
