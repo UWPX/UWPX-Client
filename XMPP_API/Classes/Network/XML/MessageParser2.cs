@@ -122,8 +122,13 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Messages:
                     case "message":
+                        // XEP-0249 (Direct MUC Invitations):
+                        if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
+                        {
+                            messages.Add(new DirectMUCInvitationMessage(n));
+                        }
                         // XEP-0085 (chat state):
-                        if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
+                        else if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
                         {
                             messages.Add(new ChatStateMessage(n));
 
@@ -142,11 +147,6 @@ namespace XMPP_API.Classes.Network.XML
                         else if (XMLUtils.getChildNode(n, "subject") != null)
                         {
                             messages.Add(new MUCRoomSubjectMessage(n));
-                        }
-                        // XEP-0249 (Direct MUC Invitations):
-                        else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
-                        {
-                            messages.Add(new DirectMUCInvitationMessage(n));
                         }
                         break;
 
