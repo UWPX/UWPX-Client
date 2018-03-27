@@ -93,18 +93,33 @@ namespace UWP_XMPP_Client.Classes
             {
                 if(!handler.compare(versionLastStart, handler.getPackageVersion()))
                 {
-                    // Large db changes on version 0.2.0.0
+                    // Large DB changes in version 0.2.0.0:
                     if(versionLastStart.Major <= 0 && versionLastStart.Minor < 2)
                     {
                         try
                         {
-                            Logging.Logger.Info("Started updating db to version 0.2.0.0.");
+                            Logging.Logger.Info("Started updating DB to version 0.2.0.0.");
                             AbstractDBManager.dB.RecreateTable<ChatTable>();
-                            Logging.Logger.Info("Finished updating db to version 0.2.0.0.");
+                            Logging.Logger.Info("Finished updating DB to version 0.2.0.0.");
                         }
                         catch (Exception e)
                         {
-                            Logging.Logger.Error("Error during updating db to version 0.2.0.0", e);
+                            Logging.Logger.Error("Error during updating DB to version 0.2.0.0", e);
+                        }
+                    }
+
+                    // Accounts got reset in version 0.4.0.0:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 4)
+                    {
+                        try
+                        {
+                            Logging.Logger.Info("Started all vaults...");
+                            Vault.deleteAllVaults();
+                            Logging.Logger.Info("Finished deleting all vaults. Update to version 0.4.0.0 done.");
+                        }
+                        catch (Exception e)
+                        {
+                            Logging.Logger.Error("Error during deleting all vaults for version 0.4.0.0!", e);
                         }
                     }
                 }

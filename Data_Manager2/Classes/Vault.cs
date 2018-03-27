@@ -5,7 +5,7 @@ using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes
 {
-    class Vault
+    public class Vault
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -78,6 +78,8 @@ namespace Data_Manager2.Classes
             // Delete existing password vaults:
             deletePassword(account);
 
+            //removeAll();
+
             // Store the new password:
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
             PASSWORD_VAULT.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
@@ -94,6 +96,17 @@ namespace Data_Manager2.Classes
             if (passwordCredential != null)
             {
                 PASSWORD_VAULT.Remove(passwordCredential);
+            }
+        }
+
+        /// <summary>
+        /// Deletes all vaults.
+        /// </summary>
+        public static void deleteAllVaults()
+        {
+            foreach (var item in PASSWORD_VAULT.RetrieveAll())
+            {
+                PASSWORD_VAULT.Remove(item);
             }
         }
 
