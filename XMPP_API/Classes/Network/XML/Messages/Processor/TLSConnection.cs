@@ -116,8 +116,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         setMessageProcessed(args);
 
                         XMPPAccount account = XMPP_CONNECTION.account;
-
-                        // Has to be wait, because if it us await the main thread will continue ==> no soft restart!
                         Logger.Debug("Upgrading " + account.getIdAndDomain() + " connection to TLS...");
                         try
                         {

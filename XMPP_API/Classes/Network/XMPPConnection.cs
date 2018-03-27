@@ -114,6 +114,11 @@ namespace XMPP_API.Classes.Network
                         Task.Run(async () => await internalConnectAsync());
                     }
                     break;
+
+                case ConnectionState.CONNECTED:
+                    // Reset last error message:
+                    lastErrorMessage = null;
+                    break;
             }
         }
 
@@ -128,9 +133,6 @@ namespace XMPP_API.Classes.Network
         {
             // Reset connection error count:
             connectionErrorCount = 0;
-
-            // Reset last error message:
-            lastErrorMessage = null;
 
             // Connect:
             await internalConnectAsync();
@@ -506,9 +508,9 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        private async void TCPConnection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs arg)
+        private async void TCPConnection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs args)
         {
-            switch (arg.newState)
+            switch (args.newState)
             {
                 case ConnectionState.CONNECTED:
                     // TCP connection established start reading:
@@ -519,8 +521,8 @@ namespace XMPP_API.Classes.Network
                     break;
 
                 case ConnectionState.ERROR:
-                    lastErrorMessage = arg.param.ToString() ?? "Server TCP connection failed!";
-                    if (arg.oldState == ConnectionState.CONNECTED)
+                    lastErrorMessage = args.param == null ? "Server TCP connection failed!" : args.param.ToString();
+                    if (args.oldState == ConnectionState.CONNECTED)
                     {
                         switch (state)
                         {
@@ -539,7 +541,7 @@ namespace XMPP_API.Classes.Network
                         // Unable to connect to server:
                         connectionErrorCount = 3;
                         await disconnectAsync();
-                        setState(ConnectionState.ERROR, arg.param);
+                        setState(ConnectionState.ERROR, args.param);
                     }
                     break;
             }

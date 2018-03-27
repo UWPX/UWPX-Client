@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         /// </history>
         public SASLFailureMessage(XmlNode node)
         {
-            ERROR_MESSAGE = node.InnerText;
+            ERROR_MESSAGE = node.InnerXml;
         }
 
         #endregion
