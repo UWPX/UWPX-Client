@@ -465,22 +465,33 @@ namespace Data_Manager2.Classes
             }
 
             bool isMUCMessage = string.Equals(MessageMessage.TYPE_GROUPCHAT, message.type);
-            bool msgExists = ChatDBManager.INSTANCE.getChatMessageById(message.id) != null;
+            ChatMessageTable existingMessage = ChatDBManager.INSTANCE.getChatMessageById(message.id);
+            bool doesMessageExist = existingMessage != null;
 
             if (isMUCMessage)
             {
                 MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(message.id);
-                if (mucInfo != null && Equals(message.fromUser, mucInfo.nickname))
+                if (mucInfo != null)
                 {
-                    // Filter MUC messages that already exist:
-                    // ToDo: Allow MUC messages being edited and detect it
-                    if (msgExists)
+                    if(Equals(message.fromUser, mucInfo.nickname))
                     {
-                        return;
+                        // Filter MUC messages that already exist:
+                        // ToDo: Allow MUC messages being edited and detect it
+                        if (doesMessageExist)
+                        {
+                            return;
+                        }
+                        else
+                        {
+                            message.state = MessageState.SEND;
+                        }
                     }
                     else
                     {
-                        message.state = MessageState.SEND;
+                        if (doesMessageExist)
+                        {
+                            message.state = existingMessage.state;
+                        }
                     }
                 }
             }
@@ -496,7 +507,7 @@ namespace Data_Manager2.Classes
                 ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
 
-            ChatDBManager.INSTANCE.setChatMessage(message, !msgExists, msgExists && !isMUCMessage);
+            ChatDBManager.INSTANCE.setChatMessage(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
         }
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
