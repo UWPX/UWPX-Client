@@ -108,6 +108,7 @@ namespace UWP_XMPP_Client.Dialogs
 
                 // Send the updated presence and status to the server:
                 Task t = c.setPreseceAsync(templateItem.presence, status);
+                showInfoMessage("Presence updated!");
             }
             else
             {
@@ -118,8 +119,16 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void showErrorMessage(string msg)
         {
+            info_itbx.Visibility = Visibility.Collapsed;
             error_itbx.Text = msg;
             error_itbx.Visibility = Visibility.Visible;
+        }
+
+        private void showInfoMessage(string msg)
+        {
+            error_itbx.Visibility = Visibility.Collapsed;
+            info_itbx.Text = msg;
+            info_itbx.Visibility = Visibility.Visible;
         }
 
         private void hideErrorMessage()
@@ -135,11 +144,6 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            Hide();
-        }
-
         private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
@@ -197,6 +201,11 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 account_cbx.SelectedIndex = 0;
             }
+        }
+
+        private void close_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
         }
 
         #endregion
