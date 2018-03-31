@@ -138,7 +138,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// <returns>Returns true if the account got added.</returns>
         private bool addRoom()
         {
-            if (checkUserInputsAndWarn())
+            if (checkUserInputAndWarn())
             {
                 XMPPClient c = clients[account_cbx.SelectedIndex];
 
@@ -193,36 +193,36 @@ namespace UWP_XMPP_Client.Dialogs
         /// Checks if the user input is valid.
         /// </summary>
         /// <returns>Returns whether the user input is valid.</returns>
-        private bool checkUserInputsAndWarn()
+        private bool checkUserInputAndWarn()
         {
             if (account_cbx.SelectedIndex < 0)
             {
-                showErrorTextBlock("No account selected!");
+                showErrorMessage("No account selected!");
                 return false;
             }
 
             if (!clients[account_cbx.SelectedIndex].isConnected())
             {
-                showErrorTextBlock("Account is not connected!");
+                showErrorMessage("Account is not connected!");
                 accountNotConnected_tblck.Visibility = Visibility.Visible;
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(nick_tbx.Text))
             {
-                showErrorTextBlock("No nickname given!");
+                showErrorMessage("No nickname given!");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(roomName_tbx.Text))
             {
-                showErrorTextBlock("No room name given!");
+                showErrorMessage("No room name given!");
                 return false;
             }
 
             if (!Utils.isValidServerAddress(server_asbx.Text))
             {
-                showErrorTextBlock("Invalid server!");
+                showErrorMessage("Invalid server!");
                 return false;
             }
 
@@ -230,7 +230,7 @@ namespace UWP_XMPP_Client.Dialogs
             XMPPClient c = clients[account_cbx.SelectedIndex];
             if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, c.getXMPPAccount().getIdAndDomain())))
             {
-                showErrorTextBlock("You already joined this room!");
+                showErrorMessage("Chat already exists!");
                 return false;
             }
 
@@ -241,10 +241,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// Shows the error text block with the given text.
         /// </summary>
         /// <param name="msg">The text that should get shown in the error text block.</param>
-        private void showErrorTextBlock(string msg)
+        private void showErrorMessage(string msg)
         {
-            error_tbx.Text = msg;
-            error_tbx.Visibility = Visibility.Visible;
+            error_itbx.Text = msg;
+            error_itbx.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -311,7 +311,7 @@ namespace UWP_XMPP_Client.Dialogs
             // Check if the current server address is valid:
             if (!Utils.isValidServerAddress(server_asbx.Text))
             {
-                showErrorTextBlock("Invalid server!");
+                showErrorMessage("Invalid server!");
             }
 
             // Navigate to browse MUC page:

@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Title="Add MUC:">
 
@@ -14,7 +15,11 @@
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0" VerticalScrollMode="Auto" HorizontalScrollMode="Disabled" VerticalScrollBarVisibility="Hidden">
             <StackPanel x:Name="addMUC_stckpnl">
-                <TextBlock x:Name="error_tbx" TextWrapping="Wrap" Foreground="Red" Margin="0, 0, 0, 10" Visibility="Collapsed"/>
+                <controls:IconTextBlockControl x:Name="error_itbx"
+                                               Margin="0, 0, 0, 10"
+                                               Visibility="Collapsed"
+                                               IconForeground="Red"
+                                               Icon="&#xE7BA;"/>
                 <ComboBox x:Name="account_cbx"
                           HorizontalAlignment="Stretch"
                           Header="Select account:"
