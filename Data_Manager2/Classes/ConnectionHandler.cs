@@ -470,7 +470,7 @@ namespace Data_Manager2.Classes
 
             if (isMUCMessage)
             {
-                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(message.id);
+                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
                 if (mucInfo != null)
                 {
                     if(Equals(message.fromUser, mucInfo.nickname))
