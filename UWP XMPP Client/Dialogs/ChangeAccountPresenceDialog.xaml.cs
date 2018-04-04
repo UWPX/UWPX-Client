@@ -156,6 +156,8 @@ namespace UWP_XMPP_Client.Dialogs
                     showErrorMessage("Account not connected!");
                     return;
                 }
+
+                hideErrorMessage();
                 presence_cbx.IsEnabled = true;
 
                 Presence accountPresence = c.getXMPPAccount().presence;
@@ -176,6 +178,7 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 presence_cbx.IsEnabled = false;
                 save_btn.IsEnabled = false;
+                hideErrorMessage();
             }
         }
 

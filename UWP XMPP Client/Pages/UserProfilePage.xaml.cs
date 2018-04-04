@@ -121,22 +121,12 @@ namespace UWP_XMPP_Client.Pages
         {
             switch (Client.getConnetionState())
             {
-                case ConnectionState.DISCONNECTED:
-                    account_aiwp.Presence = Presence.Unavailable;
-                    break;
-                case ConnectionState.CONNECTING:
-                    account_aiwp.Presence = Presence.Chat;
-                    break;
                 case ConnectionState.CONNECTED:
-                    account_aiwp.Presence = Presence.Online;
+                    account_aiwp.Presence = Client.getXMPPAccount().presence;
                     break;
-                case ConnectionState.DISCONNECTING:
-                    account_aiwp.Presence = Presence.Chat;
-                    break;
-                case ConnectionState.ERROR:
-                    account_aiwp.Presence = Presence.Dnd;
-                    break;
+
                 default:
+                    account_aiwp.Presence = Presence.Unavailable;
                     break;
             }
         }
