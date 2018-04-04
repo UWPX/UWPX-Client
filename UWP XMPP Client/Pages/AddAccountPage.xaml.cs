@@ -130,7 +130,7 @@ namespace UWP_XMPP_Client.Pages
                 rootFrame.GoBack();
                 return;
             }
-            (Window.Current.Content as Frame).Navigate(typeof(ChatPage));
+            (Window.Current.Content as Frame).Navigate(typeof(ChatPage), "AddAccountPage.xaml.cs");
         }
 
         private void updateColor(string color)

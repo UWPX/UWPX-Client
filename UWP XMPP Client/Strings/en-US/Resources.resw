@@ -133,38 +133,47 @@
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.3.0.0 [March 2018] Performance and MUC:
+    <value># v.0.4.0.0 [April 2018] MUC and bug fixes:
 
-This release improves the Apps performance quiet a bit. All pages should load faster and navigation between pages should be quiet smooth now.
-This months release also improves the [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html) support. For example now you can make quiet a few changes for your MUC rooms (have a look at the screenshoots for examples).
-By now the MUC support is about 90% done. It still needs quiet a bit of work that as to be done and then there are still all those MUC related bugs to fix. But my plans are to finish implementation of all MUC features this month, so I can start fixing bugs by the end march.
-If you are missing a MUC feature please tell me [here](https://github.com/UWPX/UWPX-Client/issues/10) about it.
+In this months release moves [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html) support from the 90% done state to the 99% done state. All key features are implemented and ready to get tested. I've moved "Manage bookmarks" from the MUC [#10](https://github.com/UWPX/UWPX-Client/issues/10)  issue into the OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5) issue. The reason for this is: Managing bookmarks requires a more robust [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) foundation to be fully functional. Since OMEMO also requires a quiet solid [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) foundation I will add support for it alongside the OMEMO implementation.
+
+Due to some changes in the accounts DB you have to add all your XMPP accounts again. All chats and chat messages should be still there and show up again as soon as you add your XMPP account again.
+
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
-* Background image not loading #9 
-* Last active chat won't update #8 
-* App crashes, if not connected to the internet #14 
-* MUC configuration: 'list multi' are not supported #21
-* MUC configuration: 'list single' field won't save #20
-* Accounts don't connect from time to time #18
-* MUC messages showing up on wrong side #17
-* Remove bookmark not working #22
+* Background image not loading [#9](https://github.com/UWPX/UWPX-Client/issues/9)
+* App crashes, if not connected to the internet [#14](https://github.com/UWPX/UWPX-Client/issues/14)
+* Remove bookmark not working [#22](https://github.com/UWPX/UWPX-Client/issues/22)
+* Chat state won't update [#25](https://github.com/UWPX/UWPX-Client/issues/25)
+* App crashes sometimes, if you try to delete a chat [#23](https://github.com/UWPX/UWPX-Client/issues/23)
 
 ### Changes:
-* Added a MUC info page
-* Added swiping to manipulate chats
-* Added a log-level selection control
-* Added searching for chats
-* Fixed MUC browsing
-* Started improved account connection reliabillity (not final, still a little bit buggy from time to time)
+* Added direct MUC invitation support
+* Added MUC nickname changing support
+* Added MUC occupant kicking support
+* Added MUC banning support
+* Added MUC banlist manipulation support
+* Added presence changing support
+* Improved chat filtering
+* Improved DB performance
+* Improved the MUC browsing page
+* Improved connection error reporting
+* Fixed MUC autojoin
+* Fixed MUC subject changing
+* Fixed MUC browsing not showing timeout
+* Fixed account reconnection loop
+* Fixed [#8](https://github.com/UWPX/UWPX-Client/issues/8)
+* Fixed [#18](https://github.com/UWPX/UWPX-Client/issues/18)
+* Fixed [#20](https://github.com/UWPX/UWPX-Client/issues/20)
+* Fixed [#21](https://github.com/UWPX/UWPX-Client/issues/21)
 
-### Plans for april:
-* Finish implementation of all planed MUC features #10 
-* Start adding [vcard-temp(XEP-0054)](https://xmpp.org/extensions/xep-0054.html) support
+### Plans for the May release:
+* Start adding [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5)
+* [vcard-temp(XEP-0054)](https://xmpp.org/extensions/xep-0054.html) support
 * Fix [bugs](https://github.com/UWPX/UWPX-Client/issues)
 
-### Examples:
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.3.0.0)</value>
+
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.4.0.0)</value>
   </data>
 </root>

@@ -268,7 +268,7 @@ namespace UWP_XMPP_Client.Pages
 
             SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
             string toastActivationString = null;
-            if (e.NavigationMode == NavigationMode.New && e.Parameter is string && (e.Parameter as string).Equals("App.xaml.cs"))
+            if (e.NavigationMode == NavigationMode.New && e.Parameter is string && ((e.Parameter as string).Equals("App.xaml.cs") || (e.Parameter as string).Equals("AddAccountPage.xaml.cs")))
             {
                 await UiUtils.showInitialStartDialogAsync();
                 await UiUtils.showWhatsNewDialog();
