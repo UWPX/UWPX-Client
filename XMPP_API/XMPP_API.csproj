@@ -124,7 +124,6 @@
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
-    <Compile Include="Classes\Network\ICloneable.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />

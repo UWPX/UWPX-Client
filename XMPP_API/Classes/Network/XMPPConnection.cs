@@ -151,6 +151,10 @@ namespace XMPP_API.Classes.Network
             }
 
             setState(ConnectionState.DISCONNECTING);
+
+            // Send stream close message:
+            await sendStreamCloseMessageAsync();
+
             // Disconnect the TCPConnection:
             await tCPConnection.disconnectAsync();
 
@@ -246,7 +250,7 @@ namespace XMPP_API.Classes.Network
             {
                 case ConnectionState.DISCONNECTED:
                 case ConnectionState.ERROR:
-                    if(connectionErrorCount < 3)
+                    if (connectionErrorCount < 3)
                     {
                         // Cleanup:
                         await cleanupAsync();
@@ -298,6 +302,17 @@ namespace XMPP_API.Classes.Network
             }
 
             connectionTimer = null;
+        }
+
+        /// <summary>
+        /// Sends the stream close message if the TCP connection is connected.
+        /// </summary>
+        private async Task sendStreamCloseMessageAsync()
+        {
+            if (tCPConnection.state == ConnectionState.CONNECTED)
+            {
+                await tCPConnection.sendAsync(Consts.XML_STREAM_CLOSE);
+            }
         }
 
         /// <summary>
