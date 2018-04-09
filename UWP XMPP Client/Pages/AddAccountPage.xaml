@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Loaded="Page_Loaded">
 
@@ -13,48 +14,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <ScrollViewer Grid.Row="0">
-            <StackPanel Margin="10, 0, 10, 20">
-                <TextBlock x:Uid="addAccount_tblk" Text="Add an account" HorizontalAlignment="Center" FontSize="30"/>
-                <TextBox x:Name="jabberId_tbx" x:Uid="jabberId_tbx" Header="Jabber-ID:" PlaceholderText="example@example.com" TextChanged="jabberId_tbx_TextChanged" Margin="0, 10, 0, 0" InputScope="EmailNameOrAddress" IsSpellCheckEnabled="False"/>
-                <PasswordBox x:Name="password_pwb" x:Uid="password_pwb" Header="Password:" PlaceholderText="Your super secret password" Margin="0, 10, 0, 0" KeyUp="password_pwb_KeyUp"/>
-                <TextBox x:Name="resource_tbx" x:Uid="jabberId_tbx" Header="Resource:" PlaceholderText="e.g. device name" Margin="0, 10, 0, 0" KeyUp="resource_tbx_KeyUp"/>
-
-                <Grid Margin="0, 10, 0, 0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" Padding="3" Tapped="Grid_Tapped">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" x:Name="advancedOptionsStatusArrow_tblk" Text="&#xE0AB;" FontFamily="Segoe MDL2 Assets" Margin="0, 3, 10, 0"/>
-                        <TextBlock Grid.Column="1" x:Name="advancedOptionsStatus_tblk" Text="Advanced options"/>
-                    </Grid>
-                    <StackPanel x:Name="advancedOptions_stckpnl" Grid.Row="1" Visibility="Collapsed">
-                        <TextBox x:Name="serverAddress_tbx" x:Uid="serverAddress_tbx" Margin="0, 10, 0, 0" Header="Server address:" PlaceholderText="example.com"/>
-                        <TextBox x:Name="serverPort_tbx" x:Uid="serverPort_tbx" Header="Server port:" PlaceholderText="e.g. 5222" Text="5222" Margin="0, 10, 0, 0"/>
-                        <Slider x:Name="presencePriorety_slider" x:Uid="presencePriorety_slider" Minimum="-127" Maximum="128" Value="10" Header="Presence priority:" Margin="0, 10, 0, 0"/>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Rectangle x:Name="color_rcta" Grid.Column="0" Width="5" Visibility="Collapsed" Margin="0, 0, 5, 0" Fill="Transparent"/>
-                            <Grid Grid.Column="1">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBox x:Name="color_tbx" Grid.Column="0" x:Uid="color_tbx" Header="Color:" PlaceholderText="e.g. #D50000" TextChanged="color_tbx_TextChanged"/>
-                                <Button x:Name="randomColor_btn" Click="randomColor_btn_Click" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE72C;" VerticalAlignment="Bottom" Height="32"/>
-                            </Grid>
-                        </Grid>
-                    </StackPanel>
-                </Grid>
-                <!--<controls1:Expander x:Name="advancedOptions_exp" x:Uid="advancedOptions_exp" Header="Advanced options" Margin="0, 10, 0, 0" HorizontalContentAlignment="Stretch">
-                </controls1:Expander>-->
+            <StackPanel>
+                <TextBlock x:Uid="addAccount_tblk"
+                           Text="Add an account"
+                           HorizontalAlignment="Center"
+                           FontSize="30"/>
+                <controls:AccountControl x:Name="account_ac" AccountAccepted="account_ac_AccountAccepted"/>
             </StackPanel>
         </ScrollViewer>
 

@@ -1,7 +1,4 @@
-﻿
-using System;
-
-namespace XMPP_API.Classes
+﻿namespace XMPP_API.Classes
 {
     public class XMPPUser
     {

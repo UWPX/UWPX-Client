@@ -60,7 +60,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                     accounts_stckp.Children.Clear();
                     foreach (XMPPAccount account in list)
                     {
-                        accounts_stckp.Children.Add(new AccountControl() { Account = account });
+                        accounts_stckp.Children.Add(new AccountSettingsControl() { Account = account });
                     }
 
                     if (accounts_stckp.Children.Count > 0)
