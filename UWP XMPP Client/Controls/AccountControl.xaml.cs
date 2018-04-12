@@ -208,6 +208,12 @@ namespace UWP_XMPP_Client.Controls
 
         }
 
+        private async void changeCertificateRequirements_btn_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeCertificateRequirementsDialog dialog = new ChangeCertificateRequirementsDialog();
+            await dialog.ShowAsync();
+        }
+
         #endregion
     }
 }

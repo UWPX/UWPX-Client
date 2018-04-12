@@ -28,8 +28,8 @@
 
         public XMPPUser(string userIDAndDomain, string recource)
         {
-            this.userId = userIDAndDomain.Substring(0, userIDAndDomain.IndexOf('@'));
-            this.domain = userIDAndDomain.Substring(userIDAndDomain.IndexOf('@') + 1);
+            this.userId = userIDAndDomain == null ? null : userIDAndDomain.Substring(0, userIDAndDomain.IndexOf('@'));
+            this.domain = userIDAndDomain == null ? null : userIDAndDomain.Substring(userIDAndDomain.IndexOf('@') + 1);
             this.resource = recource;
             this.userPassword = null;
         }

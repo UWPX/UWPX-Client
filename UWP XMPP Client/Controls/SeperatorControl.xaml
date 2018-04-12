@@ -12,7 +12,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock x:Name="text_tbx" Text="{x:Bind Text}" Foreground="{ThemeResource CalendarDatePickerTextForeground}" Margin="10,10,0,2" Visibility="Collapsed"/>
-        <Rectangle Grid.Row="1" Height="2" HorizontalAlignment="Stretch" Fill="{StaticResource SystemControlDisabledChromeDisabledLowBrush}"/>
+        <TextBlock x:Name="text_tbx"
+                   Text="{x:Bind Text, Mode=OneWay}"
+                   Foreground="{ThemeResource CalendarDatePickerTextForeground}"
+                   Margin="10,10,0,2"
+                   Visibility="Collapsed"/>
+        <Rectangle Grid.Row="1"
+                   Height="2"
+                   HorizontalAlignment="Stretch"
+                   Fill="{StaticResource SystemControlDisabledChromeDisabledLowBrush}"/>
     </Grid>
 </UserControl>

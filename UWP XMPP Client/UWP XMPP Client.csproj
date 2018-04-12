@@ -164,6 +164,7 @@
     </Compile>
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
+    <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
     <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
@@ -183,6 +184,9 @@
     </Compile>
     <Compile Include="Dialogs\ChangeAccountPresenceDialog.xaml.cs">
       <DependentUpon>ChangeAccountPresenceDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ChangeCertificateRequirementsDialog.xaml.cs">
+      <DependentUpon>ChangeCertificateRequirementsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
@@ -451,6 +455,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ChangeAccountPresenceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ChangeCertificateRequirementsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

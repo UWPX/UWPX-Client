@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded">
 
@@ -63,10 +64,6 @@
                          Text="5222"
                          Margin="0, 10, 0, 0"
                          TextChanged="serverPort_tbx_TextChanged"/>
-                <CheckBox x:Name="enforceTLS_ckb"
-                          IsChecked="True"
-                          Content="Enforce TLS"
-                          Margin="0, 10, 0, 0"/>
                 <Slider x:Name="presencePriorety_slider"
                         Minimum="-127"
                         Maximum="128"
@@ -103,6 +100,15 @@
                                 Height="32"/>
                     </Grid>
                 </Grid>
+                <controls:SeperatorControl Text="Security:"/>
+                <CheckBox x:Name="enforceTLS_ckb"
+                          IsChecked="True"
+                          Content="Enforce TLS"
+                          Margin="0, 10, 0, 0"/>
+                <Button x:Name="changeCertificateRequirements_btn"
+                        Content="Change certificate requirements"
+                        Margin="0, 10, 0, 0"
+                        Click="changeCertificateRequirements_btn_Click"/>
             </StackPanel>
         </Grid>
     </StackPanel>
