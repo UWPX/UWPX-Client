@@ -7,7 +7,7 @@
     xmlns:controls="using:UWP_XMPP_Client.Controls"
     xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
     mc:Ignorable="d"
-    Title="Select options:"
+    Title="Select to clear:"
     PrimaryButtonText="Clear"
     SecondaryButtonText="Cancel"
     PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -34,8 +34,14 @@
                 <CheckBox x:Name="mucMembers_chbx" Content="MUC members" IsChecked="True"/>
                 <CheckBox x:Name="mucDirectInvites_chbx" Content="MUC direct invites" IsChecked="True"/>
 
+                <controls:SeperatorControl Text="Accounts:"/>
+                <CheckBox x:Name="accounts_chbx" Content="Accounts" IsChecked="False"/>
+                <CheckBox x:Name="passwordVault_chbx" Content="Password vault" IsChecked="False"/>
+                <CheckBox x:Name="ignoredCertificateErrors_chbx" Content="Ignored certificate errors" IsChecked="False"/>
+                <CheckBox x:Name="connectionOptions_chbx" Content="Connection options" IsChecked="False"/>
+
                 <controls:SeperatorControl Text="Clients:"/>
-                <CheckBox x:Name="reconnect_chbx" Content="Reconnect clients" IsChecked="True"/>
+                <CheckBox x:Name="reload_chbx" Content="Reload clients" IsChecked="True"/>
             </StackPanel>
         </ScrollViewer>
         <ProgressRing x:Name="main_prgr" Grid.Row="0" IsActive="True" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed"/>

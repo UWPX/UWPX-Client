@@ -12,5 +12,7 @@
         public const string MUC_CHAT_INFO_TABLE = "MUCChatInfoTable_3";
         public const string MUC_OCCUPANT_TABLE = "MUCOccupantTable";
         public const string MUC_DIRECT_INVITATION_TABLE = "MUCDirectInvitationTable";
+        public const string IGNORED_CERTIFICATE_ERROR_TABLE = "IgnoredCertificateErrorTable";
+        public const string CONNECTION_OPTIONS_TABLE = "ConnectionOptionsTable";
     }
 }

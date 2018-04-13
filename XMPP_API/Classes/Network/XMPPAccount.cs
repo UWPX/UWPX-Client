@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network
+﻿using XMPP_API.Classes.Network.TCP;
+
+namespace XMPP_API.Classes.Network
 {
     public class XMPPAccount
     {
@@ -12,6 +14,7 @@
         public string color;
         public Presence presence;
         public string status;
+        public ConnectionConfiguration connectionConfiguration;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,11 +25,16 @@
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public XMPPAccount(XMPPUser user, string serverAddress, int port)
+        public XMPPAccount(XMPPUser user, string serverAddress, int port) : this(user, serverAddress, port, new ConnectionConfiguration())
+        {
+        }
+
+        public XMPPAccount(XMPPUser user, string serverAddress, int port, ConnectionConfiguration connectionConfiguration)
         {
             this.user = user;
             this.serverAddress = serverAddress;
             this.port = port;
+            this.connectionConfiguration = connectionConfiguration;
             this.presencePriorety = 0;
             this.disabled = false;
             this.color = null;
@@ -64,14 +72,15 @@
                     Equals(o.user, user) &&
                     string.Equals(o.color, color) &&
                     o.presence == presence &&
-                    string.Equals(o.status, status);
+                    string.Equals(o.status, status) &&
+                    connectionConfiguration.Equals(o.connectionConfiguration);
             }
             return false;
         }
 
         public XMPPAccount clone()
         {
-            return new XMPPAccount(user.clone(), serverAddress, port)
+            return new XMPPAccount(user.clone(), serverAddress, port, connectionConfiguration)
             {
                 color = color,
                 disabled = disabled,

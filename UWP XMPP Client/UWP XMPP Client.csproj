@@ -191,6 +191,9 @@
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ConnectionInfoDialog.xaml.cs">
+      <DependentUpon>ConnectionInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DeleteAccountDialog.xaml.cs">
       <DependentUpon>DeleteAccountDialog.xaml</DependentUpon>
     </Compile>
@@ -463,6 +466,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ClearCacheDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConnectionInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

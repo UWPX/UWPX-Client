@@ -61,6 +61,7 @@ namespace Thread_Save_Components.Classes.SQLite
             dB.Commit();
         }
 
+        /// <param name="readOnly">Unused/placeholder!</param>
         public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : new()
         {
             return dB.Query<T>(query, args);

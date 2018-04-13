@@ -161,6 +161,16 @@ namespace Data_Manager2.Classes
         }
 
         /// <summary>
+        /// Reloads all clients from the DB.
+        /// Disconnects all existing clients first.
+        /// </summary>
+        public void reloadClients()
+        {
+            disconnectAll();
+            loadClients();
+        }
+
+        /// <summary>
         /// Loads one specific XMPPAccount and subscribes to all its events.
         /// </summary>
         /// <param name="acc">The account which should get loaded.</param>

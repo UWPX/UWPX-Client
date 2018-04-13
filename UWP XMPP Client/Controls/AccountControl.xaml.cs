@@ -214,6 +214,11 @@ namespace UWP_XMPP_Client.Controls
             await dialog.ShowAsync();
         }
 
+        private void tslMode_cmbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
         #endregion
     }
 }

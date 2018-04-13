@@ -60,7 +60,12 @@ namespace UWP_XMPP_Client.Dialogs
             bool mucMembers = (bool)mucMembers_chbx.IsChecked;
             bool mucDirectInvites = (bool)mucDirectInvites_chbx.IsChecked;
 
-            bool reconnect = (bool)reconnect_chbx.IsChecked;
+            bool accounts = (bool)accounts_chbx.IsChecked;
+            bool passwordVault = (bool)passwordVault_chbx.IsChecked;
+            bool ignoredCertificateErrors = (bool)ignoredCertificateErrors_chbx.IsChecked;
+            bool connectionOptions = (bool)connectionOptions_chbx.IsChecked;
+
+            bool reload = (bool)reload_chbx.IsChecked;
 
             Task.Run(async () =>
             {
@@ -106,10 +111,28 @@ namespace UWP_XMPP_Client.Dialogs
                     AbstractDBManager.dB.RecreateTable<MUCDirectInvitationTable>();
                 }
 
-                // Reconnect clients:
-                if (reconnect)
+                // Accounts:
+                if (accounts)
                 {
-                    ConnectionHandler.INSTANCE.reconnectAll();
+                    AbstractDBManager.dB.RecreateTable<AccountTable>();
+                }
+                if (passwordVault)
+                {
+                    Vault.deleteAllVaults();
+                }
+                if (ignoredCertificateErrors)
+                {
+                    AbstractDBManager.dB.RecreateTable<IgnoredCertificateErrorTable>();
+                }
+                if (connectionOptions)
+                {
+                    AbstractDBManager.dB.RecreateTable<ConnectionOptionsTable>();
+                }
+
+                // Clients:
+                if (reload)
+                {
+                    ConnectionHandler.INSTANCE.reloadClients();
                 }
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
