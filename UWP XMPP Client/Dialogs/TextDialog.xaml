@@ -8,5 +8,7 @@
     SecondaryButtonText="Close"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
-    <TextBlock Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap"/>
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <TextBlock Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap"/>
+    </ScrollViewer>
 </ContentDialog>

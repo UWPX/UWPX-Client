@@ -19,7 +19,8 @@
                            Text="Add an account"
                            HorizontalAlignment="Center"
                            FontSize="30"/>
-                <controls:AccountControl x:Name="account_ac" AccountAccepted="account_ac_AccountAccepted"/>
+                <controls:AccountControl x:Name="account_ac"
+                                         AccountAccepted="account_ac_AccountAccepted"/>
             </StackPanel>
         </ScrollViewer>
 

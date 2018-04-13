@@ -169,7 +169,10 @@ namespace Data_Manager2.Classes.DBManager
         public void saveAccountConnectionConfiguration(XMPPAccount account)
         {
             // Save general options:
-            ConnectionOptionsTable optionsTable = new ConnectionOptionsTable(account.connectionConfiguration);
+            ConnectionOptionsTable optionsTable = new ConnectionOptionsTable(account.connectionConfiguration)
+            {
+                accountId = account.getIdAndDomain()
+            };
             update(optionsTable);
 
             // Save ignored certificate errors:

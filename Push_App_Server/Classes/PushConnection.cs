@@ -40,10 +40,7 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getCertificateInformation()
-        {
-            return tCPConnection.getCertificateInformation();
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

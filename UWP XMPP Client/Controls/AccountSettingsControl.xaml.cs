@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
-using Windows.UI;
 using Windows.UI.Core;
-using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using Data_Manager2.Classes;
@@ -51,22 +48,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public XMPPAccount getAccount()
-        {
-            return new XMPPAccount(getUser(), serverAddress_tbx.Text.ToLower(), int.Parse(serverPort_tbx.Text))
-            {
-                presencePriorety = (int)presencePriorety_slider.Value,
-                disabled = !disableAccount_tggls.IsOn,
-                color = color_tbx.Text
-            };
-        }
 
-        public XMPPUser getUser()
-        {
-            string userId = jabberId_tbx.Text.ToLower().Substring(0, jabberId_tbx.Text.IndexOf('@'));
-            string domain = jabberId_tbx.Text.ToLower().Substring(jabberId_tbx.Text.IndexOf('@') + 1);
-            return new XMPPUser(userId, password_pwb.Password, domain, resource_tbx.Text);
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -76,37 +58,34 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+        private async Task showErrorDialogAsync(string text)
+        {
+            TextDialog dialog = new TextDialog(text, Localisation.getLocalizedString("error_text"));
+            await dialog.ShowAsync();
+        }
+
         private void showAccount()
         {
             if (Account != null)
             {
                 IsEnabled = false;
-                primaryInfo_tblck.Text = Account.user.userId ?? "";
-                secondaryInfo_tblck.Text = Account.user.domain ?? "";
-                jabberId_tbx.Text = Account.user.getIdAndDomain() ?? "";
-                password_pwb.Password = Account.user.userPassword ?? "";
-                resource_tbx.Text = Account.user.resource ?? "";
-                serverAddress_tbx.Text = Account.serverAddress ?? "";
-                serverPort_tbx.Text = Account.port.ToString();
-                presencePriorety_slider.Value = Account.presencePriorety;
-                disableAccount_tggls.IsOn = !Account.disabled;
-                color_tbx.Text = Account.color ?? "";
-                updateColor(color_tbx.Text);
-
-                if(client != null)
-                {
-                    client.ConnectionStateChanged -= Client_ConnectionStateChanged;
-                }
-
-                client = ConnectionHandler.INSTANCE.getClient(Account.getIdAndDomain());
-
                 if (client != null)
                 {
                     client.ConnectionStateChanged -= Client_ConnectionStateChanged;
-                    client.ConnectionStateChanged += Client_ConnectionStateChanged;
-                    showConnectionState(client.getConnetionState(), client.getLastErrorMessage());
                 }
-                IsEnabled = true;
+                string accountId = Account.getIdAndDomain();
+                Task.Run(() =>
+                {
+                    client = ConnectionHandler.INSTANCE.getClient(accountId);
+
+                    if (client != null)
+                    {
+                        client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+                        client.ConnectionStateChanged += Client_ConnectionStateChanged;
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client.getConnetionState(), client.getLastErrorMessage())).AsTask();
+                    }
+                    Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => IsEnabled = true).AsTask();
+                });
             }
         }
 
@@ -126,41 +105,20 @@ namespace UWP_XMPP_Client.Controls
 
         private async Task<bool> saveAccountAsync()
         {
-            if (await areEntriesValidAsync())
+            if (await account_acc.isAccountVaildAsync())
             {
-                replaceAccount(getAccount());
-                return true;
+                XMPPAccount acc = account_acc.getAccount();
+                if (acc == null)
+                {
+                    await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
+                }
+                else
+                {
+                    replaceAccount(acc);
+                }
+                return acc != null;
             }
             return false;
-        }
-
-        private async Task<bool> areEntriesValidAsync()
-        {
-            if (!jabberId_tbx.Text.Contains("@") || jabberId_tbx.Text.Length <= 3)
-            {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_jabber_id_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
-                return false;
-            }
-            if (resource_tbx.Text == "")
-            {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_resource_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
-                return false;
-            }
-            if (serverAddress_tbx.Text == "")
-            {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_server_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
-                return false;
-            }
-            if (serverPort_tbx.Text == "")
-            {
-                MessageDialog messageDialog = new MessageDialog(Localisation.getLocalizedString("invalid_port_text"), Localisation.getLocalizedString("error_text"));
-                await messageDialog.ShowAsync();
-                return false;
-            }
-            return true;
         }
 
         private void showConnectionState(ConnectionState state, object param)
@@ -195,20 +153,6 @@ namespace UWP_XMPP_Client.Controls
             {
                 error_tblck.Visibility = Visibility.Visible;
                 error_tblck.Text = param.ToString();
-            }
-        }
-
-        private void updateColor(string color)
-        {
-            if (UiUtils.isHexColor(color))
-            {
-                color_tbx.Header = "Hex color:";
-                color_rcta.Fill = UiUtils.convertHexColorToBrush(color);
-            }
-            else
-            {
-                color_tbx.Header = "Hex color (invalid):";
-                color_rcta.Fill = new SolidColorBrush(Colors.Transparent);
             }
         }
 
@@ -266,14 +210,6 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            if (jabberId_tbx.Text.Contains("@"))
-            {
-                serverAddress_tbx.Text = jabberId_tbx.Text.Substring(jabberId_tbx.Text.IndexOf('@') + 1);
-            }
-        }
-
         private void disableAccount_tggls_Toggled(object sender, RoutedEventArgs e)
         {
             if (Account != null && Account.disabled == disableAccount_tggls.IsOn)
@@ -289,15 +225,6 @@ namespace UWP_XMPP_Client.Controls
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(args.newState, args.param));
         }
 
-        private void color_tbx_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            updateColor(color_tbx.Text);
-        }
-
-        private void randomColor_btn_Click(object sender, RoutedEventArgs e)
-        {
-            color_tbx.Text = UiUtils.getRandomMaterialColor();
-        }
         #endregion
     }
 }

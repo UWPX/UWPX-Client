@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.Events;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
@@ -21,7 +20,14 @@ namespace UWP_XMPP_Client.Controls
         public XMPPAccount Account
         {
             get { return (XMPPAccount)GetValue(AccountProperty); }
-            set { SetValue(AccountProperty, value); }
+            set
+            {
+                SetValue(AccountProperty, value);
+                if (value != null)
+                {
+                    jabberId_tbx.Text = value.getIdAndDomain();
+                }
+            }
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountControl), null);
 

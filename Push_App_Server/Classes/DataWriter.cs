@@ -91,7 +91,7 @@ namespace Push_App_Server.Classes
                     {
                         Logger.Info("Connecting to the push server (" + Consts.PUSH_SERVER_ADDRESS + ")...");
                         await PUSH_CONNECTION.connectAsync();
-                        PUSH_CONNECTION.getCertificateInformation();
+                        string certInfo = client.getXMPPAccount().CONNECTION_INFO.getCertificateInformation();
                         Logger.Info("Connected to the push server (" + Consts.PUSH_SERVER_ADDRESS + ").");
                         await PUSH_CONNECTION.sendAsync(getMessage(channel.Uri));
                         return PUSH_CONNECTION.readNextString();
