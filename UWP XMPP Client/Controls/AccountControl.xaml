@@ -5,8 +5,13 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded">
+
+    <UserControl.Resources>
+        <datatemplates:TLSConnectionModeToIntValueConverter x:Key="tlsConnectionModeToIntValueConverter"/>
+    </UserControl.Resources>
 
     <StackPanel>
         <TextBox x:Name="jabberId_tbx"
@@ -104,8 +109,7 @@
                 <ComboBox x:Name="tslMode_cmbx"
                           Margin="0, 10, 0, 0"
                           Header="TLS mode:"
-                          SelectedIndex="0"
-                          SelectionChanged="tslMode_cmbx_SelectionChanged">
+                          SelectedIndex="{x:Bind Account.connectionConfiguration.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource tlsConnectionModeToIntValueConverter}}">
                     <x:String>Enforce</x:String>
                     <x:String>Use if available</x:String>
                     <x:String>Prohibit</x:String>

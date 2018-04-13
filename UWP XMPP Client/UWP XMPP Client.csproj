@@ -170,6 +170,7 @@
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="DataTemplates\PresenceTemplate.cs" />
+    <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>

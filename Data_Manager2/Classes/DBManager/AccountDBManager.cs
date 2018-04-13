@@ -120,6 +120,8 @@ namespace Data_Manager2.Classes.DBManager
             {
                 XMPPAccount acc = accounts[i].toXMPPAccount();
                 Vault.loadPassword(acc);
+                loadAccountConnectionConfiguration(acc);
+
                 results.Add(acc);
             }
             return results;

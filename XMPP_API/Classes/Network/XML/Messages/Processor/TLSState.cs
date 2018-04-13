@@ -7,6 +7,7 @@
         DISCONNECTED,
         CONNECTING,
         REQUESTED,
-        CONNECTED
+        CONNECTED,
+        PROHIBITED
     }
 }

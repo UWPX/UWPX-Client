@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.Security.Cryptography.Certificates;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -11,6 +11,7 @@ namespace UWP_XMPP_Client.Dialogs
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private ObservableCollection<CertificateRequirementTemplate> certificateRequirements;
+        private XMPPAccount account;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,8 +22,9 @@ namespace UWP_XMPP_Client.Dialogs
         /// <history>
         /// 12/04/2018 Created [Fabian Sauter]
         /// </history>
-		public ChangeCertificateRequirementsDialog()
+		public ChangeCertificateRequirementsDialog(XMPPAccount account)
         {
+            this.account = account;
             this.certificateRequirements = new ObservableCollection<CertificateRequirementTemplate>();
             loadCertificateRequirements();
             this.InitializeComponent();
@@ -87,6 +89,24 @@ namespace UWP_XMPP_Client.Dialogs
             });
         }
 
+        private void save()
+        {
+            if (account == null)
+            {
+                return;
+            }
+
+            account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Clear();
+
+            foreach (CertificateRequirementTemplate c in certificateRequirements)
+            {
+                if (!c.required)
+                {
+                    account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Add(c.certificateError);
+                }
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -95,12 +115,9 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
-
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            save();
         }
 
         #endregion

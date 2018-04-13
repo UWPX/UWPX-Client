@@ -1,12 +1,9 @@
 ﻿using Logging;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
-using Windows.Security.Cryptography.Certificates;
 using Windows.Storage.Streams;
 using XMPP_API.Classes.Network.Events;
 
@@ -67,42 +64,9 @@ namespace XMPP_API.Classes.Network.TCP
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        /// <summary>
-        /// Gets detailed certificate information.
-        /// Source: https://github.com/Microsoft/Windows-universal-samples/blob/master/Samples/StreamSocket/cs/Scenario5_Certificates.xaml.cs
-        /// </summary>
-        /// <param name="serverCert">The server certificate.</param>
-        /// <param name="intermediateCertificates">The server certificate chain.</param>
-        /// <returns>A string containing certificate details.</returns>
-        public string getCertificateInformation(Certificate serverCert, IReadOnlyList<Certificate> intermediateCertificates)
+        public StreamSocketInformation getSocketInfo()
         {
-            StringBuilder stringBuilder = new StringBuilder();
-
-            stringBuilder.AppendLine("\tFriendly Name: " + serverCert.FriendlyName);
-            stringBuilder.AppendLine("\tSubject: " + serverCert.Subject);
-            stringBuilder.AppendLine("\tIssuer: " + serverCert.Issuer);
-            stringBuilder.AppendLine("\tValidity: " + serverCert.ValidFrom + " - " + serverCert.ValidTo);
-
-            // Enumerate the entire certificate chain.
-            if (intermediateCertificates.Count > 0)
-            {
-                stringBuilder.AppendLine("\tCertificate chain: ");
-                foreach (var cert in intermediateCertificates)
-                {
-                    stringBuilder.AppendLine("\t\tIntermediate Certificate Subject: " + cert.Subject);
-                }
-            }
-            else
-            {
-                stringBuilder.AppendLine("\tNo certificates within the intermediate chain.");
-            }
-
-            return stringBuilder.ToString();
-        }
-
-        public string getCertificateInformation()
-        {
-            return getCertificateInformation(socket.Information.ServerCertificate, socket.Information.ServerIntermediateCertificates);
+            return socket.Information;
         }
 
         #endregion
@@ -144,6 +108,10 @@ namespace XMPP_API.Classes.Network.TCP
                             // Setup stream reader and writer:
                             dataWriter = new DataWriter(socket.OutputStream);
                             dataReader = new DataReader(socket.InputStream) { InputStreamOptions = InputStreamOptions.Partial };
+
+                            // Update account connection info:
+                            ConnectionInformation connectionInfo = account.CONNECTION_INFO;
+                            connectionInfo.socketInfo = socket.Information;
 
                             // Connection successfully established:
                             setState(ConnectionState.CONNECTED);
@@ -391,7 +359,7 @@ namespace XMPP_API.Classes.Network.TCP
             try
             {
                 // Flush the writer to ensure everything got send:
-                if(dataWriter != null)
+                if (dataWriter != null)
                 {
                     await dataWriter.FlushAsync();
                 }
@@ -407,6 +375,13 @@ namespace XMPP_API.Classes.Network.TCP
             socket = null;
             dataWriter = null;
             dataReader = null;
+            // Update account connection info:
+            if (account != null)
+            {
+                ConnectionInformation connectionInfo = account.CONNECTION_INFO;
+                connectionInfo.socketInfo = null;
+            }
+
             GC.Collect();
         }
 

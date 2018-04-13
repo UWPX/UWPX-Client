@@ -15,6 +15,7 @@ namespace XMPP_API.Classes.Network
         public Presence presence;
         public string status;
         public ConnectionConfiguration connectionConfiguration;
+        public readonly ConnectionInformation CONNECTION_INFO;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,6 +41,7 @@ namespace XMPP_API.Classes.Network
             this.color = null;
             this.presence = Presence.Online;
             this.status = null;
+            this.CONNECTION_INFO = new ConnectionInformation();
         }
 
         #endregion

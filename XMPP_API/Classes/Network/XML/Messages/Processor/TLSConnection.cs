@@ -36,12 +36,33 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             return state;
         }
 
+        private void setState(TLSState state)
+        {
+            this.state = state;
+
+            // Update account connection info:
+            ConnectionInformation connectionInfo = TCP_CONNECTION.account.CONNECTION_INFO;
+            connectionInfo.tlsConnected = state == TLSState.CONNECTED;
+        }
+
+        public TLSStreamFeature getTLSStreamFeature(StreamFeaturesMessage msg)
+        {
+            foreach (StreamFeature f in msg.getFeatures())
+            {
+                if (f is TLSStreamFeature)
+                {
+                    return f as TLSStreamFeature;
+                }
+            }
+            return null;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public override void reset()
         {
-            state = TLSState.DISCONNECTED;
+            setState(TLSState.DISCONNECTED);
         }
 
         #endregion
@@ -49,26 +70,44 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Misc Methods (Private)--
         private async Task streamFeaturesMessageReceivedAsync(StreamFeaturesMessage features, NewValidMessageEventArgs args)
         {
-            if (tLSReqired(features))
+            TLSStreamFeature tlsFeature = getTLSStreamFeature(features);
+            TLSConnectionMode connectionMode = TCP_CONNECTION.account.connectionConfiguration.tlsMode;
+
+            if (tlsFeature != null)
             {
+                if (connectionMode == TLSConnectionMode.PROHIBIT)
+                {
+                    if (tlsFeature.isRequired())
+                    {
+                        string errorMsg = "TSL is required for server but TLS connection mode is set to prohibit!";
+                        Logger.Error(errorMsg);
+                        setState(TLSState.ERROR);
+                        await XMPP_CONNECTION.onMessageProcessorFailedAsync(errorMsg, true);
+                    }
+                    else
+                    {
+                        setState(TLSState.PROHIBITED);
+                    }
+                    return;
+                }
+
                 // Starting the TSL process:
                 setMessageProcessed(args);
-                state = TLSState.CONNECTING;
+                setState(TLSState.CONNECTING);
                 await XMPP_CONNECTION.sendAsync(new RequesStartTLSMessage(), false, true);
-                state = TLSState.REQUESTED;
+                setState(TLSState.REQUESTED);
             }
-        }
-
-        private bool tLSReqired(StreamFeaturesMessage msg)
-        {
-            foreach (StreamFeature f in msg.getFeatures())
+            else
             {
-                if (f is TLSStreamFeature)
+                if (connectionMode == TLSConnectionMode.FORCE)
                 {
-                    return f.isRequired();
+                    string errorMsg = "TSL is not available for this server but TLS connection mode is set to force!";
+                    Logger.Error(errorMsg);
+                    setState(TLSState.ERROR);
+                    await XMPP_CONNECTION.onMessageProcessorFailedAsync(errorMsg, true);
+                    return;
                 }
             }
-            return false;
         }
 
         #endregion
@@ -84,7 +123,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             if ((state == TLSState.CONNECTING || state == TLSState.REQUESTED) && msg is ErrorMessage)
             {
                 setMessageProcessed(args);
-                state = TLSState.ERROR;
+                setState(TLSState.ERROR);
                 ErrorMessage error = msg as ErrorMessage;
                 if (error.getType().Equals(Consts.XML_FAILURE))
                 {
@@ -123,17 +162,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         }
                         catch (AggregateException e)
                         {
-                            if(e.InnerException is TaskCanceledException)
+                            if (e.InnerException is TaskCanceledException)
                             {
                                 Logger.Error("Timeout during upgrading " + account.getIdAndDomain() + " to TLS!", e);
-                                state = TLSState.ERROR;
+                                setState(TLSState.ERROR);
                                 await XMPP_CONNECTION.onMessageProcessorFailedAsync("TSL upgrading timeout!", true);
                                 return;
                             }
                             else
                             {
                                 Logger.Error("Error during upgrading " + account.getIdAndDomain() + " to TLS!", e.InnerException);
-                                state = TLSState.ERROR;
+                                setState(TLSState.ERROR);
                                 await XMPP_CONNECTION.onMessageProcessorFailedAsync(e.InnerException?.Message, true);
                                 return;
                             }
@@ -141,10 +180,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         catch (Exception e)
                         {
                             Logger.Error("Error during upgrading " + account.getIdAndDomain() + " to TLS!", e);
-                            state = TLSState.ERROR;
+                            setState(TLSState.ERROR);
                             await XMPP_CONNECTION.onMessageProcessorFailedAsync(e.Message, true);
                             return;
                         }
+
                         Logger.Debug("Success upgrading " + account.getIdAndDomain() + " to TLS.");
 
                         // TLS established ==> resend stream header

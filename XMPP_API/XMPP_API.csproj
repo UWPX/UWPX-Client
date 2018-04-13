@@ -125,6 +125,7 @@
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\TCP\ConnectionConfiguration.cs" />
+    <Compile Include="Classes\Network\TCP\ConnectionInformation.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
     <Compile Include="Classes\Network\TCP\TLSConnectionMode.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />

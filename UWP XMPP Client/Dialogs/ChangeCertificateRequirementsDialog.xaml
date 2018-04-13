@@ -9,11 +9,11 @@
     Title="Certificate requirements:"
     PrimaryButtonText="Cancel"
     SecondaryButtonText="Save"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <ContentDialog.Resources>
-        <DataTemplate x:Key="certificateRequirementTemplate" x:DataType="datatemplates:CertificateRequirementTemplate">
+        <DataTemplate x:Key="certificateRequirementTemplate"
+                      x:DataType="datatemplates:CertificateRequirementTemplate">
             <StackPanel Orientation="Horizontal">
                 <CheckBox Content="{x:Bind name, Mode=OneWay}"
                           VerticalAlignment="Center"

@@ -183,7 +183,6 @@ namespace UWP_XMPP_Client.Controls
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             color_tbx.Text = UiUtils.getRandomMaterialColor();
-            updateColor(color_tbx.Text);
             showDeviceName();
         }
 
@@ -205,18 +204,16 @@ namespace UWP_XMPP_Client.Controls
 
         private void serverPort_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-
+            if (Account != null)
+            {
+                int.TryParse(serverPort_tbx.Text, out Account.port);
+            }
         }
 
         private async void changeCertificateRequirements_btn_Click(object sender, RoutedEventArgs e)
         {
-            ChangeCertificateRequirementsDialog dialog = new ChangeCertificateRequirementsDialog();
+            ChangeCertificateRequirementsDialog dialog = new ChangeCertificateRequirementsDialog(Account);
             await dialog.ShowAsync();
-        }
-
-        private void tslMode_cmbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
 
         #endregion
