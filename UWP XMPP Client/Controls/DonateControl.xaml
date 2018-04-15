@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="UWP_XMPP_Client.Controls.DonateControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal">
+        <Button x:Name="donate_btn"
+                Click="donate_btn_Click">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="Donate"/>
+                <ProgressRing x:Name="donate_prgr"
+                              IsActive="True"
+                              Visibility="Collapsed"/>
+            </StackPanel>
+        </Button>
+        <TextBlock Text="{x:Bind Product.Price.FormattedPrice}"
+                   Margin="10, 0, 0, 0"/>
+    </StackPanel>
+</UserControl>

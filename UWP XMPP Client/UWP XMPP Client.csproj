@@ -130,6 +130,9 @@
     <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DonateControl.xaml.cs">
+      <DependentUpon>DonateControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IconTextBlockControl.xaml.cs">
       <DependentUpon>IconTextBlockControl.xaml</DependentUpon>
     </Compile>
@@ -399,6 +402,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BrowseMUCRoomsMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DonateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

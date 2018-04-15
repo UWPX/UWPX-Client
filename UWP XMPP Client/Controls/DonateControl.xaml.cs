@@ -1,19 +1,23 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Dialogs;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace UWP_XMPP_Client.Pages.SettingsPages
+namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class DonateSettingsPage : Page
+    public sealed partial class DonateControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ObservableCollection<StoreProduct> PRODUCTS;
+        public StoreProduct Product
+        {
+            get { return (StoreProduct)GetValue(ProductProperty); }
+            set { SetValue(ProductProperty, value); }
+        }
+        public static readonly DependencyProperty ProductProperty = DependencyProperty.Register("Product", typeof(StoreProduct), typeof(DonateControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,9 +28,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         /// <history>
         /// 15/04/2018 Created [Fabian Sauter]
         /// </history>
-        public DonateSettingsPage()
+        public DonateControl()
         {
-            this.PRODUCTS = new ObservableCollection<StoreProduct>();
             this.InitializeComponent();
         }
 
@@ -43,36 +46,26 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void loadInAppPuraches()
+        private void requestPurache(string featureName)
         {
-            inAppPuraches_lstv.Visibility = Visibility.Collapsed;
-            loadingInAppPuraches_stckp.Visibility = Visibility.Visible;
-            noInAppPurachesAvailable_tbx.Visibility = Visibility.Collapsed;
-
             Task.Run(async () =>
             {
-                List<StoreProduct> products = await BuyContentHelper.requestConsumablesAsync();
-
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                Exception ex = await BuyContentHelper.requestPuracheAsync(featureName);
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
-                    PRODUCTS.Clear();
-
-                    foreach (StoreProduct p in products)
+                    TextDialog dialog;
+                    if (ex != null)
                     {
-                        PRODUCTS.Add(p);
-                    }
-
-                    loadingInAppPuraches_stckp.Visibility = Visibility.Collapsed;
-                    if (PRODUCTS.Count <= 0)
-                    {
-                        inAppPuraches_lstv.Visibility = Visibility.Collapsed;
-                        noInAppPurachesAvailable_tbx.Visibility = Visibility.Visible;
+                        dialog = new TextDialog("Failed to place order:\n" + ex.Message, "An error occurred!");
                     }
                     else
                     {
-                        inAppPuraches_lstv.Visibility = Visibility.Visible;
-                        noInAppPurachesAvailable_tbx.Visibility = Visibility.Collapsed;
+                        dialog = new TextDialog("Thanks for supporting the development!", "Success!");
                     }
+
+                    await dialog.ShowAsync();
+                    donate_prgr.Visibility = Visibility.Collapsed;
+                    donate_btn.IsEnabled = true;
                 });
             });
         }
@@ -85,9 +78,13 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Page_Loaded(object sender, RoutedEventArgs e)
+        private void donate_btn_Click(object sender, RoutedEventArgs e)
         {
-            loadInAppPuraches();
+            if (Product != null)
+            {
+                donate_btn.IsEnabled = false;
+                donate_prgr.Visibility = Visibility.Visible;
+            }
         }
 
         #endregion

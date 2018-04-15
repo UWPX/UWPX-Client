@@ -5,7 +5,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:controls="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d">
+    xmlns:store="using:Windows.Services.Store"
+    mc:Ignorable="d"
+    Loaded="Page_Loaded">
+
+    <Page.Resources>
+        <DataTemplate x:Key="storeDonationTemplate" x:DataType="store:StoreProduct">
+            <controls:DonateControl Product="{x:Bind}"/>
+        </DataTemplate>
+    </Page.Resources>
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -16,21 +24,25 @@
             <controls:SettingsHeaderControl Grid.Row="0"
                                             Icon="&#xEB68;"
                                             Text="Donate"/>
-            <StackPanel Margin="10, 0, 10, 0"
-                        Grid.Row="1">
+            <StackPanel Grid.Row="1">
                 <controls:SeperatorControl Text="In App:"/>
-                <Button x:Name="buySupportTier1_btn"
-                        Content="Tier 1"
-                        Margin="0, 10, 0, 0"
-                        Click="buySupportTier1_btn_Click"/>
-                <Button x:Name="buySupportTier2_btn"
-                        Content="Tier 2"
-                        Margin="0, 10, 0, 0"
-                        Click="buySupportTier2_btn_Click"/>
-                <Button x:Name="buySupportTier3_btn"
-                        Content="Tier 3"
-                        Margin="0, 10, 0, 0"
-                        Click="buySupportTier3_btn_Click"/>
+                <StackPanel x:Name="loadingInAppPuraches_stckp"
+                            Orientation="Horizontal"
+                            Margin="10, 10, 10, 0">
+                    <ProgressRing IsActive="True"/>
+                    <TextBlock Text="Loading..."
+                               Margin="10, 0, 0, 0"/>
+                </StackPanel>
+                <TextBlock x:Name="noInAppPurachesAvailable_tbx"
+                           Text="No in App purchases available! Please try again later."
+                           TextWrapping="WrapWholeWords"
+                           Margin="10, 10, 10, 0"/>
+                <ListView x:Name="inAppPuraches_lstv"
+                          Margin="10, 10, 10, 0"
+                          SelectionMode="None"
+                          ItemsSource="{x:Bind PRODUCTS}"
+                          ItemTemplate="{StaticResource storeDonationTemplate}"
+                          Visibility="Collapsed"/>
                 <controls:SeperatorControl Text="PayPal:"/>
                 <controls:SeperatorControl Text="Crypto:"/>
             </StackPanel>

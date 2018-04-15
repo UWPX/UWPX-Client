@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Logging;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Store;
+using Windows.Services.Store;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -9,6 +12,8 @@ namespace UWP_XMPP_Client.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public const string SUPPORT_TIER_1 = "SupportTier1";
+        private LicenseInformation licenseInformation;
+        public static readonly BuyContentHelper INSTANCE = new BuyContentHelper();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,7 +31,28 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static async Task<List<StoreProduct>> requestConsumablesAsync()
+        {
+            List<StoreProduct> products = new List<StoreProduct>();
 
+            string[] productKinds = { "Consumable", "UnmanagedConsumable" };
+            List<String> filterList = new List<string>(productKinds);
+
+            try
+            {
+                StoreProductQueryResult queryResult = await StoreContext.GetDefault().GetAssociatedStoreProductsAsync(filterList);
+                if(queryResult != null)
+                {
+                    products.AddRange(queryResult.Products.Values);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error during requesting consumable products.", e);
+            }
+
+            return products;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -46,6 +72,15 @@ namespace UWP_XMPP_Client.Classes
             {
                 return e;
             }
+        }
+
+        public void init()
+        {
+#if DEBUG
+            licenseInformation = CurrentAppSimulator.LicenseInformation;
+#else
+            licenseInformation = CurrentApp.LicenseInformation;
+#endif
         }
 
         #endregion
