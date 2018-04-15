@@ -16,6 +16,13 @@ namespace UWP_XMPP_Client
 {
     sealed partial class App : Application
     {
+        //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
+        #region --Attributes--
+
+
+        #endregion
+        //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
+        #region --Constructors--
         public App()
         {
             //Crash reports capturing:
@@ -31,41 +38,20 @@ namespace UWP_XMPP_Client
             AppUpdateHandler.onAppStart();
         }
 
-        /// <summary>
-        /// Wird aufgerufen, wenn die Anwendung durch den Endbenutzer normal gestartet wird. Weitere Einstiegspunkte
-        /// werden z. B. verwendet, wenn die Anwendung gestartet wird, um eine bestimmte Datei zu öffnen.
-        /// </summary>
-        /// <param name="e">Details über Startanforderung und -prozess.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            onActivatedOrLaunched(args);
-        }
 
-        /// <summary>
-        /// Wird aufgerufen, wenn die Navigation auf eine bestimmte Seite fehlschlägt
-        /// </summary>
-        /// <param name="sender">Der Rahmen, bei dem die Navigation fehlgeschlagen ist</param>
-        /// <param name="e">Details über den Navigationsfehler</param>
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
+        #endregion
+        //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
+        #region --Set-, Get- Methods--
 
-        /// <summary>
-        /// Wird aufgerufen, wenn die Ausführung der Anwendung angehalten wird.  Der Anwendungszustand wird gespeichert,
-        /// ohne zu wissen, ob die Anwendung beendet oder fortgesetzt wird und die Speicherinhalte dabei
-        /// unbeschädigt bleiben.
-        /// </summary>
-        /// <param name="sender">Die Quelle der Anhalteanforderung.</param>
-        /// <param name="e">Details zur Anhalteanforderung.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            // TODO re-implement transfer socket ownership:
-            //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
-            deferral.Complete();
-        }
 
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+
+
+        #endregion
+
+        #region --Misc Methods (Private)--
         /// <summary>
         /// Inits all db managers in a new task to force event subscriptions.
         /// </summary>
@@ -96,11 +82,6 @@ namespace UWP_XMPP_Client
                 Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
                 Logger.logLevel = LogLevel.INFO;
             }
-        }
-
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            onActivatedOrLaunched(args);
         }
 
         private void onActivatedOrLaunched(IActivatedEventArgs args)
@@ -203,5 +184,36 @@ namespace UWP_XMPP_Client
             }
             Window.Current.Activate();
         }
+
+        #endregion
+
+        #region --Misc Methods (Protected)--
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            onActivatedOrLaunched(args);
+        }
+
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            onActivatedOrLaunched(args);
+        }
+
+        #endregion
+        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
+        #region --Events--
+        private void OnSuspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            // TODO re-implement transfer socket ownership:
+            //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
+            deferral.Complete();
+        }
+
+        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        #endregion
     }
 }
