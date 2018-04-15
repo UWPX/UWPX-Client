@@ -51,7 +51,7 @@ namespace UWP_XMPP_Client.Pages
                 new SettingTemplate() {icon = "\xE12B", name = "Data", description = "Mobile Data, Wifi", page = typeof(DataSettingsPage)},
                 new SettingTemplate() {icon = "\xE15F", name = "Chat", description = "Availability", page = typeof(ChatSettingsPage)},
                 new SettingTemplate() {icon = "\xE71D", name = "Background Tasks", description = "Manage Tasks", page = typeof(BackgroundTasksSettingsPage)},
-                new SettingTemplate() {icon = "\uEB68", name = "Donate", description = "in-app purchases, PayPal, Crypto", page = typeof(DonateSettingsPage)},
+                new SettingTemplate() {icon = "\uEB68", name = "Donate", description = "In-App Purchases, PayPal, Crypto", page = typeof(DonateSettingsPage)},
                 new SettingTemplate() {icon = "\xE713", name = "Misc", description = "Everything Else", page = typeof(MiscSettingsPage)},
             };
         }

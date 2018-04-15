@@ -46,7 +46,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void requestPurache(string featureName)
+        private void requestPurchase(string featureName)
         {
             Task.Run(async () =>
             {
@@ -84,6 +84,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 donate_btn.IsEnabled = false;
                 donate_prgr.Visibility = Visibility.Visible;
+                requestPurchase(Product.StoreId);
             }
         }
 
