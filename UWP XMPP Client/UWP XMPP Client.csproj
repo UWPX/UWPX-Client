@@ -103,6 +103,7 @@
     <Compile Include="Classes\AppUpdateHandler.cs" />
     <Compile Include="Classes\BackgroundImageCache.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
+    <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />
     <Compile Include="Classes\Events\NavigatedToMUCInfoEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
@@ -276,6 +277,9 @@
     </Compile>
     <Compile Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml.cs">
       <DependentUpon>PersonalizeSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SettingsPages\DonateSettingsPage.xaml.cs">
+      <DependentUpon>DonateSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
@@ -575,6 +579,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\DonateSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

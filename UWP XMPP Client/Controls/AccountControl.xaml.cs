@@ -23,7 +23,7 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(AccountProperty, value);
-                if (value != null)
+                if (value != null && jabberId_tbx != null)
                 {
                     jabberId_tbx.Text = value.getIdAndDomain();
                 }

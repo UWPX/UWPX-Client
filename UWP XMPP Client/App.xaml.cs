@@ -11,6 +11,7 @@ using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using System.Threading.Tasks;
 using Logging;
+using Windows.ApplicationModel.Store;
 
 namespace UWP_XMPP_Client
 {
@@ -18,7 +19,7 @@ namespace UWP_XMPP_Client
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private LicenseInformation licenseInformation;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,6 +31,12 @@ namespace UWP_XMPP_Client
             {
                 HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
             }
+
+#if DEBUG
+            licenseInformation = CurrentAppSimulator.LicenseInformation;
+#else
+            licenseInformation = CurrentApp.LicenseInformation;
+#endif
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
