@@ -4,6 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
 using Windows.Networking.Sockets;
+using Windows.Security.Cryptography.Certificates;
 using Windows.Storage.Streams;
 using XMPP_API.Classes.Network.Events;
 
@@ -97,6 +98,12 @@ namespace XMPP_API.Classes.Network.TCP
                             socket = new StreamSocket();
                             socket.Control.KeepAlive = true;
                             hostName = new HostName(account.serverAddress);
+
+                            // Add all ignored certificate errors:
+                            foreach (ChainValidationResult item in account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS)
+                            {
+                                socket.Control.IgnorableServerCertificateErrors.Add(item);
+                            }
 
                             // Connect with timeout:
                             connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT);
