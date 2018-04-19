@@ -20,6 +20,7 @@
                     </MenuFlyout.Items>
                 </MenuFlyout>
             </StackPanel.Resources>
+            <TextBlock x:Name="nick_tbx" FontWeight="Bold" TextDecorations="Underline" Margin="0, 0, 0, 10" Text="{x:Bind ChatMessage.fromUser, Mode=OneWay}" IsTextSelectionEnabled="True" TextTrimming="CharacterEllipsis"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

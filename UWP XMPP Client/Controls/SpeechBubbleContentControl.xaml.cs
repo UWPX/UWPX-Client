@@ -28,6 +28,17 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleTopControl), null);
 
+        public ChatTable Chat
+        {
+            get { return (ChatTable)GetValue(ChatProperty); }
+            set
+            {
+                SetValue(ChatProperty, value);
+                setSenderNicknameVisability();
+            }
+        }
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(SpeechBubbleTopControl), null);
+
         private string imgPath;
 
         #endregion
@@ -48,7 +59,10 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private void setSenderNicknameVisability()
+        {
+            nick_tbx.Visibility = (Chat != null && Chat.chatType == ChatType.MUC) ? Visibility.Visible : Visibility.Collapsed;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -76,10 +90,10 @@ namespace UWP_XMPP_Client.Controls
                     {
                         switch (img.state)
                         {
-                            case Data_Manager2.Classes.DownloadState.WAITING:
+                            case DownloadState.WAITING:
                                 waitForImageDownloadToFinish(img);
                                 break;
-                            case Data_Manager2.Classes.DownloadState.DOWNLOADING:
+                            case DownloadState.DOWNLOADING:
                                 waitForImageDownloadToFinish(img);
                                 break;
                         }
@@ -142,13 +156,13 @@ namespace UWP_XMPP_Client.Controls
 
             switch (img.state)
             {
-                case Data_Manager2.Classes.DownloadState.DOWNLOADING:
+                case DownloadState.DOWNLOADING:
                     loading_prgrb.IsIndeterminate = false;
                     break;
-                case Data_Manager2.Classes.DownloadState.WAITING:
+                case DownloadState.WAITING:
                     loading_prgrb.IsIndeterminate = true;
                     break;
-                case Data_Manager2.Classes.DownloadState.DONE:
+                case DownloadState.DONE:
                     img.DownloadStateChanged -= Img_DownloadStateChanged;
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
                     image_img.Visibility = Visibility.Visible;
@@ -157,7 +171,7 @@ namespace UWP_XMPP_Client.Controls
                     openImage_mfo.IsEnabled = true;
                     redownloadImage_mfo.IsEnabled = true;
                     break;
-                case Data_Manager2.Classes.DownloadState.ERROR:
+                case DownloadState.ERROR:
                     img.DownloadStateChanged -= Img_DownloadStateChanged;
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
                     imageLoading_grid.Visibility = Visibility.Collapsed;
@@ -178,7 +192,7 @@ namespace UWP_XMPP_Client.Controls
             img.DownloadProgressChanged += Img_DownloadProgressChanged;
 
             imageLoading_grid.Visibility = Visibility.Visible;
-            loading_prgrb.IsIndeterminate = img.state == Data_Manager2.Classes.DownloadState.WAITING;
+            loading_prgrb.IsIndeterminate = img.state == DownloadState.WAITING;
         }
 
         private async Task retryImageDownloadAsync()
