@@ -50,9 +50,10 @@ namespace UWP_XMPP_Client.Controls
         {
             Task.Run(async () =>
             {
-                Exception ex = await BuyContentHelper.requestPuracheAsync(featureName);
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
+                    Exception ex = await BuyContentHelper.requestPuracheAsync(featureName);
+
                     TextDialog dialog;
                     if (ex != null)
                     {

@@ -15,6 +15,12 @@ namespace UWP_XMPP_Client.Classes
         private LicenseInformation licenseInformation;
         public static readonly BuyContentHelper INSTANCE = new BuyContentHelper();
 
+        public const string CONSUMABLE = "Consumable";
+        public const string UNMANAGED_CONSUMABLE = "UnmanagedConsumable";
+        public const string APPLICATION = "Application";
+        public const string GAME = "Game";
+        public const string DURABLE = "Durable";
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -35,7 +41,7 @@ namespace UWP_XMPP_Client.Classes
         {
             List<StoreProduct> products = new List<StoreProduct>();
 
-            string[] productKinds = { "Consumable", "UnmanagedConsumable" };
+            string[] productKinds = { UNMANAGED_CONSUMABLE };
             List<String> filterList = new List<string>(productKinds);
 
             try

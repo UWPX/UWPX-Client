@@ -8,6 +8,7 @@
 
     <StackPanel Orientation="Horizontal">
         <Button x:Name="donate_btn"
+                VerticalAlignment="Center"
                 Click="donate_btn_Click">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Text="Donate"/>
@@ -16,7 +17,9 @@
                               Visibility="Collapsed"/>
             </StackPanel>
         </Button>
-        <TextBlock Text="{x:Bind Product.Price.FormattedPrice}"
+        <TextBlock Text="{x:Bind Product.Price.FormattedPrice, Mode=OneWay}"
+                   VerticalAlignment="Center"
+                   Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
                    Margin="10, 0, 0, 0"/>
     </StackPanel>
 </UserControl>
