@@ -28,7 +28,7 @@ namespace UWP_XMPP_Client.Dialogs
             this.InitializeComponent();
         }
 
-        public TextDialog(string text, string titel)
+        public TextDialog(string text, string titel) : this()
         {
             this.Text = text;
             this.Title = titel;
