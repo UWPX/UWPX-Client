@@ -9,7 +9,7 @@
 
     <Grid HorizontalAlignment="Right" Padding="6">
         <Polygon Points="10,10 0,0 10,0" Fill="{ThemeResource SystemAccentColorDark3}" Stroke="Black" Margin="0,0,11,0" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
-        <controls1:SpeechBubbleContentControl ChatMessage="{x:Bind ChatMessage, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" Background="{ThemeResource SystemAccentColorDark3}" Margin="0, 0, 0, 10"/>
+        <controls1:SpeechBubbleContentControl ChatMessage="{x:Bind ChatMessage, Mode=OneWay}" Background="{ThemeResource SystemAccentColorDark3}" Margin="0, 0, 0, 10"/>
         <Polygon Visibility="Visible" Points="11,11 0,0 11,0" Fill="{ThemeResource SystemAccentColorDark3}" Margin="0,0,11.4,1" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

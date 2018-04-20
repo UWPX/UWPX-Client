@@ -20,7 +20,6 @@
                     </MenuFlyout.Items>
                 </MenuFlyout>
             </StackPanel.Resources>
-            <TextBlock x:Name="nick_tbx" FontWeight="Bold" TextDecorations="Underline" Margin="0, 0, 0, 10" Text="{x:Bind ChatMessage.fromUser, Mode=OneWay}" IsTextSelectionEnabled="True" TextTrimming="CharacterEllipsis"/>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -51,9 +50,14 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="date_tbx" Grid.Column="0" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-                <TextBlock x:Name="state_tbx" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Text="" Margin="5, 0, 0, 0"/>
+                <StackPanel x:Name="nick_stckp" Visibility="Collapsed" Orientation="Horizontal" Grid.Column="0">
+                    <TextBlock FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Text="{x:Bind ChatMessage.fromUser, Mode=OneWay, FallbackValue='-'}" IsTextSelectionEnabled="True" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="5, 0, 5, 0" Text="&#xECCC;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center"/>
+                </StackPanel>
+                <TextBlock x:Name="date_tbx" Grid.Column="1" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                <TextBlock x:Name="state_tbx" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Text="" Margin="5, 0, 0, 0"/>
             </Grid>
         </StackPanel>
     </Border>

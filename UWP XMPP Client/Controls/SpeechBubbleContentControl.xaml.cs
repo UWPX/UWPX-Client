@@ -61,7 +61,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Set-, Get- Methods--
         private void setSenderNicknameVisability()
         {
-            nick_tbx.Visibility = (Chat != null && Chat.chatType == ChatType.MUC) ? Visibility.Visible : Visibility.Collapsed;
+            nick_stckp.Visibility = (Chat != null && Chat.chatType == ChatType.MUC) ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion

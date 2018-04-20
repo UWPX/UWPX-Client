@@ -79,7 +79,8 @@ namespace Data_Manager2.Classes.DBTables
                 presence = presence,
                 status = status,
                 subscription = subscription,
-                userAccountId = userAccountId
+                userAccountId = userAccountId,
+                chatType = chatType
             };
         }
 

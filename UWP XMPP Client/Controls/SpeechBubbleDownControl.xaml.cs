@@ -15,13 +15,6 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleDownControl), null);
 
-        public ChatTable Chat
-        {
-            get { return (ChatTable)GetValue(ChatProperty); }
-            set { SetValue(ChatProperty, value); }
-        }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(SpeechBubbleDownControl), null);
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

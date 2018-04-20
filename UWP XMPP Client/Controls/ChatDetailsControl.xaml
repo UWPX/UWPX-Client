@@ -12,10 +12,10 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="sendMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
-            <controls:SpeechBubbleDownControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
+            <controls:SpeechBubbleDownControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
         <DataTemplate x:Key="receivedMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
-            <controls:SpeechBubbleTopControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
+            <controls:SpeechBubbleTopControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
         </DataTemplate>
         <DataTemplate x:Key="errorMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleErrorControl ChatMessage="{x:Bind message, Mode=OneWay}"/>

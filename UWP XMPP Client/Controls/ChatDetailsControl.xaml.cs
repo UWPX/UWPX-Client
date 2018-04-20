@@ -134,9 +134,12 @@ namespace UWP_XMPP_Client.Controls
 
                 ChatTable newChat_cpy = newChat.clone();
 
-                // Show all chat messages:
                 Task.Run(async () =>
                 {
+                    // Mark all unread messages as read for this chat:
+                    ChatDBManager.INSTANCE.markAllMessagesAsRead(newChat_cpy);
+
+                    // Show all chat messages:
                     List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                     foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(newChat_cpy.id))
                     {
@@ -152,9 +155,6 @@ namespace UWP_XMPP_Client.Controls
                         chatMessages.AddRange(msgs);
                     });
                 });
-
-                // Mark all unread messages as read for this chat:
-                Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(newChat_cpy));
             }
         }
 
