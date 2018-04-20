@@ -19,23 +19,32 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Rectangle x:Name="color_rcta" Grid.Column="0" Width="5" Fill="Transparent" Height="40"/>
                 <Button x:Name="edit_btn" Grid.Column="1" FontFamily="Segoe MDL2 Assets" Content="&#xE1C2;" Height="40" Width="40" FontSize="20" Margin="10, 0, 10, 0" Click="edit_btn_Click" Foreground="{ThemeResource SystemAccentColor}"/>
                 <controls:AccountImageWithPresenceControl x:Name="image_aciwp" Grid.Column="2"/>
-                <Grid Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="showSecurity_btn"
+                        Grid.Column="3"
+                        Content="&#xE785;"
+                        Margin="5, 0, 10, 0"
+                        HorizontalAlignment="Center"
+                        Foreground="Red"
+                        FontFamily="Segoe MDL2 Assets"
+                        Click="showSecurity_btn_Click"/>
+                <Grid Grid.Column="4" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="primaryInfo_tblck" Text="{x:Bind Account.user.userId, Mode=OneWay}" Grid.Row="0" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"/>
-                    <TextBlock x:Name="secondaryInfo_tblck" Text="{x:Bind Account.user.domain, Mode=OneWay}" Grid.Row="1" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"/>
-                    <TextBlock x:Name="error_tblck" Grid.Row="2" FontSize="10" Foreground="Red" Margin="10, 0, 0, 0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" Visibility="Collapsed"/>
+                    <TextBlock x:Name="primaryInfo_tblck" Text="{x:Bind Account.user.userId, Mode=OneWay}" Grid.Row="0" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="secondaryInfo_tblck" Text="{x:Bind Account.user.domain, Mode=OneWay}" Grid.Row="1" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"/>
+                    <TextBlock x:Name="error_tblck" Grid.Row="2" FontSize="10" Foreground="Red" TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" Visibility="Collapsed"/>
                 </Grid>
-                <ToggleSwitch x:Name="disableAccount_tggls" Grid.Column="4" OffContent="Disabled" OnContent="Enabled" IsOn="True" HorizontalAlignment="Right" Margin="10, 10, 0, 10" Toggled="disableAccount_tggls_Toggled"/>
+                <ToggleSwitch x:Name="disableAccount_tggls" Grid.Column="5" OffContent="Disabled" OnContent="Enabled" IsOn="True" HorizontalAlignment="Right" Margin="10, 10, 0, 10" Toggled="disableAccount_tggls_Toggled"/>
             </Grid>
             <controls:SeperatorControl Grid.Row="1"/>
             <StackPanel x:Name="accountOptions_stckp" Visibility="Collapsed" Grid.Row="2" Margin="10">

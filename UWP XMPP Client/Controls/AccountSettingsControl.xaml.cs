@@ -10,6 +10,8 @@ using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Dialogs;
 using Data_Manager2.Classes.DBTables;
+using Windows.UI;
+using Windows.UI.Xaml.Media;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -82,7 +84,9 @@ namespace UWP_XMPP_Client.Controls
                     {
                         client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                         client.ConnectionStateChanged += Client_ConnectionStateChanged;
-                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client.getConnetionState(), client.getLastErrorMessage())).AsTask();
+                        client.getXMPPAccount().CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
+                        client.getXMPPAccount().CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client, client.getConnetionState(), client.getLastErrorMessage())).AsTask();
                     }
                     Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => IsEnabled = true).AsTask();
                 });
@@ -121,8 +125,35 @@ namespace UWP_XMPP_Client.Controls
             return false;
         }
 
-        private void showConnectionState(ConnectionState state, object param)
+        private void updateSecurityButton(XMPPClient client, ConnectionState state)
         {
+            if (client != null && state == ConnectionState.CONNECTED)
+            {
+                if (client.getXMPPAccount().CONNECTION_INFO.tlsConnected)
+                {
+                    showSecurity_btn.Foreground = new SolidColorBrush(Colors.Green);
+                    showSecurity_btn.Content = "\uE72E";
+                }
+                else
+                {
+                    showSecurity_btn.Foreground = new SolidColorBrush(Colors.Red);
+                    showSecurity_btn.Content = "\uE785";
+                }
+
+                showSecurity_btn.IsEnabled = true;
+            }
+            else
+            {
+                showSecurity_btn.IsEnabled = false;
+                showSecurity_btn.Foreground = new SolidColorBrush(Colors.Red);
+                showSecurity_btn.Content = "\uE785";
+            }
+        }
+
+        private void showConnectionState(XMPPClient client, ConnectionState state, object param)
+        {
+            updateSecurityButton(client, state);
+
             error_tblck.Visibility = Visibility.Collapsed;
             switch (state)
             {
@@ -222,7 +253,22 @@ namespace UWP_XMPP_Client.Controls
 
         private async void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(args.newState, args.param));
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client, args.newState, args.param));
+        }
+
+        private void showSecurity_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private async void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case "tlsConnected":
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => updateSecurityButton(client, client.getConnetionState()));
+                    break;
+            }
         }
 
         #endregion

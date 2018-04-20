@@ -187,6 +187,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
                         Logger.Debug("Success upgrading " + account.getIdAndDomain() + " to TLS.");
 
+                        setState(TLSState.CONNECTED);
+
                         // TLS established ==> resend stream header
                         msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
                     }
