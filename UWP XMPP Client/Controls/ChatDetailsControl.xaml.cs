@@ -136,21 +136,22 @@ namespace UWP_XMPP_Client.Controls
                 loading_ldng.IsLoading = true;
                 invertedListView_lstv.Visibility = Visibility.Collapsed;
 
-                ChatTable newChat_cpy = newChat.clone();
+                // Create a copy to prevent multi threading issues:
+                ChatTable chatCpy = newChat;
 
                 Task.Run(async () =>
                 {
                     // Mark all unread messages as read for this chat:
-                    ChatDBManager.INSTANCE.markAllMessagesAsRead(newChat_cpy);
+                    ChatDBManager.INSTANCE.markAllMessagesAsRead(chatCpy);
 
                     // Show all chat messages:
                     List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                    foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(newChat_cpy.id))
+                    foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chatCpy.id))
                     {
                         msgs.Add(new ChatMessageDataTemplate()
                         {
                             message = msg,
-                            chat = newChat_cpy
+                            chat = chatCpy
                         });
                     }
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
