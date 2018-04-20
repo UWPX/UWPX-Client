@@ -139,6 +139,9 @@
     <Compile Include="Controls\KickBanOccupantControl.xaml.cs">
       <DependentUpon>KickBanOccupantControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LoadingContentControl.xaml.cs">
+      <DependentUpon>LoadingContentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MUCInfoControl.xaml.cs">
       <DependentUpon>MUCInfoControl.xaml</DependentUpon>
     </Compile>
@@ -414,6 +417,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\KickBanOccupantControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LoadingContentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

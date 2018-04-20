@@ -132,6 +132,10 @@ namespace UWP_XMPP_Client.Controls
                     return;
                 }
 
+                // Show loading:
+                loading_ldng.IsLoading = true;
+                invertedListView_lstv.Visibility = Visibility.Collapsed;
+
                 ChatTable newChat_cpy = newChat.clone();
 
                 Task.Run(async () =>
@@ -153,6 +157,8 @@ namespace UWP_XMPP_Client.Controls
                     {
                         chatMessages.Clear();
                         chatMessages.AddRange(msgs);
+                        invertedListView_lstv.Visibility = Visibility.Visible;
+                        loading_ldng.IsLoading = false;
                     });
                 });
             }

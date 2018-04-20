@@ -47,6 +47,7 @@
             </Grid.RowDefinitions>
             <ListView x:Name="invertedListView_lstv"
                       Grid.Row="0"
+                      Visibility="Collapsed"
                       IncrementalLoadingTrigger="Edge"
                       VerticalAlignment="Stretch"
                       Padding="0, 10, 0, 0"
@@ -68,7 +69,14 @@
                 </ListView.ItemContainerStyle>
             </ListView>
 
-            <Grid Grid.Row="0" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+            <controls1:Loading x:Name="loading_ldng"
+                              Grid.Row="0"
+                               IsLoading="True"
+                              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                <controls:LoadingContentControl Text="Loading chat messages..."/>
+            </controls1:Loading>
+
+                <Grid Grid.Row="0" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
