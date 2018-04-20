@@ -38,7 +38,7 @@
                            TextWrapping="WrapWholeWords"
                            Margin="10, 10, 10, 0"/>
                 <ListView x:Name="inAppPuraches_lstv"
-                          Margin="10, 10, 10, 0"
+                          Margin="0, 10, 0, 0"
                           SelectionMode="None"
                           ItemsSource="{x:Bind PRODUCTS}"
                           ItemTemplate="{StaticResource storeDonationTemplate}"

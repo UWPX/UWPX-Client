@@ -14,6 +14,7 @@
                 <TextBlock Text="Donate"/>
                 <ProgressRing x:Name="donate_prgr"
                               IsActive="True"
+                              Margin="10, 0, 0, 0"
                               Visibility="Collapsed"/>
             </StackPanel>
         </Button>
