@@ -71,7 +71,7 @@
 
             <controls1:Loading x:Name="loading_ldng"
                               Grid.Row="0"
-                               IsLoading="True"
+                              IsLoading="True"
                               Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
