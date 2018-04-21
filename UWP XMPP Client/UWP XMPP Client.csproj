@@ -202,6 +202,9 @@
     <Compile Include="Dialogs\ConnectionInfoDialog.xaml.cs">
       <DependentUpon>ConnectionInfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ConnectionSecurityInfoDialog.xaml.cs">
+      <DependentUpon>ConnectionSecurityInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\DeleteAccountDialog.xaml.cs">
       <DependentUpon>DeleteAccountDialog.xaml</DependentUpon>
     </Compile>
@@ -489,6 +492,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ConnectionInfoDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConnectionSecurityInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
