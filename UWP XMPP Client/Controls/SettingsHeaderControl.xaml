@@ -6,14 +6,27 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch" Padding="0, 10, 0, 10" Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-        <Grid Grid.Row="0" HorizontalAlignment="Center">
+    <Grid HorizontalAlignment="Stretch"
+          Padding="0, 10, 0, 10"
+          Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
+        <Grid Grid.Row="0"
+              HorizontalAlignment="Center"
+              Tapped="Grid_Tapped">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" FontFamily="Segoe MDL2 Assets" Text="{x:Bind Icon}" Foreground="{ThemeResource SystemAccentColor}" FontSize="20" VerticalAlignment="Center"/>
-            <TextBlock Grid.Column="1" Text="{x:Bind Text}" FontWeight="Bold" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
+            <TextBlock Grid.Column="0"
+                       FontFamily="Segoe MDL2 Assets"
+                       Text="{x:Bind Icon}"
+                       Foreground="{ThemeResource SystemAccentColor}"
+                       FontSize="20"
+                       VerticalAlignment="Center"/>
+            <TextBlock Grid.Column="1"
+                       Text="{x:Bind Text}"
+                       FontWeight="Bold"
+                       VerticalAlignment="Center"
+                       Margin="10, 0, 0, 0"/>
         </Grid>
     </Grid>
 </UserControl>

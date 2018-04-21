@@ -22,7 +22,7 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <controls:SettingsHeaderControl Grid.Row="0"
-                                            Icon="&#xEB68;"
+                                            Icon="&#xEB52;"
                                             Text="Donate"/>
             <StackPanel Grid.Row="1">
                 <controls:SeperatorControl Text="In App:"/>
