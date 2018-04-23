@@ -259,7 +259,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
-            requestBanList();
+            Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => requestBanList()).AsTask();
         }
 
         #endregion
