@@ -90,6 +90,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             loadInAppPuraches();
         }
 
+        private async void donateLP_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await UiUtils.launchBrowserAsync(new Uri("https://liberapay.com/~46531/donate"));
+        }
+
         #endregion
     }
 }

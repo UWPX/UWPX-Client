@@ -23,11 +23,6 @@
                 VerticalAlignment="Center"
                 Click="donate_btn_Click">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="&#xEB52;"
-                           FontFamily="Segoe MDL2 Assets"
-                           VerticalAlignment="Center"
-                           Margin="0, 0, 5, 0"
-                           Foreground="{ThemeResource SystemAccentColor}"/>
                 <TextBlock Text="Donate"/>
                 <ProgressRing x:Name="donate_prgr"
                               IsActive="True"
