@@ -79,11 +79,6 @@ namespace UWP_XMPP_Client.Controls
             subject_stbx.IsEnabled = isClientConnected() && isMUCEntered();
         }
 
-        private void setNicknameIsEnabled()
-        {
-            nickname_stbx.IsEnabled = isClientConnected() && isMUCEntered();
-        }
-
         private void setNotConnectedVisibility()
         {
             notConnected_itbx.Visibility = isClientConnected() ? Visibility.Collapsed : Visibility.Visible;
@@ -117,7 +112,6 @@ namespace UWP_XMPP_Client.Controls
                 autoJoin_tgls.IsOn = MUCInfo.autoEnterRoom;
                 enterState_tbx.Foreground = UiUtils.getPresenceBrush(presence);
 
-                setNicknameIsEnabled();
                 setSubjectIsEnabled();
                 setNotConnectedVisibility();
 
@@ -244,7 +238,16 @@ namespace UWP_XMPP_Client.Controls
 
             notificationBanner_ian.Dismiss();
 
-            changeNickHelper = Client.MUC_COMMAND_HELPER.changeNickname(Chat.chatJabberId, nickname_stbx.Text, onChangeNickMessage, onChangeNickTimeout);
+            if (isMUCEntered())
+            {
+                changeNickHelper = Client.MUC_COMMAND_HELPER.changeNickname(Chat.chatJabberId, nickname_stbx.Text, onChangeNickMessage, onChangeNickTimeout);
+            }
+            else
+            {
+                MUCInfo.nickname = nickname_stbx.Text;
+                MUCChatInfoTable info = MUCInfo;
+                Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true));
+            }
         }
 
         private bool onChangeNickMessage(PresenceMessage msg)
@@ -257,6 +260,10 @@ namespace UWP_XMPP_Client.Controls
                 {
                     Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
+                        MUCInfo.nickname = mPMessage.NICKNAME;
+                        MUCChatInfoTable info = MUCInfo;
+                        Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true));
+
                         nickname_stbx.Text = mPMessage.NICKNAME;
                         nickname_stbx.onSavingDone();
                         notificationBanner_ian.Show("Successfully changed nickname to: " + mPMessage.NICKNAME, 5000);
@@ -294,7 +301,7 @@ namespace UWP_XMPP_Client.Controls
             notificationBanner_ian.Dismiss();
             MUCInfo.password = password_spwbx.Password;
             MUCChatInfoTable info = MUCInfo;
-            Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, false));
+            Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true));
             password_spwbx.onSavingDone();
             notificationBanner_ian.Show("Successfully saved password!", 5000);
         }

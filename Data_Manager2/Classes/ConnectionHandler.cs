@@ -87,10 +87,7 @@ namespace Data_Manager2.Classes
                         case ConnectionState.DISCONNECTED:
                         case ConnectionState.DISCONNECTING:
                         case ConnectionState.ERROR:
-                            Task.Run(async () =>
-                            {
-                                await c.connectAsync();
-                            }).ContinueWith((Task prev) =>
+                            Task.Run(async () => await c.connectAsync()).ContinueWith((Task prev) =>
                             {
                                 if (prev.Exception != null)
                                 {
@@ -108,10 +105,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void disconnectAll()
         {
-            Parallel.ForEach(CLIENTS, async (c) =>
-            {
-                await c.disconnectAsync();
-            });
+            Parallel.ForEach(CLIENTS, async (c) => await c.disconnectAsync());
         }
 
         /// <summary>
@@ -137,10 +131,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public void reconnectAll()
         {
-            Parallel.ForEach(CLIENTS, async (c) =>
-            {
-                await reconnectClientAsync(c);
-            });
+            Parallel.ForEach(CLIENTS, async (c) => await reconnectClientAsync(c));
         }
 
         #endregion
