@@ -76,6 +76,7 @@ namespace UWP_XMPP_Client.Controls
                     client.ConnectionStateChanged -= Client_ConnectionStateChanged;
                 }
                 string accountId = Account.getIdAndDomain();
+                disableAccount_tggls.IsOn = !Account.disabled;
                 Task.Run(() =>
                 {
                     client = ConnectionHandler.INSTANCE.getClient(accountId);
