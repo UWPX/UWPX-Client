@@ -154,23 +154,41 @@ namespace UWP_XMPP_Client.Controls
             redownloadImage_mfo.IsEnabled = false;
             imgPath = img.path;
 
+            if (img.state == DownloadState.DONE)
+            {
+                image_img.Source = await img.getBitmapImageAsync();
+                if (image_img.Source == null)
+                {
+                    img.DownloadStateChanged -= Img_DownloadStateChanged;
+                    img.DownloadProgressChanged -= Img_DownloadProgressChanged;
+                    imageLoading_grid.Visibility = Visibility.Collapsed;
+                    imageError_grid.Visibility = Visibility.Visible;
+                    message_tbx.Text = "Image not found!";
+                    message_tbx.Visibility = Visibility.Visible;
+                    redownloadImage_mfo.IsEnabled = true;
+                    return;
+                }
+            }
+
             switch (img.state)
             {
                 case DownloadState.DOWNLOADING:
                     loading_prgrb.IsIndeterminate = false;
                     break;
+
                 case DownloadState.WAITING:
                     loading_prgrb.IsIndeterminate = true;
                     break;
+
                 case DownloadState.DONE:
                     img.DownloadStateChanged -= Img_DownloadStateChanged;
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
                     image_img.Visibility = Visibility.Visible;
                     imageLoading_grid.Visibility = Visibility.Collapsed;
-                    image_img.Source = await img.getBitmapImageAsync();
                     openImage_mfo.IsEnabled = true;
                     redownloadImage_mfo.IsEnabled = true;
                     break;
+
                 case DownloadState.ERROR:
                     img.DownloadStateChanged -= Img_DownloadStateChanged;
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
