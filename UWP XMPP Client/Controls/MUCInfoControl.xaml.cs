@@ -246,7 +246,8 @@ namespace UWP_XMPP_Client.Controls
             {
                 MUCInfo.nickname = nickname_stbx.Text;
                 MUCChatInfoTable info = MUCInfo;
-                Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true));
+                Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, false));
+                nickname_stbx.onSavingDone();
             }
         }
 
@@ -262,7 +263,7 @@ namespace UWP_XMPP_Client.Controls
                     {
                         MUCInfo.nickname = mPMessage.NICKNAME;
                         MUCChatInfoTable info = MUCInfo;
-                        Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, true));
+                        Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(info, false, false));
 
                         nickname_stbx.Text = mPMessage.NICKNAME;
                         nickname_stbx.onSavingDone();
