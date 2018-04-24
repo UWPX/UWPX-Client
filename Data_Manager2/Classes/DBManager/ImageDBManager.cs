@@ -341,7 +341,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <returns>Returns an unique file name.</returns>
         private string createUniqueFileName(string url)
         {
-            string name = DateTime.Now.ToLocalTime().ToString("dd.MM.yyyy_HH.mm.ss.ffff");
+            string name = DateTime.Now.ToString("dd.MM.yyyy_HH.mm.ss.ffff");
             int index = url.LastIndexOf('.');
             string ending = url.Substring(index, url.Length - index);
             return name + ending;

@@ -206,7 +206,7 @@ namespace UWP_XMPP_Client.Controls
                 // Last action date:
                 if (chat.lastActive != null)
                 {
-                    DateTime lastActiveLocal = chat.lastActive.ToLocalTime();
+                    DateTime lastActiveLocal = chat.lastActive;
                     if (lastActiveLocal.Date.CompareTo(DateTime.Now.Date) == 0)
                     {
                         lastAction_tblck.Text = lastActiveLocal.ToString("HH:mm");
