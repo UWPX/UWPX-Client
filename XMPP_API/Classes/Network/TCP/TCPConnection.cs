@@ -107,10 +107,27 @@ namespace XMPP_API.Classes.Network.TCP
 
                             // Connect with timeout:
                             connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT);
-                            Task connectTask = socket.ConnectAsync(hostName, account.port.ToString()).AsTask(connectingCTS.Token);
+                            Task<Exception> connectTask = Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    await socket.ConnectAsync(hostName, account.port.ToString());
+                                }
+                                catch (Exception e)
+                                {
+                                    return e;
+                                }
+                                return null;
+                            }, connectingCTS.Token);
 
                             // Await connection with timeout:
                             await connectTask;
+
+                            if (connectTask.Result != null)
+                            {
+                                lastExceptionMessage = await onConnectExceptionAsync(i, connectTask.Result);
+                                continue;
+                            }
 
                             // Setup stream reader and writer:
                             dataWriter = new DataWriter(socket.OutputStream);
@@ -132,17 +149,7 @@ namespace XMPP_API.Classes.Network.TCP
                         }
                         catch (Exception e)
                         {
-                            SocketErrorStatus socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
-                            if (socketErrorStatus == SocketErrorStatus.Unknown)
-                            {
-                                Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- Unknown Exception - ", e);
-                            }
-                            else
-                            {
-                                Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- Exception - " + socketErrorStatus.ToString());
-                            }
-                            lastExceptionMessage = socketErrorStatus.ToString();
-                            await cleanupAsync();
+                            lastExceptionMessage = await onConnectExceptionAsync(i, e);
                         }
                     }
                     setState(ConnectionState.ERROR, lastExceptionMessage);
@@ -356,7 +363,21 @@ namespace XMPP_API.Classes.Network.TCP
         #endregion
 
         #region --Misc Methods (Private)--
+        private async Task<string> onConnectExceptionAsync(int i, Exception e)
+        {
+            SocketErrorStatus socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
+            if (socketErrorStatus == SocketErrorStatus.Unknown)
+            {
+                Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- Unknown Exception - ", e);
+            }
+            else
+            {
+                Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- Exception - " + socketErrorStatus.ToString());
+            }
+            await cleanupAsync();
 
+            return socketErrorStatus.ToString();
+        }
 
         #endregion
 
