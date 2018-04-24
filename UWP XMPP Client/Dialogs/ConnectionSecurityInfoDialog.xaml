@@ -6,9 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     Title="Security info:"
-    PrimaryButtonText="Button1"
-    SecondaryButtonText="Button2"
-    PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+    SecondaryButtonText="Close"
     SecondaryButtonClick="ContentDialog_SecondaryButtonClick">
 
     <Pivot Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
@@ -28,6 +26,44 @@
                         <TextBlock Text="Certificate information:"
                                    Margin="10, 0, 0, 0"/>
                     </StackPanel>
+                    <TextBlock Text="Name:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.FriendlyName, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Subject:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.Subject, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Issuer:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.Issuer, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Valid from:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.ValidFrom, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Valid to:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.ValidTo, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Serial number:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.SerialNumber, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Key algorithm:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
+                    <TextBlock Text="{x:Bind Cert.KeyAlgorithmName, Mode=OneWay, FallbackValue='-'}"
+                               TextWrapping="Wrap"/>
+                    <TextBlock Text="Key algorithm:"
+                               Margin="0, 10, 0, 0"
+                               FontWeight="Bold"/>
                 </StackPanel>
             </ScrollViewer>
         </PivotItem>

@@ -257,9 +257,16 @@ namespace UWP_XMPP_Client.Controls
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client, args.newState, args.param));
         }
 
-        private void showSecurity_btn_Click(object sender, RoutedEventArgs e)
+        private async void showSecurity_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            if (client != null)
+            {
+                ConnectionSecurityInfoDialog dialog = new ConnectionSecurityInfoDialog()
+                {
+                    Cert = client.getXMPPAccount().CONNECTION_INFO.socketInfo?.ServerCertificate
+                };
+                await dialog.ShowAsync();
+            }
         }
 
         private async void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
