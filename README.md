@@ -2,7 +2,8 @@
 [This App is still in alpha stage!]
 
 Chat with all your XMPP contacts.<br/>
-UWPX is an XMPP client, that connects to all your favourite XMPP servers.
+UWPX is an XMPP client that connects to all your favourite XMPP servers.<br/>
+It works on all Windows 10 UWP devices.
 
 ## Features:
 | Name          | XEPs         |
