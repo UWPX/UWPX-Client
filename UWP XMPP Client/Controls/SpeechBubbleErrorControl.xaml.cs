@@ -1,5 +1,4 @@
 ﻿using Data_Manager2.Classes.DBTables;
-using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
