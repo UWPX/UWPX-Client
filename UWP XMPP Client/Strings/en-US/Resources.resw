@@ -117,6 +117,14 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AccountSettingsPage_too_many_accounts_text" xml:space="preserve">
+    <value>There is currently a limit of 15 accounts.
+The reason for this is:
+The UWP password vault is limited to 20 passwords per App and for fail save reasons the accounts limit is 15 .
+
+Read more:
+https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault.add#Windows_Security_Credentials_PasswordVault_Add_Windows_Security_Credentials_PasswordCredential</value>
+  </data>
   <data name="error_text" xml:space="preserve">
     <value>Error</value>
   </data>

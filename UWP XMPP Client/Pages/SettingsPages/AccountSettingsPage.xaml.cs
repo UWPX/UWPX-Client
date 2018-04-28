@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.Events;
+using UWP_XMPP_Client.Dialogs;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -79,6 +81,32 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             });
         }
 
+        private void addAccount()
+        {
+            addAccount_prgr.Visibility = Visibility.Visible;
+            addAccount_btn.IsEnabled = false;
+
+            Task t = Task.Run(() =>
+            {
+                int accountCount = AccountDBManager.INSTANCE.getAccountCount();
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    // https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault.add#Windows_Security_Credentials_PasswordVault_Add_Windows_Security_Credentials_PasswordCredential_
+                    if (accountCount >= 15)
+                    {
+                        TextDialog dialog = new TextDialog(Localisation.getLocalizedString("AccountSettingsPage_too_many_accounts_text"), "Error!");
+                        await dialog.ShowAsync();
+                    }
+                    else
+                    {
+                        (Window.Current.Content as Frame).Navigate(typeof(AddAccountPage));
+                    }
+                    addAccount_prgr.Visibility = Visibility.Visible;
+                    addAccount_btn.IsEnabled = false;
+                }).AsTask();
+            });
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -103,7 +131,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void addAccount_btn_Click(object sender, RoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(AddAccountPage));
+            addAccount();
         }
 
         private void reloadAccounts_btn_Click(object sender, RoutedEventArgs e)

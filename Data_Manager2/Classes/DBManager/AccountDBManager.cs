@@ -87,6 +87,22 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<IgnoredCertificateErrorTable>(true, "SELECT * FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", accountId);
         }
 
+        /// <summary>
+        /// Returns a list of all accounts from the DB.
+        /// </summary>
+        private List<AccountTable> getAccounts()
+        {
+            return dB.Query<AccountTable>(true, "SELECT * FROM " + DBTableConsts.ACCOUNT_TABLE + ";");
+        }
+
+        /// <summary>
+        /// Returns how many accounts are currently in the DB.
+        /// </summary>
+        public int getAccountCount()
+        {
+            return getAccounts().Count;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -115,7 +131,7 @@ namespace Data_Manager2.Classes.DBManager
         public IList<XMPPAccount> loadAllAccounts()
         {
             IList<XMPPAccount> results = new List<XMPPAccount>();
-            IList<AccountTable> accounts = dB.Query<AccountTable>(true, "SELECT * FROM " + DBTableConsts.ACCOUNT_TABLE + ";");
+            IList<AccountTable> accounts = getAccounts();
             for (int i = 0; i < accounts.Count; i++)
             {
                 XMPPAccount acc = accounts[i].toXMPPAccount();
