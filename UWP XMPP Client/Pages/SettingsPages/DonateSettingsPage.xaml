@@ -30,7 +30,7 @@
                             Orientation="Horizontal"
                             Margin="10, 10, 10, 0">
                     <ProgressRing IsActive="True"/>
-                    <TextBlock Text="Loading..."
+                    <TextBlock Text="Loading in App donations..."
                                Margin="10, 0, 0, 0"/>
                 </StackPanel>
                 <TextBlock x:Name="noInAppPurachesAvailable_tbx"
