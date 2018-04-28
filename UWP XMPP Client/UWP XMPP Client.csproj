@@ -330,6 +330,7 @@
     <Content Include="Assets\Images\license.png" />
     <Content Include="Assets\Images\lp.png" />
     <Content Include="Assets\Images\placeholder.png" />
+    <Content Include="Assets\Images\pp.png" />
     <Content Include="Assets\Images\send.png" />
     <Content Include="Assets\Images\xmpp_logo.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />

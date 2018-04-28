@@ -43,15 +43,24 @@
                           ItemsSource="{x:Bind PRODUCTS}"
                           ItemTemplate="{StaticResource storeDonationTemplate}"
                           Visibility="Collapsed"/>
-                <controls:SeperatorControl Text="Liberapay:"/>
-                <Button x:Name="donateLP_btn"
+                <controls:SeperatorControl Text="Liberapay/PayPal:"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button x:Name="donateLP_btn"
                         Margin="10, 10, 0, 0"
                         Click="donateLP_btn_Click"
                         Padding="0"
+                        Height="30"
                         Background="Transparent">
-                    <Image Source="ms-appx:///Assets/Images/lp.png"
-                               Height="30"/>
-                </Button>
+                        <Image Source="ms-appx:///Assets/Images/lp.png"/>
+                    </Button>
+                    <Button x:Name="donatePP_btn"
+                        Margin="10, 10, 0, 0"
+                        Height="30"
+                        Padding="5, 3, 5, 3"
+                        Click="donatePP_btn_Click">
+                        <Image Source="ms-appx:///Assets/Images/pp.png"/>
+                    </Button>
+                </StackPanel>
                 <controls:SeperatorControl Text="Crypto:"/>
             </StackPanel>
         </Grid>
