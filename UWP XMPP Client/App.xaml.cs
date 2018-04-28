@@ -6,11 +6,12 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using UWP_XMPP_Client.Classes;
-using Microsoft.HockeyApp;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using System.Threading.Tasks;
 using Logging;
+using Microsoft.AppCenter.Push;
+using Microsoft.AppCenter.Crashes;
 
 namespace UWP_XMPP_Client
 {
@@ -28,7 +29,12 @@ namespace UWP_XMPP_Client
             //Crash reports capturing:
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
             {
-                HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+                // Setup Hockey App crashes:
+                //HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+
+                // Setup App Center crashes:
+                Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes));
+                Logger.Info("App Center crash reporting registered.");
             }
 
             // Init buy content helper:
@@ -55,6 +61,44 @@ namespace UWP_XMPP_Client
         #endregion
 
         #region --Misc Methods (Private)--
+        /// <summary>
+        /// Sets up App Center push support.
+        /// </summary>
+        private void setupAppCenterPush(LaunchActivatedEventArgs args)
+        {
+            if (!Microsoft.AppCenter.AppCenter.Configured)
+            {
+                Push.PushNotificationReceived += (sender, e) =>
+                {
+                    // Add the notification message and title to the message:
+                    string pushSummary = $"Push notification received:" +
+                                        $"\n\tNotification title: {e.Title}" +
+                                        $"\n\tMessage: {e.Message}";
+
+                    // If there is custom data associated with the notification, print the entries:
+                    if (e.CustomData != null)
+                    {
+                        pushSummary += "\n\tCustom data:\n";
+                        foreach (var key in e.CustomData.Keys)
+                        {
+                            pushSummary += $"\t\t{key} : {e.CustomData[key]}\n";
+                        }
+                    }
+
+                    // Log notification summary:
+                    Logger.Info(pushSummary);
+                };
+            }
+
+            // Setup App Center push:
+            Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Push));
+            Push.CheckLaunchedFromNotification(args);
+            Push.PushNotificationReceived += Push_PushNotificationReceived;
+
+            Logger.Info("App Center push registered.");
+        }
+
+
         /// <summary>
         /// Inits all db managers in a new task to force event subscriptions.
         /// </summary>
@@ -194,6 +238,8 @@ namespace UWP_XMPP_Client
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
             onActivatedOrLaunched(args);
+
+            setupAppCenterPush(args);
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -215,6 +261,10 @@ namespace UWP_XMPP_Client
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
+
+        private void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
+        {
         }
 
         #endregion

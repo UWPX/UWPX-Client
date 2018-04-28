@@ -119,7 +119,7 @@
       <Version>6.0.7</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
-      <Version>1.4.118</Version>
+      <Version>1.3.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
