@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Logging;
 using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter.Crashes;
+using Microsoft.HockeyApp;
 
 namespace UWP_XMPP_Client
 {
@@ -30,7 +31,7 @@ namespace UWP_XMPP_Client
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
             {
                 // Setup Hockey App crashes:
-                //HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+                HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
 
                 // Setup App Center crashes:
                 Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes));
