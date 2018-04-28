@@ -176,6 +176,11 @@ namespace Logging
                 await folder.DeleteAsync();
             }
             await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
+
+            await WRITE_SEMA.WaitAsync();
+            logFile = null;
+            WRITE_SEMA.Release();
+
             Info("Deleted logs!");
         }
 
@@ -254,7 +259,14 @@ namespace Logging
             }
 
             System.Diagnostics.Debug.WriteLine(s);
-            await FileIO.AppendTextAsync(logFile, s + Environment.NewLine);
+            try
+            {
+                await FileIO.AppendTextAsync(logFile, s + Environment.NewLine);
+            }
+            catch (Exception)
+            {
+                logFile = null;
+            }
 
             WRITE_SEMA.Release();
         }
