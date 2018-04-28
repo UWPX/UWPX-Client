@@ -34,7 +34,6 @@ namespace UWP_XMPP_Client.Controls
             {
                 SetValue(ChatMessageProperty, value);
                 loadInvitation();
-                showDate();
             }
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleMUCDirectInvitationControl), null);
@@ -70,18 +69,6 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showDate()
-        {
-            if (ChatMessage.date.Date.CompareTo(DateTime.Now.Date) == 0)
-            {
-                date_tbx.Text = ChatMessage.date.ToString("HH:mm");
-            }
-            else
-            {
-                date_tbx.Text = ChatMessage.date.ToString("dd.MM.yyyy HH:mm");
-            }
-        }
-
         private void loadInvitation()
         {
             if (!invitationLoaded && ChatMessage != null)

@@ -115,15 +115,6 @@ namespace UWP_XMPP_Client.Controls
                     message_tbx.Text = ChatMessage.message ?? "";
                     message_tbx.Visibility = Visibility.Visible;
                 }
-                DateTime localDateTime = ChatMessage.date;
-                if (localDateTime.Date.CompareTo(DateTime.Now.Date) == 0)
-                {
-                    date_tbx.Text = localDateTime.ToString("HH:mm");
-                }
-                else
-                {
-                    date_tbx.Text = localDateTime.ToString("dd.MM.yyyy HH:mm");
-                }
                 switch (ChatMessage.state)
                 {
                     case MessageState.SENDING:

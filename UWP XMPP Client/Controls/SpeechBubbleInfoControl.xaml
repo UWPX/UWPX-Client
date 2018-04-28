@@ -4,13 +4,36 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Center" VerticalAlignment="Center" Padding="6">
-        <Border Visibility="Visible" Background="#4C4A48" BorderBrush="Black" BorderThickness="1" Padding="10" Margin="0, 0, 0, 10" MinWidth="150" MinHeight="50">
+    <UserControl.Resources>
+        <datatemplates:SpeechBubbleDateValueConverter x:Key="speechBubbleDateValueConverter"/>
+    </UserControl.Resources>
+
+    <Grid HorizontalAlignment="Center"
+          VerticalAlignment="Center"
+          Padding="6">
+        <Border Visibility="Visible"
+                Background="#4C4A48"
+                BorderBrush="Black"
+                BorderThickness="1"
+                Padding="10"
+                Margin="0, 0, 0, 10"
+                MinWidth="150"
+                MinHeight="50">
             <StackPanel>
-                <TextBlock x:Name="message_tbx" Text="{x:Bind ChatMessage.message, Mode=OneWay}" TextWrapping="Wrap" IsTextSelectionEnabled="True"/>
-                <TextBlock x:Name="date_tbx" Grid.Column="0" FontSize="10" HorizontalAlignment="Right" VerticalAlignment="Center" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" Margin="0, 0, 10, 0"/>
+                <TextBlock x:Name="message_tbx"
+                           Text="{x:Bind ChatMessage.message, Mode=OneWay}"
+                           TextWrapping="Wrap"
+                           IsTextSelectionEnabled="True"/>
+                <TextBlock x:Name="date_tbx"
+                           Text="{x:Bind ChatMessage.date, Mode=OneWay, Converter={StaticResource speechBubbleDateValueConverter}}"
+                           Grid.Column="0"
+                           FontSize="10"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
             </StackPanel>
         </Border>
     </Grid>

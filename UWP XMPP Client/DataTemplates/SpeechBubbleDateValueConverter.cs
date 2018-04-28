@@ -1,20 +1,13 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Xaml.Data;
 
-namespace UWP_XMPP_Client.Controls
+namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed partial class SpeechBubbleErrorControl : UserControl
+    class SpeechBubbleDateValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ChatMessageTable ChatMessage
-        {
-            get { return (ChatMessageTable)GetValue(ChatMessageProperty); }
-            set { SetValue(ChatMessageProperty, value); }
-        }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleErrorControl), null);
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,11 +16,10 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/09/2017 Created [Fabian Sauter]
+        /// 28/04/2018 Created [Fabian Sauter]
         /// </history>
-        public SpeechBubbleErrorControl()
+        public SpeechBubbleDateValueConverter()
         {
-            this.InitializeComponent();
         }
 
         #endregion
@@ -38,7 +30,26 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if(value is DateTime date)
+            {
+                if (date.Date.CompareTo(DateTime.Now.Date) == 0)
+                {
+                    return date.ToString("HH:mm");
+                }
+                else
+                {
+                    return date.ToString("dd.MM.yyyy HH:mm");
+                }
+            }
+            return value.ToString();
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
