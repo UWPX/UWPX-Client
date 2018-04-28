@@ -290,7 +290,7 @@ namespace UWP_XMPP_Client.Controls
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                nickname_stbx.Text = MUCInfo.nickname;
+                nickname_stbx.Text = MUCInfo.nickname ?? "";
                 nickname_stbx.onSavingDone();
                 notificationBanner_ian.Show("Changing nickname failed (time out)!\nPlease retry.");
             }).AsTask();
