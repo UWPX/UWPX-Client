@@ -215,6 +215,7 @@ namespace XMPP_API.Classes.Network.TCP
                 await dataWriter.StoreAsync();
                 await dataWriter.FlushAsync();
             }
+            catch (Exception) { }
             finally
             {
                 writeSema.Release();
