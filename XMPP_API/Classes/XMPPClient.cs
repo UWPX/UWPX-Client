@@ -140,7 +140,7 @@ namespace XMPP_API.Classes
         public async Task reconnectAsync()
         {
             Logger.Info("Reconnecting account: " + getXMPPAccount().getIdAndDomain());
-            await connection.reconnectAsync();
+            await connection.reconnectAsync(true);
         }
 
         public async Task disconnectAsync()

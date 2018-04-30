@@ -277,7 +277,24 @@ namespace XMPP_API.Classes.Network.TCP
                     }
                     catch (Exception e)
                     {
-                        SocketErrorStatus status = SocketError.GetStatus(e.GetBaseException().HResult);
+                        SocketErrorStatus status = SocketErrorStatus.Unknown;
+                        if (e is AggregateException aggregateException && aggregateException.InnerException != null)
+                        {
+                            status = SocketError.GetStatus(e.InnerException.HResult);
+                        }
+                        else
+                        {
+                            Exception baseException = e.GetBaseException();
+                            if (baseException != null)
+                            {
+                                status = SocketError.GetStatus(e.GetBaseException().HResult);
+                            }
+                            else
+                            {
+                                status = SocketError.GetStatus(e.HResult);
+                            }
+                        }
+
                         switch (status)
                         {
                             // Some kind of connection lost:
@@ -320,42 +337,33 @@ namespace XMPP_API.Classes.Network.TCP
 
             readingCTS = new CancellationTokenSource();
 
-            try
+            uint readCount = 0;
+
+            // Read the first batch:
+            Task<uint> t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
+            t.Wait(readingCTS.Token);
+            readCount = t.Result;
+
+            if (dataReader == null)
             {
-                uint readCount = 0;
+                return result;
+            }
 
-                // Read the first batch:
-                Task<uint> t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
-                t.Wait(readingCTS.Token);
+            while (dataReader.UnconsumedBufferLength > 0)
+            {
+                result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+            }
+
+            // If there is still data left to read, continue until a timeout occurs or a close got requested:
+            while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
+            {
+                t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
+                t.Wait(100, readingCTS.Token);
                 readCount = t.Result;
-
-                if (dataReader == null)
-                {
-                    return result;
-                }
-
                 while (dataReader.UnconsumedBufferLength > 0)
                 {
                     result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
                 }
-
-                // If there is still data left to read, continue until a timeout occurs or a close got requested:
-                while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
-                {
-                    t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
-                    t.Wait(100, readingCTS.Token);
-                    readCount = t.Result;
-                    while (dataReader.UnconsumedBufferLength > 0)
-                    {
-                        result += dataReader.ReadString(dataReader.UnconsumedBufferLength);
-                    }
-                }
-            }
-            catch (AggregateException)
-            {
-            }
-            catch (NullReferenceException)
-            {
             }
 
             return result;
