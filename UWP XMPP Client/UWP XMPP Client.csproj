@@ -203,6 +203,9 @@
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ConnectionErrorDialog.xaml.cs">
+      <DependentUpon>ConnectionErrorDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ConnectionSecurityInfoDialog.xaml.cs">
       <DependentUpon>ConnectionSecurityInfoDialog.xaml</DependentUpon>
     </Compile>
@@ -495,6 +498,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ClearCacheDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConnectionErrorDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

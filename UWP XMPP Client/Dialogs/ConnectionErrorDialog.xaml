@@ -1,0 +1,17 @@
+﻿<ContentDialog x:Class="UWP_XMPP_Client.Dialogs.ConnectionErrorDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="The following error occured:"
+               SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+               SecondaryButtonText="Close"
+               mc:Ignorable="d">
+
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <TextBlock Foreground="Red"
+                   IsTextSelectionEnabled="True"
+                   Text="{x:Bind ErrorText, Mode=OneWay, FallbackValue='Unknown error! Please view the logs for more information.'}"
+                   TextWrapping="Wrap"/>
+    </ScrollViewer>
+</ContentDialog>

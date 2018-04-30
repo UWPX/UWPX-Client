@@ -279,6 +279,15 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private async void Grid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if (error_tblck.Visibility == Visibility.Visible)
+            {
+                ConnectionErrorDialog dialog = new ConnectionErrorDialog(error_tblck.Text);
+                await dialog.ShowAsync();
+            }
+        }
+
         #endregion
     }
 }
