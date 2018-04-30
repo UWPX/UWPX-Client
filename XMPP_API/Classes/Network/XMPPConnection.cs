@@ -1,4 +1,5 @@
 ﻿using Logging;
+using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -98,6 +99,8 @@ namespace XMPP_API.Classes.Network
             recourceBindingConnection.ResourceBound += RecourceBindingConnection_ResourceBound;
             this.messageProcessors[2] = (recourceBindingConnection);
             //-------------------------------------------------------------
+
+            NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
         }
 
         #endregion
@@ -251,6 +254,15 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task internalConnectAsync()
         {
+            if(!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                connectionErrorCount = 3;
+                lastErrorMessage = "Not connected to the internet!";
+                setState(ConnectionState.ERROR, lastErrorMessage);
+                reconnectRequested = false;
+                return;
+            }
+
             switch (state)
             {
                 case ConnectionState.DISCONNECTED:
@@ -589,6 +601,21 @@ namespace XMPP_API.Classes.Network
             setState(ConnectionState.CONNECTED);
 
             await sendAllOutstandingMessagesAsync();
+        }
+
+        private void Instance_NetworkChanged(object sender, EventArgs e)
+        {
+            if (NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            {
+                if (!account.disabled && (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR))
+                {
+                    Task t = connectAsync();
+                }
+            }
+            else if (state == ConnectionState.CONNECTED)
+            {
+                Task t = disconnectAsync();
+            }
         }
 
         #endregion

@@ -51,8 +51,8 @@ namespace XMPP_API.Classes.Network
                 return;
             }
 
-            ConnectionState oldState = this.state;
-            this.state = newState;
+            ConnectionState oldState = state;
+            state = newState;
             ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(newState, oldState, param));
         }
 
