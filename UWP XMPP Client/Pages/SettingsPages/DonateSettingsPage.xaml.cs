@@ -92,12 +92,12 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private async void donateLP_btn_Click(object sender, RoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://liberapay.com/~46531/donate"));
+            await UiUtils.launchBrowserAsync(new Uri("http://liberapay.uwpx.org"));
         }
 
         private async void donatePP_btn_Click(object sender, RoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("TODO"));
+            await UiUtils.launchBrowserAsync(new Uri("http://paypal.uwpx.org"));
         }
 
         #endregion

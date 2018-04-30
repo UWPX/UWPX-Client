@@ -61,7 +61,7 @@
                         <Image Source="ms-appx:///Assets/Images/pp.png"/>
                     </Button>
                 </StackPanel>
-                <controls:SeperatorControl Text="Crypto:"/>
+                <!--<controls:SeperatorControl Text="Crypto:"/>-->
             </StackPanel>
         </Grid>
     </ScrollViewer>
