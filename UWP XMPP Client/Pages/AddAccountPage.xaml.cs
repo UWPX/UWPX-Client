@@ -65,7 +65,7 @@ namespace UWP_XMPP_Client.Pages
         private async Task showErrorDialogAsync(string text)
         {
             TextDialog dialog = new TextDialog(text, Localisation.getLocalizedString("error_text"));
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         private void moveOn()

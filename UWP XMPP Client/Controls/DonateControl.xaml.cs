@@ -64,7 +64,7 @@ namespace UWP_XMPP_Client.Controls
                         dialog = new TextDialog("Thanks for supporting the development!", "Success!");
                     }
 
-                    await dialog.ShowAsync();
+                    await UiUtils.showDialogAsyncQueue(dialog);
                     donate_prgr.Visibility = Visibility.Collapsed;
                     donate_btn.IsEnabled = true;
                 });

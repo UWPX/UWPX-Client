@@ -390,18 +390,18 @@ namespace UWP_XMPP_Client.Pages
 
         private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)
         {
-            AddChatDialog addChatContentDialog = new AddChatDialog();
-            await addChatContentDialog.ShowAsync();
-            if (!addChatContentDialog.cancled)
+            AddChatDialog dialog = new AddChatDialog();
+            await UiUtils.showDialogAsyncQueue(dialog);
+            if (!dialog.cancled)
             {
-                await addChatAsync(addChatContentDialog.client, addChatContentDialog.jabberId, addChatContentDialog.addToRooster, addChatContentDialog.requestSubscription);
+                await addChatAsync(dialog.client, dialog.jabberId, dialog.addToRooster, dialog.requestSubscription);
             }
         }
 
         private async void addMUC_mfoi_Click(object sender, RoutedEventArgs e)
         {
             AddMUCDialog dialog = new AddMUCDialog();
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         private void addMIX_mfoi_Click(object sender, RoutedEventArgs e)
@@ -471,7 +471,7 @@ namespace UWP_XMPP_Client.Pages
         private async void changePresence_apbb_Click(object sender, RoutedEventArgs e)
         {
             ChangeAccountPresenceDialog dialog = new ChangeAccountPresenceDialog();
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         #endregion

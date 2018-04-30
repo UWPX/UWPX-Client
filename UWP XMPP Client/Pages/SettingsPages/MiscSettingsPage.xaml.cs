@@ -254,7 +254,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private async void clearCache_btn_Click(object sender, RoutedEventArgs e)
         {
             ClearCacheDialog dialog = new ClearCacheDialog();
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         private void logLevel_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -274,7 +274,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                 Title = "Warning",
                 Text = "If you set the log-level to 'Debug' you may experience performance and connection problems, because EVERY send and received XML message gets logged!"
             };
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         #endregion

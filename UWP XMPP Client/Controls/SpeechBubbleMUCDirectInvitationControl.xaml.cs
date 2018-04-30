@@ -6,6 +6,7 @@ using Windows.UI.Xaml.Controls;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes;
 using UWP_XMPP_Client.Dialogs;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -173,7 +174,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     dialog = new AddMUCDialog(Invitation.roomJid);
                 }
-                await dialog.ShowAsync();
+                await UiUtils.showDialogAsyncQueue(dialog);
                 if (dialog.cancled)
                 {
                     return;

@@ -95,7 +95,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                     if (accountCount >= 15)
                     {
                         TextDialog dialog = new TextDialog(Localisation.getLocalizedString("AccountSettingsPage_too_many_accounts_text"), "Error!");
-                        await dialog.ShowAsync();
+                        await UiUtils.showDialogAsyncQueue(dialog);
                     }
                     else
                     {

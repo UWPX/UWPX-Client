@@ -137,7 +137,7 @@ namespace UWP_XMPP_Client.Controls
         private async Task showErrorDialogAsync(string text)
         {
             TextDialog dialog = new TextDialog(text, Localisation.getLocalizedString("error_text"));
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         #endregion
@@ -219,7 +219,7 @@ namespace UWP_XMPP_Client.Controls
         private async void changeCertificateRequirements_btn_Click(object sender, RoutedEventArgs e)
         {
             ChangeCertificateRequirementsDialog dialog = new ChangeCertificateRequirementsDialog(Account);
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         #endregion

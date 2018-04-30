@@ -11,6 +11,7 @@ using XMPP_API.Classes;
 using UWP_XMPP_Client.Dialogs;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
+using UWP_XMPP_Client.Classes;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -143,7 +144,7 @@ namespace UWP_XMPP_Client.Controls
                 }
             }
             InviteUserMUCDialog dialog = new InviteUserMUCDialog(Client, membersJidList);
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
 
             if (!dialog.canceled)
             {
@@ -228,7 +229,7 @@ namespace UWP_XMPP_Client.Controls
                 }
 
                 MUCKickBanOccupantDialog dialog = new MUCKickBanOccupantDialog(collection, Client, Chat, canKick, canBan);
-                await dialog.ShowAsync();
+                await UiUtils.showDialogAsyncQueue(dialog);
             }
         }
 

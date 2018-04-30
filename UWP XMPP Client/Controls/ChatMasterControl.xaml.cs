@@ -376,9 +376,9 @@ namespace UWP_XMPP_Client.Controls
                 return;
             }
 
-            DeleteChatDialog deleteChatDialog = new DeleteChatDialog();
-            await deleteChatDialog.ShowAsync();
-            if (deleteChatDialog.deleteChat)
+            DeleteChatDialog dialog = new DeleteChatDialog();
+            await UiUtils.showDialogAsyncQueue(dialog);
+            if (dialog.deleteChat)
             {
                 if (Chat.inRoster)
                 {
@@ -390,7 +390,7 @@ namespace UWP_XMPP_Client.Controls
                     MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
-                if (!deleteChatDialog.keepChatLog)
+                if (!dialog.keepChatLog)
                 {
                     ChatDBManager.INSTANCE.deleteAllChatMessagesForChat(Chat.id);
                 }

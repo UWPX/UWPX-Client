@@ -13,6 +13,9 @@ using Logging;
 using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.HockeyApp;
+using UWP_XMPP_Client.Dialogs;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
 namespace UWP_XMPP_Client
 {
@@ -67,33 +70,9 @@ namespace UWP_XMPP_Client
         /// </summary>
         private void setupAppCenterPush(LaunchActivatedEventArgs args)
         {
-            if (!Microsoft.AppCenter.AppCenter.Configured)
-            {
-                Push.PushNotificationReceived += (sender, e) =>
-                {
-                    // Add the notification message and title to the message:
-                    string pushSummary = $"Push notification received:" +
-                                        $"\n\tNotification title: {e.Title}" +
-                                        $"\n\tMessage: {e.Message}";
-
-                    // If there is custom data associated with the notification, print the entries:
-                    if (e.CustomData != null)
-                    {
-                        pushSummary += "\n\tCustom data:\n";
-                        foreach (var key in e.CustomData.Keys)
-                        {
-                            pushSummary += $"\t\t{key} : {e.CustomData[key]}\n";
-                        }
-                    }
-
-                    // Log notification summary:
-                    Logger.Info(pushSummary);
-                };
-            }
-
             // Setup App Center push:
             Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Push));
-            Push.CheckLaunchedFromNotification(args);
+            Push.PushNotificationReceived -= Push_PushNotificationReceived;
             Push.PushNotificationReceived += Push_PushNotificationReceived;
 
             Logger.Info("App Center push registered.");
@@ -206,27 +185,26 @@ namespace UWP_XMPP_Client
             {
                 var launchActivationArgs = args as LaunchActivatedEventArgs;
 
+                Push.CheckLaunchedFromNotification(launchActivationArgs);
+
                 // If launched with arguments (not a normal primary tile/applist launch)
                 if (launchActivationArgs.Arguments.Length > 0)
                 {
+                    Logger.Debug(launchActivationArgs.Arguments);
                     // TODO: Handle arguments for cases = launching from secondary Tile, so we navigate to the correct page
-                    throw new NotImplementedException();
+                    //throw new NotImplementedException();
                 }
 
-                // Otherwise if launched normally
-                else
+                // If we're currently not on a page, navigate to the main page
+                if (rootFrame.Content == null)
                 {
-                    // If we're currently not on a page, navigate to the main page
-                    if (rootFrame.Content == null)
+                    if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                     {
-                        if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-                        {
-                            rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
-                        }
-                        else
-                        {
-                            rootFrame.Navigate(typeof(ChatPage), "App.xaml.cs");
-                        }
+                        rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
+                    }
+                    else
+                    {
+                        rootFrame.Navigate(typeof(ChatPage), "App.xaml.cs");
                     }
                 }
             }
@@ -264,8 +242,35 @@ namespace UWP_XMPP_Client
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
+        private async void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
         {
+            // Add the notification message and title to the message:
+            string pushSummary = $"Push notification received:" +
+                                $"\n\tNotification title: {e.Title}" +
+                                $"\n\tMessage: {e.Message}";
+
+            // If there is custom data associated with the notification, print the entries:
+            if (e.CustomData != null)
+            {
+                pushSummary += "\n\tCustom data:\n";
+                foreach (var key in e.CustomData.Keys)
+                {
+                    pushSummary += $"\t\t{key} : {e.CustomData[key]}\n";
+                }
+            }
+
+            // Log notification summary:
+            Logger.Info(pushSummary);
+
+            // Show push dialog:
+            if (e.CustomData.TryGetValue("markdown", out string markdownText))
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                {
+                    AppCenterPushDialog dialog = new AppCenterPushDialog(e.Title, markdownText);
+                    await UiUtils.showDialogAsyncQueue(dialog);
+                });
+            }
         }
 
         #endregion

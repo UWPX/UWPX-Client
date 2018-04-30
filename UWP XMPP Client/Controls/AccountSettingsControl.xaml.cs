@@ -63,7 +63,7 @@ namespace UWP_XMPP_Client.Controls
         private async Task showErrorDialogAsync(string text)
         {
             TextDialog dialog = new TextDialog(text, Localisation.getLocalizedString("error_text"));
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         private void showAccount()
@@ -216,7 +216,7 @@ namespace UWP_XMPP_Client.Controls
         private async void deleteAccount_btn_Click(object sender, RoutedEventArgs e)
         {
             DeleteAccountDialog dialog = new DeleteAccountDialog();
-            await dialog.ShowAsync();
+            await UiUtils.showDialogAsyncQueue(dialog);
             XMPPAccount account = Account;
             Task t = Task.Run(async () =>
             {
@@ -265,7 +265,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     Cert = client.getXMPPAccount().CONNECTION_INFO.socketInfo?.ServerCertificate
                 };
-                await dialog.ShowAsync();
+                await UiUtils.showDialogAsyncQueue(dialog);
             }
         }
 

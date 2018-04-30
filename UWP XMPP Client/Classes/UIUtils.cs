@@ -7,6 +7,7 @@ using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
 using Windows.UI;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
@@ -17,7 +18,7 @@ namespace UWP_XMPP_Client.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,6 +28,27 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static async Task<ContentDialogResult> showDialogAsyncQueue(ContentDialog dialog)
+        {
+            // Make sure it gets invoked by the UI thread:
+            if (!Window.Current.Dispatcher.HasThreadAccess)
+            {
+                throw new InvalidOperationException("This method can only be invoked from UI thread.");
+            }
+
+            while (contentDialogShowRequest != null)
+            {
+                await contentDialogShowRequest.Task;
+            }
+
+            var request = contentDialogShowRequest = new TaskCompletionSource<ContentDialog>();
+            var result = await dialog.ShowAsync();
+            contentDialogShowRequest = null;
+            request.SetResult(dialog);
+
+            return result;
+        }
+
         public static void setBackgroundImage(ImageEx imgControl)
         {
             BackgroundImageTemplate img = BackgroundImageCache.selectedImage;
@@ -140,7 +162,7 @@ namespace UWP_XMPP_Client.Classes
             if (!Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
             {
                 InitialStartDialog dialog = new InitialStartDialog();
-                await dialog.ShowAsync();
+                await showDialogAsyncQueue(dialog);
                 Settings.setSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !dialog.showOnStartup);
             }
         }
@@ -150,7 +172,7 @@ namespace UWP_XMPP_Client.Classes
             if (!Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG))
             {
                 WhatsNewDialog dialog = new WhatsNewDialog();
-                await dialog.ShowAsync();
+                await showDialogAsyncQueue(dialog);
                 Settings.setSetting(SettingsConsts.HIDE_WHATS_NEW_DIALOG, !dialog.showOnStartup);
             }
         }

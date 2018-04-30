@@ -191,6 +191,9 @@
     <Compile Include="Controls\ChatDetailsControl.xaml.cs">
       <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
+      <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ChangeAccountPresenceDialog.xaml.cs">
       <DependentUpon>ChangeAccountPresenceDialog.xaml</DependentUpon>
     </Compile>
@@ -476,6 +479,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ChatDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AppCenterPushDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
