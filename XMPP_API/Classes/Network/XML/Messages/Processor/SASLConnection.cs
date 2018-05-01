@@ -1,5 +1,4 @@
 ﻿using Logging;
-using System;
 using System.Collections;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
