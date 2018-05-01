@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using Data_Manager2.Classes.DBManager;
+using System.Collections.ObjectModel;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.Security.Cryptography.Certificates;
 using Windows.UI.Xaml.Controls;
@@ -87,6 +88,22 @@ namespace UWP_XMPP_Client.Dialogs
                 required = true,
                 name = "Right usage"
             });
+
+            // Load ignored errors:
+            if(account != null)
+            {
+                foreach (ChainValidationResult item in account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS)
+                {
+                    for (int i = 0; i < certificateRequirements.Count; i++)
+                    {
+                        if(certificateRequirements[i].certificateError == item)
+                        {
+                            certificateRequirements[i].required = false;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         private void save()
@@ -105,6 +122,8 @@ namespace UWP_XMPP_Client.Dialogs
                     account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Add(c.certificateError);
                 }
             }
+
+            AccountDBManager.INSTANCE.saveAccountConnectionConfiguration(account);
         }
 
         #endregion
