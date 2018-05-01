@@ -159,6 +159,7 @@ namespace Data_Manager2.Classes
         {
             disconnectAll();
             loadClients();
+            connectAll();
         }
 
         /// <summary>
