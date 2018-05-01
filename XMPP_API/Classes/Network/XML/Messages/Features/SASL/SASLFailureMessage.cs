@@ -61,6 +61,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
                             this.ERROR_TYPE = SASLErrorType.TEMPORARY_AUTH_FAILURE;
                             break;
 
+                        case "account-disabled":
+                            this.ERROR_TYPE = SASLErrorType.TEMPORARY_AUTH_FAILURE;
+                            break;
+
+                        case "credentials-expired":
+                            this.ERROR_TYPE = SASLErrorType.TEMPORARY_AUTH_FAILURE;
+                            break;
+
+                        case "encryption-required":
+                            this.ERROR_TYPE = SASLErrorType.TEMPORARY_AUTH_FAILURE;
+                            break;
+
+                        case "malformed-request":
+                            this.ERROR_TYPE = SASLErrorType.TEMPORARY_AUTH_FAILURE;
+                            break;
+
                         default:
                             this.ERROR_TYPE = SASLErrorType.UNKNOWN_ERROR;
                             break;
