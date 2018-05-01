@@ -141,47 +141,48 @@ https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordva
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.4.0.0 [April 2018] MUC and bug fixes:
+    <value># v.0.5.0.0 [May 2018] TSL options, donations, and bug fixes:
 
-In this months release moves [MUC (XEP-0045)](https://xmpp.org/extensions/xep-0045.html) support from the 90% done state to the 99% done state. All key features are implemented and ready to get tested. I've moved "Manage bookmarks" from the MUC [#10](https://github.com/UWPX/UWPX-Client/issues/10)  issue into the OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5) issue. The reason for this is: Managing bookmarks requires a more robust [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) foundation to be fully functional. Since OMEMO also requires a quiet solid [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) foundation I will add support for it alongside the OMEMO implementation.
-
-Due to some changes in the accounts DB you have to add all your XMPP accounts again. All chats and chat messages should be still there and show up again as soon as you add your XMPP account again.
+With the May 2018 release I've added TLS options. For example you now can prohibit TLS connections or ignore certain certificate errors to allow the use of self signed certificates. TLS options can be changed via the accounts settings for the individual account.
+I've also added a donations page which can be found under **"Settings" -&gt; "Donation"** so you can support the development of this App.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
 * Background image not loading [#9](https://github.com/UWPX/UWPX-Client/issues/9)
-* App crashes, if not connected to the internet [#14](https://github.com/UWPX/UWPX-Client/issues/14)
 * Remove bookmark not working [#22](https://github.com/UWPX/UWPX-Client/issues/22)
 * Chat state won't update [#25](https://github.com/UWPX/UWPX-Client/issues/25)
 * App crashes sometimes, if you try to delete a chat [#23](https://github.com/UWPX/UWPX-Client/issues/23)
+* MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
+* Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
 
 ### Changes:
-* Added direct MUC invitation support
-* Added MUC nickname changing support
-* Added MUC occupant kicking support
-* Added MUC banning support
-* Added MUC banlist manipulation support
-* Added presence changing support
-* Improved chat filtering
-* Improved DB performance
-* Improved the MUC browsing page
-* Improved connection error reporting
-* Fixed MUC autojoin
-* Fixed MUC subject changing
-* Fixed MUC browsing not showing timeout
-* Fixed account reconnection loop
-* Fixed [#8](https://github.com/UWPX/UWPX-Client/issues/8)
-* Fixed [#18](https://github.com/UWPX/UWPX-Client/issues/18)
-* Fixed [#20](https://github.com/UWPX/UWPX-Client/issues/20)
-* Fixed [#21](https://github.com/UWPX/UWPX-Client/issues/21)
+* Added options for ignoring certificate errors
+* **Added a settings page for donations to keep the project running ;D**
+* Added sender nicknames in MUC messages
+* Added a connection certificate info dialog [WIP!]
+* Added App Center crash reporting (experimental)
+* Added a 15 accounts limit
+* Added a content dialog for connection errors
+* Fixed text dialog not showing its content
+* Fixed request ban list crash
+* Fixed chat and chat message time offset
+* Fixed nickname changing button not getting enabled again
+* Fixed host not found crash
+* Fixed some logger crashes
+* Fixed some content dialog crashes
+* Fixed App crashes, if not connected to the internet [#14](https://github.com/UWPX/UWPX-Client/issues/14)
+* Improved logger performance
+* Improved the account connection reliability
+* Improved account SASL error handling
+* Updated the clear cache UI
 
-### Plans for the May release:
-* Start adding [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5)
-* [vcard-temp(XEP-0054)](https://xmpp.org/extensions/xep-0054.html) support
-* Fix [bugs](https://github.com/UWPX/UWPX-Client/issues)
+### Plans for the June release:
+* Start adding [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5) 
+* Fix [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
+* Fix more [bugs](https://github.com/UWPX/UWPX-Client/issues)
 
 
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.4.0.0)</value>
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.5.0.0)</value>
   </data>
 </root>

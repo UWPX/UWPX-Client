@@ -1,4 +1,5 @@
 ﻿using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -51,6 +52,12 @@ namespace UWP_XMPP_Client.Dialogs
         private void close_btn_Click(object sender, RoutedEventArgs e)
         {
             showOnStartup = (bool)showOnStartup_cbx.IsChecked;
+            Hide();
+        }
+
+        private void donate_btn_Click(object sender, RoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(DonateSettingsPage));
             Hide();
         }
 

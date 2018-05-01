@@ -4,7 +4,7 @@
     {
         public const string INITIALLY_STARTED = "initially_started";
         public const string HIDE_INITIAL_START_DIALOG_ALPHA = "hide_initial_start_dialog_alpha";
-        public const string HIDE_WHATS_NEW_DIALOG = "hide_whats_new_dialog_alpha_4";
+        public const string HIDE_WHATS_NEW_DIALOG = "hide_whats_new_dialog_alpha_5";
         public const string CHAT_BACKGROUND_IMAGE_NAME = "chat_background_image_path";
         public const string DISABLE_SOCKET_BACKGROUND_TASK = "disable_socket_background_task";
         public const string ENTER_TO_SEND_MESSAGES = "enter_to_send_messages";
