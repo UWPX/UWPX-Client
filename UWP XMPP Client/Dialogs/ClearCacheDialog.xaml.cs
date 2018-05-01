@@ -43,10 +43,10 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Misc Methods (Private)--
         private void clearCache()
         {
-            IsPrimaryButtonEnabled = false;
-            IsSecondaryButtonEnabled = false;
+            clear_btn.IsEnabled = false;
+            close_btn.IsEnabled = false;
             main_sclv.IsEnabled = false;
-            main_prgr.Visibility = Visibility.Visible;
+            clear_prgr.Visibility = Visibility.Visible;
 
             bool chatMessages = (bool)chatMessages_chbx.IsChecked;
             bool chat = (bool)chats_chbx.IsChecked;
@@ -137,13 +137,13 @@ namespace UWP_XMPP_Client.Dialogs
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    IsPrimaryButtonEnabled = true;
-                    IsSecondaryButtonEnabled = true;
+                    clear_btn.IsEnabled = true;
+                    close_btn.IsEnabled = true;
                     main_sclv.IsEnabled = true;
-                    main_prgr.Visibility = Visibility.Collapsed;
+                    clear_prgr.Visibility = Visibility.Collapsed;
 
                     // Show non found in app notification:
-                    done_notification.Show("Done clearing cache!", 0);
+                    done_notification.Show("Done cleaning cache!", 0);
                 });
             });
         }
@@ -156,16 +156,14 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void clear_btn_Click(object sender, RoutedEventArgs e)
         {
-            args.Cancel = true;
             done_notification.Dismiss();
             clearCache();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void close_btn_Click(object sender, RoutedEventArgs e)
         {
-            args.Cancel = true;
             done_notification.Dismiss();
             Hide();
         }
