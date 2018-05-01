@@ -191,8 +191,15 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 throw new InvalidOperationException("[TCPConnection]: Unable to upgrade to TLS! ConnectionState != Connected! state = " + state);
             }
-            CancellationTokenSource cancellationToken = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT);
-            await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName);
+            try
+            {
+                await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName);
+            }
+            catch (Exception e)
+            {
+                setState(ConnectionState.ERROR, "Unable to upgrade to TLS!");
+                throw e;
+            }
         }
 
         /// <summary>
@@ -420,8 +427,6 @@ namespace XMPP_API.Classes.Network.TCP
                 ConnectionInformation connectionInfo = account.CONNECTION_INFO;
                 connectionInfo.socketInfo = null;
             }
-
-            GC.Collect();
         }
 
         #endregion
