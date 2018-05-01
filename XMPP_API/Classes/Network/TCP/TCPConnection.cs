@@ -378,14 +378,16 @@ namespace XMPP_API.Classes.Network.TCP
             if (socketErrorStatus == SocketErrorStatus.Unknown)
             {
                 Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- Unknown Exception - ", e);
+                await cleanupAsync();
+                return e.Message;
             }
             else
             {
                 Logger.Error("[TCPConnection]: " + i + " try to connect to " + account.serverAddress + "- Exception - " + socketErrorStatus.ToString());
+                await cleanupAsync();
+                return socketErrorStatus.ToString();
             }
-            await cleanupAsync();
 
-            return socketErrorStatus.ToString();
         }
 
         #endregion

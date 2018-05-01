@@ -94,34 +94,29 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void replaceAccount(XMPPAccount account)
+        private void replaceAccount(XMPPAccount newAccount)
         {
-            if (!IsEnabled || account.Equals(Account))
-            {
-                return;
-            }
-
             XMPPAccount oldAccount = Account;
 
-            Task.Run(() => AccountDBManager.INSTANCE.replaceAccount(oldAccount, account));
+            Task.Run(() => AccountDBManager.INSTANCE.replaceAccount(oldAccount, newAccount));
 
-            Account = account;
+            Account = newAccount;
         }
 
         private async Task<bool> saveAccountAsync()
         {
             if (await account_acc.isAccountVaildAsync())
             {
-                XMPPAccount acc = account_acc.getAccount();
-                if (acc == null)
+                XMPPAccount newAccount = account_acc.getAccount();
+                if (newAccount == null)
                 {
                     await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
                 }
                 else
                 {
-                    replaceAccount(acc);
+                    replaceAccount(newAccount);
                 }
-                return acc != null;
+                return newAccount != null;
             }
             return false;
         }
@@ -246,8 +241,9 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Account != null && Account.disabled == disableAccount_tggls.IsOn)
             {
-                Account.disabled = !disableAccount_tggls.IsOn;
-                XMPPAccount newAccount = Account.clone();
+                XMPPAccount newAccount = account_acc.getAccount();
+                newAccount.disabled = !disableAccount_tggls.IsOn;
+                Account = newAccount;
                 Task.Run(() => AccountDBManager.INSTANCE.setAccountDisabled(newAccount, newAccount.disabled));
             }
         }

@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.DBManager;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.Security.Cryptography.Certificates;
 using Windows.UI.Xaml.Controls;
@@ -49,7 +48,7 @@ namespace UWP_XMPP_Client.Dialogs
             certificateRequirements.Add(new CertificateRequirementTemplate()
             {
                 certificateError = ChainValidationResult.Expired,
-                description = "The certificate has not expired.",
+                description = "The certificate hasn't expired.",
                 required = true,
                 name = "Not expired"
             });
@@ -62,35 +61,21 @@ namespace UWP_XMPP_Client.Dialogs
             });
             certificateRequirements.Add(new CertificateRequirementTemplate()
             {
-                certificateError = ChainValidationResult.InvalidSignature,
-                description = "The certificate has a valid signature.",
-                required = true,
-                name = "Valid signature"
-            });
-            certificateRequirements.Add(new CertificateRequirementTemplate()
-            {
-                certificateError = ChainValidationResult.Revoked,
-                description = "The certificate has been revoked.",
-                required = true,
-                name = "Not revoked"
-            });
-            certificateRequirements.Add(new CertificateRequirementTemplate()
-            {
                 certificateError = ChainValidationResult.Untrusted,
-                description = "The certificate is untrusted/self signed.",
+                description = "The certificate isn't untrusted/self signed.",
                 required = true,
                 name = "Trusted"
             });
             certificateRequirements.Add(new CertificateRequirementTemplate()
             {
                 certificateError = ChainValidationResult.WrongUsage,
-                description = "The certificate is not intended to get used for this.",
+                description = "The certificate is intended to get used for this.",
                 required = true,
                 name = "Right usage"
             });
 
             // Load ignored errors:
-            if(account != null)
+            if (account != null)
             {
                 foreach (ChainValidationResult item in account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS)
                 {
@@ -122,8 +107,6 @@ namespace UWP_XMPP_Client.Dialogs
                     account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Add(c.certificateError);
                 }
             }
-
-            AccountDBManager.INSTANCE.saveAccountConnectionConfiguration(account);
         }
 
         #endregion

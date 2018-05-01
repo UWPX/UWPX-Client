@@ -74,6 +74,7 @@
                                HorizontalAlignment="Center"
                                FontSize="10"
                                Foreground="Red"
+                               MaxLines="1"
                                TextTrimming="CharacterEllipsis"
                                Visibility="Collapsed"/>
                 </Grid>
@@ -92,7 +93,7 @@
                         Margin="10"
                         Visibility="Collapsed">
                 <controls:AccountControl x:Name="account_acc"
-                                         Account="{x:Bind Account, Mode=TwoWay}"/>
+                                         Account="{x:Bind Account, Mode=OneWay}"/>
                 <Button x:Name="deleteAccount_btn"
                         Margin="0,20,0,0"
                         Click="deleteAccount_btn_Click">

@@ -80,18 +80,6 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        public XMPPAccount clone()
-        {
-            return new XMPPAccount(user.clone(), serverAddress, port, connectionConfiguration)
-            {
-                color = color,
-                disabled = disabled,
-                presencePriorety = presencePriorety,
-                presence = presence,
-                status = status
-            };
-        }
-
         public override int GetHashCode()
         {
             return base.GetHashCode();

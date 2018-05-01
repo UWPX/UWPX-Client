@@ -57,12 +57,13 @@ namespace UWP_XMPP_Client.Controls
             XMPPUser user = getUser();
             if (user != null)
             {
-                XMPPAccount account = new XMPPAccount(user, serverAddress_tbx.Text.ToLower(), int.Parse(serverPort_tbx.Text))
-                {
-                    presencePriorety = (int)presencePriorety_slider.Value,
-                    color = color_tbx.Text
-                };
-                return account;
+                Account.user = user;
+                Account.serverAddress = serverAddress_tbx.Text.ToLower();
+                int.TryParse(serverPort_tbx.Text, out Account.port);
+                Account.presencePriorety = (int)presencePriorety_slider.Value;
+                Account.color = color_tbx.Text;
+
+                return Account;
             }
             return null;
         }
@@ -96,7 +97,7 @@ namespace UWP_XMPP_Client.Controls
                 await showErrorDialogAsync(Localisation.getLocalizedString("invalid_server_text"));
                 return false;
             }
-            if (string.IsNullOrEmpty(serverPort_tbx.Text))
+            if (string.IsNullOrEmpty(serverPort_tbx.Text) || !int.TryParse(serverPort_tbx.Text, out int x))
             {
                 await showErrorDialogAsync(Localisation.getLocalizedString("invalid_port_text"));
                 return false;
