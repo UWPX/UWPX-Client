@@ -241,10 +241,9 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Account != null && Account.disabled == disableAccount_tggls.IsOn)
             {
-                XMPPAccount newAccount = account_acc.getAccount();
-                newAccount.disabled = !disableAccount_tggls.IsOn;
-                Account = newAccount;
-                Task.Run(() => AccountDBManager.INSTANCE.setAccountDisabled(newAccount, newAccount.disabled));
+                Account.disabled = !disableAccount_tggls.IsOn;
+                XMPPAccount newAccount = Account;
+                Task.Run(() => AccountDBManager.INSTANCE.setAccountDisabled(newAccount));
             }
         }
 

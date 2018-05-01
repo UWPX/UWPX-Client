@@ -53,11 +53,10 @@ namespace Data_Manager2.Classes.DBManager
         /// <summary>
         /// Sets the disabled property of account and triggers the AccountChanged event.
         /// </summary>
-        /// <param name="id">The AccountTable id</param>
-        /// <param name="disabled">Account disable true or false.</param>
-        public void setAccountDisabled(XMPPAccount account, bool disabled)
+        /// <param name="account">The XMPPAccount with updated disabled property.</param>
+        public void setAccountDisabled(XMPPAccount account)
         {
-            dB.Execute("UPDATE " + DBTableConsts.ACCOUNT_TABLE + " SET disabled = ? WHERE id = ?;", disabled, account.getIdAndDomain());
+            dB.Execute("UPDATE " + DBTableConsts.ACCOUNT_TABLE + " SET disabled = ? WHERE id = ?;", account.disabled, account.getIdAndDomain());
             AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, false));
         }
 

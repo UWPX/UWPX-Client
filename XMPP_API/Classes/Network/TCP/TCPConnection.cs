@@ -264,7 +264,7 @@ namespace XMPP_API.Classes.Network.TCP
                             double c = DateTime.Now.Subtract(lastNullOrEmptyStringRead).TotalSeconds;
                             if (countNullOrEmptyStringRead > 5 && c < 1)
                             {
-                                lastErrorMessage = "Loop detected!";
+                                lastErrorMessage = "Read error loop detected!";
                                 errorCount = 3;
                             }
                         }
