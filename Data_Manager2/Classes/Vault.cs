@@ -81,8 +81,11 @@ namespace Data_Manager2.Classes
             //removeAll();
 
             // Store the new password:
-            string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
-            PASSWORD_VAULT.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
+            if(!string.IsNullOrEmpty(account.user.userPassword))
+            {
+                string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
+                PASSWORD_VAULT.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
+            }
         }
 
         /// <summary>
