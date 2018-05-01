@@ -140,6 +140,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         state = SASLState.REQUESTED;
                     }
                     break;
+
                 case SASLState.REQUESTED:
                 case SASLState.CHALLENGING:
                     if (msg is ScramSha1ChallengeMessage)
@@ -157,15 +158,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     else if (msg is SASLFailureMessage)
                     {
                         SASLFailureMessage saslFailureMessage = msg as SASLFailureMessage;
-                        Logger.Error("Error during SASL authentication: " + saslFailureMessage.ERROR_MESSAGE);
                         state = SASLState.ERROR;
-                        await XMPP_CONNECTION.onMessageProcessorFailedAsync("SASL: " + saslFailureMessage.ERROR_MESSAGE, true);
+
+                        Logger.Error("Error during SASL authentication: " + saslFailureMessage.ERROR_TYPE + "\n" + saslFailureMessage.ERROR_MESSAGE);
+                        if (saslFailureMessage.ERROR_TYPE == SASLErrorType.UNKNOWN_ERROR)
+                        {
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync("SASL: " + saslFailureMessage.ERROR_MESSAGE, true);
+                        }
+                        else
+                        {
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync("SASL: " + saslFailureMessage.ERROR_TYPE, true);
+                        }
                     }
                     break;
+
                 case SASLState.CONNECTED:
                     break;
-                default:
-                    throw new InvalidOperationException("Invalid state for message!" + state);
             }
 
         }
