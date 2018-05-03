@@ -1,3 +1,7 @@
+[<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="80">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
+[![Donate](https://liberapay.com/assets/widgets/donate.svg)](http://liberapay.uwpx.org)
+[![Donate](https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-100px.png)](http://paypal.uwpx.org)
+
 # UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases)
 [This App is still in alpha stage!]
 
