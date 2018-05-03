@@ -151,8 +151,8 @@ Just a quick fix for in-App purchases and message delay stamps not getting parse
 * Fixed in-App purchases
 * Fixed message delay offset
 * Fixed ban/kick message text
-&lt;br/&gt;
-&lt;br/&gt;
+
+
 # v.0.5.0.0 [May 2018] TSL options, donations, and bug fixes:
 
 With the May 2018 release I've added TLS options. For example you now can prohibit TLS connections or ignore certain certificate errors to allow the use of self signed certificates. TLS options can be changed via the accounts settings for the individual account.
