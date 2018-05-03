@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Dialogs;
+using Windows.ApplicationModel.Store;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -52,16 +53,18 @@ namespace UWP_XMPP_Client.Controls
             {
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
-                    Exception ex = await BuyContentHelper.requestPuracheAsync(featureName);
+                    ProductPurchaseStatus resultsStatus = await BuyContentHelper.requestPuracheAsync(featureName);
 
                     TextDialog dialog;
-                    if (ex != null)
+                    switch (resultsStatus)
                     {
-                        dialog = new TextDialog("Failed to place order:\n" + ex.Message, "An error occurred!");
-                    }
-                    else
-                    {
-                        dialog = new TextDialog("Thanks for supporting the development!", "Success!");
+                        case ProductPurchaseStatus.Succeeded:
+                            dialog = new TextDialog("Thanks for supporting the development!", "Success!");
+                            break;
+
+                        default:
+                            dialog = new TextDialog("Failed to place order:\n" + resultsStatus, "An error occurred!");
+                            break;
                     }
 
                     await UiUtils.showDialogAsyncQueue(dialog);
@@ -85,7 +88,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 donate_btn.IsEnabled = false;
                 donate_prgr.Visibility = Visibility.Visible;
-                requestPurchase(Product.StoreId);
+                requestPurchase(Product.InAppOfferToken);
             }
         }
 

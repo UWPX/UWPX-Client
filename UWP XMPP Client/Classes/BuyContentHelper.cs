@@ -47,7 +47,7 @@ namespace UWP_XMPP_Client.Classes
             try
             {
                 StoreProductQueryResult queryResult = await StoreContext.GetDefault().GetAssociatedStoreProductsAsync(filterList);
-                if(queryResult != null)
+                if (queryResult != null)
                 {
                     products.AddRange(queryResult.Products.Values);
                 }
@@ -63,20 +63,21 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static async Task<Exception> requestPuracheAsync(string featureName)
+        public static async Task<ProductPurchaseStatus> requestPuracheAsync(string featureName)
         {
             try
             {
+                PurchaseResults results;
 #if DEBUG
-                await CurrentAppSimulator.RequestProductPurchaseAsync(featureName);
+                results = await CurrentAppSimulator.RequestProductPurchaseAsync(featureName);
 #else
-                await CurrentApp.RequestProductPurchaseAsync(featureName);
+                results = await CurrentApp.RequestProductPurchaseAsync(featureName);
 #endif
-                return null;
+                return results.Status;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                return e;
+                return ProductPurchaseStatus.NotFulfilled;
             }
         }
 

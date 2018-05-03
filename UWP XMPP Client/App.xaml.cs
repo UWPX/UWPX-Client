@@ -72,8 +72,11 @@ namespace UWP_XMPP_Client
         {
             // Setup App Center push:
             Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Push));
-            Push.PushNotificationReceived -= Push_PushNotificationReceived;
-            Push.PushNotificationReceived += Push_PushNotificationReceived;
+            if(!Microsoft.AppCenter.AppCenter.Configured)
+            {
+                Push.PushNotificationReceived -= Push_PushNotificationReceived;
+                Push.PushNotificationReceived += Push_PushNotificationReceived;
+            }
 
             Logger.Info("App Center push registered.");
         }
