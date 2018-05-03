@@ -16,8 +16,6 @@ namespace XMPP_API.Classes
         private readonly Regex TIME_REGEX;
         private readonly Regex DATE_TIME_REGEX;
 
-        // Regex: https://regex101.com/
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -29,6 +27,7 @@ namespace XMPP_API.Classes
         /// </history>
         public DateTimeParserHelper()
         {
+            // Regex: https://regex101.com/
             this.DATE_REGEX = new Regex(@"\d{4}(-?\d{2}){2}");
             this.TIME_REGEX = new Regex(@"(\d{2}:){2}\d{2}(.\d{3})?\D*");
             this.DATE_TIME_REGEX = new Regex(@"\d{4}(-?\d{2}){2}T(\d{2}:){2}\d{2}(.\d{3})?\D*");
@@ -162,6 +161,10 @@ namespace XMPP_API.Classes
                     {
                         int.TryParse(dateString.Substring(8, 3), out uTCOffset);
                     }
+                }
+                else if (dateString.EndsWith("Z"))
+                {
+                    uTCOffset = (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalHours;
                 }
 
 
