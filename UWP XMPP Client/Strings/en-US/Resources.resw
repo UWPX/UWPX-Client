@@ -141,7 +141,19 @@ https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordva
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.5.0.0 [May 2018] TSL options, donations, and bug fixes:
+    <value># v.0.5.1.0 [May 2018#2] Bug fixes
+
+Just a quick fix for in-App purchases and message delay stamps not getting parsed correctly.
+
+**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
+
+### Changes:
+* Fixed in-App purchases
+* Fixed message delay offset
+* Fixed ban/kick message text
+&lt;br/&gt;
+&lt;br/&gt;
+# v.0.5.0.0 [May 2018] TSL options, donations, and bug fixes:
 
 With the May 2018 release I've added TLS options. For example you now can prohibit TLS connections or ignore certain certificate errors to allow the use of self signed certificates. TLS options can be changed via the accounts settings for the individual account.
 I've also added a donations page which can be found under **"Settings" -&gt; "Donation"** so you can support the development of this App.
