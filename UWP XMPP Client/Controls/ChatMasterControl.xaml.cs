@@ -297,7 +297,7 @@ namespace UWP_XMPP_Client.Controls
                         case MUCHandler.TYPE_CHAT_INFO:
                             lastChatIcon_tblck.Text = "\uE946";
                             lastChatIcon_tblck.Visibility = Visibility.Visible;
-                            lastChat_tblck.Text = (chatMessage.message ?? "-") + " got kicked!";
+                            lastChat_tblck.Text = (chatMessage.message ?? "-");
                             break;
 
                         default:
