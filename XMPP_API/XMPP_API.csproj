@@ -113,7 +113,10 @@
     <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection.cs" />
+    <Compile Include="Classes\Network\AbstractConnection2.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
+    <Compile Include="Classes\Network\ConnectionError.cs" />
+    <Compile Include="Classes\Network\ConnectionErrorCode.cs" />
     <Compile Include="Classes\Network\ConnectionState.cs" />
     <Compile Include="Classes\Network\Events\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\MessageSendEventArgs.cs" />
@@ -127,6 +130,8 @@
     <Compile Include="Classes\Network\TCP\ConnectionConfiguration.cs" />
     <Compile Include="Classes\Network\TCP\ConnectionInformation.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection.cs" />
+    <Compile Include="Classes\Network\TCP\TCPConnection2.cs" />
+    <Compile Include="Classes\Network\TCP\TCPReadResult.cs" />
     <Compile Include="Classes\Network\TCP\TLSConnectionMode.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
@@ -217,6 +222,7 @@
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
     <Compile Include="Classes\Network\XMPPConnection.cs" />
+    <Compile Include="Classes\Network\XMPPConnection2.cs" />
     <Compile Include="Classes\Presence.cs" />
     <Compile Include="Classes\Utils.cs" />
     <Compile Include="Classes\XMPPClient.cs" />
