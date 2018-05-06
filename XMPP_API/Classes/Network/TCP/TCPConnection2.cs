@@ -40,11 +40,11 @@ namespace XMPP_API.Classes.Network.TCP
         /// Used to cancel connectAsync().
         /// </summary>
         private CancellationTokenSource connectingCTS;
+        private CancellationTokenSource tlsUpgradeCTS;
         /// <summary>
         /// Used to cancel all read operations.
         /// </summary>
         private CancellationTokenSource readingCTS;
-        private Task readingTask;
         private ConnectionError lastConnectionError;
 
         public delegate void NewDataReceivedEventHandler(TCPConnection2 connection, NewDataReceivedEventArgs args);
@@ -68,7 +68,6 @@ namespace XMPP_API.Classes.Network.TCP
             this.dataWriter = null;
             this.socket = null;
             this.readingCTS = null;
-            this.readingTask = null;
         }
 
         #endregion
@@ -112,27 +111,7 @@ namespace XMPP_API.Classes.Network.TCP
 
                             // Connect with timeout:
                             connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT);
-                            Task<bool> connectTask = Task.Run(async () =>
-                            {
-                                try
-                                {
-                                    await socket.ConnectAsync(hostName, account.port.ToString());
-                                }
-                                catch (Exception e)
-                                {
-                                    onConnectionError(e, i);
-                                    return false;
-                                }
-                                return true;
-                            }, connectingCTS.Token);
-
-                            // Await connection with timeout:
-                            await connectTask;
-
-                            if (!connectTask.Result)
-                            {
-                                continue;
-                            }
+                            await socket.ConnectAsync(hostName, account.port.ToString()).AsTask(connectingCTS.Token);
 
                             // Setup stream reader and writer:
                             dataWriter = new DataWriter(socket.OutputStream);
@@ -152,7 +131,7 @@ namespace XMPP_API.Classes.Network.TCP
                         catch (TaskCanceledException e)
                         {
                             Logger.Error("[TCPConnection2]: " + i + " try to connect to " + account.serverAddress + " failed:", e);
-                            lastConnectionError = new ConnectionError(ConnectionErrorCode.CONNECT_TIMEOUT);
+                            lastConnectionError = new ConnectionError(ConnectionErrorCode.CONNECT_TIMEOUT, e.Message);
                         }
                         catch (Exception e)
                         {
@@ -176,8 +155,8 @@ namespace XMPP_API.Classes.Network.TCP
 
             setState(ConnectionState.DISCONNECTING);
             connectingCTS?.Cancel();
-            stopReaderTask();
-            //socket?.Dispose();
+            readingCTS?.Cancel();
+            socket?.Dispose();
             socket = null;
             setState(ConnectionState.DISCONNECTED);
         }
@@ -194,7 +173,8 @@ namespace XMPP_API.Classes.Network.TCP
             }
             try
             {
-                await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName);
+                tlsUpgradeCTS = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT);
+                await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName).AsTask(tlsUpgradeCTS.Token);
             }
             catch (Exception e)
             {
@@ -248,9 +228,8 @@ namespace XMPP_API.Classes.Network.TCP
             uint readCount = 0;
 
             // Read the first batch:
-            readCount = await dataReader.LoadAsync(BUFFER_SIZE).AsTask();
-
-            if (dataReader == null)
+            readCount = await dataReader.LoadAsync(BUFFER_SIZE);
+            if (readCount <= 0 || dataReader == null)
             {
                 return new TCPReadResult(false, null);
             }
@@ -263,13 +242,18 @@ namespace XMPP_API.Classes.Network.TCP
             // If there is still data left to read, continue until a timeout occurs or a close got requested:
             while (!readingCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
             {
-                Task<uint> t = dataReader.LoadAsync(BUFFER_SIZE).AsTask();
-                t.Wait(100, readingCTS.Token);
-                readCount = t.Result;
-                while (dataReader.UnconsumedBufferLength > 0)
+                try
                 {
-                    data += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                    Task<uint> t = dataReader.LoadAsync(BUFFER_SIZE).AsTask(readingCTS.Token);
+                    t.Wait(100);
+                    readCount = t.Result;
+
+                    while (dataReader.UnconsumedBufferLength > 0)
+                    {
+                        data += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                    }
                 }
+                catch (OperationCanceledException) { }
             }
 
             return new TCPReadResult(true, data);
@@ -290,100 +274,101 @@ namespace XMPP_API.Classes.Network.TCP
 
             readingCTS = new CancellationTokenSource();
 
-            readingTask = Task.Run(async () =>
+            try
             {
-                TCPReadResult readResult = null;
-                int lastReadingFailedCount = 0;
-                int errorCount = 0;
-                DateTime lastReadingFailed = DateTime.MinValue;
-
-                while (state == ConnectionState.CONNECTED && errorCount < 3)
+                Task.Run(async () =>
                 {
-                    try
-                    {
-                        readResult = await readAsync();
-                        // Check if reading failed:
-                        if (!readResult.SUCCESS)
-                        {
-                            if (lastReadingFailedCount++ <= 0)
-                            {
-                                lastReadingFailed = DateTime.Now;
-                            }
+                    TCPReadResult readResult = null;
+                    int lastReadingFailedCount = 0;
+                    int errorCount = 0;
+                    DateTime lastReadingFailed = DateTime.MinValue;
 
-                            // Read 5 empty or null strings in an interval lower than 1 second:
-                            double c = DateTime.Now.Subtract(lastReadingFailed).TotalSeconds;
-                            if (lastReadingFailedCount > 5 && c < 1)
-                            {
-                                lastConnectionError = new ConnectionError(ConnectionErrorCode.READING_LOOP);
-                                errorCount = int.MaxValue;
-                                continue;
-                            }
-                        }
-                        else
+                    while (state == ConnectionState.CONNECTED && errorCount < 3)
+                    {
+                        try
                         {
-                            lastReadingFailedCount = 0;
-                            errorCount = 0;
-                            Logger.Debug("[TCPConnection2]: Received from (" + account.serverAddress + "):" + readResult.DATA);
+                            readResult = await readAsync();
+                            // Check if reading failed:
+                            if (!readResult.SUCCESS)
+                            {
+                                if (lastReadingFailedCount++ <= 0)
+                                {
+                                    lastReadingFailed = DateTime.Now;
+                                }
 
-                            // Trigger the NewDataReceived event:
-                            NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(readResult.DATA));
-                        }
-                    }
-                    catch (OperationCanceledException)
-                    {
-                        lastConnectionError = new ConnectionError(ConnectionErrorCode.READING_CANCELED);
-                        errorCount++;
-                    }
-                    catch (Exception e)
-                    {
-                        SocketErrorStatus status = SocketErrorStatus.Unknown;
-                        if (e is AggregateException aggregateException && aggregateException.InnerException != null)
-                        {
-                            status = SocketError.GetStatus(e.InnerException.HResult);
-                        }
-                        else
-                        {
-                            Exception baseException = e.GetBaseException();
-                            if (baseException != null)
-                            {
-                                status = SocketError.GetStatus(e.GetBaseException().HResult);
+                                // Read 5 empty or null strings in an interval lower than 1 second:
+                                double c = DateTime.Now.Subtract(lastReadingFailed).TotalSeconds;
+                                if (lastReadingFailedCount > 5 && c < 1)
+                                {
+                                    lastConnectionError = new ConnectionError(ConnectionErrorCode.READING_LOOP);
+                                    errorCount = int.MaxValue;
+                                    continue;
+                                }
                             }
                             else
                             {
-                                status = SocketError.GetStatus(e.HResult);
+                                lastReadingFailedCount = 0;
+                                errorCount = 0;
+                                Logger.Debug("[TCPConnection2]: Received from (" + account.serverAddress + "):" + readResult.DATA);
+
+                                // Trigger the NewDataReceived event:
+                                NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(readResult.DATA));
                             }
                         }
-
-                        lastConnectionError = new ConnectionError(status, e.Message);
-                        switch (status)
+                        catch (OperationCanceledException)
                         {
-                            // Some kind of connection lost:
-                            case SocketErrorStatus.ConnectionTimedOut:
-                            case SocketErrorStatus.ConnectionRefused:
-                            case SocketErrorStatus.NetworkDroppedConnectionOnReset:
-                            case SocketErrorStatus.SoftwareCausedConnectionAbort:
-                            case SocketErrorStatus.ConnectionResetByPeer:
-                                errorCount = int.MaxValue;
-                                break;
+                            lastConnectionError = new ConnectionError(ConnectionErrorCode.READING_CANCELED);
+                            errorCount++;
+                        }
+                        catch (Exception e)
+                        {
+                            SocketErrorStatus status = SocketErrorStatus.Unknown;
+                            if (e is AggregateException aggregateException && aggregateException.InnerException != null)
+                            {
+                                status = SocketError.GetStatus(e.InnerException.HResult);
+                            }
+                            else
+                            {
+                                Exception baseException = e.GetBaseException();
+                                if (baseException != null)
+                                {
+                                    status = SocketError.GetStatus(e.GetBaseException().HResult);
+                                }
+                                else
+                                {
+                                    status = SocketError.GetStatus(e.HResult);
+                                }
+                            }
 
-                            default:
-                                errorCount++;
-                                break;
+                            lastConnectionError = new ConnectionError(status, e.Message);
+                            switch (status)
+                            {
+                                // Some kind of connection lost:
+                                case SocketErrorStatus.ConnectionTimedOut:
+                                case SocketErrorStatus.ConnectionRefused:
+                                case SocketErrorStatus.NetworkDroppedConnectionOnReset:
+                                case SocketErrorStatus.SoftwareCausedConnectionAbort:
+                                case SocketErrorStatus.ConnectionResetByPeer:
+                                    errorCount = int.MaxValue;
+                                    break;
+
+                                default:
+                                    errorCount++;
+                                    break;
+                            }
                         }
                     }
-                }
 
-                if (errorCount >= 3)
-                {
-                    setState(ConnectionState.ERROR, lastConnectionError);
-                }
-            }, readingCTS.Token);
-        }
-
-        public void stopReaderTask()
-        {
-            readingCTS?.Cancel();
-            readingTask = null;
+                    if (errorCount >= 3)
+                    {
+                        setState(ConnectionState.ERROR, lastConnectionError);
+                    }
+                }, readingCTS.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                // Reader task got canceled
+            }
         }
 
         #endregion

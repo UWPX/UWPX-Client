@@ -218,7 +218,7 @@ namespace XMPP_API.Classes.Network
             }
             try
             {
-                if(await TCP_CONNECTION.sendAsync(msg.toXmlString()))
+                if (await TCP_CONNECTION.sendAsync(msg.toXmlString()))
                 {
                     // Only trigger onMessageSend(...) for chat messages:
                     if (msg is MessageMessage)
@@ -254,7 +254,7 @@ namespace XMPP_API.Classes.Network
         {
             if (reconnectRequested || holdConnection)
             {
-                Task.Run(async () => await connectAsync());
+                Task t = connectAsync();
             }
         }
 
@@ -275,7 +275,7 @@ namespace XMPP_API.Classes.Network
                     {
                         messageIdCache.addTimed(entry.messageId);
                     }
-                    if(await TCP_CONNECTION.sendAsync(entry.message))
+                    if (await TCP_CONNECTION.sendAsync(entry.message))
                     {
                         MessageCache.INSTANCE.removeEntry(entry);
 
@@ -589,7 +589,7 @@ namespace XMPP_API.Classes.Network
                     break;
 
                 case ConnectionState.ERROR:
-                    if(args.param is ConnectionError cError)
+                    if (args.param is ConnectionError cError)
                     {
                         lastConnectionError = cError;
                     }
