@@ -25,7 +25,7 @@ namespace XMPP_API.Classes.Network.TCP
         /// <summary>
         /// The timeout for upgrading to a TLS connection in ms.
         /// </summary>
-        private const int TLS_UPGRADE_TIMEOUT = 3000;
+        private const int TLS_UPGRADE_TIMEOUT = 5000;
 
         private const int MAX_CONNECTION_TRIES = 3;
 
@@ -156,6 +156,7 @@ namespace XMPP_API.Classes.Network.TCP
             setState(ConnectionState.DISCONNECTING);
             connectingCTS?.Cancel();
             readingCTS?.Cancel();
+            tlsUpgradeCTS?.Cancel();
             socket?.Dispose();
             socket = null;
             setState(ConnectionState.DISCONNECTED);

@@ -146,7 +146,7 @@ namespace XMPP_API.Classes
         public async Task disconnectAsync()
         {
             Logger.Info("Disconnecting account: " + getXMPPAccount().getIdAndDomain());
-            await connection.disconnectAsync();
+            await connection.disconnectAsyncs();
         }
 
         public async Task<MessageMessage> sendAsync(string to, string msg, string chatType)

@@ -138,30 +138,10 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        /// <summary>
-        /// Disconnects from the server.
-        /// </summary>
-        /// <returns></returns>
-        public async Task disconnectAsync()
+        public async Task disconnectAsyncs()
         {
-            stopConnectionTimer();
-            if (state == ConnectionState.DISCONNECTED)
-            {
-                // Reset connection error count:
-                connectionErrorCount = 0;
-                onDisconnected();
-                return;
-            }
-
-            setState(ConnectionState.DISCONNECTING);
-
-            // Send stream close message:
-            await sendStreamCloseMessageAsync();
-
-            // Disconnect the TCPConnection:
-            TCP_CONNECTION.disconnect();
-
-            setState(ConnectionState.DISCONNECTED);
+            holdConnection = false;
+            await internalDisconnectAsync();
         }
 
         /// <summary>
@@ -175,7 +155,7 @@ namespace XMPP_API.Classes.Network
                 connectionErrorCount = 0;
             }
             reconnectRequested = true;
-            await disconnectAsync();
+            await internalDisconnectAsync();
         }
 
         /// <summary>
@@ -256,6 +236,32 @@ namespace XMPP_API.Classes.Network
             {
                 Task t = connectAsync();
             }
+        }
+
+        /// <summary>
+        /// Disconnects from the server.
+        /// </summary>
+        /// <returns></returns>
+        private async Task internalDisconnectAsync()
+        {
+            stopConnectionTimer();
+            if (state == ConnectionState.DISCONNECTED)
+            {
+                // Reset connection error count:
+                connectionErrorCount = 0;
+                onDisconnected();
+                return;
+            }
+
+            setState(ConnectionState.DISCONNECTING);
+
+            // Send stream close message:
+            await sendStreamCloseMessageAsync();
+
+            // Disconnect the TCPConnection:
+            TCP_CONNECTION.disconnect();
+
+            setState(ConnectionState.DISCONNECTED);
         }
 
         /// <summary>
@@ -366,7 +372,7 @@ namespace XMPP_API.Classes.Network
             {
                 // Establishing the connection failed for the third time:
                 holdConnection = false;
-                await disconnectAsync();
+                await internalDisconnectAsync();
                 setState(ConnectionState.ERROR, lastConnectionError);
             }
             else
@@ -508,7 +514,7 @@ namespace XMPP_API.Classes.Network
                     {
                         case ConnectionState.CONNECTING:
                         case ConnectionState.CONNECTED:
-                            await disconnectAsync();
+                            await internalDisconnectAsync();
                             break;
                     }
                 }
@@ -544,7 +550,7 @@ namespace XMPP_API.Classes.Network
             }
             else if (state == ConnectionState.CONNECTED)
             {
-                Task t = disconnectAsync();
+                Task t = internalDisconnectAsync();
             }
         }
 
@@ -611,7 +617,7 @@ namespace XMPP_API.Classes.Network
                     {
                         // Unable to connect to server:
                         connectionErrorCount = 3;
-                        await disconnectAsync();
+                        await internalDisconnectAsync();
                         setState(ConnectionState.ERROR, args.param);
                     }
                     break;
