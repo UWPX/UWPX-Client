@@ -109,33 +109,6 @@ namespace XMPP_API.Classes.Network.XML
                         messages.Add(new SMEnableMessage(n));
                         break;
 
-                    // Stream start and end:
-                    case "stream:stream":
-                        if (hasCloseStream)
-                        {
-                            messages.Add(new CloseStreamMessage(n));
-                        }
-                        else
-                        {
-                            messages.Add(new OpenStreamAnswerMessage(n));
-                        }
-                        break;
-
-                    // Stream features:
-                    case "stream:features":
-                        messages.Add(new StreamFeaturesMessage(n));
-                        break;
-
-                    // TLS proceed:
-                    case "proceed":
-                        messages.Add(new ProceedAnswerMessage());
-                        break;
-
-                    // SASL success:
-                    case "success":
-                        messages.Add(new SASLSuccessMessage());
-                        break;
-
                     // Messages:
                     case "message":
                         // XEP-0249 (Direct MUC Invitations):
@@ -284,6 +257,33 @@ namespace XMPP_API.Classes.Network.XML
                     // SASL failure:
                     case "failure" when Equals(n.NamespaceURI, Consts.XML_SASL_FAILURE_NAMESPACE):
                         messages.Add(new SASLFailureMessage(n));
+                        break;
+
+                    // Stream start and end:
+                    case "stream:stream":
+                        if (hasCloseStream)
+                        {
+                            messages.Add(new CloseStreamMessage(n));
+                        }
+                        else
+                        {
+                            messages.Add(new OpenStreamAnswerMessage(n));
+                        }
+                        break;
+
+                    // Stream features:
+                    case "stream:features":
+                        messages.Add(new StreamFeaturesMessage(n));
+                        break;
+
+                    // TLS proceed:
+                    case "proceed":
+                        messages.Add(new ProceedAnswerMessage());
+                        break;
+
+                    // SASL success:
+                    case "success":
+                        messages.Add(new SASLSuccessMessage());
                         break;
 
                     default:
