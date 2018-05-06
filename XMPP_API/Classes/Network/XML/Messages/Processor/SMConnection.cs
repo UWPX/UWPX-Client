@@ -56,6 +56,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Misc Methods (Protected)--
         protected override async Task processMessageAsync(NewValidMessageEventArgs args)
         {
+            return;
             AbstractMessage msg = args.getMessage();
             if (state == SMState.ENABLED || state == SMState.ERROR || msg.isProcessed())
             {
