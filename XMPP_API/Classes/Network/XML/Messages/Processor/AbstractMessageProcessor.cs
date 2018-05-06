@@ -8,8 +8,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        protected readonly TCPConnection TCP_CONNECTION;
-        protected readonly XMPPConnection XMPP_CONNECTION;
+        protected readonly TCPConnection2 TCP_CONNECTION;
+        protected readonly XMPPConnection2 XMPP_CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractMessageProcessor(TCPConnection tcpConnection, XMPPConnection xMPPConnection)
+        public AbstractMessageProcessor(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection)
         {
             this.TCP_CONNECTION = tcpConnection;
             this.XMPP_CONNECTION = xMPPConnection;
@@ -60,7 +60,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        protected async void XMPP_CONNECTION_ConnectionNewValidMessage(XMPPConnection handler, NewValidMessageEventArgs args)
+        private async void XMPP_CONNECTION_ConnectionNewValidMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
             await processMessageAsync(args);
         }

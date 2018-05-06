@@ -9,9 +9,28 @@
                mc:Ignorable="d">
 
     <ScrollViewer HorizontalScrollMode="Disabled">
-        <TextBlock Foreground="Red"
-                   IsTextSelectionEnabled="True"
-                   Text="{x:Bind ErrorText, Mode=OneWay, FallbackValue='Unknown error! Please view the logs for more information.'}"
-                   TextWrapping="Wrap"/>
+        <StackPanel>
+            <TextBlock Foreground="Red"
+                       IsTextSelectionEnabled="True"
+                       TextWrapping="Wrap">
+                <Run FontWeight="Bold"
+                     Text="Error code: "/>
+                <Run x:Name="errorCode_run"/>
+            </TextBlock>
+            <TextBlock Foreground="Red"
+                       IsTextSelectionEnabled="True"
+                       TextWrapping="Wrap">
+                <Run FontWeight="Bold"
+                     Text="Socket error code: "/>
+                <Run x:Name="socketErrorCode_run"/>
+            </TextBlock>
+            <TextBlock Foreground="Red"
+                       IsTextSelectionEnabled="True"
+                       TextWrapping="Wrap">
+                <Run FontWeight="Bold"
+                     Text="Error message: "/>
+                <Run x:Name="errorMessage_run"/>
+            </TextBlock>
+        </StackPanel>
     </ScrollViewer>
 </ContentDialog>

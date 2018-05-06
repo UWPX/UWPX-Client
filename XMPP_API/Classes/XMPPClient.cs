@@ -15,7 +15,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private XMPPConnection connection;
+        private XMPPConnection2 connection;
 
         public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionStateChangedEventArgs args);
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
@@ -85,9 +85,9 @@ namespace XMPP_API.Classes
             return connection.state;
         }
 
-        public string getLastErrorMessage()
+        public ConnectionError getLastConnectionError()
         {
-            return connection.lastErrorMessage;
+            return connection.lastConnectionError;
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace XMPP_API.Classes
         public void setAccount(XMPPAccount account)
         {
             // Cleanup old connection:
-            if(connection != null)
+            if (connection != null)
             {
                 switch (connection.state)
                 {
@@ -129,7 +129,7 @@ namespace XMPP_API.Classes
             Logger.Info("Connecting account: " + getXMPPAccount().getIdAndDomain());
             try
             {
-                await connection.connectAsync();
+                connection.connectAndHold();
             }
             catch (Exception e)
             {
@@ -239,7 +239,7 @@ namespace XMPP_API.Classes
         #region --Misc Methods (Private)--
         private void initConnection(XMPPAccount account)
         {
-            connection = new XMPPConnection(account);
+            connection = new XMPPConnection2(account);
             connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
             connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
@@ -255,12 +255,12 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Connection_ConnectionNewRoosterMessage(XMPPConnection handler, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewRoosterMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
             NewRoosterMessage?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs args)
+        private void Connection_ConnectionStateChanged(AbstractConnection2 connection, ConnectionStateChangedEventArgs args)
         {
             if (args.newState == ConnectionState.CONNECTED)
             {
@@ -274,7 +274,7 @@ namespace XMPP_API.Classes
             ConnectionStateChanged?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionNewValidMessage(XMPPConnection handler, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewValidMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
             if (msg is MessageMessage)
@@ -298,7 +298,7 @@ namespace XMPP_API.Classes
             NewValidMessage?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionNewPresenceMessage(XMPPConnection handler, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewPresenceMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
             // XEP-0045 (MUC member presence):
             if (args.getMessage() is MUCMemberPresenceMessage)
@@ -311,7 +311,7 @@ namespace XMPP_API.Classes
             }
         }
 
-        private void Connection_MessageSend(XMPPConnection handler, MessageSendEventArgs args)
+        private void Connection_MessageSend(XMPPConnection2 connection, MessageSendEventArgs args)
         {
             MessageSend?.Invoke(this, args);
         }

@@ -1,5 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -7,12 +8,16 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string ErrorText
+        public ConnectionError LastConnectionError
         {
-            get { return (string)GetValue(ErrorTextProperty); }
-            set { SetValue(ErrorTextProperty, value); }
+            get { return (ConnectionError)GetValue(LastConnectionErrorProperty); }
+            set
+            {
+                SetValue(LastConnectionErrorProperty, value);
+                showLastConnectionError();
+            }
         }
-        public static readonly DependencyProperty ErrorTextProperty = DependencyProperty.Register("ErrorText", typeof(string), typeof(ConnectionErrorDialog), null);
+        public static readonly DependencyProperty LastConnectionErrorProperty = DependencyProperty.Register("LastConnectionError", typeof(ConnectionError), typeof(ConnectionErrorDialog), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,10 +28,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// <history>
         /// 30/04/2018 Created [Fabian Sauter]
         /// </history>
-        public ConnectionErrorDialog(string errorText)
+        public ConnectionErrorDialog(ConnectionError lastConnectionError)
         {
-            this.ErrorText = errorText;
             this.InitializeComponent();
+            this.LastConnectionError = lastConnectionError;
         }
 
         #endregion
@@ -42,7 +47,22 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void showLastConnectionError()
+        {
+            if (LastConnectionError != null)
+            {
+                errorCode_run.Text = (int)LastConnectionError.ERROR_CODE + " [" + LastConnectionError.ERROR_CODE + "]";
+                if (LastConnectionError.ERROR_CODE == ConnectionErrorCode.SOCKET_ERROR)
+                {
+                    socketErrorCode_run.Text = (int)LastConnectionError.SOCKET_ERROR + " [" + LastConnectionError.SOCKET_ERROR + "]";
+                }
+                else
+                {
+                    socketErrorCode_run.Text = "-";
+                }
+                errorMessage_run.Text = LastConnectionError.ERROR_MESSAGE ?? "-";
+            }
+        }
 
         #endregion
 
@@ -54,6 +74,7 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Events--
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            Hide();
         }
 
         #endregion

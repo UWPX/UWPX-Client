@@ -25,7 +25,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public SASLConnection(TCPConnection tcpConnection, XMPPConnection xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public SASLConnection(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection) : base(tcpConnection, xMPPConnection)
         {
             reset();
         }
@@ -132,7 +132,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (selectedMechanism == null)
                         {
                             state = SASLState.ERROR;
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync("selectedMechanism == null", true);
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "selectedMechanism == null"), true);
                             return;
                         }
                         await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), false, true);
@@ -162,11 +162,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         Logger.Error("Error during SASL authentication: " + saslFailureMessage.ERROR_TYPE + "\n" + saslFailureMessage.ERROR_MESSAGE);
                         if (saslFailureMessage.ERROR_TYPE == SASLErrorType.UNKNOWN_ERROR)
                         {
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync("SASL: " + saslFailureMessage.ERROR_MESSAGE, true);
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "SASL: " + saslFailureMessage.ERROR_MESSAGE), true);
                         }
                         else
                         {
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync("SASL: " + saslFailureMessage.ERROR_TYPE, true);
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "SASL: " + saslFailureMessage.ERROR_TYPE), true);
                         }
                     }
                     break;

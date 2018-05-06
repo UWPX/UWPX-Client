@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Networking.PushNotifications;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.TCP;
 
 namespace Push_App_Server.Classes
 {
@@ -94,7 +95,8 @@ namespace Push_App_Server.Classes
                         string certInfo = client.getXMPPAccount().CONNECTION_INFO.getCertificateInformation();
                         Logger.Info("Connected to the push server (" + Consts.PUSH_SERVER_ADDRESS + ").");
                         await PUSH_CONNECTION.sendAsync(getMessage(channel.Uri));
-                        return PUSH_CONNECTION.readNextString();
+                        TCPReadResult s = await PUSH_CONNECTION.readNextString();
+                        return s.DATA;
                     });
                     CancellationTokenSource cTS = new CancellationTokenSource();
                     if (t.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token) && t.Result.Wait((int)TimeSpan.FromSeconds(3).TotalMilliseconds, cTS.Token))

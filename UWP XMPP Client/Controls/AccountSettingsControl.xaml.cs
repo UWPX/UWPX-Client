@@ -31,6 +31,7 @@ namespace UWP_XMPP_Client.Controls
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountSettingsControl), null);
 
         private XMPPClient client;
+        private ConnectionError lastConnectionError;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,6 +45,7 @@ namespace UWP_XMPP_Client.Controls
         public AccountSettingsControl()
         {
             this.client = null;
+            this.lastConnectionError = null;
             this.InitializeComponent();
         }
 
@@ -87,7 +89,7 @@ namespace UWP_XMPP_Client.Controls
                         client.ConnectionStateChanged += Client_ConnectionStateChanged;
                         client.getXMPPAccount().CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
                         client.getXMPPAccount().CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
-                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client, client.getConnetionState(), client.getLastErrorMessage())).AsTask();
+                        Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client, client.getConnetionState(), client.getLastConnectionError())).AsTask();
                     }
                     Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => IsEnabled = true).AsTask();
                 });
@@ -151,6 +153,8 @@ namespace UWP_XMPP_Client.Controls
             updateSecurityButton(client, state);
 
             error_tblck.Visibility = Visibility.Collapsed;
+            lastConnectionError = null;
+
             switch (state)
             {
                 case ConnectionState.DISCONNECTED:
@@ -176,10 +180,26 @@ namespace UWP_XMPP_Client.Controls
 
         private void showError(object param)
         {
-            if (param is string)
+            if (param is ConnectionError connectionError)
             {
+                lastConnectionError = connectionError;
+
+                switch (connectionError.ERROR_CODE)
+                {
+                    case ConnectionErrorCode.UNKNOWN:
+                        error_tblck.Text = connectionError.ERROR_MESSAGE ?? "";
+                        break;
+
+                    case ConnectionErrorCode.SOCKET_ERROR:
+                        error_tblck.Text = connectionError.SOCKET_ERROR.ToString();
+                        break;
+
+                    default:
+                        error_tblck.Text = connectionError.ERROR_CODE.ToString();
+                        break;
+                }
+
                 error_tblck.Visibility = Visibility.Visible;
-                error_tblck.Text = param.ToString();
             }
         }
 
@@ -276,9 +296,9 @@ namespace UWP_XMPP_Client.Controls
 
         private async void Grid_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            if (error_tblck.Visibility == Visibility.Visible)
+            if (error_tblck.Visibility == Visibility.Visible && lastConnectionError != null)
             {
-                ConnectionErrorDialog dialog = new ConnectionErrorDialog(error_tblck.Text);
+                ConnectionErrorDialog dialog = new ConnectionErrorDialog(lastConnectionError);
                 await dialog.ShowAsync();
             }
         }

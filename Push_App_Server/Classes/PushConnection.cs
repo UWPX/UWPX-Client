@@ -8,14 +8,14 @@ namespace Push_App_Server.Classes
     /// <summary>
     /// This class is a wrapper for the TCPConnection class.
     /// </summary>
-    public class PushConnection : AbstractConnection
+    public class PushConnection : AbstractConnection2
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
         /// The TCP connection to the push server.
         /// </summary>
-        private TCPConnection tCPConnection;
+        private TCPConnection2 tCPConnection;
 
         /// <summary>
         /// A dummy XMPPAccount its only purpose it is to allow using the TCPConnection.
@@ -33,7 +33,7 @@ namespace Push_App_Server.Classes
         /// </history>
         public PushConnection() : base(DUMMY_XMPP_ACCOUNT)
         {
-            this.tCPConnection = new TCPConnection(DUMMY_XMPP_ACCOUNT);
+            this.tCPConnection = new TCPConnection2(DUMMY_XMPP_ACCOUNT);
             this.tCPConnection.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
         }
 
@@ -45,14 +45,14 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async override Task connectAsync()
+        public async Task connectAsync()
         {
             await tCPConnection.connectAsync();
         }
 
-        public async override Task disconnectAsync()
+        public void disconnect()
         {
-            await tCPConnection.disconnectAsync();
+            tCPConnection.disconnect();
         }
 
         public async Task sendAsync(string msg)
@@ -60,9 +60,9 @@ namespace Push_App_Server.Classes
             await tCPConnection.sendAsync(msg);
         }
 
-        public string readNextString()
+        public async Task<TCPReadResult> readNextString()
         {
-            return tCPConnection.readNextString();
+            return await tCPConnection.readAsync();
         }
 
         #endregion
@@ -73,19 +73,12 @@ namespace Push_App_Server.Classes
         #endregion
 
         #region --Misc Methods (Protected)--
-        /// <summary>
-        /// Unused here.
-        /// </summary>
-        /// <returns></returns>
-        protected override Task cleanupAsync()
-        {
-            return null;
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void TCPConnection_ConnectionStateChanged(AbstractConnection connection, ConnectionStateChangedEventArgs arg)
+        private void TCPConnection_ConnectionStateChanged(AbstractConnection2 connection, ConnectionStateChangedEventArgs arg)
         {
             setState(arg.newState);
         }

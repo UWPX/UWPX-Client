@@ -24,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 24/08/2017 Created [Fabian Sauter]
         /// </history>
-        public RecourceBindingConnection(TCPConnection tcpConnection, XMPPConnection xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public RecourceBindingConnection(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection) : base(tcpConnection, xMPPConnection)
         {
             reset();
         }

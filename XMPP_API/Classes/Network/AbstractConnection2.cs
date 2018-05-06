@@ -1,4 +1,5 @@
-﻿using XMPP_API.Classes.Network.Events;
+﻿using Logging;
+using XMPP_API.Classes.Network.Events;
 
 namespace XMPP_API.Classes.Network
 {
@@ -42,7 +43,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="state">The state to set.</param>
         /// <param name="param">An additional parameter for invoking the ConnectionStateChangedEventHandler (e.g. a list of connection exceptions, ...).</param>
-        public virtual void setState(ConnectionState newState, object param)
+        protected virtual void setState(ConnectionState newState, object param)
         {
             // Only trigger if the state actually changed:
             if (newState == state)
@@ -53,6 +54,8 @@ namespace XMPP_API.Classes.Network
             ConnectionState oldState = state;
             state = newState;
             ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(newState, oldState, param));
+
+            Logger.Debug("[" + this.GetType().Name + "] " + oldState + " -> " + newState);
         }
 
         /// <summary>

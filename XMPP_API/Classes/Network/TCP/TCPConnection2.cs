@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network.TCP
 
         private DataReader dataReader;
         private DataWriter dataWriter;
-        private readonly Mutex WRITE_MUTEX = new Mutex();
+        private static readonly SemaphoreSlim WRITE_SEMA = new SemaphoreSlim(1, 1);
 
         /// <summary>
         /// Used to cancel connectAsync().
@@ -44,6 +44,7 @@ namespace XMPP_API.Classes.Network.TCP
         /// Used to cancel all read operations.
         /// </summary>
         private CancellationTokenSource readingCTS;
+        private Task readingTask;
         private ConnectionError lastConnectionError;
 
         public delegate void NewDataReceivedEventHandler(TCPConnection2 connection, NewDataReceivedEventArgs args);
@@ -66,6 +67,8 @@ namespace XMPP_API.Classes.Network.TCP
             this.dataReader = null;
             this.dataWriter = null;
             this.socket = null;
+            this.readingCTS = null;
+            this.readingTask = null;
         }
 
         #endregion
@@ -86,7 +89,6 @@ namespace XMPP_API.Classes.Network.TCP
                 case ConnectionState.DISCONNECTED:
                 case ConnectionState.ERROR:
                     setState(ConnectionState.CONNECTING);
-
                     for (int i = 1; i <= MAX_CONNECTION_TRIES; i++)
                     {
                         try
@@ -173,11 +175,10 @@ namespace XMPP_API.Classes.Network.TCP
             }
 
             setState(ConnectionState.DISCONNECTING);
-            // Stop connectAsync():
-            if (connectingCTS != null)
-            {
-                connectingCTS.Cancel();
-            }
+            connectingCTS?.Cancel();
+            stopReaderTask();
+            //socket?.Dispose();
+            socket = null;
             setState(ConnectionState.DISCONNECTED);
         }
 
@@ -210,7 +211,7 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 try
                 {
-                    WRITE_MUTEX.WaitOne();
+                    WRITE_SEMA.Wait();
                     dataWriter.WriteString(s);
                     await dataWriter.StoreAsync();
                     await dataWriter.FlushAsync();
@@ -230,7 +231,7 @@ namespace XMPP_API.Classes.Network.TCP
                 }
                 finally
                 {
-                    WRITE_MUTEX.ReleaseMutex();
+                    WRITE_SEMA.Release();
                 }
             }
             return false;
@@ -289,7 +290,7 @@ namespace XMPP_API.Classes.Network.TCP
 
             readingCTS = new CancellationTokenSource();
 
-            Task.Run(async () =>
+            readingTask = Task.Run(async () =>
             {
                 TCPReadResult readResult = null;
                 int lastReadingFailedCount = 0;
@@ -382,6 +383,7 @@ namespace XMPP_API.Classes.Network.TCP
         public void stopReaderTask()
         {
             readingCTS?.Cancel();
+            readingTask = null;
         }
 
         #endregion
