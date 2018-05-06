@@ -104,11 +104,6 @@ namespace XMPP_API.Classes.Network.XML
                         messages.Add(new SMRequestMessage(n));
                         break;
 
-                    // XEP-0198 (Stream Management):
-                    case "enable":
-                        messages.Add(new SMEnableMessage(n));
-                        break;
-
                     // Messages:
                     case "message":
                         // XEP-0249 (Direct MUC Invitations):
@@ -284,6 +279,16 @@ namespace XMPP_API.Classes.Network.XML
                     // SASL success:
                     case "success":
                         messages.Add(new SASLSuccessMessage());
+                        break;
+
+                    // XEP-0198 (Stream Management):
+                    case "enable":
+                        messages.Add(new SMEnableMessage(n));
+                        break;
+
+                    // XEP-0198 (Stream Management):
+                    case "failed":
+                        messages.Add(new SMFailedMessage(n));
                         break;
 
                     default:

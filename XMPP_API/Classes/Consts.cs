@@ -38,5 +38,6 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0249_NAMESPACE = "jabber:x:conference";
         // XEP-0198 (Stream Management):
         public const string XML_XEP_0198_NAMESPACE = "urn:xmpp:sm:3";
+        public const string XML_XEP_0198_FAILED_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-stanzas";
     }
 }

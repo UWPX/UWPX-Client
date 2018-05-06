@@ -161,6 +161,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0249\DirectMUCInvitationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\LeaveRoomMessage.cs" />
