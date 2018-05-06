@@ -36,5 +36,7 @@ namespace XMPP_API.Classes
         public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
         // XEP-0249 (Direct MUC Invitations):
         public const string XML_XEP_0249_NAMESPACE = "jabber:x:conference";
+        // XEP-0198 (Stream Management):
+        public const string XML_XEP_0198_NAMESPACE = "urn:xmpp:sm:3";
     }
 }

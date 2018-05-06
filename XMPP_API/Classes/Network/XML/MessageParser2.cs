@@ -12,6 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace XMPP_API.Classes.Network.XML
@@ -93,6 +94,21 @@ namespace XMPP_API.Classes.Network.XML
             {
                 switch (n.Name)
                 {
+                    // XEP-0198 (Stream Management):
+                    case "a":
+                        messages.Add(new SMAnswerMessage(n));
+                        break;
+
+                    // XEP-0198 (Stream Management):
+                    case "r":
+                        messages.Add(new SMRequestMessage(n));
+                        break;
+
+                    // XEP-0198 (Stream Management):
+                    case "enable":
+                        messages.Add(new SMEnableMessage(n));
+                        break;
+
                     // Stream start and end:
                     case "stream:stream":
                         if (hasCloseStream)
