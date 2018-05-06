@@ -77,7 +77,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             {
                 if (connectionMode == TLSConnectionMode.PROHIBIT)
                 {
-                    if (tlsFeature.isRequired())
+                    if (tlsFeature.REQUIRED)
                     {
                         string errorMsg = "TSL is required for server but TLS connection mode is set to prohibit!";
                         Logger.Error(errorMsg);

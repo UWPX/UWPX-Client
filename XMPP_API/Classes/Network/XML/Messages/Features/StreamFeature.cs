@@ -1,11 +1,14 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.Features
+﻿using System.Xml;
+
+namespace XMPP_API.Classes.Network.XML.Messages.Features
 {
     class StreamFeature
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string NAME;
-        private readonly bool REQUIRED;
+        public readonly string NAME;
+        public readonly string NAMESPACE;
+        public readonly bool REQUIRED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,24 +19,17 @@
         /// <history>
         /// 20/08/2017 Created [Fabian Sauter]
         /// </history>
-        public StreamFeature(string name, bool required)
+        public StreamFeature(XmlNode n)
         {
-            this.NAME = name;
-            this.REQUIRED = required;
+            this.NAME = n.Name;
+            this.NAMESPACE = n.NamespaceURI;
+            this.REQUIRED = XMLUtils.getChildNode(n, "required") != null;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public bool isRequired()
-        {
-            return REQUIRED;
-        }
 
-        public string getName()
-        {
-            return NAME;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

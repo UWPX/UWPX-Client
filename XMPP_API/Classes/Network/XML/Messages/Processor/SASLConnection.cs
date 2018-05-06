@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             {
                 if (sF is SASLStreamFeature)
                 {
-                    return (sF as SASLStreamFeature).getMechanisms();
+                    return (sF as SASLStreamFeature).MECHANISMS;
                 }
             }
             return null;

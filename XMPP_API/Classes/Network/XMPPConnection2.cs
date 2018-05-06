@@ -74,7 +74,7 @@ namespace XMPP_API.Classes.Network
             this.TCP_CONNECTION.NewDataReceived += TCPConnection_NewDataReceived;
 
             this.parser = new MessageParser2();
-            this.messageProcessors = new AbstractMessageProcessor[3];
+            this.messageProcessors = new AbstractMessageProcessor[4];
             this.streamId = null;
             this.messageIdCache = new TSTimedList<string>();
 
@@ -86,15 +86,18 @@ namespace XMPP_API.Classes.Network
             // https://xmpp.org/extensions/xep-0170.html
             //-------------------------------------------------------------
             // TLS:
-            this.messageProcessors[0] = (new TLSConnection(TCP_CONNECTION, this));
+            this.messageProcessors[0] = new TLSConnection(TCP_CONNECTION, this);
 
             // SASL:
-            this.messageProcessors[1] = (new SASLConnection(TCP_CONNECTION, this));
+            this.messageProcessors[1] = new SASLConnection(TCP_CONNECTION, this);
+
+            // XEP-0198 (Stream Management):
+            this.messageProcessors[2] = new SMConnection(TCP_CONNECTION, this);
 
             // Resource binding:
             RecourceBindingConnection recourceBindingConnection = new RecourceBindingConnection(TCP_CONNECTION, this);
             recourceBindingConnection.ResourceBound += RecourceBindingConnection_ResourceBound;
-            this.messageProcessors[2] = (recourceBindingConnection);
+            this.messageProcessors[3] = recourceBindingConnection;
             //-------------------------------------------------------------
 
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;

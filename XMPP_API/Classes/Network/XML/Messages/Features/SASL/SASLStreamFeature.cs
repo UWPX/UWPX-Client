@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections;
 using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
@@ -12,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ArrayList MECHANISMS;
+        public readonly ArrayList MECHANISMS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,19 +18,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public SASLStreamFeature(string name, XmlNode mechanismsNode) : base(name, true)
+        public SASLStreamFeature(XmlNode n) : base(n)
         {
             this.MECHANISMS = new ArrayList(3);
-            loadMechanisms(mechanismsNode);
+            loadMechanisms(n);
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public ArrayList getMechanisms()
-        {
-            return MECHANISMS;
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -47,16 +39,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         #region --Misc Methods (Private)--
         private void loadMechanisms(XmlNode mechanismsNode)
         {
-            if(mechanismsNode == null)
+            if (mechanismsNode == null)
             {
                 return;
             }
 
             foreach (XmlNode n in mechanismsNode.ChildNodes)
             {
-                if(n != null && n.Name != null && n.Name.Equals("mechanism") && n.InnerText != null)
+                switch (n.Name)
                 {
-                    MECHANISMS.Add(n.InnerText);
+                    case "mechanism" when n.InnerText != null:
+                        MECHANISMS.Add(n.InnerText);
+                        break;
                 }
             }
         }

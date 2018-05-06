@@ -250,7 +250,7 @@ namespace XMPP_API.Classes.Network.XML
                         break;
 
                     // SASL failure:
-                    case "failure" when Equals(n.NamespaceURI, Consts.XML_SASL_FAILURE_NAMESPACE):
+                    case "failure" when Equals(n.NamespaceURI, Consts.XML_SASL_NAMESPACE):
                         messages.Add(new SASLFailureMessage(n));
                         break;
 

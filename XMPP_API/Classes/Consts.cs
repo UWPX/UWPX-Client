@@ -20,8 +20,8 @@ namespace XMPP_API.Classes
 
         public const string XML_XMLNS = "xmlns";
 
-        // SASL failure:
-        public const string XML_SASL_FAILURE_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-sasl";
+        // SASL:
+        public const string XML_SASL_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-sasl";
 
         // XEP-0085 (chat state):
         public const string XML_XEP_0085_NAMESPACE = "http://jabber.org/protocol/chatstates";

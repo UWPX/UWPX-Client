@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.Features
+﻿using System.Xml;
+
+namespace XMPP_API.Classes.Network.XML.Messages.Features
 {
     class TLSStreamFeature : StreamFeature
     {
@@ -15,7 +17,7 @@
         /// <history>
         /// 20/08/2017 Created [Fabian Sauter]
         /// </history>
-        public TLSStreamFeature(string name, bool required) : base(name, required)
+        public TLSStreamFeature(XmlNode n) : base(n)
         {
         }
 

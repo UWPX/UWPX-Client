@@ -46,7 +46,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
         {
             foreach (StreamFeature f in FEATURES)
             {
-                if(f != null && f.getName() != null && f.getName().Equals(name))
+                if (string.Equals(f.NAME, name))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool containsFeature(string name, string ns)
+        {
+            foreach (StreamFeature f in FEATURES)
+            {
+                if (string.Equals(f.NAME, name) && string.Equals(f.NAMESPACE, ns))
                 {
                     return true;
                 }
@@ -67,23 +79,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
         #region --Misc Methods (Private)--
         private void loadFeatures()
         {
-            if(STREAM_FEATURES_NODE == null)
+            if (STREAM_FEATURES_NODE == null)
             {
                 return;
             }
             foreach (XmlNode n in STREAM_FEATURES_NODE)
             {
-                if(n.Name != null && n.Name.Equals("starttls"))
+                switch (n.Name)
                 {
-                    FEATURES.Add(new TLSStreamFeature(n.Name, n.FirstChild != null && n.FirstChild.Name.Equals("required")));
-                }
-                else if(n.Name != null && n.Name.Equals("mechanisms") && n.Attributes[Consts.XML_XMLNS] != null)
-                {
-                    FEATURES.Add(new SASLStreamFeature(n.Name, n));
-                }
-                else
-                {
-                    FEATURES.Add(new StreamFeature(n.Name, n.FirstChild != null && n.FirstChild.Name.Equals("required")));
+                    case "starttls":
+                        FEATURES.Add(new TLSStreamFeature(n));
+                        break;
+
+                    case "mechanisms" when string.Equals(n.NamespaceURI, Consts.XML_SASL_NAMESPACE):
+                        FEATURES.Add(new SASLStreamFeature(n));
+                        break;
+
+                    default:
+                        FEATURES.Add(new StreamFeature(n));
+                        break;
                 }
             }
         }
