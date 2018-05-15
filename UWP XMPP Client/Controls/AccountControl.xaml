@@ -104,6 +104,10 @@
                                 FontFamily="Segoe MDL2 Assets"/>
                     </Grid>
                 </Grid>
+                <Button x:Name="more_btn"
+                        Margin="0,10,0,0"
+                        Click="more_btn_Click"
+                        Content="More"/>
                 <controls:SeperatorControl Text="Security:"/>
                 <ComboBox x:Name="tslMode_cmbx"
                           Margin="0,10,0,0"

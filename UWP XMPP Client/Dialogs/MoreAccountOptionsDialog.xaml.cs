@@ -1,17 +1,15 @@
-﻿using SQLite;
+﻿using System;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.TCP;
 
-namespace Data_Manager2.Classes.DBTables
+namespace UWP_XMPP_Client.Dialogs
 {
-    [Table(DBTableConsts.CONNECTION_OPTIONS_TABLE)]
-    public class ConnectionOptionsTable
+    public sealed partial class MoreAccountOptionsDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        public string accountId { get; set; }
-        public TLSConnectionMode tlsMode { get; set; }
-        public bool disableStreamManagement { get; set; }
+        private ConnectionConfiguration connectionConfiguration;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,16 +18,12 @@ namespace Data_Manager2.Classes.DBTables
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 13/04/2018 Created [Fabian Sauter]
+        /// 15/05/2018 Created [Fabian Sauter]
         /// </history>
-        public ConnectionOptionsTable()
+        public MoreAccountOptionsDialog(ConnectionConfiguration connectionConfiguration)
         {
-        }
-
-        public ConnectionOptionsTable(ConnectionConfiguration configuration)
-        {
-            this.tlsMode = configuration.tlsMode;
-            this.disableStreamManagement = configuration.disableStreamManagement;
+            this.connectionConfiguration = connectionConfiguration;
+            this.InitializeComponent();
         }
 
         #endregion
@@ -40,16 +34,16 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void toConnectionConfiguration(ConnectionConfiguration configuration)
-        {
-            configuration.tlsMode = tlsMode;
-            configuration.disableStreamManagement = disableStreamManagement;
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void save()
+        {
+            connectionConfiguration.disableStreamManagement = disableStreamManagement_tggls.IsOn;
+            Hide();
+        }
 
         #endregion
 
@@ -59,7 +53,15 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void save_btn_Click(object sender, RoutedEventArgs e)
+        {
+            save();
+        }
 
+        private void cancel_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
 
         #endregion
     }

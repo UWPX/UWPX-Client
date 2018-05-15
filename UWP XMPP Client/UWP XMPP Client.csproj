@@ -215,6 +215,9 @@
     <Compile Include="Dialogs\InviteUserMUCDialog.xaml.cs">
       <DependentUpon>InviteUserMUCDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\MoreAccountOptionsDialog.xaml.cs">
+      <DependentUpon>MoreAccountOptionsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\MUCKickBanOccupantDialog.xaml.cs">
       <DependentUpon>MUCKickBanOccupantDialog.xaml</DependentUpon>
     </Compile>
@@ -514,6 +517,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\InviteUserMUCDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\MoreAccountOptionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

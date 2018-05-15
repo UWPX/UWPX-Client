@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using Logging;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
@@ -43,7 +40,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Misc Methods (Public)--
         public override void reset()
         {
-            state = SMState.DISABLED;
+            if (XMPP_CONNECTION.account.connectionConfiguration.disableStreamManagement)
+            {
+                state = SMState.PROHIBIT;
+                Logger.Info("Stream management is disabled for account: " + XMPP_CONNECTION.account.getIdAndDomain());
+            }
+            else
+            {
+                state = SMState.DISABLED;
+            }
         }
 
         #endregion
@@ -56,12 +61,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Misc Methods (Protected)--
         protected override async Task processMessageAsync(NewValidMessageEventArgs args)
         {
-            return;
             AbstractMessage msg = args.getMessage();
-            if (state == SMState.ENABLED || state == SMState.ERROR || msg.isProcessed())
-            {
-                return;
-            }
 
             switch (state)
             {

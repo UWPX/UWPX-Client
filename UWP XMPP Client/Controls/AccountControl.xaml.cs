@@ -223,6 +223,12 @@ namespace UWP_XMPP_Client.Controls
             await UiUtils.showDialogAsyncQueue(dialog);
         }
 
+        private async void more_btn_Click(object sender, RoutedEventArgs e)
+        {
+            MoreAccountOptionsDialog dialog = new MoreAccountOptionsDialog(Account.connectionConfiguration);
+            await UiUtils.showDialogAsyncQueue(dialog);
+        }
+
         #endregion
     }
 }

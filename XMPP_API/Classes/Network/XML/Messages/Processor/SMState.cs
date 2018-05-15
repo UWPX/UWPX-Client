@@ -5,6 +5,7 @@
         ERROR,
         DISABLED,
         REQUESTED,
-        ENABLED
+        ENABLED,
+        PROHIBIT
     }
 }
