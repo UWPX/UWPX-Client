@@ -1,44 +1,55 @@
-﻿<UserControl
-    x:Class="UWP_XMPP_Client.Controls.ChatDetailsControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:UWP_XMPP_Client.Controls"
-    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
-    mc:Ignorable="d"
-    Loaded="UserControl_Loaded">
+﻿<UserControl x:Class="UWP_XMPP_Client.Controls.ChatDetailsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWP_XMPP_Client.Controls"
+             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Loaded="UserControl_Loaded"
+             mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="sendMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+        <DataTemplate x:Key="sendMessageTemplate"
+                      x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleDownControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
-        <DataTemplate x:Key="receivedMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
-            <controls:SpeechBubbleTopControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
+        <DataTemplate x:Key="receivedMessageTemplate"
+                      x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleTopControl Chat="{x:Bind chat, Mode=OneWay}"
+                                             ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
-        <DataTemplate x:Key="errorMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+        <DataTemplate x:Key="errorMessageTemplate"
+                      x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleErrorControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
-        <DataTemplate x:Key="mucDirectInvitationTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
-            <controls:SpeechBubbleMUCDirectInvitationControl ChatMessage="{x:Bind message, Mode=OneWay}" Chat="{x:Bind chat, Mode=OneWay}"/>
+        <DataTemplate x:Key="mucDirectInvitationTemplate"
+                      x:DataType="datatemplates:ChatMessageDataTemplate">
+            <controls:SpeechBubbleMUCDirectInvitationControl Chat="{x:Bind chat, Mode=OneWay}"
+                                                             ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
-        <DataTemplate x:Key="infoMessageTemplate" x:DataType="datatemplates:ChatMessageDataTemplate">
+        <DataTemplate x:Key="infoMessageTemplate"
+                      x:DataType="datatemplates:ChatMessageDataTemplate">
             <controls:SpeechBubbleInfoControl ChatMessage="{x:Bind message, Mode=OneWay}"/>
         </DataTemplate>
         <datatemplates:ChatMessageDataTemplateSelector x:Name="chatMessageDataTemplateSelector"
-                                                       sendMessageTemplate="{StaticResource sendMessageTemplate}"
-                                                       receivedMessageTemplate="{StaticResource receivedMessageTemplate}"
                                                        errorMessageTemplate="{StaticResource errorMessageTemplate}"
+                                                       infoMessageTemplate="{StaticResource infoMessageTemplate}"
                                                        mucDirectInvitationTemplate="{StaticResource mucDirectInvitationTemplate}"
-                                                       infoMessageTemplate="{StaticResource infoMessageTemplate}"/>
+                                                       receivedMessageTemplate="{StaticResource receivedMessageTemplate}"
+                                                       sendMessageTemplate="{StaticResource sendMessageTemplate}"/>
     </UserControl.Resources>
 
     <Grid Background="Transparent">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls1:ImageEx x:Name="backgroundImage_img" Grid.Row="0"  Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"/>
+        <controls1:ImageEx x:Name="backgroundImage_img"
+                           Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                           Stretch="UniformToFill"/>
         <Grid Background="Transparent">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -47,19 +58,21 @@
             </Grid.RowDefinitions>
             <ListView x:Name="invertedListView_lstv"
                       Grid.Row="0"
-                      Visibility="Collapsed"
-                      IncrementalLoadingTrigger="Edge"
+                      Margin="0,50,0,10"
+                      Padding="0,10,0,0"
                       VerticalAlignment="Stretch"
-                      Padding="0, 10, 0, 0"
-                      Margin="0, 50, 0, 10"
-                      SelectionChanged="invertedListView_lstv_SelectionChanged"
                       HorizontalContentAlignment="Stretch"
-                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      IncrementalLoadingTrigger="Edge"
                       ItemTemplateSelector="{StaticResource chatMessageDataTemplateSelector}"
-                      ItemsSource="{x:Bind chatMessages, Mode=OneWay}">
+                      ItemsSource="{x:Bind chatMessages, Mode=OneWay}"
+                      ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                      SelectionChanged="invertedListView_lstv_SelectionChanged"
+                      Visibility="Collapsed">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsStackPanel VerticalAlignment="Bottom" ItemsUpdatingScrollMode="KeepLastItemInView" Grid.ColumnSpan="1"/>
+                        <ItemsStackPanel Grid.ColumnSpan="1"
+                                         VerticalAlignment="Bottom"
+                                         ItemsUpdatingScrollMode="KeepLastItemInView"/>
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
@@ -70,83 +83,149 @@
             </ListView>
 
             <controls1:Loading x:Name="loading_ldng"
-                              Grid.Row="0"
-                              IsLoading="True"
-                              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                               Grid.Row="0"
+                               Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+                               IsLoading="True">
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
 
-                <Grid Grid.Row="0" VerticalAlignment="Top" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+            <Grid Grid.Row="0"
+                  VerticalAlignment="Top"
+                  Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Grid Grid.Row="0" Height="52">
+                <Grid Grid.Row="0"
+                      Height="52">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <controls:AccountImageWithPresenceControl Grid.Column="0" Client="{x:Bind Client, Mode=OneWay}" Chat="{x:Bind Chat, Mode=OneWay}" MUCInfo="{x:Bind MUCInfo, Mode=OneWay}" Margin="10" Height="30" Width="30" VerticalAlignment="Center" HorizontalAlignment="Left" Tapped="AccountImageWithPresenceControl_Tapped"/>
-                    <StackPanel Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Tapped="StackPanel_Tapped">
-                        <TextBlock x:Name="chatName_tblck" HorizontalAlignment="Center" FontWeight="Bold"/>
-                        <TextBlock x:Name="accountName_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-                        <TextBlock x:Name="chatState_tblck" HorizontalAlignment="Center" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                    <controls:AccountImageWithPresenceControl Grid.Column="0"
+                                                              Width="30"
+                                                              Height="30"
+                                                              Margin="10"
+                                                              HorizontalAlignment="Left"
+                                                              VerticalAlignment="Center"
+                                                              Chat="{x:Bind Chat, Mode=OneWay}"
+                                                              Client="{x:Bind Client, Mode=OneWay}"
+                                                              MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
+                                                              Tapped="AccountImageWithPresenceControl_Tapped"/>
+                    <StackPanel Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Tapped="StackPanel_Tapped">
+                        <TextBlock x:Name="chatName_tblck"
+                                   HorizontalAlignment="Center"
+                                   FontWeight="Bold"/>
+                        <TextBlock x:Name="accountName_tblck"
+                                   HorizontalAlignment="Center"
+                                   FontSize="10"
+                                   Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+                        <TextBlock x:Name="chatState_tblck"
+                                   HorizontalAlignment="Center"
+                                   FontSize="10"
+                                   Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
                     </StackPanel>
-                    <Button x:Name="more_btn" Grid.Column="2" Content="&#xE712;" FontFamily="Segoe MDL2 Assets" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0">
+                    <Button x:Name="more_btn"
+                            Grid.Column="2"
+                            Height="30"
+                            Margin="10,0,10,0"
+                            VerticalAlignment="Center"
+                            Content="&#xE712;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="20">
                         <Button.Flyout>
                             <MenuFlyout Opening="MenuFlyout_Opening">
-                                <MenuFlyoutItem x:Name="info_mfo" Text="Info" Click="info_mfo_Click">
+                                <MenuFlyoutItem x:Name="info_mfo"
+                                                Click="info_mfo_Click"
+                                                Text="Info">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xEA4A;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Name="join_mfo" Text="Join room" Click="join_mfo_Click">
+                                <MenuFlyoutItem x:Name="join_mfo"
+                                                Click="join_mfo_Click"
+                                                Text="Join room">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE8BD;" Foreground="Green"/>
+                                        <FontIcon Foreground="Green"
+                                                  Glyph="&#xE8BD;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
-                                <MenuFlyoutItem x:Name="leave_mfo" Text="Leave room" Click="leave_mfo_Click">
+                                <MenuFlyoutItem x:Name="leave_mfo"
+                                                Click="leave_mfo_Click"
+                                                Text="Leave room">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE89B;" Foreground="Red"/>
+                                        <FontIcon Foreground="Red"
+                                                  Glyph="&#xE89B;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
-                    <Button x:Name="test_bnt" Grid.Column="3" FontFamily="Segoe MDL2 Assets" Content="&#xE81F;" VerticalAlignment="Center" FontSize="20" Height="30" Margin="10, 0, 10, 0" Click="test_bnt_Click"/>
+                    <Button x:Name="test_bnt"
+                            Grid.Column="3"
+                            Height="30"
+                            Margin="10,0,10,0"
+                            VerticalAlignment="Center"
+                            Click="test_bnt_Click"
+                            Content="&#xE81F;"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="20"/>
                 </Grid>
                 <controls:SeperatorControl Grid.Row="1"/>
             </Grid>
 
             <controls:SeperatorControl Grid.Row="1"/>
-            <Grid Grid.Row="2" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+            <Grid Grid.Row="2"
+                  Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
-                <Button x:Name="clip_btn" IsEnabled="False" Grid.Column="0" FontFamily="Segoe MDL2 Assets" Content="&#xE723;" FontSize="27" Click="clip_btn_Click" Background="Transparent" BorderBrush="Transparent" VerticalAlignment="Bottom"/>
+                <Button x:Name="clip_btn"
+                        Grid.Column="0"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="clip_btn_Click"
+                        Content="&#xE723;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="27"
+                        IsEnabled="False"/>
                 <TextBox x:Name="message_tbx"
                          Grid.Column="1"
-                         InputScope="Chat"
-                         IsSpellCheckEnabled="True"
-                         TextWrapping="Wrap"
                          MaxHeight="200"
-                         PlaceholderText="Message..."
-                         VerticalAlignment="Stretch"
                          HorizontalAlignment="Stretch"
-                         FontSize="20"
-                         BorderBrush="Transparent"
-                         TextChanged="message_tbx_TextChanged"
+                         VerticalAlignment="Stretch"
                          Background="Transparent"
+                         BorderBrush="Transparent"
+                         FontSize="20"
                          GotFocus="message_tbx_GotFocus"
-                         LostFocus="message_tbx_LostFocus"
+                         InputScope="Chat"
+                         IsFocusEngagementEnabled="True"
+                         IsSpellCheckEnabled="True"
                          KeyUp="message_tbx_KeyUp"
-                         IsFocusEngagementEnabled="True"/>
-                <Button x:Name="send_btn" Grid.Column="2" FontFamily="Segoe MDL2 Assets" Content="&#xE122;" FontSize="27" Click="send_btn_Click" BorderBrush="Transparent" Background="{ThemeResource SystemAccentColor}" IsEnabled="False" VerticalAlignment="Bottom"/>
+                         LostFocus="message_tbx_LostFocus"
+                         PlaceholderText="Message..."
+                         TextChanged="message_tbx_TextChanged"
+                         TextWrapping="Wrap"/>
+                <Button x:Name="send_btn"
+                        Grid.Column="2"
+                        VerticalAlignment="Bottom"
+                        Background="{ThemeResource SystemAccentColor}"
+                        BorderBrush="Transparent"
+                        Click="send_btn_Click"
+                        Content="&#xE122;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="27"
+                        IsEnabled="False"
+                        AllowFocusOnInteraction="False"/>
             </Grid>
         </Grid>
     </Grid>
