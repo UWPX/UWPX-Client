@@ -555,7 +555,7 @@ namespace Data_Manager2.Classes
 
         private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
         {
-            ChatDBManager.INSTANCE.updateChatMessageState(args.ID, MessageState.SEND);
+            ChatDBManager.INSTANCE.updateChatMessageState(args.CHAT_MESSAGE_ID, MessageState.SEND);
         }
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)

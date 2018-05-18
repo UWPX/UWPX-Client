@@ -131,6 +131,7 @@
     <Compile Include="Classes\Network\TCP\TCPConnection2.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadResult.cs" />
     <Compile Include="Classes\Network\TCP\TLSConnectionMode.cs" />
+    <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />

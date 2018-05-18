@@ -27,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             }
         }
 
-        public MUCRoomSubjectMessage(string from, string to, string subject) : base(from, to, null, TYPE_GROUPCHAT)
+        public MUCRoomSubjectMessage(string from, string to, string subject) : base(from, to, null, TYPE_GROUPCHAT, null)
         {
             this.SUBJECT = subject;
         }

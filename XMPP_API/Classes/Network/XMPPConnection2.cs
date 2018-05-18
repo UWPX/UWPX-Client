@@ -204,15 +204,15 @@ namespace XMPP_API.Classes.Network
                 if (await TCP_CONNECTION.sendAsync(msg.toXmlString()))
                 {
                     // Only trigger onMessageSend(...) for chat messages:
-                    if (msg is MessageMessage)
+                    if (msg is MessageMessage m)
                     {
-                        onMessageSend(msg.getId(), false);
+                        onMessageSend(msg.getId(), m.chatMessageId, false);
                         return;
                     }
-                    else
-                    {
-                        Logger.Error("Error during sending message for account: " + account.getIdAndDomain());
-                    }
+                }
+                else
+                {
+                    Logger.Error("Error during sending message for account: " + account.getIdAndDomain());
                 }
             }
             catch (Exception e)
@@ -291,7 +291,7 @@ namespace XMPP_API.Classes.Network
                         // Only trigger onMessageSend(...) for chat messages:
                         if (entry.isChatMessage)
                         {
-                            onMessageSend(entry.messageId, true);
+                            onMessageSend(entry.messageId, entry.chatMessageId, true);
                         }
                     }
                 }
@@ -345,9 +345,9 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         /// <param name="id">The id of the message that got send.</param>
         /// <param name="delayed">If the message got send delayed (e.g. stored in message cache).</param>
-        private void onMessageSend(string id, bool delayed)
+        private void onMessageSend(string id, string chatMessageId, bool delayed)
         {
-            Task.Run(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, delayed)));
+            Task.Run(() => MessageSend?.Invoke(this, new MessageSendEventArgs(id, chatMessageId, delayed)));
         }
 
         private void resetConnectionTimer()

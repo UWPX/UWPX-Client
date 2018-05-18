@@ -7,6 +7,7 @@ namespace XMPP_API.Classes.Network.Events
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string ID;
+        public readonly string CHAT_MESSAGE_ID;
         public readonly bool DELAYED;
 
         #endregion
@@ -18,9 +19,10 @@ namespace XMPP_API.Classes.Network.Events
         /// <history>
         /// 01/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageSendEventArgs(string id, bool delayed)
+        public MessageSendEventArgs(string id, string chatMessageId, bool delayed)
         {
             this.ID = id;
+            this.CHAT_MESSAGE_ID = chatMessageId;
             this.DELAYED = delayed;
         }
 

@@ -14,6 +14,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private DateTime delay;
         // Already shown as a toast:
         private bool toasted;
+        // The unique DB id of the message. Only required for send messages:
+        public string chatMessageId;
 
         public const string TYPE_CHAT = "chat";
         public const string TYPE_GROUPCHAT = "groupchat";
@@ -28,10 +30,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public MessageMessage(string from, string to, string message) : this(from, to, message, TYPE_CHAT)
-        {
-        }
-
         public MessageMessage(string from, string to, string message, string type) : this(from, to, message, type, null)
         {
         }
@@ -49,6 +47,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public MessageMessage(XmlNode node, string type) : this(node)
         {
             this.TYPE = type;
+            this.chatMessageId = null;
         }
 
         public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())

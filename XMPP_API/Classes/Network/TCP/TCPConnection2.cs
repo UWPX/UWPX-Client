@@ -198,6 +198,7 @@ namespace XMPP_API.Classes.Network.TCP
                     await dataWriter.FlushAsync();
 
                     Logger.Debug("[TCPConnection2]: Send to (" + account.serverAddress + "):" + s);
+                    return true;
                 }
                 catch (Exception e)
                 {

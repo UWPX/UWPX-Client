@@ -153,6 +153,7 @@ namespace Data_Manager2.Classes.DBManager
         public void replaceAccount(XMPPAccount oldAccount, XMPPAccount account)
         {
             ADD_ACCOUNT_SEMA.Wait();
+            Logger.Debug("LOCKED replaceAccount()");
             dB.BeginTransaction();
             try
             {
@@ -167,6 +168,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 dB.Commit();
                 ADD_ACCOUNT_SEMA.Release();
+                Logger.Debug("UNLOCKED replaceAccount()");
             }
         }
 

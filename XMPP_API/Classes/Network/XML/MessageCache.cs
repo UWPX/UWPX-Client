@@ -50,14 +50,15 @@ namespace XMPP_API.Classes.Network.XML
             MessageTable mT = new MessageTable()
             {
                 accountId = accountId,
-                messageId = msg.getId()
-            };
+                messageId = msg.getId(),
+        };
             if (msg is MessageMessage)
             {
                 MessageMessage message = msg as MessageMessage;
                 message.addDelay();
                 mT.message = message.toXmlString();
                 mT.isChatMessage = true;
+                mT.chatMessageId = message.chatMessageId;
             }
             else
             {
@@ -69,7 +70,7 @@ namespace XMPP_API.Classes.Network.XML
 
         public List<MessageTable> getAllForAccount(string accountId)
         {
-            return dB.Query<MessageTable>(true, "SELECT * FROM MessageTable WHERE accountId = ?", accountId);
+            return dB.Query<MessageTable>(true, "SELECT * FROM " + DBTableConsts.MESSAGE_TABLE + " WHERE accountId = ?", accountId);
         }
 
         public void removeEntry(MessageTable entry)

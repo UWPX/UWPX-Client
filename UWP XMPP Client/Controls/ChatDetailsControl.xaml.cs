@@ -198,7 +198,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async Task sendMessageAsync()
+        private void sendMessage()
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
@@ -211,15 +211,28 @@ namespace UWP_XMPP_Client.Controls
                 // For MUC messages also pass the nickname:
                 if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                 {
-                    sendMessage = await Client.sendAsync(Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname);
+                    sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname);
                 }
                 else
                 {
-                    sendMessage = await Client.sendAsync(Chat.chatJabberId, messageText, getChatType());
+                    sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType());
                 }
-                ChatDBManager.INSTANCE.setChatMessage(new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING }, true, false);
+                ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING };
+
+                // Set chatMessageId:
+                sendMessage.chatMessageId = sendMessageTable.id;
+
+                // Add message to DB and update chat last active:
                 Chat.lastActive = DateTime.Now;
-                ChatDBManager.INSTANCE.setChat(Chat, false, false);
+                ChatTable chatCpy = Chat;
+                Task.Run(() =>
+                {
+                    ChatDBManager.INSTANCE.setChatMessage(sendMessageTable, true, false);
+                    ChatDBManager.INSTANCE.setChat(chatCpy, false, false);
+                });
+
+                // Send message:
+                Task t = Client.sendAsync(sendMessage);
 
                 message_tbx.Text = "";
             }
@@ -299,8 +312,12 @@ namespace UWP_XMPP_Client.Controls
                 ChatMessageTable msg = args.MESSAGE;
                 if (Chat != null && Chat.id.Equals(msg.chatId))
                 {
-                    msg.state = MessageState.READ;
-                    ChatDBManager.INSTANCE.setChatMessage(msg, false, true);
+                    // Only update for unread messages:
+                    if(msg.state == MessageState.UNREAD)
+                    {
+                        msg.state = MessageState.READ;
+                        ChatDBManager.INSTANCE.setChatMessage(msg, false, true);
+                    }
                     chatMessages.Add(new ChatMessageDataTemplate()
                     {
                         message = msg,
@@ -310,9 +327,9 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private async void send_btn_Click(object sender, RoutedEventArgs e)
+        private void send_btn_Click(object sender, RoutedEventArgs e)
         {
-            await sendMessageAsync();
+            sendMessage();
         }
 
         private void invertedListView_lstv_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -356,8 +373,8 @@ namespace UWP_XMPP_Client.Controls
             // Subscribe to chat and chat message changed events:
             ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
             ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
             ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
         }
 
         private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
@@ -382,13 +399,13 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private async void message_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
+        private void message_tbx_KeyUp(object sender, KeyRoutedEventArgs e)
         {
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
                 if (Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
                 {
-                    await sendMessageAsync();
+                    sendMessage();
                 }
                 else
                 {

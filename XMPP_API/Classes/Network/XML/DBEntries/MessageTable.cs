@@ -2,6 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.DBEntries
 {
+    [Table(DBTableConsts.MESSAGE_TABLE)]
     class MessageTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -17,6 +18,7 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         public string message { get; set; }
         [NotNull]
         public bool isChatMessage { get; set; }
+        public string chatMessageId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
