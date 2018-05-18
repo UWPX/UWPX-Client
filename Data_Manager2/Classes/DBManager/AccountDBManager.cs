@@ -3,6 +3,8 @@ using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using XMPP_API.Classes.Network;
 using Windows.Security.Cryptography.Certificates;
+using Logging;
+using System.Threading;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -11,6 +13,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static AccountDBManager INSTANCE = new AccountDBManager();
+        private static readonly SemaphoreSlim ADD_ACCOUNT_SEMA = new SemaphoreSlim(1, 1);
 
         public delegate void AccountChangedHandler(AccountDBManager handler, AccountChangedEventArgs args);
 
@@ -149,8 +152,22 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="account">The account, that should get inserted.</param>
         public void replaceAccount(XMPPAccount oldAccount, XMPPAccount account)
         {
-            deleteAccount(oldAccount, true);
-            setAccount(account, true);
+            ADD_ACCOUNT_SEMA.Wait();
+            dB.BeginTransaction();
+            try
+            {
+                deleteAccount(oldAccount, true);
+                setAccount(account, true);
+            }
+            catch (System.Exception e)
+            {
+                Logger.Error("Cough an exception in AccountDBManager.replaceAccount()", e);
+            }
+            finally
+            {
+                dB.Commit();
+                ADD_ACCOUNT_SEMA.Release();
+            }
         }
 
         /// <summary>

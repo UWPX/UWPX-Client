@@ -36,6 +36,11 @@ namespace Thread_Save_Components.Classes.SQLite
             return dB.CreateCommand(cmdText, args);
         }
 
+        public void BeginTransaction()
+        {
+            dB.BeginTransaction();
+        }
+
         public List<T> ExecuteCommand<T>(bool readOnly, SQLiteCommand cmd) where T : new()
         {
             return cmd.ExecuteQuery<T>();
