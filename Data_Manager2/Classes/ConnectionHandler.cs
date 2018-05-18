@@ -426,7 +426,7 @@ namespace Data_Manager2.Classes
                     presence = Presence.Unavailable,
                     status = null,
                     subscription = null,
-                    chatType = Equals(msg.getType(), MessageMessage.TYPE_CHAT) ? ChatType.CHAT : ChatType.MUC,
+                    chatType = Equals(msg.TYPE, MessageMessage.TYPE_CHAT) ? ChatType.CHAT : ChatType.MUC,
                 };
             }
 

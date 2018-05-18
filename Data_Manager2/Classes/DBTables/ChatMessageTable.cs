@@ -48,7 +48,7 @@ namespace Data_Manager2.Classes.DBTables
 
         public ChatMessageTable(MessageMessage msg, ChatTable chat)
         {
-            switch (msg.getType())
+            switch (msg.TYPE)
             {
                 case MessageMessage.TYPE_ERROR:
                     this.id = generateErrorMessageId(msg.getId(), chat.id);
@@ -57,7 +57,7 @@ namespace Data_Manager2.Classes.DBTables
 
                 case MessageMessage.TYPE_GROUPCHAT:
                     this.id = generateId(msg.getId(), chat.id);
-                    this.fromUser = msg.getFromNick();
+                    this.fromUser = msg.FROM_NICK;
                     break;
 
                 default:
@@ -66,15 +66,15 @@ namespace Data_Manager2.Classes.DBTables
                     break;
             }
             this.chatId = chat.id;
-            this.type = msg.getType();
-            this.message = msg.getMessage();
+            this.type = msg.TYPE;
+            this.message = msg.MESSAGE;
             this.date = msg.getDelay();
             if (this.date == null || this.date.Equals(DateTime.MinValue))
             {
                 this.date = DateTime.Now;
             }
             this.state = MessageState.UNREAD;
-            this.isImage = isMessageAnImageUrl(msg.getMessage());
+            this.isImage = isMessageAnImageUrl(msg.MESSAGE);
         }
 
         #endregion

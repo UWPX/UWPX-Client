@@ -8,12 +8,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string MESSAGE;
-        private readonly string TYPE;
-        private readonly string FROM_NICK;
-        private DateTime delay;
+        public readonly string MESSAGE;
+        public readonly string TYPE;
+        public readonly string FROM_NICK;
+        public DateTime delay { get; private set; }
         // Already shown as a toast:
-        private bool toasted;
+        public bool toasted { get; private set; }
         // The unique DB id of the message. Only required for send messages:
         public string chatMessageId;
 
@@ -116,21 +116,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getMessage()
-        {
-            return MESSAGE;
-        }
-
-        public string getType()
-        {
-            return TYPE;
-        }
-
-        public bool getToasted()
-        {
-            return toasted;
-        }
-
         public void setToasted()
         {
             toasted = true;
@@ -139,11 +124,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public DateTime getDelay()
         {
             return delay;
-        }
-
-        public string getFromNick()
-        {
-            return FROM_NICK;
         }
 
         #endregion
@@ -163,17 +143,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 msgNode.Add(new XAttribute("to", TO));
             }
 
-            if(ID != null)
+            if (ID != null)
             {
                 msgNode.Add(new XAttribute("id", ID));
             }
 
-            if(TYPE != null)
+            if (TYPE != null)
             {
                 msgNode.Add(new XAttribute("type", TYPE));
             }
 
-            if(MESSAGE != null)
+            if (MESSAGE != null)
             {
                 msgNode.Add(new XElement("body", MESSAGE));
             }
