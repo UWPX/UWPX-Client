@@ -37,7 +37,15 @@ namespace UWP_XMPP_Client
                 HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
 
                 // Setup App Center crashes:
-                Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes));
+                try
+                {
+                    Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes));
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to start APPCenter!", e);
+                    throw e;
+                }
                 Logger.Info("App Center crash reporting registered.");
             }
 
