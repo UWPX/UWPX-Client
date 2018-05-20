@@ -124,7 +124,7 @@ namespace XMPP_API.Classes
             //await connection?.transferSocketOwnershipAsync();
         }
 
-        public async Task connectAsync()
+        public void connect()
         {
             Logger.Info("Connecting account: " + getXMPPAccount().getIdAndDomain());
             try

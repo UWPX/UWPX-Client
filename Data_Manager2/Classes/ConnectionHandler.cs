@@ -87,7 +87,7 @@ namespace Data_Manager2.Classes
                         case ConnectionState.DISCONNECTED:
                         case ConnectionState.DISCONNECTING:
                         case ConnectionState.ERROR:
-                            Task.Run(async () => await c.connectAsync()).ContinueWith((Task prev) =>
+                            Task.Run(() => c.connect()).ContinueWith((Task prev) =>
                             {
                                 if (prev.Exception != null)
                                 {
@@ -532,7 +532,7 @@ namespace Data_Manager2.Classes
                         CLIENTS[i].setAccount(args.ACCOUNT);
                         if (!CLIENTS[i].getXMPPAccount().disabled)
                         {
-                            await CLIENTS[i].connectAsync();
+                            CLIENTS[i].connect();
                         }
                     }
                     CLIENT_SEMA.Release();
@@ -546,7 +546,7 @@ namespace Data_Manager2.Classes
                 XMPPClient client = loadAccount(args.ACCOUNT);
                 if (!client.getXMPPAccount().disabled)
                 {
-                    await client.connectAsync();
+                    client.connect();
                 }
                 CLIENTS.Add(client);
             }
