@@ -7,6 +7,7 @@
              xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Loaded="UserControl_Loaded"
+             Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -40,7 +41,8 @@
                                                        sendMessageTemplate="{StaticResource sendMessageTemplate}"/>
     </UserControl.Resources>
 
-    <Grid Background="Transparent">
+    <Grid x:Name="main_grid"
+          Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -105,7 +107,8 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <controls:AccountImageWithPresenceControl Grid.Column="0"
+                    <controls:AccountImageWithPresenceControl x:Name="accImg_aiwp"
+                                                              Grid.Column="0"
                                                               Width="30"
                                                               Height="30"
                                                               Margin="10"
@@ -218,14 +221,14 @@
                 <Button x:Name="send_btn"
                         Grid.Column="2"
                         VerticalAlignment="Bottom"
+                        AllowFocusOnInteraction="False"
                         Background="{ThemeResource SystemAccentColor}"
                         BorderBrush="Transparent"
                         Click="send_btn_Click"
                         Content="&#xE122;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="27"
-                        IsEnabled="False"
-                        AllowFocusOnInteraction="False"/>
+                        IsEnabled="False"/>
             </Grid>
         </Grid>
     </Grid>

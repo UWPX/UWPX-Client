@@ -14,7 +14,12 @@ namespace UWP_XMPP_Client.Classes
         #region --Attributes--
         public static CustomObservableCollection<BackgroundImageTemplate> backgroundImages;
         public static BackgroundImageTemplate selectedImage;
+        public static BackgroundImageTemplate customBackgroundImage;
         public static bool loaded;
+
+        public const byte EXAMPLE_BACKGROUND = 0;
+        public const byte CUSTOM_BACKGROUND = 1;
+        public const byte NONE_BACKGROUND = 2;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,11 +29,71 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static void setCustomBackgroundImage()
+        {
+            Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, CUSTOM_BACKGROUND);
+            if (selectedImage != null)
+            {
+                selectedImage.selected = false;
+            }
+            selectedImage = customBackgroundImage;
+            if (customBackgroundImage != null)
+            {
+                customBackgroundImage.selected = true;
+            }
+        }
 
+        public static void setExampleBackgroundImage(BackgroundImageTemplate img)
+        {
+            Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, EXAMPLE_BACKGROUND);
+            if (selectedImage != null)
+            {
+                selectedImage.selected = false;
+            }
+            selectedImage = img;
+            img.selected = true;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public static void removeBackgroundImage()
+        {
+            Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, NONE_BACKGROUND);
+            selectedImage = null;
+            for (int i = 0; i < backgroundImages.Count; i++)
+            {
+                backgroundImages[i].selected = false;
+            }
+
+            if (customBackgroundImage != null)
+            {
+                customBackgroundImage.selected = false;
+            }
+        }
+
+        public static async Task<string> saveAsBackgroundImageAsync(StorageFile file)
+        {
+            StorageFolder folder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("BackgroundImage", CreationCollisionOption.OpenIfExists);
+            if (folder != null)
+            {
+                StorageFile f = await folder.CreateFileAsync("img", CreationCollisionOption.OpenIfExists);
+                if (f != null)
+                {
+                    await file.CopyAndReplaceAsync(f);
+
+                    customBackgroundImage = new BackgroundImageTemplate()
+                    {
+                        imagePath = f.Path,
+                        name = "custom",
+                        selected = false
+                    };
+                    return f.Path;
+                }
+            }
+            return null;
+        }
+
         public static void loadCache()
         {
             if (loaded)
@@ -42,9 +107,46 @@ namespace UWP_XMPP_Client.Classes
                 DateTime timeStart = DateTime.Now;
                 try
                 {
-                    string selectedImageName = Settings.getSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME);
+                    try
+                    {
+                        StorageFolder customImagefolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("BackgroundImage", CreationCollisionOption.OpenIfExists);
+                        if (customImagefolder != null)
+                        {
+                            StorageFile f = await customImagefolder.CreateFileAsync("img", CreationCollisionOption.OpenIfExists);
+                            if (f != null)
+                            {
+                                customBackgroundImage = new BackgroundImageTemplate()
+                                {
+                                    imagePath = f.Path,
+                                    name = "custom",
+                                    selected = false
+                                };
+                            }
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Error during loading the custom background image!", e);
+                    }
+
+                    byte backgroundMode = Settings.getSettingByte(SettingsConsts.CHAT_BACKGROUND_MODE);
+                    string selectedImageName = null;
+                    switch (backgroundMode)
+                    {
+                        case CUSTOM_BACKGROUND:
+                            selectedImage = customBackgroundImage;
+                            break;
+
+                        case NONE_BACKGROUND:
+                            selectedImage = null;
+                            break;
+
+                        default:
+                            selectedImageName = Settings.getSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME);
+                            break;
+                    }
+
                     backgroundImages = new CustomObservableCollection<BackgroundImageTemplate>();
-                    selectedImage = null;
                     ImageCache.Instance.MaxMemoryCacheCount = 100;
                     StorageFolder picturesFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync(@"Assets\BackgroundImages");
                     foreach (StorageFile file in await picturesFolder.GetFilesAsync())
@@ -52,12 +154,6 @@ namespace UWP_XMPP_Client.Classes
                         try
                         {
                             Uri imgUri = new Uri(file.Path);
-                            /*await ImageCache.Instance.PreCacheAsync(imgUri, true, true);
-                            BitmapImage img = await ImageCache.Instance.GetFromCacheAsync(imgUri);
-                            if(img == null)
-                            {
-                                continue;
-                            }*/
                             bool isSelectedImage = selectedImageName != null && selectedImageName.Equals(file.Name);
                             BackgroundImageTemplate bgI = new BackgroundImageTemplate
                             {

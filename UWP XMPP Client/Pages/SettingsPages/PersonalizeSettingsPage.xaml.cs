@@ -1,8 +1,13 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using Data_Manager2.Classes;
+using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.Storage.Pickers;
+using Windows.Storage;
+using Logging;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -12,6 +17,13 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #region --Attributes--
         private CustomObservableCollection<BackgroundImageTemplate> backgroundImages;
 
+        public BackgroundImageTemplate CustomBackgroundImage
+        {
+            get { return (BackgroundImageTemplate)GetValue(CustomBackgroundImageProperty); }
+            set { SetValue(CustomBackgroundImageProperty, value); }
+        }
+        public static readonly DependencyProperty CustomBackgroundImageProperty = DependencyProperty.Register("customBackgroundImage", typeof(BackgroundImageTemplate), typeof(PersonalizeSettingsPage), null);
+        
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -25,7 +37,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             this.InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
-            backgroundImages = BackgroundImageCache.backgroundImages;
+            this.backgroundImages = BackgroundImageCache.backgroundImages;
+            this.CustomBackgroundImage = BackgroundImageCache.customBackgroundImage;
         }
 
         #endregion
@@ -41,7 +54,46 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
+        private async Task browseBackgroundAsync()
+        {
+            FileOpenPicker picker = new FileOpenPicker
+            {
+                ViewMode = PickerViewMode.Thumbnail,
+                SuggestedStartLocation = PickerLocationId.PicturesLibrary
+            };
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
 
+            StorageFile file = await picker.PickSingleFileAsync();
+
+            if (file != null)
+            {
+                string path = await BackgroundImageCache.saveAsBackgroundImageAsync(file);
+                if (path != null)
+                {
+                    customBackground_img.ImagePath = path;
+                    customBackground_img.Selected = true;
+                    BackgroundImageCache.setCustomBackgroundImage();
+                    chatDetailsDummy_cdc.loadBackgrundImage();
+                    Logger.Info("Custom background image set to: " + file.Path);
+                }
+                else
+                {
+                    showInfo("Failed to pick image!");
+                    Logger.Warn("Failed to set image as background image. Path is null!");
+                }
+            }
+            else
+            {
+                showInfo("Selection canceled!");
+            }
+        }
+
+        private void showInfo(string text)
+        {
+            info_ian.Show(text, 5000);
+        }
 
         #endregion
 
@@ -67,18 +119,33 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void AdaptiveGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if(e.ClickedItem is BackgroundImageTemplate)
+            if (e.ClickedItem is BackgroundImageTemplate)
             {
                 BackgroundImageTemplate img = e.ClickedItem as BackgroundImageTemplate;
-                img.selected = true;
-                if(BackgroundImageCache.selectedImage != null)
-                {
-                    BackgroundImageCache.selectedImage.selected = false;
-                }
-                BackgroundImageCache.selectedImage = img;
+                BackgroundImageCache.setExampleBackgroundImage(img);
                 Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, img.name);
-
+                chatDetailsDummy_cdc.loadBackgrundImage();
             }
+        }
+
+        private void remove_ibtn_Click(object sender, RoutedEventArgs args)
+        {
+            BackgroundImageCache.removeBackgroundImage();
+            chatDetailsDummy_cdc.loadBackgrundImage();
+        }
+
+        private void customBackground_img_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            if(CustomBackgroundImage != null && !CustomBackgroundImage.selected)
+            {
+                BackgroundImageCache.setCustomBackgroundImage();
+                chatDetailsDummy_cdc.loadBackgrundImage();
+            }
+        }
+
+        private async void browseBackground_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await browseBackgroundAsync();
         }
         #endregion
     }

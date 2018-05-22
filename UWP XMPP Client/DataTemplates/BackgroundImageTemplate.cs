@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class BackgroundImageTemplate : INotifyPropertyChanged
+    public class BackgroundImageTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

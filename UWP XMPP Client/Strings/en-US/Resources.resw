@@ -125,6 +125,52 @@ The UWP password vault is limited to 20 passwords per App and for fail save reas
 Read more:
 https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault.add#Windows_Security_Credentials_PasswordVault_Add_Windows_Security_Credentials_PasswordCredential</value>
   </data>
+  <data name="chat_details_dummy_answer_11" xml:space="preserve">
+    <value>Don't you have better things to do?</value>
+  </data>
+  <data name="chat_details_dummy_answer_15" xml:space="preserve">
+    <value>Hey! Stop texting with me!</value>
+  </data>
+  <data name="chat_details_dummy_answer_20" xml:space="preserve">
+    <value>You really don't have better things to do...</value>
+  </data>
+  <data name="chat_details_dummy_answer_3" xml:space="preserve">
+    <value>Do you like ducks?</value>
+  </data>
+  <data name="chat_details_dummy_answer_30" xml:space="preserve">
+    <value>I don't hear you🙉🤬... nanananana...</value>
+  </data>
+  <data name="chat_details_dummy_answer_3_img" xml:space="preserve">
+    <value>https://images.pexels.com/photos/226597/pexels-photo-226597.jpeg</value>
+  </data>
+  <data name="chat_details_dummy_answer_4" xml:space="preserve">
+    <value>I hate them! 😡
+They're sooooo fluffy - to fluffy!</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_1" xml:space="preserve">
+    <value>Selfdestruct initiated</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_2" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_3" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_4" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_5" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_6" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="chat_details_dummy_answer_50_7" xml:space="preserve">
+    <value>https://images.pexels.com/photos/73909/nuclear-weapons-test-nuclear-weapon-weapons-test-explosion-73909.jpeg</value>
+  </data>
+  <data name="chat_details_dummy_answer_7" xml:space="preserve">
+    <value>Why are you writing messages to me?</value>
+  </data>
   <data name="error_text" xml:space="preserve">
     <value>Error</value>
   </data>

@@ -85,28 +85,36 @@ namespace UWP_XMPP_Client.Controls
                 if (ChatMessage.isImage)
                 {
                     message_tbx.Visibility = Visibility.Collapsed;
-                    ImageTable img = ImageDBManager.INSTANCE.getImageForMessage(ChatMessage);
-                    if (img != null)
+                    if (ChatMessage.isDummyMessage)
                     {
-                        switch (img.state)
-                        {
-                            case DownloadState.WAITING:
-                                waitForImageDownloadToFinish(img);
-                                break;
-                            case DownloadState.DOWNLOADING:
-                                waitForImageDownloadToFinish(img);
-                                break;
-                        }
-                        Task t = showImageAsync(img);
-                        image_img.Visibility = Visibility.Visible;
+                        Task t = retryImageDownloadAsync();
                     }
                     else
                     {
-                        imageLoading_grid.Visibility = Visibility.Collapsed;
-                        image_img.Visibility = Visibility.Collapsed;
-                        imageError_grid.Visibility = Visibility.Visible;
-                        message_tbx.Text = "Unable to get local image path.\nPlease tap to redownload!";
-                        message_tbx.Visibility = Visibility.Visible;
+                        ImageTable img = ImageDBManager.INSTANCE.getImageForMessage(ChatMessage);
+
+                        if (img != null)
+                        {
+                            switch (img.state)
+                            {
+                                case DownloadState.WAITING:
+                                    waitForImageDownloadToFinish(img);
+                                    break;
+                                case DownloadState.DOWNLOADING:
+                                    waitForImageDownloadToFinish(img);
+                                    break;
+                            }
+                            Task t = showImageAsync(img);
+                            image_img.Visibility = Visibility.Visible;
+                        }
+                        else
+                        {
+                            imageLoading_grid.Visibility = Visibility.Collapsed;
+                            image_img.Visibility = Visibility.Collapsed;
+                            imageError_grid.Visibility = Visibility.Visible;
+                            message_tbx.Text = "Unable to get local image path.\nPlease tap to redownload!";
+                            message_tbx.Visibility = Visibility.Visible;
+                        }
                     }
                 }
                 else

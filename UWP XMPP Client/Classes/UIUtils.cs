@@ -56,10 +56,12 @@ namespace UWP_XMPP_Client.Classes
             {
                 imgControl.Source = null;
                 imgControl.Visibility = Visibility.Collapsed;
-                return;
             }
-            imgControl.Source = new BitmapImage(new Uri(img.imagePath));
-            imgControl.Visibility = Visibility.Visible;
+            else
+            {
+                imgControl.Source = new BitmapImage(new Uri(img.imagePath));
+                imgControl.Visibility = Visibility.Visible;
+            }
         }
 
         public static string getRandomMaterialColor()

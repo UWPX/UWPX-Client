@@ -29,6 +29,10 @@ namespace Data_Manager2.Classes.DBTables
         // Does the message is a link to an image
         public bool isImage { get; set; }
 
+        // Defines if the message is a dummy message like for the personalize settings page chat preview
+        [Ignore]
+        public bool isDummyMessage { get; set; }
+
         private static readonly Regex IMAGE_URL_REGEX = new Regex(@"http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpe?g|gif|png)$");
 
         public event EventHandler ChatMessageChanged;
@@ -69,6 +73,7 @@ namespace Data_Manager2.Classes.DBTables
             this.type = msg.TYPE;
             this.message = msg.MESSAGE;
             this.date = msg.getDelay();
+            this.isDummyMessage = false;
             if (this.date == null || this.date.Equals(DateTime.MinValue))
             {
                 this.date = DateTime.Now;

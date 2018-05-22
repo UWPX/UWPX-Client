@@ -17,6 +17,8 @@ using UWP_XMPP_Client.DataTemplates;
 using System.Collections.Generic;
 using Windows.UI.Xaml.Input;
 using Data_Manager2.Classes.Events;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -49,7 +51,10 @@ namespace UWP_XMPP_Client.Controls
             get { return (ChatTable)GetValue(ChatProperty); }
             set
             {
-                showChatMessages(value, Chat);
+                if (!IsDummy)
+                {
+                    showChatMessages(value, Chat);
+                }
                 SetValue(ChatProperty, value);
                 showChat();
                 showMUCInfo();
@@ -68,9 +73,17 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatDetailsControl), null);
 
+        public bool IsDummy
+        {
+            get { return (bool)GetValue(IsDummyProperty); }
+            set { SetValue(IsDummyProperty, value); }
+        }
+        public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register("IsDummy", typeof(bool), typeof(ChatDetailsControl), null);
+
         private CustomObservableCollection<ChatMessageDataTemplate> chatMessages;
 
         private static readonly char[] TRIM_CHARS = new char[] { ' ', '\t', '\n', '\r' };
+        private int sendDummyMessages;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -83,6 +96,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public ChatDetailsControl()
         {
+            this.sendDummyMessages = 0;
             this.chatMessages = new CustomObservableCollection<ChatMessageDataTemplate>();
             this.InitializeComponent();
 
@@ -111,17 +125,63 @@ namespace UWP_XMPP_Client.Controls
 
         private bool shouldSendChatState()
         {
-            return !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE) && Chat != null && Chat.chatType == ChatType.CHAT;
+            return !IsDummy && !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE) && Chat != null && Chat.chatType == ChatType.CHAT;
         }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void loadBackgrundImage()
+        {
+            UiUtils.setBackgroundImage(backgroundImage_img);
+        }
 
+        public void loadDummyContent()
+        {
+            Chat = new ChatTable()
+            {
+                chatJabberId = "dave@example.com",
+                userAccountId = "kevin@example.com",
+                chatType = ChatType.CHAT,
+                presence = Presence.Away
+            };
+
+            addDummyMessage("Hi", Chat.userAccountId, MessageState.SEND);
+            addDummyMessage("Hey, what's up?", Chat.chatJabberId, MessageState.READ);
+            addDummyMessage("That's a great app.", Chat.userAccountId, MessageState.SEND);
+            addDummyMessage("Yes, its awesome :D !", Chat.chatJabberId, MessageState.READ);
+
+            invertedListView_lstv.Visibility = Visibility.Visible;
+            loading_ldng.IsLoading = false;
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void addDummyMessage(string msg, string fromUser, MessageState state)
+        {
+            addDummyMessage(msg, fromUser, state, false);
+        }
+
+        private void addDummyMessage(string msg, string fromUser, MessageState state, bool isImage)
+        {
+            chatMessages.Add(new ChatMessageDataTemplate()
+            {
+                chat = Chat,
+                message = new ChatMessageTable()
+                {
+                    message = msg,
+                    chatId = Chat.id,
+                    fromUser = fromUser,
+                    date = DateTime.Now,
+                    state = state,
+                    type = MessageMessage.TYPE_CHAT,
+                    isImage = isImage,
+                    isDummyMessage = true
+                }
+            });
+        }
+
         private void showChatMessages(ChatTable newChat, ChatTable oldChat)
         {
             if (newChat != null)
@@ -198,41 +258,122 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
+        private void sendBotMessage(string text, bool isImage, int millisecondsDelay)
+        {
+            storeChatState(ChatState.COMPOSING);
+            Task.Run(async () =>
+            {
+                await Task.Delay(millisecondsDelay);
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    addDummyMessage(text, Chat.chatJabberId, MessageState.READ, isImage);
+                    storeChatState(ChatState.ACTIVE);
+                });
+            });
+        }
+
         private void sendMessage()
         {
             if (!String.IsNullOrWhiteSpace(message_tbx.Text))
             {
-                MessageMessage sendMessage;
-
-                string messageText = message_tbx.Text;
-                // Remove all tailing whitespaces, tabs and newlines:
-                messageText = messageText.TrimEnd(TRIM_CHARS);
-
-                // For MUC messages also pass the nickname:
-                if (Chat.chatType == ChatType.MUC && MUCInfo != null)
+                if (IsDummy)
                 {
-                    sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname);
+                    addDummyMessage(message_tbx.Text, Chat.userAccountId, MessageState.SEND);
+                    sendDummyMessages++;
+
+
+                    switch (sendDummyMessages)
+                    {
+                        case 1:
+                            accImg_aiwp.Presence = Presence.Online;
+                            break;
+
+                        case 3:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_3_img"), true, 3000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_3"), false, 4000);
+                            accImg_aiwp.Presence = Presence.Chat;
+                            break;
+
+                        case 4:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_4"), false, 3000);
+                            accImg_aiwp.Presence = Presence.Online;
+                            break;
+
+                        case 7:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_7"), false, 3000);
+                            break;
+
+                        case 11:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_11"), false, 3000);
+                            break;
+
+                        case 15:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_15"), false, 3000);
+                            accImg_aiwp.Presence = Presence.Xa;
+                            break;
+
+                        case 20:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_20"), false, 3000);
+                            break;
+
+                        case 30:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_30"), false, 3000);
+                            break;
+
+                        case 50:
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_1"), false, 3000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_2"), false, 4000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_3"), false, 5000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_4"), false, 6000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_5"), false, 7000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_6"), false, 8000);
+                            sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_50_7"), true, 9000);
+                            Task.Run(async () =>
+                            {
+                                await Task.Delay(9000);
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                {
+                                    storeChatState(ChatState.GONE);
+                                    accImg_aiwp.Presence = Presence.Unavailable;
+                                });
+                            });
+                            break;
+                    }
                 }
                 else
                 {
-                    sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType());
+                    MessageMessage sendMessage;
+
+                    string messageText = message_tbx.Text;
+                    // Remove all tailing whitespaces, tabs and newlines:
+                    messageText = messageText.TrimEnd(TRIM_CHARS);
+
+                    // For MUC messages also pass the nickname:
+                    if (Chat.chatType == ChatType.MUC && MUCInfo != null)
+                    {
+                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname);
+                    }
+                    else
+                    {
+                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType());
+                    }
+                    ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING };
+
+                    // Set chatMessageId:
+                    sendMessage.chatMessageId = sendMessageTable.id;
+
+                    // Add message to DB and update chat last active:
+                    Chat.lastActive = DateTime.Now;
+                    ChatTable chatCpy = Chat;
+                    Task.Run(() =>
+                    {
+                        ChatDBManager.INSTANCE.setChatMessage(sendMessageTable, true, false);
+                        ChatDBManager.INSTANCE.setChat(chatCpy, false, false);
+                    });
+
+                    // Send message:
+                    Task t = Client.sendAsync(sendMessage);
                 }
-                ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING };
-
-                // Set chatMessageId:
-                sendMessage.chatMessageId = sendMessageTable.id;
-
-                // Add message to DB and update chat last active:
-                Chat.lastActive = DateTime.Now;
-                ChatTable chatCpy = Chat;
-                Task.Run(() =>
-                {
-                    ChatDBManager.INSTANCE.setChatMessage(sendMessageTable, true, false);
-                    ChatDBManager.INSTANCE.setChat(chatCpy, false, false);
-                });
-
-                // Send message:
-                Task t = Client.sendAsync(sendMessage);
 
                 message_tbx.Text = "";
             }
@@ -240,7 +381,18 @@ namespace UWP_XMPP_Client.Controls
 
         private void showBackgroundForViewState(MasterDetailsViewState state)
         {
-            backgroundImage_img.Visibility = state == MasterDetailsViewState.Both ? Visibility.Collapsed : Visibility.Visible;
+            switch (state)
+            {
+                case MasterDetailsViewState.Both:
+                    backgroundImage_img.Visibility = Visibility.Collapsed;
+                    main_grid.Background = new SolidColorBrush(Colors.Transparent);
+                    break;
+
+                default:
+                    backgroundImage_img.Visibility = Visibility.Visible;
+                    main_grid.Background = (SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
+                    break;
+            }
         }
 
         private void storeChatState(ChatState state)
@@ -313,7 +465,7 @@ namespace UWP_XMPP_Client.Controls
                 if (Chat != null && Chat.id.Equals(msg.chatId))
                 {
                     // Only update for unread messages:
-                    if(msg.state == MessageState.UNREAD)
+                    if (msg.state == MessageState.UNREAD)
                     {
                         msg.state = MessageState.READ;
                         ChatDBManager.INSTANCE.setChatMessage(msg, false, true);
@@ -339,7 +491,10 @@ namespace UWP_XMPP_Client.Controls
 
         private void clip_btn_Click(object sender, RoutedEventArgs e)
         {
-            //TODO Add clip menu
+            if (!IsDummy)
+            {
+                //TODO Add clip menu
+            }
         }
 
         private void message_tbx_TextChanged(object sender, TextChangedEventArgs e)
@@ -356,7 +511,8 @@ namespace UWP_XMPP_Client.Controls
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            UiUtils.setBackgroundImage(backgroundImage_img);
+            loadBackgrundImage();
+
             object o = (Window.Current.Content as Frame).Content;
             if (o is ChatPage)
             {
@@ -370,11 +526,33 @@ namespace UWP_XMPP_Client.Controls
                 }
             }
 
-            // Subscribe to chat and chat message changed events:
-            ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-            ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-            ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
-            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            if (!IsDummy)
+            {
+                // Subscribe to chat and chat message changed events:
+                ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+                ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+                ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            }
+            else
+            {
+                loadDummyContent();
+            }
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (!IsDummy)
+            {
+                // Unsubscribe to chat and chat message changed events:
+                ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+                ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+
+                if (Client != null)
+                {
+                    Client.NewChatState -= Client_NewChatState;
+                }
+            }
         }
 
         private void MasterDetailsView_ViewStateChanged(object sender, MasterDetailsViewState e)
@@ -464,27 +642,42 @@ namespace UWP_XMPP_Client.Controls
 
         private void AccountImageWithPresenceControl_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            showProfile();
+            if (!IsDummy)
+            {
+                showProfile();
+            }
         }
 
         private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            showProfile();
+            if (!IsDummy)
+            {
+                showProfile();
+            }
         }
 
         private async void leave_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await leaveRoomAsync();
+            if (!IsDummy)
+            {
+                await leaveRoomAsync();
+            }
         }
 
         private async void join_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await joinRoomAsync();
+            if (!IsDummy)
+            {
+                await joinRoomAsync();
+            }
         }
 
         private void info_mfo_Click(object sender, RoutedEventArgs e)
         {
-            showProfile();
+            if (!IsDummy)
+            {
+                showProfile();
+            }
         }
 
         private void MenuFlyout_Opening(object sender, object e)
