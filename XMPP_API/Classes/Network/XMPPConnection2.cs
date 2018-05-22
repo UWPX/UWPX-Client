@@ -82,7 +82,7 @@ namespace XMPP_API.Classes.Network
             this.reconnectRequested = false;
             this.timeout = TimeSpan.FromMilliseconds(CONNECTION_TIMEOUT);
 
-            // The order in which new messages should get processed (TLS -- SASL -- Resource binding -- ...).
+            // The order in which new messages should get processed (TLS -- SASL -- Stream Management -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html
             //-------------------------------------------------------------
             // TLS:

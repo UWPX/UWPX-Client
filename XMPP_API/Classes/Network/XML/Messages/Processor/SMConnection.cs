@@ -12,6 +12,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private SMState state;
+        /// <summary>
+        /// Whether client side Stream Management is enabled.
+        /// </summary>
+        public bool clientSMEnabled { get; private set; }
+        /// <summary>
+        /// Whether server side Stream Management is enabled.
+        /// </summary>
+        public bool serverSMEnabled { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -49,6 +57,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             {
                 state = SMState.DISABLED;
             }
+
+            clientSMEnabled = false;
+            serverSMEnabled = false;
         }
 
         #endregion
@@ -87,6 +98,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             setMessageProcessed(args);
                             SMEnableMessage enableMsg = new SMEnableMessage();
                             await XMPP_CONNECTION.sendAsync(enableMsg, false, true);
+                            serverSMEnabled = true;
                             state = SMState.REQUESTED;
                         }
                     }
@@ -98,6 +110,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         setMessageProcessed(args);
                         // Update connection information:
                         state = SMState.ENABLED;
+                        clientSMEnabled = true;
                     }
                     else if (msg is SMFailedMessage failedMsg)
                     {

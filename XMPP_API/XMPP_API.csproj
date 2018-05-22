@@ -126,6 +126,7 @@
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\StreamManagementHelper.cs" />
     <Compile Include="Classes\Network\TCP\ConnectionConfiguration.cs" />
     <Compile Include="Classes\Network\TCP\ConnectionInformation.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection2.cs" />
