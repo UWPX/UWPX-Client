@@ -1,10 +1,9 @@
-﻿using Data_Manager2.Classes;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
-    public sealed partial class BackgroundTasksSettingsPage : Page
+    public sealed partial class SecuritySettingsPage : Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,13 +16,12 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/09/2017 Created [Fabian Sauter]
+        /// 05/22/2018 Created [Fabian Sauter]
         /// </history>
-        public BackgroundTasksSettingsPage()
+        public SecuritySettingsPage()
         {
             this.InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
-            loadSettings();
         }
 
         #endregion
@@ -39,10 +37,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void loadSettings()
-        {
-            disablePush_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.DISABLE_PUSH);
-        }
+
 
         #endregion
 
@@ -64,11 +59,6 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                 e.Handled = true;
                 rootFrame.GoBack();
             }
-        }
-
-        private void disablePush_tgls_Toggled(object sender, RoutedEventArgs e)
-        {
-            Settings.setSetting(SettingsConsts.DISABLE_PUSH, disablePush_tgls.IsOn);
         }
 
         #endregion

@@ -297,6 +297,9 @@
     <Compile Include="Pages\SettingsPages\DonateSettingsPage.xaml.cs">
       <DependentUpon>DonateSettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\SettingsPages\SecuritySettingsPage.xaml.cs">
+      <DependentUpon>SecuritySettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\UserProfilePage.xaml.cs">
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
@@ -621,6 +624,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\DonateSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SettingsPages\SecuritySettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
