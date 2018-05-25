@@ -77,6 +77,7 @@ namespace UWP_XMPP_Client
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.Resuming += App_Resuming;
+            this.UnhandledException += App_UnhandledException;
 
             // Perform App update tasks if necessary:
             AppUpdateHandler.onAppStart();
@@ -326,6 +327,11 @@ namespace UWP_XMPP_Client
                     await UiUtils.showDialogAsyncQueue(dialog);
                 });
             }
+        }
+
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Error("Unhanded exception: ", e.Exception);
         }
 
         #endregion
