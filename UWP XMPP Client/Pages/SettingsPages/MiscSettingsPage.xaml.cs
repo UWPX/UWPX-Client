@@ -277,6 +277,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             await UiUtils.showDialogAsyncQueue(dialog);
         }
 
+        private async void openImagesFolder_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await ImageDBManager.INSTANCE.openCachedImagesFolderAsync();
+        }
+
         #endregion
     }
 }

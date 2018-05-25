@@ -39,6 +39,7 @@
                     <Button x:Name="clearImagesCache_btn" Content="Clear image cache" Margin="10,10,0,0" Click="clearImagesCache_btn_Click"/>
                     <TextBlock x:Name="imageChacheSize_tblck" Text="calculating..." Foreground="{ThemeResource CalendarDatePickerTextForeground}" VerticalAlignment="Center" Margin="10, 10, 0, 0"/>
                 </StackPanel>
+                <Button x:Name="openImagesFolder_btn" Content="Open folder" Margin="10, 10, 0, 0" Click="openImagesFolder_btn_Click"/>
 
                 <controls:SeperatorControl Text="Crash reporting:"/>
                 <ToggleSwitch x:Name="disableCrashReporting_tgls"  Margin="10,10,0,0" Toggled="disableCrashReporting_tgls_Toggled" Header="Disable crash reporting"/>

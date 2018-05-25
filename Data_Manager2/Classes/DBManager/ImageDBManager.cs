@@ -231,6 +231,15 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
+        /// Opens the current folder containing the cached images.
+        /// </summary>
+        public async Task openCachedImagesFolderAsync()
+        {
+            StorageFolder folder = await getCachedImagesFolderAsync();
+            await Windows.System.Launcher.LaunchFolderAsync(folder);
+        }
+
+        /// <summary>
         /// Creates a new task, downloads the image from the given message and stores it locally.
         /// </summary>
         /// <param name="msg">The ChatMessageTable containing the image url.</param>
