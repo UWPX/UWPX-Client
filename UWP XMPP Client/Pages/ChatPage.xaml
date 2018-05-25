@@ -1,29 +1,38 @@
-﻿<Page
-    x:Class="UWP_XMPP_Client.Pages.ChatPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
-    xmlns:controls1="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d"
-    Loaded="Page_Loaded">
+﻿<Page x:Class="UWP_XMPP_Client.Pages.ChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:controls1="using:UWP_XMPP_Client.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Loaded="Page_Loaded"
+      mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="masterTemplate" x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatMasterControl Chat="{x:Bind chat, Mode=TwoWay}" Client="{x:Bind client, Mode=OneWay}" MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
+        <DataTemplate x:Key="masterTemplate"
+                      x:DataType="datatemplates:ChatTemplate">
+            <controls1:ChatMasterControl Chat="{x:Bind chat, Mode=TwoWay}"
+                                         Client="{x:Bind client, Mode=OneWay}"
+                                         MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="detailsTemplate" x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}" Client="{x:Bind client, Mode=OneWay}" MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
+        <DataTemplate x:Key="detailsTemplate"
+                      x:DataType="datatemplates:ChatTemplate">
+            <controls1:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}"
+                                          Client="{x:Bind client, Mode=OneWay}"
+                                          MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">
             <Grid Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                    <Image Source="ms-appx:///Assets/Images/xmpp_logo.png" Height="100" Width="100"/>
-                    <TextBlock FontSize="24" Text="Select an item to view."/>
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Image Width="100"
+                           Height="100"
+                           Source="ms-appx:///Assets/Images/xmpp_logo.png"/>
+                    <TextBlock FontSize="24"
+                               Text="Select an item to view."/>
                 </StackPanel>
             </Grid>
         </DataTemplate>
@@ -33,26 +42,31 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <!--Background-->
-        <controls:ImageEx x:Name="backgroundImage_img" Grid.Row="0"
-                          Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <!--Content-->
-        <Grid x:Name="main_grid" Grid.Row="0" Visibility="Collapsed">
+        <!--  Background  -->
+        <controls:ImageEx x:Name="backgroundImage_img"
+                          Grid.Row="0"
+                          HorizontalAlignment="Center"
+                          VerticalAlignment="Center"
+                          Stretch="UniformToFill"/>
+        <!--  Content  -->
+        <Grid x:Name="main_grid"
+              Grid.Row="0"
+              Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <controls:MasterDetailsView x:Name="masterDetail_pnl"
                                         Grid.Row="2"
-                                        NoSelectionContentTemplate="{StaticResource noSelectionTemplate}"
-                                        ItemTemplate="{StaticResource masterTemplate}"
-                                        DetailsTemplate="{StaticResource detailsTemplate}"
-                                        ItemsSource="{x:Bind chatsList, Mode=OneWay}"
                                         Background="Transparent"
+                                        DetailsTemplate="{StaticResource detailsTemplate}"
+                                        ItemTemplate="{StaticResource masterTemplate}"
+                                        ItemsSource="{x:Bind chatsList, Mode=OneWay}"
                                         MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+                                        NoSelectionContentTemplate="{StaticResource noSelectionTemplate}"
                                         SelectionChanged="masterDetail_pnl_SelectionChanged">
 
-                <!--Style-->
+                <!--  Style  -->
                 <controls:MasterDetailsView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
@@ -61,49 +75,78 @@
                     </Style>
                 </controls:MasterDetailsView.ItemContainerStyle>
 
-                <!--Master Header-->
+                <!--  Master Header  -->
                 <controls:MasterDetailsView.MasterHeader>
-                    <StackPanel Margin="-12, 0, -12, 0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-                        <AutoSuggestBox
-                            x:Name="searchChats_asb"
-                            PlaceholderText="Filter chats"
-                            Margin="10"
-                            TextChanged="searchChats_asb_TextChanged"
-                            QueryIcon="Find"
-                            QuerySubmitted="searchChats_asb_QuerySubmitted"
-                            BorderThickness="0"/>
+                    <StackPanel x:Name="filter_stckp"
+                                Margin="-12,0,-12,0"
+                                Visibility="Collapsed"
+                                Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                        <AutoSuggestBox x:Name="searchChats_asb"
+                                        Margin="10"
+                                        BorderThickness="0"
+                                        PlaceholderText="Filter chats"
+                                        QueryIcon="Find"
+                                        QuerySubmitted="searchChats_asb_QuerySubmitted"
+                                        TextChanged="searchChats_asb_TextChanged"/>
                         <controls1:SeperatorControl/>
                     </StackPanel>
                 </controls:MasterDetailsView.MasterHeader>
 
-                <!--Master Command Bar-->
+                <!--  Master Command Bar  -->
                 <controls:MasterDetailsView.MasterCommandBar>
                     <CommandBar x:Name="master_cmdb"
-                                Opening="master_cmdb_Opening"
-                                Margin="0, 0, 0, -1">
-                        <AppBarButton x:Name="add_abb" Grid.Column="0" Label="Add">
+                                Margin="0,0,0,-1"
+                                Opening="master_cmdb_Opening">
+                        <AppBarButton x:Name="add_abb"
+                                      Grid.Column="0"
+                                      Label="Add">
                             <AppBarButton.Icon>
-                                <FontIcon Glyph="&#xE109;" FontFamily="Segoe MDL2 Assets"/>
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE109;"/>
                             </AppBarButton.Icon>
                             <AppBarButton.Flyout>
                                 <MenuFlyout>
-                                    <MenuFlyoutItem x:Name="addChat_mfoi" Text="Add Chat" Click="addChat_mfoi_Click"/>
+                                    <MenuFlyoutItem x:Name="addChat_mfoi"
+                                                    Click="addChat_mfoi_Click"
+                                                    Text="Add Chat"/>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem x:Name="addMUC_mfoi" Text="Add Group Chat (MUC)" Click="addMUC_mfoi_Click"/>
-                                    <MenuFlyoutItem x:Name="addMIX_mfoi" IsEnabled="False" Text="Add Group Chat (MIX)" Click="addMIX_mfoi_Click"/>
+                                    <MenuFlyoutItem x:Name="addMUC_mfoi"
+                                                    Click="addMUC_mfoi_Click"
+                                                    Text="Add Group Chat (MUC)"/>
+                                    <MenuFlyoutItem x:Name="addMIX_mfoi"
+                                                    Click="addMIX_mfoi_Click"
+                                                    IsEnabled="False"
+                                                    Text="Add Group Chat (MIX)"/>
                                 </MenuFlyout>
                             </AppBarButton.Flyout>
                         </AppBarButton>
-                            <AppBarButton x:Name="settings_abb" Grid.Column="1" Label="Settings" Click="settings_abb_Click">
-                                <AppBarButton.Icon>
-                                    <FontIcon Glyph="&#xE713;" FontFamily="Segoe MDL2 Assets"/>
+                        <AppBarToggleButton x:Name="filter_abb"
+                                            Grid.Column="1"
+                                            Checked="filter_abb_Checked"
+                                            Label="Filter"
+                                            Unchecked="filter_abb_Unchecked">
+                            <AppBarToggleButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE71C;"/>
+                            </AppBarToggleButton.Icon>
+                        </AppBarToggleButton>
+                        <AppBarButton x:Name="settings_abb"
+                                      Grid.Column="1"
+                                      Click="settings_abb_Click"
+                                      Label="Settings">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                          Glyph="&#xE713;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>
 
                         <CommandBar.SecondaryCommands>
-                            <AppBarButton x:Name="changePresence_apbb" Label="Change presence" Click="changePresence_apbb_Click">
+                            <AppBarButton x:Name="changePresence_apbb"
+                                          Click="changePresence_apbb_Click"
+                                          Label="Change presence">
                                 <AppBarButton.Icon>
-                                    <FontIcon Foreground="{StaticResource PresenceOnline}" Glyph="&#xEDAF;"/>
+                                    <FontIcon Foreground="{StaticResource PresenceOnline}"
+                                              Glyph="&#xEDAF;"/>
                                 </AppBarButton.Icon>
                             </AppBarButton>
                         </CommandBar.SecondaryCommands>
@@ -111,14 +154,26 @@
                 </controls:MasterDetailsView.MasterCommandBar>
             </controls:MasterDetailsView>
         </Grid>
-        <!--Loading Grid-->
-        <Grid x:Name="loading_grid" Grid.Row="0" Visibility="Visible" HorizontalAlignment="Stretch" VerticalAlignment="Center" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <!--  Loading Grid  -->
+        <Grid x:Name="loading_grid"
+              Grid.Row="0"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Center"
+              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+              Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Loading..." FontSize="20" Grid.Row="0" HorizontalAlignment="Center"/>
-            <ProgressBar IsIndeterminate="True" IsEnabled="True" HorizontalAlignment="Stretch" Grid.Row="1" Margin="10"/>
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       FontSize="20"
+                       Text="Loading..."/>
+            <ProgressBar Grid.Row="1"
+                         Margin="10"
+                         HorizontalAlignment="Stretch"
+                         IsEnabled="True"
+                         IsIndeterminate="True"/>
         </Grid>
     </Grid>
 </Page>

@@ -41,7 +41,7 @@ namespace UWP_XMPP_Client.Pages
         public ChatPage()
         {
             this.chatsList = new CustomObservableCollection<ChatTemplate>();
-            this.currentChatQuery = null;
+            this.currentChatQuery = "";
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
         }
@@ -471,6 +471,18 @@ namespace UWP_XMPP_Client.Pages
         {
             ChangeAccountPresenceDialog dialog = new ChangeAccountPresenceDialog();
             await UiUtils.showDialogAsyncQueue(dialog);
+        }
+
+        private void filter_abb_Checked(object sender, RoutedEventArgs e)
+        {
+            filter_stckp.Visibility = Visibility.Visible;
+            filterChats(searchChats_asb.Text.ToLower(), false);
+        }
+
+        private void filter_abb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            filter_stckp.Visibility = Visibility.Collapsed;
+            filterChats("", false);
         }
 
         #endregion
