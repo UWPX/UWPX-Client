@@ -6,6 +6,8 @@
         public const string HIDE_INITIAL_START_DIALOG_ALPHA = "hide_initial_start_dialog_alpha";
         public const string HIDE_WHATS_NEW_DIALOG = "hide_whats_new_dialog_alpha_5_1";
 
+        public const string APP_REQUESTED_THEME = "app_requested_theme";
+
         public const string CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME = "chat_example_background_image_name";
         public const string CHAT_CUSTOM_BACKGROUND_IMAGE_NAME = "chat_custom_background_image_name";
         public const string CHAT_BACKGROUND_MODE = "chat_background_mode";

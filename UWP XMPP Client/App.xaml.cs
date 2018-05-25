@@ -23,7 +23,29 @@ namespace UWP_XMPP_Client
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        /// <summary>
+        /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
+        /// </summary>
+        public static ElementTheme RootTheme
+        {
+            get
+            {
+                if (Window.Current.Content is FrameworkElement rootElement)
+                {
+                    return rootElement.RequestedTheme;
+                }
 
+                return ElementTheme.Default;
+            }
+            set
+            {
+                if (Window.Current.Content is FrameworkElement rootElement)
+                {
+                    rootElement.RequestedTheme = value;
+                }
+                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -80,7 +102,7 @@ namespace UWP_XMPP_Client
         {
             // Setup App Center push:
             Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Push));
-            if(!Microsoft.AppCenter.AppCenter.Configured)
+            if (!Microsoft.AppCenter.AppCenter.Configured)
             {
                 Push.PushNotificationReceived -= Push_PushNotificationReceived;
                 Push.PushNotificationReceived += Push_PushNotificationReceived;
@@ -219,6 +241,16 @@ namespace UWP_XMPP_Client
                     }
                 }
             }
+
+            // Set requested theme:
+            string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
+            ElementTheme theme = ElementTheme.Dark;
+            if (themeString != null)
+            {
+                bool b = Enum.TryParse(themeString, out theme);
+            }
+            RootTheme = theme;
+
             Window.Current.Activate();
         }
 

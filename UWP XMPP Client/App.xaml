@@ -1,21 +1,20 @@
-﻿<Application
-    x:Class="UWP_XMPP_Client.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-    <!--RequestedTheme="Dark">-->
-    <!--AcrylicBrush:
-    https://nicksnettravels.builttoroam.com/post/2017/06/11/Adding-Fluent-Design-Acrylic-Material-to-UWP-via-XamarinForms.aspx
-    https://docs.microsoft.com/en-us/windows/uwp/style/acrylic
-    https://docs.microsoft.com/en-us/windows/uwp/style/acrylic
-    -->
+﻿<Application x:Class="UWP_XMPP_Client.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Application.Resources>
         <x:Double x:Key="AppBarThemeCompactHeight">41</x:Double>
-        <SolidColorBrush x:Key="PresenceOnline" Color="#54A81B"/>
-        <SolidColorBrush x:Key="PresenceChat" Color="White"/>
-        <SolidColorBrush x:Key="PresenceAway" Color="#EB8C10"/>
-        <SolidColorBrush x:Key="PresenceXa" Color="#EB4910"/>
-        <SolidColorBrush x:Key="PresenceDnd" Color="#A21025"/>
-        <SolidColorBrush x:Key="PresenceUnavailable" Color="#4C4A4B"/>
+        <SolidColorBrush x:Key="PresenceOnline"
+                         Color="#54A81B"/>
+        <SolidColorBrush x:Key="PresenceChat"
+                         Color="White"/>
+        <SolidColorBrush x:Key="PresenceAway"
+                         Color="#EB8C10"/>
+        <SolidColorBrush x:Key="PresenceXa"
+                         Color="#EB4910"/>
+        <SolidColorBrush x:Key="PresenceDnd"
+                         Color="#A21025"/>
+        <SolidColorBrush x:Key="PresenceUnavailable"
+                         Color="#4C4A4B"/>
     </Application.Resources>
 
 </Application>

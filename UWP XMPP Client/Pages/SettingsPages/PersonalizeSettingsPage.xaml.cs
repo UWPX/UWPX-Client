@@ -97,6 +97,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             info_ian.Show(text, 5000);
         }
 
+        private void setAppTheme(ElementTheme theme)
+        {
+            App.RootTheme = theme;
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -154,6 +159,40 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             await browseBackgroundAsync();
         }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            switch (App.RootTheme)
+            {
+                case ElementTheme.Default:
+                    systemTheme_rbtn.IsChecked = true;
+                    break;
+
+                case ElementTheme.Light:
+                    lightTheme_rbtn.IsChecked = true;
+
+                    break;
+                case ElementTheme.Dark:
+                    darkTheme_rbtn.IsChecked = true;
+                    break;
+            }
+        }
+
+        private void lightTheme_rbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            setAppTheme(ElementTheme.Light);
+        }
+
+        private void darkTheme_rbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            setAppTheme(ElementTheme.Dark);
+        }
+
+        private void systemTheme_rbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            setAppTheme(ElementTheme.Default);
+        }
+
         #endregion
     }
 }
