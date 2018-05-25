@@ -146,10 +146,10 @@ namespace UWP_XMPP_Client.Controls
                 presence = Presence.Away
             };
 
-            addDummyMessage("Hi", Chat.userAccountId, MessageState.SEND);
-            addDummyMessage("Hey, what's up?", Chat.chatJabberId, MessageState.READ);
-            addDummyMessage("That's a great app.", Chat.userAccountId, MessageState.SEND);
-            addDummyMessage("Yes, its awesome :D !", Chat.chatJabberId, MessageState.READ);
+            addDummyMessage("Hi", Chat.userAccountId, MessageState.READ);
+            addDummyMessage("Hey, what's up?", Chat.chatJabberId, MessageState.SEND);
+            addDummyMessage("That's a great app.", Chat.userAccountId, MessageState.READ);
+            message_tbx.Text = "Yes, its awesome :D !";
 
             invertedListView_lstv.Visibility = Visibility.Visible;
             loading_ldng.IsLoading = false;

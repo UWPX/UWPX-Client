@@ -5,8 +5,11 @@
         public const string INITIALLY_STARTED = "initially_started";
         public const string HIDE_INITIAL_START_DIALOG_ALPHA = "hide_initial_start_dialog_alpha";
         public const string HIDE_WHATS_NEW_DIALOG = "hide_whats_new_dialog_alpha_5_1";
-        public const string CHAT_BACKGROUND_IMAGE_NAME = "chat_background_image_path";
+
+        public const string CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME = "chat_example_background_image_name";
+        public const string CHAT_CUSTOM_BACKGROUND_IMAGE_NAME = "chat_custom_background_image_name";
         public const string CHAT_BACKGROUND_MODE = "chat_background_mode";
+
         public const string DISABLE_SOCKET_BACKGROUND_TASK = "disable_socket_background_task";
         public const string ENTER_TO_SEND_MESSAGES = "enter_to_send_messages";
         public const string DONT_SEND_CHAT_STATE = "dont_send_chat_state";

@@ -133,7 +133,7 @@ namespace UWP_XMPP_Client
             // Set default background:
             if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_IMAGE_NAME, "space.jpeg");
+                Settings.setSetting(SettingsConsts.CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME, "space.jpeg");
             }
             // Loads all background images into the cache:
             BackgroundImageCache.loadCache();
