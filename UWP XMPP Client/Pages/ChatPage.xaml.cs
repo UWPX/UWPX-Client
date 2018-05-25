@@ -279,7 +279,6 @@ namespace UWP_XMPP_Client.Pages
                 toastActivationString = toasActivationArgs.Argument;
                 Logger.Info("ChatPage2 activated through toast with argument:" + toastActivationString);
             }
-            ConnectionHandler.INSTANCE.connectAll();
             loadChats(toastActivationString);
 
             loading_grid.Visibility = Visibility.Collapsed;

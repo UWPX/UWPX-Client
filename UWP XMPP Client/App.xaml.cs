@@ -76,11 +76,11 @@ namespace UWP_XMPP_Client
 
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            this.Resuming += App_Resuming;
 
             // Perform App update tasks if necessary:
             AppUpdateHandler.onAppStart();
         }
-
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -252,6 +252,9 @@ namespace UWP_XMPP_Client
             RootTheme = theme;
 
             Window.Current.Activate();
+
+            // Connect to all clients:
+            ConnectionHandler.INSTANCE.connectAll();
         }
 
         #endregion
@@ -272,12 +275,21 @@ namespace UWP_XMPP_Client
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
             // TODO re-implement transfer socket ownership:
             //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
+
+            // Disconnect all clients:
+            await ConnectionHandler.INSTANCE.disconnectAllAsync();
             deferral.Complete();
+        }
+
+        private void App_Resuming(object sender, object e)
+        {
+            // Connect to all clients:
+            ConnectionHandler.INSTANCE.connectAll();
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

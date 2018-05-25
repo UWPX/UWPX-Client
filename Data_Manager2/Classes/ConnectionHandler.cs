@@ -101,11 +101,30 @@ namespace Data_Manager2.Classes
         }
 
         /// <summary>
-        /// Disconnects all XMPPClients.
+        /// Disconnects all XMPPClients in parallel.
         /// </summary>
         public void disconnectAll()
         {
             Parallel.ForEach(CLIENTS, async (c) => await c.disconnectAsync());
+        }
+
+        /// <summary>
+        /// Disconnects all XMPPClients.
+        /// </summary>
+        public async Task disconnectAllAsync()
+        {
+            Task[] tasks = new Task[CLIENTS.Count];
+            CLIENT_SEMA.Wait();
+            for (int i = 0; i < CLIENTS.Count; i++)
+            {
+                tasks[i] = CLIENTS[i].disconnectAsync();
+            }
+            CLIENT_SEMA.Release();
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                await tasks[i];
+            }
         }
 
         /// <summary>
@@ -475,7 +494,7 @@ namespace Data_Manager2.Classes
                 MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
                 if (mucInfo != null)
                 {
-                    if(Equals(message.fromUser, mucInfo.nickname))
+                    if (Equals(message.fromUser, mucInfo.nickname))
                     {
                         // Filter MUC messages that already exist:
                         // ToDo: Allow MUC messages being edited and detect it
