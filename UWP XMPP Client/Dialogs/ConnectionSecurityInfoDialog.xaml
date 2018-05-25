@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:controls="using:UWP_XMPP_Client.Controls"
     mc:Ignorable="d"
     Title="Security info:"
     SecondaryButtonText="Close"
@@ -17,55 +18,7 @@
         </PivotItem>
 
         <PivotItem Header="Certificate">
-            <ScrollViewer HorizontalScrollMode="Disabled">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="&#xEB95;"
-                                   VerticalAlignment="Center"
-                                   FontFamily="Segoe MDL2 Assets"/>
-                        <TextBlock Text="Certificate information:"
-                                   Margin="10, 0, 0, 0"/>
-                    </StackPanel>
-                    <TextBlock Text="Name:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.FriendlyName, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Subject:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.Subject, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Issuer:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.Issuer, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Valid from:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.ValidFrom, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Valid to:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.ValidTo, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Serial number:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.SerialNumber, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Key algorithm:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                    <TextBlock Text="{x:Bind Cert.KeyAlgorithmName, Mode=OneWay, FallbackValue='-'}"
-                               TextWrapping="Wrap"/>
-                    <TextBlock Text="Key algorithm:"
-                               Margin="0, 10, 0, 0"
-                               FontWeight="Bold"/>
-                </StackPanel>
-            </ScrollViewer>
+            <controls:CertificateControl Cert="{x:Bind Cert, Mode=OneWay}"/>
         </PivotItem>
     </Pivot>
 </ContentDialog>

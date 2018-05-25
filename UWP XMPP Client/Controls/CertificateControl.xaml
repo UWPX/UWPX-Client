@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="UWP_XMPP_Client.Controls.CertificateControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWP_XMPP_Client.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:telerikGrid="using:Telerik.UI.Xaml.Controls.Grid"
+             mc:Ignorable="d">
+
+    <ScrollViewer HorizontalScrollMode="Disabled"
+                  VerticalScrollBarVisibility="Hidden">
+        <StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="30"
+                           Text="&#xEB95;"/>
+                <TextBlock Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           FontSize="20"
+                           Text="Certificate information:"/>
+            </StackPanel>
+            <controls:SeperatorControl Text="General:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Issued to: "/>
+                <Run Text="{x:Bind Cert.Subject, Mode=OneWay, FallbackValue='-'}"/>
+            </TextBlock>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Issued by: "/>
+                <Run Text="{x:Bind Cert.Issuer, Mode=OneWay, FallbackValue='-'}"/>
+            </TextBlock>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Valid from "/>
+                <Run x:Name="validFormShort_run"/>
+                <Run FontWeight="Bold"
+                     Text=" to "/>
+                <Run x:Name="validToShort_run"/>
+            </TextBlock>
+            <controls:SeperatorControl Text="Details:"/>
+            <telerikGrid:RadDataGrid x:Name="certDetails_dgrid"
+                                     Grid.Row="2"
+                                     MaxHeight="200"
+                                     Margin="0,10,0,0"
+                                     AutoGenerateColumns="False"
+                                     ItemsSource="{x:Bind certDetails}"
+                                     SelectionMode="None"
+                                     UserFilterMode="Disabled"
+                                     UserGroupMode="Disabled">
+                <telerikGrid:RadDataGrid.Columns>
+                    <telerikGrid:DataGridTextColumn Header="Name"
+                                                    PropertyName="name"/>
+                    <telerikGrid:DataGridTextColumn Header="Value"
+                                                    PropertyName="value"/>
+                </telerikGrid:RadDataGrid.Columns>
+            </telerikGrid:RadDataGrid>
+            <controls:IconButtonControl x:Name="exportCert_ibtn"
+                                        Margin="0, 10, 0, 0"
+                                        Text="Export certificate"
+                                        Icon="&#xEDE1;"
+                                        IconForeground="{ThemeResource SystemAccentColor}"
+                                        Click="exportCert_ibtn_Click"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

@@ -130,6 +130,9 @@
     <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CertificateControl.xaml.cs">
+      <DependentUpon>CertificateControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DonateControl.xaml.cs">
       <DependentUpon>DonateControl.xaml</DependentUpon>
     </Compile>
@@ -175,6 +178,7 @@
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
+    <Compile Include="DataTemplates\CertificateDetailsTemplate.cs" />
     <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
     <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
@@ -423,6 +427,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BrowseMUCRoomsMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CertificateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
