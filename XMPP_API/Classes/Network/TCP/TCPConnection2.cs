@@ -21,11 +21,11 @@ namespace XMPP_API.Classes.Network.TCP
         /// <summary>
         /// The timeout in ms for TCP connections.
         /// </summary>
-        private const int CONNECTION_TIMEOUT = 3000;
+        private const int CONNECTION_TIMEOUT_MS = 3000;
         /// <summary>
         /// The timeout for upgrading to a TLS connection in ms.
         /// </summary>
-        private const int TLS_UPGRADE_TIMEOUT = 5000;
+        private const int TLS_UPGRADE_TIMEOUT_MS = 5000;
 
         private const int MAX_CONNECTION_TRIES = 3;
 
@@ -110,7 +110,7 @@ namespace XMPP_API.Classes.Network.TCP
                             }
 
                             // Connect with timeout:
-                            connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT);
+                            connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT_MS);
                             await socket.ConnectAsync(hostName, account.port.ToString()).AsTask(connectingCTS.Token);
 
                             // Setup stream reader and writer:
@@ -172,15 +172,16 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 throw new InvalidOperationException("[TCPConnection2]: Unable to upgrade to TLS! ConnectionState != Connected! state = " + state);
             }
+            DateTime d = DateTime.Now;
             try
             {
-                tlsUpgradeCTS = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT);
+                tlsUpgradeCTS = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT_MS);
                 await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName).AsTask(tlsUpgradeCTS.Token);
             }
             catch (Exception e)
             {
                 SocketErrorStatus socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
-                lastConnectionError = new ConnectionError(socketErrorStatus, "TLS upgrade failed!");
+                lastConnectionError = new ConnectionError(socketErrorStatus, "TLS upgrade failed after " + (DateTime.Now.Subtract(d).TotalMilliseconds) + "ms!");
                 setState(ConnectionState.ERROR, lastConnectionError);
                 throw e;
             }
