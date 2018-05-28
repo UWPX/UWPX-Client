@@ -101,6 +101,7 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="color_tbx"
+                                 Text="{x:Bind Account.color, Mode=OneWay}"
                                  Grid.Column="0"
                                  Header="Color:"
                                  PlaceholderText="e.g. #D50000"
