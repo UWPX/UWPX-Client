@@ -152,7 +152,7 @@ namespace Data_Manager2.Classes.DBManager
         public void resetMUCState(string userAccountId, bool triggerMUCChanged)
         {
             // Semi join:
-            List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE EXISTS (SELECT * FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND state != ?;", userAccountId, ChatType.MUC, MUCState.DISCONNECTED);
+            List<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE chatId IN (SELECT i.chatId FROM " + DBTableConsts.CHAT_TABLE + " c JOIN " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i ON c.id = i.chatId WHERE c.userAccountId = ? AND chatType = ?) AND state != ?;", userAccountId, ChatType.MUC, MUCState.DISCONNECTED);
             foreach (MUCChatInfoTable info in list)
             {
                 setMUCState(info.chatId, MUCState.DISCONNECTED, triggerMUCChanged);
