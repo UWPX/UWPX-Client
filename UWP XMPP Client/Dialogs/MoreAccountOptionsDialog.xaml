@@ -25,6 +25,7 @@
                                   Header="Disable stream management:"
                                   OffContent="Enabled"
                                   OnContent="Disabled"
+                                  IsEnabled="False"
                                   IsOn="{x:Bind connectionConfiguration.disableStreamManagement, Mode=OneWay}"/>
                 </StackPanel>
             </ScrollViewer>

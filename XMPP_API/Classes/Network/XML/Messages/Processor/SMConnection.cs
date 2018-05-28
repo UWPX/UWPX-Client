@@ -11,6 +11,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private const bool STREAM_MANAGEMENT_ENABLED = false;
+
         private SMState state;
         /// <summary>
         /// Whether client side Stream Management is enabled.
@@ -72,6 +74,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Misc Methods (Protected)--
         protected override async Task processMessageAsync(NewValidMessageEventArgs args)
         {
+            if(!STREAM_MANAGEMENT_ENABLED)
+            {
+                return;
+            }
+
             AbstractMessage msg = args.getMessage();
 
             switch (state)
