@@ -4,7 +4,7 @@
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly bool SUCCESS;
+        public readonly TCPReadState STATE;
         public readonly string DATA;
 
         #endregion
@@ -16,9 +16,9 @@
         /// <history>
         /// 05/05/2018 Created [Fabian Sauter]
         /// </history>
-        public TCPReadResult(bool success, string data)
+        public TCPReadResult(TCPReadState state, string data)
         {
-            this.SUCCESS = success;
+            this.STATE = state;
             this.DATA = data;
         }
 

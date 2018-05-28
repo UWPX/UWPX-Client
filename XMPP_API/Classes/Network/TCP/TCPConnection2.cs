@@ -101,6 +101,7 @@ namespace XMPP_API.Classes.Network.TCP
                             // Setup socket:
                             socket = new StreamSocket();
                             socket.Control.KeepAlive = true;
+                            socket.Control.QualityOfService = SocketQualityOfService.LowLatency;
                             hostName = new HostName(account.serverAddress);
 
                             // Add all ignored certificate errors:
@@ -157,6 +158,18 @@ namespace XMPP_API.Classes.Network.TCP
             connectingCTS?.Cancel();
             readingCTS?.Cancel();
             tlsUpgradeCTS?.Cancel();
+            try
+            {
+                dataReader?.DetachStream();
+                dataReader?.Dispose();
+                dataReader = null;
+                dataWriter?.DetachStream();
+                dataWriter?.Dispose();
+                dataWriter = null;
+            }
+            catch (Exception)
+            {
+            }
             socket?.Dispose();
             socket = null;
             setState(ConnectionState.DISCONNECTED);
@@ -222,19 +235,25 @@ namespace XMPP_API.Classes.Network.TCP
 
         public async Task<TCPReadResult> readAsync()
         {
-            string data = "";
             if (state != ConnectionState.CONNECTED)
             {
-                return new TCPReadResult(false, null);
+                return new TCPReadResult(TCPReadState.FAILURE, null);
             }
 
+            string data = "";
             uint readCount = 0;
 
             // Read the first batch:
             readCount = await dataReader.LoadAsync(BUFFER_SIZE);
-            if (readCount <= 0 || dataReader == null)
+
+            // To close a TCP connection, the opponent sends a 0 length message:
+            if (readCount <= 0)
             {
-                return new TCPReadResult(false, null);
+                return new TCPReadResult(TCPReadState.END_OF_STREAM, null);
+            }
+            if (dataReader == null)
+            {
+                return new TCPReadResult(TCPReadState.FAILURE, null);
             }
 
             while (dataReader.UnconsumedBufferLength > 0)
@@ -247,19 +266,19 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 try
                 {
-                    Task<uint> t = dataReader.LoadAsync(BUFFER_SIZE).AsTask(readingCTS.Token);
-                    t.Wait(100);
-                    readCount = t.Result;
+                    readCount = await dataReader.LoadAsync(BUFFER_SIZE).AsTask(readingCTS.Token);
 
                     while (dataReader.UnconsumedBufferLength > 0)
                     {
                         data += dataReader.ReadString(dataReader.UnconsumedBufferLength);
                     }
                 }
-                catch (OperationCanceledException) { }
+                catch (OperationCanceledException)
+                {
+                }
             }
 
-            return new TCPReadResult(true, data);
+            return new TCPReadResult(TCPReadState.SUCCESS, data);
         }
 
         public void startReaderTask()
@@ -292,30 +311,37 @@ namespace XMPP_API.Classes.Network.TCP
                         {
                             readResult = await readAsync();
                             // Check if reading failed:
-                            if (!readResult.SUCCESS)
+                            switch (readResult.STATE)
                             {
-                                if (lastReadingFailedCount++ <= 0)
-                                {
-                                    lastReadingFailed = DateTime.Now;
-                                }
+                                case TCPReadState.SUCCESS:
+                                    lastReadingFailedCount = 0;
+                                    errorCount = 0;
+                                    Logger.Debug("[TCPConnection2]: Received from (" + account.serverAddress + "):" + readResult.DATA);
 
-                                // Read 5 empty or null strings in an interval lower than 1 second:
-                                double c = DateTime.Now.Subtract(lastReadingFailed).TotalSeconds;
-                                if (lastReadingFailedCount > 5 && c < 1)
-                                {
-                                    lastConnectionError = new ConnectionError(ConnectionErrorCode.READING_LOOP);
-                                    errorCount = int.MaxValue;
-                                    continue;
-                                }
-                            }
-                            else
-                            {
-                                lastReadingFailedCount = 0;
-                                errorCount = 0;
-                                Logger.Debug("[TCPConnection2]: Received from (" + account.serverAddress + "):" + readResult.DATA);
+                                    // Trigger the NewDataReceived event:
+                                    NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(readResult.DATA));
+                                    break;
 
-                                // Trigger the NewDataReceived event:
-                                NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(readResult.DATA));
+                                case TCPReadState.FAILURE:
+                                    if (lastReadingFailedCount++ <= 0)
+                                    {
+                                        lastReadingFailed = DateTime.Now;
+                                    }
+
+                                    // Read 5 empty or null strings in an interval lower than 1 second:
+                                    double c = DateTime.Now.Subtract(lastReadingFailed).TotalSeconds;
+                                    if (lastReadingFailedCount > 5 && c < 1)
+                                    {
+                                        lastConnectionError = new ConnectionError(ConnectionErrorCode.READING_LOOP);
+                                        errorCount = int.MaxValue;
+                                        continue;
+                                    }
+                                    break;
+
+                                case TCPReadState.END_OF_STREAM:
+                                    Logger.Info("Socket closed because received 0-length message from: " + account.serverAddress);
+                                    disconnect();
+                                    break;
                             }
                         }
                         catch (OperationCanceledException)
