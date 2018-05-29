@@ -163,6 +163,9 @@
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\PasswordCredentialControl.xaml.cs">
+      <DependentUpon>PasswordCredentialControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SaveablePasswordBox.xaml.cs">
       <DependentUpon>SaveablePasswordBox.xaml</DependentUpon>
     </Compile>
@@ -183,6 +186,7 @@
     <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
+    <Compile Include="DataTemplates\PasswordCredentialTemplate.cs" />
     <Compile Include="DataTemplates\PresenceTemplate.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
@@ -209,6 +213,9 @@
     </Compile>
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\ConfirmDialog.xaml.cs">
+      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ConnectionErrorDialog.xaml.cs">
       <DependentUpon>ConnectionErrorDialog.xaml</DependentUpon>
@@ -474,6 +481,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\PasswordCredentialControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SaveablePasswordBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -519,6 +530,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ClearCacheDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\ConfirmDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

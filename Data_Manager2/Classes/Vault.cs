@@ -1,5 +1,6 @@
 ﻿using Logging;
 using System;
+using System.Collections.Generic;
 using Windows.Security.Credentials;
 using XMPP_API.Classes.Network;
 
@@ -46,6 +47,22 @@ namespace Data_Manager2.Classes
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Returns all PasswordCredential objects stored in the vault.
+        /// </summary>
+        /// <returns>A read only list of PasswordCredential objects.</returns>
+        public static IReadOnlyList<PasswordCredential> getAll()
+        {
+            try
+            {
+                return PASSWORD_VAULT.RetrieveAll();
+            }
+            catch (Exception)
+            {
+                return new List<PasswordCredential>();
+            }
         }
 
         #endregion
@@ -96,6 +113,15 @@ namespace Data_Manager2.Classes
         {
             string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
             PasswordCredential passwordCredential = getPasswordCredentialForAccount(account);
+            deletePassword(passwordCredential);
+        }
+
+        /// <summary>
+        /// Deletes the given password vault.
+        /// </summary>
+        /// <param name="passwordCredential">The PasswordCredential that should get deleted.</param>
+        public static void deletePassword(PasswordCredential passwordCredential)
+        {
             if (passwordCredential != null)
             {
                 PASSWORD_VAULT.Remove(passwordCredential);

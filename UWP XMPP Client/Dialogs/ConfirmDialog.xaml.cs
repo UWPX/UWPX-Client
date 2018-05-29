@@ -3,13 +3,18 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWP_XMPP_Client.Dialogs
 {
-    public sealed partial class DeleteAccountDialog : ContentDialog
+    public sealed partial class ConfirmDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool keepChats;
-        public bool keepChatMessages;
-        public bool deleteAccount;
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register("Text", typeof(string), typeof(ConfirmDialog), null);
+
+        public bool confirmed { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,13 +23,11 @@ namespace UWP_XMPP_Client.Dialogs
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 14/03/2018 Created [Fabian Sauter]
+        /// 29/05/2018 Created [Fabian Sauter]
         /// </history>
-        public DeleteAccountDialog()
+        public ConfirmDialog()
         {
-            this.deleteAccount = false;
-            this.keepChats = true;
-            this.keepChatMessages = true;
+            this.confirmed = false;
             this.InitializeComponent();
         }
 
@@ -51,19 +54,15 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void yes_ibtn_Click(object sender, RoutedEventArgs args)
+        private void no_ibtn_Click(object sender, RoutedEventArgs args)
         {
-            keepChats = (bool)keepChats_cbx.IsChecked;
-            keepChatMessages = (bool)keepChatMessages_cbx.IsChecked;
-            deleteAccount = true;
+            confirmed = false;
             Hide();
         }
 
-        private void no_ibtn_Click(object sender, RoutedEventArgs args)
+        private void yes_ibtn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
         {
-            keepChats = (bool)keepChats_cbx.IsChecked;
-            keepChatMessages = (bool)keepChatMessages_cbx.IsChecked;
-            deleteAccount = false;
+            confirmed = true;
             Hide();
         }
 

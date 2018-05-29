@@ -11,7 +11,7 @@ namespace UWP_XMPP_Client.Classes
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074
     /// </summary>
-    public class CustomObservableCollection<T> : ObservableCollection<T> where T : INotifyPropertyChanged
+    public class CustomObservableCollection<T> : ObservableCollection<T> where T : class
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -90,19 +90,32 @@ namespace UWP_XMPP_Client.Classes
         #region --Misc Methods (Protected)--
         protected override void RemoveItem(int index)
         {
-            (Items[index] as INotifyPropertyChanged).PropertyChanged -= CustomObservableCollection_PropertyChanged;
+            if (Items[index] is INotifyPropertyChanged i)
+            {
+                i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
+            }
             base.RemoveItem(index);
         }
 
         protected override void InsertItem(int index, T item)
         {
-            (item as INotifyPropertyChanged).PropertyChanged += CustomObservableCollection_PropertyChanged;
+            if (item is INotifyPropertyChanged i)
+            {
+                i.PropertyChanged += CustomObservableCollection_PropertyChanged;
+            }
             base.InsertItem(index, item);
         }
 
         protected override void SetItem(int index, T item)
         {
-            (Items[index] as INotifyPropertyChanged).PropertyChanged -= CustomObservableCollection_PropertyChanged;
+            if (Items[index] is INotifyPropertyChanged i)
+            {
+                i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
+            }
+            if (item is INotifyPropertyChanged iNew)
+            {
+                iNew.PropertyChanged += CustomObservableCollection_PropertyChanged;
+            }
             (item as INotifyPropertyChanged).PropertyChanged += CustomObservableCollection_PropertyChanged;
             base.SetItem(index, item);
         }

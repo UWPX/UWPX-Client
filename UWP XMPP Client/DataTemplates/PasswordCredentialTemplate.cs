@@ -1,15 +1,14 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using UWP_XMPP_Client.Pages.SettingsPages;
+using Windows.Security.Credentials;
 
-namespace UWP_XMPP_Client.Dialogs
+namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed partial class DeleteAccountDialog : ContentDialog
+    class PasswordCredentialTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool keepChats;
-        public bool keepChatMessages;
-        public bool deleteAccount;
+        public PasswordCredential Credential { get; set; }
+        public SecuritySettingsPage securitySettingsPage { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,14 +17,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 14/03/2018 Created [Fabian Sauter]
+        /// 29/05/2018 Created [Fabian Sauter]
         /// </history>
-        public DeleteAccountDialog()
+        public PasswordCredentialTemplate()
         {
-            this.deleteAccount = false;
-            this.keepChats = true;
-            this.keepChatMessages = true;
-            this.InitializeComponent();
         }
 
         #endregion
@@ -51,21 +46,7 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void yes_ibtn_Click(object sender, RoutedEventArgs args)
-        {
-            keepChats = (bool)keepChats_cbx.IsChecked;
-            keepChatMessages = (bool)keepChatMessages_cbx.IsChecked;
-            deleteAccount = true;
-            Hide();
-        }
 
-        private void no_ibtn_Click(object sender, RoutedEventArgs args)
-        {
-            keepChats = (bool)keepChats_cbx.IsChecked;
-            keepChatMessages = (bool)keepChatMessages_cbx.IsChecked;
-            deleteAccount = false;
-            Hide();
-        }
 
         #endregion
     }
