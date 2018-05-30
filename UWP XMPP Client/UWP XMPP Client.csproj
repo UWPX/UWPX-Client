@@ -178,6 +178,7 @@
     <Compile Include="Controls\SpeechBubbleInfoControl.xaml.cs">
       <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
@@ -188,6 +189,7 @@
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="DataTemplates\PasswordCredentialTemplate.cs" />
     <Compile Include="DataTemplates\PresenceTemplate.cs" />
+    <Compile Include="DataTemplates\RTTValueConverter.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
@@ -220,8 +222,8 @@
     <Compile Include="Dialogs\ConnectionErrorDialog.xaml.cs">
       <DependentUpon>ConnectionErrorDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConnectionSecurityInfoDialog.xaml.cs">
-      <DependentUpon>ConnectionSecurityInfoDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\ConnectionInfoDialog.xaml.cs">
+      <DependentUpon>ConnectionInfoDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\DeleteAccountDialog.xaml.cs">
       <DependentUpon>DeleteAccountDialog.xaml</DependentUpon>
@@ -541,7 +543,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Dialogs\ConnectionSecurityInfoDialog.xaml">
+    <Page Include="Dialogs\ConnectionInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

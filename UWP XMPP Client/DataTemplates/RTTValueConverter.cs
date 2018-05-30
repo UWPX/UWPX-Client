@@ -1,19 +1,13 @@
-﻿using Windows.Security.Cryptography.Certificates;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Xaml.Data;
 
-namespace UWP_XMPP_Client.Dialogs
+namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed partial class ConnectionSecurityInfoDialog : ContentDialog
+    class RTTValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public Certificate Cert
-        {
-            get { return (Certificate)GetValue(CertProperty); }
-            set { SetValue(CertProperty, value); }
-        }
-        public static readonly DependencyProperty CertProperty = DependencyProperty.Register("Cert", typeof(Certificate), typeof(ConnectionSecurityInfoDialog), null);
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,11 +16,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/03/2018 Created [Fabian Sauter]
+        /// 30/05/2018 Created [Fabian Sauter]
         /// </history>
-        public ConnectionSecurityInfoDialog()
+        public RTTValueConverter()
         {
-            this.InitializeComponent();
         }
 
         #endregion
@@ -37,7 +30,25 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is uint i)
+            {
+                double val = i / 1000.0;
+                if (val > 1000)
+                {
+                    return Math.Round(val / 1000, 2) + " s";
+                }
 
+                return Math.Round(val, 2) + " ms";
+            }
+            return "0 ms";
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 
@@ -52,13 +63,7 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-        }
 
         #endregion
     }

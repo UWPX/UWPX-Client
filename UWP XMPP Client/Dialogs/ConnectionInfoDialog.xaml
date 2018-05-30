@@ -1,0 +1,77 @@
+﻿<ContentDialog x:Class="UWP_XMPP_Client.Dialogs.ConnectionInfoDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:controls="using:UWP_XMPP_Client.Controls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="Connection info:"
+               SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+               SecondaryButtonText="Close"
+               mc:Ignorable="d">
+
+    <ContentDialog.Resources>
+        <datatemplates:BitDataRateValueConverter x:Key="bitDataRateValueConverter"/>
+        <datatemplates:RTTValueConverter x:Key="rttValueConverter"/>
+    </ContentDialog.Resources>
+
+    <Pivot Grid.Row="0"
+           Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <PivotItem Header="General">
+            <ScrollViewer HorizontalScrollMode="Disabled">
+                <StackPanel>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="TLS:"/>
+                        <Run x:Name="tlsConnected_run"
+                             Foreground="Green"/>
+                        <Run x:Name="tlsDisconnected_run"
+                             Foreground="Red"
+                             Text="Disconnected"/>
+                    </TextBlock>
+                    <controls:SeperatorControl Margin="-10,0,0,0"
+                                               Text="Socket statistics:"/>
+                    <TextBlock Margin="0,10,0,0">
+                        <Run FontWeight="Bold"
+                             Text="Inbound:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.BandwidthStatistics.InboundBitsPerSecond, Mode=OneWay, Converter={StaticResource bitDataRateValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Inbound instability:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.BandwidthStatistics.InboundBitsPerSecondInstability, Mode=OneWay, Converter={StaticResource bitDataRateValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Outbound:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.BandwidthStatistics.OutboundBitsPerSecond, Mode=OneWay, Converter={StaticResource bitDataRateValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Outbound instability:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.BandwidthStatistics.OutboundBitsPerSecondInstability, Mode=OneWay, Converter={StaticResource bitDataRateValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="RTT average:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.RoundTripTimeStatistics.Sum, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="RTT min:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.RoundTripTimeStatistics.Min, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="RTT max:"/>
+                        <Run Text="{x:Bind ConnectionInfo.socketInfo.RoundTripTimeStatistics.Max, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+        </PivotItem>
+
+        <PivotItem Header="Certificate">
+            <controls:CertificateControl Cert="{x:Bind Cert, Mode=OneWay}"/>
+        </PivotItem>
+    </Pivot>
+</ContentDialog>

@@ -20,7 +20,8 @@
                            FontSize="20"
                            Text="Certificate information:"/>
             </StackPanel>
-            <controls:SeperatorControl Text="General:"/>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="General:"/>
             <TextBlock Margin="0,10,0,0">
                 <Run FontWeight="Bold"
                      Text="Issued to: "/>
@@ -39,7 +40,8 @@
                      Text=" to "/>
                 <Run x:Name="validToShort_run"/>
             </TextBlock>
-            <controls:SeperatorControl Text="Details:"/>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Details:"/>
             <telerikGrid:RadDataGrid x:Name="certDetails_dgrid"
                                      Grid.Row="2"
                                      MaxHeight="200"
@@ -57,11 +59,11 @@
                 </telerikGrid:RadDataGrid.Columns>
             </telerikGrid:RadDataGrid>
             <controls:IconButtonControl x:Name="exportCert_ibtn"
-                                        Margin="0, 10, 0, 0"
-                                        Text="Export certificate"
+                                        Margin="0,10,0,0"
+                                        Click="exportCert_ibtn_Click"
                                         Icon="&#xEDE1;"
                                         IconForeground="{ThemeResource SystemAccentColor}"
-                                        Click="exportCert_ibtn_Click"/>
+                                        Text="Export certificate"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

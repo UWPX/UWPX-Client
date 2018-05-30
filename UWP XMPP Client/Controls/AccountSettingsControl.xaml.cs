@@ -129,22 +129,19 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (client.getXMPPAccount().CONNECTION_INFO.tlsConnected)
                 {
-                    showSecurity_btn.Foreground = new SolidColorBrush(Colors.Green);
-                    showSecurity_btn.Content = "\uE72E";
+                    accountSecurityStatus_tbx.Foreground = new SolidColorBrush(Colors.Green);
+                    accountSecurityStatus_tbx.Text = "\uE72E";
                 }
                 else
                 {
-                    showSecurity_btn.Foreground = new SolidColorBrush(Colors.Red);
-                    showSecurity_btn.Content = "\uE785";
+                    accountSecurityStatus_tbx.Foreground = new SolidColorBrush(Colors.Red);
+                    accountSecurityStatus_tbx.Text = "\uE785";
                 }
-
-                showSecurity_btn.IsEnabled = true;
             }
             else
             {
-                showSecurity_btn.IsEnabled = false;
-                showSecurity_btn.Foreground = new SolidColorBrush(Colors.Red);
-                showSecurity_btn.Content = "\uE785";
+                accountSecurityStatus_tbx.Foreground = UiUtils.getPresenceBrush(Presence.Unavailable);
+                accountSecurityStatus_tbx.Text = "\uE785";
             }
         }
 
@@ -264,7 +261,8 @@ namespace UWP_XMPP_Client.Controls
                 IsEnabled = false;
                 Account.disabled = !disableAccount_tggls.IsOn;
                 XMPPAccount newAccount = Account;
-                Task.Run(() => {
+                Task.Run(() =>
+                {
                     AccountDBManager.INSTANCE.setAccountDisabled(newAccount);
                     Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => IsEnabled = true).AsTask();
                 });
@@ -274,18 +272,6 @@ namespace UWP_XMPP_Client.Controls
         private async void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showConnectionState(client, args.newState, args.param));
-        }
-
-        private async void showSecurity_btn_Click(object sender, RoutedEventArgs e)
-        {
-            if (client != null)
-            {
-                ConnectionSecurityInfoDialog dialog = new ConnectionSecurityInfoDialog()
-                {
-                    Cert = client.getXMPPAccount().CONNECTION_INFO.socketInfo?.ServerCertificate
-                };
-                await UiUtils.showDialogAsyncQueue(dialog);
-            }
         }
 
         private async void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -305,6 +291,41 @@ namespace UWP_XMPP_Client.Controls
                 ConnectionErrorDialog dialog = new ConnectionErrorDialog(lastConnectionError);
                 await dialog.ShowAsync();
             }
+        }
+
+        private async void showConnectionInfo_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (client != null)
+            {
+                ConnectionInfoDialog dialog = new ConnectionInfoDialog()
+                {
+                    Cert = client.getXMPPAccount().CONNECTION_INFO.socketInfo?.ServerCertificate,
+                    ConnectionInfo = client.getXMPPAccount().CONNECTION_INFO
+                };
+                await UiUtils.showDialogAsyncQueue(dialog);
+            }
+        }
+
+        private async void accountSecurityStatus_tbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            string tlsState = "";
+            if (client != null && client.getConnetionState() == ConnectionState.CONNECTED)
+            {
+                if (client.getXMPPAccount().CONNECTION_INFO.tlsConnected)
+                {
+                    tlsState = "connected";
+                }
+                else
+                {
+                    tlsState = "disconnected";
+                }
+            }
+            else
+            {
+                tlsState = "client not connected";
+            }
+            TextDialog dialog = new TextDialog("TLS state: " + tlsState, "TLS state:");
+            await dialog.ShowAsync();
         }
 
         #endregion
