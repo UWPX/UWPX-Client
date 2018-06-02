@@ -39,5 +39,7 @@ namespace XMPP_API.Classes
         // XEP-0198 (Stream Management):
         public const string XML_XEP_0198_NAMESPACE = "urn:xmpp:sm:3";
         public const string XML_XEP_0198_FAILED_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-stanzas";
+        // XEP-0363 (HTTP File Upload):
+        public const string XML_XEP_0363_NAMESPACE = "urn:xmpp:http:upload:0";
     }
 }

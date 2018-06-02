@@ -187,6 +187,10 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadError.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\XML\MessageParser2.cs" />
     <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />

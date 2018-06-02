@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -227,6 +228,26 @@ namespace XMPP_API.Classes.Network.XML
                                                 }
                                             }
                                             break;
+                                    }
+                                }
+                                else
+                                {
+                                    // XEP-0363 (HTTP File Upload) slot response:
+                                    XmlNode slotNode = XMLUtils.getChildNode(n, "slot", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
+                                    if (slotNode != null)
+                                    {
+                                        messages.Add(new HTTPUploadResponseSlotMessage(n));
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        // XEP-0363 (HTTP File Upload) slot request/error:
+                                        XmlNode requestNode = XMLUtils.getChildNode(n, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
+                                        if (requestNode != null)
+                                        {
+                                            messages.Add(new HTTPUploadRequestSlotMessage(n));
+                                            break;
+                                        }
                                     }
                                 }
 
