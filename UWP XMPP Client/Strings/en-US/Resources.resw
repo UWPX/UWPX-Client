@@ -187,27 +187,13 @@ They're sooooo fluffy - to fluffy!</value>
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.5.1.0 [May 2018#2] Bug fixes
+    <value># v.0.6.0.0 [June 2018] Refactoring, UI and preparations:
 
-Just a quick fix for in-App purchases and message delay stamps not getting parsed correctly.
-
-**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
-
-### Changes:
-* Fixed in-App purchases
-* Fixed message delay offset
-* Fixed ban/kick message text
-
-
-# v.0.5.0.0 [May 2018] TSL options, donations, and bug fixes:
-
-With the May 2018 release I've added TLS options. For example you now can prohibit TLS connections or ignore certain certificate errors to allow the use of self signed certificates. TLS options can be changed via the accounts settings for the individual account.
-I've also added a donations page which can be found under **"Settings" -&gt; "Donation"** so you can support the development of this App.
-
+This month I've finally started working on [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html), [Stream Management (XEP-1098)](https://xmpp.org/extensions/xep-0198.html) and [HTTP File Upload (XEP-0363)](https://xmpp.org/extensions/xep-0363.html). It's still far from being done but the basic messages for the server communication are done. I've also refactored the TCP and XMPP connection for better reliability, performance and better error reporting. Now if an error occurs you can, like sown in the examples, click on the error message and it will displays additional information. There's now also a TLS indicator lock, which indicates whether or whether not you are connect via a secure TLS connection with the server.
+I've also added the option to switch the App theme and pick a custom chat background.
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
-* Background image not loading [#9](https://github.com/UWPX/UWPX-Client/issues/9)
 * Remove bookmark not working [#22](https://github.com/UWPX/UWPX-Client/issues/22)
 * Chat state won't update [#25](https://github.com/UWPX/UWPX-Client/issues/25)
 * App crashes sometimes, if you try to delete a chat [#23](https://github.com/UWPX/UWPX-Client/issues/23)
@@ -215,32 +201,27 @@ I've also added a donations page which can be found under **"Settings" -&gt; "Do
 * Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
 
 ### Changes:
-* Added options for ignoring certificate errors
-* **Added a settings page for donations to keep the project running ;D**
-* Added sender nicknames in MUC messages
-* Added a connection certificate info dialog [WIP!]
-* Added App Center crash reporting (experimental)
-* Added a 15 accounts limit
-* Added a content dialog for connection errors
-* Fixed text dialog not showing its content
-* Fixed request ban list crash
-* Fixed chat and chat message time offset
-* Fixed nickname changing button not getting enabled again
-* Fixed host not found crash
-* Fixed some logger crashes
-* Fixed some content dialog crashes
-* Fixed App crashes, if not connected to the internet [#14](https://github.com/UWPX/UWPX-Client/issues/14)
-* Improved logger performance
-* Improved the account connection reliability
-* Improved account SASL error handling
-* Updated the clear cache UI
+* Added security settings
+* Added a password vault "explorer"
+* Added filter button
+* Added open folder button for cached images
+* Added App theme changing support
+* Added custom background image support [#32](https://github.com/UWPX/UWPX-Client/issues/32)
+* Added certificate info
+* Added connection info
+* Added a TLS indicator
+* Fixed send message button getting focus [#19](https://github.com/UWPX/UWPX-Client/issues/19)
+* Fixed message status icon
+* Fixed account color changing
+* Changed account error messages to be clickable to show more information
+* Switched from Hockey App to App Center crash reporting
+* Refactored the TCP and XMPP handler
 
-### Plans for the June release:
-* Start adding [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5) 
-* Fix [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
+### Plans for the July release:
+* [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5)
+* [HTTP File Upload (XEP-0363)](https://xmpp.org/extensions/xep-0363.html)
 * Fix more [bugs](https://github.com/UWPX/UWPX-Client/issues)
 
-
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.5.0.0)</value>
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.6.0.0)</value>
   </data>
 </root>
