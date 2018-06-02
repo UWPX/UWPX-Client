@@ -59,6 +59,7 @@
                 </telerikGrid:RadDataGrid.Columns>
             </telerikGrid:RadDataGrid>
             <Button x:Name="exportCert_btn"
+                    Margin="0,10,0,0"
                     Click="exportCert_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
