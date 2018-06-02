@@ -10,6 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
 namespace UWP_XMPP_Client.Controls
@@ -54,7 +55,7 @@ namespace UWP_XMPP_Client.Controls
         private MessageResponseHelper<IQMessage> messageResponseHelper;
         private MessageResponseHelper<IQMessage> saveMessageResponseHelper;
 
-        private CustomObservableCollection<MUCInfoOptionTemplate> options;
+        private CustomObservableCollection<MUCInfoFieldTemplate> fields;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -67,7 +68,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public MUCManageControl()
         {
-            this.options = new CustomObservableCollection<MUCInfoOptionTemplate>();
+            this.fields = new CustomObservableCollection<MUCInfoFieldTemplate>();
             this.messageResponseHelper = null;
             this.saveMessageResponseHelper = null;
             this.InitializeComponent();
@@ -143,13 +144,13 @@ namespace UWP_XMPP_Client.Controls
                 // Add controls and update viability:
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    options.Clear();
-                    roomConfigType_tbx.Text = "Configuration level: " + Utils.mucAffiliationToString(responseMessage.configType);
-                    foreach (MUCInfoField o in responseMessage.roomConfig.options)
+                    fields.Clear();
+                    roomConfigType_tbx.Text = "Configuration level: " + Utils.mucAffiliationToString(responseMessage.configLevel);
+                    foreach (Field o in responseMessage.roomConfig.FIELDS)
                     {
-                        if (o.type != MUCInfoFieldType.HIDDEN)
+                        if (o.type != FieldType.HIDDEN)
                         {
-                            options.Add(new MUCInfoOptionTemplate() { option = o });
+                            fields.Add(new MUCInfoFieldTemplate() { field = o });
                         }
                     }
                     reload_btn.IsEnabled = true;
@@ -164,7 +165,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    options.Clear();
+                    fields.Clear();
                     retry_btn.IsEnabled = true;
                     info_grid.Visibility = Visibility.Collapsed;
                     loading_grid.Visibility = Visibility.Collapsed;
@@ -199,10 +200,10 @@ namespace UWP_XMPP_Client.Controls
             save_prgr.IsActive = true;
             save_btn.IsEnabled = false;
 
-            List<MUCInfoField> list = new List<MUCInfoField>();
-            foreach (MUCInfoOptionTemplate t in options)
+            List<Field> list = new List<Field>();
+            foreach (MUCInfoFieldTemplate t in fields)
             {
-                list.Add(t.option);
+                list.Add(t.field);
             }
 
             string chatId = Chat.id;
@@ -218,7 +219,7 @@ namespace UWP_XMPP_Client.Controls
 
                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    saveMessageResponseHelper = Client.MUC_COMMAND_HELPER.saveRoomConfiguration(Chat.chatJabberId, new RoomConfiguration(list), member.affiliation, onSaveMessage, onSaveTimeout);
+                    saveMessageResponseHelper = Client.MUC_COMMAND_HELPER.saveRoomConfiguration(Chat.chatJabberId, new DataForm(DataFormType.SUBMIT, list), member.affiliation, onSaveMessage, onSaveTimeout);
                 });
             });
         }

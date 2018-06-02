@@ -2,18 +2,18 @@
 using System.Xml;
 using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
 {
-    public class MUCInfoField
+    public class Field
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCInfoFieldType type;
         public string var;
         public string label;
         public object value;
-        public List<MUCInfoOption> options;
-        public List<MUCInfoOption> selectedOptions;
+        public FieldType type;
+        public List<FieldOption> options;
+        public List<FieldOption> selectedOptions;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,9 +22,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/02/2018 Created [Fabian Sauter]
+        /// 02/06/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCInfoField(XmlNode node)
+        public Field()
+        {
+            this.options = new List<FieldOption>();
+            this.selectedOptions = new List<FieldOption>();
+            this.value = null;
+            this.var = null;
+            this.label = null;
+        }
+
+        public Field(XmlNode node)
         {
             this.var = node.Attributes["var"]?.Value;
             this.label = node.Attributes["label"]?.Value;
@@ -33,54 +42,46 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             {
                 case "boolean":
                     this.value = XMLUtils.tryParseToBool(getValue(node));
-                    this.type = MUCInfoFieldType.BOOLEAN;
+                    this.type = FieldType.BOOLEAN;
                     break;
 
                 case "text-private":
                     this.value = getValue(node);
-                    this.type = MUCInfoFieldType.TEXT_PRIVATE;
+                    this.type = FieldType.TEXT_PRIVATE;
                     break;
 
                 case "text-single":
                     this.value = getValue(node);
-                    this.type = MUCInfoFieldType.TEXT_SINGLE;
+                    this.type = FieldType.TEXT_SINGLE;
                     break;
 
                 case "text-multi":
-                    this.type = MUCInfoFieldType.TEXT_MULTI;
+                    this.type = FieldType.TEXT_MULTI;
                     break;
 
                 case "fixed":
                     this.value = getValue(node);
-                    this.type = MUCInfoFieldType.FIXED;
+                    this.type = FieldType.FIXED;
                     break;
 
                 case "list-single":
                     this.options = getOptions(node);
                     this.selectedOptions = getSelectedOptions(node, this.options);
-                    this.type = MUCInfoFieldType.LIST_SINGLE;
+                    this.type = FieldType.LIST_SINGLE;
                     break;
 
                 case "list-multi":
                     this.options = getOptions(node);
                     this.selectedOptions = getSelectedOptions(node, this.options);
-                    this.type = MUCInfoFieldType.LIST_MULTI;
+                    this.type = FieldType.LIST_MULTI;
                     break;
 
                 case "hidden":
                 default:
                     this.value = getValue(node);
-                    this.type = MUCInfoFieldType.HIDDEN;
+                    this.type = FieldType.HIDDEN;
                     break;
             }
-        }
-
-        public MUCInfoField()
-        {
-            this.type = MUCInfoFieldType.HIDDEN;
-            this.var = null;
-            this.label = null;
-            this.options = null;
         }
 
         #endregion
@@ -92,24 +93,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             return value?.InnerText;
         }
 
-        private List<MUCInfoOption> getOptions(XmlNode node)
+        private List<FieldOption> getOptions(XmlNode node)
         {
-            List<MUCInfoOption> list = new List<MUCInfoOption>();
+            List<FieldOption> list = new List<FieldOption>();
 
             foreach (XmlNode n in node.ChildNodes)
             {
                 if (Equals(n.Name, "option"))
                 {
-                    list.Add(new MUCInfoOption(n));
+                    list.Add(new FieldOption(n));
                 }
             }
 
             return list;
         }
 
-        private List<MUCInfoOption> getSelectedOptions(XmlNode node, List<MUCInfoOption> options)
+        private List<FieldOption> getSelectedOptions(XmlNode node, List<FieldOption> options)
         {
-            List<MUCInfoOption> list = new List<MUCInfoOption>();
+            List<FieldOption> list = new List<FieldOption>();
 
             foreach (XmlNode n in node.ChildNodes)
             {
@@ -138,24 +139,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             fieldNode.Add(new XAttribute("var", var));
             switch (type)
             {
-                case MUCInfoFieldType.TEXT_SINGLE:
-                case MUCInfoFieldType.TEXT_MULTI:
-                case MUCInfoFieldType.TEXT_PRIVATE:
+                case FieldType.TEXT_SINGLE:
+                case FieldType.TEXT_MULTI:
+                case FieldType.TEXT_PRIVATE:
                     fieldNode.Add(new XElement(ns + "value")
                     {
                         Value = (value?.ToString()) ?? ""
                     });
                     break;
 
-                case MUCInfoFieldType.LIST_SINGLE:
-                case MUCInfoFieldType.LIST_MULTI:
-                    foreach (MUCInfoOption o in selectedOptions)
+                case FieldType.LIST_SINGLE:
+                case FieldType.LIST_MULTI:
+                    foreach (FieldOption o in selectedOptions)
                     {
                         fieldNode.Add(o.toXElement(ns));
                     }
                     break;
 
-                case MUCInfoFieldType.BOOLEAN:
+                case FieldType.BOOLEAN:
                     fieldNode.Add(new XElement(ns + "value")
                     {
                         Value = (bool)value ? "1" : "0"

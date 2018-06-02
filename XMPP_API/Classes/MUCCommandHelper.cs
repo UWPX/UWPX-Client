@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
@@ -90,7 +91,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for RoomInfoMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, RoomConfiguration roomConfiguration, MUCAffiliation configLevel, Func<IQMessage, bool> onMessage, Action onTimeout)
+        public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, DataForm roomConfiguration, MUCAffiliation configLevel, Func<IQMessage, bool> onMessage, Action onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             RoomInfoMessage msg = new RoomInfoMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, roomConfiguration, configLevel);

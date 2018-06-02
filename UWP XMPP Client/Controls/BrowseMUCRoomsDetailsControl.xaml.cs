@@ -10,8 +10,8 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.Controls
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private MessageResponseHelper<ExtendedDiscoResponseMessage> messageResponseHelper;
-        private CustomObservableCollection<MUCInfoOptionTemplate> options;
+        private CustomObservableCollection<MUCInfoFieldTemplate> fields;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -35,7 +35,7 @@ namespace UWP_XMPP_Client.Controls
         {
             this.InitializeComponent();
             this.messageResponseHelper = null;
-            this.options = new CustomObservableCollection<MUCInfoOptionTemplate>();
+            this.fields = new CustomObservableCollection<MUCInfoFieldTemplate>();
         }
 
         #endregion
@@ -85,18 +85,18 @@ namespace UWP_XMPP_Client.Controls
 
         private void showResultDisco(ExtendedDiscoResponseMessage disco)
         {
-            options.Clear();
+            fields.Clear();
             messageResponseHelper?.Dispose();
             messageResponseHelper = null;
 
             if (disco != null && disco.roomConfig != null)
             {
-                disco.roomConfig.options.Sort((a, b) => { return a.type - b.type; });
-                foreach (MUCInfoField o in disco.roomConfig.options)
+                disco.roomConfig.FIELDS.Sort((a, b) => { return a.type - b.type; });
+                foreach (Field f in disco.roomConfig.FIELDS)
                 {
-                    if (o.type != MUCInfoFieldType.HIDDEN)
+                    if (f.type != FieldType.HIDDEN)
                     {
-                        options.Add(new MUCInfoOptionTemplate() { option = o });
+                        fields.Add(new MUCInfoFieldTemplate() { field = f });
                     }
                 }
             }

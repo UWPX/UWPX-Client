@@ -179,7 +179,7 @@ namespace XMPP_API.Classes.Network.XML
                                     switch (qNode.NamespaceURI)
                                     {
                                         case "http://jabber.org/protocol/disco#info":
-                                            if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE) != null)
+                                            if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE) != null)
                                             {
                                                 messages.Add(new ExtendedDiscoResponseMessage(n));
                                             }
@@ -213,7 +213,7 @@ namespace XMPP_API.Classes.Network.XML
                                             if (Consts.MUC_ROOM_INFO_NAMESPACE_REGEX.IsMatch(qNode.NamespaceURI))
                                             {
                                                 // XEP-0045 (MUC) room info owner:
-                                                XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE);
+                                                XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE);
                                                 if (x != null)
                                                 {
                                                     messages.Add(new RoomInfoMessage(n));

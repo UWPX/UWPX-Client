@@ -144,6 +144,11 @@
     <Compile Include="Classes\Network\XML\Messages\Processor\SMConnection.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMState.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataForm.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataFormType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0004\Field.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0004\FieldType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0004\FieldOption.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoItem.cs" />
@@ -152,10 +157,6 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\IDiscoItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanedUser.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\MUCInfoField.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\MUCInfoFieldType.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\MUCInfoOption.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomConfiguration.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
@@ -164,6 +165,9 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />
@@ -261,7 +265,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\Network\XML\Messages\XEP-0060\" />
+    <Folder Include="Classes\Network\XML\Messages\XEP-0048\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

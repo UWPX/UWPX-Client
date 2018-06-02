@@ -32,7 +32,6 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0045_NAMESPACE_USER = "http://jabber.org/protocol/muc#user";
         public const string XML_XEP_0045_NAMESPACE_ADMIN = "http://jabber.org/protocol/muc#admin";
         public const string XML_XEP_0045_NAMESPACE_ROOM_CONFIG = "http://jabber.org/protocol/muc#roomconfig";
-        public const string XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE = "jabber:x:data";
         public static readonly Regex MUC_ROOM_INFO_NAMESPACE_REGEX = new Regex(@"^http:\/\/jabber\.org\/protocol\/muc#((owner)|(admin)|(member)|(none))$");
         // XEP-0249 (Direct MUC Invitations):
         public const string XML_XEP_0249_NAMESPACE = "jabber:x:conference";
@@ -41,5 +40,9 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0198_FAILED_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-stanzas";
         // XEP-0363 (HTTP File Upload):
         public const string XML_XEP_0363_NAMESPACE = "urn:xmpp:http:upload:0";
+        // XEP-0060 (Publish-Subscribe):
+        public const string XML_XEP_0060_NAMESPACE = "http://jabber.org/protocol/pubsub";
+        // XEP-0004 (Data Forms):
+        public const string XML_XEP_0004_NAMESPACE = "jabber:x:data";
     }
 }

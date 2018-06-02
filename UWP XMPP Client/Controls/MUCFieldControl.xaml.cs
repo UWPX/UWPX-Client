@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -9,16 +9,16 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCInfoField Field
+        public Field Field
         {
-            get { return (MUCInfoField)GetValue(FieldProperty); }
+            get { return (Field)GetValue(FieldProperty); }
             set
             {
                 SetValue(FieldProperty, value);
                 showField();
             }
         }
-        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register("Field", typeof(MUCInfoField), typeof(MUCFieldControl), null);
+        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register("Field", typeof(Field), typeof(MUCFieldControl), null);
 
         public bool InputEnabled
         {
@@ -62,27 +62,27 @@ namespace UWP_XMPP_Client.Controls
                 label_tblck.Text = Field.label ?? (Field.var ?? "No description / 'var' given!");
                 switch (Field.type)
                 {
-                    case MUCInfoFieldType.TEXT_SINGLE:
-                    case MUCInfoFieldType.TEXT_MULTI:
+                    case FieldType.TEXT_SINGLE:
+                    case FieldType.TEXT_MULTI:
                         textField_tbx.Text = (string)(Field.value ?? "");
                         textField_tbx.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.TEXT_PRIVATE:
+                    case FieldType.TEXT_PRIVATE:
                         passwordField_pswd.Password = (string)(Field.value ?? "");
                         passwordField_pswd.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.FIXED:
+                    case FieldType.FIXED:
                         label_tblck.Text = (string)(Field.value ?? "");
                         break;
 
-                    case MUCInfoFieldType.BOOLEAN:
+                    case FieldType.BOOLEAN:
                         toggleField_tgls.IsOn = (bool)Field.value;
                         toggleField_tgls.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.LIST_SINGLE:
+                    case FieldType.LIST_SINGLE:
                         listField_cmbb.ItemsSource = Field.options;
                         if (Field.selectedOptions.Count > 0)
                         {
@@ -91,7 +91,7 @@ namespace UWP_XMPP_Client.Controls
                         listField_cmbb.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.LIST_MULTI:
+                    case FieldType.LIST_MULTI:
                         label_tblck.Visibility = Visibility.Collapsed;
 
                         listMulti_msc.header = Field.label ?? (Field.var ?? "No description / 'var' given!");
@@ -101,7 +101,7 @@ namespace UWP_XMPP_Client.Controls
                         listMulti_msc.Visibility = Visibility.Visible;
                         break;
 
-                    case MUCInfoFieldType.HIDDEN:
+                    case FieldType.HIDDEN:
                     default:
                         Visibility = Visibility.Collapsed;
                         break;
@@ -143,21 +143,21 @@ namespace UWP_XMPP_Client.Controls
 
         private void listField_cmbb_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (listField_cmbb.SelectedItem is MUCInfoOption)
+            if (listField_cmbb.SelectedItem is FieldOption)
             {
                 Field.selectedOptions.Clear();
-                Field.selectedOptions.Add(listField_cmbb.SelectedItem as MUCInfoOption);
+                Field.selectedOptions.Add(listField_cmbb.SelectedItem as FieldOption);
             }
         }
 
         private void listMulti_msc_SelectionChanged(MultiSelectControl sender, Classes.Events.SelectionChangedMultiEventArgs args)
         {
-            List<MUCInfoOption> list = new List<MUCInfoOption>();
+            List<FieldOption> list = new List<FieldOption>();
             foreach (object o in args.SELECTED_ITEMS)
             {
-                if (o is MUCInfoOption)
+                if (o is FieldOption)
                 {
-                    list.Add(o as MUCInfoOption);
+                    list.Add(o as FieldOption);
                 }
             }
             Field.selectedOptions = list;

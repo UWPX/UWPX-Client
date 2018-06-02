@@ -12,8 +12,8 @@
     DataContextChanged="UserControl_DataContextChanged">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="mucFieldTemplate" x:DataType="datatemplates:MUCInfoOptionTemplate">
-            <mucinfo:MUCFieldControl Field="{x:Bind option}" Margin="10, 0, 10, 5" InputEnabled="False"/>
+        <DataTemplate x:Key="mucFieldTemplate" x:DataType="datatemplates:MUCInfoFieldTemplate">
+            <mucinfo:MUCFieldControl Field="{x:Bind field, Mode=OneWay}" Margin="10, 0, 10, 5" InputEnabled="False"/>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -28,7 +28,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <ScrollViewer Grid.Row="0">
-                <ItemsControl x:Name="details_itmc" ItemsSource="{x:Bind options}" ItemTemplate="{StaticResource mucFieldTemplate}"/>
+                <ItemsControl x:Name="details_itmc" ItemsSource="{x:Bind fields}" ItemTemplate="{StaticResource mucFieldTemplate}"/>
             </ScrollViewer>
 
             <!--Loading Grid-->

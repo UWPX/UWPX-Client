@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
@@ -9,7 +9,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public RoomConfiguration roomConfig;
+        public DataForm roomConfig;
         public List<string> roomFeatures;
 
         #endregion
@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public ExtendedDiscoResponseMessage(XmlNode n) : base(n)
         {
-            this.roomConfig = new RoomConfiguration();
+            this.roomConfig = new DataForm();
 
             XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
             if (qNode != null)
@@ -33,7 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                     switch (node.Name)
                     {
                         case "x":
-                            if (Equals(node.NamespaceURI, Consts.XML_XEP_0045_ROOM_INFO_DATA_NAMESPACE))
+                            if (Equals(node.NamespaceURI, Consts.XML_XEP_0004_NAMESPACE))
                             {
                                 this.roomConfig.loadRoomConfig(node);
                             }
@@ -43,9 +43,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                             string var = node.Attributes["var"]?.Value;
                             if (var != null && !Equals(var, Consts.XML_XEP_0045_NAMESPACE))
                             {
-                                this.roomConfig.options.Add(new MUCInfoField()
+                                this.roomConfig.FIELDS.Add(new Field()
                                 {
-                                    type = MUCInfoFieldType.BOOLEAN,
+                                    type = FieldType.BOOLEAN,
                                     var = var,
                                     value = true
                                 });

@@ -1,31 +1,13 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
+﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
-namespace UWP_XMPP_Client.DataTemplates
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    class MUCInfoOptionTemplate : INotifyPropertyChanged
+    public class PubSubPublishOptions
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private MUCInfoField _option;
-        public MUCInfoField option
-        {
-            get
-            {
-                return _option;
-            }
-            set
-            {
-                if (value != _option)
-                {
-                    _option = value;
-                    onPropertyChanged("option");
-                }
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public readonly DataForm OPTIONS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,11 +16,11 @@ namespace UWP_XMPP_Client.DataTemplates
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 07/02/2018 Created [Fabian Sauter]
+        /// 02/06/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCInfoOptionTemplate()
+        public PubSubPublishOptions(DataForm options)
         {
-
+            this.OPTIONS = options;
         }
 
         #endregion
@@ -49,15 +31,17 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public XElement toXElement()
+        {
+            XElement pubSubOptNode = new XElement("publish-options");
+            OPTIONS.addToXElement(pubSubOptNode);
+            return pubSubOptNode;
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private void onPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+
 
         #endregion
 

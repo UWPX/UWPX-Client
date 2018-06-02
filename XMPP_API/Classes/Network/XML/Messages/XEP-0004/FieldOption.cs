@@ -1,9 +1,9 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
 {
-    public class MUCInfoOption
+    public class FieldOption
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,15 +17,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/02/2018 Created [Fabian Sauter]
+        /// 02/06/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCInfoOption()
+        public FieldOption()
         {
             this.label = null;
             this.value = null;
         }
 
-        public MUCInfoOption(XmlNode node)
+        public FieldOption(XmlNode node)
         {
             this.label = node.Attributes["label"]?.Value;
             this.value = getValue(node);
@@ -63,9 +63,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 
         public override bool Equals(object obj)
         {
-            if (obj is MUCInfoOption)
+            if (obj is FieldOption o)
             {
-                MUCInfoOption o = obj as MUCInfoOption;
                 return Equals(o.label, label) && Equals(o.value, value);
             }
             return false;

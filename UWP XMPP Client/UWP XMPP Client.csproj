@@ -183,7 +183,7 @@
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
     <Compile Include="DataTemplates\CertificateDetailsTemplate.cs" />
-    <Compile Include="DataTemplates\MUCInfoOptionTemplate.cs" />
+    <Compile Include="DataTemplates\MUCInfoFieldTemplate.cs" />
     <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
