@@ -180,7 +180,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void exportCert_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        private async void exportCert_btn_Click(object sender, RoutedEventArgs e)
         {
             if (Cert != null)
             {

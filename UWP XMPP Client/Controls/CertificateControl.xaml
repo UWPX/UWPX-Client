@@ -58,12 +58,18 @@
                                                     PropertyName="value"/>
                 </telerikGrid:RadDataGrid.Columns>
             </telerikGrid:RadDataGrid>
-            <controls:IconButtonControl x:Name="exportCert_ibtn"
-                                        Margin="0,10,0,0"
-                                        Click="exportCert_ibtn_Click"
-                                        Icon="&#xEDE1;"
-                                        IconForeground="{ThemeResource SystemAccentColor}"
-                                        Text="Export certificate"/>
+            <Button x:Name="exportCert_btn"
+                    Click="exportCert_btn_Click">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="{ThemeResource SystemAccentColor}"
+                               Text="&#xEDE1;"/>
+                    <TextBlock Margin="10,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="Export certificate"/>
+                </StackPanel>
+            </Button>
         </StackPanel>
     </ScrollViewer>
 </UserControl>
