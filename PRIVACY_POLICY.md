@@ -5,7 +5,7 @@ UWPX is an XMPP client, that connects to XMPP servers.
 UWPX doesn't collect data, with one exception: crash reports
 
 ## Crash reporting:
-After a crash, the App will collect data about what happened and uploads this bundle to [HockeyApp](https://hockeyapp.net/features/crashreports/).<br>
+After a crash, the App will collect data about what happened and uploads this bundle to [App Center](https://appcenter.ms) or for versions older than [v.0.6.0.0](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.6.0.0) to [HockeyApp](https://hockeyapp.net/features/crashreports/).<br>
 Althoug it's not recommended, it can be disabled via Settings -> Misc -> "Disable crash reporting".
 
 <details>
