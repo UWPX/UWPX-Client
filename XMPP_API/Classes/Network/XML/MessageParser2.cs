@@ -239,16 +239,6 @@ namespace XMPP_API.Classes.Network.XML
                                         messages.Add(new HTTPUploadResponseSlotMessage(n));
                                         break;
                                     }
-                                    else
-                                    {
-                                        // XEP-0363 (HTTP File Upload) slot request/error:
-                                        XmlNode requestNode = XMLUtils.getChildNode(n, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
-                                        if (requestNode != null)
-                                        {
-                                            messages.Add(new HTTPUploadRequestSlotMessage(n));
-                                            break;
-                                        }
-                                    }
                                 }
 
                                 // Default to IQMessage:
@@ -256,6 +246,15 @@ namespace XMPP_API.Classes.Network.XML
                                 break;
 
                             case IQMessage.ERROR:
+                                // XEP-0363 (HTTP File Upload) request slot error:
+                                XmlNode requestNode = XMLUtils.getChildNode(n, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
+                                if (requestNode != null)
+                                {
+                                    messages.Add(new HTTPUploadErrorMessage(n));
+                                    break;
+                                }
+
+                                // Default to IQErrorMessage:
                                 messages.Add(new IQErrorMessage(n));
                                 break;
 

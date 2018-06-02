@@ -11,8 +11,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
         public readonly string FILE_NAME;
         public readonly string CONTENT_TYPE;
 
-        public readonly HTTPUploadError ERROR;
-
         public const string CONTENT_TYPE_JPEG = "image/jpeg";
 
         #endregion
@@ -33,14 +31,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
 
         public HTTPUploadRequestSlotMessage(XmlNode node) : base(node)
         {
-            XmlNode errorNode = XMLUtils.getChildNode(node, "error");
-            if(errorNode != null)
+            XmlNode requestNode = XMLUtils.getChildNode(node, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
+            if (requestNode != null)
             {
-                this.ERROR = new HTTPUploadError(errorNode);
-            }
-            else
-            {
-                this.ERROR = null;
+                this.FILE_NAME = requestNode.Attributes["filename"]?.Value;
+                this.CONTENT_TYPE = requestNode.Attributes["content-type"]?.Value;
+                uint.TryParse(requestNode.Attributes["size"]?.Value, out this.SIZE_BYTE);
             }
         }
 
