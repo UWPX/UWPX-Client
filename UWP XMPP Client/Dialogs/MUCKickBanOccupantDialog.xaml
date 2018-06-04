@@ -37,8 +37,8 @@
                   Margin="0, 10, 0, 0"
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   SelectionMode="None"
-                  extensions:ListViewBase.StretchItemContainerDirection="Horizontal"
-                  extensions:ListViewBase.AlternateColor="{ThemeResource SystemControlBackgroundListLowBrush}"/>
+                  extensions:ListViewExtensions.StretchItemContainerDirection="Horizontal"
+                  extensions:ListViewExtensions.AlternateColor="{ThemeResource SystemControlBackgroundListLowBrush}"/>
 
         <controls:SeperatorControl Grid.Row="3"
                                    Margin="0, 10, 0, 10"/>

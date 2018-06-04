@@ -63,8 +63,8 @@
                     </Grid>
                     <ListView x:Name="passwords_itmsc"
                               Grid.Row="1"
-                              extensions:ListViewBase.AlternateColor="{ThemeResource SystemControlBackgroundListLowBrush}"
-                              extensions:ListViewBase.StretchItemContainerDirection="Horizontal"
+                              extensions:ListViewExtensions.AlternateColor="{ThemeResource SystemControlBackgroundListLowBrush}"
+                              extensions:ListViewExtensions.StretchItemContainerDirection="Horizontal"
                               ItemTemplate="{StaticResource pwVaultTemplate}"
                               ItemsSource="{x:Bind PASSWORDS, Mode=OneWay}"
                               ScrollViewer.HorizontalScrollMode="Disabled"
