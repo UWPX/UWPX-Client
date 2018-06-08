@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Push_App_Server", "Push_App
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Thread_Save_Components", "Thread_Save_Components\Thread_Save_Components.csproj", "{60938C69-A2D7-4C27-8B73-84C203BD4787}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Component_Tests", "Component_Tests\Component_Tests.csproj", "{0C3E37F5-FF21-41B5-8C9F-492A5536471C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -145,6 +147,26 @@ Global
 		{60938C69-A2D7-4C27-8B73-84C203BD4787}.Release|x64.Build.0 = Release|x64
 		{60938C69-A2D7-4C27-8B73-84C203BD4787}.Release|x86.ActiveCfg = Release|x86
 		{60938C69-A2D7-4C27-8B73-84C203BD4787}.Release|x86.Build.0 = Release|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|ARM.ActiveCfg = Debug|ARM
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|ARM.Build.0 = Debug|ARM
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|ARM.Deploy.0 = Debug|ARM
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|x64.ActiveCfg = Debug|x64
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|x64.Build.0 = Debug|x64
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|x64.Deploy.0 = Debug|x64
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|x86.ActiveCfg = Debug|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|x86.Build.0 = Debug|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Debug|x86.Deploy.0 = Debug|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|Any CPU.ActiveCfg = Release|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|ARM.ActiveCfg = Release|ARM
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|ARM.Build.0 = Release|ARM
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|ARM.Deploy.0 = Release|ARM
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|x64.ActiveCfg = Release|x64
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|x64.Build.0 = Release|x64
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|x64.Deploy.0 = Release|x64
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|x86.ActiveCfg = Release|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|x86.Build.0 = Release|x86
+		{0C3E37F5-FF21-41B5-8C9F-492A5536471C}.Release|x86.Deploy.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

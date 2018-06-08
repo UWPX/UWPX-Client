@@ -6,9 +6,9 @@ namespace XMPP_API.Classes
 {
     /// <summary>
     /// A helper class to parse the by XEP-0082 defined date and time strings
-    /// https://xmpp.org/extensions/xep-0082.html#sect-idm139847125559776
+    /// https://xmpp.org/extensions/xep-0082.html
     /// </summary>
-    class DateTimeParserHelper
+    public class DateTimeParserHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -43,17 +43,20 @@ namespace XMPP_API.Classes
         #region --Misc Methods (Public)--
         public DateTime parse(string dateString)
         {
-            if (DATE_TIME_REGEX.IsMatch(dateString))
+            if(dateString != null)
             {
-                return parseDateTimeString(dateString);
-            }
-            else if (DATE_REGEX.IsMatch(dateString))
-            {
-                return parseDateString(dateString);
-            }
-            else if (TIME_REGEX.IsMatch(dateString))
-            {
-                return parseTimeString(dateString);
+                if (DATE_TIME_REGEX.IsMatch(dateString))
+                {
+                    return parseDateTimeString(dateString);
+                }
+                else if (DATE_REGEX.IsMatch(dateString))
+                {
+                    return parseDateString(dateString);
+                }
+                else if (TIME_REGEX.IsMatch(dateString))
+                {
+                    return parseTimeString(dateString, DateTime.MinValue);
+                }
             }
             return DateTime.MinValue;
         }
@@ -92,8 +95,7 @@ namespace XMPP_API.Classes
             try
             {
                 DateTime date = parseDateString(dateString.Substring(0, dateString.IndexOf('T')));
-                DateTime time = parseTimeString(dateString.Substring(dateString.IndexOf('T') + 1));
-                dateTime = new DateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute, time.Second, time.Millisecond);
+                dateTime = parseTimeString(dateString.Substring(dateString.IndexOf('T') + 1), date);
             }
             catch (Exception e)
             {
@@ -131,9 +133,8 @@ namespace XMPP_API.Classes
             return dateTime;
         }
 
-        private DateTime parseTimeString(string dateString)
+        private DateTime parseTimeString(string dateString, DateTime date)
         {
-            DateTime dateTime = DateTime.MinValue;
             try
             {
                 int hour = -1;
@@ -151,7 +152,7 @@ namespace XMPP_API.Classes
                     hasMilli = true;
                     int.TryParse(dateString.Substring(9, 3), out millisecond);
                 }
-                if (dateString.Contains("+") || dateString.Contains("+"))
+                if (dateString.Contains("+") || dateString.Contains("-"))
                 {
                     if (hasMilli)
                     {
@@ -161,6 +162,8 @@ namespace XMPP_API.Classes
                     {
                         int.TryParse(dateString.Substring(8, 3), out uTCOffset);
                     }
+                    uTCOffset *= -1;
+                    uTCOffset += (int)TimeZoneInfo.Local.GetUtcOffset(DateTime.UtcNow).TotalHours;
                 }
                 else if (dateString.EndsWith("Z"))
                 {
@@ -168,15 +171,14 @@ namespace XMPP_API.Classes
                 }
 
 
-                dateTime = DateTime.Now;
-                dateTime = new DateTime(dateTime.Year, dateTime.Month, dateTime.Day, hour, minute, second, millisecond);
-                dateTime.AddHours(uTCOffset);
+                date = new DateTime(date.Year, date.Month, date.Day, hour, minute, second, millisecond);
+                date = date.AddHours(uTCOffset);
             }
             catch (Exception e)
             {
                 Logger.Error("Error during parsing dateString in parseTimeString() - DateTimeParserHelper", e);
             }
-            return dateTime;
+            return date;
         }
 
         #endregion
