@@ -44,5 +44,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0060_NAMESPACE = "http://jabber.org/protocol/pubsub";
         // XEP-0004 (Data Forms):
         public const string XML_XEP_0004_NAMESPACE = "jabber:x:data";
+        // XEP-0048 (Bookmarks):
+        public const string XML_XEP_0048_NAMESPACE = "storage:bookmarks";
     }
 }

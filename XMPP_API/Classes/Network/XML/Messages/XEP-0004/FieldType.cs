@@ -9,6 +9,7 @@
         FIXED,
         BOOLEAN,
         LIST_SINGLE,
-        LIST_MULTI
+        LIST_MULTI,
+        NONE
     }
 }

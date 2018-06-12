@@ -77,9 +77,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     break;
 
                 case "hidden":
-                default:
                     this.value = getValue(node);
                     this.type = FieldType.HIDDEN;
+                    break;
+
+                default:
+                    this.value = getValue(node);
+                    this.type = FieldType.NONE;
                     break;
             }
         }
@@ -137,6 +141,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         {
             XElement fieldNode = new XElement(ns + "field");
             fieldNode.Add(new XAttribute("var", var));
+            if (type != FieldType.NONE)
+            {
+                fieldNode.Add(new XAttribute("type", type.ToString().ToLower().Replace('_', '-')));
+            }
             switch (type)
             {
                 case FieldType.TEXT_SINGLE:

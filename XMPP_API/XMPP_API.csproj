@@ -140,6 +140,7 @@
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\IXElementable.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMConnection.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMState.cs" />
@@ -165,9 +166,16 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\BookmarksResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\ConferenceItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\RequestBookmarksMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />
@@ -264,9 +272,7 @@
       <Name>Thread_Save_Components</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Classes\Network\XML\Messages\XEP-0048\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

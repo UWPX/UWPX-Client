@@ -232,12 +232,26 @@ namespace XMPP_API.Classes.Network.XML
                                 }
                                 else
                                 {
-                                    // XEP-0363 (HTTP File Upload) slot response:
-                                    XmlNode slotNode = XMLUtils.getChildNode(n, "slot", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
-                                    if (slotNode != null)
+                                    // XEP-0060 (Publish-Subscribe) response:
+                                    XmlNode pubSubNode = XMLUtils.getChildNode(n, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
+                                    if (pubSubNode != null)
                                     {
-                                        messages.Add(new HTTPUploadResponseSlotMessage(n));
-                                        break;
+                                        // XEP-0048 (Bookmarks) response:
+                                        if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0048_NAMESPACE) != null)
+                                        {
+                                            messages.Add(new BookmarksResultMessage(n));
+                                            break;
+                                        }
+                                    }
+                                    else
+                                    {
+                                        // XEP-0363 (HTTP File Upload) slot response:
+                                        XmlNode slotNode = XMLUtils.getChildNode(n, "slot", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
+                                        if (slotNode != null)
+                                        {
+                                            messages.Add(new HTTPUploadResponseSlotMessage(n));
+                                            break;
+                                        }
                                     }
                                 }
 

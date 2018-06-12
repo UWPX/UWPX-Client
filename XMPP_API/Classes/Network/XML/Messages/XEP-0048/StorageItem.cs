@@ -1,14 +1,14 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public class PubSubPublishMessage : IQMessage
+    class StorageItem : IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE_NAME;
-        public readonly PubSubItem ITEM;
-        public readonly PubSubPublishOptions OPTIONS;
+        public readonly List<ConferenceItem> CONFERENCE_ITEMS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,33 +17,43 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 02/06/2018 Created [Fabian Sauter]
+        /// 12/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string nodeName, PubSubItem item, PubSubPublishOptions options) : base(from, null, SET, getRandomId(), getPubsubNode(nodeName, item, options))
+        public StorageItem(List<ConferenceItem> conferenceItems)
         {
-            this.NODE_NAME = nodeName;
-            this.ITEM = item;
-            this.OPTIONS = options;
+            this.CONFERENCE_ITEMS = conferenceItems;
+        }
+
+        public StorageItem(XmlNode node)
+        {
+            CONFERENCE_ITEMS = new List<ConferenceItem>();
+            foreach (XmlNode n in node)
+            {
+                if (string.Equals(n.Name, "conference"))
+                {
+                    CONFERENCE_ITEMS.Add(new ConferenceItem(n));
+                }
+            }
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getPubsubNode(string nodeName, PubSubItem item, PubSubPublishOptions options)
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsubNode = new XElement(ns + "pubsub");
-            pubsubNode.Add(new XAttribute("node", nodeName));
-            pubsubNode.Add(item.toXElement(ns));
-            pubsubNode.Add(options.toXElement());
 
-            return pubsubNode;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public XElement toXElement(XNamespace ns)
+        {
+            XNamespace sNs = Consts.XML_XEP_0048_NAMESPACE;
+            XElement storage = new XElement(sNs + "storage");
+            foreach (ConferenceItem c in CONFERENCE_ITEMS)
+            {
+                storage.Add(c.toXElement(sNs));
+            }
+            return storage;
+        }
 
         #endregion
 
