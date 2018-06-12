@@ -180,7 +180,7 @@
                             FontFamily="Segoe MDL2 Assets"
                             FontSize="20"/>
                 </Grid>
-                <controls:SeperatorControl Grid.Row="1"/>
+                <controls:SeperatorControl Grid.Row="1" Margin="0, -1, 0, 0"/>
             </Grid>
 
             <controls:SeperatorControl Grid.Row="1"/>
