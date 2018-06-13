@@ -1,18 +1,18 @@
-﻿<UserControl
-    x:Class="UWP_XMPP_Client.Controls.AccountImageWithPresenceControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    mc:Ignorable="d"
-    Width="40"
-    Height="40">
-
+﻿<UserControl x:Class="UWP_XMPP_Client.Controls.AccountImageWithPresenceControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Width="40"
+             Height="40"
+             mc:Ignorable="d">
     <UserControl.Resources>
-        <Style TargetType="controls:DropShadowPanel" x:Key="ShadowPanelStyle">
+        <SolidColorBrush Color="#ffffff" x:Key="ImageBackgroundBrush" Opacity="0.4"/>
+        <Style x:Key="ShadowPanelStyle"
+               TargetType="controls:DropShadowPanel">
             <Setter Property="BlurRadius" Value="8"/>
-            <Setter Property="ShadowOpacity" Value="1.0"/>
+            <Setter Property="ShadowOpacity" Value="0.1"/>
             <Setter Property="OffsetX" Value="0.0"/>
             <Setter Property="OffsetY" Value="0.0"/>
             <Setter Property="Color" Value="Black"/>
@@ -26,25 +26,43 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <controls:DropShadowPanel>
-            <Grid Grid.Row="0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Rectangle Grid.Row="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Fill="{ThemeResource SystemControlDisabledChromeDisabledLowBrush}"/>
-                <Viewbox Stretch="Uniform" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                    <TextBlock x:Name="placeholder_tbx" Grid.Column="0" Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}" FontFamily="Segoe MDL2 Assets" Text="&#xE2AF;" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="3"/>
-                </Viewbox>
-            </Grid>
-        </controls:DropShadowPanel>
 
-        <Image x:Name="user_img" Grid.Row="0" Source="{x:Bind Image}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Rectangle Grid.Row="0"
+                           HorizontalAlignment="Stretch"
+                           VerticalAlignment="Stretch"
+                           Fill="{StaticResource ImageBackgroundBrush}"/>
+            <Viewbox HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Stretch="Uniform">
+                <TextBlock x:Name="placeholder_tbx"
+                               Grid.Column="0"
+                               Margin="3"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+                               Text="&#xE2AF;"/>
+            </Viewbox>
+        </Grid>
+
+        <Image x:Name="user_img"
+               Grid.Row="0"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"
+               Source="{x:Bind Image}"/>
 
         <controls:DropShadowPanel Grid.Row="0"
+                                  Margin="0,0,-4,-4"
                                   HorizontalAlignment="Right"
-                                  VerticalAlignment="Bottom"
-                                  Margin="0, 0, -4, -4">
-            <Ellipse x:Name="presence_elipse" Fill="{StaticResource PresenceUnavailable}" Height="13" Width="13"/>
+                                  VerticalAlignment="Bottom">
+            <Ellipse x:Name="presence_elipse"
+                     Width="13"
+                     Height="13"
+                     Fill="{StaticResource PresenceUnavailable}"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>

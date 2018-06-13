@@ -149,6 +149,14 @@
                                               Glyph="&#xEDAF;"/>
                                 </AppBarButton.Icon>
                             </AppBarButton>
+                            <AppBarButton x:Name="manageBookmarks_apbb"
+                                          Click="manageBookmarks_apbb_Click"
+                                          Label="Manage bookmarks">
+                                <AppBarButton.Icon>
+                                    <FontIcon Foreground="Gold"
+                                              Glyph="&#xE734;"/>
+                                </AppBarButton.Icon>
+                            </AppBarButton>
                         </CommandBar.SecondaryCommands>
                     </CommandBar>
                 </controls:MasterDetailsView.MasterCommandBar>

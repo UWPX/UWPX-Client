@@ -294,8 +294,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void ChatPage2_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 return;
             }
@@ -471,6 +470,11 @@ namespace UWP_XMPP_Client.Pages
         {
             ChangeAccountPresenceDialog dialog = new ChangeAccountPresenceDialog();
             await UiUtils.showDialogAsyncQueue(dialog);
+        }
+
+        private void manageBookmarks_apbb_Click(object sender, RoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(ManageBookmarksPage));
         }
 
         private void filter_abb_Checked(object sender, RoutedEventArgs e)

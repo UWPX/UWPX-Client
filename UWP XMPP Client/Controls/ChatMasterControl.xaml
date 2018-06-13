@@ -12,7 +12,7 @@
     <controls1:SlidableListItem x:Name="slideListItem_sli"
                                 MouseSlidingEnabled="True"
                                 LeftBackground="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
-                                LeftForeground="White"
+                                LeftForeground="Gold"
                                 LeftIcon="OutlineStar"
                                 RightBackground="OrangeRed"
                                 RightForeground="White"
@@ -139,7 +139,7 @@
                         <RowDefinition Height="16"/>
                         <RowDefinition Height="16"/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="inRooster_tbck" FontSize="12" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE734;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Right" Margin="0, 0, 1, 0" VerticalAlignment="Center"/>
+                    <TextBlock x:Name="inRooster_tbck" FontSize="12" Grid.Row="0" FontFamily="Segoe MDL2 Assets" Text="&#xE734;" Foreground="Gold" HorizontalAlignment="Right" Margin="0, 0, 1, 0" VerticalAlignment="Center"/>
                     <TextBlock x:Name="muted_tbck" FontSize="13" Grid.Row="1" FontFamily="Segoe MDL2 Assets" Text="&#xE74F;" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                     <TextBlock x:Name="lastAction_tblck" Grid.Row="2" FontSize="10" Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}" TextTrimming="CharacterEllipsis" HorizontalAlignment="Right"/>
                 </Grid>

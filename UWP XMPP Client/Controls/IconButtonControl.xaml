@@ -14,8 +14,8 @@
             IsEnabled="{x:Bind IsEnabled, Mode=OneWay}">
         <StackPanel Orientation="Horizontal">
             <TextBlock VerticalAlignment="Center"
-                       FontFamily="{x:Bind IconFontFamily, Mode=OneWay, FallbackValue='Segoe MDL2 Assets', TargetNullValue='Segoe MDL2 Assets'}"
-                       Foreground="{x:Bind IconForeground, Mode=TwoWay}"
+                       FontFamily="{x:Bind IconFontFamily, Mode=OneWay, TargetNullValue='Segoe MDL2 Assets'}"
+                       Foreground="{x:Bind IconForeground, Mode=OneWay}"
                        Text="{x:Bind Icon, Mode=OneWay}"/>
             <TextBlock Margin="10,0,0,0"
                        VerticalAlignment="Center"
