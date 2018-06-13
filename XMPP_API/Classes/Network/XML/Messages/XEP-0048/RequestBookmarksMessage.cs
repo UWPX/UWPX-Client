@@ -37,7 +37,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #region --Misc Methods (Private)--
         private static XElement getContent()
         {
-            XElement item = new XElement(NS + "item");
+            XElement item = new XElement(NS + "items");
             item.Add(new XAttribute("node", Consts.XML_XEP_0048_NAMESPACE));
             return item;
         }
