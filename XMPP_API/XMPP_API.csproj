@@ -245,6 +245,7 @@
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
     <Compile Include="Classes\Network\XMPPConnection2.cs" />
     <Compile Include="Classes\Presence.cs" />
+    <Compile Include="Classes\PubSubCommandHelper.cs" />
     <Compile Include="Classes\Utils.cs" />
     <Compile Include="Classes\XMPPClient.cs" />
     <Compile Include="Classes\XMPPUser.cs" />

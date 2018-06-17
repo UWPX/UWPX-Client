@@ -1,15 +1,20 @@
-﻿using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Linq;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace UWP_XMPP_Client.Controls
 {
-    public class StorageItem : IXElementable
+    public sealed partial class ManageBookmarksMasterControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<ConferenceItem> CONFERENCE_ITEMS;
-
+        public ConferenceItem Conference
+        {
+            get { return (ConferenceItem)GetValue(ConferenceProperty); }
+            set { SetValue(ConferenceProperty, value); }
+        }
+        public static readonly DependencyProperty ConferenceProperty = DependencyProperty.Register(nameof(Conference), typeof(ConferenceItem), typeof(ManageBookmarksMasterControl), null);
+    
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -17,23 +22,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 17/06/2018 Created [Fabian Sauter]
         /// </history>
-        public StorageItem(List<ConferenceItem> conferenceItems)
+        public ManageBookmarksMasterControl()
         {
-            this.CONFERENCE_ITEMS = conferenceItems;
-        }
-
-        public StorageItem(XmlNode node)
-        {
-            CONFERENCE_ITEMS = new List<ConferenceItem>();
-            foreach (XmlNode n in node)
-            {
-                if (string.Equals(n.Name, "conference"))
-                {
-                    CONFERENCE_ITEMS.Add(new ConferenceItem(n));
-                }
-            }
+            this.InitializeComponent();
         }
 
         #endregion
@@ -44,16 +37,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement(XNamespace ns)
-        {
-            XNamespace sNs = Consts.XML_XEP_0048_NAMESPACE;
-            XElement storage = new XElement(sNs + "storage");
-            foreach (ConferenceItem c in CONFERENCE_ITEMS)
-            {
-                storage.Add(c.toXElement(sNs));
-            }
-            return storage;
-        }
+
 
         #endregion
 

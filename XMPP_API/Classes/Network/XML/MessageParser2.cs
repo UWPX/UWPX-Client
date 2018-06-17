@@ -204,11 +204,6 @@ namespace XMPP_API.Classes.Network.XML
                                             messages.Add(new RosterMessage(n));
                                             break;
 
-                                        // XEP-0048-1.0 (bookmarks result):
-                                        case "jabber:iq:private":
-                                            messages.Add(new BookmarksResultMessage(n));
-                                            break;
-
                                         default:
                                             if (Consts.MUC_ROOM_INFO_NAMESPACE_REGEX.IsMatch(qNode.NamespaceURI))
                                             {

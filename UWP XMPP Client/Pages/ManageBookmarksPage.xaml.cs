@@ -1,15 +1,15 @@
 ﻿using Data_Manager2.Classes;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -21,7 +21,7 @@ namespace UWP_XMPP_Client.Pages
         private List<XMPPClient> clients;
 
         private MessageResponseHelper<IQMessage> messageResponseHelper;
-        private CustomObservableCollection<MUCRoomTemplate> rooms;
+        private CustomObservableCollection<ConferenceItem> bookmarks;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -37,13 +37,22 @@ namespace UWP_XMPP_Client.Pages
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
             this.accounts = new ObservableCollection<string>();
             this.clients = null;
+            this.messageResponseHelper = null;
+            this.bookmarks = new CustomObservableCollection<ConferenceItem>();
             this.InitializeComponent();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private XMPPClient getSelectedClient()
+        {
+            if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
+            {
+                return clients[account_cbx.SelectedIndex];
+            }
+            return null;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -101,9 +110,38 @@ namespace UWP_XMPP_Client.Pages
                 // main_grid.Visibility = Visibility.Collapsed;
                 // loading_grid.Visibility = Visibility.Visible;
                 noneFound_notification.Dismiss();
-
-                //messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRooms(Server, onMessage, onTimeout);
+                messageResponseHelper = c.PUB_SUB_COMMAND_HELPER.requestBookmars(onMessage, onTimeout);
             }
+        }
+
+        private void onTimeout()
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("None found - timeout!")).AsTask();
+        }
+
+        private bool onMessage(AbstractMessage msg)
+        {
+            if (msg is IQErrorMessage errorMsg)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    refresh_btn.IsEnabled = true;
+                    bookmarks.Clear();
+                    noneFound_notification.Show("Request failed with:\n" + errorMsg.ERROR_TYPE + " and " + errorMsg);
+                }).AsTask();
+                return true;
+            }
+            else if (msg is BookmarksResultMessage result)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    refresh_btn.IsEnabled = true;
+                    bookmarks.Clear();
+                    bookmarks.AddRange(result.storage.CONFERENCE_ITEMS);
+                }).AsTask();
+                return true;
+            }
+            return false;
         }
 
         #endregion
@@ -122,31 +160,28 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void addAccount_tblck_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
-        }
-
         private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
-            {
-                XMPPClient c = clients[account_cbx.SelectedIndex];
-                if (!c.isConnected())
-                {
-                    refresh_btn.IsEnabled = false;
-                    showErrorMessage("Account not connected!");
-                }
-                else
-                {
-                    requestBookmarks(c);
-                    hideErrorMessage();
-                }
-            }
-            else
+            refresh();
+        }
+
+        private void refresh()
+        {
+            XMPPClient c = getSelectedClient();
+            if (c == null)
             {
                 refresh_btn.IsEnabled = false;
                 hideErrorMessage();
+            }
+            else if (!c.isConnected())
+            {
+                refresh_btn.IsEnabled = false;
+                showErrorMessage("Account not connected!");
+            }
+            else
+            {
+                hideErrorMessage();
+                requestBookmarks(c);
             }
         }
 
@@ -158,8 +193,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void BrowseMUCRoomsPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 return;
             }
@@ -172,7 +206,17 @@ namespace UWP_XMPP_Client.Pages
 
         private void refresh_btn_Click(object sender, RoutedEventArgs e)
         {
+            refresh();
+        }
 
+        private void addAccount_hlb_Click(object sender, RoutedEventArgs e)
+        {
+            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            messageResponseHelper?.stop();
         }
 
         #endregion

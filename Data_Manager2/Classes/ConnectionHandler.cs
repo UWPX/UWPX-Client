@@ -199,7 +199,6 @@ namespace Data_Manager2.Classes
             // Requesting roster if connected
             c.ConnectionStateChanged += C_ConnectionStateChanged;
             c.MessageSend += C_MessageSend;
-            c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
             return c;
         }
 
@@ -213,7 +212,6 @@ namespace Data_Manager2.Classes
             c.NewPresence -= C_NewPresence;
             c.ConnectionStateChanged -= C_ConnectionStateChanged;
             c.MessageSend -= C_MessageSend;
-            c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
         }
 
         /// <summary>

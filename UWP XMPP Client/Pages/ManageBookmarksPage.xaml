@@ -4,21 +4,21 @@
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controls1="using:UWP_XMPP_Client.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
-      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:xep_0048="using:XMPP_API.Classes.Network.XML.Messages.XEP_0048"
       Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate"
-                      x:DataType="datatemplates:MUCRoomTemplate">
-            <controls1:BrowseMUCRoomsMasterControl RoomInfo="{x:Bind roomInfo}"/>
+                      x:DataType="xep_0048:ConferenceItem">
+            <controls1:ManageBookmarksMasterControl Conference="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate"
-                      x:DataType="datatemplates:MUCRoomTemplate">
-            <controls1:BrowseMUCRoomsDetailsControl Grid.Row="0"/>
+                      x:DataType="xep_0048:ConferenceItem">
+            <controls1:ManageBookmarksDetailsControl Conference="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">
@@ -87,25 +87,24 @@
                                   PlaceholderText="No accounts found!"
                                   SelectionChanged="account_cbx_SelectionChanged"/>
                         <controls1:IconTextBlockControl x:Name="error_itbx"
-                                                        Margin="0,0,0,10"
+                                                        Margin="0,10,0,0"
                                                         Icon="&#xE7BA;"
                                                         IconForeground="Red"
                                                         Visibility="Collapsed"/>
                         <controls1:IconTextBlockControl x:Name="info_itbx"
-                                                        Margin="0,0,0,10"
+                                                        Margin="0,10,0,0"
                                                         Icon="&#xE946;"
                                                         IconForeground="Green"
                                                         Visibility="Collapsed"/>
-                        <TextBlock x:Name="addAccount_tblck"
-                                   Margin="0,10,0,0"
-                                   extensions:Mouse.Cursor="Hand"
-                                   Foreground="{ThemeResource SystemAccentColor}"
-                                   Tapped="addAccount_tblck_Tapped"
-                                   Text="Add an account"/>
+                        <HyperlinkButton x:Name="addAccount_hlb"
+                                         Margin="0,10,0,0"
+                                         Click="addAccount_hlb_Click"
+                                         Content="Add an account"/>
                     </StackPanel>
                     <Button x:Name="refresh_btn"
                             Grid.Column="1"
                             HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
                             Click="refresh_btn_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center"
@@ -126,7 +125,7 @@
                                         Background="Transparent"
                                         DetailsTemplate="{StaticResource detailsTemplate}"
                                         ItemTemplate="{StaticResource masterTemplate}"
-                                        ItemsSource="{x:Bind rooms, Mode=OneWay}"
+                                        ItemsSource="{x:Bind bookmarks, Mode=OneWay}"
                                         MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         NoSelectionContentTemplate="{StaticResource noSelectionTemplate}">
                 <controls:MasterDetailsView.ItemContainerStyle>

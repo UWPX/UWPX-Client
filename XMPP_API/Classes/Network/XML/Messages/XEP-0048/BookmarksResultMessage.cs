@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    class BookmarksResultMessage : PubSubResultMessage
+    public class BookmarksResultMessage : PubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// </history>
         public BookmarksResultMessage(XmlNode node) : base(node)
         {
-            this.storage = null;
+            this.storage = new StorageItem(node);
         }
 
         #endregion

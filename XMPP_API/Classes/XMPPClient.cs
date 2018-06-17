@@ -34,11 +34,11 @@ namespace XMPP_API.Classes
         public event NewChatStateEventHandler NewChatState;
         public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
         public event MessageSendEventHandler MessageSend;
-        public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
         public event NewValidMessageEventHandler NewValidMessage;
 
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
+        public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -52,6 +52,7 @@ namespace XMPP_API.Classes
         public XMPPClient(XMPPAccount account)
         {
             this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
+            this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
             initConnection(account);
         }
 
@@ -280,11 +281,6 @@ namespace XMPP_API.Classes
             else if (msg is DiscoResponseMessage)
             {
                 NewDiscoResponseMessage?.Invoke(this, new NewDiscoResponseMessageEventArgs(msg as DiscoResponseMessage));
-            }
-            // XEP-0048-1.0 (bookmarks result):
-            else if (msg is BookmarksResultMessage)
-            {
-                NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(msg as BookmarksResultMessage));
             }
 
             NewValidMessage?.Invoke(this, args);

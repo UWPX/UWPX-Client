@@ -148,6 +148,12 @@
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ManageBookmarksDetailsControl.xaml.cs">
+      <DependentUpon>ManageBookmarksDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ManageBookmarksMasterControl.xaml.cs">
+      <DependentUpon>ManageBookmarksMasterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\MUCInfoControl.xaml.cs">
       <DependentUpon>MUCInfoControl.xaml</DependentUpon>
     </Compile>
@@ -463,6 +469,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LoadingContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ManageBookmarksDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\ManageBookmarksMasterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
