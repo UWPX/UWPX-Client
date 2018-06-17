@@ -76,7 +76,7 @@ namespace UWP_XMPP_Client.Classes
         public static async Task deleteCustomBackgroundImage()
         {
             string imgName = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME);
-            if(imgName == null)
+            if (imgName == null)
             {
                 return;
             }
@@ -152,26 +152,29 @@ namespace UWP_XMPP_Client.Classes
                 try
                 {
                     // Load custom background image:
-                    try
+                    if (imgName != null)
                     {
-                        StorageFolder customImagefolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("BackgroundImage", CreationCollisionOption.OpenIfExists);
-                        if (customImagefolder != null)
+                        try
                         {
-                            StorageFile f = await customImagefolder.GetFileAsync(imgName);
-                            if (f != null)
+                            StorageFolder customImagefolder = await ApplicationData.Current.LocalFolder.CreateFolderAsync("BackgroundImage", CreationCollisionOption.OpenIfExists);
+                            if (customImagefolder != null)
                             {
-                                customBackgroundImage = new BackgroundImageTemplate()
+                                StorageFile f = await customImagefolder.GetFileAsync(imgName);
+                                if (f != null)
                                 {
-                                    imagePath = f.Path,
-                                    name = imgName,
-                                    selected = false
-                                };
+                                    customBackgroundImage = new BackgroundImageTemplate()
+                                    {
+                                        imagePath = f.Path,
+                                        name = imgName,
+                                        selected = false
+                                    };
+                                }
                             }
                         }
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("Error during loading the custom background image!", e);
+                        catch (Exception e)
+                        {
+                            Logger.Error("Error during loading the custom background image!", e);
+                        }
                     }
 
                     // Set image based on mode:
