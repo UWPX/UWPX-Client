@@ -15,6 +15,16 @@
                          Color="#A21025"/>
         <SolidColorBrush x:Key="PresenceUnavailable"
                          Color="#4C4A4B"/>
+
+        <SolidColorBrush x:Key="SpeechBubbleBackgroundDarkBrush"
+                         Opacity="0.9"
+                         Color="{ThemeResource SystemAccentColorDark3}"/>
+        <SolidColorBrush x:Key="SpeechBubbleBackgroundLightBrush"
+                         Opacity="0.9"
+                         Color="{ThemeResource SystemAccentColorDark1}"/>
+        <SolidColorBrush x:Key="SpeechBubbleBackgroundInfoBrush"
+                         Opacity="0.9"
+                         Color="#4C4A48"/>
     </Application.Resources>
 
 </Application>
