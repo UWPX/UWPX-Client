@@ -97,7 +97,6 @@
                                                         IconForeground="Green"
                                                         Visibility="Collapsed"/>
                         <HyperlinkButton x:Name="addAccount_hlb"
-                                         Margin="0,10,0,0"
                                          Click="addAccount_hlb_Click"
                                          Content="Add an account"/>
                     </StackPanel>

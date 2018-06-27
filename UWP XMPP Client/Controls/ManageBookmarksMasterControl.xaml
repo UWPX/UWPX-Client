@@ -1,13 +1,46 @@
-﻿<UserControl
-    x:Class="UWP_XMPP_Client.Controls.ManageBookmarksMasterControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWP_XMPP_Client.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+﻿<UserControl x:Class="UWP_XMPP_Client.Controls.ManageBookmarksMasterControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <datatemplates:BoolVisabilityValueConverter x:Key="boolVisabilityValueConverter"/>
+        <datatemplates:StringEmptyVisabilityValueConverter x:Key="stringEmptyVisabilityValueConverter"/>
+    </UserControl.Resources>
 
     <Grid>
-
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Column="0">
+            <TextBlock Text="{x:Bind Conference.name, Mode=OneWay}"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="{x:Bind Conference.jid, Mode=OneWay}"
+                       TextWrapping="Wrap"/>
+            <TextBlock Text="{x:Bind Conference.nick, Mode=OneWay}"
+                       TextWrapping="Wrap"/>
+        </StackPanel>
+        <StackPanel Grid.Column="1"
+                    VerticalAlignment="Center">
+            <TextBlock FontFamily="Segoe MDL2 Assets"
+                       FontSize="13"
+                       Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                       Text="&#xE751;"
+                       Visibility="{x:Bind Conference.autoJoin, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
+            <TextBlock FontFamily="Segoe MDL2 Assets"
+                       FontSize="13"
+                       Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                       Text="&#xE743;"
+                       Visibility="{x:Bind Conference.minimize, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
+            <TextBlock FontFamily="Segoe MDL2 Assets"
+                       FontSize="13"
+                       Foreground="{ThemeResource SystemAccentColor}"
+                       Text="&#xE72E;"
+                       Visibility="{x:Bind Conference.password, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
+        </StackPanel>
     </Grid>
 </UserControl>

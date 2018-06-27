@@ -185,6 +185,7 @@
       <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
+    <Compile Include="DataTemplates\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
     <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
@@ -196,6 +197,7 @@
     <Compile Include="DataTemplates\PasswordCredentialTemplate.cs" />
     <Compile Include="DataTemplates\PresenceTemplate.cs" />
     <Compile Include="DataTemplates\RTTValueConverter.cs" />
+    <Compile Include="DataTemplates\BoolVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
