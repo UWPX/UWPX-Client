@@ -20,7 +20,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// </history>
         public BookmarksResultMessage(XmlNode node) : base(node)
         {
-            this.storage = new StorageItem(node);
         }
 
         #endregion
