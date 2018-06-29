@@ -161,7 +161,7 @@ namespace XMPP_API.Classes.Network.XML
                         {
                             case IQMessage.SET:
                                 // Rooster:
-                                if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:roster") != null)
+                                if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_ROSTER_NAMESPACE) != null)
                                 {
                                     messages.Add(new RosterMessage(n));
                                 }
@@ -200,7 +200,7 @@ namespace XMPP_API.Classes.Network.XML
                                             break;
 
                                         // Rooster:
-                                        case "jabber:iq:roster":
+                                        case Consts.XML_ROSTER_NAMESPACE:
                                             messages.Add(new RosterMessage(n));
                                             break;
 
