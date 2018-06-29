@@ -37,6 +37,7 @@ namespace XMPP_API.Classes
         public event MessageSendEventHandler MessageSend;
         public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
         public event NewValidMessageEventHandler NewValidMessage;
+        public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
 
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
         public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
@@ -77,11 +78,6 @@ namespace XMPP_API.Classes
             return presenceMessage.getId();
         }
 
-        public async Task setBookmarkAsync(ConferenceItem conference)
-        {
-            await connection.sendAsync(new AddBookmarksMessage(connection.account.getIdDomainAndResource(), conference), true, false);
-        }
-
         public ConnectionState getConnetionState()
         {
             return connection.state;
@@ -113,6 +109,7 @@ namespace XMPP_API.Classes
                 connection.ConnectionNewValidMessage -= Connection_ConnectionNewValidMessage;
                 connection.ConnectionNewPresenceMessage -= Connection_ConnectionNewPresenceMessage;
                 connection.MessageSend -= Connection_MessageSend;
+                connection.NewBookmarksResultMessage -= Connection_NewBookmarksResultMessage;
             }
 
             initConnection(account);
@@ -239,6 +236,7 @@ namespace XMPP_API.Classes
             connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
             connection.ConnectionNewPresenceMessage += Connection_ConnectionNewPresenceMessage;
             connection.MessageSend += Connection_MessageSend;
+            connection.NewBookmarksResultMessage += Connection_NewBookmarksResultMessage;
         }
 
         #endregion
@@ -303,6 +301,11 @@ namespace XMPP_API.Classes
         private void Connection_MessageSend(XMPPConnection2 connection, MessageSendEventArgs args)
         {
             MessageSend?.Invoke(this, args);
+        }
+
+        private void Connection_NewBookmarksResultMessage(XMPPConnection2 connection, NewBookmarksResultMessageEventArgs args)
+        {
+            NewBookmarksResultMessage?.Invoke(this, args);
         }
 
         #endregion

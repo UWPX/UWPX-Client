@@ -199,6 +199,7 @@ namespace Data_Manager2.Classes
             // Requesting roster if connected
             c.ConnectionStateChanged += C_ConnectionStateChanged;
             c.MessageSend += C_MessageSend;
+            c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
             return c;
         }
 
@@ -212,6 +213,7 @@ namespace Data_Manager2.Classes
             c.NewPresence -= C_NewPresence;
             c.ConnectionStateChanged -= C_ConnectionStateChanged;
             c.MessageSend -= C_MessageSend;
+            c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
         }
 
         /// <summary>
@@ -577,8 +579,6 @@ namespace Data_Manager2.Classes
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
         {
-            BookmarksResultMessage msg = args.BOOKMARKS_MESSAGE;
-
             foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.storage.CONFERENCE_ITEMS)
             {
                 bool newMUC = false;

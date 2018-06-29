@@ -11,6 +11,7 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace XMPP_API.Classes.Network
 {
@@ -35,10 +36,12 @@ namespace XMPP_API.Classes.Network
 
         public delegate void ConnectionNewValidMessageEventHandler(XMPPConnection2 connection, NewValidMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPConnection2 connection, MessageSendEventArgs args);
+        public delegate void NewBookmarksResultMessageEventHandler(XMPPConnection2 connection, NewBookmarksResultMessageEventArgs args);
 
         public event ConnectionNewValidMessageEventHandler ConnectionNewValidMessage;
         public event ConnectionNewValidMessageEventHandler ConnectionNewRoosterMessage;
         public event ConnectionNewValidMessageEventHandler ConnectionNewPresenceMessage;
+        public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event MessageSendEventHandler MessageSend;
 
         /// <summary>
@@ -530,6 +533,11 @@ namespace XMPP_API.Classes.Network
                 else if (msg is PresenceMessage && (msg as PresenceMessage).getFrom() != null)
                 {
                     ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
+                }
+                // Bookmarks:
+                else if (msg is BookmarksResultMessage)
+                {
+                    NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(msg as BookmarksResultMessage));
                 }
             }
         }

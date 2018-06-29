@@ -69,11 +69,18 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             sendId = msg.getId();
 
-            CLIENT.NewValidMessage -= Client_NewValidMessage;
-            CLIENT.NewValidMessage += Client_NewValidMessage;
+            if (ON_MESSAGE != null)
+            {
+                CLIENT.NewValidMessage -= Client_NewValidMessage;
+                CLIENT.NewValidMessage += Client_NewValidMessage;
+            }
 
             await CLIENT.sendMessageAsync(msg, false);
-            statTimer();
+
+            if (ON_TIMEOUT != null)
+            {
+                statTimer();
+            }
         }
 
         private void statTimer()

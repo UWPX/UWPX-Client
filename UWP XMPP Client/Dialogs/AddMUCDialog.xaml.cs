@@ -181,7 +181,7 @@ namespace UWP_XMPP_Client.Dialogs
 
                 if ((bool)bookmark_cbx.IsChecked)
                 {
-                    Task t = c.setBookmarkAsync(info.toConferenceItem(muc));
+                    c.PUB_SUB_COMMAND_HELPER.addBookmark(null, null, info.toConferenceItem(muc));
                 }
 
                 return true;

@@ -98,17 +98,6 @@ namespace Data_Manager2.Classes
             MUCDBManager.INSTANCE.setMUCState(info.chatId, MUCState.DISCONNECTED, true);
         }
 
-        /// <summary>
-        /// Creates a new Task and sends all bookmarks to the server.
-        /// </summary>
-        /// <param name="client">The XMPPClient which bookmarks should get updated.</param>
-        /// <param name="cI">The ConferenceItem that should get updated.</param>
-        /// <returns>Returns the Task created by this call.</returns>
-        public Task updateBookmarks(XMPPClient client, ConferenceItem cI)
-        {
-            return client.setBookmarkAsync(cI);
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--

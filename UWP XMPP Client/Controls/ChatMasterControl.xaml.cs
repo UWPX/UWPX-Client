@@ -69,6 +69,7 @@ namespace UWP_XMPP_Client.Controls
 
         private bool subscriptionRequest;
         private ChatMessageTable lastChatMessage;
+        private MessageResponseHelper<IQMessage> updateBookmarkHelper;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -84,6 +85,7 @@ namespace UWP_XMPP_Client.Controls
             this.InitializeComponent();
             this.subscriptionRequest = false;
             this.lastChatMessage = null;
+            this.updateBookmarkHelper = null;
         }
 
         #endregion
@@ -361,14 +363,45 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && Chat != null)
             {
                 Chat.inRoster = !Chat.inRoster;
+                ConferenceItem cI = MUCInfo.toConferenceItem(Chat);
+                if (updateBookmarkHelper != null)
+                {
+                    updateBookmarkHelper.Dispose();
+                }
                 if (Chat.inRoster)
                 {
-                    ConferenceItem cI = MUCInfo.toConferenceItem(Chat);
-                    Task t = Client.setBookmarkAsync(cI);
+                    updateBookmarkHelper = Client.PUB_SUB_COMMAND_HELPER.addBookmark(onSetBookmarkMessage, onSetBookmarkTimeout, cI);
                 }
-                // ToDo remove MUC from bookmarks
+                else
+                {
+                    // ToDo remove MUC from bookmarks
+                }
                 ChatDBManager.INSTANCE.setChat(Chat, false, false);
             }
+        }
+
+        private void onSetBookmarkTimeout()
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                TextDialog dialog = new TextDialog("Failed to bookmark!\nServer did not respond in time.", "Error");
+                Task t = UiUtils.showDialogAsyncQueue(dialog);
+            }).AsTask();
+        }
+
+        private bool onSetBookmarkMessage(IQMessage msg)
+        {
+            if(msg is IQErrorMessage errMsg)
+            {
+                TextDialog dialog = new TextDialog("Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
+                Task t = UiUtils.showDialogAsyncQueue(dialog);
+                return true;
+            }
+            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            {
+                return true;
+            }
+            return false;
         }
 
         private async Task deleteChatAsync()
@@ -544,7 +577,7 @@ namespace UWP_XMPP_Client.Controls
 
                 if (Chat.inRoster)
                 {
-                    MUCHandler.INSTANCE.updateBookmarks(Client, MUCInfo.toConferenceItem(Chat));
+                    Client.PUB_SUB_COMMAND_HELPER.addBookmark(null, null, MUCInfo.toConferenceItem(Chat));
                 }
             }
         }

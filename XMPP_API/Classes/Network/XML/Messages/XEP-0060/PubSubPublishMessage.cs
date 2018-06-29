@@ -29,20 +29,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         {
             XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
             XElement pubsubNode = new XElement(ns + "pubsub");
-            pubsubNode.Add(new XAttribute("node", NODE_NAME));
+            XElement publishNode = new XElement(ns + "publish");
+            publishNode.Add(new XAttribute("node", NODE_NAME));
             PubSubItem item = getPubSubItem();
             if (item != null)
             {
-                pubsubNode.Add(item.toXElement(ns));
+                publishNode.Add(item.toXElement(ns));
             }
 
             PubSubPublishOptions options = getPublishOptions();
 
             if (options != null)
             {
-                pubsubNode.Add(options.toXElement());
+                publishNode.Add(options.toXElement());
             }
 
+            pubsubNode.Add(publishNode);
             return pubsubNode;
         }
 

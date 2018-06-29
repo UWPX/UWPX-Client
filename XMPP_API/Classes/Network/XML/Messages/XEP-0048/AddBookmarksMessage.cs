@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
             options.OPTIONS.FIELDS.Add(new Field()
             {
                 var = "pubsub#persist_items",
-                value = "true",
+                value = true,
                 type = FieldType.BOOLEAN
             });
             options.OPTIONS.FIELDS.Add(new Field()

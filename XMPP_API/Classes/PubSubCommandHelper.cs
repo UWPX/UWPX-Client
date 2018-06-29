@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
@@ -45,7 +46,37 @@ namespace XMPP_API.Classes
             helper.start(msg);
             return helper;
         }
-        
+
+        /// <summary>
+        /// Sends a AddBookmarksMessage for storing the given bookmark on the server.
+        /// </summary>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <param name="conferenceItem">The bookmark that should get stored on the server.</param>
+        /// <returns>Returns a MessageResponseHelper listening for AddBookmarksMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> addBookmark(Func<IQMessage, bool> onMessage, Action onTimeout, ConferenceItem conferenceItem)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            AddBookmarksMessage msg = new AddBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a AddBookmarksMessage for storing the given bookmarks on the server.
+        /// </summary>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <param name="conferenceItem">The bookmark that should get stored on the server.</param>
+        /// <returns>Returns a MessageResponseHelper listening for AddBookmarksMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> addBookmarks(Func<IQMessage, bool> onMessage, Action onTimeout, List<ConferenceItem> conferenceItems)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            AddBookmarksMessage msg = new AddBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItems);
+            helper.start(msg);
+            return helper;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
