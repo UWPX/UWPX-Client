@@ -8,9 +8,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool isRoomConfigrationAllowed;
-        public DataForm roomConfig;
-        public MUCAffiliation configLevel;
+        public readonly bool IS_ROOM_CONFIGURATION_ALLOWED;
+        public readonly DataForm ROOM_CONFIG;
+        public readonly MUCAffiliation CONFIG_LEVEL;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,26 +26,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             XmlNode qNode = XMLUtils.getChildNode(node, "query", Consts.XML_XMLNS, Consts.MUC_ROOM_INFO_NAMESPACE_REGEX);
             if (qNode != null)
             {
-                configLevel = getRoomConfigLevel(qNode.Attributes[Consts.XML_XMLNS].Value);
+                CONFIG_LEVEL = getRoomConfigLevel(qNode.Attributes[Consts.XML_XMLNS].Value);
                 XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE);
                 if (x != null)
                 {
-                    this.isRoomConfigrationAllowed = true;
-                    this.roomConfig = new DataForm(x);
+                    this.IS_ROOM_CONFIGURATION_ALLOWED = true;
+                    this.ROOM_CONFIG = new DataForm(x);
                     return;
                 }
                 else
                 {
-                    isRoomConfigrationAllowed = false;
-                    this.roomConfig = null;
+                    IS_ROOM_CONFIGURATION_ALLOWED = false;
+                    this.ROOM_CONFIG = null;
                 }
             }
         }
 
-        public RoomInfoMessage(string from, string to, DataForm roomConfig, MUCAffiliation configType) : base(from, to, SET, getRandomId(), getQuery(roomConfig, configType))
+        public RoomInfoMessage(string from, string to, DataForm roomConfig, MUCAffiliation configType) : base(from, to, SET, getRandomId())
         {
-            this.roomConfig = roomConfig;
-            this.configLevel = configType;
+            this.ROOM_CONFIG = roomConfig;
+            this.CONFIG_LEVEL = configType;
         }
 
         #endregion
@@ -64,12 +64,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         #endregion
 
         #region --Misc Methods (Private)--
-        private static XElement getQuery(DataForm roomConfig, MUCAffiliation configType)
+        protected override XElement getQuery()
         {
-            XNamespace qNs = "http://jabber.org/protocol/muc#" + Utils.mucAffiliationToString(configType);
+            XNamespace qNs = Consts.XML_XEP_0045_NAMESPACE + "#" + Utils.mucAffiliationToString(CONFIG_LEVEL);
             XElement query = new XElement(qNs + "query");
 
-            roomConfig.addToXElement(query);
+            ROOM_CONFIG.addToXElement(query);
             return query;
         }
 

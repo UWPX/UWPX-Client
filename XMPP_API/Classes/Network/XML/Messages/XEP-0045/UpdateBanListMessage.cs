@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public List<BanedUser> changedUsers;
+        public readonly List<BanedUser> UPDATED_USERS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,20 +18,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// <history>
         /// 13/03/2018 Created [Fabian Sauter]
         /// </history>
-        public UpdateBanListMessage(string from, string roomJid, List<BanedUser> changedUsers) : base(from, roomJid, SET, getRandomId(), getQueryNode(changedUsers))
+        public UpdateBanListMessage(string from, string roomJid, List<BanedUser> changedUsers) : base(from, roomJid, SET, getRandomId())
         {
-            this.changedUsers = changedUsers;
+            this.UPDATED_USERS = changedUsers;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getQueryNode(List<BanedUser> changedUsers)
+        protected override XElement getQuery()
         {
             XNamespace ns = Consts.XML_XEP_0045_NAMESPACE_ADMIN;
             XElement queryNode = new XElement(ns + "query");
 
-            foreach (BanedUser u in changedUsers)
+            foreach (BanedUser u in UPDATED_USERS)
             {
                 u.addToNode(queryNode, ns);
             }

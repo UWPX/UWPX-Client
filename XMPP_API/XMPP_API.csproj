@@ -171,9 +171,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\BookmarksResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\ConferenceItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\RemoveBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\RequestBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\AddBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
@@ -195,10 +197,6 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRole.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRoomSubjectMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\ConferenceItem.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\RequestBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\BookmarksResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048-1_0\SetBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
@@ -235,7 +233,6 @@
     <Compile Include="Classes\Network\XML\Messages\OpenStreamAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RequestvCardMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeSolutionMessage.cs" />

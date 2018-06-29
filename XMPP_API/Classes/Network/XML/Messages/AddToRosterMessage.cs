@@ -3,11 +3,11 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class AddToRosterMessage : IQMessage
+    public class AddToRosterMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly string TARGET;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,19 +22,20 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
         }
 
-        public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId(), getAddToRoosterQuery(target))
+        public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId())
         {
+            this.TARGET = target;
             this.cacheUntilSend = true;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getAddToRoosterQuery(string target)
+        protected override XElement getQuery()
         {
             XNamespace ns = "jabber:iq:roster";
             XElement node = new XElement(ns + "query");
-            node.Add(new XElement(ns + "item", new XAttribute("jid", target)));
+            node.Add(new XElement(ns + "item", new XAttribute("jid", TARGET)));
             return node;
         }
 

@@ -6,7 +6,8 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0054;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes
@@ -78,7 +79,7 @@ namespace XMPP_API.Classes
 
         public async Task setBookmarkAsync(ConferenceItem conference)
         {
-            await connection.sendAsync(new SetBookmarksMessage(connection.account.getIdDomainAndResource(), conference), true, false);
+            await connection.sendAsync(new AddBookmarksMessage(connection.account.getIdDomainAndResource(), conference), true, false);
         }
 
         public ConnectionState getConnetionState()
@@ -192,7 +193,7 @@ namespace XMPP_API.Classes
         public async Task requestVCardAsync(string jabberId)
         {
             XMPPAccount account = connection.account;
-            await connection.sendAsync(new RequestvCardMessage(jabberId, account.getIdDomainAndResource()), false, false);
+            await connection.sendAsync(new RequestVCardMessage(jabberId, account.getIdDomainAndResource()), false, false);
         }
 
         public async Task requestBookmarksAsync()

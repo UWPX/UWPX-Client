@@ -9,7 +9,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public List<BanedUser> banedUsers;
+        public readonly List<BanedUser> BANED_USERS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,14 +20,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// <history>
         /// 12/03/2018 Created [Fabian Sauter]
         /// </history>
-        public BanListMessage(string from, string roomJid) : base(from, roomJid, GET, getRandomId(), getQueryNode())
+        public BanListMessage(string from, string roomJid) : base(from, roomJid, GET, getRandomId())
         {
-            this.banedUsers = null;
+            this.BANED_USERS = new List<BanedUser>();
         }
 
         public BanListMessage(XmlNode node) : base(node)
         {
-            this.banedUsers = new List<BanedUser>();
+            this.BANED_USERS = new List<BanedUser>();
 
             XmlNode qNode = XMLUtils.getChildNode(node, "query", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_ADMIN);
             if (qNode != null)
@@ -36,7 +36,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                 {
                     if (Equals(n.Name, "item"))
                     {
-                        banedUsers.Add(new BanedUser(n));
+                        BANED_USERS.Add(new BanedUser(n));
                     }
                 }
             }
@@ -45,7 +45,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getQueryNode()
+        protected override XElement getQuery()
         {
             XNamespace ns = Consts.XML_XEP_0045_NAMESPACE_ADMIN;
             XElement queryNode = new XElement(ns + "query");

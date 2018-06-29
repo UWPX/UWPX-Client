@@ -1,9 +1,8 @@
 ﻿using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0054
 {
-    // https://xmpp.org/extensions/attic/xep-0048-1.0.html
-    public class RequestBookmarksMessage : IQMessage
+    public class RequestVCardMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,21 +15,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 11/12/2017 Created [Fabian Sauter]
+        /// 29/06/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestBookmarksMessage(string from) : base(from, null, GET, getRandomId(), getBookmarksQuery())
+        public RequestVCardMessage(string target, string from) : base(from, target, GET, getRandomId())
         {
         }
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getBookmarksQuery()
+        protected override XElement getQuery()
         {
-            XNamespace ns = "jabber:iq:private";
-            XElement node = new XElement(ns + "query");
-            XNamespace nsS = "storage:bookmarks";
-            node.Add(new XElement(nsS + "storage"));
-            return node;
+            XNamespace ns = Consts.XML_XEP_0054_NAMESPACE;
+            return new XElement(ns + "query");
         }
 
         #endregion

@@ -8,7 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ArrayList items;
+        public readonly ArrayList ITEMS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,26 +19,37 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 28/08/2017 Created [Fabian Sauter]
         /// </history>
-        public RosterMessage(XmlNode answer) : base(answer)
+        public RosterMessage(XmlNode n) : base(n)
         {
-            loadItems();
+            XmlNode query = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:roster");
+            this.ITEMS = new ArrayList();
+            if (query != null)
+            {
+                foreach (XmlNode n1 in query.ChildNodes)
+                {
+                    if (n1.Name.Equals("presence"))
+                    {
+                        this.ITEMS.Add(new PresenceMessage(n1));
+                    }
+                    else
+                    {
+                        this.ITEMS.Add(new RosterItem(n1));
+                    }
+                }
+            }
         }
 
-        public RosterMessage(string from, string to) : base(from, to, GET, getRandomId(), getRoosterQuery())
+        public RosterMessage(string from, string to) : base(from, to, GET, getRandomId())
         {
+            this.ITEMS = null;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public ArrayList getItems()
+        protected override XElement getQuery()
         {
-            return items;
-        }
-
-        private static XElement getRoosterQuery()
-        {
-            XNamespace ns = "jabber:iq:roster";
+            XNamespace ns = Consts.XML_ROSTER_NAMESPACE;
             return new XElement(ns + "query");
         }
 
@@ -50,25 +61,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void loadItems()
-        {
-            XmlNode query = XMLUtils.getChildNode(ANSWER, "query", Consts.XML_XMLNS, "jabber:iq:roster");
-            items = new ArrayList();
-            if (query != null)
-            {
-                foreach (XmlNode n in query.ChildNodes)
-                {
-                    if (n.Name.Equals("presence"))
-                    {
-                        items.Add(new PresenceMessage(n));
-                    }
-                    else
-                    {
-                        items.Add(new RosterItem(n));
-                    }
-                }
-            }
-        }
+
 
         #endregion
 

@@ -7,7 +7,7 @@ using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes
 {

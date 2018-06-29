@@ -1,6 +1,6 @@
 ﻿using SQLite;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes.DBTables
 {

@@ -6,7 +6,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly string SERVER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,8 +17,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
         /// <history>
         /// 18/11/2017 Created [Fabian Sauter]
         /// </history>
-        public RequestEnableNotificationsMessage(string server) : base(null, null, SET, getRandomId(), generateQuery(server))
+        public RequestEnableNotificationsMessage(string server) : base(null, null, SET, getRandomId())
         {
+            this.SERVER = server;
         }
 
         #endregion
@@ -34,11 +35,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
         #endregion
 
         #region --Misc Methods (Private)--
-        private static XElement generateQuery(string server)
+        protected override XElement getQuery()
         {
             XNamespace ns = Consts.XML_XEP_0357_NAMESPACE;
             XElement n = new XElement(ns + "enable");
-            n.Add(new XAttribute("jid", server));
+            n.Add(new XAttribute("jid", SERVER));
             n.Add(new XAttribute("node", "yxs32uqsflafdk3iuqo"));
             return n;
         }

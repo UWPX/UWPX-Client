@@ -19,7 +19,6 @@ using Windows.UI.Xaml.Input;
 using Data_Manager2.Classes.Events;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -602,7 +601,7 @@ namespace UWP_XMPP_Client.Controls
             //await Client.requestVCardAsync(Chat.chatJabberId);
             //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.ITEMS);
             //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.INFO);
-            await Client.sendMessageAsync(new RequestBookmarksMessage(Client.getXMPPAccount().getIdDomainAndResource()), false);
+            //await Client.sendMessageAsync(new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Client.getXMPPAccount().serverAddress, DiscoType.ITEMS), false);
         }
 
         private void message_tbx_GotFocus(object sender, RoutedEventArgs e)

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
 {
@@ -94,7 +95,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        protected override XElement getQuery()
+        {
+            throw new System.NotImplementedException();
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

@@ -12,12 +12,12 @@ using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Dialogs;
 using UWP_XMPP_Client.Pages;
 using UWP_XMPP_Client.Classes.Events;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages;
 using Data_Manager2.Classes.Events;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Controls
 {

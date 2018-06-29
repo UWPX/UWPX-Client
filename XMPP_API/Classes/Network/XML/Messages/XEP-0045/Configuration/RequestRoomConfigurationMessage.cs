@@ -6,7 +6,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public MUCAffiliation senderAffiliation;
+        public readonly MUCAffiliation SENDER_AFFILIATION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,17 +17,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// <history>
         /// 07/02/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestRoomConfigurationMessage(string to, MUCAffiliation senderAffiliation) : base(null, to, GET, getRandomId(), getRequestQuery(senderAffiliation))
+        public RequestRoomConfigurationMessage(string to, MUCAffiliation senderAffiliation) : base(null, to, GET, getRandomId())
         {
-            this.senderAffiliation = senderAffiliation;
+            this.SENDER_AFFILIATION = senderAffiliation;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getRequestQuery(MUCAffiliation senderAffiliation)
+        protected override XElement getQuery()
         {
-            XNamespace ns = "http://jabber.org/protocol/muc#" + Utils.mucAffiliationToString(senderAffiliation);
+            XNamespace ns = Consts.XML_XEP_0045_NAMESPACE + '#' + Utils.mucAffiliationToString(SENDER_AFFILIATION);
             return new XElement(ns + "query");
         }
 

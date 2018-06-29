@@ -153,7 +153,7 @@ namespace UWP_XMPP_Client.Controls
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
                     banedUsers.Clear();
-                    foreach (BanedUser user in banListMessage.banedUsers)
+                    foreach (BanedUser user in banListMessage.BANED_USERS)
                     {
                         banedUsers.Add(new MUCBanedUserTemplate() { banedUser = user });
                     }

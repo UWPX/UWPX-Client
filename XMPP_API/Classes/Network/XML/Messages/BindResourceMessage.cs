@@ -6,7 +6,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly string RESOURCE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,18 +17,19 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 03/02/2018 Created [Fabian Sauter]
         /// </history>
-        public BindResourceMessage(string resource) : base(null, null, SET, getRandomId(), getResourceQuery(resource))
+        public BindResourceMessage(string resource) : base(null, null, SET, getRandomId())
         {
+            this.RESOURCE = resource;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getResourceQuery(string resource)
+        protected override XElement getQuery()
         {
-            XNamespace ns = XNamespace.Get("urn:ietf:params:xml:ns:xmpp-bind");
+            XNamespace ns = Consts.XML_BIND_NAMESPACE;
             XElement node = new XElement(ns + "bind");
-            node.Add(new XElement(ns + "resource", resource));
+            node.Add(new XElement(ns + "resource", RESOURCE));
             return node;
         }
 

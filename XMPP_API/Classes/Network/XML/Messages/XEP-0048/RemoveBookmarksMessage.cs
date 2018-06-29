@@ -1,9 +1,12 @@
-﻿using System.Xml;
-using System.Xml.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace XMPP_API.Classes.Network.XML.Messages
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public class RequestvCardMessage : IQMessage
+    class RemoveBookmarksMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,24 +19,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/09/2017 Created [Fabian Sauter]
+        /// 17/03/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestvCardMessage(string target, string from) : base(from, target, IQMessage.GET, getRandomId(), getVCardQuery())
-        {
-        }
-
-        public RequestvCardMessage(XmlNode answer) : base(answer)
+        public RemoveBookmarksMessage()
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getVCardQuery()
-        {
-            XNamespace ns = "vcard-temp";
-            return new XElement(ns + "query");
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
         /// <history>
         /// 02/06/2018 Created [Fabian Sauter]
         /// </history>
-        public HTTPUploadRequestSlotMessage(string from, string to, string fileName, string contentType, uint sizeByte) : base(from, to, GET, getRandomId(), getQueryNode(fileName, contentType, sizeByte))
+        public HTTPUploadRequestSlotMessage(string from, string to, string fileName, string contentType, uint sizeByte) : base(from, to, GET, getRandomId())
         {
             this.FILE_NAME = fileName;
             this.CONTENT_TYPE = contentType;
@@ -43,13 +43,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getQueryNode(string fileName, string contentType, uint sizeByte)
+        protected override XElement getQuery()
         {
             XNamespace ns = Consts.XML_XEP_0363_NAMESPACE;
             XElement queryNode = new XElement(ns + "request");
-            queryNode.Add(new XAttribute("filename", fileName));
-            queryNode.Add(new XAttribute("content-type", contentType));
-            queryNode.Add(new XAttribute("size", sizeByte));
+            queryNode.Add(new XAttribute("filename", FILE_NAME));
+            queryNode.Add(new XAttribute("content-type", CONTENT_TYPE));
+            queryNode.Add(new XAttribute("size", SIZE_BYTE));
 
             return queryNode;
         }

@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public class SetBookmarksMessage : PubSubPublishMessage
+    public class AddBookmarksMessage : PubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,9 +17,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 29/06/2018 Created [Fabian Sauter]
         /// </history>
-        public SetBookmarksMessage(string from, List<ConferenceItem> conferenceItems) : base(from, Consts.XML_XEP_0048_NAMESPACE, getPubSubItem(conferenceItems), getOptions())
+        public AddBookmarksMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0048_NAMESPACE)
+        {
+            this.CONFERENCE_ITEMS = new List<ConferenceItem>();
+            this.CONFERENCE_ITEMS.Add(conferenceItem);
+        }
+
+        public AddBookmarksMessage(string from, List<ConferenceItem> conferenceItems) : base(from, Consts.XML_XEP_0048_NAMESPACE)
         {
             this.CONFERENCE_ITEMS = conferenceItems;
         }
@@ -27,17 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
-
-
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private static PubSubPublishOptions getOptions()
+        protected override PubSubPublishOptions getPublishOptions()
         {
             PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
             options.OPTIONS.FIELDS.Add(new Field()
@@ -56,10 +52,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
             return options;
         }
 
-        private static PubSubItem getPubSubItem(List<ConferenceItem> conferenceItems)
+        protected override PubSubItem getPubSubItem()
         {
-            return new PubSubItem("current", new StorageItem(conferenceItems));
+            return new PubSubItem("current", new StorageItem(CONFERENCE_ITEMS));
         }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+
 
         #endregion
 

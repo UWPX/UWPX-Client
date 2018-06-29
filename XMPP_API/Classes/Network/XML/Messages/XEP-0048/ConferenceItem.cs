@@ -24,6 +24,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// <history>
         /// 08/06/2018 Created [Fabian Sauter]
         /// </history>
+        public ConferenceItem()
+        {
+
+        }
+
         public ConferenceItem(XmlNode node)
         {
             if (node != null)

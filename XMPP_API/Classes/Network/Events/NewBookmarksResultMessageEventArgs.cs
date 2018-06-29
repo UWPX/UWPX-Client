@@ -1,5 +1,5 @@
 ﻿using System;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace XMPP_API.Classes.Network.Events
 {

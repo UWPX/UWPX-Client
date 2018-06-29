@@ -17,16 +17,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 25/08/2017 Created [Fabian Sauter]
         /// </history>
-        public StartSessionMessage() : base(null, null, IQMessage.SET, getRandomId(), getStartSessionQuery())
+        public StartSessionMessage() : base(null, null, SET, getRandomId())
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getStartSessionQuery()
+        protected override XElement getQuery()
         {
-            XNamespace ns = "urn:ietf:params:xml:ns:xmpp-session";
+            XNamespace ns = Consts.XML_SESSION_NAMESPACE;
             return new XElement(ns + "session");
         }
 

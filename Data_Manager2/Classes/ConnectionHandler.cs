@@ -10,9 +10,9 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048_1_0;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using System.Threading;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes
 {
@@ -364,7 +364,7 @@ namespace Data_Manager2.Classes
                     return;
                 }
 
-                foreach (RosterItem item in msg.getItems())
+                foreach (RosterItem item in msg.ITEMS)
                 {
                     string from = item.JID;
                     string id = ChatTable.generateId(from, to);
@@ -579,7 +579,7 @@ namespace Data_Manager2.Classes
         {
             BookmarksResultMessage msg = args.BOOKMARKS_MESSAGE;
 
-            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.CONFERENCE_ITEMS)
+            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.storage.CONFERENCE_ITEMS)
             {
                 bool newMUC = false;
                 string to = client.getXMPPAccount().getIdAndDomain();

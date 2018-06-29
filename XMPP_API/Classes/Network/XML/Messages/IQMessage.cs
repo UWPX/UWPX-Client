@@ -16,8 +16,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         protected readonly string QUERY;
         protected readonly XmlNode ANSWER;
 
-        protected readonly XElement QUERY_NODE;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -27,10 +25,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 20/08/2017 Created [Fabian Sauter]
         /// </history>
-        public IQMessage(string from, string to, string type, string id, XElement query) : base(from, to, id)
+        public IQMessage(string from, string to, string type, string id) : base(from, to, id)
         {
             this.TYPE = type;
-            this.QUERY_NODE = query;
         }
 
         public IQMessage(XmlNode answer) : base(answer?.Attributes["from"]?.Value, answer?.Attributes["to"]?.Value, answer.Attributes["id"]?.Value)
@@ -46,6 +43,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             return TYPE;
         }
+
+        protected virtual XElement getQuery() { return null; }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -63,9 +62,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 node.Add(new XAttribute("from", FROM));
             }
-            if (QUERY_NODE != null)
+            XElement query = getQuery();
+            if (query != null)
             {
-                node.Add(QUERY_NODE);
+                node.Add(query);
             }
             return node;
         }

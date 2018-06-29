@@ -6,7 +6,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly DiscoType DISCO_TYPE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,27 +17,28 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         /// <history>
         /// 10/11/2017 Created [Fabian Sauter]
         /// </history>
-        public DiscoRequestMessage(string from, string to, DiscoType type) : base(from, to, GET, getRandomId(), getQuerryFromType(type))
+        public DiscoRequestMessage(string from, string to, DiscoType discoType) : base(from, to, GET, getRandomId())
         {
+            this.DISCO_TYPE = discoType;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getQuerryFromType(DiscoType type)
+        protected override XElement getQuery()
         {
             XNamespace ns;
-            switch (type)
+            switch (DISCO_TYPE)
             {
                 case DiscoType.ITEMS:
-                    ns = "http://jabber.org/protocol/disco#items";
+                    ns = Consts.XML_XEP_0030_ITEMS_NAMESPACE;
                     break;
                 case DiscoType.INFO:
-                    ns = "http://jabber.org/protocol/disco#info";
+                    ns = Consts.XML_XEP_0030_INFO_NAMESPACE;
                     break;
                 default:
-                    Logging.Logger.Error("Unable to get disco query for type: " + type + ". Returning info query!");
-                    ns = "http://jabber.org/protocol/disco#info";
+                    Logging.Logger.Error("Unable to get disco query for type: " + DISCO_TYPE + ". Returning info query!");
+                    ns = Consts.XML_XEP_0030_INFO_NAMESPACE;
                     break;
             }
             return new XElement(ns + "query");

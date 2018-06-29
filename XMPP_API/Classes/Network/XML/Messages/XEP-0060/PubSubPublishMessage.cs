@@ -2,13 +2,11 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubPublishMessage : IQMessage
+    public abstract class PubSubPublishMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string NODE_NAME;
-        public readonly PubSubItem ITEM;
-        public readonly PubSubPublishOptions OPTIONS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,23 +17,31 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 02/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string nodeName, PubSubItem item, PubSubPublishOptions options) : base(from, null, SET, getRandomId(), getPubsubNode(nodeName, item, options))
+        public PubSubPublishMessage(string from, string nodeName) : base(from, null, SET, getRandomId())
         {
             this.NODE_NAME = nodeName;
-            this.ITEM = item;
-            this.OPTIONS = options;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private static XElement getPubsubNode(string nodeName, PubSubItem item, PubSubPublishOptions options)
+        protected override XElement getQuery()
         {
             XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
             XElement pubsubNode = new XElement(ns + "pubsub");
-            pubsubNode.Add(new XAttribute("node", nodeName));
-            pubsubNode.Add(item.toXElement(ns));
-            pubsubNode.Add(options.toXElement());
+            pubsubNode.Add(new XAttribute("node", NODE_NAME));
+            PubSubItem item = getPubSubItem();
+            if (item != null)
+            {
+                pubsubNode.Add(item.toXElement(ns));
+            }
+
+            PubSubPublishOptions options = getPublishOptions();
+
+            if (options != null)
+            {
+                pubsubNode.Add(options.toXElement());
+            }
 
             return pubsubNode;
         }
@@ -53,7 +59,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected abstract PubSubPublishOptions getPublishOptions();
+        protected abstract PubSubItem getPubSubItem();
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

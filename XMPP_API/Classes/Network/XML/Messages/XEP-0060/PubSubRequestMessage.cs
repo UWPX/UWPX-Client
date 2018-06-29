@@ -17,14 +17,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 12/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, XElement content) : base(from, null, GET, getRandomId(), getQuery(content))
+        public PubSubRequestMessage(string from) : base(from, null, GET, getRandomId())
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        protected override XElement getQuery()
+        {
+            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
+            XElement pubsub = new XElement(ns + "pubsub");
+            XElement content = getContent();
+            if (content != null)
+            {
+                pubsub.Add(content);
+            }
+            return pubsub;
+        }
 
+        protected abstract XElement getContent();
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -34,13 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Private)--
-        private static XElement getQuery(XElement content)
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            pubsub.Add(content);
-            return pubsub;
-        }
+
 
         #endregion
 

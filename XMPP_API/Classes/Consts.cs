@@ -17,12 +17,21 @@ namespace XMPP_API.Classes
 
         // Error:
         public const string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
-        public const string XML_ERROR = "urn:ietf:params:xml:ns:xmpp-stanzas";
+        public const string XML_ERROR_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-stanzas";
 
         public const string XML_XMLNS = "xmlns";
 
         // SASL:
         public const string XML_SASL_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-sasl";
+
+        // Binding:
+        public const string XML_BIND_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-bind";
+
+        // Session:
+        public const string XML_SESSION_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-session";
+
+        // Roster:
+        public const string XML_ROSTER_NAMESPACE = "jabber:iq:roster";
 
         // XEP-0085 (chat state):
         public const string XML_XEP_0085_NAMESPACE = "http://jabber.org/protocol/chatstates";
@@ -46,5 +55,10 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0004_NAMESPACE = "jabber:x:data";
         // XEP-0048 (Bookmarks):
         public const string XML_XEP_0048_NAMESPACE = "storage:bookmarks";
+        // XEP-0030 (Disco):
+        public const string XML_XEP_0030_ITEMS_NAMESPACE = "http://jabber.org/protocol/disco#items";
+        public const string XML_XEP_0030_INFO_NAMESPACE = "http://jabber.org/protocol/disco#info";
+        // XEP-0054 (vcard-temp):
+        public const string XML_XEP_0054_NAMESPACE = "vcard-temp";
     }
 }
