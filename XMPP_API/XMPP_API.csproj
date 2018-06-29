@@ -137,9 +137,12 @@
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Error.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\IXElementable.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMConnection.cs" />

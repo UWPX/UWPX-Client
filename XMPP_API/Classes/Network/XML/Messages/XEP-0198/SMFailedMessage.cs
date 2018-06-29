@@ -28,7 +28,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
         {
             foreach (XmlNode n in node.ChildNodes)
             {
-                if (n.NamespaceURI.Equals(Consts.XML_XEP_0198_FAILED_NAMESPACE))
+                if (n.NamespaceURI.Equals(Consts.XML_ERROR))
                 {
                     this.ERROR_MESSAGE = n.Name;
                     return;

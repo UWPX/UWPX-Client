@@ -161,7 +161,7 @@ namespace UWP_XMPP_Client.Controls
                 }).AsTask();
                 return true;
             }
-            else if (iq is IQErrorMessage)
+            else if (iq is IQErrorMessage errorMessage)
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -171,7 +171,7 @@ namespace UWP_XMPP_Client.Controls
                     loading_grid.Visibility = Visibility.Collapsed;
                     timeout_stckpnl.Visibility = Visibility.Visible;
 
-                    notificationBanner_ian.Show("Failed to request configuration! Server responded:\n" + (iq as IQErrorMessage).ERROR_MESSAGE ?? "null");
+                    notificationBanner_ian.Show("Failed to request configuration! Server responded:\nType: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE);
                 }).AsTask();
             }
             return false;
@@ -228,9 +228,9 @@ namespace UWP_XMPP_Client.Controls
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (msg is IQErrorMessage)
+                if (msg is IQErrorMessage errorMessage)
                 {
-                    notificationBanner_ian.Show("Failed to save! Server responded:\n" + (msg as IQErrorMessage).ERROR_MESSAGE ?? "null");
+                    notificationBanner_ian.Show("Failed to save! Server responded:\nType: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE);
                 }
                 else
                 {

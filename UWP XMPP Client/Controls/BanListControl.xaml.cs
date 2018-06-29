@@ -141,7 +141,7 @@ namespace UWP_XMPP_Client.Controls
                 IQErrorMessage errorMessage = iq as IQErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    showErrorMessage("Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE);
+                    showErrorMessage("Type: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE);
                     reload_btn.IsEnabled = true;
                     reload_prgr.Visibility = Visibility.Collapsed;
                 }).AsTask();
@@ -173,7 +173,7 @@ namespace UWP_XMPP_Client.Controls
                 IQErrorMessage errorMessage = iq as IQErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    showErrorMessage("Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE);
+                    showErrorMessage("Type: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE);
                     unban_btn.IsEnabled = true;
                     reload_btn.IsEnabled = true;
                     unban_prgr.Visibility = Visibility.Collapsed;

@@ -17,6 +17,7 @@ namespace XMPP_API.Classes
 
         // Error:
         public const string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
+        public const string XML_ERROR = "urn:ietf:params:xml:ns:xmpp-stanzas";
 
         public const string XML_XMLNS = "xmlns";
 
@@ -37,7 +38,6 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0249_NAMESPACE = "jabber:x:conference";
         // XEP-0198 (Stream Management):
         public const string XML_XEP_0198_NAMESPACE = "urn:xmpp:sm:3";
-        public const string XML_XEP_0198_FAILED_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-stanzas";
         // XEP-0363 (HTTP File Upload):
         public const string XML_XEP_0363_NAMESPACE = "urn:xmpp:http:upload:0";
         // XEP-0060 (Publish-Subscribe):

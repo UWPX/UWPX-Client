@@ -6,8 +6,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string ERROR_MESSAGE;
-        public readonly string ERROR_TYPE;
+        public readonly Error ERROR_OBJ;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,18 +17,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 21/02/2018 Created [Fabian Sauter]
         /// </history>
-        public IQErrorMessage(XmlNode answer) : base(answer)
+        public IQErrorMessage(XmlNode n) : base(n)
         {
-            XmlNode eNode = XMLUtils.getChildNode(answer, ERROR);
+            XmlNode eNode = XMLUtils.getChildNode(n, ERROR);
             if (eNode == null)
             {
-                this.ERROR_MESSAGE = null;
-                this.ERROR_TYPE = null;
+                this.ERROR_OBJ = new Error();
             }
             else
             {
-                this.ERROR_MESSAGE = eNode.InnerXml;
-                this.ERROR_TYPE = eNode.Attributes["type"]?.Value;
+                this.ERROR_OBJ = new Error(eNode);
             }
         }
 

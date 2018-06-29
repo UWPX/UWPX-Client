@@ -38,7 +38,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
                 {
                     switch (n.Name)
                     {
-                        case "text" when string.Equals(n.NamespaceURI, Consts.XML_XEP_0198_FAILED_NAMESPACE):
+                        case "text" when string.Equals(n.NamespaceURI, Consts.XML_ERROR):
                             this.TEXT = n.InnerText;
                             break;
 
@@ -53,7 +53,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
                             break;
 
                         default:
-                            if (n.NamespaceURI.Equals(Consts.XML_XEP_0198_FAILED_NAMESPACE))
+                            if (n.NamespaceURI.Equals(Consts.XML_ERROR))
                             {
                                 this.TYPE_LONG = n.Name;
                             }

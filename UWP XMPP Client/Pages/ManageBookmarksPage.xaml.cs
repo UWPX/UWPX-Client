@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Pages
                 {
                     refresh_btn.IsEnabled = true;
                     bookmarks.Clear();
-                    noneFound_notification.Show("Request failed with:\n" + errorMsg.ERROR_TYPE + " and " + errorMsg);
+                    noneFound_notification.Show("Request failed with:\n" + errorMsg.ERROR_OBJ.ERROR_NAME + " and " + errorMsg.ERROR_OBJ.ERROR_MESSAGE);
                 }).AsTask();
                 return true;
             }

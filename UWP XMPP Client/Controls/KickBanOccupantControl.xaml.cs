@@ -107,7 +107,7 @@ namespace UWP_XMPP_Client.Controls
                 IQErrorMessage errorMessage = msg as IQErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    error_itbx.Text = "Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE;
+                    error_itbx.Text = "Type: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE;
                     error_itbx.Visibility = Visibility.Visible;
                     enableButtons();
                 }).AsTask();
@@ -133,7 +133,7 @@ namespace UWP_XMPP_Client.Controls
                 IQErrorMessage errorMessage = msg as IQErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    error_itbx.Text = "Type: " + errorMessage.ERROR_TYPE + "\nMessage: " + errorMessage.ERROR_MESSAGE;
+                    error_itbx.Text = "Type: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE;
                     error_itbx.Visibility = Visibility.Visible;
                     enableButtons();
                 }).AsTask();

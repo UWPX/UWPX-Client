@@ -85,14 +85,13 @@ namespace UWP_XMPP_Client.Pages
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(iq as DiscoResponseMessage)).AsTask();
                 return true;
             }
-            else if(iq is IQErrorMessage)
+            else if(iq is IQErrorMessage errorMessage)
             {
-                IQErrorMessage errorMessage = iq as IQErrorMessage;
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     loading_grid.Visibility = Visibility.Collapsed;
                     main_grid.Visibility = Visibility.Visible;
-                    noneFound_notification.Show("Failed to request rooms!\nError type: " + errorMessage.ERROR_TYPE + "\nError Message: " + errorMessage.ERROR_MESSAGE);
+                    noneFound_notification.Show("Failed to request rooms! Server responded:\nType: " + errorMessage.ERROR_OBJ.ERROR_NAME + "\nMessage: " + errorMessage.ERROR_OBJ.ERROR_MESSAGE);
                 }).AsTask();
                 return true;
             }
