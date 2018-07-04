@@ -177,10 +177,12 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRetractMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />

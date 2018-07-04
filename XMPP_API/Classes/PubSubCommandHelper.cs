@@ -77,6 +77,36 @@ namespace XMPP_API.Classes
             return helper;
         }
 
+        /// <summary>
+        /// Sends a RemoveBookmarksMessage for removing the given bookmark from the server.
+        /// </summary>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <param name="conferenceItem">The bookmark that should get removed from the server.</param>
+        /// <returns>Returns a MessageResponseHelper listening for RemoveBookmarksMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> removeBookmark(Func<IQMessage, bool> onMessage, Action onTimeout, ConferenceItem conferenceItem)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            RemoveBookmarksMessage msg = new RemoveBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a RemoveBookmarksMessage for removing the given bookmarks from the server.
+        /// </summary>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <param name="conferenceItem">The bookmark that should get removed from the server.</param>
+        /// <returns>Returns a RemoveBookmarksMessage listening for AddBookmarksMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> removeBookmarks(Func<IQMessage, bool> onMessage, Action onTimeout, List<ConferenceItem> conferenceItems)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            RemoveBookmarksMessage msg = new RemoveBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItems);
+            helper.start(msg);
+            return helper;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

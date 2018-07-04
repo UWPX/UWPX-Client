@@ -21,8 +21,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// </history>
         public AddBookmarksMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0048_NAMESPACE)
         {
-            this.CONFERENCE_ITEMS = new List<ConferenceItem>();
-            this.CONFERENCE_ITEMS.Add(conferenceItem);
+            this.CONFERENCE_ITEMS = new List<ConferenceItem>
+            {
+                conferenceItem
+            };
         }
 
         public AddBookmarksMessage(string from, List<ConferenceItem> conferenceItems) : base(from, Consts.XML_XEP_0048_NAMESPACE)

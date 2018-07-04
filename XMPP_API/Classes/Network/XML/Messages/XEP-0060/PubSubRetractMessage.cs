@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubPublishMessage : PubSubMessage
+    public abstract class PubSubRetractMessage : PubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,9 +15,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 02/06/2018 Created [Fabian Sauter]
+        /// 04/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string nodeName) : base(from)
+        public PubSubRetractMessage(string from, string nodeName) : base(from)
         {
             this.NODE_NAME = nodeName;
         }
@@ -27,22 +27,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #region --Set-, Get- Methods--
         protected override XElement getContent(XNamespace ns)
         {
-            XElement publishNode = new XElement(ns + "publish");
-            publishNode.Add(new XAttribute("node", NODE_NAME));
+            XElement retractNode = new XElement(ns + "retract");
+            retractNode.Add(new XAttribute("node", NODE_NAME));
             PubSubItem item = getPubSubItem();
             if (item != null)
             {
-                publishNode.Add(item.toXElement(ns));
+                retractNode.Add(item.toXElement(ns));
             }
-
-            PubSubPublishOptions options = getPublishOptions();
-
-            if (options != null)
-            {
-                publishNode.Add(options.toXElement());
-            }
-            return publishNode;
+            return retractNode;
         }
+
+        protected abstract PubSubItem getPubSubItem();
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -57,8 +52,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract PubSubPublishOptions getPublishOptions();
-        protected abstract PubSubItem getPubSubItem();
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

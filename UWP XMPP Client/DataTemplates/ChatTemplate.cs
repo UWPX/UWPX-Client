@@ -22,7 +22,7 @@ namespace UWP_XMPP_Client.DataTemplates
                 if (value != _image)
                 {
                     _image = value;
-                    onPropertyChanged("image");
+                    onPropertyChanged(nameof(image));
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace UWP_XMPP_Client.DataTemplates
                 if (value != _chat)
                 {
                     _chat = value;
-                    onPropertyChanged("chat");
+                    onPropertyChanged(nameof(chat));
                 }
             }
         }
@@ -54,7 +54,7 @@ namespace UWP_XMPP_Client.DataTemplates
                 if (value != _mucInfo)
                 {
                     _mucInfo = value;
-                    onPropertyChanged("mucInfo");
+                    onPropertyChanged(nameof(mucInfo));
                 }
             }
         }
@@ -70,7 +70,7 @@ namespace UWP_XMPP_Client.DataTemplates
                 if (value != _client)
                 {
                     _client = value;
-                    onPropertyChanged("client");
+                    onPropertyChanged(nameof(client));
                 }
             }
         }

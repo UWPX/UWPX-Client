@@ -43,7 +43,7 @@ namespace UWP_XMPP_Client.Controls
                 showClient(Client);
             }
         }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ChatMasterControl), new PropertyMetadata(null));
 
         public ChatTable Chat
         {
@@ -54,7 +54,7 @@ namespace UWP_XMPP_Client.Controls
                 showChat(Chat);
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(ChatMasterControl), new PropertyMetadata(null));
 
         public MUCChatInfoTable MUCInfo
         {
@@ -65,7 +65,7 @@ namespace UWP_XMPP_Client.Controls
                 showMUCInfo();
             }
         }
-        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatMasterControl), null);
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register(nameof(MUCInfo), typeof(MUCChatInfoTable), typeof(ChatMasterControl), new PropertyMetadata(null));
 
         private bool subscriptionRequest;
         private ChatMessageTable lastChatMessage;
@@ -358,7 +358,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async Task switchMUCBookmarkesAsync()
+        private void switchMUCBookmarkes()
         {
             if (MUCInfo != null && Chat != null)
             {
@@ -374,10 +374,36 @@ namespace UWP_XMPP_Client.Controls
                 }
                 else
                 {
-                    // ToDo remove MUC from bookmarks
+                    updateBookmarkHelper = Client.PUB_SUB_COMMAND_HELPER.removeBookmark(onRemoveBookmarkMessage, onRemoveBookmarkTimeout, cI);
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, false, false);
+                showChat(Chat);
+                showMUCInfo();
             }
+        }
+
+        private void onRemoveBookmarkTimeout()
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                TextDialog dialog = new TextDialog("Failed to remove bookmark!\nServer did not respond in time.", "Error");
+                Task t = UiUtils.showDialogAsyncQueue(dialog);
+            }).AsTask();
+        }
+
+        private bool onRemoveBookmarkMessage(IQMessage msg)
+        {
+            if (msg is IQErrorMessage errMsg)
+            {
+                TextDialog dialog = new TextDialog("Failed to remove bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
+                Task t = UiUtils.showDialogAsyncQueue(dialog);
+                return true;
+            }
+            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            {
+                return true;
+            }
+            return false;
         }
 
         private void onSetBookmarkTimeout()
@@ -391,7 +417,7 @@ namespace UWP_XMPP_Client.Controls
 
         private bool onSetBookmarkMessage(IQMessage msg)
         {
-            if(msg is IQErrorMessage errMsg)
+            if (msg is IQErrorMessage errMsg)
             {
                 TextDialog dialog = new TextDialog("Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
                 Task t = UiUtils.showDialogAsyncQueue(dialog);
@@ -421,8 +447,11 @@ namespace UWP_XMPP_Client.Controls
                 }
                 if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                 {
-                    // ToDo remove MUC from bookmarks
-                    MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
+                    if (Chat.inRoster)
+                    {
+                        // Remove bookmark:
+                        switchMUCBookmarkes();
+                    }
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
                 if (!dialog.keepChatLog)
@@ -592,9 +621,9 @@ namespace UWP_XMPP_Client.Controls
             (Window.Current.Content as Frame).Navigate(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat, Client));
         }
 
-        private async void bookmark_tmfo_Click(object sender, RoutedEventArgs e)
+        private void bookmark_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            await switchMUCBookmarkesAsync();
+            switchMUCBookmarkes();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
@@ -624,7 +653,7 @@ namespace UWP_XMPP_Client.Controls
                             await switchChatInRoosterAsync();
                             break;
                         case ChatType.MUC:
-                            await switchMUCBookmarkesAsync();
+                            switchMUCBookmarkes();
                             break;
                     }
                 }
