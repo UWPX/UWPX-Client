@@ -187,11 +187,12 @@ They're sooooo fluffy - to fluffy!</value>
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.6.0.0 [June 2018] Refactoring, UI and preparations:
+    <value># v.0.7.0.0 [July 2018] XEP-0048 Bookmarks:
 
-This month I've finally started working on [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html), [Stream Management (XEP-1098)](https://xmpp.org/extensions/xep-0198.html) and [HTTP File Upload (XEP-0363)](https://xmpp.org/extensions/xep-0363.html). It's still far from being done but the basic messages for the server communication are done. I've also refactored the TCP and XMPP connection for better reliability, performance and better error reporting. Now if an error occurs you can, like sown in the examples, click on the error message and it will displays additional information. There's now also a TLS indicator lock, which indicates whether or whether not you are connect via a secure TLS connection with the server.
-I've also added the option to switch the App theme and pick a custom chat background.
-**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
+This release focuses on better [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support.
+With the current state of [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) I was able to upgrade from v.1.0 to the current version of [Bookmarks (XEP-0048)](https://xmpp.org/extensions/xep-0048.html). Because the way how bookmarks get stored changed on the server with the new version **you have to bookmark all your MUCs again**.
+There is still work that has to be done for example you currently are still unable to remove bookmarks but with the current foundation this will be (hopefully) added shortly.
+I've also started working on a "Manage bookmarks" page where you will, once its done, have an overview about all your current bookmarks and manage them.
 
 ### Known bugs:
 * Remove bookmark not working [#22](https://github.com/UWPX/UWPX-Client/issues/22)
@@ -201,27 +202,15 @@ I've also added the option to switch the App theme and pick a custom chat backgr
 * Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
 
 ### Changes:
-* Added security settings
-* Added a password vault "explorer"
-* Added filter button
-* Added open folder button for cached images
-* Added App theme changing support
-* Added custom background image support [#32](https://github.com/UWPX/UWPX-Client/issues/32)
-* Added certificate info
-* Added connection info
-* Added a TLS indicator
-* Fixed send message button getting focus [#19](https://github.com/UWPX/UWPX-Client/issues/19)
-* Fixed message status icon
-* Fixed account color changing
-* Changed account error messages to be clickable to show more information
-* Switched from Hockey App to App Center crash reporting
-* Refactored the TCP and XMPP handler
+* Added first pass for [Bookmarks (XEP-0048)](https://xmpp.org/extensions/xep-0048.html) support
+* Added a "Manage bookmarks" page
+* Updated the account image and chat message transparency
 
-### Plans for the July release:
+### Plans for the August release:
 * [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5)
 * [HTTP File Upload (XEP-0363)](https://xmpp.org/extensions/xep-0363.html)
 * Fix more [bugs](https://github.com/UWPX/UWPX-Client/issues)
 
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.6.0.0)</value>
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.7.0.0)</value>
   </data>
 </root>
