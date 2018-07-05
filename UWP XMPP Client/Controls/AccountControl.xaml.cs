@@ -62,6 +62,8 @@ namespace UWP_XMPP_Client.Controls
                 int.TryParse(serverPort_tbx.Text, out Account.port);
                 Account.presencePriorety = (int)presencePriorety_slider.Value;
                 Account.color = color_tbx.Text;
+                Account.presence = Presence.Online;
+                Account.status = "";
 
                 return Account;
             }
