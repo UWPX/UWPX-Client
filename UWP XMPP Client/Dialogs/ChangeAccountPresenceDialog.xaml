@@ -4,7 +4,6 @@
                xmlns:controls="using:UWP_XMPP_Client.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
-               xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Title="Change presence:"
                mc:Ignorable="d">
@@ -25,30 +24,9 @@
     </ContentDialog.Resources>
 
     <StackPanel>
-        <controls:IconTextBlockControl x:Name="error_itbx"
-                                       Margin="0,0,0,10"
-                                       Icon="&#xE7BA;"
-                                       IconForeground="Red"
-                                       Visibility="Collapsed"/>
-        <controls:IconTextBlockControl x:Name="info_itbx"
-                                       Margin="0,0,0,10"
-                                       Icon="&#xE946;"
-                                       IconForeground="Green"
-                                       Visibility="Collapsed"/>
-        <ComboBox x:Name="account_cbx"
-                  HorizontalAlignment="Stretch"
-                  DataContextChanged="account_cbx_DataContextChanged"
-                  Header="Select account:"
-                  ItemsSource="{x:Bind accounts}"
-                  PlaceholderText="No accounts found!"
-                  SelectionChanged="account_cbx_SelectionChanged"/>
-        <TextBlock x:Name="addAccount_tblck"
-                   Margin="0,10,0,0"
-                   extensions:Mouse.Cursor="Hand"
-                   Foreground="{ThemeResource SystemAccentColor}"
-                   Tapped="addAccount_tblck_Tapped"
-                   Text="Add an account"/>
-
+        <controls:AccountSelectionControl x:Name="accountSelection_asc"
+                                          AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
+                                          AddAccountClicked="AccountSelectionControl_AddAccountClicked"/>
         <ComboBox x:Name="presence_cbx"
                   Margin="0,10,0,0"
                   HorizontalAlignment="Stretch"

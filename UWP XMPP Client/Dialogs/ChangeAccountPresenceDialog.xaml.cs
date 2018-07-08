@@ -16,8 +16,7 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<string> accounts;
-        private List<XMPPClient> clients;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,11 +29,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public ChangeAccountPresenceDialog()
         {
-            this.accounts = new ObservableCollection<string>();
-            this.clients = null;
             this.InitializeComponent();
-
-            loadAccounts();
         }
 
         #endregion
@@ -50,40 +45,18 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Loads all accounts.
-        /// </summary>
-        private void loadAccounts()
-        {
-            clients = ConnectionHandler.INSTANCE.getClients();
-            if (clients != null)
-            {
-                accounts.Clear();
-                foreach (XMPPClient c in clients)
-                {
-                    accounts.Add(c.getXMPPAccount().getIdAndDomain());
-                }
-            }
-        }
-
         private void savePresence()
         {
-            hideErrorMessage();
-            if (account_cbx.SelectedIndex < 0)
+            XMPPClient client = accountSelection_asc.getSelectedAccount();
+            if (client == null)
             {
-                showErrorMessage("No account selected!");
-                return;
-            }
-            else if (account_cbx.SelectedIndex >= clients.Count)
-            {
-                showErrorMessage("Invalid account!");
+                accountSelection_asc.showErrorMessage("No account selected!");
                 return;
             }
 
-            XMPPClient c = clients[account_cbx.SelectedIndex];
-            if (!c.isConnected())
+            if (!client.isConnected())
             {
-                showErrorMessage("Account not connected!");
+                accountSelection_asc.showErrorMessage("Account not connected!");
                 return;
             }
 
@@ -91,7 +64,7 @@ namespace UWP_XMPP_Client.Dialogs
 
             if (presence_cbx.SelectedIndex < 0)
             {
-                showErrorMessage("No presence selected!");
+                accountSelection_asc.showErrorMessage("No presence selected!");
                 return;
             }
 
@@ -101,39 +74,20 @@ namespace UWP_XMPP_Client.Dialogs
                 string status = string.IsNullOrEmpty(status_tbx.Text) ? null : status_tbx.Text;
 
                 // Save presence and status:
-                c.getXMPPAccount().presence = templateItem.presence;
-                c.getXMPPAccount().status = status;
+                client.getXMPPAccount().presence = templateItem.presence;
+                client.getXMPPAccount().status = status;
 
-                AccountDBManager.INSTANCE.setAccount(c.getXMPPAccount(), false);
+                AccountDBManager.INSTANCE.setAccount(client.getXMPPAccount(), false);
 
                 // Send the updated presence and status to the server:
-                Task t = c.setPreseceAsync(templateItem.presence, status);
-                showInfoMessage("Presence updated!");
+                Task t = client.setPreseceAsync(templateItem.presence, status);
+                accountSelection_asc.showInfoMessage("Presence updated!");
             }
             else
             {
-                showErrorMessage("Invalid presence!");
+                accountSelection_asc.showErrorMessage("Invalid presence!");
             }
             save_btn.IsEnabled = true;
-        }
-
-        private void showErrorMessage(string msg)
-        {
-            info_itbx.Visibility = Visibility.Collapsed;
-            error_itbx.Text = msg;
-            error_itbx.Visibility = Visibility.Visible;
-        }
-
-        private void showInfoMessage(string msg)
-        {
-            error_itbx.Visibility = Visibility.Collapsed;
-            info_itbx.Text = msg;
-            info_itbx.Visibility = Visibility.Visible;
-        }
-
-        private void hideErrorMessage()
-        {
-            error_itbx.Visibility = Visibility.Collapsed;
         }
 
         #endregion
@@ -144,23 +98,34 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void presence_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
+            save_btn.IsEnabled = presence_cbx.SelectedIndex >= 0;
+        }
+
+        private void save_btn_Click(object sender, RoutedEventArgs e)
+        {
+            savePresence();
+        }
+
+        private void close_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+        }
+
+        private void AccountSelectionControl_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
+        {
+            if (args.CLIENT != null)
             {
-                XMPPClient c = clients[account_cbx.SelectedIndex];
-                if (!c.isConnected())
+                if (!args.CLIENT.isConnected())
                 {
                     presence_cbx.IsEnabled = false;
                     save_btn.IsEnabled = false;
-                    showErrorMessage("Account not connected!");
                     return;
                 }
-
-                hideErrorMessage();
                 presence_cbx.IsEnabled = true;
 
-                Presence accountPresence = c.getXMPPAccount().presence;
+                Presence accountPresence = args.CLIENT.getXMPPAccount().presence;
                 for (int i = 0; i < presence_cbx.Items.Count; i++)
                 {
                     if (presence_cbx.Items[i] is PresenceTemplate)
@@ -172,41 +137,16 @@ namespace UWP_XMPP_Client.Dialogs
                         }
                     }
                 }
-                status_tbx.Text = c.getXMPPAccount().status ?? "";
+                status_tbx.Text = args.CLIENT.getXMPPAccount().status ?? "";
             }
             else
             {
                 presence_cbx.IsEnabled = false;
                 save_btn.IsEnabled = false;
-                hideErrorMessage();
             }
         }
 
-        private void addAccount_tblck_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Hide();
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
-        }
-
-        private void presence_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            save_btn.IsEnabled = presence_cbx.SelectedIndex >= 0;
-        }
-
-        private void save_btn_Click(object sender, RoutedEventArgs e)
-        {
-            savePresence();
-        }
-
-        private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (account_cbx.SelectedIndex < 0 && account_cbx.Items.Count > 0)
-            {
-                account_cbx.SelectedIndex = 0;
-            }
-        }
-
-        private void close_btn_Click(object sender, RoutedEventArgs e)
+        private void AccountSelectionControl_AddAccountClicked(Controls.AccountSelectionControl sender, Classes.Events.AddAccountClickedEventArgs args)
         {
             Hide();
         }
