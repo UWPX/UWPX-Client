@@ -137,18 +137,20 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Presence:
                     case "presence":
-                        XmlNode xNode = XMLUtils.getChildNode(n, "x");
-                        if (xNode != null)
+                        foreach (XmlNode n1 in n)
                         {
-                            switch (xNode.NamespaceURI)
+                            if (string.Equals(n1.Name, "x"))
                             {
-                                case "http://jabber.org/protocol/muc#user":
-                                    messages.Add(new MUCMemberPresenceMessage(n));
-                                    continue;
+                                switch (n1.NamespaceURI)
+                                {
+                                    case "http://jabber.org/protocol/muc#user":
+                                        messages.Add(new MUCMemberPresenceMessage(n));
+                                        continue;
 
-                                case "http://jabber.org/protocol/muc":
-                                    messages.Add(new MUCErrorMessage(n));
-                                    continue;
+                                    case "http://jabber.org/protocol/muc":
+                                        messages.Add(new MUCErrorMessage(n));
+                                        continue;
+                                }
                             }
                         }
                         messages.Add(new PresenceMessage(n));
