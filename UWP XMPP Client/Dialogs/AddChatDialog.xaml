@@ -1,30 +1,66 @@
-﻿<ContentDialog
-    x:Class="UWP_XMPP_Client.Dialogs.AddChatDialog"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Title="Add chat:">
+﻿<ContentDialog x:Class="UWP_XMPP_Client.Dialogs.AddChatDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="Add chat:"
+               mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0">
-            <ComboBox x:Name="account_cbx" HorizontalAlignment="Stretch" Header="Select account:" ItemsSource="{x:Bind accounts}" PlaceholderText="No accounts found!" DataContextChanged="account_cbx_DataContextChanged"/>
-            <TextBlock x:Name="addAccount_tblck" Text="Add an account" Margin="0, 10, 0, 0" Foreground="{ThemeResource SystemAccentColor}" Tapped="addAccount_tblck_Tapped"/>
-            <TextBox x:Name="jabberId_tbx" InputScope="EmailNameOrAddress" PlaceholderText="e.g. 'someone@example.com'" Header="With whom do you want to start a chat?" HorizontalAlignment="Stretch" Margin="0, 10, 0, 0" KeyDown="jabberId_tbx_KeyDown" TextChanged="jabberId_tbx_TextChanged" IsTextPredictionEnabled="False" IsSpellCheckEnabled="False" KeyUp="jabberId_tbx_KeyUp" BorderBrush="Red"/>
-            <CheckBox x:Name="subscription_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Request subscription"/>
-            <CheckBox x:Name="rooster_cbx" IsChecked="True" Margin="0, 10, 0, 0" Content="Add to rooster"/>
+            <ComboBox x:Name="account_cbx"
+                      HorizontalAlignment="Stretch"
+                      DataContextChanged="account_cbx_DataContextChanged"
+                      Header="Select account:"
+                      ItemsSource="{x:Bind accounts}"
+                      PlaceholderText="No accounts found!"/>
+            <TextBlock x:Name="addAccount_tblck"
+                       Margin="0,10,0,0"
+                       Foreground="{ThemeResource SystemAccentColor}"
+                       Tapped="addAccount_tblck_Tapped"
+                       Text="Add an account"/>
+            <TextBox x:Name="jabberId_tbx"
+                     Margin="0,10,0,0"
+                     HorizontalAlignment="Stretch"
+                     BorderBrush="Red"
+                     Header="With whom do you want to start a chat?"
+                     InputScope="EmailNameOrAddress"
+                     IsSpellCheckEnabled="False"
+                     IsTextPredictionEnabled="False"
+                     KeyDown="jabberId_tbx_KeyDown"
+                     KeyUp="jabberId_tbx_KeyUp"
+                     PlaceholderText="e.g. 'someone@example.com'"
+                     TextChanged="jabberId_tbx_TextChanged"/>
+            <CheckBox x:Name="subscription_cbx"
+                      Margin="0,10,0,0"
+                      Content="Request subscription"
+                      IsChecked="True"/>
+            <CheckBox x:Name="rooster_cbx"
+                      Margin="0,10,0,0"
+                      Content="Add to rooster"
+                      IsChecked="True"/>
         </StackPanel>
-        <Grid Grid.Row="1" Margin="0, 10, 0, 0">
+        <Grid Grid.Row="1"
+              Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Button x:Name="cancle_btn" Content="Cancel" Grid.Column="0" HorizontalAlignment="Stretch" Margin="0, 0, 2, 0" Click="cancle_btn_Click"/>
-            <Button x:Name="add_btn" Content="Add" Grid.Column="1" HorizontalAlignment="Stretch" Margin="2, 0, 0, 0" Click="add_btn_Click"/>
+            <Button x:Name="cancle_btn"
+                    Grid.Column="0"
+                    Margin="0,0,2,0"
+                    HorizontalAlignment="Stretch"
+                    Click="cancle_btn_Click"
+                    Content="Cancel"/>
+            <Button x:Name="add_btn"
+                    Grid.Column="1"
+                    Margin="2,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Click="add_btn_Click"
+                    Content="Add"/>
         </Grid>
     </Grid>
 </ContentDialog>

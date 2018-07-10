@@ -20,6 +20,7 @@ namespace UWP_XMPP_Client.Controls
         public delegate void AccountSelectionChangedHandler(AccountSelectionControl sender, AccountSelectionChangedEventArgs args);
         public event AddAccountClickedHandler AddAccountClicked;
         public event AccountSelectionChangedHandler AccountSelectionChanged;
+        private string userAccountId;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,6 +35,7 @@ namespace UWP_XMPP_Client.Controls
         {
             this.ACCOUNTS = new ObservableCollection<string>();
             this.CLIENTS = new List<XMPPClient>();
+            this.userAccountId = null;
             this.InitializeComponent();
         }
 
@@ -47,6 +49,11 @@ namespace UWP_XMPP_Client.Controls
                 return CLIENTS[account_cbx.SelectedIndex];
             }
             return null;
+        }
+
+        public void setSelectedAccount(string userAccountId)
+        {
+            this.userAccountId = userAccountId;
         }
 
         #endregion
@@ -80,21 +87,25 @@ namespace UWP_XMPP_Client.Controls
             CLIENTS.AddRange(ConnectionHandler.INSTANCE.getClients());
 
             ACCOUNTS.Clear();
-            bool foundConnected = false;
+            int foundConnected = -1;
             for (int i = 0; i < CLIENTS.Count; i++)
             {
                 ACCOUNTS.Add(CLIENTS[i].getXMPPAccount().getIdAndDomain());
-                if (!foundConnected && CLIENTS[i].isConnected())
+                if (userAccountId != null && string.Equals(userAccountId, CLIENTS[i].getXMPPAccount().getIdAndDomain()))
                 {
-                    account_cbx.SelectedIndex = i;
-                    foundConnected = true;
+                    foundConnected = i;
+                }
+                else if (foundConnected < 0 && CLIENTS[i].isConnected())
+                {
+                    foundConnected = i;
                 }
             }
 
-            if (!foundConnected && CLIENTS.Count > 0)
+            if (foundConnected < 0)
             {
-                account_cbx.SelectedIndex = 0;
+                foundConnected = 0;
             }
+            account_cbx.SelectedIndex = foundConnected;
         }
 
         #endregion

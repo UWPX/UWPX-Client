@@ -2,7 +2,6 @@
 using Data_Manager2.Classes;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
@@ -25,7 +24,6 @@ namespace UWP_XMPP_Client.Dialogs
         private List<XMPPClient> clients;
 
         private string requestedServer;
-        private string requestedAccount;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,14 +42,13 @@ namespace UWP_XMPP_Client.Dialogs
         {
             this.enablePassword_cbx.IsChecked = true;
             this.password_pwb.Password = password;
+            this.accountSelection_asc.setSelectedAccount(userAccountId);
             this.password_pwb.Visibility = Visibility.Visible;
-            this.requestedAccount = userAccountId;
         }
 
         public AddMUCDialog(string roomJid)
         {
             this.cancled = true;
-            this.requestedAccount = null;
             this.accounts = new ObservableCollection<string>();
             this.serverList = new List<DiscoFeatureTable>();
             this.servers = new ObservableCollection<string>();
@@ -140,16 +137,16 @@ namespace UWP_XMPP_Client.Dialogs
         {
             if (checkUserInputAndWarn())
             {
-                XMPPClient c = clients[account_cbx.SelectedIndex];
+                XMPPClient client = accountSelection_asc.getSelectedAccount();
 
                 string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLower();
 
                 ChatTable muc = new ChatTable()
                 {
-                    id = ChatTable.generateId(roomJid, c.getXMPPAccount().getIdAndDomain()),
+                    id = ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain()),
                     ask = null,
                     chatJabberId = roomJid,
-                    userAccountId = c.getXMPPAccount().getIdAndDomain(),
+                    userAccountId = client.getXMPPAccount().getIdAndDomain(),
                     chatType = ChatType.MUC,
                     inRoster = (bool)bookmark_cbx.IsChecked,
                     muted = false,
@@ -176,12 +173,12 @@ namespace UWP_XMPP_Client.Dialogs
 
                 if (info.autoEnterRoom)
                 {
-                    Task t = MUCHandler.INSTANCE.enterMUCAsync(c, muc, info);
+                    Task t = MUCHandler.INSTANCE.enterMUCAsync(client, muc, info);
                 }
 
                 if ((bool)bookmark_cbx.IsChecked)
                 {
-                    c.PUB_SUB_COMMAND_HELPER.addBookmark(null, null, info.toConferenceItem(muc));
+                    client.PUB_SUB_COMMAND_HELPER.addBookmark(null, null, info.toConferenceItem(muc));
                 }
 
                 return true;
@@ -195,56 +192,46 @@ namespace UWP_XMPP_Client.Dialogs
         /// <returns>Returns whether the user input is valid.</returns>
         private bool checkUserInputAndWarn()
         {
-            if (account_cbx.SelectedIndex < 0)
+            XMPPClient client = accountSelection_asc.getSelectedAccount();
+            if (client == null)
             {
-                showErrorMessage("No account selected!");
+                accountSelection_asc.showErrorMessage("No account selected!");
                 return false;
             }
 
-            if (!clients[account_cbx.SelectedIndex].isConnected())
+            if (!client.isConnected())
             {
-                showErrorMessage("Account is not connected!");
-                accountNotConnected_tblck.Visibility = Visibility.Visible;
+                accountSelection_asc.showErrorMessage("Account not connected!");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(nick_tbx.Text))
             {
-                showErrorMessage("No nickname given!");
+                accountSelection_asc.showErrorMessage("No nickname given!");
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(roomName_tbx.Text))
             {
-                showErrorMessage("No room name given!");
+                accountSelection_asc.showErrorMessage("No room name given!");
                 return false;
             }
 
             if (!Utils.isValidServerAddress(server_asbx.Text))
             {
-                showErrorMessage("Invalid server!");
+                accountSelection_asc.showErrorMessage("Invalid server!");
                 return false;
             }
 
             string roomJid = roomName_tbx.Text + '@' + server_asbx.Text;
-            XMPPClient c = clients[account_cbx.SelectedIndex];
-            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, c.getXMPPAccount().getIdAndDomain())))
+            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain())))
             {
-                showErrorMessage("Chat already exists!");
+                accountSelection_asc.showErrorMessage("Chat already exists!");
                 return false;
             }
 
+            accountSelection_asc.hideErrorMessage();
             return true;
-        }
-
-        /// <summary>
-        /// Shows the error text block with the given text.
-        /// </summary>
-        /// <param name="msg">The text that should get shown in the error text block.</param>
-        private void showErrorMessage(string msg)
-        {
-            error_itbx.Text = msg;
-            error_itbx.Visibility = Visibility.Visible;
         }
 
         #endregion
@@ -255,29 +242,9 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (account_cbx.Items.Count > 0)
-            {
-                if (requestedAccount != null)
-                {
-                    for (int i = 0; i < servers.Count; i++)
-                    {
-                        if (accounts[i].Equals(requestedAccount))
-                        {
-                            account_cbx.SelectedIndex = i;
-                            return;
-                        }
-                    }
-                }
-                account_cbx.SelectedIndex = 0;
-            }
-        }
-
-        private void addAccount_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void accountSelection_asc_AddAccountClicked(object sender, object args)
         {
             Hide();
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
         }
 
         private void enablePassword_cbx_Checked(object sender, RoutedEventArgs e)
@@ -311,21 +278,12 @@ namespace UWP_XMPP_Client.Dialogs
             // Check if the current server address is valid:
             if (!Utils.isValidServerAddress(server_asbx.Text))
             {
-                showErrorMessage("Invalid server!");
+                accountSelection_asc.showErrorMessage("Invalid server!");
             }
 
             // Navigate to browse MUC page:
-            (Window.Current.Content as Frame).Navigate(typeof(BrowseMUCRoomsPage), new BrowseMUCNavigationParameter(server_asbx.Text, clients[account_cbx.SelectedIndex]));
+            (Window.Current.Content as Frame).Navigate(typeof(BrowseMUCRoomsPage), new BrowseMUCNavigationParameter(server_asbx.Text, accountSelection_asc.getSelectedAccount()));
             Hide();
-        }
-
-        private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (account_cbx.SelectedIndex >= 0)
-            {
-                nick_tbx.Text = Utils.getUserFromBareJid(accounts[account_cbx.SelectedIndex]);
-                accountNotConnected_tblck.Visibility = clients[account_cbx.SelectedIndex].isConnected() ? Visibility.Collapsed : Visibility.Visible;
-            }
         }
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)
@@ -347,6 +305,18 @@ namespace UWP_XMPP_Client.Dialogs
         {
             showServersFiltered(server_asbx.Text);
             browse_btn.IsEnabled = Utils.isValidServerAddress(server_asbx.Text);
+        }
+
+        private void AccountSelectionControl_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
+        {
+            if (args.CLIENT != null)
+            {
+                nick_tbx.Text = args.CLIENT.getXMPPAccount().user.userId;
+            }
+            else
+            {
+                nick_tbx.Text = "";
+            }
         }
 
         #endregion

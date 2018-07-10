@@ -1,12 +1,11 @@
-﻿<UserControl
-    x:Class="UWP_XMPP_Client.Controls.AccountSelectionControl"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:local="using:UWP_XMPP_Client.Controls"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    Loaded="UserControl_Loaded">
+﻿<UserControl x:Class="UWP_XMPP_Client.Controls.AccountSelectionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:UWP_XMPP_Client.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Loaded="UserControl_Loaded"
+             mc:Ignorable="d">
 
     <StackPanel>
         <local:IconTextBlockControl x:Name="error_itbx"
@@ -27,8 +26,8 @@
                   PlaceholderText="No accounts found!"
                   SelectionChanged="account_cbx_SelectionChanged"/>
         <HyperlinkButton x:Name="addAccount_link"
-                         Content="Add an account"
-                         Click="addAccount_link_Click"/>
+                         Click="addAccount_link_Click"
+                         Content="Add an account"/>
 
     </StackPanel>
 </UserControl>
