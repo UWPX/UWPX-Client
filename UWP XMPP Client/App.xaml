@@ -4,16 +4,22 @@
     <Application.Resources>
         <x:Double x:Key="AppBarThemeCompactHeight">41</x:Double>
         <SolidColorBrush x:Key="PresenceOnline"
+                         Opacity="0.9"
                          Color="#54A81B"/>
         <SolidColorBrush x:Key="PresenceChat"
+                         Opacity="0.9"
                          Color="White"/>
         <SolidColorBrush x:Key="PresenceAway"
+                         Opacity="0.9"
                          Color="#EB8C10"/>
         <SolidColorBrush x:Key="PresenceXa"
+                         Opacity="0.9"
                          Color="#EB4910"/>
         <SolidColorBrush x:Key="PresenceDnd"
+                         Opacity="0.9"
                          Color="#A21025"/>
         <SolidColorBrush x:Key="PresenceUnavailable"
+                         Opacity="0.9"
                          Color="#4C4A4B"/>
 
         <SolidColorBrush x:Key="SpeechBubbleBackgroundDarkBrush"
