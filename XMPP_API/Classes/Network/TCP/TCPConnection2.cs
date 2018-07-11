@@ -26,6 +26,10 @@ namespace XMPP_API.Classes.Network.TCP
         /// The timeout for upgrading to a TLS connection in ms.
         /// </summary>
         private const int TLS_UPGRADE_TIMEOUT_MS = 5000;
+        /// <summary>
+        /// The timeout for sending data.
+        /// </summary>
+        private const int SEND_TIMEOUT_MS = 1000;
 
         private const int MAX_CONNECTION_TRIES = 3;
 
@@ -41,6 +45,7 @@ namespace XMPP_API.Classes.Network.TCP
         /// </summary>
         private CancellationTokenSource connectingCTS;
         private CancellationTokenSource tlsUpgradeCTS;
+        private CancellationTokenSource sendCTS;
         /// <summary>
         /// Used to cancel all read operations.
         /// </summary>
@@ -208,11 +213,25 @@ namespace XMPP_API.Classes.Network.TCP
                 {
                     WRITE_SEMA.Wait();
                     dataWriter.WriteString(s);
-                    await dataWriter.StoreAsync();
-                    await dataWriter.FlushAsync();
+
+                    // Sometimes dataWriter is blocking for an infinite time, so give it a timeout:
+                    sendCTS = new CancellationTokenSource(SEND_TIMEOUT_MS);
+                    await dataWriter.StoreAsync().AsTask(sendCTS.Token);
+                    await dataWriter.FlushAsync().AsTask(sendCTS.Token);
 
                     Logger.Debug("[TCPConnection2]: Send to (" + account.serverAddress + "):" + s);
                     return true;
+                }
+                catch (TaskCanceledException e)
+                {
+                    if (Logger.logLevel >= LogLevel.DEBUG)
+                    {
+                        Logger.Error("[TCPConnection2]: failed to send - TaskCanceledException: " + s, e);
+                    }
+                    else
+                    {
+                        Logger.Error("[TCPConnection2]: failed to send message - TaskCanceledException!", e);
+                    }
                 }
                 catch (Exception e)
                 {
