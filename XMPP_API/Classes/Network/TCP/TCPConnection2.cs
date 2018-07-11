@@ -163,6 +163,7 @@ namespace XMPP_API.Classes.Network.TCP
             connectingCTS?.Cancel();
             readingCTS?.Cancel();
             tlsUpgradeCTS?.Cancel();
+            sendCTS?.Cancel();
             try
             {
                 dataReader?.DetachStream();
