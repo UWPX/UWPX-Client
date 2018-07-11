@@ -8,9 +8,6 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
-        [AutoIncrement]
-        public int id { get; set; }
-        [NotNull]
         public string messageId { get; set; }
         [NotNull]
         public string accountId { get; set; }

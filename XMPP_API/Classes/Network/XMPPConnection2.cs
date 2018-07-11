@@ -275,7 +275,8 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task sendAllOutstandingMessagesAsync()
         {
-            foreach (MessageTable entry in MessageCache.INSTANCE.getAllForAccount(account.getIdAndDomain()))
+            List<MessageTable> list = MessageCache.INSTANCE.getAllForAccount(account.getIdAndDomain());
+            foreach (MessageTable entry in list)
             {
                 if (state != ConnectionState.CONNECTED)
                 {

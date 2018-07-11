@@ -111,7 +111,6 @@ namespace Data_Manager2.Classes
         /// <param name="account">The XMPPAccount for the corresponding vault that should get deleted.</param>
         public static void deletePassword(XMPPAccount account)
         {
-            string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
             PasswordCredential passwordCredential = getPasswordCredentialForAccount(account);
             deletePassword(passwordCredential);
         }
