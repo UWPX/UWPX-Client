@@ -223,32 +223,32 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private async void moreInformation_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
+            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
         }
 
         private async void contributeGithub_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client"));
+            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client"));
         }
 
         private async void reportBug_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
+            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
         }
 
         private async void feedback_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://www.microsoft.com/store/apps/9NW16X9JB5WV"));
+            await UiUtils.launchUriAsync(new Uri("https://www.microsoft.com/store/apps/9NW16X9JB5WV"));
         }
 
         private async void license_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/LICENSE"));
+            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/LICENSE"));
         }
 
         private async void privacyPolicy_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
+            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
         }
 
         private async void clearCache_btn_Click(object sender, RoutedEventArgs e)

@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using Windows.Services.Store;
 using Windows.UI.Xaml;
@@ -43,39 +41,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
 
         #region --Misc Methods (Private)--
-        private void loadInAppPuraches()
-        {
-            inAppPuraches_lstv.Visibility = Visibility.Collapsed;
-            loadingInAppPuraches_stckp.Visibility = Visibility.Visible;
-            noInAppPurachesAvailable_tbx.Visibility = Visibility.Collapsed;
 
-            Task.Run(async () =>
-            {
-                List<StoreProduct> products = await BuyContentHelper.requestConsumablesAsync();
-
-                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-                {
-                    PRODUCTS.Clear();
-
-                    foreach (StoreProduct p in products)
-                    {
-                        PRODUCTS.Add(p);
-                    }
-
-                    loadingInAppPuraches_stckp.Visibility = Visibility.Collapsed;
-                    if (PRODUCTS.Count <= 0)
-                    {
-                        inAppPuraches_lstv.Visibility = Visibility.Collapsed;
-                        noInAppPurachesAvailable_tbx.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        inAppPuraches_lstv.Visibility = Visibility.Visible;
-                        noInAppPurachesAvailable_tbx.Visibility = Visibility.Collapsed;
-                    }
-                });
-            });
-        }
 
         #endregion
 
@@ -85,19 +51,19 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Page_Loaded(object sender, RoutedEventArgs e)
-        {
-            loadInAppPuraches();
-        }
-
         private async void donateLP_btn_Click(object sender, RoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("http://liberapay.uwpx.org"));
+            await UiUtils.launchUriAsync(new Uri("http://liberapay.uwpx.org"));
         }
 
         private async void donatePP_btn_Click(object sender, RoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri("http://paypal.uwpx.org"));
+            await UiUtils.launchUriAsync(new Uri("http://paypal.uwpx.org"));
+        }
+
+        private async void sendMail_link_Click(object sender, RoutedEventArgs e)
+        {
+            await UiUtils.launchUriAsync(new Uri("mailto:support@uwpx.org?subject=[Donation] Bank detail"));
         }
 
         #endregion

@@ -26,7 +26,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.PRESENCE = presence;
             this.STATUS = status;
             this.PRIORETY = priorety;
-            this.cacheUntilSend = true;
         }
 
         public PresenceMessage(string from, string to, string type) : this(from, to, Presence.NotDefined, null, int.MinValue)

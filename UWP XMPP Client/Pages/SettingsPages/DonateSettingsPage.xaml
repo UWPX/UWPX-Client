@@ -1,16 +1,15 @@
-﻿<Page
-    x:Class="UWP_XMPP_Client.Pages.SettingsPages.DonateSettingsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:UWP_XMPP_Client.Controls"
-    xmlns:store="using:Windows.Services.Store"
-    mc:Ignorable="d"
-    Loaded="Page_Loaded">
+﻿<Page x:Class="UWP_XMPP_Client.Pages.SettingsPages.DonateSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWP_XMPP_Client.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:store="using:Windows.Services.Store"
+      mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="storeDonationTemplate" x:DataType="store:StoreProduct">
+        <DataTemplate x:Key="storeDonationTemplate"
+                      x:DataType="store:StoreProduct">
             <controls:DonateControl Product="{x:Bind}"/>
         </DataTemplate>
     </Page.Resources>
@@ -25,43 +24,33 @@
                                             Icon="&#xEB52;"
                                             Text="Donate"/>
             <StackPanel Grid.Row="1">
-                <controls:SeperatorControl Text="In App:"/>
-                <StackPanel x:Name="loadingInAppPuraches_stckp"
-                            Orientation="Horizontal"
-                            Margin="10, 10, 10, 0">
-                    <ProgressRing IsActive="True"/>
-                    <TextBlock Text="Loading in App donations..."
-                               Margin="10, 0, 0, 0"/>
-                </StackPanel>
-                <TextBlock x:Name="noInAppPurachesAvailable_tbx"
-                           Text="No in App purchases available! Please try again later."
-                           TextWrapping="WrapWholeWords"
-                           Margin="10, 10, 10, 0"/>
-                <ListView x:Name="inAppPuraches_lstv"
-                          Margin="0, 10, 0, 0"
-                          SelectionMode="None"
-                          ItemsSource="{x:Bind PRODUCTS}"
-                          ItemTemplate="{StaticResource storeDonationTemplate}"
-                          Visibility="Collapsed"/>
-                <controls:SeperatorControl Text="Liberapay/PayPal:"/>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="donateLP_btn"
-                        Margin="10, 10, 0, 0"
-                        Click="donateLP_btn_Click"
-                        Padding="0"
+                <controls:SeperatorControl Text="PayPal:"/>
+                <Button x:Name="donatePP_btn"
                         Height="30"
-                        Background="Transparent">
-                        <Image Source="ms-appx:///Assets/Images/lp.png"/>
-                    </Button>
-                    <Button x:Name="donatePP_btn"
-                        Margin="10, 10, 0, 0"
-                        Height="30"
-                        Padding="5, 3, 5, 3"
+                        Margin="10,10,0,0"
+                        Padding="5,3,5,3"
                         Click="donatePP_btn_Click">
-                        <Image Source="ms-appx:///Assets/Images/pp.png"/>
-                    </Button>
+                    <Image Source="ms-appx:///Assets/Images/pp.png"/>
+                </Button>
+                <controls:SeperatorControl Text="Liberapay:"/>
+                <Button x:Name="donateLP_btn"
+                        Height="30"
+                        Margin="10,10,0,0"
+                        Padding="0"
+                        Background="Transparent"
+                        Click="donateLP_btn_Click">
+                    <Image Source="ms-appx:///Assets/Images/lp.png"/>
+                </Button>
+                <controls:SeperatorControl Text="Bank transfer:"/>
+                <StackPanel Margin="10,0,10,0">
+                    <TextBlock x:Uid="DonateSettingsPage_bank_details1"
+                               TextWrapping="Wrap"/>
+                    <HyperlinkButton x:Name="sendMail_link"
+                                     Click="sendMail_link_Click"
+                                     Content="support@uwpx.org"/>
+                    <TextBlock x:Uid="DonateSettingsPage_bank_details2"
+                               TextWrapping="Wrap"/>
                 </StackPanel>
-                <!--<controls:SeperatorControl Text="Crypto:"/>-->
             </StackPanel>
         </Grid>
     </ScrollViewer>

@@ -150,11 +150,11 @@ namespace UWP_XMPP_Client.Classes
         }
 
         /// <summary>
-        /// Launches the web browser with the given url.
+        /// Launches the default application for the given Uri.
         /// </summary>
-        /// <param name="url">The url that the browser should show.</param>
+        /// <param name="url">The Uri that defines the application that should get launched.</param>
         /// <returns>Returns true on success.</returns>
-        public static async Task<bool> launchBrowserAsync(Uri url)
+        public static async Task<bool> launchUriAsync(Uri url)
         {
             return await Windows.System.Launcher.LaunchUriAsync(url);
         }

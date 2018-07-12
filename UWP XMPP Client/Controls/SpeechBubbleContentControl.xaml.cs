@@ -285,7 +285,7 @@ namespace UWP_XMPP_Client.Controls
 
         private async void openLink_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new Uri(ChatMessage.message));
+            await UiUtils.launchUriAsync(new Uri(ChatMessage.message));
         }
 
         private async void redownloadImage_mfo_Click(object sender, RoutedEventArgs e)

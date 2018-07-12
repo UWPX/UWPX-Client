@@ -63,7 +63,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private async void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
-            await UiUtils.launchBrowserAsync(new System.Uri(e.Link));
+            await UiUtils.launchUriAsync(new System.Uri(e.Link));
         }
 
         #endregion
