@@ -42,7 +42,7 @@
                     <Image Source="ms-appx:///Assets/Images/lp.png"/>
                 </Button>
                 <controls:SeperatorControl Text="Bank transfer:"/>
-                <StackPanel Margin="10,0,10,0">
+                <StackPanel Margin="10,10,10,0">
                     <TextBlock x:Uid="DonateSettingsPage_bank_details1"
                                TextWrapping="Wrap"/>
                     <HyperlinkButton x:Name="sendMail_link"

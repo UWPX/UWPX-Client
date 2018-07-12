@@ -176,7 +176,7 @@ They're sooooo fluffy - to fluffy!</value>
 So if you have the ability to make SEPA bank transfers at a low cost (for example if you live within the EU) feel free to contact me for my bank details:</value>
   </data>
   <data name="DonateSettingsPage_bank_details2.Text" xml:space="preserve">
-    <value>Never the less PayPal and donations are still very much appreciated!</value>
+    <value>Never the less PayPal donations are still very much appreciated!</value>
   </data>
   <data name="error_text" xml:space="preserve">
     <value>Error</value>
