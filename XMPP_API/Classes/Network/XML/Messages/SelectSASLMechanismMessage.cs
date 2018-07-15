@@ -2,12 +2,12 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class SelectSASLMechanismMessage : AbstractMessage
+    public class SelectSASLMechanismMessage : AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string MECHANISM;
-        private readonly string VALUE;
+        public readonly string MECHANISM;
+        public readonly string VALUE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Public)--
         public override XElement toXElement()
         {
-            XNamespace ns = "urn:ietf:params:xml:ns:xmpp-sasl";
+            XNamespace ns = Consts.XML_SASL_NAMESPACE;
             XElement node = new XElement(ns + "auth");
             node.Add(new XAttribute("mechanism", MECHANISM));
             node.Value = VALUE;

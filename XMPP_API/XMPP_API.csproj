@@ -138,6 +138,7 @@
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\CryptoUtils.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
@@ -212,11 +213,10 @@
     <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\AbstractSASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\PBKDF.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\PlainSASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\Plain\PlainSASLMechanism.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLStreamFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLSuccessMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\ScramSha1SASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1SASLMechanism.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingConnection.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingState.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SASLConnection.cs" />
@@ -236,8 +236,8 @@
     <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ScramSha1ChallengeSolutionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1ChallengeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSha1ChallengeSolutionMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\SelectSASLMechanismMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\StreamFeaturesAnswerMessage.cs" />

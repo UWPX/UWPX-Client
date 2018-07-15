@@ -5,6 +5,8 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
@@ -14,7 +16,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Attributes--
         private SASLState state;
         private AbstractSASLMechanism selectedMechanism;
-        private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "plain", "scram-sha-1", "digest-md5", "x-oauth2" };
+        private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "scram-sha-1" };
+        //private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "plain" };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -79,11 +82,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             switch (selected)
             {
                 case "scram-sha-1":
-                    selectedMechanism = new ScramSha1SASLMechanism(sCC.user.userId, sCC.user.userPassword);
-                    break;
-                case "digest-md5":
-                    break;
-                case "x-oauth2":
+                    selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.userId, sCC.user.userPassword);
                     break;
                 case "plain":
                     selectedMechanism = new PlainSASLMechanism(sCC.user.userId, sCC.user.userPassword);
@@ -142,7 +141,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
                 case SASLState.REQUESTED:
                 case SASLState.CHALLENGING:
-                    if (msg is ScramSha1ChallengeMessage)
+                    if (msg is ScramSHA1ChallengeMessage)
                     {
                         state = SASLState.CHALLENGING;
                         setMessageProcessed(args);

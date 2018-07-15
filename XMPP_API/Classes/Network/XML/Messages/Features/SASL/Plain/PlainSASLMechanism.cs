@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
+namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain
 {
     class PlainSASLMechanism : AbstractSASLMechanism
     {

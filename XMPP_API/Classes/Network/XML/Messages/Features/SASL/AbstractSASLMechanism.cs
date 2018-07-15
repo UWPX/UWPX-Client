@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
 {
-    abstract class AbstractSASLMechanism
+    public abstract class AbstractSASLMechanism
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

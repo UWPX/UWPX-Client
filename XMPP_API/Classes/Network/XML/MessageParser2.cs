@@ -277,7 +277,7 @@ namespace XMPP_API.Classes.Network.XML
 
                     // SASL:
                     case "challenge":
-                        messages.Add(new ScramSha1ChallengeMessage(n));
+                        messages.Add(new ScramSHA1ChallengeMessage(n));
                         break;
 
                     // SASL failure:
