@@ -61,27 +61,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             XElement xNode = new XElement(ns + "x");
             xNode.Add(new XAttribute("type", type.ToString().ToLower()));
 
-            XElement fieldNode = new XElement(ns + "field");
-            fieldNode.Add(new XAttribute("var", "FORM_TYPE"));
-            fieldNode.Add(new XElement(ns + "value")
-            {
-                Value = Consts.XML_XEP_0045_NAMESPACE_ROOM_CONFIG
-            });
-            xNode.Add(fieldNode);
-
             foreach (Field f in FIELDS)
             {
-                switch (f.type)
-                {
-                    case FieldType.TEXT_SINGLE:
-                    case FieldType.TEXT_MULTI:
-                    case FieldType.TEXT_PRIVATE:
-                    case FieldType.BOOLEAN:
-                    case FieldType.LIST_SINGLE:
-                    case FieldType.LIST_MULTI:
-                        xNode.Add(f.toXElement(ns));
-                        break;
-                }
+                xNode.Add(f.toXElement(ns));
             }
 
             if (titel != null)

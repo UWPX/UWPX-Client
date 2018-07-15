@@ -170,6 +170,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                         Value = (bool)value ? "1" : "0"
                     });
                     break;
+
+                case FieldType.HIDDEN:
+                case FieldType.NONE:
+                    fieldNode.Add(new XElement(ns + "value")
+                    {
+                        Value = value == null ? "" : (string)value,
+                    });
+                    break;
             }
             return fieldNode;
         }
