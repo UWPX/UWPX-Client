@@ -207,6 +207,9 @@
     <Compile Include="DataTemplates\BoolVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
+    <Compile Include="Dialogs\AddBookmarkDialog.xaml.cs">
+      <DependentUpon>AddBookmarkDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>
@@ -530,6 +533,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SpeechBubbleInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AddBookmarkDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

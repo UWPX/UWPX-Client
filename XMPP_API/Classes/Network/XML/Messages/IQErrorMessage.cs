@@ -42,7 +42,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override string ToString()
+        {
+            return "IQErrorMessage: " + ERROR_OBJ.ToString();
+        }
 
         #endregion
 

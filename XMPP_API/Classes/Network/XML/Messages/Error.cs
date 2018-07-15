@@ -41,7 +41,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override string ToString()
+        {
+            return "type: " + ERROR_TYPE + ", name: " + ERROR_NAME + ", message: " + ERROR_MESSAGE;
+        }
 
         #endregion
 

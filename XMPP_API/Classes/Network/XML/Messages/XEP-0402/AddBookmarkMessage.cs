@@ -1,4 +1,6 @@
-﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
@@ -28,7 +30,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         protected override PubSubPublishOptions getPublishOptions()
         {
             PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
-            /*options.OPTIONS.FIELDS.Add(new Field()
+            options.OPTIONS.FIELDS.Add(new Field()
             {
                 var = "pubsub#persist_items",
                 value = true,
@@ -39,7 +41,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
                 var = "pubsub#access_model",
                 value = "whitelist",
                 type = FieldType.NONE
-            });*/
+            });
 
             return options;
         }

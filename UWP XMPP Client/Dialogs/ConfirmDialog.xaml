@@ -8,12 +8,14 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <ScrollViewer HorizontalScrollMode="Disabled">
-            <TextBlock Text="{x:Bind Text, Mode=OneWay}" TextWrapping="Wrap"/>
+        <ScrollViewer Grid.Row="0"
+                      HorizontalScrollMode="Disabled">
+            <TextBlock Text="{x:Bind Text, Mode=OneWay}"
+                       TextWrapping="Wrap"/>
         </ScrollViewer>
 
         <Grid Grid.Row="1"

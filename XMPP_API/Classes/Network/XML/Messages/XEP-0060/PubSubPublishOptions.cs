@@ -41,9 +41,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement()
+        public XElement toXElement(XNamespace ns)
         {
-            XElement pubSubOptNode = new XElement("publish-options");
+            XElement pubSubOptNode = new XElement(ns + "publish-options");
             OPTIONS.addToXElement(pubSubOptNode);
             return pubSubOptNode;
         }

@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 
             if (options != null)
             {
-                publishNode.Add(options.toXElement());
+                publishNode.Add(options.toXElement(ns));
             }
             return publishNode;
         }

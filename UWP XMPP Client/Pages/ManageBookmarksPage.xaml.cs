@@ -1,8 +1,6 @@
-﻿using Data_Manager2.Classes;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Dialogs;
 using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -17,9 +15,6 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ObservableCollection<string> accounts;
-        private List<XMPPClient> clients;
-
         private MessageResponseHelper<IQMessage> messageResponseHelper;
         private CustomObservableCollection<ConferenceItem> bookmarks;
 
@@ -35,8 +30,6 @@ namespace UWP_XMPP_Client.Pages
         public ManageBookmarksPage()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
-            this.accounts = new ObservableCollection<string>();
-            this.clients = null;
             this.messageResponseHelper = null;
             this.bookmarks = new CustomObservableCollection<ConferenceItem>();
             this.InitializeComponent();
@@ -45,14 +38,7 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private XMPPClient getSelectedClient()
-        {
-            if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
-            {
-                return clients[account_cbx.SelectedIndex];
-            }
-            return null;
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -62,61 +48,14 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Loads all accounts.
-        /// </summary>
-        private void loadAccounts()
-        {
-            clients = ConnectionHandler.INSTANCE.getClients();
-            if (clients != null)
-            {
-                accounts.Clear();
-                bool foundConnected = false;
-                for (int i = 0; i < clients.Count; i++)
-                {
-                    accounts.Add(clients[i].getXMPPAccount().getIdAndDomain());
-                    if (!foundConnected && clients[i].isConnected())
-                    {
-                        account_cbx.SelectedIndex = i;
-                        foundConnected = true;
-                    }
-                }
-            }
-        }
-
-        private void showErrorMessage(string msg)
-        {
-            info_itbx.Visibility = Visibility.Collapsed;
-            error_itbx.Text = msg;
-            error_itbx.Visibility = Visibility.Visible;
-        }
-
-        private void showInfoMessage(string msg)
-        {
-            error_itbx.Visibility = Visibility.Collapsed;
-            info_itbx.Text = msg;
-            info_itbx.Visibility = Visibility.Visible;
-        }
-
-        private void hideErrorMessage()
-        {
-            error_itbx.Visibility = Visibility.Collapsed;
-        }
-
         private void requestBookmarks(XMPPClient c)
         {
-            if (account_cbx.SelectedIndex >= 0 && account_cbx.SelectedIndex < clients.Count)
-            {
-                // main_grid.Visibility = Visibility.Collapsed;
-                // loading_grid.Visibility = Visibility.Visible;
-                noneFound_notification.Dismiss();
-                messageResponseHelper = c.PUB_SUB_COMMAND_HELPER.requestBookmars(onMessage, onTimeout);
-            }
+            messageResponseHelper = c.PUB_SUB_COMMAND_HELPER.requestBookmars(onMessage, onTimeout);
         }
 
         private void onTimeout()
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("None found - timeout!")).AsTask();
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("Request failed - timeout!")).AsTask();
         }
 
         private bool onMessage(AbstractMessage msg)
@@ -125,9 +64,18 @@ namespace UWP_XMPP_Client.Pages
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    refresh_btn.IsEnabled = true;
                     bookmarks.Clear();
-                    noneFound_notification.Show("Request failed with:\n" + errorMsg.ERROR_OBJ.ERROR_NAME + " and " + errorMsg.ERROR_OBJ.ERROR_MESSAGE);
+                    if (errorMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
+                    {
+                        noneFound_notification.Show("Found 0 bookmarks.", 2000);
+                    }
+                    else
+                    {
+                        noneFound_notification.Show("Request failed with:\n" + errorMsg.ERROR_OBJ.ERROR_NAME + " and " + errorMsg.ERROR_OBJ.ERROR_MESSAGE);
+                    }
+                    reload_abb.IsEnabled = true;
+                    loading_grid.Visibility = Visibility.Collapsed;
+                    main_grid.Visibility = Visibility.Visible;
                 }).AsTask();
                 return true;
             }
@@ -135,13 +83,34 @@ namespace UWP_XMPP_Client.Pages
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    refresh_btn.IsEnabled = true;
                     bookmarks.Clear();
                     bookmarks.AddRange(result.conferences);
+                    if (result.conferences.Count > 1)
+                    {
+                        noneFound_notification.Show("Found " + result.conferences.Count + " bookmarks.", 2000);
+                    }
+                    else
+                    {
+                        noneFound_notification.Show("Found " + result.conferences.Count + " bookmark.", 2000);
+                    }
+                    reload_abb.IsEnabled = true;
+                    loading_grid.Visibility = Visibility.Collapsed;
+                    main_grid.Visibility = Visibility.Visible;
                 }).AsTask();
                 return true;
             }
             return false;
+        }
+
+        private void reload(XMPPClient c)
+        {
+            reload_abb.IsEnabled = false;
+            if (c != null && c.isConnected())
+            {
+                loading_grid.Visibility = Visibility.Visible;
+                main_grid.Visibility = Visibility.Collapsed;
+                requestBookmarks(c);
+            }
         }
 
         #endregion
@@ -152,43 +121,9 @@ namespace UWP_XMPP_Client.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (account_cbx.SelectedIndex < 0 && account_cbx.Items.Count > 0)
-            {
-                account_cbx.SelectedIndex = 0;
-            }
-        }
-
-        private void account_cbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            refresh();
-        }
-
-        private void refresh()
-        {
-            XMPPClient c = getSelectedClient();
-            if (c == null)
-            {
-                refresh_btn.IsEnabled = false;
-                hideErrorMessage();
-            }
-            else if (!c.isConnected())
-            {
-                refresh_btn.IsEnabled = false;
-                showErrorMessage("Account not connected!");
-            }
-            else
-            {
-                hideErrorMessage();
-                requestBookmarks(c);
-            }
-        }
-
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UiUtils.setBackgroundImage(backgroundImage_img);
-            loadAccounts();
         }
 
         private void BrowseMUCRoomsPage_BackRequested(object sender, BackRequestedEventArgs e)
@@ -204,9 +139,9 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void refresh_btn_Click(object sender, RoutedEventArgs e)
+        private void reload_abb_Click(object sender, RoutedEventArgs e)
         {
-            refresh();
+            reload(account_asc.getSelectedAccount());
         }
 
         private void addAccount_hlb_Click(object sender, RoutedEventArgs e)
@@ -217,6 +152,21 @@ namespace UWP_XMPP_Client.Pages
         private void Page_Unloaded(object sender, RoutedEventArgs e)
         {
             messageResponseHelper?.stop();
+        }
+
+        private async void add_abb_Click(object sender, RoutedEventArgs e)
+        {
+            AddBookmarkDialog dialog = new AddBookmarkDialog(account_asc.getSelectedAccount());
+            await UiUtils.showDialogAsyncQueue(dialog);
+            if (dialog.success)
+            {
+                noneFound_notification.Show("Bookmark added.", 2000);
+            }
+        }
+
+        private void account_asc_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
+        {
+            reload(args.CLIENT);
         }
 
         #endregion
