@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0054;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 

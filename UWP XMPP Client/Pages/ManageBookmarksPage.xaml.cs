@@ -9,7 +9,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -137,7 +137,7 @@ namespace UWP_XMPP_Client.Pages
                 {
                     refresh_btn.IsEnabled = true;
                     bookmarks.Clear();
-                    bookmarks.AddRange(result.storage.CONFERENCE_ITEMS);
+                    bookmarks.AddRange(result.conferences);
                 }).AsTask();
                 return true;
             }

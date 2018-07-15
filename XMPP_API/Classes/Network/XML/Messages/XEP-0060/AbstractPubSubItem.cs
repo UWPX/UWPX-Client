@@ -1,14 +1,12 @@
-﻿using System.Xml;
-using System.Xml.Linq;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class RequestBookmarksMessage : PubSubRequestMessage
+    public abstract class AbstractPubSubItem : IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public string id;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,30 +15,35 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestBookmarksMessage(string from) : base(from)
+        public AbstractPubSubItem()
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent()
-        {
-            XElement item = new XElement(NS + "items");
-            item.Add(new XAttribute("node", Consts.XML_XEP_0048_NAMESPACE));
-            return item;
-        }
+        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public XElement toXElement(XNamespace ns)
+        {
+            XElement item = new XElement(ns + "item");
+            item.Add(new XAttribute("id", id));
+            XElement cont = getContent(ns);
+            if (cont != null)
+            {
+                item.Add(cont);
+            }
+            return item;
+        }
 
         #endregion
 
-        #region --Misc Methods (Private)-- 
+        #region --Misc Methods (Private)--
 
 
         #endregion

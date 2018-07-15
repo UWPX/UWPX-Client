@@ -53,12 +53,12 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0060_NAMESPACE = "http://jabber.org/protocol/pubsub";
         // XEP-0004 (Data Forms):
         public const string XML_XEP_0004_NAMESPACE = "jabber:x:data";
-        // XEP-0048 (Bookmarks):
-        public const string XML_XEP_0048_NAMESPACE = "storage:bookmarks";
         // XEP-0030 (Disco):
         public const string XML_XEP_0030_ITEMS_NAMESPACE = "http://jabber.org/protocol/disco#items";
         public const string XML_XEP_0030_INFO_NAMESPACE = "http://jabber.org/protocol/disco#info";
         // XEP-0054 (vcard-temp):
         public const string XML_XEP_0054_NAMESPACE = "vcard-temp";
+        // XEP-0402 (Bookmarks 2):
+        public const string XML_XEP_0402_NAMESPACE = "urn:xmpp:bookmarks:0";
     }
 }

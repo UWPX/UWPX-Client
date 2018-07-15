@@ -169,13 +169,8 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\BookmarksResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\ConferenceItem.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\RemoveBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\RequestBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\AddBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
@@ -206,6 +201,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0402\AddBookmarkMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0402\BookmarksResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0402\ConferenceItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\XML\MessageParser2.cs" />
     <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />

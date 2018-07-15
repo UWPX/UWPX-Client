@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Xml;
-using System.Xml.Linq;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public class StorageItem : IXElementable
+    public class RemoveBookmarkMessage : PubSubRetractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<ConferenceItem> CONFERENCE_ITEMS;
+        public readonly ConferenceItem CONFERENCE_ITEM;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,43 +15,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 04/07/2018 Created [Fabian Sauter]
         /// </history>
-        public StorageItem(List<ConferenceItem> conferenceItems)
+        public RemoveBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0402_NAMESPACE)
         {
-            this.CONFERENCE_ITEMS = conferenceItems;
-        }
-
-        public StorageItem(XmlNode node)
-        {
-            CONFERENCE_ITEMS = new List<ConferenceItem>();
-            foreach (XmlNode n in node)
-            {
-                if (string.Equals(n.Name, "conference"))
-                {
-                    CONFERENCE_ITEMS.Add(new ConferenceItem(n));
-                }
-            }
+            this.CONFERENCE_ITEM = conferenceItem;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        protected override AbstractPubSubItem getPubSubItem()
+        {
+            return CONFERENCE_ITEM;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement(XNamespace ns)
-        {
-            XNamespace sNs = Consts.XML_XEP_0048_NAMESPACE;
-            XElement storage = new XElement(sNs + "storage");
-            foreach (ConferenceItem c in CONFERENCE_ITEMS)
-            {
-                storage.Add(c.toXElement(sNs));
-            }
-            return storage;
-        }
+
 
         #endregion
 

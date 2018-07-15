@@ -1,13 +1,12 @@
-﻿using System.Collections.Generic;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public class RemoveBookmarksMessage : PubSubRetractMessage
+    public class AddBookmarkMessage : PubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<ConferenceItem> CONFERENCE_ITEMS;
+        public readonly ConferenceItem CONFERENCE_ITEM;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,27 +15,38 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/07/2018 Created [Fabian Sauter]
+        /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
-        public RemoveBookmarksMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0048_NAMESPACE)
+        public AddBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0402_NAMESPACE)
         {
-            this.CONFERENCE_ITEMS = new List<ConferenceItem>
-            {
-                conferenceItem
-            };
-        }
-
-        public RemoveBookmarksMessage(string from, List<ConferenceItem> conferenceItems) : base(from, Consts.XML_XEP_0048_NAMESPACE)
-        {
-            this.CONFERENCE_ITEMS = conferenceItems;
+            this.CONFERENCE_ITEM = conferenceItem;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override PubSubItem getPubSubItem()
+        protected override PubSubPublishOptions getPublishOptions()
         {
-            return new PubSubItem("current", new StorageItem(CONFERENCE_ITEMS));
+            PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
+            /*options.OPTIONS.FIELDS.Add(new Field()
+            {
+                var = "pubsub#persist_items",
+                value = true,
+                type = FieldType.BOOLEAN
+            });
+            options.OPTIONS.FIELDS.Add(new Field()
+            {
+                var = "pubsub#access_model",
+                value = "whitelist",
+                type = FieldType.NONE
+            });*/
+
+            return options;
+        }
+
+        protected override AbstractPubSubItem getPubSubItem()
+        {
+            return CONFERENCE_ITEM;
         }
 
         #endregion

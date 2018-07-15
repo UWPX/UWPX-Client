@@ -1,6 +1,6 @@
 ﻿using SQLite;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -73,8 +73,7 @@ namespace Data_Manager2.Classes.DBTables
             return new ConferenceItem()
             {
                 autoJoin = autoEnterRoom,
-                jid = muc.chatJabberId,
-                minimize = false,
+                id = muc.chatJabberId,
                 name = name,
                 nick = nickname,
                 password = password

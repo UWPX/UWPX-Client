@@ -5,19 +5,19 @@
       xmlns:controls1="using:UWP_XMPP_Client.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      xmlns:xep_0048="using:XMPP_API.Classes.Network.XML.Messages.XEP_0048"
+      xmlns:xep_0402="using:XMPP_API.Classes.Network.XML.Messages.XEP_0402"
       Loaded="Page_Loaded"
       Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate"
-                      x:DataType="xep_0048:ConferenceItem">
+                      x:DataType="xep_0402:ConferenceItem">
             <controls1:ManageBookmarksMasterControl Conference="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate"
-                      x:DataType="xep_0048:ConferenceItem">
+                      x:DataType="xep_0402:ConferenceItem">
             <controls1:ManageBookmarksDetailsControl Conference="{x:Bind}"/>
         </DataTemplate>
 

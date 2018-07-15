@@ -1,14 +1,15 @@
-﻿using System.Xml;
+﻿using System.Collections.Generic;
+using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
     public class BookmarksResultMessage : PubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public StorageItem storage;
+        public List<ConferenceItem> conferences;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,7 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
         public BookmarksResultMessage(XmlNode node) : base(node)
         {
@@ -46,24 +47,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #region --Misc Methods (Protected)--
         protected override void loadContent(XmlNode content)
         {
+            conferences = new List<ConferenceItem>();
             if (string.Equals(content.Name, "items"))
             {
-                XmlAttribute att = content.Attributes["node"];
-                if (att != null && string.Equals(att.Value, Consts.XML_XEP_0048_NAMESPACE))
+                foreach (XmlNode n in content.ChildNodes)
                 {
-                    foreach (XmlNode n in content.ChildNodes)
+                    if (!string.IsNullOrEmpty(n.Attributes["id"]?.Value))
                     {
-                        if (string.Equals(n.Name, "item"))
+                        ConferenceItem conf = new ConferenceItem(n);
+                        if (conf.IS_VALID)
                         {
-                            att = n.Attributes["id"];
-                            if (att != null && string.Equals(att.Value, "current"))
-                            {
-                                XmlNode storageNode = XMLUtils.getChildNode(n, "storage", Consts.XML_XMLNS, Consts.XML_XEP_0048_NAMESPACE);
-                                if (storageNode != null)
-                                {
-                                    storage = new StorageItem(storageNode);
-                                }
-                            }
+                            conferences.Add(conf);
                         }
                     }
                 }

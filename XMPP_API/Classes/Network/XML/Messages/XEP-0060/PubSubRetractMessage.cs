@@ -29,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         {
             XElement retractNode = new XElement(ns + "retract");
             retractNode.Add(new XAttribute("node", NODE_NAME));
-            PubSubItem item = getPubSubItem();
+            AbstractPubSubItem item = getPubSubItem();
             if (item != null)
             {
                 retractNode.Add(item.toXElement(ns));
@@ -37,7 +37,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
             return retractNode;
         }
 
-        protected abstract PubSubItem getPubSubItem();
+        protected abstract AbstractPubSubItem getPubSubItem();
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

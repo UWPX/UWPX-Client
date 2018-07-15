@@ -10,7 +10,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
@@ -233,8 +233,8 @@ namespace XMPP_API.Classes.Network.XML
                                     XmlNode pubSubNode = XMLUtils.getChildNode(n, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
                                     if (pubSubNode != null)
                                     {
-                                        // XEP-0048 (Bookmarks) response:
-                                        if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0048_NAMESPACE) != null)
+                                        // XEP-0402 (Bookmarks 2) response:
+                                        if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0402_NAMESPACE) != null)
                                         {
                                             messages.Add(new BookmarksResultMessage(n));
                                             break;

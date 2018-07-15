@@ -1,19 +1,20 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public class ConferenceItem : IXElementable
+    public class ConferenceItem : AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string name;
-        public string jid;
-        public bool minimize;
         public bool autoJoin;
 
         public string nick;
         public string password;
+
+        public readonly bool IS_VALID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,33 +23,36 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/06/2018 Created [Fabian Sauter]
+        /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
         public ConferenceItem()
         {
-
+            this.IS_VALID = false;
         }
 
         public ConferenceItem(XmlNode node)
         {
+            this.IS_VALID = false;
+
             if (node != null)
             {
-                name = node.Attributes["name"]?.Value;
-                jid = node.Attributes["jid"]?.Value;
-                minimize = XMLUtils.tryParseToBool(node.Attributes["minimize"]?.Value);
-                autoJoin = XMLUtils.tryParseToBool(node.Attributes["autojoin"]?.Value);
+                id = node.Attributes["id"]?.Value;
 
-                XmlNode nNode = XMLUtils.getChildNode(node, "nick");
-                if (nNode != null)
+                XmlNode confNode = XMLUtils.getChildNode(node, "conference", Consts.XML_XMLNS, Consts.XML_XEP_0402_NAMESPACE);
+                if (confNode == null)
                 {
-                    nick = nNode.InnerText;
+                    return;
                 }
 
-                XmlNode pNode = XMLUtils.getChildNode(node, "password");
-                if (pNode != null)
-                {
-                    password = pNode.InnerText;
-                }
+                name = confNode.Attributes["name"]?.Value;
+                autoJoin = XMLUtils.tryParseToBool(confNode.Attributes["autojoin"]?.Value);
+
+                XmlNode nNode = XMLUtils.getChildNode(confNode, "nick");
+                nick = nNode != null ? nNode.InnerText : "";
+
+                XmlNode pNode = XMLUtils.getChildNode(confNode, "password");
+                password = pNode != null ? pNode.InnerText : "";
+                IS_VALID = true;
             }
         }
 
@@ -60,26 +64,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement(XNamespace ns)
+        protected override XElement getContent(XNamespace ns)
         {
-            XElement confNode = new XElement(ns + "conference");
+            XNamespace ns1 = Consts.XML_XEP_0402_NAMESPACE;
+            XElement confNode = new XElement(ns1 + "conference");
             confNode.Add(new XAttribute("autojoin", autoJoin));
-            confNode.Add(new XAttribute("minimize", minimize));
-            if (jid != null)
-            {
-                confNode.Add(new XAttribute("jid", jid));
-            }
             if (name != null)
             {
                 confNode.Add(new XAttribute("name", name));
             }
-            if (nick != null)
-            {
-                confNode.Add(new XElement(ns + "nick", nick));
-            }
             if (password != null)
             {
                 confNode.Add(new XElement(ns + "password", password));
+            }
+            if (nick != null)
+            {
+                confNode.Add(new XElement(ns + "nick", nick));
             }
             return confNode;
         }

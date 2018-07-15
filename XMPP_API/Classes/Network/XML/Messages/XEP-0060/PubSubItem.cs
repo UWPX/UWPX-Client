@@ -2,11 +2,10 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubItem : IXElementable
+    public class PubSubItem : AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string ID;
         public readonly IXElementable CONTENT;
 
         #endregion
@@ -20,25 +19,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubItem(string id, IXElementable content)
         {
-            this.ID = id;
+            this.id = id;
             this.CONTENT = content;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        protected override XElement getContent(XNamespace ns)
+        {
+            return CONTENT?.toXElement(ns);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public XElement toXElement(XNamespace ns)
-        {
-            XElement item = new XElement(ns + "item");
-            item.Add(new XAttribute("id", ID));
-            item.Add(CONTENT.toXElement(ns));
-            return item;
-        }
+
 
         #endregion
 

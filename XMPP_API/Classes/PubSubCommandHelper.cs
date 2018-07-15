@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace XMPP_API.Classes
 {
@@ -57,22 +56,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> addBookmark(Func<IQMessage, bool> onMessage, Action onTimeout, ConferenceItem conferenceItem)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            AddBookmarksMessage msg = new AddBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
-            helper.start(msg);
-            return helper;
-        }
-
-        /// <summary>
-        /// Sends a AddBookmarksMessage for storing the given bookmarks on the server.
-        /// </summary>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <param name="conferenceItem">The bookmark that should get stored on the server.</param>
-        /// <returns>Returns a MessageResponseHelper listening for AddBookmarksMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> addBookmarks(Func<IQMessage, bool> onMessage, Action onTimeout, List<ConferenceItem> conferenceItems)
-        {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            AddBookmarksMessage msg = new AddBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItems);
+            AddBookmarkMessage msg = new AddBookmarkMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
             helper.start(msg);
             return helper;
         }
@@ -87,22 +71,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> removeBookmark(Func<IQMessage, bool> onMessage, Action onTimeout, ConferenceItem conferenceItem)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            RemoveBookmarksMessage msg = new RemoveBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
-            helper.start(msg);
-            return helper;
-        }
-
-        /// <summary>
-        /// Sends a RemoveBookmarksMessage for removing the given bookmarks from the server.
-        /// </summary>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <param name="conferenceItem">The bookmark that should get removed from the server.</param>
-        /// <returns>Returns a RemoveBookmarksMessage listening for AddBookmarksMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> removeBookmarks(Func<IQMessage, bool> onMessage, Action onTimeout, List<ConferenceItem> conferenceItems)
-        {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            RemoveBookmarksMessage msg = new RemoveBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItems);
+            RemoveBookmarkMessage msg = new RemoveBookmarkMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
             helper.start(msg);
             return helper;
         }

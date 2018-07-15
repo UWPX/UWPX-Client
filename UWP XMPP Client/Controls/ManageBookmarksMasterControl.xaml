@@ -19,7 +19,7 @@
         <StackPanel Grid.Column="0">
             <TextBlock Text="{x:Bind Conference.name, Mode=OneWay}"
                        TextWrapping="Wrap"/>
-            <TextBlock Text="{x:Bind Conference.jid, Mode=OneWay}"
+            <TextBlock Text="{x:Bind Conference.id, Mode=OneWay}"
                        TextWrapping="Wrap"/>
             <TextBlock Text="{x:Bind Conference.nick, Mode=OneWay}"
                        TextWrapping="Wrap"/>
@@ -32,12 +32,6 @@
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
                        Text="&#xE751;"
                        Visibility="{x:Bind Conference.autoJoin, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
-            <TextBlock Margin="0,5,0,5"
-                       FontFamily="Segoe MDL2 Assets"
-                       FontSize="13"
-                       Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
-                       Text="&#xE743;"
-                       Visibility="{x:Bind Conference.minimize, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
             <TextBlock Margin="0,5,0,5"
                        FontFamily="Segoe MDL2 Assets"
                        FontSize="13"

@@ -12,7 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using System.Threading;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace Data_Manager2.Classes
 {
@@ -579,11 +579,11 @@ namespace Data_Manager2.Classes
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
         {
-            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.storage.CONFERENCE_ITEMS)
+            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.conferences)
             {
                 bool newMUC = false;
                 string to = client.getXMPPAccount().getIdAndDomain();
-                string from = c.jid;
+                string from = c.id;
                 string id = ChatTable.generateId(from, to);
 
                 // Create / update chat:

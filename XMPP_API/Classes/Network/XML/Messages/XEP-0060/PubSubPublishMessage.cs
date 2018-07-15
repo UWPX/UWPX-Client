@@ -29,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         {
             XElement publishNode = new XElement(ns + "publish");
             publishNode.Add(new XAttribute("node", NODE_NAME));
-            PubSubItem item = getPubSubItem();
+            AbstractPubSubItem item = getPubSubItem();
             if (item != null)
             {
                 publishNode.Add(item.toXElement(ns));
@@ -58,7 +58,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 
         #region --Misc Methods (Protected)--
         protected abstract PubSubPublishOptions getPublishOptions();
-        protected abstract PubSubItem getPubSubItem();
+        protected abstract AbstractPubSubItem getPubSubItem();
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

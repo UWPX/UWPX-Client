@@ -17,7 +17,7 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages;
 using Data_Manager2.Classes.Events;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace UWP_XMPP_Client.Controls
 {

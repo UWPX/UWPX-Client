@@ -1,19 +1,13 @@
-﻿using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace UWP_XMPP_Client.Controls
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public sealed partial class ManageBookmarksDetailsControl : UserControl
+    public class RequestBookmarksMessage : PubSubRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ConferenceItem Conference
-        {
-            get { return (ConferenceItem)GetValue(ConferenceProperty); }
-            set { SetValue(ConferenceProperty, value); }
-        }
-        public static readonly DependencyProperty ConferenceProperty = DependencyProperty.Register(nameof(Conference), typeof(ConferenceItem), typeof(ManageBookmarksDetailsControl), null);
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,17 +16,21 @@ namespace UWP_XMPP_Client.Controls
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/06/2018 Created [Fabian Sauter]
+        /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
-        public ManageBookmarksDetailsControl()
+        public RequestBookmarksMessage(string from) : base(from)
         {
-            this.InitializeComponent();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        protected override XElement getContent()
+        {
+            XElement item = new XElement(NS + "items");
+            item.Add(new XAttribute("node", Consts.XML_XEP_0402_NAMESPACE));
+            return item;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -41,7 +39,7 @@ namespace UWP_XMPP_Client.Controls
 
         #endregion
 
-        #region --Misc Methods (Private)--
+        #region --Misc Methods (Private)-- 
 
 
         #endregion
