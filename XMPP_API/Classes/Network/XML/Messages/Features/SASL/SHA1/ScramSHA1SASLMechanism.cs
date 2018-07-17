@@ -119,11 +119,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         private string computeAnswer(uint iterations)
         {
             byte[] b = Encoding.ASCII.GetBytes(salt);
-            byte[] b1 = hexStringToByteArray("4125c247e43ab1e93c6dff76");
+            byte[] b1 = Encoding.ASCII.GetBytes("A%ÂGä:±é<mÿv");
+            byte[] b2 = hexStringToByteArray("4125c247e43ab1e93c6dff76");
 
 
             string clientFinalMessageBare = "c=biws,r=" + serverNonce;
             string saltedPassword = CryptoUtils.PBKDF2_SHA_1(PASSWORD_NORMALIZED, salt, iterations);
+            string saltedPassword2 = CryptoUtils.PBKDF2_SHA_1(PASSWORD_NORMALIZED, "A%ÂGä:±é<mÿv", iterations);
+
+            byte[] b3 = hexStringToByteArray("1d96ee3a529b5a5f9e47c01f229a2cb8a6e15f7d");
+            byte[] b4 = hexStringToByteArray(saltedPassword);
+            byte[] b5 = hexStringToByteArray(saltedPassword2);
+
             string clientKey = CryptoUtils.HMAC_SHA_1(saltedPassword, hexStringToByteArray("e234c47bf6c36696dd6d852b99aaa2ba26555728"));
             string storedKey = CryptoUtils.SHA_1(clientKey);
             string authMessage = clientFirstMsg + ',' + serverFirstMsg + ',' + clientFinalMessageBare;

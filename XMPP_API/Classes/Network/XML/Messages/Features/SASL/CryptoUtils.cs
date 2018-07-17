@@ -46,7 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
             CryptographicKey keyOriginal = provider.CreateKey(buffSecret);
 
             // Derive a key based on the original key and the derivation parameters.
-            IBuffer keyDerived = CryptographicEngine.DeriveKeyMaterial(keyOriginal, pbkdf2Params, 16);
+            IBuffer keyDerived = CryptographicEngine.DeriveKeyMaterial(keyOriginal, pbkdf2Params, 20);
 
             // Encode the key to a hexadecimal value (for display)
             return CryptographicBuffer.EncodeToHexString(keyDerived);

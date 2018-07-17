@@ -11,6 +11,8 @@ namespace Component_Tests
     [TestClass]
     public class UnitTest1
     {
+        //-------------------------------------------------------------------------------------DateTimeParserHelper:-------------------------------------------------------------------------------------
+        #region
         [TestMethod]
         public void TestDateTimeParserHelper1()
         {
@@ -35,7 +37,10 @@ namespace Component_Tests
             Assert.IsTrue(helper.parse(null).CompareTo(DateTime.MinValue) == 0);
             Assert.IsTrue(helper.parse("sadwesdbnjfksd").CompareTo(DateTime.MinValue) == 0);
         }
+        #endregion
 
+        //-------------------------------------------------------------------------------------ScramSHA1SASLMechanism:-------------------------------------------------------------------------------------
+        #region
         [TestMethod]
         public void TestScramSHA1SASLMechanism1()
         {
@@ -90,5 +95,6 @@ namespace Component_Tests
             Assert.IsTrue(string.Equals("bj11c2VyLHI9ZnlrbytkMmxiYkZnT05Sdjlxa3hkYXdMLHI9ZnlrbytkMmxiYkZnT05Sdjlxa3hkYXdMM3JmY05IWUpZMVpWdldWczdqLHM9UVNYQ1IrUTZzZWs4YmY5MixpPTQwOTYsYz1iaXdzLHI9ZnlrbytkMmxiYkZnT05Sdjlxa3hkYXdMM3JmY05IWUpZMVpWdldWczdq", respMsg.SOLUTION));
 
         }
+        #endregion
     }
 }
