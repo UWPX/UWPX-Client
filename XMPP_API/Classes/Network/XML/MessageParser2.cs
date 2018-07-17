@@ -15,6 +15,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -183,7 +184,16 @@ namespace XMPP_API.Classes.Network.XML
                                         case "http://jabber.org/protocol/disco#info":
                                             if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE) != null)
                                             {
-                                                messages.Add(new ExtendedDiscoResponseMessage(n));
+                                                if (qNode.Attributes["node"] != null)
+                                                {
+                                                    // XEP-0060 (PubSub node metadata response):
+                                                    messages.Add(new PubSubNodeMetadataResultMessage(n));
+                                                }
+                                                else
+                                                {
+                                                    // XEP-0045 (MUC extended disco response):
+                                                    messages.Add(new ExtendedDiscoResponseMessage(n));
+                                                }
                                             }
                                             // XEP-0045 (MUC discovering reserved room Nicknames):
                                             else if (qNode.Attributes["node"] != null)
@@ -233,8 +243,14 @@ namespace XMPP_API.Classes.Network.XML
                                     XmlNode pubSubNode = XMLUtils.getChildNode(n, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
                                     if (pubSubNode != null)
                                     {
+                                        // XEP-0060 (Publish-Subscribe) subscribe result:
+                                        if (XMLUtils.getChildNode(pubSubNode, "subscription") != null)
+                                        {
+                                            messages.Add(new PubSubSubscriptionMessage(n));
+                                            break;
+                                        }
                                         // XEP-0402 (Bookmarks 2) response:
-                                        if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0402_NAMESPACE) != null)
+                                        else if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0402_NAMESPACE) != null)
                                         {
                                             messages.Add(new BookmarksResultMessage(n));
                                             break;

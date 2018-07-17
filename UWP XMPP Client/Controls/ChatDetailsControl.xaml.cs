@@ -595,12 +595,12 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private async void test_bnt_Click(object sender, RoutedEventArgs e)
+        private void test_bnt_Click(object sender, RoutedEventArgs e)
         {
             //await Logging.Logger.openLogFolderAsync();
             //await Client.requestVCardAsync(Chat.chatJabberId);
             //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.ITEMS);
-            //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.INFO);
+            Client.PUB_SUB_COMMAND_HELPER.requestNodeMetadata("pubsub.xmpp.uwpx.org", "urn:xmpp:bookmarks:0", null, null);
             //await Client.sendMessageAsync(new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Client.getXMPPAccount().serverAddress, DiscoType.ITEMS), false);
         }
 

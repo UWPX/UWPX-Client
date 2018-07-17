@@ -395,8 +395,12 @@ namespace UWP_XMPP_Client.Controls
         {
             if (msg is IQErrorMessage errMsg)
             {
-                TextDialog dialog = new TextDialog("Failed to remove bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
-                Task t = UiUtils.showDialogAsyncQueue(dialog);
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    TextDialog dialog = new TextDialog("Failed to remove bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
+                    Task t = UiUtils.showDialogAsyncQueue(dialog);
+                }
+                ).AsTask();
                 return true;
             }
             if (string.Equals(msg.getMessageType(), IQMessage.RESULT))

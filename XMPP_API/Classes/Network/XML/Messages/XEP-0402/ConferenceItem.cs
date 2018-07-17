@@ -38,7 +38,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
             {
                 id = node.Attributes["id"]?.Value;
 
-                XmlNode confNode = XMLUtils.getChildNode(node, "conference", Consts.XML_XMLNS, Consts.XML_XEP_0402_NAMESPACE);
+                XmlNode confNode = XMLUtils.getChildNode(node, "conference");
                 if (confNode == null)
                 {
                     return;
@@ -66,8 +66,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         #region --Misc Methods (Public)--
         protected override XElement getContent(XNamespace ns)
         {
-            XNamespace ns1 = Consts.XML_XEP_0402_NAMESPACE;
-            XElement confNode = new XElement(ns1 + "conference");
+            XElement confNode = new XElement(ns + "conference");
             confNode.Add(new XAttribute("autojoin", autoJoin));
             if (name != null)
             {

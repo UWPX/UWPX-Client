@@ -1,4 +1,5 @@
-﻿using System.Xml.Linq;
+﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
@@ -17,8 +18,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 07/04/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubMessage(string from) : base(from, null, SET, getRandomId())
+        public PubSubMessage(string from, string to) : base(from, to, SET, getRandomId())
         {
+        }
+
+        public PubSubMessage(XmlNode n) : base(n)
+        {
+
         }
 
         #endregion

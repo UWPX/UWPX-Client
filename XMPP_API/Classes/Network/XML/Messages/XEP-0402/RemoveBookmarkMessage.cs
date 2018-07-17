@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         /// <history>
         /// 04/07/2018 Created [Fabian Sauter]
         /// </history>
-        public RemoveBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0402_NAMESPACE)
+        public RemoveBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, null, Consts.XML_XEP_0402_NAMESPACE)
         {
             this.CONFERENCE_ITEM = conferenceItem;
         }

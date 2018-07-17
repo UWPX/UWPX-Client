@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 04/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRetractMessage(string from, string nodeName) : base(from)
+        public PubSubRetractMessage(string from, string to, string nodeName) : base(from, to)
         {
             this.NODE_NAME = nodeName;
         }

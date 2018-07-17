@@ -1,5 +1,6 @@
 ﻿using System;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace XMPP_API.Classes
@@ -27,7 +28,10 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public string getPubSubServer()
+        {
+            return null;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -76,6 +80,56 @@ namespace XMPP_API.Classes
             return helper;
         }
 
+        /// <summary>
+        /// Sends a DiscoverNodeMetadataMessage for discovering the node metadata.
+        /// https://xmpp.org/extensions/xep-0060.html#entity-metadata
+        /// </summary>
+        /// <param name="to">The target pubsub server.</param>
+        /// <param name="nodeName">The name of the node, the metadata should get queried for.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for DiscoverNodeMetadataMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> requestNodeMetadata(string to, string nodeName, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            PubSubDiscoverNodeMetadataMessage msg = new PubSubDiscoverNodeMetadataMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, nodeName);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a PubSubSubscribeMessage for subscribing to the given node.
+        /// </summary>
+        /// <param name="to">The target pubsub server.</param>
+        /// <param name="nodeName">The name of the node, you want to subscribe to.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for PubSubSubscribeMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> requestNodeSubscription(string to, string nodeName, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, nodeName);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a PubSubCreateNodeMessage for creating a pubsub node.
+        /// https://xmpp.org/extensions/xep-0060.html#owner-create
+        /// </summary>
+        /// <param name="to">The target pubsub server.</param>
+        /// <param name="nodeName">The name of the node, you want to create.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
+        /// <returns>Returns a MessageResponseHelper listening for PubSubCreateNodeMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> createNode(string to, string nodeName, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            PubSubCreateNodeMessage msg = new PubSubCreateNodeMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, nodeName);
+            helper.start(msg);
+            return helper;
+        }
+        
         #endregion
 
         #region --Misc Methods (Private)--

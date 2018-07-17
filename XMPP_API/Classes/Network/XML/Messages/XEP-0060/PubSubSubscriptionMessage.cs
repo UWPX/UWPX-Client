@@ -1,12 +1,17 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubPublishMessage : PubSubMessage
+    public class PubSubSubscriptionMessage : PubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string NODE_NAME;
+        public readonly string JID;
+        public readonly string SUBID;
+        public readonly PubSubSubscription SUBSCRIPTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,11 +20,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 02/06/2018 Created [Fabian Sauter]
+        /// 17/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string to, string nodeName) : base(from, to)
+        public PubSubSubscriptionMessage(XmlNode n) : base(n)
         {
-            this.NODE_NAME = nodeName;
+            XmlNode subNode = XMLUtils.getChildNode(n, "subscription");
+            if (subNode != null)
+            {
+                this.NODE_NAME = subNode.Attributes["node"]?.Value;
+                this.JID = subNode.Attributes["jid"]?.Value;
+                this.SUBID = subNode.Attributes["subid"]?.Value;
+                if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value, out this.SUBSCRIPTION))
+                {
+                    this.SUBSCRIPTION = PubSubSubscription.NONE;
+                }
+            }
         }
 
         #endregion
@@ -27,21 +42,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #region --Set-, Get- Methods--
         protected override XElement getContent(XNamespace ns)
         {
-            XElement publishNode = new XElement(ns + "publish");
-            publishNode.Add(new XAttribute("node", NODE_NAME));
-            AbstractPubSubItem item = getPubSubItem();
-            if (item != null)
-            {
-                publishNode.Add(item.toXElement(ns));
-            }
-
-            PubSubPublishOptions options = getPublishOptions();
-
-            if (options != null)
-            {
-                publishNode.Add(options.toXElement(ns));
-            }
-            return publishNode;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -57,8 +58,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract PubSubPublishOptions getPublishOptions();
-        protected abstract AbstractPubSubItem getPubSubItem();
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

@@ -172,6 +172,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeItemsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeItemsResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeMetadataMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubNodeMetadataResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
@@ -179,6 +184,9 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRetractMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscription.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />

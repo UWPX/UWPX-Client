@@ -1,5 +1,4 @@
-﻿using System.Xml.Linq;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
@@ -19,7 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         /// <history>
         /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
-        public AddBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, Consts.XML_XEP_0402_NAMESPACE)
+        public AddBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, null, Consts.XML_XEP_0402_NAMESPACE)
         {
             this.CONFERENCE_ITEM = conferenceItem;
         }
@@ -41,6 +40,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
                 var = "pubsub#access_model",
                 value = "whitelist",
                 type = FieldType.NONE
+            });
+            options.OPTIONS.FIELDS.Add(new Field() {
+                var = "pubsub#max_items",
+                value = "10",
+                type = FieldType.TEXT_SINGLE
             });
 
             return options;

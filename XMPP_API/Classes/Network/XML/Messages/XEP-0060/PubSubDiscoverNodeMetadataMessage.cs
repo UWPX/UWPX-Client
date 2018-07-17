@@ -1,12 +1,13 @@
 ﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubPublishMessage : PubSubMessage
+    class PubSubDiscoverNodeMetadataMessage : DiscoRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE_NAME;
+        public readonly string NODE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,39 +16,27 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 02/06/2018 Created [Fabian Sauter]
+        /// 17/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string to, string nodeName) : base(from, to)
+        public PubSubDiscoverNodeMetadataMessage(string from, string to, string node) : base(from, to, DiscoType.INFO)
         {
-            this.NODE_NAME = nodeName;
+            this.NODE = node;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent(XNamespace ns)
-        {
-            XElement publishNode = new XElement(ns + "publish");
-            publishNode.Add(new XAttribute("node", NODE_NAME));
-            AbstractPubSubItem item = getPubSubItem();
-            if (item != null)
-            {
-                publishNode.Add(item.toXElement(ns));
-            }
 
-            PubSubPublishOptions options = getPublishOptions();
-
-            if (options != null)
-            {
-                publishNode.Add(options.toXElement(ns));
-            }
-            return publishNode;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        protected override XElement getQuery()
+        {
+            XElement query = base.getQuery();
+            query.Add(new XAttribute("node", NODE));
+            return query;
+        }
 
         #endregion
 
@@ -57,8 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract PubSubPublishOptions getPublishOptions();
-        protected abstract AbstractPubSubItem getPubSubItem();
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
