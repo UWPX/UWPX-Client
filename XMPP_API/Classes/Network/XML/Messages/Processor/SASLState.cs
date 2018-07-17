@@ -3,6 +3,7 @@
     enum SASLState
     {
         ERROR,
+        NO_VALID_MECHANISM,
         DISCONNECTED,
         REQUESTED,
         CHALLENGING,

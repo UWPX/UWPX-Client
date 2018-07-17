@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using System;
+using Logging;
 using System.Collections;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
@@ -84,8 +85,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 case "scram-sha-1":
                     selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.userId, sCC.user.userPassword);
                     break;
+
                 case "plain":
                     selectedMechanism = new PlainSASLMechanism(sCC.user.userId, sCC.user.userPassword);
+                    break;
+
+                default:
+                    state = SASLState.NO_VALID_MECHANISM;
+                    Logger.Error("Failed to select authentication mechanism. No supported mechanism available!");
+                    Task t = XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "Failed to select authentication mechanism. No supported mechanism available!"), true);
                     break;
             }
         }
