@@ -313,7 +313,7 @@ namespace XMPP_API.Classes.Network
             if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
                 connectionErrorCount = 3;
-                lastConnectionError = new ConnectionError(ConnectionErrorCode.NOT_INTERNET);
+                lastConnectionError = new ConnectionError(ConnectionErrorCode.NO_INTERNET);
                 setState(ConnectionState.ERROR, lastConnectionError);
                 reconnectRequested = false;
                 holdConnection = false;

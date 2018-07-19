@@ -118,7 +118,12 @@ namespace UWP_XMPP_Client.Controls
                     }
                     else
                     {
-                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => showErrorMessage("Unable to request ban list - missing permissions!"));
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                        {
+                            showErrorMessage("Unable to request ban list - missing permissions!");
+                            reload_btn.IsEnabled = true;
+                            reload_prgr.Visibility = Visibility.Collapsed;
+                        });
                     }
                 });
             }

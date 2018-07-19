@@ -1,46 +1,49 @@
-﻿<Page
-    x:Class="UWP_XMPP_Client.Pages.MUCInfoPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:controls="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d"
-    Loaded="Page_Loaded">
+﻿<Page x:Class="UWP_XMPP_Client.Pages.MUCInfoPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWP_XMPP_Client.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Loaded="Page_Loaded"
+      mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <controls1:ImageEx x:Name="backgroundImage_img" Grid.Row="0" Stretch="UniformToFill" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <controls1:ImageEx x:Name="backgroundImage_img"
+                           Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           Stretch="UniformToFill"/>
 
-        <Pivot Grid.Row="0" Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+        <Pivot Grid.Row="0"
+               Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <PivotItem Header="Info">
-                <controls:MUCInfoControl Client="{x:Bind Client}"
-                                         Chat="{x:Bind Chat, Mode=OneWay}"
+                <controls:MUCInfoControl Chat="{x:Bind Chat, Mode=OneWay}"
+                                         Client="{x:Bind Client}"
                                          MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
             </PivotItem>
 
             <PivotItem Header="Occupants">
                 <ScrollViewer>
                     <StackPanel>
-                        <controls:MUCOccupantsControl MaxHeight="400"
-                                                      Margin="10, 10, 10, 0"
-                                                      Client="{x:Bind Client}"
+                        <controls:MUCOccupantsControl Margin="10,10,10,0"
                                                       Chat="{x:Bind Chat, Mode=OneWay}"
+                                                      Client="{x:Bind Client}"
                                                       MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
-                        <controls:BanListControl Margin="10, 10, 10, 0"
-                                                 Client="{x:Bind Client}"
+                        <controls:BanListControl Margin="10,10,10,0"
                                                  Chat="{x:Bind Chat, Mode=OneWay}"
+                                                 Client="{x:Bind Client}"
                                                  MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>
 
             <PivotItem Header="Manage">
-                <controls:MUCManageControl Client="{x:Bind Client}"
-                                           Chat="{x:Bind Chat, Mode=OneWay}"
+                <controls:MUCManageControl Chat="{x:Bind Chat, Mode=OneWay}"
+                                           Client="{x:Bind Client}"
                                            MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
             </PivotItem>
         </Pivot>
