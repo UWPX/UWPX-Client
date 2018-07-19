@@ -32,18 +32,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #region --Set-, Get- Methods--
         protected override XElement getQuery()
         {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
+            XNamespace ns = getPubSubNamespace();
             XElement pubSubNode = new XElement(ns + "pubsub");
 
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubSubNode.Add(content);
-            }
+            addContent(pubSubNode, ns);
             return pubSubNode;
         }
 
-        protected abstract XElement getContent(XNamespace ns);
+        protected abstract void addContent(XElement node, XNamespace ns);
+
+        protected virtual XNamespace getPubSubNamespace()
+        {
+            return Consts.XML_XEP_0060_NAMESPACE;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

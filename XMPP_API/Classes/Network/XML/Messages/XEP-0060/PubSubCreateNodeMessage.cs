@@ -1,4 +1,5 @@
 ﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
@@ -7,6 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string NODE_NAME;
+        public readonly DataForm NODE_CONFIG;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,19 +19,44 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 17/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubCreateNodeMessage(string from, string to, string nodeName) : base(from, to)
+        public PubSubCreateNodeMessage(string from, string to, string nodeName) : this(from, to, nodeName, null)
+        {
+        }
+
+        public PubSubCreateNodeMessage(string from, string to, string nodeName, DataForm nodeConfig) : base(from, to)
         {
             this.NODE_NAME = nodeName;
+            this.NODE_CONFIG = nodeConfig;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent(XNamespace ns)
+        protected override void addContent(XElement node, XNamespace ns)
         {
             XElement createNode = new XElement(ns + "create");
             createNode.Add(new XAttribute("node", NODE_NAME));
-            return createNode;
+            node.Add(createNode);
+
+            if (NODE_CONFIG != null)
+            {
+                XElement configNode = new XElement(ns + "configure");
+                NODE_CONFIG.addToXElement(configNode);
+                node.Add(configNode);
+            }
+        }
+
+        public DataForm getConfigTemplate()
+        {
+            DataForm config = new DataForm(DataFormType.SUBMIT);
+            config.FIELDS.Add(new Field()
+            {
+                var = "FORM_TYPE",
+                type = FieldType.HIDDEN,
+                value = "http://jabber.org/protocol/pubsub#node_config"
+            });
+
+            return config;
         }
 
         #endregion

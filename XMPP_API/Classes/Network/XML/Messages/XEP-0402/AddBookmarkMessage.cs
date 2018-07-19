@@ -41,11 +41,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
                 value = "whitelist",
                 type = FieldType.NONE
             });
-            options.OPTIONS.FIELDS.Add(new Field() {
-                var = "pubsub#max_items",
-                value = "10",
-                type = FieldType.TEXT_SINGLE
-            });
 
             return options;
         }

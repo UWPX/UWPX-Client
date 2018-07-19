@@ -25,18 +25,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent(XNamespace ns)
-        {
-            XElement retractNode = new XElement(ns + "retract");
-            retractNode.Add(new XAttribute("node", NODE_NAME));
-            AbstractPubSubItem item = getPubSubItem();
-            if (item != null)
-            {
-                retractNode.Add(item.toXElement(ns));
-            }
-            return retractNode;
-        }
-
         protected abstract AbstractPubSubItem getPubSubItem();
 
         #endregion
@@ -52,7 +40,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void addContent(XElement node, XNamespace ns)
+        {
+            XElement retractNode = new XElement(ns + "retract");
+            retractNode.Add(new XAttribute("node", NODE_NAME));
+            AbstractPubSubItem item = getPubSubItem();
+            if (item != null)
+            {
+                retractNode.Add(item.toXElement(ns));
+            }
+            node.Add(retractNode);
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

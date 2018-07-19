@@ -43,8 +43,8 @@ namespace UWP_XMPP_Client.Dialogs
             return new ConferenceItem()
             {
                 id = jid_tbx.Text,
-                password = password_pwbx.Password,
-                name = name_tbx.Text,
+                password = string.IsNullOrEmpty(password_pwbx.Password) ? null : password_pwbx.Password,
+                name = string.IsNullOrEmpty(name_tbx.Text) ? null : name_tbx.Text,
                 nick = nick_tbx.Text,
                 autoJoin = (bool)autoJoin_chbx.IsChecked,
             };

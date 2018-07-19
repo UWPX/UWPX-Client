@@ -40,10 +40,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent(XNamespace ns)
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -58,7 +55,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void addContent(XElement node, XNamespace ns)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

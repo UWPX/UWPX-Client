@@ -25,13 +25,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent(XNamespace ns)
-        {
-            XElement subscribeNode = new XElement(ns + "subscribe");
-            subscribeNode.Add(new XAttribute("node", NODE_NAME));
-            subscribeNode.Add(new XAttribute("jid", FROM));
-            return subscribeNode;
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -46,7 +40,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void addContent(XElement node, XNamespace ns)
+        {
+            XElement subscribeNode = new XElement(ns + "subscribe");
+            subscribeNode.Add(new XAttribute("node", NODE_NAME));
+            subscribeNode.Add(new XAttribute("jid", FROM));
+            node.Add(subscribeNode);
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

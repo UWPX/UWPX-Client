@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubPublishMessage : PubSubMessage
+    public class PubSubDeleteNodeMessage : PubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,9 +15,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 02/06/2018 Created [Fabian Sauter]
+        /// 19/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string to, string nodeName) : base(from, to)
+        public PubSubDeleteNodeMessage(string from, string to, string nodeName) : base(from, to)
         {
             this.NODE_NAME = nodeName;
         }
@@ -25,7 +25,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        protected override XNamespace getPubSubNamespace()
+        {
+            return Consts.XML_XEP_0060_NAMESPACE_OWNER;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -42,24 +45,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #region --Misc Methods (Protected)--
         protected override void addContent(XElement node, XNamespace ns)
         {
-            XElement publishNode = new XElement(ns + "publish");
-            publishNode.Add(new XAttribute("node", NODE_NAME));
-            AbstractPubSubItem item = getPubSubItem();
-            if (item != null)
-            {
-                publishNode.Add(item.toXElement(ns));
-            }
-            node.Add(publishNode);
-
-            PubSubPublishOptions options = getPublishOptions();
-            if (options != null)
-            {
-                node.Add(options.toXElement(ns));
-            }
+            XElement delNode = new XElement(ns + "delete");
+            delNode.Add(new XAttribute("node", NODE_NAME));
+            node.Add(delNode);
         }
-
-        protected abstract PubSubPublishOptions getPublishOptions();
-        protected abstract AbstractPubSubItem getPubSubItem();
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

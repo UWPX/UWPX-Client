@@ -173,6 +173,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDeleteNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeItemsMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeItemsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeMetadataMessage.cs" />

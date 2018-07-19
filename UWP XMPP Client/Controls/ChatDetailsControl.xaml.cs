@@ -600,7 +600,7 @@ namespace UWP_XMPP_Client.Controls
             //await Logging.Logger.openLogFolderAsync();
             //await Client.requestVCardAsync(Chat.chatJabberId);
             //await Client.createDiscoAsync(Client.getXMPPAccount().user.domain, XMPP_API.Classes.Network.XML.Messages.XEP_0030.DiscoType.ITEMS);
-            Client.PUB_SUB_COMMAND_HELPER.requestNodeMetadata("pubsub.xmpp.uwpx.org", "urn:xmpp:bookmarks:0", null, null);
+            Client.PUB_SUB_COMMAND_HELPER.deleteNode(null, "urn:xmpp:bookmarks:0", null, null);
             //await Client.sendMessageAsync(new DiscoRequestMessage(Client.getXMPPAccount().getIdDomainAndResource(), Client.getXMPPAccount().serverAddress, DiscoType.ITEMS), false);
         }
 
