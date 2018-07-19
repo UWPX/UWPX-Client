@@ -278,9 +278,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void copyLink_mfo_Click(object sender, RoutedEventArgs e)
         {
-            DataPackage package = new DataPackage();
-            package.SetText(ChatMessage.message);
-            Clipboard.SetContent(package);
+            UiUtils.addTextToClipboard(ChatMessage.message);
         }
 
         private async void openLink_mfo_Click(object sender, RoutedEventArgs e)

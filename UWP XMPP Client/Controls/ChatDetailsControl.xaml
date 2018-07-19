@@ -91,7 +91,8 @@
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
 
-            <Grid Grid.Row="0"
+            <Grid x:Name="chatHeader_grid"
+                  Grid.Row="0"
                   VerticalAlignment="Top"
                   Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <Grid.RowDefinitions>
@@ -118,23 +119,55 @@
                                                               Client="{x:Bind Client, Mode=OneWay}"
                                                               MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
                                                               Tapped="AccountImageWithPresenceControl_Tapped"/>
-                    <StackPanel Grid.Column="1"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Tapped="StackPanel_Tapped">
-                        <TextBlock x:Name="chatName_tblck"
-                                   HorizontalAlignment="Center"
-                                   FontWeight="Bold"
-                                   IsTextSelectionEnabled="True"/>
-                        <TextBlock x:Name="accountName_tblck"
-                                   HorizontalAlignment="Center"
-                                   FontSize="10"
-                                   Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-                        <TextBlock x:Name="chatState_tblck"
-                                   HorizontalAlignment="Center"
-                                   FontSize="10"
-                                   Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
-                    </StackPanel>
+                    <Grid x:Name="chatDetails_grid"
+                          Grid.Column="1"
+                          HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          RightTapped="chatDetails_grid_RightTapped"
+                          Tapped="chatDetails_grid_Tapped">
+                        <FlyoutBase.AttachedFlyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="copyChatName_mfi"
+                                                Click="copyChatName_mfi_Click"
+                                                Text="Copy chat name">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="copyAccountName_mfi"
+                                                Click="copyAccountName_mfi_Click"
+                                                Text="Copy account name">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="copyChatState_mfi"
+                                                Click="copyChatState_mfi_Click"
+                                                Text="Copy chat status/subject">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE8C8;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </FlyoutBase.AttachedFlyout>
+                        <StackPanel HorizontalAlignment="Center"
+                                    VerticalAlignment="Center">
+                            <TextBlock x:Name="chatName_tblck"
+                                       HorizontalAlignment="Center"
+                                       FontWeight="Bold"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <TextBlock x:Name="accountName_tblck"
+                                       HorizontalAlignment="Center"
+                                       FontSize="10"
+                                       Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                                       TextTrimming="CharacterEllipsis"/>
+                            <TextBlock x:Name="chatState_tblck"
+                                       HorizontalAlignment="Center"
+                                       FontSize="10"
+                                       Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                                       TextTrimming="CharacterEllipsis"/>
+                        </StackPanel>
+                    </Grid>
                     <Button x:Name="more_btn"
                             Grid.Column="2"
                             Height="30"

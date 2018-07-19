@@ -19,6 +19,7 @@ using Windows.UI.Xaml.Input;
 using Data_Manager2.Classes.Events;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -649,14 +650,6 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void StackPanel_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            if (!IsDummy)
-            {
-                showProfile();
-            }
-        }
-
         private async void leave_mfo_Click(object sender, RoutedEventArgs e)
         {
             if (!IsDummy)
@@ -712,6 +705,67 @@ namespace UWP_XMPP_Client.Controls
                 join_mfo.Visibility = Visibility.Collapsed;
                 leave_mfo.Visibility = Visibility.Collapsed;
             }
+        }
+
+        private void copyChatName_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            if(Chat != null)
+            {
+                switch (Chat.chatType)
+                {
+                    case ChatType.MUC:
+                        if(MUCInfo != null && !string.IsNullOrEmpty(MUCInfo.name))
+                        {
+                            UiUtils.addTextToClipboard(MUCInfo.name);
+                            return;
+                        }
+                        break;
+                }
+
+                UiUtils.addTextToClipboard(Chat.chatJabberId);
+            }
+        }
+
+        private void copyAccountName_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            if(Chat != null)
+            {
+                UiUtils.addTextToClipboard(Chat.userAccountId);
+            }
+        }
+
+        private void copyChatState_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            if (Chat != null)
+            {
+                switch (Chat.chatType)
+                {
+                    case ChatType.MUC:
+                        if (MUCInfo != null)
+                        {
+                            UiUtils.addTextToClipboard(MUCInfo.subject);
+                            return;
+                        }
+                        break;
+                }
+
+                UiUtils.addTextToClipboard(Chat.status);
+            }
+        }
+
+        private void chatDetails_grid_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (!IsDummy)
+            {
+                showProfile();
+            }
+        }
+
+        private void chatDetails_grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
+        {
+            FrameworkElement senderElement = sender as FrameworkElement;
+            FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
+            flyoutBase.ShowAt(senderElement);
         }
 
         #endregion

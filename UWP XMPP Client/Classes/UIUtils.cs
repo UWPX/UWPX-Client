@@ -5,6 +5,7 @@ using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -177,6 +178,13 @@ namespace UWP_XMPP_Client.Classes
                 await showDialogAsyncQueue(dialog);
                 Settings.setSetting(SettingsConsts.HIDE_WHATS_NEW_DIALOG, !dialog.showOnStartup);
             }
+        }
+
+        public static void addTextToClipboard(string text)
+        {
+            DataPackage package = new DataPackage();
+            package.SetText(text);
+            Clipboard.SetContent(package);
         }
 
         #endregion
