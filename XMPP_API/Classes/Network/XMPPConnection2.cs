@@ -557,7 +557,7 @@ namespace XMPP_API.Classes.Network
             {
                 if (!account.disabled && (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR))
                 {
-                    Task t = connectAsync();
+                    Task t = reconnectAsync(true);
                 }
             }
             else if (state == ConnectionState.CONNECTED)
