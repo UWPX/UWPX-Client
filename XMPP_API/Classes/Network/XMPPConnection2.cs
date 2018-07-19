@@ -54,7 +54,7 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// The connection timeout in ms.
         /// </summary>
-        private const int CONNECTION_TIMEOUT = 2000;
+        private const int CONNECTION_TIMEOUT = 5000;
         private bool reconnectRequested;
         private TimeSpan timeout;
 

@@ -23,6 +23,7 @@
                  Grid.Row="0"
                  Header="Jabber-ID:"
                  InputScope="EmailNameOrAddress"
+                 IsReadOnly="{x:Bind JIDReadOnly, Mode=OneWay}"
                  IsSpellCheckEnabled="False"
                  PlaceholderText="example@example.com"
                  TextChanged="jabberId_tbx_TextChanged"/>
@@ -101,10 +102,10 @@
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
                         <TextBox x:Name="color_tbx"
-                                 Text="{x:Bind Account.color, Mode=OneWay}"
                                  Grid.Column="0"
                                  Header="Color:"
                                  PlaceholderText="e.g. #D50000"
+                                 Text="{x:Bind Account.color, Mode=OneWay}"
                                  TextChanged="color_tbx_TextChanged"/>
                         <Button x:Name="randomColor_btn"
                                 Grid.Column="1"

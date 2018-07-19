@@ -30,7 +30,14 @@ namespace UWP_XMPP_Client.Controls
             }
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountControl), null);
-
+        
+        public bool JIDReadOnly
+        {
+            get { return (bool)GetValue(JIDReadOnlyProperty); }
+            set { SetValue(JIDReadOnlyProperty, value); }
+        }
+        public static readonly DependencyProperty JIDReadOnlyProperty = DependencyProperty.Register("JIDReadOnly", typeof(bool), typeof(AccountControl), new PropertyMetadata(false));
+        
         public delegate void AccountAcceptedEventHandler(AccountControl sender, EventArgs args);
         public event AccountAcceptedEventHandler AccountAccepted;
 
