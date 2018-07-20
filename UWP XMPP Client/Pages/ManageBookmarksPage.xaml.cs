@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Dialogs;
 using UWP_XMPP_Client.Pages.SettingsPages;
@@ -113,6 +114,25 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
+        private void removeBookmark(ConferenceItem item)
+        {
+            XMPPClient c = account_asc.getSelectedAccount();
+            if (c != null)
+            {
+                c.PUB_SUB_COMMAND_HELPER.removeBookmark(onMessage, onTimeout, item);
+            }
+        }
+
+        private bool onRemoveMessage(IQMessage msg)
+        {
+            return true;
+        }
+
+        private void onRemoveTimeout()
+        {
+            
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -170,5 +190,18 @@ namespace UWP_XMPP_Client.Pages
         }
 
         #endregion
+
+#pragma warning disable CS0618 // Type or member is obsolete
+        private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+        {
+            if (args.NewValue == SwipeStatus.Idle)
+            {
+                if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold || args.OldValue == SwipeStatus.SwipingPassedRightThreshold && sender.LeftCommandParameter is ConferenceItem)
+                {
+                    removeBookmark(sender.LeftCommandParameter as ConferenceItem);
+                }
+            }
+        }
+#pragma warning restore CS0618 // Type or member is obsolete
     }
 }

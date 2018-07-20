@@ -13,7 +13,18 @@
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate"
                       x:DataType="xep_0402:ConferenceItem">
-            <controls1:ManageBookmarksMasterControl Conference="{x:Bind}"/>
+            <controls:SlidableListItem LeftBackground="Red"
+                                       LeftCommandParameter="{x:Bind}"
+                                       LeftIcon="Delete"
+                                       LeftLabel="Delete"
+                                       MouseSlidingEnabled="True"
+                                       RightBackground="Red"
+                                       RightCommandParameter="{x:Bind}"
+                                       RightIcon="Delete"
+                                       RightLabel="Delete"
+                                       SwipeStatusChanged="SlidableListItem_SwipeStatusChanged">
+                <controls1:ManageBookmarksMasterControl Conference="{x:Bind}"/>
+            </controls:SlidableListItem>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate"
