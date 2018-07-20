@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
+using Thread_Save_Components.Classes.Collections;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
@@ -26,7 +27,7 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private CustomObservableCollection<ChatTemplate> chatsList;
+        private readonly ObservableOrderedDictionary chatsList;
         private string currentChatQuery;
 
         #endregion
@@ -40,7 +41,7 @@ namespace UWP_XMPP_Client.Pages
         /// </history>
         public ChatPage()
         {
-            this.chatsList = new CustomObservableCollection<ChatTemplate>();
+            this.chatsList = new ObservableOrderedDictionary();
             this.currentChatQuery = "";
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
@@ -309,42 +310,19 @@ namespace UWP_XMPP_Client.Pages
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                // Find chat in chatsList:
-                for (int i = 0; i < chatsList.Count; i++)
+                if (args.REMOVED)
                 {
-                    if (chatsList[i] != null && Equals(chatsList[i].chat.id, args.CHAT.id))
+                    chatsList.Remove(args.CHAT.id);
+                    args.Cancel = true;
+                    return;
+                }
+                else
+                {
+                    if (chatsList.UpdateChat(args.CHAT))
                     {
-                        if (args.REMOVED)
-                        {
-                            chatsList.RemoveAt(i);
-                        }
-                        else
-                        {
-                            if (!chatsList[i].chat.lastActive.Equals(args.CHAT.lastActive))
-                            {
-                                chatsList[i].chat = args.CHAT;
-
-                                object selectedItem = masterDetail_pnl.SelectedItem;
-                                if (sortChangedItemInObservableCollection(chatsList, i))
-                                {
-                                    masterDetail_pnl.SelectedItem = selectedItem;
-                                }
-                            }
-                            else
-                            {
-                                chatsList[i].chat = args.CHAT;
-                            }
-                        }
                         args.Cancel = true;
                         return;
                     }
-                }
-
-                // If not found and should remove chat -> return:
-                if (args.REMOVED)
-                {
-                    args.Cancel = true;
-                    return;
                 }
 
                 Task.Run(() =>
@@ -365,7 +343,7 @@ namespace UWP_XMPP_Client.Pages
                                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                 {
                                     object selectedItem = masterDetail_pnl.SelectedItem;
-                                    chatsList.Insert(0, chatElement);
+                                    chatsList.Add(chatElement);
                                     masterDetail_pnl.SelectedItem = selectedItem;
                                 }).AsTask();
                             }
