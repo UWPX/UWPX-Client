@@ -114,6 +114,7 @@
     <Compile Include="Classes\Events\SelectionChangedMultiEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\MUCRoomInfo.cs" />
+    <Compile Include="Classes\ObservableOrderedChatDictionaryList.cs" />
     <Compile Include="Classes\ObservableOrderedDictionary.cs" />
     <Compile Include="Classes\ShowAddMUCNavigationParameter.cs" />
     <Compile Include="Classes\UiUtils.cs" />

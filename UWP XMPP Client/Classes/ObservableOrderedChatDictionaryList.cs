@@ -7,34 +7,32 @@ using System.ComponentModel;
 using System.Linq;
 using UWP_XMPP_Client.DataTemplates;
 
-namespace Thread_Save_Components.Classes.Collections
+namespace UWP_XMPP_Client.Classes
 {
-    public class ObservableOrderedDictionary : ICollection<ChatTemplate>, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList
+    class ObservableOrderedChatDictionaryList : ICollection, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private readonly Dictionary<string, ChatTemplate> DICTIONARY;
+        private readonly List<ChatTemplate> SORTED_LIST;
+
         public int Count => SORTED_LIST.Count;
-        public bool IsReadOnly => false;
-
-        public bool IsFixedSize => false;
-
         public bool IsSynchronized => false;
-
-        public object SyncRoot => null;
-
+        public object SyncRoot => false;
+        public bool IsFixedSize => false;
+        public bool IsReadOnly => false;
         object IList.this[int index]
         {
             get => SORTED_LIST[index];
             set
             {
                 ChatTemplate oldChat = SORTED_LIST[index];
+                oldChat.PropertyChanged -= Item_PropertyChanged;
                 SORTED_LIST[index] = (ChatTemplate)value;
+                SORTED_LIST[index].PropertyChanged += Item_PropertyChanged;
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldChat, value));
             }
         }
-
-        private readonly Dictionary<string, ChatTemplate> DICTIONARY;
-        private readonly List<ChatTemplate> SORTED_LIST;
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
         public event PropertyChangedEventHandler PropertyChanged;
@@ -46,9 +44,9 @@ namespace Thread_Save_Components.Classes.Collections
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/07/2018 Created [Fabian Sauter]
+        /// 21/07/2018 Created [Fabian Sauter]
         /// </history>
-        public ObservableOrderedDictionary()
+        public ObservableOrderedChatDictionaryList()
         {
             this.DICTIONARY = new Dictionary<string, ChatTemplate>();
             this.SORTED_LIST = new List<ChatTemplate>();
@@ -57,12 +55,7 @@ namespace Thread_Save_Components.Classes.Collections
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public IEnumerator<ChatTemplate> GetEnumerator()
-        {
-            return SORTED_LIST.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
+        public IEnumerator GetEnumerator()
         {
             return SORTED_LIST.GetEnumerator();
         }
@@ -70,25 +63,33 @@ namespace Thread_Save_Components.Classes.Collections
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Add(ChatTemplate item)
-        {
-            InternalAdd(item);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-        }
-
         public bool UpdateChat(ChatTable chat)
         {
-            if (!DICTIONARY.ContainsKey(chat.id))
-            {
-                return false;
-            }
-            else
+            if (DICTIONARY.ContainsKey(chat.id))
             {
                 ChatTemplate node = DICTIONARY[chat.id];
                 ChatTemplate cur = node;
                 int i = cur.chat.lastActive.CompareTo(chat.lastActive); // Sorted ascending
                 cur.chat = chat;
                 return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public bool UpdateMUCInfo(MUCChatInfoTable mucInfo)
+        {
+            if (DICTIONARY.ContainsKey(mucInfo.chatId))
+            {
+                ChatTemplate node = DICTIONARY[mucInfo.chatId];
+                node.mucInfo = mucInfo;
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -122,44 +123,13 @@ namespace Thread_Save_Components.Classes.Collections
             OnCollectionReset();
         }
 
-        public void Clear()
+        public void CopyTo(Array array, int index)
         {
-            DICTIONARY.Clear();
-            SORTED_LIST.Clear();
-            OnCollectionReset();
-        }
-
-        public bool Contains(ChatTemplate item)
-        {
-            return DICTIONARY.ContainsKey(item.chat.id);
-        }
-
-        public void CopyTo(ChatTemplate[] array, int arrayIndex)
-        {
-            int i = arrayIndex;
+            int i = index;
             foreach (var item in DICTIONARY)
             {
-                array[i++] = item.Value;
+                array.SetValue(item, index);
             }
-        }
-
-        public bool Remove(string id)
-        {
-            if (DICTIONARY.ContainsKey(id))
-            {
-                ChatTemplate item = DICTIONARY[id];
-                item.PropertyChanged -= Item_PropertyChanged;
-                SORTED_LIST.Remove(DICTIONARY[id]);
-                DICTIONARY.Remove(id);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-                return true;
-            }
-            return false;
-        }
-
-        public bool Remove(ChatTemplate item)
-        {
-            return Remove(item.chat.id);
         }
 
         public void Dispose()
@@ -170,29 +140,6 @@ namespace Thread_Save_Components.Classes.Collections
             }
         }
 
-        public int IndexOf(ChatTemplate item)
-        {
-            return SORTED_LIST.IndexOf(item);
-        }
-
-        public void Insert(int index, ChatTemplate item)
-        {
-            if (!DICTIONARY.ContainsKey(item.chat.id))
-            {
-                SORTED_LIST.Insert(index, item);
-                DICTIONARY.Add(item.chat.id, item);
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item));
-            }
-        }
-
-        public void RemoveAt(int index)
-        {
-            ChatTemplate item = SORTED_LIST[index];
-            SORTED_LIST.RemoveAt(index);
-            DICTIONARY.Remove(item.chat.id);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
-        }
-
         public int Add(object value)
         {
             int index = InternalAdd((ChatTemplate)value);
@@ -200,38 +147,51 @@ namespace Thread_Save_Components.Classes.Collections
             return index;
         }
 
+        public void Clear()
+        {
+            DICTIONARY.Clear();
+            SORTED_LIST.Clear();
+            OnCollectionReset();
+        }
+
         public bool Contains(object value)
         {
-            return Contains((ChatTemplate)value);
+            return SORTED_LIST.Contains(value);
         }
 
         public int IndexOf(object value)
         {
-            return IndexOf((ChatTemplate)value);
+            return SORTED_LIST.IndexOf((ChatTemplate)value);
         }
 
         public void Insert(int index, object value)
         {
-            Insert(index, (ChatTemplate)value);
+            SORTED_LIST.Insert(index, (ChatTemplate)value);
         }
 
         public void Remove(object value)
         {
-            Remove((ChatTemplate)value);
+            SORTED_LIST.Remove((ChatTemplate)value);
         }
 
-        public void CopyTo(Array array, int index)
+        public void RemoveAt(int index)
         {
-            int i = index;
-            foreach (var item in DICTIONARY)
-            {
-                array.SetValue(item, index);
-            }
+            SORTED_LIST.RemoveAt(index);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void OnCollectionReset()
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
+
+        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            CollectionChanged?.Invoke(this, e);
+        }
+
         private int InternalAdd(ChatTemplate item)
         {
             if (!DICTIONARY.ContainsKey(item.chat.id))
@@ -244,20 +204,7 @@ namespace Thread_Save_Components.Classes.Collections
             return IndexOf(item);
         }
 
-        private void OnCollectionReset()
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-
-        private void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
-        {
-            CollectionChanged?.Invoke(this, e);
-        }
-
-        #endregion
-
-        #region --Misc Methods (Protected)--
-        protected int InternalAddSortedToList(ChatTemplate item)
+        private int InternalAddSortedToList(ChatTemplate item)
         {
             for (int i = 0; i < SORTED_LIST.Count; i++)
             {
@@ -270,6 +217,11 @@ namespace Thread_Save_Components.Classes.Collections
             SORTED_LIST.Add(item);
             return SORTED_LIST.Count - 1;
         }
+
+        #endregion
+
+        #region --Misc Methods (Protected)--
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
