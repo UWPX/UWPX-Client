@@ -308,7 +308,7 @@ namespace UWP_XMPP_Client.Pages
             {
                 if (args.REMOVED)
                 {
-                    chatsList.Remove(args.CHAT.id);
+                    chatsList.RemoveId(args.CHAT.id);
                     args.Cancel = true;
                     return;
                 }
