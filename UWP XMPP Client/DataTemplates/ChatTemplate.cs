@@ -75,6 +75,11 @@ namespace UWP_XMPP_Client.DataTemplates
             }
         }
 
+        /// <summary>
+        /// The index in the chatslist.
+        /// </summary>
+        public int index;
+
         public event PropertyChangedEventHandler PropertyChanged = delegate { };
 
         #endregion
@@ -88,7 +93,7 @@ namespace UWP_XMPP_Client.DataTemplates
         /// </history>
         public ChatTemplate()
         {
-
+            this.index = -1;
         }
 
         #endregion

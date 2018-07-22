@@ -30,8 +30,9 @@ namespace UWP_XMPP_Client.Classes
                 oldChat.PropertyChanged -= Item_PropertyChanged;
                 SORTED_LIST[index] = (ChatTemplate)value;
                 SORTED_LIST[index].PropertyChanged += Item_PropertyChanged;
-                // ToDo: Sort
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldChat, value));
+                SORTED_LIST[index].index = index;
+                SortItem(index);
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldChat, value, index));
             }
         }
 
@@ -68,11 +69,13 @@ namespace UWP_XMPP_Client.Classes
         {
             if (DICTIONARY.ContainsKey(chat.id))
             {
-                ChatTemplate node = DICTIONARY[chat.id];
-                ChatTemplate cur = node;
-                int i = cur.chat.lastActive.CompareTo(chat.lastActive); // Sorted ascending
-                // ToDo: Sort
-                cur.chat = chat;
+                ChatTemplate item = DICTIONARY[chat.id];
+                int i = item.chat.lastActive.CompareTo(chat.lastActive);
+                item.chat = chat;
+                if (i != 0)
+                {
+                    SortItem(SORTED_LIST.IndexOf(item));
+                }
                 return true;
             }
             else
@@ -128,7 +131,7 @@ namespace UWP_XMPP_Client.Classes
         public void CopyTo(Array array, int index)
         {
             int i = index;
-            foreach (var item in DICTIONARY)
+            foreach (var item in SORTED_LIST)
             {
                 array.SetValue(item, index);
             }
@@ -152,6 +155,10 @@ namespace UWP_XMPP_Client.Classes
         public void Clear()
         {
             DICTIONARY.Clear();
+            foreach (var item in SORTED_LIST)
+            {
+                item.PropertyChanged -= Item_PropertyChanged;
+            }
             SORTED_LIST.Clear();
             OnCollectionReset();
         }
@@ -163,7 +170,12 @@ namespace UWP_XMPP_Client.Classes
 
         public int IndexOf(object value)
         {
-            return SORTED_LIST.IndexOf((ChatTemplate)value);
+            ChatTemplate item = (ChatTemplate)value;
+            if (item != null && DICTIONARY.ContainsKey(item.chat.id))
+            {
+                return DICTIONARY[item.chat.id].index;
+            }
+            return -1;
         }
 
         public void Insert(int index, object value)
@@ -172,6 +184,7 @@ namespace UWP_XMPP_Client.Classes
             if (!DICTIONARY.ContainsKey(item.chat.id))
             {
                 SORTED_LIST.Insert(index, item);
+                updateIndexes(index);
                 DICTIONARY.Add(item.chat.id, item);
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
             }
@@ -216,33 +229,97 @@ namespace UWP_XMPP_Client.Classes
             if (!DICTIONARY.ContainsKey(item.chat.id))
             {
                 item.PropertyChanged += Item_PropertyChanged;
-                int index = InternalAddSortedToList(item);
+                int index = AddSortedToList(item);
                 DICTIONARY.Add(item.chat.id, item);
                 return index;
             }
             return IndexOf(item);
         }
 
-        private int InternalAddSortedToList(ChatTemplate item)
+        private int AddSortedToList(ChatTemplate item)
         {
+            /*if(SORTED_LIST.Count <= 0)
+            {
+                item.index = SORTED_LIST.Count;
+                SORTED_LIST.Add(item);
+                return 0;
+            }
+
+            AddSortedToListRec(Count / 2, item);*/
+
             for (int i = 0; i < SORTED_LIST.Count; i++)
             {
-                if (SORTED_LIST[i].chat.lastActive.CompareTo(item.chat.lastActive) >= 0)
+                if (SORTED_LIST[i].chat.lastActive.CompareTo(item.chat.lastActive) <= 0)
                 {
+                    item.index = i;
                     SORTED_LIST.Insert(i, item);
+                    updateIndexes(i);
                     return i;
                 }
             }
+            item.index = SORTED_LIST.Count;
             SORTED_LIST.Add(item);
-            return SORTED_LIST.Count - 1;
+            return item.index;
         }
+
+        private void updateIndexes(int startIndex)
+        {
+            for (int i = startIndex; i < SORTED_LIST.Count; i++)
+            {
+                SORTED_LIST[i].index = i;
+            }
+        }
+
+        /*private int AddSortedToListRec(int index, ChatTemplate item)
+        {
+            int i = SORTED_LIST[i].chat.lastActive.CompareTo(item.chat.lastActive);
+            if(i == 0)
+            {
+                SORTED_LIST.Insert(index - 1, item);
+                return index - 1;
+            }
+        }*/
 
         private void InternalRemoveAt(int index, ChatTemplate item)
         {
             item.PropertyChanged -= Item_PropertyChanged;
             SORTED_LIST.RemoveAt(index);
+            updateIndexes(index);
             DICTIONARY.Remove(item.chat.id);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item, index));
+        }
+
+        private void SortItem(int index)
+        {
+            if(index > 0 && index < (SORTED_LIST.Count - 1))
+            {
+                int leftComp = SORTED_LIST[index - 1].chat.lastActive.CompareTo(SORTED_LIST[index].chat.lastActive);
+                int rightComp = SORTED_LIST[index + 1].chat.lastActive.CompareTo(SORTED_LIST[index].chat.lastActive);
+
+                if (leftComp < 0)
+                {
+                    Exchange(index, index - 1);
+                    SortItem(index - 1);
+                }
+                else if (rightComp > 0)
+                {
+                    Exchange(index, index + 1);
+                    SortItem(index + 1);
+                }
+            }
+        }
+
+        private void Exchange(int index1, int index2)
+        {
+            ChatTemplate tmp = SORTED_LIST[index1];
+            SORTED_LIST[index1] = SORTED_LIST[index2];
+            SORTED_LIST[index2] = tmp;
+            
+            SORTED_LIST[index2].index = index2;
+            SORTED_LIST[index1].index = index1;
+
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, SORTED_LIST[index1], index1, index2));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, SORTED_LIST[index2], index2, index1));
         }
 
         #endregion
@@ -256,6 +333,7 @@ namespace UWP_XMPP_Client.Classes
         private void Item_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, e);
+            SortItem(((ChatTemplate)sender).index);
         }
 
         #endregion
