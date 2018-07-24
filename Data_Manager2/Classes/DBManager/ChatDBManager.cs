@@ -38,6 +38,11 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public void setChatTableValue(string id, object IdValue, string name, object value)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, IdValue);
+        }
+
         public bool doesChatExist(string id)
         {
             return getChat(id) != null;

@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -33,6 +34,11 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public void setMUCChatInfoTableValue(string id, object IdValue, string name, object value)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, IdValue);
+        }
+
         public MUCChatInfoTable getMUCInfo(string chatId)
         {
             IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT * FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " WHERE chatId = ?;", chatId);
@@ -41,6 +47,17 @@ namespace Data_Manager2.Classes.DBManager
                 return list[0];
             }
             return null;
+        }
+
+        public List<ConferenceItem> getXEP0048ConferenceItemsForAccount(string userAccountId)
+        {
+            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT i.* FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i JOIN " + DBTableConsts.CHAT_TABLE + " c ON i.chatId = c.id WHERE c.inRoster = ? AND c.userAccountId = ?;", true, userAccountId);
+            List<ConferenceItem> conferences = new List<ConferenceItem>();
+            foreach (var mucInfo in list)
+            {
+                conferences.Add(mucInfo.toConferenceItem());
+            }
+            return conferences;
         }
 
         public void setMUCOccupant(MUCOccupantTable occupant, bool delete, bool triggerMUCOccupantChanged)

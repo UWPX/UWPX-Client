@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
@@ -31,7 +32,7 @@ namespace XMPP_API.Classes
         #region --Set-, Get- Methods--
         public string getPubSubServer()
         {
-            return null;
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -39,11 +40,42 @@ namespace XMPP_API.Classes
         #region --Misc Methods (Public)--
         /// <summary>
         /// Sends a RequestBookmarksMessage for requesting all bookmarks from the server.
+        /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-retrieve
         /// </summary>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
         /// <returns>Returns a MessageResponseHelper listening for RequestBookmarksMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestBookmars(Func<IQMessage, bool> onMessage, Action onTimeout)
+        public MessageResponseHelper<IQMessage> requestBookmars_xep_0048(Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            Network.XML.Messages.XEP_0048.RequestBookmarksMessage msg = new Network.XML.Messages.XEP_0048.RequestBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource());
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a SetBookmarksMessage for requesting all bookmarks from the server.
+        /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-upload
+        /// </summary>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
+        /// <returns>Returns a MessageResponseHelper listening for SetBookmarksMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> setBookmars_xep_0048(List<Network.XML.Messages.XEP_0048.ConferenceItem> conferences, Func<IQMessage, bool> onMessage, Action onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            Network.XML.Messages.XEP_0048.SetBookmarksMessage msg = new Network.XML.Messages.XEP_0048.SetBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferences);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a RequestBookmarksMessage for requesting all bookmarks from the server.
+        /// https://xmpp.org/extensions/xep-0402.html#retrieving-bookmarks
+        /// </summary>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
+        /// <returns>Returns a MessageResponseHelper listening for RequestBookmarksMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> requestBookmars_xep_0402(Func<IQMessage, bool> onMessage, Action onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             RequestBookmarksMessage msg = new RequestBookmarksMessage(CLIENT.getXMPPAccount().getIdDomainAndResource());
@@ -53,12 +85,13 @@ namespace XMPP_API.Classes
 
         /// <summary>
         /// Sends a AddBookmarksMessage for storing the given bookmark on the server.
+        /// https://xmpp.org/extensions/xep-0402.html#adding-a-bookmark
         /// </summary>
+        /// <param name="conferenceItem">The bookmark that should get stored on the server.</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
-        /// <param name="conferenceItem">The bookmark that should get stored on the server.</param>
         /// <returns>Returns a MessageResponseHelper listening for AddBookmarksMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> addBookmark(Func<IQMessage, bool> onMessage, Action onTimeout, ConferenceItem conferenceItem)
+        public MessageResponseHelper<IQMessage> addBookmark_xep_0402(ConferenceItem conferenceItem, Func<IQMessage, bool> onMessage, Action onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             AddBookmarkMessage msg = new AddBookmarkMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);
@@ -68,12 +101,13 @@ namespace XMPP_API.Classes
 
         /// <summary>
         /// Sends a RemoveBookmarksMessage for removing the given bookmark from the server.
+        /// https://xmpp.org/extensions/xep-0402.html#removing-a-bookmark
         /// </summary>
+        /// <param name="conferenceItem">The bookmark that should get removed from the server.</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
-        /// <param name="conferenceItem">The bookmark that should get removed from the server.</param>
         /// <returns>Returns a MessageResponseHelper listening for RemoveBookmarksMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> removeBookmark(Func<IQMessage, bool> onMessage, Action onTimeout, ConferenceItem conferenceItem)
+        public MessageResponseHelper<IQMessage> removeBookmark_xep_0402(ConferenceItem conferenceItem, Func<IQMessage, bool> onMessage, Action onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             RemoveBookmarkMessage msg = new RemoveBookmarkMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), conferenceItem);

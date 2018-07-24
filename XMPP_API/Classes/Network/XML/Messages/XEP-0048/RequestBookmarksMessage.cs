@@ -1,8 +1,9 @@
 ﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public class RequestBookmarksMessage : PubSubRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,33 +16,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 22/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from) : base(from, null, GET, getRandomId())
+        public RequestBookmarksMessage(string from) : base(from)
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
-        }
 
-        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        protected override XElement getContent(XNamespace ns)
+        {
+            XElement itemsNode = new XElement(ns + "items");
+            itemsNode.Add(new XAttribute("node", Consts.XML_XEP_0048_NAMESPACE));
+            return itemsNode;
+        }
 
         #endregion
 

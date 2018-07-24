@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Data_Manager2.Classes.DBManager;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Dialogs;
@@ -51,7 +52,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private void requestBookmarks(XMPPClient c)
         {
-            messageResponseHelper = c.PUB_SUB_COMMAND_HELPER.requestBookmars(onMessage, onTimeout);
+            messageResponseHelper = c.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(onMessage, onTimeout);
         }
 
         private void onTimeout()
@@ -85,14 +86,14 @@ namespace UWP_XMPP_Client.Pages
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     bookmarks.Clear();
-                    bookmarks.AddRange(result.conferences);
-                    if (result.conferences.Count > 1)
+                    bookmarks.AddRange(result.CONFERENCES);
+                    if (result.CONFERENCES.Count > 1)
                     {
-                        noneFound_notification.Show("Found " + result.conferences.Count + " bookmarks.", 2000);
+                        noneFound_notification.Show("Found " + result.CONFERENCES.Count + " bookmarks.", 2000);
                     }
                     else
                     {
-                        noneFound_notification.Show("Found " + result.conferences.Count + " bookmark.", 2000);
+                        noneFound_notification.Show("Found " + result.CONFERENCES.Count + " bookmark.", 2000);
                     }
                     reload_abb.IsEnabled = true;
                     loading_grid.Visibility = Visibility.Collapsed;
@@ -119,7 +120,8 @@ namespace UWP_XMPP_Client.Pages
             XMPPClient c = account_asc.getSelectedAccount();
             if (c != null)
             {
-                c.PUB_SUB_COMMAND_HELPER.removeBookmark(onMessage, onTimeout, item);
+                //ChatDBManager.INSTANCE.setChatTableValue(name(""))
+                //c.PUB_SUB_COMMAND_HELPER.removeBookmark(onMessage, onTimeout, item);
             }
         }
 

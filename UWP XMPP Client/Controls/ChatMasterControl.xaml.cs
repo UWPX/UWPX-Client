@@ -17,7 +17,8 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages;
 using Data_Manager2.Classes.Events;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using System.Collections.Generic;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -363,23 +364,22 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && Chat != null)
             {
                 Chat.inRoster = !Chat.inRoster;
-                ConferenceItem cI = MUCInfo.toConferenceItem(Chat);
+                ConferenceItem cI = MUCInfo.toConferenceItem();
                 if (updateBookmarkHelper != null)
                 {
                     updateBookmarkHelper.Dispose();
                 }
-                if (Chat.inRoster)
-                {
-                    updateBookmarkHelper = Client.PUB_SUB_COMMAND_HELPER.addBookmark(onSetBookmarkMessage, onSetBookmarkTimeout, cI);
-                }
-                else
-                {
-                    updateBookmarkHelper = Client.PUB_SUB_COMMAND_HELPER.removeBookmark(onRemoveBookmarkMessage, onRemoveBookmarkTimeout, cI);
-                }
-                ChatDBManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChatTableValue(nameof(Chat.id), Chat.id, nameof(Chat.inRoster), Chat.inRoster);
+                setBookarks();
                 showChat(Chat);
                 showMUCInfo();
             }
+        }
+
+        private void setBookarks()
+        {
+            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(Client.getXMPPAccount().getIdAndDomain());
+            Client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, onSetBookmarkMessage, onSetBookmarkTimeout);
         }
 
         private void onRemoveBookmarkTimeout()
@@ -412,19 +412,18 @@ namespace UWP_XMPP_Client.Controls
 
         private void onSetBookmarkTimeout()
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-            {
-                TextDialog dialog = new TextDialog("Failed to bookmark!\nServer did not respond in time.", "Error");
-                Task t = UiUtils.showDialogAsyncQueue(dialog);
-            }).AsTask();
+
         }
 
         private bool onSetBookmarkMessage(IQMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
-                TextDialog dialog = new TextDialog("Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
-                Task t = UiUtils.showDialogAsyncQueue(dialog);
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    TextDialog dialog = new TextDialog("Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
+                    Task t = UiUtils.showDialogAsyncQueue(dialog);
+                }).AsTask();
                 return true;
             }
             if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
@@ -606,12 +605,8 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && MUCInfo.autoEnterRoom != autoEnter_tmfo.IsChecked)
             {
                 MUCInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
-                Task.Run(() => MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, false, false));
-
-                if (Chat.inRoster)
-                {
-                    Client.PUB_SUB_COMMAND_HELPER.addBookmark(null, null, MUCInfo.toConferenceItem(Chat));
-                }
+                MUCDBManager.INSTANCE.setMUCChatInfoTableValue(nameof(MUCInfo.chatId), MUCInfo.chatId, nameof(MUCInfo.autoEnterRoom), MUCInfo.autoEnterRoom);
+                setBookarks();
             }
         }
 

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Data_Manager2.Classes.DBManager;
+using System;
+using System.Collections.Generic;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -6,7 +8,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -42,7 +44,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             return new ConferenceItem()
             {
-                id = jid_tbx.Text,
+                jid = jid_tbx.Text,
                 password = string.IsNullOrEmpty(password_pwbx.Password) ? null : password_pwbx.Password,
                 name = string.IsNullOrEmpty(name_tbx.Text) ? null : name_tbx.Text,
                 nick = nick_tbx.Text,
@@ -82,7 +84,8 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     messageResponseHelper.Dispose();
                 }
-                messageResponseHelper = CLIENT.PUB_SUB_COMMAND_HELPER.addBookmark(onMessage, onTimeout, getConferenceItem());
+                List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(CLIENT.getXMPPAccount().getIdAndDomain());
+                CLIENT.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, onMessage, onTimeout);
             }
         }
 

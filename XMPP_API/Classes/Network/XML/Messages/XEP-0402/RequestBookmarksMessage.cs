@@ -25,9 +25,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getContent()
+        protected override XElement getContent(XNamespace ns)
         {
-            XElement item = new XElement(NS + "items");
+            XElement item = new XElement(ns + "items");
             item.Add(new XAttribute("node", Consts.XML_XEP_0402_NAMESPACE));
             return item;
         }

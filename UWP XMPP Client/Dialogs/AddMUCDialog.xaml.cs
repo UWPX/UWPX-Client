@@ -10,6 +10,10 @@ using Data_Manager2.Classes.DBManager;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages;
 using System.Threading.Tasks;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages;
+using Windows.UI.Core;
+using Logging;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -22,6 +26,8 @@ namespace UWP_XMPP_Client.Dialogs
         private List<DiscoFeatureTable> serverList;
         private ObservableCollection<string> servers;
         private List<XMPPClient> clients;
+
+        MessageResponseHelper<IQMessage> setBookmarkHelper;
 
         private string requestedServer;
 
@@ -48,6 +54,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         public AddMUCDialog(string roomJid)
         {
+            this.setBookmarkHelper = null;
             this.cancled = true;
             this.accounts = new ObservableCollection<string>();
             this.serverList = new List<DiscoFeatureTable>();
@@ -178,12 +185,44 @@ namespace UWP_XMPP_Client.Dialogs
 
                 if ((bool)bookmark_cbx.IsChecked)
                 {
-                    client.PUB_SUB_COMMAND_HELPER.addBookmark(null, null, info.toConferenceItem(muc));
+                    List<ConferenceItem> conferenceItems = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getIdAndDomain());
+                    setBookmarkHelper = client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferenceItems, onMessage, onTimeout);
                 }
 
                 return true;
             }
             return false;
+        }
+
+        private bool onMessage(IQMessage msg)
+        {
+            if (msg is IQErrorMessage errMsg)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    Logger.Warn("Failed to set bookmarks: " + errMsg.ToString());
+                    accountSelection_asc.showErrorMessage("Failed to add bookmark - server error!");
+                    add_pgr.Visibility = Visibility.Collapsed;
+                    add_btn.IsEnabled = true;
+                }).AsTask();
+                return true;
+            }
+            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Hide()).AsTask();
+                return true;
+            }
+            return false;
+        }
+
+        private void onTimeout()
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                accountSelection_asc.showErrorMessage("Failed to add bookmark - server timeout!");
+                add_pgr.Visibility = Visibility.Collapsed;
+                add_btn.IsEnabled = true;
+            }).AsTask();
         }
 
         /// <summary>
@@ -244,6 +283,11 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Events--
         private void accountSelection_asc_AddAccountClicked(object sender, object args)
         {
+            if(setBookmarkHelper != null)
+            {
+                setBookmarkHelper.Dispose();
+                setBookmarkHelper = null;
+            }
             Hide();
         }
 
@@ -288,16 +332,31 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
+            if (setBookmarkHelper != null)
+            {
+                setBookmarkHelper.Dispose();
+                setBookmarkHelper = null;
+            }
             cancled = true;
             Hide();
         }
 
         private void add_btn_Click(object sender, RoutedEventArgs e)
         {
+            add_pgr.Visibility = Visibility.Visible;
+            add_btn.IsEnabled = false;
             if (addRoom())
             {
                 cancled = false;
-                Hide();
+                if (setBookmarkHelper == null)
+                {
+                    Hide();
+                }
+            }
+            else
+            {
+                add_pgr.Visibility = Visibility.Collapsed;
+                add_btn.IsEnabled = true;
             }
         }
 

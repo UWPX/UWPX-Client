@@ -26,10 +26,10 @@
                 <TextBox x:Name="roomName_tbx"
                          Margin="0,10,0,0"
                          Header="Chatroom name:"
+                         InputScope="Search"
                          KeyDown="roomName_tbx_KeyDown"
                          PlaceholderText="e.g. 'someRoomName'"
-                         TextChanged="roomName_tbx_TextChanged"
-                         InputScope="Search"/>
+                         TextChanged="roomName_tbx_TextChanged"/>
                 <CheckBox x:Name="enablePassword_cbx"
                           Margin="0,10,0,0"
                           Checked="enablePassword_cbx_Checked"
@@ -100,6 +100,9 @@
                     <TextBlock Margin="10,0,0,0"
                                VerticalAlignment="Center"
                                Text="Add"/>
+                    <ProgressRing x:Name="add_pgr"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
         </Grid>

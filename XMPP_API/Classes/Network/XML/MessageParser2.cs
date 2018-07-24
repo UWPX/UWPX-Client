@@ -249,6 +249,12 @@ namespace XMPP_API.Classes.Network.XML
                                             messages.Add(new PubSubSubscriptionMessage(n));
                                             break;
                                         }
+                                        // XEP-0048 (Bookmarks) response:
+                                        else if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0048_NAMESPACE) != null)
+                                        {
+                                            messages.Add(new Messages.XEP_0048.BookmarksResultMessage(n));
+                                            break;
+                                        }
                                         // XEP-0402 (Bookmarks 2) response:
                                         else if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0402_NAMESPACE) != null)
                                         {

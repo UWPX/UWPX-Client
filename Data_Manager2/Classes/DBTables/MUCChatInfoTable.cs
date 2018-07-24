@@ -1,6 +1,6 @@
 ﻿using SQLite;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -68,15 +68,15 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public ConferenceItem toConferenceItem(ChatTable muc)
+        public ConferenceItem toConferenceItem()
         {
             return new ConferenceItem()
             {
                 autoJoin = autoEnterRoom,
-                id = muc.chatJabberId,
                 name = name,
                 nick = nickname,
-                password = password
+                password = password,
+                jid = chatId
             };
         }
 

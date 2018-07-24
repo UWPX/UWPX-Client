@@ -170,6 +170,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\BookmarksResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\ConferenceItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\RequestBookmarksMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />

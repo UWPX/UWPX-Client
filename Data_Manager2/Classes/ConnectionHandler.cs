@@ -579,7 +579,7 @@ namespace Data_Manager2.Classes
 
         private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
         {
-            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.conferences)
+            foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.CONFERENCES)
             {
                 bool newMUC = false;
                 string to = client.getXMPPAccount().getIdAndDomain();

@@ -63,5 +63,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0054_NAMESPACE = "vcard-temp";
         // XEP-0402 (Bookmarks 2):
         public const string XML_XEP_0402_NAMESPACE = "urn:xmpp:bookmarks:0";
+        // XEP-0048 (Bookmarks):
+        public const string XML_XEP_0048_NAMESPACE = "storage:bookmarks";
     }
 }

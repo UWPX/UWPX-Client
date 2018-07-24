@@ -1,12 +1,14 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public class SetBookmarksMessage : PubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly StorageItem STORAGE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,28 +17,39 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 22/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from) : base(from, null, GET, getRandomId())
+        public SetBookmarksMessage(string from, List<ConferenceItem> conferences) : base(from, null, Consts.XML_XEP_0048_NAMESPACE)
         {
+            STORAGE = new StorageItem(conferences);
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
+        protected override PubSubPublishOptions getPublishOptions()
         {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
+            PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
+            options.OPTIONS.FIELDS.Add(new Field()
             {
-                pubsub.Add(content);
-            }
-            return pubsub;
+                var = "pubsub#persist_items",
+                value = true,
+                type = FieldType.BOOLEAN
+            });
+            options.OPTIONS.FIELDS.Add(new Field()
+            {
+                var = "pubsub#access_model",
+                value = "whitelist",
+                type = FieldType.NONE
+            });
+
+            return options;
         }
 
-        protected abstract XElement getContent(XNamespace ns);
+        protected override AbstractPubSubItem getPubSubItem()
+        {
+            return STORAGE;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

@@ -1,12 +1,13 @@
 ﻿using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public abstract class PubSubResultMessage : IQMessage
+    public class BookmarksResultMessage : PubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public StorageItem STORAGE { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,15 +16,27 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 22/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubResultMessage(XmlNode node) : base(node)
+        public BookmarksResultMessage(XmlNode n) : base(n)
         {
-            XmlNode content = XMLUtils.getChildNode(node, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
-            if (content != null)
+        }
+
+        protected override void loadContent(XmlNodeList content)
+        {
+            foreach (XmlNode node in content)
             {
-                loadContent(content.ChildNodes);
+                if (string.Equals(node.Name, "items") && string.Equals(node.Attributes["node"], Consts.XML_XEP_0048_NAMESPACE))
+                {
+                    XmlNode itemNode = XMLUtils.getChildNode(node, "item", "id", "current");
+                    if (itemNode != null)
+                    {
+                        STORAGE = new StorageItem(itemNode);
+                        return;
+                    }
+                }
             }
+            STORAGE = new StorageItem();
         }
 
         #endregion
@@ -44,7 +57,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract void loadContent(XmlNodeList content);
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
