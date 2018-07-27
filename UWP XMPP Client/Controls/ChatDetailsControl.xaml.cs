@@ -369,7 +369,7 @@ namespace UWP_XMPP_Client.Controls
                     Task.Run(() =>
                     {
                         ChatDBManager.INSTANCE.setChatMessage(sendMessageTable, true, false);
-                        ChatDBManager.INSTANCE.setChat(chatCpy, false, false);
+                        ChatDBManager.INSTANCE.setChat(chatCpy, false, true);
                     });
 
                     // Send message:
