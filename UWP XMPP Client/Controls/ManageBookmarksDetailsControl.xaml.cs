@@ -15,6 +15,9 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ConferenceProperty = DependencyProperty.Register(nameof(Conference), typeof(ConferenceItem), typeof(ManageBookmarksDetailsControl), null);
 
+        public delegate void SaveClickedHandler(ManageBookmarksDetailsControl sender, RoutedEventArgs args);
+        public event SaveClickedHandler SaveClicked;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -52,7 +55,10 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void save_btn_Click(object sender, RoutedEventArgs e)
+        {
+            SaveClicked?.Invoke(this, e);
+        }
 
         #endregion
     }

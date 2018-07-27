@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.DBManager;
-using Logging;
+﻿using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using UWP_XMPP_Client.Classes;
@@ -201,8 +200,6 @@ namespace UWP_XMPP_Client.Pages
             reload(args.CLIENT);
         }
 
-        #endregion
-
 #pragma warning disable CS0618 // Type or member is obsolete
         private void SlidableListItem_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
         {
@@ -215,5 +212,12 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 #pragma warning restore CS0618 // Type or member is obsolete
+
+        private void ManageBookmarksDetailsControl_SaveClicked(Controls.ManageBookmarksDetailsControl sender, RoutedEventArgs args)
+        {
+            
+        }
+
+        #endregion
     }
 }

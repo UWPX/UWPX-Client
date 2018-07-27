@@ -25,13 +25,14 @@
                                        RightIcon="OutlineStar"
                                        RightLabel="Remove"
                                        SwipeStatusChanged="SlidableListItem_SwipeStatusChanged">
-                <controls1:ManageBookmarksMasterControl Conference="{x:Bind}"/>
+                <controls1:ManageBookmarksMasterControl Conference="{x:Bind, Mode=OneWay}"/>
             </controls:SlidableListItem>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate"
                       x:DataType="xep_0048:ConferenceItem">
-            <controls1:ManageBookmarksDetailsControl Conference="{x:Bind}"/>
+            <controls1:ManageBookmarksDetailsControl Conference="{x:Bind, Mode=TwoWay}"
+                                                     SaveClicked="ManageBookmarksDetailsControl_SaveClicked"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">

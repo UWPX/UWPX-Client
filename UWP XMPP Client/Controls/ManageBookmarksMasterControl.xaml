@@ -18,13 +18,13 @@
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0">
             <TextBlock Text="{x:Bind Conference.name, Mode=OneWay}"
-                       TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis"
                        Visibility="{x:Bind Conference.name, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
             <TextBlock Text="{x:Bind Conference.jid, Mode=OneWay}"
-                       TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis"
                        Visibility="{x:Bind Conference.jid, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
             <TextBlock Text="{x:Bind Conference.nick, Mode=OneWay}"
-                       TextWrapping="Wrap"
+                       TextTrimming="CharacterEllipsis"
                        Visibility="{x:Bind Conference.nick, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
         </StackPanel>
         <StackPanel Grid.Column="1"
