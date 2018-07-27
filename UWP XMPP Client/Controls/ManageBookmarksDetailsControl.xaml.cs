@@ -1,6 +1,6 @@
 ﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Controls
 {

@@ -9,7 +9,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<ConferenceItem> CONFERENCES;
+        public readonly IList<ConferenceItem> CONFERENCES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,12 +22,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// </history>
         public StorageItem() : this(new List<ConferenceItem>())
         {
-            this.id = "current";
         }
 
-        public StorageItem(List<ConferenceItem> conferences)
+        public StorageItem(IList<ConferenceItem> conferences)
         {
-            this.CONFERENCES = new List<ConferenceItem>();
+            this.id = "current";
+            this.CONFERENCES = conferences;
         }
 
         public StorageItem(XmlNode n) : this()
@@ -35,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
             XmlNode storageNode = XMLUtils.getChildNode(n, "storage", Consts.XML_XMLNS, Consts.XML_XEP_0048_NAMESPACE);
             if (storageNode != null)
             {
-                foreach (XmlNode n1 in n.ChildNodes)
+                foreach (XmlNode n1 in storageNode)
                 {
                     if (string.Equals(n1.Name, "conference"))
                     {

@@ -51,7 +51,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public List<ConferenceItem> getXEP0048ConferenceItemsForAccount(string userAccountId)
         {
-            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT i.* FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i JOIN " + DBTableConsts.CHAT_TABLE + " c ON i.chatId = c.id WHERE c.inRoster = ? AND c.userAccountId = ?;", true, userAccountId);
+            IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT i.*, c.chatJabberId AS chatId FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i JOIN " + DBTableConsts.CHAT_TABLE + " c ON i.chatId = c.id WHERE c.inRoster = ? AND c.userAccountId = ?;", true, userAccountId);
             List<ConferenceItem> conferences = new List<ConferenceItem>();
             foreach (var mucInfo in list)
             {

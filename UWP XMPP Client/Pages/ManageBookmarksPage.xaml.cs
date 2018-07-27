@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes.DBManager;
+using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using UWP_XMPP_Client.Classes;
@@ -9,7 +10,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -86,14 +87,14 @@ namespace UWP_XMPP_Client.Pages
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
                     bookmarks.Clear();
-                    bookmarks.AddRange(result.CONFERENCES);
-                    if (result.CONFERENCES.Count > 1)
+                    bookmarks.AddRange(result.STORAGE.CONFERENCES);
+                    if (result.STORAGE.CONFERENCES.Count > 1)
                     {
-                        noneFound_notification.Show("Found " + result.CONFERENCES.Count + " bookmarks.", 2000);
+                        noneFound_notification.Show("Found " + result.STORAGE.CONFERENCES.Count + " bookmarks.", 2000);
                     }
                     else
                     {
-                        noneFound_notification.Show("Found " + result.CONFERENCES.Count + " bookmark.", 2000);
+                        noneFound_notification.Show("Found " + result.STORAGE.CONFERENCES.Count + " bookmark.", 2000);
                     }
                     reload_abb.IsEnabled = true;
                     loading_grid.Visibility = Visibility.Collapsed;
@@ -120,19 +121,28 @@ namespace UWP_XMPP_Client.Pages
             XMPPClient c = account_asc.getSelectedAccount();
             if (c != null)
             {
-                //ChatDBManager.INSTANCE.setChatTableValue(name(""))
-                //c.PUB_SUB_COMMAND_HELPER.removeBookmark(onMessage, onTimeout, item);
+                c.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(bookmarks, null, null);
             }
         }
 
         private bool onRemoveMessage(IQMessage msg)
         {
-            return true;
+            if (msg is IQErrorMessage errMsg)
+            {
+                Logger.Warn("Failed to set bookmarks: " + errMsg.ToString());
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("Failed to add bookmark - server error!\n" + errMsg.ToString())).AsTask();
+                return true;
+            }
+            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            {
+                return true;
+            }
+            return false;
         }
 
         private void onRemoveTimeout()
         {
-            
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("Failed to add bookmark - server timeout!")).AsTask();
         }
 
         #endregion

@@ -55,6 +55,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
             {
                 confNode.Add(new XAttribute("name", name));
             }
+            if (jid != null)
+            {
+                confNode.Add(new XAttribute("jid", jid));
+            }
             if (password != null)
             {
                 confNode.Add(new XElement(ns + "password", password));
