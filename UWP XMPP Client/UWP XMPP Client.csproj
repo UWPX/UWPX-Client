@@ -352,7 +352,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BackgroundImages\cat.jpeg" />
-    <Content Include="Assets\BackgroundImages\details_background.jpeg" />
+    <Content Include="Assets\BackgroundImages\light_bulb.jpeg" />
     <Content Include="Assets\BackgroundImages\elephant.jpeg" />
     <Content Include="Assets\BackgroundImages\hedge.jpeg" />
     <Content Include="Assets\BackgroundImages\leather.jpeg" />
