@@ -14,6 +14,7 @@ It works on all Windows 10 UWP devices.
 | -------------     | ------------- |
 | MUC           | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
 | Chat State    | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
+| Bookmarks     | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") |
 
 
 ## ToDo:
@@ -27,6 +28,7 @@ It works on all Windows 10 UWP devices.
 | HTTP File Upload  | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
 | User Avatar       | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") |
 | vcard-temp        | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") |
+| Chat Markers      | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |
 
 [MORE NOTES TO COME]
 
