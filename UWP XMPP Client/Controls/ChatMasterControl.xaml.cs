@@ -634,12 +634,17 @@ namespace UWP_XMPP_Client.Controls
 
         private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
         {
-            if (args.NewValue == SwipeStatus.Starting)
+            if (args.NewValue == SwipeStatus.Idle)
             {
-                // Swiping starting
-            }
-            else if (args.NewValue == SwipeStatus.Idle)
-            {
+                if (Client != null && !Client.isConnected())
+                {
+                    TextDialog dialog = new TextDialog()
+                    {
+                        Title = "Error",
+                        Text = "Account not connected!"
+                    };
+                    await UiUtils.showDialogAsyncQueue(dialog);
+                }
                 if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
                 {
                     await deleteChatAsync();
@@ -655,10 +660,6 @@ namespace UWP_XMPP_Client.Controls
                             switchMUCBookmarkes();
                             break;
                     }
-                }
-                else
-                {
-                    // Swiping canceled
                 }
             }
         }

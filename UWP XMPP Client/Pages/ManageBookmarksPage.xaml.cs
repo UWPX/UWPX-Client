@@ -120,6 +120,14 @@ namespace UWP_XMPP_Client.Pages
             XMPPClient c = account_asc.getSelectedAccount();
             if (c != null)
             {
+                if (c.isConnected())
+                {
+                    noneFound_notification.Show("Can't remove bookmark - account not connected!");
+                }
+                else
+                {
+
+                }
                 c.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(bookmarks, null, null);
             }
         }

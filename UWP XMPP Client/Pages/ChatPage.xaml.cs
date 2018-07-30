@@ -175,9 +175,9 @@ namespace UWP_XMPP_Client.Pages
         /// </summary>
         /// <param name="client">Which account/client owns this chat?</param>
         /// <param name="jID">The JID if the new chat.</param>
-        /// <param name="addToRooster">Should the chat get added to the users rooster?</param>
+        /// <param name="addToRoster">Should the chat get added to the users roster?</param>
         /// <param name="requestSubscription">Request a presence subscription?</param>
-        private async Task addChatAsync(XMPPClient client, string jID, bool addToRooster, bool requestSubscription)
+        private async Task addChatAsync(XMPPClient client, string jID, bool addToRoster, bool requestSubscription)
         {
             if (client == null || jID == null)
             {
@@ -191,7 +191,7 @@ namespace UWP_XMPP_Client.Pages
             }
             else
             {
-                if (addToRooster)
+                if (addToRoster)
                 {
                     await client.addToRosterAsync(jID);
                 }
@@ -205,7 +205,7 @@ namespace UWP_XMPP_Client.Pages
                     chatJabberId = jID,
                     userAccountId = client.getXMPPAccount().getIdAndDomain(),
                     ask = null,
-                    inRoster = addToRooster,
+                    inRoster = addToRoster,
                     lastActive = DateTime.Now,
                     muted = false,
                     presence = Presence.Unavailable,
@@ -360,7 +360,7 @@ namespace UWP_XMPP_Client.Pages
             await UiUtils.showDialogAsyncQueue(dialog);
             if (!dialog.cancled)
             {
-                await addChatAsync(dialog.client, dialog.jabberId, dialog.addToRooster, dialog.requestSubscription);
+                await addChatAsync(dialog.client, dialog.jabberId, dialog.addToRoster, dialog.requestSubscription);
             }
         }
 
