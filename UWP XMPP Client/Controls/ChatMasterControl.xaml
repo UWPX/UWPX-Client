@@ -114,7 +114,7 @@
                                         Text="Join room">
                             <MenuFlyoutItem.Icon>
                                 <FontIcon Foreground="Green"
-                                          Glyph="&#xEA4A;"/>
+                                          Glyph="&#xE8BD;"/>
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutItem x:Name="leave_mfo"
@@ -126,9 +126,6 @@
                             </MenuFlyoutItem.Icon>
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator/>
-                        <ToggleMenuFlyoutItem x:Name="autoEnter_tmfo"
-                                              Click="autoEnter_tmfo_Click"
-                                              Text="Auto join"/>
                         <MenuFlyoutItem x:Name="bookmark_tmfo"
                                         Click="bookmark_tmfo_Click"
                                         Text="Bookmark">

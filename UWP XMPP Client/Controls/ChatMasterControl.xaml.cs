@@ -131,7 +131,6 @@ namespace UWP_XMPP_Client.Controls
                 muteMUC_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
                 muteMUC_tmfo.IsChecked = Chat.muted;
                 bookmark_tmfo.Text = Chat.inRoster ? "Remove bookmark" : "Bookmark";
-                autoEnter_tmfo.IsChecked = autoEnter_tmfo.IsChecked = MUCInfo.autoEnterRoom;
 
                 //Slide list item:
                 slideListItem_sli.LeftLabel = bookmark_tmfo.Text;
@@ -364,7 +363,6 @@ namespace UWP_XMPP_Client.Controls
             if (MUCInfo != null && Chat != null)
             {
                 Chat.inRoster = !Chat.inRoster;
-                ConferenceItem cI = MUCInfo.toConferenceItem();
                 if (updateBookmarkHelper != null)
                 {
                     updateBookmarkHelper.Dispose();
@@ -446,16 +444,28 @@ namespace UWP_XMPP_Client.Controls
             {
                 if (Chat.inRoster)
                 {
-                    await Client.removeFromRosterAsync(Chat.chatJabberId);
-                }
-                if (Chat.chatType == ChatType.MUC && MUCInfo != null)
-                {
-                    if (Chat.inRoster)
+                    if (Chat.chatType == ChatType.MUC)
                     {
-                        // Remove bookmark:
-                        switchMUCBookmarkes();
+                        if (Client != null && !Client.isConnected())
+                        {
+                            TextDialog errDialog = new TextDialog()
+                            {
+                                Title = "Warning",
+                                Text = "Unable to remove bookmark - account not connected!"
+                            };
+                            await UiUtils.showDialogAsyncQueue(errDialog);
+                        }
+                        else
+                        {
+                            // Remove bookmark:
+                            switchMUCBookmarkes();
+                            MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, false);
+                        }
                     }
-                    MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, true);
+                    else
+                    {
+                        await Client.removeFromRosterAsync(Chat.chatJabberId);
+                    }
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
                 if (!dialog.keepChatLog)
@@ -601,16 +611,6 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
-        private void autoEnter_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-            if (MUCInfo != null && MUCInfo.autoEnterRoom != autoEnter_tmfo.IsChecked)
-            {
-                MUCInfo.autoEnterRoom = autoEnter_tmfo.IsChecked;
-                MUCDBManager.INSTANCE.setMUCChatInfoTableValue(nameof(MUCInfo.chatId), MUCInfo.chatId, nameof(MUCInfo.autoEnterRoom), MUCInfo.autoEnterRoom);
-                setBookarks();
-            }
-        }
-
         private void showInfo_mfo_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat, Client, MUCInfo));
@@ -637,29 +637,32 @@ namespace UWP_XMPP_Client.Controls
         {
             if (args.NewValue == SwipeStatus.Idle)
             {
-                if (Client != null && !Client.isConnected())
-                {
-                    TextDialog dialog = new TextDialog()
-                    {
-                        Title = "Error",
-                        Text = "Account not connected!"
-                    };
-                    await UiUtils.showDialogAsyncQueue(dialog);
-                }
                 if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
                 {
                     await deleteChatAsync();
                 }
                 else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
                 {
-                    switch (Chat.chatType)
+                    if (Client != null && !Client.isConnected())
                     {
-                        case ChatType.CHAT:
-                            await switchChatInRoosterAsync();
-                            break;
-                        case ChatType.MUC:
-                            switchMUCBookmarkes();
-                            break;
+                        TextDialog dialog = new TextDialog()
+                        {
+                            Title = "Error",
+                            Text = "Account not connected!"
+                        };
+                        await UiUtils.showDialogAsyncQueue(dialog);
+                    }
+                    else
+                    {
+                        switch (Chat.chatType)
+                        {
+                            case ChatType.CHAT:
+                                await switchChatInRoosterAsync();
+                                break;
+                            case ChatType.MUC:
+                                switchMUCBookmarkes();
+                                break;
+                        }
                     }
                 }
             }

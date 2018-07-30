@@ -11,7 +11,7 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace XMPP_API.Classes.Network
 {
