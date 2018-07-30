@@ -455,6 +455,7 @@ namespace UWP_XMPP_Client.Controls
                         // Remove bookmark:
                         switchMUCBookmarkes();
                     }
+                    MUCDBManager.INSTANCE.setMUCChatInfo(MUCInfo, true, true);
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
                 if (!dialog.keepChatLog)
