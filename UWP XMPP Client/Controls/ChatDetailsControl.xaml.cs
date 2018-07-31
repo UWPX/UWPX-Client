@@ -352,11 +352,11 @@ namespace UWP_XMPP_Client.Controls
                     // For MUC messages also pass the nickname:
                     if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                     {
-                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname);
+                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname, false);
                     }
                     else
                     {
-                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType());
+                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), true);
                     }
                     ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING };
 

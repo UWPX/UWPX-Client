@@ -11,6 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public readonly string MESSAGE;
         public readonly string TYPE;
         public readonly string FROM_NICK;
+        public readonly bool RECIPT_REQUESTED;
         public DateTime delay { get; private set; }
         // Already shown as a toast:
         public bool toasted { get; private set; }
@@ -30,11 +31,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public MessageMessage(string from, string to, string message, string type) : this(from, to, message, type, null)
+        public MessageMessage(string from, string to, string message, string type, bool reciptRequested) : this(from, to, message, type, null, reciptRequested)
         {
         }
 
-        public MessageMessage(string from, string to, string message, string type, string from_nick) : base(from, to)
+        public MessageMessage(string from, string to, string message, string type, string from_nick, bool reciptRequested) : base(from, to)
         {
             this.MESSAGE = message;
             this.TYPE = type;
@@ -97,7 +98,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 MESSAGE = body.InnerText;
             }
 
-            XmlNode delayNode = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, "urn:xmpp:delay");
+            // XEP-0203 (Delayed Delivery):
+            XmlNode delayNode = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, Consts.XML_XEP_0203_NAMESPACE);
             if (delayNode != null)
             {
                 XmlAttribute stamp = XMLUtils.getAttribute(delayNode, "stamp");
@@ -111,6 +113,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 delay = DateTime.Now;
             }
+
+            // XEP-0184 (Message Delivery Receipts):
+            XmlNode requestNode = XMLUtils.getChildNode(node, "request", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE);
+            RECIPT_REQUESTED = requestNode != null;
         }
 
         #endregion
@@ -158,16 +164,25 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 msgNode.Add(new XElement("body", MESSAGE));
             }
 
+            // XEP-0203 (Delayed Delivery):
             if (delay != DateTime.MinValue)
             {
-                XElement delayNode = new XElement("delay");
+                XNamespace ns = Consts.XML_XEP_0203_NAMESPACE;
+                XElement delayNode = new XElement(ns + "delay");
                 DateTimeParserHelper parserHelper = new DateTimeParserHelper();
                 delayNode.Add(new XAttribute("stamp", parserHelper.toString(DateTime.Now)));
                 delayNode.Add(new XAttribute("from", FROM));
                 delayNode.Add("Offline Storage");
-                delayNode.Add(new XAttribute(Consts.XML_XMLNS, "urn:xmpp:delay"));
                 msgNode.Add(delay);
             }
+
+            // XEP-0184 (Message Delivery Receipts):
+            if (RECIPT_REQUESTED)
+            {
+                XNamespace ns = Consts.XML_XEP_0184_NAMESPACE;
+                XElement requestNode = new XElement(ns + "request");
+            }
+
             return msgNode;
         }
 

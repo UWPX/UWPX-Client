@@ -1,13 +1,13 @@
-﻿using System.Xml;
-using System.Xml.Linq;
+﻿using System.ComponentModel;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace XMPP_API.Classes.Network.Events
 {
-    public class MUCRoomSubjectMessage : MessageMessage
+    public class NewDeliveryReceiptEventArgs : CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string SUBJECT;
+        public readonly string RECEIPT_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,20 +16,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/02/2018 Created [Fabian Sauter]
+        /// 31/07/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCRoomSubjectMessage(XmlNode node) : base(node)
+        public NewDeliveryReceiptEventArgs(DeliveryReceiptMessage msg)
         {
-            XmlNode sNode = XMLUtils.getChildNode(node, "subject");
-            if (sNode != null)
-            {
-                this.SUBJECT = sNode.InnerText;
-            }
-        }
-
-        public MUCRoomSubjectMessage(string from, string to, string subject) : base(from, to, null, TYPE_GROUPCHAT, null, false)
-        {
-            this.SUBJECT = subject;
+            this.RECEIPT_ID = msg.RECEIPT_ID;
         }
 
         #endregion
@@ -40,12 +31,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override XElement toXElement()
-        {
-            XElement node = base.toXElement();
-            node.Add(new XElement("subject", SUBJECT ?? ""));
-            return node;
-        }
+
 
         #endregion
 

@@ -1,13 +1,13 @@
 ﻿using System.Xml;
 using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0184
 {
-    public class MUCRoomSubjectMessage : MessageMessage
+    public class DeliveryReceiptMessage : AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string SUBJECT;
+        public readonly string RECEIPT_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,20 +16,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 20/02/2018 Created [Fabian Sauter]
+        /// 31/07/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCRoomSubjectMessage(XmlNode node) : base(node)
+        public DeliveryReceiptMessage(string from, string to, string receiptId) : base(from, to, getRandomId())
         {
-            XmlNode sNode = XMLUtils.getChildNode(node, "subject");
-            if (sNode != null)
-            {
-                this.SUBJECT = sNode.InnerText;
-            }
+            this.RECEIPT_ID = receiptId;
         }
 
-        public MUCRoomSubjectMessage(string from, string to, string subject) : base(from, to, null, TYPE_GROUPCHAT, null, false)
+        public DeliveryReceiptMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
         {
-            this.SUBJECT = subject;
+            XmlNode recNode = XMLUtils.getChildNode(node, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE);
+            RECEIPT_ID = recNode?.Attributes["id"]?.Value;
         }
 
         #endregion
@@ -42,9 +39,28 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         #region --Misc Methods (Public)--
         public override XElement toXElement()
         {
-            XElement node = base.toXElement();
-            node.Add(new XElement("subject", SUBJECT ?? ""));
-            return node;
+            XElement msgNode = new XElement("message");
+
+            if (FROM != null)
+            {
+                msgNode.Add(new XAttribute("from", FROM));
+            }
+
+            if (TO != null)
+            {
+                msgNode.Add(new XAttribute("to", TO));
+            }
+
+            if (ID != null)
+            {
+                msgNode.Add(new XAttribute("id", ID));
+            }
+
+            XNamespace ns = Consts.XML_XEP_0184_NAMESPACE;
+            XElement recNode = new XElement(ns + "received");
+            recNode.Add(new XAttribute("id", RECEIPT_ID));
+            msgNode.Add(recNode);
+            return msgNode;
         }
 
         #endregion

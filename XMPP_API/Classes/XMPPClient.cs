@@ -10,6 +10,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0054;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 
 namespace XMPP_API.Classes
 {
@@ -28,6 +29,7 @@ namespace XMPP_API.Classes
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client, NewBookmarksResultMessageEventArgs args);
         public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
         public delegate void NewValidMessageEventHandler(XMPPClient client, NewValidMessageEventArgs args);
+        public delegate void NewDeliveryReceiptHandler(XMPPClient client, NewDeliveryReceiptEventArgs args);
 
         public event NewValidMessageEventHandler NewRoosterMessage;
         public event ConnectionStateChangedEventHandler ConnectionStateChanged;
@@ -39,6 +41,7 @@ namespace XMPP_API.Classes
         public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
         public event NewValidMessageEventHandler NewValidMessage;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
+        public event NewDeliveryReceiptHandler NewDeliveryReceipt;
 
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
         public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
@@ -275,17 +278,21 @@ namespace XMPP_API.Classes
         private void Connection_ConnectionNewValidMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.getMessage();
-            if (msg is MessageMessage)
+            if (msg is MessageMessage mMsg)
             {
-                NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(msg as MessageMessage));
+                NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(mMsg));
             }
-            else if (msg is ChatStateMessage)
+            else if (msg is ChatStateMessage sMsg)
             {
-                NewChatState?.Invoke(this, new NewChatStateEventArgs(msg as ChatStateMessage));
+                NewChatState?.Invoke(this, new NewChatStateEventArgs(sMsg));
             }
-            else if (msg is DiscoResponseMessage)
+            else if (msg is DiscoResponseMessage dMsg)
             {
-                NewDiscoResponseMessage?.Invoke(this, new NewDiscoResponseMessageEventArgs(msg as DiscoResponseMessage));
+                NewDiscoResponseMessage?.Invoke(this, new NewDiscoResponseMessageEventArgs(dMsg));
+            }
+            else if (msg is DeliveryReceiptMessage dRMsg)
+            {
+                NewDeliveryReceipt?.Invoke(this, new NewDeliveryReceiptEventArgs(dRMsg));
             }
 
             NewValidMessage?.Invoke(this, args);

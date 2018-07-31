@@ -120,6 +120,7 @@
     <Compile Include="Classes\Network\Events\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\MessageSendEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewBookmarksResultMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewDeliveryReceiptEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDiscoResponseMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
@@ -194,6 +195,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscription.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0184\DeliveryReceiptMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />

@@ -15,7 +15,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         protected bool cacheUntilSend;
         private bool processed;
         private byte restartConnection;
-        private static Random r = new Random();
+        private static readonly Random R = new Random();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -65,9 +65,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public static string getRandomId()
         {
             string s = "";
-            for(int i = 0; i < 5; i++)
+            for (int i = 0; i < 5; i++)
             {
-                s += (r.Next() + 1000).ToString();
+                s += (R.Next() + 1000).ToString();
                 if (i < 4)
                 {
                     s += '-';

@@ -200,6 +200,7 @@ namespace Data_Manager2.Classes
             c.ConnectionStateChanged += C_ConnectionStateChanged;
             c.MessageSend += C_MessageSend;
             c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
+            c.NewDeliveryReceipt += C_NewDeliveryReceipt;
             return c;
         }
 
@@ -214,6 +215,7 @@ namespace Data_Manager2.Classes
             c.ConnectionStateChanged -= C_ConnectionStateChanged;
             c.MessageSend -= C_MessageSend;
             c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
+            c.NewDeliveryReceipt -= C_NewDeliveryReceipt;
         }
 
         /// <summary>
@@ -635,6 +637,11 @@ namespace Data_Manager2.Classes
                     Task.Run(() => MUCHandler.INSTANCE.enterMUCAsync(client, chat, info));
                 }
             }
+        }
+
+        private void C_NewDeliveryReceipt(XMPPClient client, XMPP_API.Classes.Network.Events.NewDeliveryReceiptEventArgs args)
+        {
+            
         }
 
         #endregion

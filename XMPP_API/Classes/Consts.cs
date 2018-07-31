@@ -65,5 +65,9 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0402_NAMESPACE = "urn:xmpp:bookmarks:0";
         // XEP-0048 (Bookmarks):
         public const string XML_XEP_0048_NAMESPACE = "storage:bookmarks";
+        // XEP-0203 (Delayed Delivery):
+        public const string XML_XEP_0203_NAMESPACE = "urn:xmpp:delay";
+        // XEP-0184 (Message Delivery Receipts):
+        public const string XML_XEP_0184_NAMESPACE = "urn:xmpp:receipts";
     }
 }

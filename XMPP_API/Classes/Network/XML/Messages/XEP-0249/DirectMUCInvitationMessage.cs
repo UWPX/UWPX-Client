@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0249
         /// <history>
         /// 02/03/2018 Created [Fabian Sauter]
         /// </history>
-        public DirectMUCInvitationMessage(string from, string to, string roomJid, string roomPassword, string reason) : base(from, to, null, null, null)
+        public DirectMUCInvitationMessage(string from, string to, string roomJid, string roomPassword, string reason) : base(from, to, null, null, null, false)
         {
             this.ROOM_JID = roomJid;
             this.ROOM_PASSWORD = roomPassword;

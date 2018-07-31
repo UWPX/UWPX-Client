@@ -16,6 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -151,13 +152,8 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Messages:
                     case "message":
-                        // XEP-0249 (Direct MUC Invitations):
-                        if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
-                        {
-                            messages.Add(new DirectMUCInvitationMessage(n));
-                        }
                         // XEP-0085 (chat state):
-                        else if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
+                        if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
                         {
                             messages.Add(new ChatStateMessage(n));
 
@@ -166,6 +162,16 @@ namespace XMPP_API.Classes.Network.XML
                             {
                                 messages.Add(new MessageMessage(n));
                             }
+                        }
+                        // XEP-0184 (Message Delivery Receipts):
+                        else if (XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE) != null)
+                        {
+                            messages.Add(new DeliveryReceiptMessage(n));
+                        }
+                        // XEP-0249 (Direct MUC Invitations):
+                        else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
+                        {
+                            messages.Add(new DirectMUCInvitationMessage(n));
                         }
                         // Message:
                         else if (XMLUtils.getChildNode(n, "body") != null)
