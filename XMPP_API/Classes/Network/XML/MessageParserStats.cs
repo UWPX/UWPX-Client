@@ -1,13 +1,14 @@
-﻿using System;
-using Windows.UI.Xaml.Data;
-
-namespace UWP_XMPP_Client.DataTemplates
+﻿namespace XMPP_API.Classes.Network.XML
 {
-    class RTTValueConverter : IValueConverter
+    public class MessageParserStats
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private long totalMsgParseTimeMs;
+        public long msgParseCount { get; private set; }
+        public long avgParseTimeMs { get; private set; }
+        public long minParseTimeMs { get; private set; }
+        public long maxParseTimeMs { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,10 +17,11 @@ namespace UWP_XMPP_Client.DataTemplates
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 30/05/2018 Created [Fabian Sauter]
+        /// 31/07/2018 Created [Fabian Sauter]
         /// </history>
-        public RTTValueConverter()
+        public MessageParserStats()
         {
+            reset();
         }
 
         #endregion
@@ -30,34 +32,28 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public void onMeasurement(long elapsedMs)
         {
-            if (value is uint i)
+            msgParseCount++;
+            if (elapsedMs < minParseTimeMs || minParseTimeMs < 0)
             {
-                double val = i / 1000.0;
-                if (val > 1000)
-                {
-                    return Math.Round(val / 1000, 2) + " s";
-                }
-
-                return Math.Round(val, 2) + " ms";
+                minParseTimeMs = elapsedMs;
             }
-            else if (value is long l)
+            else if (elapsedMs > maxParseTimeMs)
             {
-                double val = l / 1000.0;
-                if (val > 1000)
-                {
-                    return Math.Round(val / 1000, 2) + " s";
-                }
-
-                return Math.Round(val, 2) + " ms";
+                maxParseTimeMs = elapsedMs;
             }
-            return "0 ms";
+            totalMsgParseTimeMs += elapsedMs;
+            avgParseTimeMs = totalMsgParseTimeMs / msgParseCount;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        public void reset()
         {
-            throw new NotImplementedException();
+            msgParseCount = 0;
+            totalMsgParseTimeMs = 0;
+            avgParseTimeMs = 0;
+            minParseTimeMs = -1;
+            maxParseTimeMs = 0;
         }
 
         #endregion

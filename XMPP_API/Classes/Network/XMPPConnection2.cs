@@ -125,6 +125,11 @@ namespace XMPP_API.Classes.Network
             }
         }
 
+        public MessageParserStats getMessageParserStats()
+        {
+            return parser.STATS;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

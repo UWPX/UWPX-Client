@@ -2,6 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.TCP;
+using XMPP_API.Classes.Network.XML;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -14,7 +15,7 @@ namespace UWP_XMPP_Client.Dialogs
             get { return (Certificate)GetValue(CertProperty); }
             set { SetValue(CertProperty, value); }
         }
-        public static readonly DependencyProperty CertProperty = DependencyProperty.Register("Cert", typeof(Certificate), typeof(ConnectionInfoDialog), null);
+        public static readonly DependencyProperty CertProperty = DependencyProperty.Register(nameof(Cert), typeof(Certificate), typeof(ConnectionInfoDialog), null);
 
         public ConnectionInformation ConnectionInfo
         {
@@ -25,8 +26,15 @@ namespace UWP_XMPP_Client.Dialogs
                 showConnectionInfo();
             }
         }
-        public static readonly DependencyProperty ConnectionInfoProperty = DependencyProperty.Register("ConnectionInfo", typeof(ConnectionInformation), typeof(ConnectionInfoDialog), null);
-
+        public static readonly DependencyProperty ConnectionInfoProperty = DependencyProperty.Register(nameof(ConnectionInfo), typeof(ConnectionInformation), typeof(ConnectionInfoDialog), null);
+        
+        public MessageParserStats ParserStats
+        {
+            get { return (MessageParserStats)GetValue(ParserStatsProperty); }
+            set { SetValue(ParserStatsProperty, value); }
+        }
+        public static readonly DependencyProperty ParserStatsProperty = DependencyProperty.Register(nameof(ParserStats), typeof(MessageParserStats), typeof(ConnectionInfoDialog), null);
+        
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

@@ -300,7 +300,8 @@ namespace UWP_XMPP_Client.Controls
                 ConnectionInfoDialog dialog = new ConnectionInfoDialog()
                 {
                     Cert = client.getXMPPAccount().CONNECTION_INFO.socketInfo?.ServerCertificate,
-                    ConnectionInfo = client.getXMPPAccount().CONNECTION_INFO
+                    ConnectionInfo = client.getXMPPAccount().CONNECTION_INFO,
+                    ParserStats = client.getMessageParserStats()
                 };
                 await UiUtils.showDialogAsyncQueue(dialog);
             }

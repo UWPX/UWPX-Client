@@ -66,6 +66,29 @@
                              Text="RTT max:"/>
                         <Run Text="{x:Bind ConnectionInfo.socketInfo.RoundTripTimeStatistics.Max, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
                     </TextBlock>
+
+                    <controls:SeperatorControl Margin="-10,0,0,0"
+                                               Text="Parse statistics:"/>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Parse time min:"/>
+                        <Run Text="{x:Bind ParserStats.minParseTimeMs, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Parse time max:"/>
+                        <Run Text="{x:Bind ParserStats.maxParseTimeMs, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Parse time avg:"/>
+                        <Run Text="{x:Bind ParserStats.avgParseTimeMs, Mode=OneWay, Converter={StaticResource rttValueConverter}}"/>
+                    </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Parsed messages:"/>
+                        <Run Text="{x:Bind ParserStats.msgParseCount, Mode=OneWay}"/>
+                    </TextBlock>
                 </StackPanel>
             </ScrollViewer>
         </PivotItem>

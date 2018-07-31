@@ -3,6 +3,7 @@ using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
+using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -81,6 +82,11 @@ namespace XMPP_API.Classes
         public ConnectionState getConnetionState()
         {
             return connection.state;
+        }
+
+        public MessageParserStats getMessageParserStats()
+        {
+            return connection?.getMessageParserStats();
         }
 
         public ConnectionError getLastConnectionError()

@@ -23,6 +23,7 @@ namespace XMPP_API.Classes.Network.XML
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly MessageParserStats STATS;
         private readonly XmlReaderSettings READER_SETTINGS;
 
         #endregion
@@ -36,6 +37,7 @@ namespace XMPP_API.Classes.Network.XML
         /// </history>
         public MessageParser2()
         {
+            this.STATS = new MessageParserStats();
             this.READER_SETTINGS = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
         }
 
@@ -48,6 +50,47 @@ namespace XMPP_API.Classes.Network.XML
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public List<AbstractMessage> parseMessages(string msg)
+        {
+            System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
+            stopwatch.Start();
+            List<AbstractMessage> messages = parseMessageInternal(msg);
+            stopwatch.Stop();
+            STATS.onMeasurement(stopwatch.ElapsedMilliseconds);
+            return messages;
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        /// <summary>
+        /// Reads all root nodes from a given xml string and returns them.
+        /// </summary>
+        /// <param name="msg">A valid xml string.</param>
+        /// <returns>A list of XmlNodes read from the given xml string.</returns>
+        private List<XmlNode> parseToXmlNodes(string msg)
+        {
+            List<XmlNode> nodes = new List<XmlNode>();
+            XmlDocument doc = new XmlDocument();
+            using (XmlReader reader = XmlReader.Create(new StringReader(msg), READER_SETTINGS))
+            {
+                while (reader.Read())
+                {
+                    if (reader.NodeType == XmlNodeType.Element)
+                    {
+                        using (XmlReader fragmentReader = reader.ReadSubtree())
+                        {
+                            if (fragmentReader.Read())
+                            {
+                                nodes.Add(toXmlNode(XNode.ReadFrom(fragmentReader) as XElement));
+                            }
+                        }
+                    }
+                }
+            }
+            return nodes;
+        }
+
+        private List<AbstractMessage> parseMessageInternal(string msg)
         {
             List<AbstractMessage> messages = new List<AbstractMessage>();
 
@@ -352,37 +395,6 @@ namespace XMPP_API.Classes.Network.XML
             return messages;
         }
 
-        /// <summary>
-        /// Reads all root nodes from a given xml string and returns them.
-        /// </summary>
-        /// <param name="msg">A valid xml string.</param>
-        /// <returns>A list of XmlNodes read from the given xml string.</returns>
-        private List<XmlNode> parseToXmlNodes(string msg)
-        {
-            List<XmlNode> nodes = new List<XmlNode>();
-            XmlDocument doc = new XmlDocument();
-            using (XmlReader reader = XmlReader.Create(new StringReader(msg), READER_SETTINGS))
-            {
-                while (reader.Read())
-                {
-                    if (reader.NodeType == XmlNodeType.Element)
-                    {
-                        using (XmlReader fragmentReader = reader.ReadSubtree())
-                        {
-                            if (fragmentReader.Read())
-                            {
-                                nodes.Add(toXmlNode(XNode.ReadFrom(fragmentReader) as XElement));
-                            }
-                        }
-                    }
-                }
-            }
-            return nodes;
-        }
-
-        #endregion
-
-        #region --Misc Methods (Private)--
         /// <summary>
         /// Translates a given XElement to an XmlNode.
         /// </summary>

@@ -136,6 +136,7 @@
     <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
+    <Compile Include="Classes\Network\XML\MessageParserStats.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\CryptoUtils.cs" />
