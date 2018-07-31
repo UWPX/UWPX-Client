@@ -1,11 +1,10 @@
-﻿<Page
-    x:Class="UWP_XMPP_Client.Pages.SettingsPages.ChatSettingsPage"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:controls="using:UWP_XMPP_Client.Controls"
-    mc:Ignorable="d">
+﻿<Page x:Class="UWP_XMPP_Client.Pages.SettingsPages.ChatSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWP_XMPP_Client.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      mc:Ignorable="d">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
@@ -13,16 +12,37 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <controls:SettingsHeaderControl Grid.Row="0" Icon="&#xE15F;" Text="Chat"/>
-            <StackPanel Margin="10, 0, 10, 0" Grid.Row="1">
+            <controls:SettingsHeaderControl Grid.Row="0"
+                                            Icon="&#xE15F;"
+                                            Text="Chat"/>
+            <StackPanel Grid.Row="1"
+                        Margin="10,0,10,0">
                 <controls:SeperatorControl Text="General:"/>
-                <ToggleSwitch x:Name="enterToSend_tgls" Header="Enter to send a Message:" Margin="0, 10, 0, 0" Toggled="enterToSend_tgls_Toggled"/>
-                <ToggleSwitch x:Name="sendChatState_tgls" Header="Send chat state:" Margin="0, 10, 0, 0" Toggled="sendChatState_tgls_Toggled"/>
-                <ToggleSwitch x:Name="storeImagesInLibary_tgls" Header="Store images in library:" Margin="0, 10, 0, 0" Toggled="storeImagesInLibary_tgls_Toggled"/>
-                <TextBlock x:Name="clearCache_tblck" Text="Clear cache" Foreground="{ThemeResource SystemAccentColor}" Tapped="clearCache_tblck_Tapped"/>
+                <ToggleSwitch x:Name="enterToSend_tgls"
+                              Margin="0,10,0,0"
+                              Header="Enter to send a Message:"
+                              Toggled="enterToSend_tgls_Toggled"/>
+                <ToggleSwitch x:Name="sendChatState_tgls"
+                              Margin="0,10,0,0"
+                              Header="Send chat state:"
+                              Toggled="sendChatState_tgls_Toggled"/>
+                <ToggleSwitch x:Name="sendChatMarkers_tgls"
+                              Margin="0,10,0,0"
+                              Header="Send chat markers:"
+                              Toggled="sendChatMarkers_tgls_Toggled"/>
+                <ToggleSwitch x:Name="storeImagesInLibary_tgls"
+                              Margin="0,10,0,0"
+                              Header="Store images in library:"
+                              Toggled="storeImagesInLibary_tgls_Toggled"/>
+                <HyperlinkButton x:Name="clearCache_hlb"
+                                 Content="Clear cache"
+                                 Tapped="clearCache_hlb_Tapped"/>
 
                 <controls:SeperatorControl Text="MUC:"/>
-                <ToggleSwitch x:Name="autoJoinMUC_tgls" Header="Auto join MUC:" Margin="0, 10, 0, 0" Toggled="autoJoinMUC_tgls_Toggled"/>
+                <ToggleSwitch x:Name="autoJoinMUC_tgls"
+                              Margin="0,10,0,0"
+                              Header="Auto join MUC:"
+                              Toggled="autoJoinMUC_tgls_Toggled"/>
             </StackPanel>
         </Grid>
     </ScrollViewer>

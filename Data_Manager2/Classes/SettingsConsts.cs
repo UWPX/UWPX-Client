@@ -15,6 +15,7 @@
         public const string DISABLE_SOCKET_BACKGROUND_TASK = "disable_socket_background_task";
         public const string ENTER_TO_SEND_MESSAGES = "enter_to_send_messages";
         public const string DONT_SEND_CHAT_STATE = "dont_send_chat_state";
+        public const string DONT_SEND_CHAT_MARKERS = "dont_send_chat_markers";
         public const string DISABLE_PUSH = "disable_push";
         public const string DISABLE_DOWNLOAD_IMAGES_TO_LIBARY = "disable_download_images_to_libary";
         public const string DISABLE_CRASH_REPORTING = "disable_crash_reporting";

@@ -43,6 +43,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             enterToSend_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
             sendChatState_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
+            sendChatMarkers_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MARKERS);
             storeImagesInLibary_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
             autoJoinMUC_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
         }
@@ -84,7 +85,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             Settings.setSetting(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY, !storeImagesInLibary_tgls.IsOn);
         }
 
-        private void clearCache_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void clearCache_hlb_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(MiscSettingsPage));
         }
@@ -92,6 +93,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void autoJoinMUC_tgls_Toggled(object sender, RoutedEventArgs e)
         {
             Settings.setSetting(SettingsConsts.DISABLE_AUTO_JOIN_MUC, !autoJoinMUC_tgls.IsOn);
+        }
+
+        private void sendChatMarkers_tgls_Toggled(object sender, RoutedEventArgs e)
+        {
+            Settings.setSetting(SettingsConsts.DONT_SEND_CHAT_MARKERS, !sendChatMarkers_tgls.IsOn);
         }
         #endregion
     }
