@@ -532,7 +532,7 @@ namespace Data_Manager2.Classes
             }
 
             // Send XEP-0184 (Message Delivery Receipts) reply:
-            if (msg.RECIPT_REQUESTED && id != null)
+            if (msg.RECIPT_REQUESTED && id != null && !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS))
             {
                 Task.Run(async () =>
                 {

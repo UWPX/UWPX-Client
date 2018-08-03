@@ -43,7 +43,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             enterToSend_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
             sendChatState_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
-            sendChatMarkers_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MARKERS);
+            sendChatMessageReceivedMarkers_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
             storeImagesInLibary_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
             autoJoinMUC_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
         }
@@ -97,7 +97,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void sendChatMarkers_tgls_Toggled(object sender, RoutedEventArgs e)
         {
-            Settings.setSetting(SettingsConsts.DONT_SEND_CHAT_MARKERS, !sendChatMarkers_tgls.IsOn);
+            Settings.setSetting(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS, !sendChatMessageReceivedMarkers_tgls.IsOn);
         }
         #endregion
     }

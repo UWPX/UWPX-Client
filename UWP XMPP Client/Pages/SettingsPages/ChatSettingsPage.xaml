@@ -26,9 +26,9 @@
                               Margin="0,10,0,0"
                               Header="Send chat state:"
                               Toggled="sendChatState_tgls_Toggled"/>
-                <ToggleSwitch x:Name="sendChatMarkers_tgls"
+                <ToggleSwitch x:Name="sendChatMessageReceivedMarkers_tgls"
                               Margin="0,10,0,0"
-                              Header="Send chat markers:"
+                              Header="Send chat message received markers:"
                               Toggled="sendChatMarkers_tgls_Toggled"/>
                 <ToggleSwitch x:Name="storeImagesInLibary_tgls"
                               Margin="0,10,0,0"
