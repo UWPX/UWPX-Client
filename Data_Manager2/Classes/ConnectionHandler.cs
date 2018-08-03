@@ -13,6 +13,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using System.Threading;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 
 namespace Data_Manager2.Classes
 {
@@ -530,6 +531,16 @@ namespace Data_Manager2.Classes
                 ChatDBManager.INSTANCE.setChat(chat, false, true);
             }
 
+            // Send XEP-0184 (Message Delivery Receipts) reply:
+            if (msg.RECIPT_REQUESTED && id != null)
+            {
+                Task.Run(async () =>
+                {
+                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getIdDomainAndResource(), from, msg.getId());
+                    await client.sendMessageAsync(receiptMessage, true);
+                });
+            }
+
             ChatDBManager.INSTANCE.setChatMessage(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
         }
 
@@ -641,7 +652,14 @@ namespace Data_Manager2.Classes
 
         private void C_NewDeliveryReceipt(XMPPClient client, XMPP_API.Classes.Network.Events.NewDeliveryReceiptEventArgs args)
         {
-            
+            Task.Run(() =>
+            {
+                string to = Utils.getBareJidFromFullJid(args.MSG.getTo());
+                string from = Utils.getBareJidFromFullJid(args.MSG.getFrom());
+                string chatId = ChatTable.generateId(from, to);
+                string msgId = ChatMessageTable.generateId(args.MSG.RECEIPT_ID, chatId);
+                ChatDBManager.INSTANCE.setMessageAsDeliverd(msgId, true);
+            });
         }
 
         #endregion

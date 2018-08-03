@@ -38,6 +38,19 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public void setMessageAsDeliverd(string id, bool triggerMessageChanged)
+        {
+            dB.Execute("UPDATE " + DBTableConsts.CHAT_MESSAGE_TABLE + " SET state = ? WHERE id = ?", MessageState.DELIVERED, id);
+            if (triggerMessageChanged)
+            {
+                ChatMessageTable msg = getChatMessageById(id);
+                if (msg != null)
+                {
+                    ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
+                }
+            }
+        }
+
         public void setChatTableValue(string id, object IdValue, string name, object value)
         {
             dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, IdValue);

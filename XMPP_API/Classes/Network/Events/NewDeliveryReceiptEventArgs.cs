@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string RECEIPT_ID;
+        public readonly DeliveryReceiptMessage MSG;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public NewDeliveryReceiptEventArgs(DeliveryReceiptMessage msg)
         {
-            this.RECEIPT_ID = msg.RECEIPT_ID;
+            this.MSG = msg;
         }
 
         #endregion

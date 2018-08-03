@@ -122,10 +122,18 @@
                            FontSize="10"
                            Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
                            Text="{x:Bind ChatMessage.date, Mode=OneWay, Converter={StaticResource speechBubbleDateValueConverter}}"/>
-                <TextBlock x:Name="state_tbx"
-                           Grid.Column="2"
-                           Margin="5,0,0,0"
-                           FontFamily="Segoe MDL2 Assets"/>
+                <Grid Grid.Column="2"
+                      Margin="5,0,0,0">
+                    <TextBlock x:Name="state_tbx"
+                               FontFamily="Segoe MDL2 Assets"/>
+                    <TextBlock x:Name="stateCheck_tbx"
+                               Margin="4,-5,0,0"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="10"
+                               FontWeight="Bold"
+                               Text="&#xE73E;"
+                               Visibility="Collapsed"/>
+                </Grid>
             </Grid>
         </StackPanel>
     </Border>

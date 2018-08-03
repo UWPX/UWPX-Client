@@ -43,6 +43,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.cacheUntilSend = true;
             this.delay = DateTime.MinValue;
             this.FROM_NICK = from_nick;
+            this.RECIPT_REQUESTED = reciptRequested;
         }
 
         public MessageMessage(XmlNode node, string type) : this(node)
@@ -181,6 +182,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 XNamespace ns = Consts.XML_XEP_0184_NAMESPACE;
                 XElement requestNode = new XElement(ns + "request");
+                msgNode.Add(requestNode);
             }
 
             return msgNode;

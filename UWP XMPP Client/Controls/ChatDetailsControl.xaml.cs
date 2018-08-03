@@ -570,7 +570,7 @@ namespace UWP_XMPP_Client.Controls
             string chatId = ChatTable.generateId(args.FROM, args.TO);
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                if (string.Equals(chatId, Chat.id))
+                if (Chat != null && Chat.chatType == ChatType.CHAT && string.Equals(chatId, Chat.id))
                 {
                     storeChatState(args.STATE);
                     args.Cancel = true;
@@ -709,12 +709,12 @@ namespace UWP_XMPP_Client.Controls
 
         private void copyChatName_mfi_Click(object sender, RoutedEventArgs e)
         {
-            if(Chat != null)
+            if (Chat != null)
             {
                 switch (Chat.chatType)
                 {
                     case ChatType.MUC:
-                        if(MUCInfo != null && !string.IsNullOrEmpty(MUCInfo.name))
+                        if (MUCInfo != null && !string.IsNullOrEmpty(MUCInfo.name))
                         {
                             UiUtils.addTextToClipboard(MUCInfo.name);
                             return;
@@ -728,7 +728,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void copyAccountName_mfi_Click(object sender, RoutedEventArgs e)
         {
-            if(Chat != null)
+            if (Chat != null)
             {
                 UiUtils.addTextToClipboard(Chat.userAccountId);
             }

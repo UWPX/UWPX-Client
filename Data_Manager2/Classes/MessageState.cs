@@ -5,6 +5,7 @@
         SENDING,
         SEND,
         UNREAD,
-        READ
+        READ,
+        DELIVERED,
     }
 }

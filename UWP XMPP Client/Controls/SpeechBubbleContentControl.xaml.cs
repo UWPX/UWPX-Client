@@ -5,7 +5,6 @@ using Data_Manager2.Classes.Events;
 using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
-using Windows.ApplicationModel.DataTransfer;
 using Windows.Storage;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -127,18 +126,32 @@ namespace UWP_XMPP_Client.Controls
                 {
                     case MessageState.SENDING:
                         state_tbx.Text = "\uE724";
+                        stateCheck_tbx.Visibility = Visibility.Collapsed;
                         break;
+
                     case MessageState.SEND:
                         state_tbx.Text = "\uE725";
+                        stateCheck_tbx.Visibility = Visibility.Collapsed;
                         break;
+
+                    case MessageState.DELIVERED:
+                        state_tbx.Text = "\uE725";
+                        stateCheck_tbx.Visibility = Visibility.Visible;
+                        break;
+
                     case MessageState.UNREAD:
                         state_tbx.Text = "\uEA63";
+                        stateCheck_tbx.Visibility = Visibility.Collapsed;
                         break;
+
                     case MessageState.READ:
                         state_tbx.Text = "\uEA64";
+                        stateCheck_tbx.Visibility = Visibility.Collapsed;
                         break;
+
                     default:
                         state_tbx.Text = "";
+                        stateCheck_tbx.Visibility = Visibility.Collapsed;
                         break;
                 }
             }
