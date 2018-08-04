@@ -194,55 +194,35 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.7.1.0 [July 2018#2] In-app purchase:
+    <value># v.0.8.0.0 [August 2018] Bookmarks and Message Delivery Receipts:
 
-Since Microsoft started rejecting my builds because of me using in-app purchase as an option for donations I had to remove them.
-This release also contains a couple bug fixes I've made since the beginning of the month.
-
-**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
-
-### Known bugs:
-* Remove bookmark not working [#22](https://github.com/UWPX/UWPX-Client/issues/22)
-* Chat state won't update [#25](https://github.com/UWPX/UWPX-Client/issues/25)
-* App crashes sometimes, if you try to delete a chat [#23](https://github.com/UWPX/UWPX-Client/issues/23)
-* MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
-* Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
-
-### Changes:
-* Removed in-app purchases
-* Fixed presence gets set to unavailable on account creation
-* Fixed MUC joining
-* Fixed one of many reasons for the app locking up
-* Fixed outstanding/offline message sending
-
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.7.1.0)
-
-# v.0.7.0.0 [July 2018] XEP-0048 Bookmarks:
-
-This release focuses on better [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support.
-With the current state of [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) I was able to upgrade from v.1.0 to the current version of [Bookmarks (XEP-0048)](https://xmpp.org/extensions/xep-0048.html). Because the way how bookmarks get stored changed on the server with the new version **you have to bookmark all your MUCs again**.
-There is still work that has to be done for example you currently are still unable to remove bookmarks but with the current foundation this will be (hopefully) added shortly.
-I've also started working on a "Manage bookmarks" page where you will, once its done, have an overview about all your current bookmarks and manage them.
+With this months release UWPX gets full XEP-0048 (Bookmarks) and XEP-0184 (Message Delivery Receipts) support.
+If the receiving client supports XEP-0184 (Message Delivery Receipts) and decides to reply, that he received the message, a small check mark will show up at the message status icon.
+If you don't want UWPX to send those message delivery receipts, you can disable them in the chat settings.
+I also started refactoring the chats list to fix the delete chat crash [#23](https://github.com/UWPX/UWPX-Client/issues/23).
+So because I'm in the middle of refactoring the chats list, the chats list might act a little bit funky from time to time at the moment.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
-* Remove bookmark not working [#22](https://github.com/UWPX/UWPX-Client/issues/22)
-* Chat state won't update [#25](https://github.com/UWPX/UWPX-Client/issues/25)
-* App crashes sometimes, if you try to delete a chat [#23](https://github.com/UWPX/UWPX-Client/issues/23)
 * MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
 * Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
+* MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34) 
 
 ### Changes:
-* Added first pass for [Bookmarks (XEP-0048)](https://xmpp.org/extensions/xep-0048.html) support
-* Added a "Manage bookmarks" page
-* Updated the account image and chat message transparency
+* Added [XEP-0048 (Bookmarks))](https://xmpp.org/extensions/xep-0048.html) support
+* Added [XEP-0184 (Message Delivery Receipts)](https://xmpp.org/extensions/xep-0184.html) support
+* Added chat details right click options
+* Added message parser stats
+* Started refactoring the chats list (still WIP)
+* Improved some account connection error messages
+* Reenabled Hockey App crash reporting again
+* Changed the default chat background for new users
+* Fixed data form serialization
+* Fixed accounts not reconnecting as soon as the network connection status changes
+* Fixed app crashes sometimes, if you try to delete a chat #23
+* Fixed deleting chat won't delete MUCInfo from DB
 
-### Plans for the August release:
-* [Publish-Subscribe (XEP-0060)](https://xmpp.org/extensions/xep-0060.html) support [#5](https://github.com/UWPX/UWPX-Client/issues/5)
-* [HTTP File Upload (XEP-0363)](https://xmpp.org/extensions/xep-0363.html)
-* Fix more [bugs](https://github.com/UWPX/UWPX-Client/issues)
-
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.7.0.0)</value>
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.8.0.0)</value>
   </data>
 </root>
