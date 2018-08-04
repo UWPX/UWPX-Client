@@ -15,6 +15,7 @@ It works on all Windows 10 UWP devices.
 | MUC           | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
 | Chat State    | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
 | Bookmarks     | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") |
+| Message Delivery Receipts     | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
 
 
 ## ToDo:
