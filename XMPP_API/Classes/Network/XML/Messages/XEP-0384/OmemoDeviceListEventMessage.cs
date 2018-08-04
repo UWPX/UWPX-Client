@@ -1,12 +1,13 @@
-﻿using System.Xml.Linq;
+﻿using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public class OmemoDeviceListEventMessage : AbstractPubSubEventMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly OmemoDevices DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,28 +16,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 04/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        public OmemoDeviceListEventMessage(XmlNode node) : base(node)
         {
+            this.DEVICES = new OmemoDevices();
+            XmlNode eventNode = XMLUtils.getChildNode(node, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
+            if (eventNode != null)
+            {
+                XmlNode itemsNode = XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_NAMESPACE);
+                if (itemsNode != null)
+                {
+                    DEVICES.loadDevices(itemsNode);
+                }
+            }
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
-        }
 
-        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

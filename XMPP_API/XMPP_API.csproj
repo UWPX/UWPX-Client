@@ -178,6 +178,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDeleteNodeMessage.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRetractMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
@@ -219,6 +221,12 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoUtils.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\AddBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\BookmarksResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\ConferenceItem.cs" />

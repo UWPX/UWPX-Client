@@ -1,12 +1,14 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public abstract class AbstractPubSubEventMessage : AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,33 +17,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 04/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        public AbstractPubSubEventMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
-        }
 
-        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override XElement toXElement()
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
 

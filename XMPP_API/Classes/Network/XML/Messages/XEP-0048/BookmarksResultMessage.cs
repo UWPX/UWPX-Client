@@ -22,23 +22,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         {
         }
 
-        protected override void loadContent(XmlNodeList content)
-        {
-            foreach (XmlNode node in content)
-            {
-                if (string.Equals(node.Name, "items") && string.Equals(node.Attributes["node"]?.Value, Consts.XML_XEP_0048_NAMESPACE))
-                {
-                    XmlNode itemNode = XMLUtils.getChildNode(node, "item", "id", "current");
-                    if (itemNode != null)
-                    {
-                        STORAGE = new StorageItem(itemNode);
-                        return;
-                    }
-                }
-            }
-            STORAGE = new StorageItem();
-        }
-
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -57,7 +40,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void loadContent(XmlNodeList content)
+        {
+            foreach (XmlNode node in content)
+            {
+                if (string.Equals(node.Name, "items") && string.Equals(node.Attributes["node"]?.Value, Consts.XML_XEP_0048_NAMESPACE))
+                {
+                    XmlNode itemNode = XMLUtils.getChildNode(node, "item", "id", "current");
+                    if (itemNode != null)
+                    {
+                        STORAGE = new StorageItem(itemNode);
+                        return;
+                    }
+                }
+            }
+            STORAGE = new StorageItem();
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

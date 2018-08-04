@@ -69,5 +69,8 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0203_NAMESPACE = "urn:xmpp:delay";
         // XEP-0184 (Message Delivery Receipts):
         public const string XML_XEP_0184_NAMESPACE = "urn:xmpp:receipts";
+        // XEP-0384 (OMEMO Encryption):
+        public const string XML_XEP_0384_NAMESPACE = "eu.siacs.conversations.axolotl";
+        public const string XML_XEP_0384_DEVICE_LIST_NODE = "eu.siacs.conversations.axolotl.devicelist";
     }
 }

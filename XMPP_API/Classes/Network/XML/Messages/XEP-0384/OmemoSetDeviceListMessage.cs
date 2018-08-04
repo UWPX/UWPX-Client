@@ -1,12 +1,12 @@
-﻿using System.Xml.Linq;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public class OmemoSetDeviceListMessage : PubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly OmemoDevices DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,28 +15,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 04/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        public OmemoSetDeviceListMessage(string from, OmemoDevices devices) : base(from, null, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
         {
+            this.DEVICES = devices;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
+        protected override PubSubPublishOptions getPublishOptions()
         {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
+            return null;
         }
 
-        protected abstract XElement getContent(XNamespace ns);
+        protected override AbstractPubSubItem getPubSubItem()
+        {
+            return DEVICES;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

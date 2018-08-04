@@ -1,12 +1,13 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using Windows.Security.Cryptography.Core;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public class OmemoUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private static readonly Random R = new Random();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,33 +16,33 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 04/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        private OmemoUtils()
         {
+
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
-        }
 
-        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public CryptographicKey genKeyPair()
+        {
+            AsymmetricKeyAlgorithmProvider provider = AsymmetricKeyAlgorithmProvider.OpenAlgorithm(AsymmetricAlgorithmNames.DsaSha256);
+            return provider.CreateKeyPairWithCurveName(EccCurveNames.Curve25519);
+        }
 
+        public Int32 genClientId()
+        {
+            byte[] buf = new byte[4];
+            R.NextBytes(buf);
+            return BitConverter.ToInt32(buf, 0);
+        }
 
         #endregion
 

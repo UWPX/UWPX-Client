@@ -1,12 +1,13 @@
-﻿using System.Xml.Linq;
+﻿using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public class OmemoDeviceListResultMessage : PubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly OmemoDevices DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,28 +16,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 04/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        public OmemoDeviceListResultMessage(XmlNode node) : base(node)
         {
+            this.DEVICES = new OmemoDevices();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
-        }
 
-        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -51,7 +41,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void loadContent(XmlNodeList content)
+        {
+            foreach (XmlNode n in content)
+            {
+                if (string.Equals(n.Name, "items") && string.Equals(n.Attributes["node"]?.Value, Consts.XML_XEP_0384_NAMESPACE))
+                {
+                    DEVICES.loadDevices(n);
+                    return;
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

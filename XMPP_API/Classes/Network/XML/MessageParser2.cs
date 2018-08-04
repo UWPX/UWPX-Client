@@ -17,6 +17,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -183,6 +184,17 @@ namespace XMPP_API.Classes.Network.XML
                         {
                             messages.Add(new MUCRoomSubjectMessage(n));
                         }
+
+                        // XEP-0060 (Publish-Subscribe) events:
+                        XmlNode eventNode = XMLUtils.getChildNode(n, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
+                        if (eventNode != null)
+                        {
+                            // XEP-0384 (OMEMO Encryption) device list:
+                            if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_NAMESPACE) != null)
+                            {
+                                messages.Add(new OmemoDeviceListEventMessage(n));
+                            }
+                        }
                         break;
 
                     // Presence:
@@ -230,7 +242,7 @@ namespace XMPP_API.Classes.Network.XML
                                 {
                                     switch (qNode.NamespaceURI)
                                     {
-                                        case "http://jabber.org/protocol/disco#info":
+                                        case Consts.XML_XEP_0030_INFO_NAMESPACE:
                                             if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE) != null)
                                             {
                                                 if (qNode.Attributes["node"] != null)
@@ -256,7 +268,7 @@ namespace XMPP_API.Classes.Network.XML
                                             break;
 
                                         // XEP-0030 (disco result #items):
-                                        case "http://jabber.org/protocol/disco#items":
+                                        case Consts.XML_XEP_0030_ITEMS_NAMESPACE:
                                             messages.Add(new DiscoResponseMessage(n));
                                             break;
 
@@ -302,6 +314,12 @@ namespace XMPP_API.Classes.Network.XML
                                         else if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0048_NAMESPACE) != null)
                                         {
                                             messages.Add(new Messages.XEP_0048.BookmarksResultMessage(n));
+                                            break;
+                                        }
+                                        // XEP-0384 (OMEMO Encryption) device list:
+                                        else if (XMLUtils.getChildNode(pubSubNode, "items", "node", Consts.XML_XEP_0384_DEVICE_LIST_NODE) != null)
+                                        {
+                                            messages.Add(new OmemoDeviceListResultMessage(n));
                                             break;
                                         }
                                         // XEP-0402 (Bookmarks 2) response:
