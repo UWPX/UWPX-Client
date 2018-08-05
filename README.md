@@ -15,7 +15,12 @@ It works on all Windows 10 UWP devices.
 | MUC           | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
 | Chat State    | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
 | Bookmarks     | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") |
+| Data Forms    | [XEP-0004](https://xmpp.org/extensions/xep-0004.html "XEP-0004") |
+| Service Discovery | [XEP-0030](https://xmpp.org/extensions/xep-0030.html "XEP-0030") |
+| Publish-Subscribe | [XEP-0060](https://xmpp.org/extensions/xep-0060.html "XEP-0060") |
 | Message Delivery Receipts     | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
+| Direct MUC Invitations     | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
+| Message Carbons     | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
 
 
 ## ToDo:
