@@ -201,6 +201,14 @@
                                                   Glyph="&#xE89B;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <ToggleMenuFlyoutItem x:Name="omemo_tmfo"
+                                                      Click="omemo_tmfo_Click"
+                                                      IsChecked="False"
+                                                      Text="OMEMO">
+                                    <ToggleMenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE72E;"/>
+                                    </ToggleMenuFlyoutItem.Icon>
+                                </ToggleMenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
@@ -260,10 +268,19 @@
                         Background="{ThemeResource SystemAccentColor}"
                         BorderBrush="Transparent"
                         Click="send_btn_Click"
-                        Content="&#xE122;"
-                        FontFamily="Segoe MDL2 Assets"
                         FontSize="27"
-                        IsEnabled="False"/>
+                        IsEnabled="False">
+                    <Grid>
+                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                   Text="&#xE122;"/>
+                        <TextBlock x:Name="omemoIndicator_tbx"
+                                   Margin="17,-2,0,0"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="10"
+                                   Text="&#xE72E;"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                </Button>
             </Grid>
         </Grid>
     </Grid>

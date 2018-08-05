@@ -3,6 +3,8 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using System;
 using Windows.ApplicationModel;
+using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -89,12 +91,12 @@ namespace UWP_XMPP_Client.Classes
             PackageVersion versionLastStart = handler.getLastStartedVersion();
 
             // Check if version != 0.0.0.0 => first ever start of the app:
-            if(!(versionLastStart.Major == versionLastStart.Minor && versionLastStart.Build == versionLastStart.Revision && versionLastStart.Minor == versionLastStart.Build && versionLastStart.Major == 0) || Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            if (!(versionLastStart.Major == versionLastStart.Minor && versionLastStart.Build == versionLastStart.Revision && versionLastStart.Minor == versionLastStart.Build && versionLastStart.Major == 0) || Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                if(!handler.compare(versionLastStart, handler.getPackageVersion()))
+                if (!handler.compare(versionLastStart, handler.getPackageVersion()))
                 {
                     // Large DB changes in version 0.2.0.0:
-                    if(versionLastStart.Major <= 0 && versionLastStart.Minor < 2)
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 2)
                     {
                         try
                         {
@@ -120,6 +122,17 @@ namespace UWP_XMPP_Client.Classes
                         catch (Exception e)
                         {
                             Logging.Logger.Error("Error during deleting all vaults for version 0.4.0.0!", e);
+                        }
+                    }
+
+                    // Generate OMEMO keys and device id for each account created before version 0.9.0.0:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 9)
+                    {
+                        foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
+                        {
+                            account.omemoDeviceId = OmemoUtils.genDeviceId();
+                            account.omemoPrivKey = OmemoUtils.genPrivKey();
+                            account.omemoPubKey = OmemoUtils.genPubKey(account.omemoPrivKey);
                         }
                     }
                 }

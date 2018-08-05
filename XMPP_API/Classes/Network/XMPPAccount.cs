@@ -1,4 +1,6 @@
-﻿namespace XMPP_API.Classes.Network
+﻿using System;
+
+namespace XMPP_API.Classes.Network
 {
     public class XMPPAccount
     {
@@ -14,6 +16,10 @@
         public string status;
         public ConnectionConfiguration connectionConfiguration;
         public readonly ConnectionInformation CONNECTION_INFO;
+        // XEP-0384 (OMEMO Encryption):
+        public byte[] omemoPrivKey { get; set; }
+        public byte[] omemoPubKey { get; set; }
+        public Int32 omemoDeviceId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,6 +46,9 @@
             this.presence = Presence.Online;
             this.status = null;
             this.CONNECTION_INFO = new ConnectionInformation();
+            this.omemoPrivKey = null;
+            this.omemoPubKey = null;
+            this.omemoDeviceId = -1;
         }
 
         #endregion
@@ -73,7 +82,10 @@
                     string.Equals(o.color, color) &&
                     o.presence == presence &&
                     string.Equals(o.status, status) &&
-                    connectionConfiguration.Equals(o.connectionConfiguration);
+                    connectionConfiguration.Equals(o.connectionConfiguration) &&
+                    o.omemoDeviceId == omemoDeviceId &&
+                    Equals(o.omemoPrivKey, omemoPrivKey) &&
+                    Equals(o.omemoPubKey, omemoPubKey);
             }
             return false;
         }

@@ -239,6 +239,9 @@ namespace UWP_XMPP_Client.Controls
                         leave_mfo.Visibility = Visibility.Collapsed;
                         break;
                 }
+
+                omemoIndicator_tbx.Visibility = Chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
+                omemo_tmfo.IsChecked = Chat.omemoEnabled;
             }
         }
 
@@ -766,6 +769,17 @@ namespace UWP_XMPP_Client.Controls
             FrameworkElement senderElement = sender as FrameworkElement;
             FlyoutBase flyoutBase = FlyoutBase.GetAttachedFlyout(senderElement);
             flyoutBase.ShowAt(senderElement);
+        }
+
+        private void omemo_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            Chat.omemoEnabled = omemo_tmfo.IsChecked;
+            showChat();
+            ChatTable cpy = Chat;
+            Task.Run(() =>
+            {
+                ChatDBManager.INSTANCE.setChatTableValue(nameof(cpy.id), cpy.id, nameof(cpy.omemoEnabled), cpy.omemoEnabled);
+            });
         }
 
         #endregion
