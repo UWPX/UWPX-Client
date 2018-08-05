@@ -128,12 +128,15 @@ namespace UWP_XMPP_Client.Classes
                     // Generate OMEMO keys and device id for each account created before version 0.9.0.0:
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 9)
                     {
+                        Logging.Logger.Info("Started generating OMEMO keys for accounts...");
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
                             account.omemoDeviceId = OmemoUtils.genDeviceId();
                             account.omemoPrivKey = OmemoUtils.genPrivKey();
                             account.omemoPubKey = OmemoUtils.genPubKey(account.omemoPrivKey);
+                            Logging.Logger.Info("Generating OMEMO keys for: " + account.getIdAndDomain());
                         }
+                        Logging.Logger.Info("Finished generating OMEMO keys for accounts. Update to version 0.9.0.0 done.");
                     }
                 }
             }
