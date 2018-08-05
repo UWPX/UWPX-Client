@@ -62,6 +62,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
             clientSMEnabled = false;
             serverSMEnabled = false;
+            startListeningForMessages();
         }
 
         #endregion
@@ -118,6 +119,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         // Update connection information:
                         state = SMState.ENABLED;
                         clientSMEnabled = true;
+                        stopListeningForMessages();
                     }
                     else if (msg is SMFailedMessage failedMsg)
                     {
@@ -125,6 +127,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
                         // Handle errors:
                         state = SMState.ERROR;
+                        stopListeningForMessages();
                     }
                     break;
             }

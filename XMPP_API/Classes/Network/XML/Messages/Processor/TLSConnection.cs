@@ -63,6 +63,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         public override void reset()
         {
             setState(TLSState.DISCONNECTED);
+            startListeningForMessages();
         }
 
         #endregion
@@ -79,6 +80,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 {
                     if (tlsFeature.REQUIRED)
                     {
+                        stopListeningForMessages();
                         string errorMsg = "TSL is required for server but TLS connection mode is set to prohibit!";
                         Logger.Error(errorMsg);
                         setState(TLSState.ERROR);
@@ -101,6 +103,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             {
                 if (connectionMode == TLSConnectionMode.FORCE)
                 {
+                    stopListeningForMessages();
                     string errorMsg = "TSL is not available for this server but TLS connection mode is set to force!";
                     Logger.Error(errorMsg);
                     setState(TLSState.ERROR);
@@ -188,6 +191,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         Logger.Debug("Success upgrading " + account.getIdAndDomain() + " to TLS.");
 
                         setState(TLSState.CONNECTED);
+                        stopListeningForMessages();
 
                         // TLS established ==> resend stream header
                         msg.setRestartConnection(AbstractMessage.SOFT_RESTART);

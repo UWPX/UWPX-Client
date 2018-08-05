@@ -1,5 +1,4 @@
-﻿using System;
-using Logging;
+﻿using Logging;
 using System.Collections;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
@@ -56,6 +55,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         {
             state = SASLState.DISCONNECTED;
             selectedMechanism = null;
+            startListeningForMessages();
         }
 
         #endregion
@@ -160,9 +160,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         state = SASLState.CONNECTED;
                         msg.setRestartConnection(AbstractMessage.SOFT_RESTART);
                         setMessageProcessed(args);
+                        stopListeningForMessages();
                     }
                     else if (msg is SASLFailureMessage)
                     {
+                        stopListeningForMessages();
                         SASLFailureMessage saslFailureMessage = msg as SASLFailureMessage;
                         state = SASLState.ERROR;
 

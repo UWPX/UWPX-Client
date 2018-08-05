@@ -24,8 +24,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         {
             this.TCP_CONNECTION = tcpConnection;
             this.XMPP_CONNECTION = xMPPConnection;
-            XMPP_CONNECTION.ConnectionNewValidMessage -= XMPP_CONNECTION_ConnectionNewValidMessage;
-            XMPP_CONNECTION.ConnectionNewValidMessage += XMPP_CONNECTION_ConnectionNewValidMessage;
         }
 
         #endregion
@@ -56,6 +54,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
         #region --Misc Methods (Protected)--
         protected abstract Task processMessageAsync(NewValidMessageEventArgs args);
+
+        protected void stopListeningForMessages()
+        {
+            XMPP_CONNECTION.ConnectionNewValidMessage -= XMPP_CONNECTION_ConnectionNewValidMessage;
+        }
+
+        protected void startListeningForMessages()
+        {
+            stopListeningForMessages();
+            XMPP_CONNECTION.ConnectionNewValidMessage += XMPP_CONNECTION_ConnectionNewValidMessage;
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

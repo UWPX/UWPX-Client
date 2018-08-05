@@ -44,6 +44,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         {
             state = RecourceBindingState.UNBOUND;
             id = null;
+            startListeningForMessages();
         }
 
         protected async override Task processMessageAsync(NewValidMessageEventArgs args)
@@ -88,6 +89,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         IQMessage iQM = msg as IQMessage;
                         if (iQM.getId().Equals(id))
                         {
+                            stopListeningForMessages();
                             setMessageProcessed(args);
                             XMPP_CONNECTION.sendAsync(new StartSessionMessage(), false, true).Wait();
                             state = RecourceBindingState.BOUND;
