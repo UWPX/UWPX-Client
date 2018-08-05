@@ -401,7 +401,7 @@ namespace UWP_XMPP_Client.Controls
                 ).AsTask();
                 return true;
             }
-            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (string.Equals(msg.TYPE, IQMessage.RESULT))
             {
                 return true;
             }
@@ -424,7 +424,7 @@ namespace UWP_XMPP_Client.Controls
                 }).AsTask();
                 return true;
             }
-            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (string.Equals(msg.TYPE, IQMessage.RESULT))
             {
                 return true;
             }

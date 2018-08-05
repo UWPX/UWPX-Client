@@ -12,6 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public readonly string TYPE;
         public readonly string FROM_NICK;
         public readonly bool RECIPT_REQUESTED;
+        public readonly CarbonCopyType CC_TYPE;
         public DateTime delay { get; private set; }
         // Already shown as a toast:
         public bool toasted { get; private set; }
@@ -44,16 +45,18 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.delay = DateTime.MinValue;
             this.FROM_NICK = from_nick;
             this.RECIPT_REQUESTED = reciptRequested;
+            this.CC_TYPE = CarbonCopyType.NONE;
         }
 
-        public MessageMessage(XmlNode node, string type) : this(node)
+        public MessageMessage(XmlNode node, string type) : this(node, CarbonCopyType.NONE)
         {
             this.TYPE = type;
             this.chatMessageId = null;
         }
 
-        public MessageMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
+        public MessageMessage(XmlNode node, CarbonCopyType ccType) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
         {
+            this.CC_TYPE = ccType;
             if (!node.HasChildNodes)
             {
                 MESSAGE = "invalid message: " + node.ToString();

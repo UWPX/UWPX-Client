@@ -207,7 +207,7 @@ namespace UWP_XMPP_Client.Dialogs
                 }).AsTask();
                 return true;
             }
-            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (string.Equals(msg.TYPE, IQMessage.RESULT))
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => Hide()).AsTask();
                 return true;

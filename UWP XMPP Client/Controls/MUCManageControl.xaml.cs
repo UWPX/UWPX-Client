@@ -234,7 +234,7 @@ namespace UWP_XMPP_Client.Controls
                 }
                 else
                 {
-                    switch (msg.getMessageType())
+                    switch (msg.TYPE)
                     {
                         case IQMessage.RESULT:
                             notificationBanner_ian.Show("Successfully saved room configuration.", 5000);

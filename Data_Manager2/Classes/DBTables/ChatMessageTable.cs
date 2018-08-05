@@ -28,6 +28,8 @@ namespace Data_Manager2.Classes.DBTables
         public MessageState state { get; set; }
         // Does the message is a link to an image
         public bool isImage { get; set; }
+        // Whether the received message is a carbon copy (XEP-0280)
+        public bool isCC { get; set; }
 
         // Defines if the message is a dummy message like for the personalize settings page chat preview
         [Ignore]
@@ -78,8 +80,16 @@ namespace Data_Manager2.Classes.DBTables
             {
                 this.date = DateTime.Now;
             }
-            this.state = MessageState.UNREAD;
+            if(msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT)
+            {
+                this.state = MessageState.SEND;
+            }
+            else
+            {
+                this.state = MessageState.UNREAD;
+            }
             this.isImage = isMessageAnImageUrl(msg.MESSAGE);
+            this.isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
         }
 
         #endregion

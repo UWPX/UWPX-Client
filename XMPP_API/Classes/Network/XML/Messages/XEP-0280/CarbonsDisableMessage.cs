@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using Windows.Security.Cryptography.Certificates;
+﻿using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.TCP
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0280
 {
-    public class ConnectionConfiguration
+    public class CarbonsDisableMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public TLSConnectionMode tlsMode;
-        public readonly List<ChainValidationResult> IGNORED_CERTIFICATE_ERRORS;
-        public bool disableStreamManagement;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,13 +15,10 @@ namespace XMPP_API.Classes.Network.TCP
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 13/04/2018 Created [Fabian Sauter]
+        /// 05/08/2018 Created [Fabian Sauter]
         /// </history>
-        public ConnectionConfiguration()
+        public CarbonsDisableMessage(string from) : base(from, null, SET, getRandomId())
         {
-            this.tlsMode = TLSConnectionMode.FORCE;
-            this.IGNORED_CERTIFICATE_ERRORS = new List<ChainValidationResult>();
-            this.disableStreamManagement = false;
         }
 
         #endregion
@@ -35,22 +29,11 @@ namespace XMPP_API.Classes.Network.TCP
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override bool Equals(object obj)
+        protected override XElement getQuery()
         {
-            if (obj == null || GetType() != obj.GetType())
-            {
-                return false;
-            }
-            if (obj is ConnectionConfiguration c)
-            {
-                return c.tlsMode == tlsMode && c.IGNORED_CERTIFICATE_ERRORS.Equals(IGNORED_CERTIFICATE_ERRORS);
-            }
-            return false;
-        }
-
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
+            XNamespace ns = Consts.XML_XEP_0280_NAMESPACE;
+            XElement enableNode = new XElement(ns + "disable");
+            return enableNode;
         }
 
         #endregion

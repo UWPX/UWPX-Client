@@ -18,7 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// <history>
         /// 20/02/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCRoomSubjectMessage(XmlNode node) : base(node)
+        public MUCRoomSubjectMessage(XmlNode node) : base(node, CarbonCopyType.NONE)
         {
             XmlNode sNode = XMLUtils.getChildNode(node, "subject");
             if (sNode != null)

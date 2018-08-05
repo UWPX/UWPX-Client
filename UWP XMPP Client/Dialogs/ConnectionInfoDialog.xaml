@@ -29,6 +29,16 @@
                              Foreground="Red"
                              Text="Disconnected"/>
                     </TextBlock>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="Message Carbons:"/>
+                        <Run x:Name="carbonsEnabled_run"
+                             Text="Enabled"
+                             Foreground="Green"/>
+                        <Run x:Name="carbonsDisabled_run"
+                             Foreground="Red"/>
+                        <Run x:Name="carbonsReqested_run"/>
+                    </TextBlock>
                     <controls:SeperatorControl Margin="-10,0,0,0"
                                                Text="Socket statistics:"/>
                     <TextBlock Margin="0,10,0,0">

@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes
 {
-    class Consts
+    public class Consts
     {
         public const string XML_VERSION = "1.0";
         public const string XML_LANG = "en";
@@ -72,5 +72,8 @@ namespace XMPP_API.Classes
         // XEP-0384 (OMEMO Encryption):
         public const string XML_XEP_0384_NAMESPACE = "eu.siacs.conversations.axolotl";
         public const string XML_XEP_0384_DEVICE_LIST_NODE = "eu.siacs.conversations.axolotl.devicelist";
+        // XEP-0280 (Message Carbons):
+        public const string XML_XEP_0280_NAMESPACE = "urn:xmpp:carbons:2";
+        public const string XML_XEP_0280_NAMESPACE_FORWARDED = "urn:xmpp:forward:0";
     }
 }

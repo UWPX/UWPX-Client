@@ -1,6 +1,4 @@
-﻿using XMPP_API.Classes.Network.TCP;
-
-namespace XMPP_API.Classes.Network
+﻿namespace XMPP_API.Classes.Network
 {
     public class XMPPAccount
     {

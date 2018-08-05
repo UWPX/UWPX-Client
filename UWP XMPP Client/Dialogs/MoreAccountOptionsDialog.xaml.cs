@@ -1,7 +1,6 @@
-﻿using System;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.TCP;
+using XMPP_API.Classes.Network;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -42,6 +41,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void save()
         {
             connectionConfiguration.disableStreamManagement = disableStreamManagement_tggls.IsOn;
+            connectionConfiguration.disableMessageCarbons = disableMessageCarbons_tggls.IsOn;
             Hide();
         }
 

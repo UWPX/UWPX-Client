@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using Windows.Networking.Sockets;
 
-namespace XMPP_API.Classes.Network.TCP
+namespace XMPP_API.Classes.Network
 {
     public class ConnectionInformation : INotifyPropertyChanged
     {
@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.TCP
                 if (value != _tlsConnected)
                 {
                     _tlsConnected = value;
-                    onPropertyChanged("tlsConnected");
+                    onPropertyChanged(nameof(tlsConnected));
                 }
             }
         }
@@ -38,7 +38,24 @@ namespace XMPP_API.Classes.Network.TCP
                 if (value != _socketInfo)
                 {
                     _socketInfo = value;
-                    onPropertyChanged("socketInfo");
+                    onPropertyChanged(nameof(socketInfo));
+                }
+            }
+        }
+
+        private MessageCarbonsState _msgCarbonsState;
+        public MessageCarbonsState msgCarbonsState
+        {
+            get
+            {
+                return _msgCarbonsState;
+            }
+            set
+            {
+                if (value != _msgCarbonsState)
+                {
+                    _msgCarbonsState = value;
+                    onPropertyChanged(nameof(msgCarbonsState));
                 }
             }
         }
@@ -56,6 +73,9 @@ namespace XMPP_API.Classes.Network.TCP
         /// </history>
         public ConnectionInformation()
         {
+            this.msgCarbonsState = MessageCarbonsState.DISABLED;
+            this.tlsConnected = false;
+            this.socketInfo = null;
         }
 
         #endregion

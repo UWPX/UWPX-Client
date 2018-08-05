@@ -113,7 +113,7 @@ namespace UWP_XMPP_Client.Controls
                 }).AsTask();
                 return true;
             }
-            if (Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (Equals(msg.TYPE, IQMessage.RESULT))
             {
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
@@ -139,7 +139,7 @@ namespace UWP_XMPP_Client.Controls
                 }).AsTask();
                 return true;
             }
-            if (Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (Equals(msg.TYPE, IQMessage.RESULT))
             {
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {

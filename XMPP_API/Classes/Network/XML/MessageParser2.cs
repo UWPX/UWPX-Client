@@ -153,48 +153,7 @@ namespace XMPP_API.Classes.Network.XML
 
                     // Messages:
                     case "message":
-                        // XEP-0085 (chat state):
-                        if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
-                        {
-                            messages.Add(new ChatStateMessage(n));
-
-                            // Chat state messages can contain a body:
-                            if (XMLUtils.getChildNode(n, "body") != null)
-                            {
-                                messages.Add(new MessageMessage(n));
-                            }
-                        }
-                        // XEP-0184 (Message Delivery Receipts):
-                        else if (XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE) != null)
-                        {
-                            messages.Add(new DeliveryReceiptMessage(n));
-                        }
-                        // XEP-0249 (Direct MUC Invitations):
-                        else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
-                        {
-                            messages.Add(new DirectMUCInvitationMessage(n));
-                        }
-                        // Message:
-                        else if (XMLUtils.getChildNode(n, "body") != null)
-                        {
-                            messages.Add(new MessageMessage(n));
-                        }
-                        // XEP-0045 (MUC room subject):
-                        else if (XMLUtils.getChildNode(n, "subject") != null)
-                        {
-                            messages.Add(new MUCRoomSubjectMessage(n));
-                        }
-
-                        // XEP-0060 (Publish-Subscribe) events:
-                        XmlNode eventNode = XMLUtils.getChildNode(n, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
-                        if (eventNode != null)
-                        {
-                            // XEP-0384 (OMEMO Encryption) device list:
-                            if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_NAMESPACE) != null)
-                            {
-                                messages.Add(new OmemoDeviceListEventMessage(n));
-                            }
-                        }
+                        parseMessageMessage(messages, n, CarbonCopyType.NONE);
                         break;
 
                     // Presence:
@@ -417,6 +376,75 @@ namespace XMPP_API.Classes.Network.XML
                 }
             }
             return messages;
+        }
+
+        private void parseMessageMessage(List<AbstractMessage> messages, XmlNode n, CarbonCopyType ccType)
+        {
+            // XEP-0085 (chat state):
+            if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
+            {
+                messages.Add(new ChatStateMessage(n));
+
+                // Chat state messages can contain a body:
+                if (XMLUtils.getChildNode(n, "body") != null)
+                {
+                    messages.Add(new MessageMessage(n, ccType));
+                }
+            }
+            // XEP-0184 (Message Delivery Receipts):
+            else if (XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE) != null)
+            {
+                messages.Add(new DeliveryReceiptMessage(n));
+            }
+            // XEP-0249 (Direct MUC Invitations):
+            else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
+            {
+                messages.Add(new DirectMUCInvitationMessage(n));
+            }
+            // Message:
+            else if (XMLUtils.getChildNode(n, "body") != null)
+            {
+                messages.Add(new MessageMessage(n, ccType));
+            }
+            // XEP-0045 (MUC room subject):
+            else if (XMLUtils.getChildNode(n, "subject") != null)
+            {
+                messages.Add(new MUCRoomSubjectMessage(n));
+            }
+            else
+            {
+                // XEP-0280 (Message Carbons):
+                bool sendCC = false;
+                XmlNode carbNode = XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0280_NAMESPACE);
+                if (carbNode == null)
+                {
+                    sendCC = true;
+                    carbNode = XMLUtils.getChildNode(n, "sent", Consts.XML_XMLNS, Consts.XML_XEP_0280_NAMESPACE);
+                }
+                if (carbNode != null)
+                {
+                    XmlNode forwardedNode = XMLUtils.getChildNode(carbNode, "forwarded", Consts.XML_XMLNS, Consts.XML_XEP_0280_NAMESPACE_FORWARDED);
+                    if (forwardedNode != null)
+                    {
+                        XmlNode messageNode = XMLUtils.getChildNode(forwardedNode, "message");
+                        if (messageNode != null)
+                        {
+                            parseMessageMessage(messages, messageNode, sendCC ? CarbonCopyType.SENT : CarbonCopyType.RECEIVED);
+                        }
+                    }
+                }
+
+                // XEP-0060 (Publish-Subscribe) events:
+                XmlNode eventNode = XMLUtils.getChildNode(n, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
+                if (eventNode != null)
+                {
+                    // XEP-0384 (OMEMO Encryption) device list:
+                    if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_NAMESPACE) != null)
+                    {
+                        messages.Add(new OmemoDeviceListEventMessage(n));
+                    }
+                }
+            }
         }
 
         /// <summary>

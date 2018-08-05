@@ -127,13 +127,15 @@
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\MessageCarbonsState.cs" />
     <Compile Include="Classes\Network\StreamManagementHelper.cs" />
-    <Compile Include="Classes\Network\TCP\ConnectionConfiguration.cs" />
-    <Compile Include="Classes\Network\TCP\ConnectionInformation.cs" />
+    <Compile Include="Classes\Network\ConnectionConfiguration.cs" />
+    <Compile Include="Classes\Network\ConnectionInformation.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection2.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadResult.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadState.cs" />
     <Compile Include="Classes\Network\TCP\TLSConnectionMode.cs" />
+    <Compile Include="Classes\Network\XML\CarbonCopyType.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageTable.cs" />
     <Compile Include="Classes\Network\XML\MessageCache.cs" />
@@ -216,6 +218,8 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRoomSubjectMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsDisableMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />

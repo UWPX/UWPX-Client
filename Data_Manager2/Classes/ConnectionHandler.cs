@@ -357,7 +357,7 @@ namespace Data_Manager2.Classes
                 RosterMessage msg = args.getMessage() as RosterMessage;
                 XMPPAccount account = client.getXMPPAccount();
                 string to = client.getXMPPAccount().getIdAndDomain();
-                string type = msg.getMessageType();
+                string type = msg.TYPE;
 
                 if (string.Equals(type, IQMessage.RESULT))
                 {
@@ -429,7 +429,16 @@ namespace Data_Manager2.Classes
 
             string to = Utils.getBareJidFromFullJid(msg.getTo());
             string from = Utils.getBareJidFromFullJid(msg.getFrom());
-            string id = ChatTable.generateId(from, to);
+            string id;
+            if(msg.CC_TYPE == CarbonCopyType.SENT)
+            {
+                id = ChatTable.generateId(to, from);
+            }
+            else
+            {
+                id = ChatTable.generateId(from, to);
+            }
+
 
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             bool chatChanged = false;
@@ -467,10 +476,7 @@ namespace Data_Manager2.Classes
                 }
             });*/
 
-            ChatMessageTable message = new ChatMessageTable(msg, chat)
-            {
-                state = MessageState.UNREAD
-            };
+            ChatMessageTable message = new ChatMessageTable(msg, chat);
 
             // Handle MUC invite messages:
             if (msg is DirectMUCInvitationMessage)

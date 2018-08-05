@@ -1,19 +1,17 @@
-﻿using SQLite;
-using XMPP_API.Classes.Network;
+﻿using System.Collections.Generic;
+using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.TCP;
 
-namespace Data_Manager2.Classes.DBTables
+namespace XMPP_API.Classes.Network
 {
-    [Table(DBTableConsts.CONNECTION_OPTIONS_TABLE)]
-    public class ConnectionOptionsTable
+    public class ConnectionConfiguration
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        public string accountId { get; set; }
-        public TLSConnectionMode tlsMode { get; set; }
-        public bool disableStreamManagement { get; set; }
-        public bool disableMessageCarbons { get; set; }
+        public TLSConnectionMode tlsMode;
+        public readonly List<ChainValidationResult> IGNORED_CERTIFICATE_ERRORS;
+        public bool disableStreamManagement;
+        public bool disableMessageCarbons;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,15 +22,12 @@ namespace Data_Manager2.Classes.DBTables
         /// <history>
         /// 13/04/2018 Created [Fabian Sauter]
         /// </history>
-        public ConnectionOptionsTable()
+        public ConnectionConfiguration()
         {
-        }
-
-        public ConnectionOptionsTable(ConnectionConfiguration configuration)
-        {
-            this.tlsMode = configuration.tlsMode;
-            this.disableStreamManagement = configuration.disableStreamManagement;
-            this.disableMessageCarbons = configuration.disableMessageCarbons;
+            this.tlsMode = TLSConnectionMode.FORCE;
+            this.IGNORED_CERTIFICATE_ERRORS = new List<ChainValidationResult>();
+            this.disableStreamManagement = false;
+            this.disableMessageCarbons = false;
         }
 
         #endregion
@@ -43,11 +38,18 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void toConnectionConfiguration(ConnectionConfiguration configuration)
+        public override bool Equals(object obj)
         {
-            configuration.tlsMode = tlsMode;
-            configuration.disableStreamManagement = disableStreamManagement;
-            configuration.disableMessageCarbons = disableMessageCarbons;
+            if (obj is ConnectionConfiguration c && c != null)
+            {
+                return c.tlsMode == tlsMode && c.IGNORED_CERTIFICATE_ERRORS.Equals(IGNORED_CERTIFICATE_ERRORS) && disableStreamManagement == c.disableStreamManagement && disableMessageCarbons == c.disableMessageCarbons;
+            }
+            return false;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion

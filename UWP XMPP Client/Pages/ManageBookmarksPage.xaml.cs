@@ -140,7 +140,7 @@ namespace UWP_XMPP_Client.Pages
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("Failed to add bookmark - server error!\n" + errMsg.ToString())).AsTask();
                 return true;
             }
-            if (string.Equals(msg.getMessageType(), IQMessage.RESULT))
+            if (string.Equals(msg.TYPE, IQMessage.RESULT))
             {
                 return true;
             }

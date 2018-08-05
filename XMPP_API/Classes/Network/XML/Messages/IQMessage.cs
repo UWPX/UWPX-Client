@@ -12,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public const string RESULT = "result";
         public const string ERROR = "error";
 
-        protected readonly string TYPE;
+        public readonly string TYPE;
         protected readonly string QUERY;
         protected readonly XmlNode ANSWER;
 
@@ -39,11 +39,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getMessageType()
-        {
-            return TYPE;
-        }
-
         protected virtual XElement getQuery() { return null; }
 
         #endregion

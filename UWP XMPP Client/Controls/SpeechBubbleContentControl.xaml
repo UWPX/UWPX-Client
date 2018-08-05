@@ -9,6 +9,7 @@
 
     <UserControl.Resources>
         <datatemplates:SpeechBubbleDateValueConverter x:Key="speechBubbleDateValueConverter"/>
+        <datatemplates:BoolVisabilityValueConverter x:Key="boolVisabilityValueConverter"/>
     </UserControl.Resources>
 
     <Border MinWidth="150"
@@ -124,15 +125,29 @@
                            Text="{x:Bind ChatMessage.date, Mode=OneWay, Converter={StaticResource speechBubbleDateValueConverter}}"/>
                 <Grid Grid.Column="2"
                       Margin="5,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
                     <TextBlock x:Name="state_tbx"
-                               FontFamily="Segoe MDL2 Assets"/>
+                               Grid.Column="1"
+                               FontFamily="Segoe MDL2 Assets"
+                               Text="&#xE725;"/>
                     <TextBlock x:Name="stateCheck_tbx"
+                               Grid.Column="1"
                                Margin="4,-5,0,0"
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="10"
                                FontWeight="Bold"
-                               Text="&#xE73E;"
-                               Visibility="Collapsed"/>
+                               Text="&#xE73E;"/>
+                    <TextBlock x:Name="carbonCopy_tbx"
+                               Grid.Column="0"
+                               Margin="0, 2, 5, 0"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="10"
+                               FontWeight="Bold"
+                               Visibility="{x:Bind ChatMessage.isCC, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"
+                               Text="&#xE8C8;"/>
                 </Grid>
             </Grid>
         </StackPanel>

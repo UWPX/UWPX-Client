@@ -1,19 +1,12 @@
-﻿using SQLite;
-using XMPP_API.Classes.Network;
-using XMPP_API.Classes.Network.TCP;
+﻿using System.Xml.Linq;
 
-namespace Data_Manager2.Classes.DBTables
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0280
 {
-    [Table(DBTableConsts.CONNECTION_OPTIONS_TABLE)]
-    public class ConnectionOptionsTable
+    public class CarbonsEnableMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        public string accountId { get; set; }
-        public TLSConnectionMode tlsMode { get; set; }
-        public bool disableStreamManagement { get; set; }
-        public bool disableMessageCarbons { get; set; }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,17 +15,10 @@ namespace Data_Manager2.Classes.DBTables
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 13/04/2018 Created [Fabian Sauter]
+        /// 05/08/2018 Created [Fabian Sauter]
         /// </history>
-        public ConnectionOptionsTable()
+        public CarbonsEnableMessage(string from) : base(from, null, SET, getRandomId())
         {
-        }
-
-        public ConnectionOptionsTable(ConnectionConfiguration configuration)
-        {
-            this.tlsMode = configuration.tlsMode;
-            this.disableStreamManagement = configuration.disableStreamManagement;
-            this.disableMessageCarbons = configuration.disableMessageCarbons;
         }
 
         #endregion
@@ -43,11 +29,11 @@ namespace Data_Manager2.Classes.DBTables
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void toConnectionConfiguration(ConnectionConfiguration configuration)
+        protected override XElement getQuery()
         {
-            configuration.tlsMode = tlsMode;
-            configuration.disableStreamManagement = disableStreamManagement;
-            configuration.disableMessageCarbons = disableMessageCarbons;
+            XNamespace ns = Consts.XML_XEP_0280_NAMESPACE;
+            XElement enableNode = new XElement(ns + "enable");
+            return enableNode;
         }
 
         #endregion
