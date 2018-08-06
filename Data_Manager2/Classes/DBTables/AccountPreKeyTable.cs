@@ -1,13 +1,18 @@
-﻿using System.ComponentModel;
-using XMPP_API.Classes.Network.XML.Messages;
+﻿using SQLite;
 
-namespace XMPP_API.Classes.Network.Events
+namespace Data_Manager2.Classes.DBTables
 {
-    public class NewValidMessageEventArgs : CancelEventArgs
+    [Table(DBTableConsts.ACCOUNT_PRE_KEY_TABLE)]
+    public class AccountPreKeyTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly AbstractMessage MESSAGE;
+        [PrimaryKey]
+        public string id { get; set; }
+        [NotNull]
+        public string accountId { get; set; }
+        [NotNull]
+        public byte[] preKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,11 +21,17 @@ namespace XMPP_API.Classes.Network.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 21/08/2017 Created [Fabian Sauter]
+        /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public NewValidMessageEventArgs(AbstractMessage message)
+        public AccountPreKeyTable()
         {
-            this.MESSAGE = message;
+        }
+
+        public AccountPreKeyTable(string accountId, byte[] preKey)
+        {
+            this.id = generateId(accountId, System.Text.Encoding.ASCII.GetString(preKey));
+            this.accountId = accountId;
+            this.preKey = preKey;
         }
 
         #endregion
@@ -31,7 +42,10 @@ namespace XMPP_API.Classes.Network.Events
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static string generateId(string accountId, string preKey)
+        {
+            return accountId + "_" + preKey;
+        }
 
         #endregion
 

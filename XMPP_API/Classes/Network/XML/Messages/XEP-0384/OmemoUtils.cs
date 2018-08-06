@@ -1,5 +1,7 @@
-﻿using System;
-using curve25519;
+﻿using System.Collections.Generic;
+using libsignal;
+using libsignal.state;
+using libsignal.util;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -7,8 +9,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly Random R = new Random();
-        private static readonly CSharpCurve25519Provider CURVE_25519 = new CSharpCurve25519Provider();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,21 +32,39 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static byte[] genPubKey(byte[] privKey)
+        public static SignedPreKeyRecord generateSignedPreKey(IdentityKeyPair identityKeyPair)
         {
-            return CURVE_25519.generatePublicKey(privKey);
+            return KeyHelper.generateSignedPreKey(identityKeyPair, 5);
         }
 
-        public static byte[] genPrivKey()
+        public static IdentityKeyPair generateIdentityKeyPair()
         {
-            return CURVE_25519.generatePrivateKey();
+            return KeyHelper.generateIdentityKeyPair();
         }
 
-        public static Int32 genDeviceId()
+        public static IList<PreKeyRecord> generatePreKeys()
         {
-            byte[] buf = new byte[4];
-            R.NextBytes(buf);
-            return BitConverter.ToInt32(buf, 0);
+            return KeyHelper.generatePreKeys(0, 100);
+        }
+
+        public static uint generateDeviceId()
+        {
+            return KeyHelper.generateRegistrationId(false);
+        }
+
+        public static uint generateDeviceId(List<uint> usedDeviceIds)
+        {
+            // Try 10 times to get a random, unique device id:
+            uint id;
+            for (int i = 0; i < 10; i++)
+            {
+                id = generateDeviceId();
+                if (!usedDeviceIds.Contains(id))
+                {
+                    return id;
+                }
+            }
+            throw new System.InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ".Count = " + usedDeviceIds.Count);
         }
 
         #endregion

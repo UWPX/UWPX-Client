@@ -1,13 +1,14 @@
-﻿using System.ComponentModel;
-using XMPP_API.Classes.Network.XML.Messages;
+﻿using System;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.Events
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class NewValidMessageEventArgs : CancelEventArgs
+    public class OmemoSetBundleInformationMessage : PubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly AbstractMessage MESSAGE;
+        public readonly OmemoBundleInformation BUNDLE_INFO;
+        public readonly Int32 DEVICE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,17 +17,26 @@ namespace XMPP_API.Classes.Network.Events
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 21/08/2017 Created [Fabian Sauter]
+        /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public NewValidMessageEventArgs(AbstractMessage message)
+        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo, Int32 deviceid) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceid)
         {
-            this.MESSAGE = message;
+            this.BUNDLE_INFO = bundleInfo;
+            this.DEVICE_ID = deviceid;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        protected override PubSubPublishOptions getPublishOptions()
+        {
+            return null;
+        }
 
+        protected override AbstractPubSubItem getPubSubItem()
+        {
+            return BUNDLE_INFO;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

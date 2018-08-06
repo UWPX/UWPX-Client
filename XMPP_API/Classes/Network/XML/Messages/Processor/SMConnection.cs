@@ -80,7 +80,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 return;
             }
 
-            AbstractMessage msg = args.getMessage();
+            AbstractMessage msg = args.MESSAGE;
 
             switch (state)
             {

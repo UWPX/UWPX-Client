@@ -4,7 +4,6 @@ using Data_Manager2.Classes.DBTables;
 using System;
 using Windows.ApplicationModel;
 using XMPP_API.Classes.Network;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -131,10 +130,9 @@ namespace UWP_XMPP_Client.Classes
                         Logging.Logger.Info("Started generating OMEMO keys for accounts...");
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
-                            account.omemoDeviceId = OmemoUtils.genDeviceId();
-                            account.omemoPrivKey = OmemoUtils.genPrivKey();
-                            account.omemoPubKey = OmemoUtils.genPubKey(account.omemoPrivKey);
                             Logging.Logger.Info("Generating OMEMO keys for: " + account.getIdAndDomain());
+                            account.generateOmemoKeys();
+                            AccountDBManager.INSTANCE.setAccount(account, false);
                         }
                         Logging.Logger.Info("Finished generating OMEMO keys for accounts. Update to version 0.9.0.0 done.");
                     }

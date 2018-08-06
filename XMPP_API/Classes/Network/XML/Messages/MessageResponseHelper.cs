@@ -67,7 +67,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Misc Methods (Private)--
         private async Task sendAndWaitAsync(AbstractMessage msg)
         {
-            sendId = msg.getId();
+            sendId = msg.ID;
 
             if (ON_MESSAGE != null)
             {
@@ -79,11 +79,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
             if (ON_TIMEOUT != null)
             {
-                statTimer();
+                startTimer();
             }
         }
 
-        private void statTimer()
+        private void startTimer()
         {
             timer = ThreadPoolTimer.CreateTimer((source) => ON_TIMEOUT(), timeout);
         }
@@ -110,14 +110,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Events--
         private void Client_NewValidMessage(XMPPClient client, Events.NewValidMessageEventArgs args)
         {
-            if (args.getMessage() is T)
+            if (args.MESSAGE is T)
             {
-                if (matchId && !Equals(sendId, args.getMessage().getId()))
+                if (matchId && !Equals(sendId, args.MESSAGE.ID))
                 {
                     return;
                 }
 
-                if (ON_MESSAGE(args.getMessage() as T))
+                if (ON_MESSAGE(args.MESSAGE as T))
                 {
                     stopTimer();
                 }

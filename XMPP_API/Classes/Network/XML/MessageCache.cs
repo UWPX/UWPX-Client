@@ -50,7 +50,7 @@ namespace XMPP_API.Classes.Network.XML
             MessageTable mT = new MessageTable()
             {
                 accountId = accountId,
-                messageId = msg.getId(),
+                messageId = msg.ID,
         };
             if (msg is MessageMessage)
             {

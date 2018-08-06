@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
@@ -9,7 +10,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly List<string> DEVICES;
+        public readonly List<uint> DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoDevices()
         {
-            this.DEVICES = new List<string>();
+            this.DEVICES = new List<uint>();
             this.id = null;
         }
 
@@ -33,10 +34,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             XNamespace ns1 = Consts.XML_XEP_0384_NAMESPACE;
             XElement listNode = new XElement(ns1 + "list");
-            foreach (string s in DEVICES)
+            foreach (Int32 d in DEVICES)
             {
                 XElement device = new XElement(ns1 + "device");
-                device.Add(new XAttribute("id", s));
+                device.Add(new XAttribute("id", d));
                 listNode.Add(device);
             }
             return listNode;
@@ -58,7 +59,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         {
                             if (string.Equals(device.Name, "device") && device.Attributes["id"] != null)
                             {
-                                DEVICES.Add(device.Attributes["id"].Value);
+                                if (uint.TryParse(device.Attributes["id"].Value, out uint d))
+                                {
+                                    DEVICES.Add(d);
+                                }
                             }
                         }
                     }

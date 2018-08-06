@@ -1,4 +1,7 @@
-﻿using System;
+﻿using libsignal;
+using libsignal.state;
+using System.Collections.Generic;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network
 {
@@ -17,9 +20,10 @@ namespace XMPP_API.Classes.Network
         public ConnectionConfiguration connectionConfiguration;
         public readonly ConnectionInformation CONNECTION_INFO;
         // XEP-0384 (OMEMO Encryption):
-        public byte[] omemoPrivKey { get; set; }
-        public byte[] omemoPubKey { get; set; }
-        public Int32 omemoDeviceId { get; set; }
+        public IdentityKeyPair omemoIdentityKeyPair;
+        public SignedPreKeyRecord omemoSignedPreKeyPair;
+        public IList<PreKeyRecord> omemoPreKeys;
+        public uint omemoDeviceId;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,19 +50,20 @@ namespace XMPP_API.Classes.Network
             this.presence = Presence.Online;
             this.status = null;
             this.CONNECTION_INFO = new ConnectionInformation();
-            this.omemoPrivKey = null;
-            this.omemoPubKey = null;
-            this.omemoDeviceId = -1;
+            this.omemoIdentityKeyPair = null;
+            this.omemoSignedPreKeyPair = null;
+            this.omemoPreKeys = null;
+            this.omemoDeviceId = 0;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public bool hasOmemoKeys()
+        {
+            return omemoIdentityKeyPair != null && omemoPreKeys != null && omemoSignedPreKeyPair != null;
+        }
 
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
         public string getIdAndDomain()
         {
             return user.getIdAndDomain();
@@ -67,6 +72,21 @@ namespace XMPP_API.Classes.Network
         public string getIdDomainAndResource()
         {
             return user.getIdDomainAndResource();
+        }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+        /// <summary>
+        /// Generates a new omemoIdentityKeyPair, omemoSignedPreKeyPair, omemoPreKeys.
+        /// Also sets the omemoDeviceId to 0.
+        /// </summary>
+        public void generateOmemoKeys()
+        {
+            omemoDeviceId = 0;
+            omemoIdentityKeyPair = OmemoUtils.generateIdentityKeyPair();
+            omemoPreKeys = OmemoUtils.generatePreKeys();
+            omemoSignedPreKeyPair = OmemoUtils.generateSignedPreKey(omemoIdentityKeyPair);
         }
 
         public override bool Equals(object obj)
@@ -84,8 +104,9 @@ namespace XMPP_API.Classes.Network
                     string.Equals(o.status, status) &&
                     connectionConfiguration.Equals(o.connectionConfiguration) &&
                     o.omemoDeviceId == omemoDeviceId &&
-                    Equals(o.omemoPrivKey, omemoPrivKey) &&
-                    Equals(o.omemoPubKey, omemoPubKey);
+                    Equals(o.omemoIdentityKeyPair.serialize(), omemoIdentityKeyPair.serialize()) &&
+                    Equals(o.omemoSignedPreKeyPair.serialize(), omemoSignedPreKeyPair.serialize()) &&
+                    Equals(o.omemoPreKeys, omemoPreKeys);
             }
             return false;
         }

@@ -273,7 +273,7 @@ namespace UWP_XMPP_Client.Controls
                 }
             }
             // Error:
-            else if (msg is MUCErrorMessage && Equals(msg.getId(), changeNickHelper.sendId))
+            else if (msg is MUCErrorMessage && Equals(msg.ID, changeNickHelper.sendId))
             {
                 MUCErrorMessage errorMessage = msg as MUCErrorMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>

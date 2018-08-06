@@ -114,6 +114,7 @@
     <Compile Include="Classes\DBManager\DiscoDBManager.cs" />
     <Compile Include="Classes\DBManager\ImageDBManager.cs" />
     <Compile Include="Classes\DBManager\MUCDBManager.cs" />
+    <Compile Include="Classes\DBTables\AccountPreKeyTable.cs" />
     <Compile Include="Classes\DBTables\ConnectionOptionsTable.cs" />
     <Compile Include="Classes\DBTables\DBTableConsts.cs" />
     <Compile Include="Classes\DBTables\DiscoFeatureTable.cs" />

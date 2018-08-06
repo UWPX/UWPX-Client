@@ -49,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
         protected async override Task processMessageAsync(NewValidMessageEventArgs args)
         {
-            AbstractMessage msg = args.getMessage();
+            AbstractMessage msg = args.MESSAGE;
             if (state == RecourceBindingState.BOUND || state == RecourceBindingState.ERROR || msg.isProcessed())
             {
                 return;
@@ -77,7 +77,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             setMessageProcessed(args);
                             BindResourceMessage bindMsg = new BindResourceMessage(XMPP_CONNECTION.account.user.resource);
-                            id = bindMsg.getId();
+                            id = bindMsg.ID;
                             await XMPP_CONNECTION.sendAsync(bindMsg, false, true);
                             state = RecourceBindingState.BINDING;
                         }
@@ -87,7 +87,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     if (msg is IQMessage)
                     {
                         IQMessage iQM = msg as IQMessage;
-                        if (iQM.getId().Equals(id))
+                        if (string.Equals(iQM.ID, id))
                         {
                             stopListeningForMessages();
                             setMessageProcessed(args);

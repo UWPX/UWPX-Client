@@ -1,7 +1,6 @@
 ﻿using SQLite;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes;
-using System;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -38,11 +37,11 @@ namespace Data_Manager2.Classes.DBTables
         // The current status message for account e.g. 'My status'
         public string status { get; set; }
         // The private key for XEP-0384 (OMEMO Encryption) 
-        public byte[] omemoPrivKey { get; set; }
+        public byte[] omemoIdentityKeyPair { get; set; }
         // The public key for XEP-0384 (OMEMO Encryption) 
-        public byte[] omemoPubKey { get; set; }
+        public byte[] omemoSignedPreKeyPair { get; set; }
         // The device id for XEP-0384 (OMEMO Encryption) 
-        public Int32 omemoDeviceId { get; set; }
+        public uint omemoDeviceId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -71,8 +70,8 @@ namespace Data_Manager2.Classes.DBTables
             this.presence = account.presence;
             this.status = account.status;
             this.omemoDeviceId = account.omemoDeviceId;
-            this.omemoPrivKey = account.omemoPrivKey;
-            this.omemoPubKey = omemoPubKey;
+            this.omemoIdentityKeyPair = account.omemoIdentityKeyPair.serialize();
+            this.omemoSignedPreKeyPair = account.omemoSignedPreKeyPair.serialize();
         }
 
         internal XMPPAccount toXMPPAccount()
@@ -85,8 +84,8 @@ namespace Data_Manager2.Classes.DBTables
                 presence = presence,
                 status = status,
                 omemoDeviceId = omemoDeviceId,
-                omemoPrivKey = omemoPrivKey,
-                omemoPubKey = omemoPubKey
+                omemoIdentityKeyPair = new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
+                omemoSignedPreKeyPair = new libsignal.state.SignedPreKeyRecord(omemoSignedPreKeyPair)
             };
         }
 

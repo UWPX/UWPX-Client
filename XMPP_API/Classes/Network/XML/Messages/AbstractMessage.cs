@@ -11,7 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public const byte HARD_RESTART = 1;
         public const byte SOFT_RESTART = 2;
 
-        protected readonly string ID;
+        public readonly string ID;
         protected bool cacheUntilSend;
         private bool processed;
         private byte restartConnection;
@@ -74,11 +74,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 }
             }
             return s;
-        }
-
-        public string getId()
-        {
-            return ID;
         }
 
         public bool shouldSaveUntilSend()

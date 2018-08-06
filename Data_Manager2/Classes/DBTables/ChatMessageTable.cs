@@ -57,17 +57,17 @@ namespace Data_Manager2.Classes.DBTables
             switch (msg.TYPE)
             {
                 case MessageMessage.TYPE_ERROR:
-                    this.id = generateErrorMessageId(msg.getId(), chat.id);
+                    this.id = generateErrorMessageId(msg.ID, chat.id);
                     this.fromUser = msg.getFrom();
                     break;
 
                 case MessageMessage.TYPE_GROUPCHAT:
-                    this.id = generateId(msg.getId(), chat.id);
+                    this.id = generateId(msg.ID, chat.id);
                     this.fromUser = msg.FROM_NICK;
                     break;
 
                 default:
-                    this.id = generateId(msg.getId(), chat.id);
+                    this.id = generateId(msg.ID, chat.id);
                     this.fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
                     break;
             }

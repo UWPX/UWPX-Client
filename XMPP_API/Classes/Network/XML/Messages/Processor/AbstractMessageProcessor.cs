@@ -31,7 +31,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Set-, Get- Methods--
         protected void setMessageProcessed(NewValidMessageEventArgs args, bool cancelEvent)
         {
-            args.getMessage().setProcessed();
+            args.MESSAGE.setProcessed();
             args.Cancel = cancelEvent;
         }
 

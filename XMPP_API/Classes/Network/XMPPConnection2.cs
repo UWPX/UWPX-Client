@@ -20,6 +20,7 @@ namespace XMPP_API.Classes.Network
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly TCPConnection2 TCP_CONNECTION;
+        private readonly OmemoHelper OMEMO_HELPER;
 
         public ConnectionError lastConnectionError;
         private int connectionErrorCount;
@@ -104,6 +105,8 @@ namespace XMPP_API.Classes.Network
             //-------------------------------------------------------------
 
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
+
+            this.OMEMO_HELPER = new OmemoHelper(this);
         }
 
         #endregion
@@ -203,9 +206,9 @@ namespace XMPP_API.Classes.Network
                 }
             }
 
-            if (msg is IQMessage && msg.getId() != null)
+            if (msg is IQMessage && msg.ID != null)
             {
-                messageIdCache.addTimed(msg.getId());
+                messageIdCache.addTimed(msg.ID);
             }
             try
             {
@@ -214,7 +217,7 @@ namespace XMPP_API.Classes.Network
                     // Only trigger onMessageSend(...) for chat messages:
                     if (msg is MessageMessage m)
                     {
-                        onMessageSend(msg.getId(), m.chatMessageId, false);
+                        onMessageSend(msg.ID, m.chatMessageId, false);
                         return;
                     }
                 }
@@ -473,7 +476,7 @@ namespace XMPP_API.Classes.Network
                 if (msg is IQMessage)
                 {
                     IQMessage iq = msg as IQMessage;
-                    if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.getId()) != null)
+                    if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.ID) != null)
                     {
                         Logger.Warn("Invalid message id received!");
                         return;
@@ -511,13 +514,13 @@ namespace XMPP_API.Classes.Network
                 if (msg is OpenStreamAnswerMessage)
                 {
                     OpenStreamAnswerMessage oA = msg as OpenStreamAnswerMessage;
-                    if (oA.getId() == null)
+                    if (oA.ID == null)
                     {
                         // TODO Handle OpenStreamAnswerMessage id == null
                         //Error throw exception?!
                         return;
                     }
-                    streamId = oA.getId();
+                    streamId = oA.ID;
                 }
                 // Close stream message:
                 else if (msg is CloseStreamMessage)

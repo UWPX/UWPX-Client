@@ -182,7 +182,7 @@ namespace Data_Manager2.Classes
                         // Add an error chat message:
                         ChatMessageTable msg = new ChatMessageTable()
                         {
-                            id = ChatMessageTable.generateErrorMessageId(errorMessage.getId() ?? AbstractMessage.getRandomId(), muc.id),
+                            id = ChatMessageTable.generateErrorMessageId(errorMessage.ID ?? AbstractMessage.getRandomId(), muc.id),
                             chatId = muc.id,
                             date = DateTime.Now,
                             fromUser = errorMessage.getFrom(),
@@ -321,9 +321,9 @@ namespace Data_Manager2.Classes
 
         private async void Client_NewValidMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
         {
-            if (args.getMessage() is MUCErrorMessage)
+            if (args.MESSAGE is MUCErrorMessage)
             {
-                await onMUCErrorMessageAsync(client, args.getMessage() as MUCErrorMessage);
+                await onMUCErrorMessageAsync(client, args.MESSAGE as MUCErrorMessage);
             }
         }
 

@@ -84,7 +84,7 @@ namespace XMPP_API.Classes
         {
             PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);
             await connection.sendAsync(presenceMessage, false, false);
-            return presenceMessage.getId();
+            return presenceMessage.ID;
         }
 
         public ConnectionState getConnetionState()
@@ -230,7 +230,7 @@ namespace XMPP_API.Classes
             XMPPAccount account = connection.account;
             DiscoRequestMessage disco = new DiscoRequestMessage(account.getIdDomainAndResource(), target, type);
             await connection.sendAsync(disco, false, false);
-            return disco.getId();
+            return disco.ID;
         }
 
         public async Task sendChatStateAsync(string target, ChatState state)
@@ -378,7 +378,7 @@ namespace XMPP_API.Classes
 
         private void Connection_ConnectionNewValidMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
-            AbstractMessage msg = args.getMessage();
+            AbstractMessage msg = args.MESSAGE;
             if (msg is MessageMessage mMsg)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(mMsg));
@@ -402,13 +402,13 @@ namespace XMPP_API.Classes
         private void Connection_ConnectionNewPresenceMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
         {
             // XEP-0045 (MUC member presence):
-            if (args.getMessage() is MUCMemberPresenceMessage)
+            if (args.MESSAGE is MUCMemberPresenceMessage)
             {
-                NewMUCMemberPresenceMessage?.Invoke(this, new NewMUCMemberPresenceMessageEventArgs(args.getMessage() as MUCMemberPresenceMessage));
+                NewMUCMemberPresenceMessage?.Invoke(this, new NewMUCMemberPresenceMessageEventArgs(args.MESSAGE as MUCMemberPresenceMessage));
             }
             else
             {
-                NewPresence?.Invoke(this, new Events.NewPresenceMessageEventArgs(args.getMessage() as PresenceMessage));
+                NewPresence?.Invoke(this, new Events.NewPresenceMessageEventArgs(args.MESSAGE as PresenceMessage));
             }
         }
 

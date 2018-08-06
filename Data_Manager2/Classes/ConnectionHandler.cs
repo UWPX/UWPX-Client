@@ -352,9 +352,9 @@ namespace Data_Manager2.Classes
 
         private void C_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
         {
-            if (args.getMessage() is RosterMessage)
+            if (args.MESSAGE is RosterMessage)
             {
-                RosterMessage msg = args.getMessage() as RosterMessage;
+                RosterMessage msg = args.MESSAGE as RosterMessage;
                 XMPPAccount account = client.getXMPPAccount();
                 string to = client.getXMPPAccount().getIdAndDomain();
                 string type = msg.TYPE;
@@ -542,7 +542,7 @@ namespace Data_Manager2.Classes
             {
                 Task.Run(async () =>
                 {
-                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getIdDomainAndResource(), from, msg.getId());
+                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getIdDomainAndResource(), from, msg.ID);
                     await client.sendMessageAsync(receiptMessage, true);
                 });
             }

@@ -255,12 +255,12 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
         {
-            if (discoInfosId != null && string.Equals(discoInfosId, args.DISCO.getId()))
+            if (discoInfosId != null && string.Equals(discoInfosId, args.DISCO.ID))
             {
                 stopTimerInfos();
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO)).AsTask();
             }
-            else if (discoItemsId != null && string.Equals(discoItemsId, args.DISCO.getId()))
+            else if (discoItemsId != null && string.Equals(discoItemsId, args.DISCO.ID))
             {
                 stopTimerItems();
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO)).AsTask();

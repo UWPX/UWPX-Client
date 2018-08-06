@@ -147,7 +147,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 string from = args.DISCO.getFrom();
                 // Only store direct server results:
-                if (from != null && !from.Contains("@") && messageIdCache.getTimed(args.DISCO.getId()) != null)
+                if (from != null && !from.Contains("@") && messageIdCache.getTimed(args.DISCO.ID) != null)
                 {
                     switch (args.DISCO.DISCO_TYPE)
                     {
