@@ -48,6 +48,7 @@ namespace XMPP_API.Classes
 
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
         public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
+        public readonly OmemoCommandHelper OMEMO_COMMAND_HELPER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -62,6 +63,7 @@ namespace XMPP_API.Classes
         {
             this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
             this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
+            this.OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
             this.discoMessageResponseHelper = null;
             this.carbonsMessageResponseHelper = null;
             initConnection(account);

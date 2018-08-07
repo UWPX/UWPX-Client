@@ -90,7 +90,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 if (string.Equals(itemNode.Name, "item"))
                 {
-                    XmlNode bundleNode = XMLUtils.getChildNode(itemNode, "bundle", Consts.XML_XMLNS, Consts.XML_XEP_0384_BUNDLE_INFO_NODE);
+                    XmlNode bundleNode = XMLUtils.getChildNode(itemNode, "bundle", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
                     if (bundleNode != null)
                     {
                         foreach (XmlNode n in bundleNode.ChildNodes)
@@ -98,19 +98,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                             switch (n.Name)
                             {
                                 case "signedPreKeyPublic":
-                                    BASE_64_SIGNED_PRE_KEY = n.Value;
+                                    BASE_64_SIGNED_PRE_KEY = n.InnerText;
                                     break;
 
                                 case "signedPreKeySignature":
-                                    BASE_64_SIGNED_PRE_KEY_SIGNATURE = n.Value;
+                                    BASE_64_SIGNED_PRE_KEY_SIGNATURE = n.InnerText;
                                     break;
 
                                 case "identityKey":
-                                    BASE_64_IDENTITY_KEY = n.Value;
+                                    BASE_64_IDENTITY_KEY = n.InnerText;
                                     break;
 
                                 case "preKeyPublic":
-                                    BASE_64_PRE_KEYS.Add(n.Value);
+                                    BASE_64_PRE_KEYS.Add(n.InnerText);
                                     break;
                             }
                         }

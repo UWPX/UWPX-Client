@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoBundleInformation BUNDLE_INFO;
+        public OmemoBundleInformation BUNDLE_INFO { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,7 +20,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoBundleInformationResultMessage(XmlNode node) : base(node)
         {
-            this.BUNDLE_INFO = new OmemoBundleInformation();
         }
 
         #endregion
@@ -43,6 +42,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #region --Misc Methods (Protected)--
         protected override void loadContent(XmlNodeList content)
         {
+            BUNDLE_INFO = new OmemoBundleInformation();
             foreach (XmlNode n in content)
             {
                 if (string.Equals(n.Name, "items") && n.Attributes["node"] != null && n.Attributes["node"].Value.StartsWith(Consts.XML_XEP_0384_BUNDLE_INFO_NODE))
