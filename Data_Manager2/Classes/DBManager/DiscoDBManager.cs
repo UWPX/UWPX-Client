@@ -134,11 +134,11 @@ namespace Data_Manager2.Classes.DBManager
         #region --Events--
         private async void INSTANCE_ClientConnected(ConnectionHandler handler, Events.ClientConnectedEventArgs args)
         {
-            args.CLIENT.NewDiscoResponseMessage -= CLIENT_NewDiscoResponseMessage;
-            args.CLIENT.NewDiscoResponseMessage += CLIENT_NewDiscoResponseMessage;
+            //args.CLIENT.NewDiscoResponseMessage -= CLIENT_NewDiscoResponseMessage;
+            //args.CLIENT.NewDiscoResponseMessage += CLIENT_NewDiscoResponseMessage;
 
-            messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.ITEMS));
-            messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.INFO));
+            //messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.ITEMS));
+            //messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.INFO));
         }
 
         private void CLIENT_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
