@@ -1,5 +1,4 @@
-﻿using System;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -8,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly OmemoBundleInformation BUNDLE_INFO;
-        public readonly Int32 DEVICE_ID;
+        public readonly uint DEVICE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,7 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <history>
         /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo, Int32 deviceid) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceid)
+        public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo, uint deviceid) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceid)
         {
             this.BUNDLE_INFO = bundleInfo;
             this.DEVICE_ID = deviceid;

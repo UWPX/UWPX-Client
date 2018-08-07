@@ -1,13 +1,12 @@
 ﻿using System.Xml;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class BookmarksResultMessage : AbstractPubSubResultMessage
+    public abstract class AbstractPubSubResultMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public StorageItem STORAGE { get; private set; }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,10 +15,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 22/07/2018 Created [Fabian Sauter]
+        /// 12/06/2018 Created [Fabian Sauter]
         /// </history>
-        public BookmarksResultMessage(XmlNode n) : base(n)
+        public AbstractPubSubResultMessage(XmlNode node) : base(node)
         {
+            XmlNode content = XMLUtils.getChildNode(node, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
+            if (content != null)
+            {
+                loadContent(content.ChildNodes);
+            }
         }
 
         #endregion
@@ -40,22 +44,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void loadContent(XmlNodeList content)
-        {
-            foreach (XmlNode node in content)
-            {
-                if (string.Equals(node.Name, "items") && string.Equals(node.Attributes["node"]?.Value, Consts.XML_XEP_0048_NAMESPACE))
-                {
-                    XmlNode itemNode = XMLUtils.getChildNode(node, "item", "id", "current");
-                    if (itemNode != null)
-                    {
-                        STORAGE = new StorageItem(itemNode);
-                        return;
-                    }
-                }
-            }
-            STORAGE = new StorageItem();
-        }
+        protected abstract void loadContent(XmlNodeList content);
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

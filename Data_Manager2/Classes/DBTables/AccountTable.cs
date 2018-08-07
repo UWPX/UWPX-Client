@@ -42,6 +42,7 @@ namespace Data_Manager2.Classes.DBTables
         public byte[] omemoSignedPreKeyPair { get; set; }
         // The device id for XEP-0384 (OMEMO Encryption) 
         public uint omemoDeviceId { get; set; }
+        public bool omemoBundleInfoAnnounced { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -70,8 +71,9 @@ namespace Data_Manager2.Classes.DBTables
             this.presence = account.presence;
             this.status = account.status;
             this.omemoDeviceId = account.omemoDeviceId;
-            this.omemoIdentityKeyPair = account.omemoIdentityKeyPair.serialize();
-            this.omemoSignedPreKeyPair = account.omemoSignedPreKeyPair.serialize();
+            this.omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
+            this.omemoSignedPreKeyPair = account.omemoSignedPreKeyPair?.serialize();
+            this.omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
         }
 
         internal XMPPAccount toXMPPAccount()
@@ -84,8 +86,9 @@ namespace Data_Manager2.Classes.DBTables
                 presence = presence,
                 status = status,
                 omemoDeviceId = omemoDeviceId,
-                omemoIdentityKeyPair = new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
-                omemoSignedPreKeyPair = new libsignal.state.SignedPreKeyRecord(omemoSignedPreKeyPair)
+                omemoIdentityKeyPair = omemoIdentityKeyPair == null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
+                omemoSignedPreKeyPair = omemoSignedPreKeyPair == null ? null : new libsignal.state.SignedPreKeyRecord(omemoSignedPreKeyPair),
+                omemoBundleInfoAnnounced = omemoBundleInfoAnnounced
             };
         }
 

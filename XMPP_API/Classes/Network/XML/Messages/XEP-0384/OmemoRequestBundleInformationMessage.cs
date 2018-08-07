@@ -1,12 +1,12 @@
-﻿using System.Xml;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public abstract class PubSubResultMessage : IQMessage
+    public class OmemoRequestBundleInformationMessage : PubSubRequestNodeMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly uint DEVICE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,15 +15,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 07/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubResultMessage(XmlNode node) : base(node)
+        public OmemoRequestBundleInformationMessage(string from, string to, uint deviceId) : base(from, to, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceId)
         {
-            XmlNode content = XMLUtils.getChildNode(node, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
-            if (content != null)
-            {
-                loadContent(content.ChildNodes);
-            }
+            this.DEVICE_ID = deviceId;
         }
 
         #endregion
@@ -44,7 +40,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected abstract void loadContent(XmlNodeList content);
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

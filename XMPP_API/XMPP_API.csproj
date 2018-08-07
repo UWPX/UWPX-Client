@@ -194,9 +194,10 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestNodeMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRetractMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscription.cs" />
@@ -228,9 +229,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoUtils.cs" />

@@ -1,13 +1,13 @@
 ﻿using System.Xml;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class BookmarksResultMessage : AbstractPubSubResultMessage
+    public class OmemoBundleInformationResultMessage : AbstractPubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public StorageItem STORAGE { get; private set; }
+        public readonly OmemoBundleInformation BUNDLE_INFO;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,10 +16,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 22/07/2018 Created [Fabian Sauter]
+        /// 07/08/2018 Created [Fabian Sauter]
         /// </history>
-        public BookmarksResultMessage(XmlNode n) : base(n)
+        public OmemoBundleInformationResultMessage(XmlNode node) : base(node)
         {
+            this.BUNDLE_INFO = new OmemoBundleInformation();
         }
 
         #endregion
@@ -42,19 +43,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #region --Misc Methods (Protected)--
         protected override void loadContent(XmlNodeList content)
         {
-            foreach (XmlNode node in content)
+            foreach (XmlNode n in content)
             {
-                if (string.Equals(node.Name, "items") && string.Equals(node.Attributes["node"]?.Value, Consts.XML_XEP_0048_NAMESPACE))
+                if (string.Equals(n.Name, "items") && n.Attributes["node"] != null && n.Attributes["node"].Value.StartsWith(Consts.XML_XEP_0384_BUNDLE_INFO_NODE))
                 {
-                    XmlNode itemNode = XMLUtils.getChildNode(node, "item", "id", "current");
-                    if (itemNode != null)
-                    {
-                        STORAGE = new StorageItem(itemNode);
-                        return;
-                    }
+                    BUNDLE_INFO.loadBundleInformation(n);
+                    return;
                 }
             }
-            STORAGE = new StorageItem();
         }
 
         #endregion

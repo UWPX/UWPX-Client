@@ -5,7 +5,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public class BookmarksResultMessage : PubSubResultMessage
+    public class BookmarksResultMessage : AbstractPubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

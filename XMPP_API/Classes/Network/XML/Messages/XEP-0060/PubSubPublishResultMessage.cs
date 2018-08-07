@@ -1,13 +1,13 @@
 ﻿using System.Xml;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class BookmarksResultMessage : AbstractPubSubResultMessage
+    public class PubSubPublishResultMessage : AbstractPubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public StorageItem STORAGE { get; private set; }
+        public string NODE_NAME { get; private set; }
+        public string ITEM_ID { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,9 +16,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 22/07/2018 Created [Fabian Sauter]
+        /// 07/08/2018 Created [Fabian Sauter]
         /// </history>
-        public BookmarksResultMessage(XmlNode n) : base(n)
+        public PubSubPublishResultMessage(XmlNode node) : base(node)
         {
         }
 
@@ -42,19 +42,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         #region --Misc Methods (Protected)--
         protected override void loadContent(XmlNodeList content)
         {
-            foreach (XmlNode node in content)
+            foreach (XmlNode n in content)
             {
-                if (string.Equals(node.Name, "items") && string.Equals(node.Attributes["node"]?.Value, Consts.XML_XEP_0048_NAMESPACE))
+                if (string.Equals(n.Name, "publish"))
                 {
-                    XmlNode itemNode = XMLUtils.getChildNode(node, "item", "id", "current");
-                    if (itemNode != null)
-                    {
-                        STORAGE = new StorageItem(itemNode);
-                        return;
-                    }
+                    NODE_NAME = n.Attributes["node"]?.Value;
+                    XmlNode itemNode = XMLUtils.getChildNode(n, "item");
+                    ITEM_ID = itemNode?.Attributes["id"]?.Value;
                 }
             }
-            STORAGE = new StorageItem();
         }
 
         #endregion

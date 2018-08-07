@@ -202,6 +202,7 @@ namespace Data_Manager2.Classes
             c.MessageSend += C_MessageSend;
             c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
             c.NewDeliveryReceipt += C_NewDeliveryReceipt;
+            c.getXMPPAccount().PropertyChanged += ConnectionHandler_PropertyChanged;
             return c;
         }
 
@@ -217,6 +218,7 @@ namespace Data_Manager2.Classes
             c.MessageSend -= C_MessageSend;
             c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
             c.NewDeliveryReceipt -= C_NewDeliveryReceipt;
+            c.getXMPPAccount().PropertyChanged -= ConnectionHandler_PropertyChanged;
         }
 
         /// <summary>
@@ -666,6 +668,14 @@ namespace Data_Manager2.Classes
                 string msgId = ChatMessageTable.generateId(args.MSG.RECEIPT_ID, chatId);
                 ChatDBManager.INSTANCE.setMessageAsDeliverd(msgId, true);
             });
+        }
+
+        private void ConnectionHandler_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(sender is XMPPAccount account)
+            {
+                AccountDBManager.INSTANCE.setAccount(account, true);
+            }
         }
 
         #endregion

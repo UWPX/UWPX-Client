@@ -1,11 +1,13 @@
 ﻿using libsignal;
 using libsignal.state;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network
 {
-    public class XMPPAccount
+    public class XMPPAccount : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,6 +26,9 @@ namespace XMPP_API.Classes.Network
         public SignedPreKeyRecord omemoSignedPreKeyPair;
         public IList<PreKeyRecord> omemoPreKeys;
         public uint omemoDeviceId;
+        public bool omemoBundleInfoAnnounced;
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -54,6 +59,7 @@ namespace XMPP_API.Classes.Network
             this.omemoSignedPreKeyPair = null;
             this.omemoPreKeys = null;
             this.omemoDeviceId = 0;
+            this.omemoBundleInfoAnnounced = false;
         }
 
         #endregion
@@ -74,16 +80,32 @@ namespace XMPP_API.Classes.Network
             return user.getIdDomainAndResource();
         }
 
+        public OmemoBundleInformation getOmemoBundleInformation()
+        {
+            string bas64IdentKeyPair = Convert.ToBase64String(omemoIdentityKeyPair.getPublicKey().serialize());
+            string bas64SignedPreKey = Convert.ToBase64String(omemoSignedPreKeyPair.getKeyPair().getPublicKey().serialize());
+            string bas64SignedPreKeySig = Convert.ToBase64String(omemoSignedPreKeyPair.getSignature());
+            List<string> base64PreKeys = new List<string>();
+            foreach (PreKeyRecord key in omemoPreKeys)
+            {
+                base64PreKeys.Add(Convert.ToBase64String(key.serialize()));
+            }
+
+            return new OmemoBundleInformation(bas64IdentKeyPair, bas64SignedPreKey, bas64SignedPreKeySig, base64PreKeys);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
         /// Generates a new omemoIdentityKeyPair, omemoSignedPreKeyPair, omemoPreKeys.
-        /// Also sets the omemoDeviceId to 0.
+        /// Sets omemoDeviceId to 0.
+        /// Sets omemoBundleInfoAnnounced to false.
         /// </summary>
         public void generateOmemoKeys()
         {
             omemoDeviceId = 0;
+            omemoBundleInfoAnnounced = false;
             omemoIdentityKeyPair = OmemoUtils.generateIdentityKeyPair();
             omemoPreKeys = OmemoUtils.generatePreKeys();
             omemoSignedPreKeyPair = OmemoUtils.generateSignedPreKey(omemoIdentityKeyPair);
@@ -106,7 +128,8 @@ namespace XMPP_API.Classes.Network
                     o.omemoDeviceId == omemoDeviceId &&
                     Equals(o.omemoIdentityKeyPair.serialize(), omemoIdentityKeyPair.serialize()) &&
                     Equals(o.omemoSignedPreKeyPair.serialize(), omemoSignedPreKeyPair.serialize()) &&
-                    Equals(o.omemoPreKeys, omemoPreKeys);
+                    Equals(o.omemoPreKeys, omemoPreKeys) &&
+                    o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced;
             }
             return false;
         }
@@ -114,6 +137,15 @@ namespace XMPP_API.Classes.Network
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Called once an important property has changed and the account should get written back to the DB.
+        /// </summary>
+        /// <param name="name">The name of the property that changed.</param>
+        public void onPropertyChanged(string name)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         #endregion

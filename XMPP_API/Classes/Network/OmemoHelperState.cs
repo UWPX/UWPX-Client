@@ -5,7 +5,7 @@
         DISABLED,
         REQUESTING_DEVICE_LIST,
         UPDATING_DEVICE_LIST,
-        UPDATING_BUNDLE_INFO,
+        ANNOUNCING_BUNDLE_INFO,
         ENABLED,
         ERROR
     }
