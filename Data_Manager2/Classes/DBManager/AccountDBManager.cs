@@ -6,6 +6,7 @@ using Windows.Security.Cryptography.Certificates;
 using Logging;
 using System.Threading;
 using libsignal.state;
+using Thread_Save_Components.Classes.SQLite;
 
 namespace Data_Manager2.Classes.DBManager
 {

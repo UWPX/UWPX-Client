@@ -376,7 +376,14 @@ namespace UWP_XMPP_Client.Controls
                     });
 
                     // Send message:
-                    Task t = Client.sendAsync(sendMessage);
+                    if (Chat.omemoEnabled)
+                    {
+                        Task t = Client.sendOmemoEncrypted(sendMessage);
+                    }
+                    else
+                    {
+                        Task t = Client.sendAsync(sendMessage);
+                    }
                 }
 
                 message_tbx.Text = "";

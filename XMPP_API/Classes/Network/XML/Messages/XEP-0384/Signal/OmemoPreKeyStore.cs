@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using libsignal;
-using libsignal.state;
-using libsignal.util;
+﻿using libsignal.state;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 {
-    public class OmemoUtils
+    public class OmemoPreKeyStore : PreKeyStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -18,9 +20,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/08/2018 Created [Fabian Sauter]
+        /// 08/08/2018 Created [Fabian Sauter]
         /// </history>
-        private OmemoUtils()
+        public OmemoPreKeyStore()
         {
         }
 
@@ -32,39 +34,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static SignedPreKeyRecord generateSignedPreKey(IdentityKeyPair identityKeyPair)
+        public bool ContainsPreKey(uint preKeyId)
         {
-            return KeyHelper.generateSignedPreKey(identityKeyPair, 5);
+            throw new NotImplementedException();
         }
 
-        public static IdentityKeyPair generateIdentityKeyPair()
+        public PreKeyRecord LoadPreKey(uint preKeyId)
         {
-            return KeyHelper.generateIdentityKeyPair();
+            throw new NotImplementedException();
         }
 
-        public static IList<PreKeyRecord> generatePreKeys()
+        public void RemovePreKey(uint preKeyId)
         {
-            return KeyHelper.generatePreKeys(0, 100);
+            throw new NotImplementedException();
         }
 
-        public static uint generateDeviceId()
+        public void StorePreKey(uint preKeyId, PreKeyRecord record)
         {
-            return KeyHelper.generateRegistrationId(false);
-        }
-
-        public static uint generateDeviceId(List<uint> usedDeviceIds)
-        {
-            // Try 10 times to get a random, unique device id:
-            uint id;
-            for (int i = 0; i < 10; i++)
-            {
-                id = generateDeviceId();
-                if (!usedDeviceIds.Contains(id))
-                {
-                    return id;
-                }
-            }
-            throw new System.InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ".Count = " + usedDeviceIds.Count);
+            throw new NotImplementedException();
         }
 
         #endregion

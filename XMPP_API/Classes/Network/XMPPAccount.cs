@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {

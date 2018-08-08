@@ -4,6 +4,7 @@ using SQLite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
+using Thread_Save_Components.Classes.SQLite;
 
 namespace Data_Manager2.Classes.DBManager
 {

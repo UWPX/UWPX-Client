@@ -169,6 +169,11 @@ namespace XMPP_API.Classes
             await connection.sendAsync(msg, true, false);
         }
 
+        public async Task sendOmemoEncrypted(MessageMessage msg)
+        {
+            await connection.sendOmemoEncrypted(msg);
+        }
+
         public async Task sendMessageAsync(AbstractMessage msg, bool cacheIfNotConnected)
         {
             await connection.sendAsync(msg, cacheIfNotConnected, false);

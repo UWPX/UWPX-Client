@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using libsignal.state;
+using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using System.Collections.Generic;
@@ -9,9 +10,11 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.DBEntries;
+using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {
@@ -21,6 +24,7 @@ namespace XMPP_API.Classes.Network
         #region --Attributes--
         private readonly TCPConnection2 TCP_CONNECTION;
         private readonly OmemoHelper OMEMO_HELPER;
+        private readonly SessionStore OMEMO_SESSION_STORE;
 
         public ConnectionError lastConnectionError;
         private int connectionErrorCount;
@@ -107,6 +111,7 @@ namespace XMPP_API.Classes.Network
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
 
             this.OMEMO_HELPER = new OmemoHelper(this);
+            this.OMEMO_SESSION_STORE = new OmemoSessionStore();
         }
 
         #endregion
@@ -172,6 +177,11 @@ namespace XMPP_API.Classes.Network
             await internalDisconnectAsync();
         }
 
+        public async Task sendOmemoEncrypted(MessageMessage msg)
+        {
+            MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+        }
+
         /// <summary>
         /// Sends the given message to the server or stores it until there is a connection to the server.
         /// </summary>
@@ -198,7 +208,7 @@ namespace XMPP_API.Classes.Network
 
                 if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
                 {
-                    MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                    MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
                 }
                 if (!sendIfNotConnected)
                 {
@@ -233,7 +243,7 @@ namespace XMPP_API.Classes.Network
 
             if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
             {
-                MessageCache.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
             }
         }
 
@@ -283,8 +293,8 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task sendAllOutstandingMessagesAsync()
         {
-            List<MessageTable> list = MessageCache.INSTANCE.getAllForAccount(account.getIdAndDomain());
-            foreach (MessageTable entry in list)
+            List<MessageCacheTable> list = MessageCacheDBManager.INSTANCE.getAllForAccount(account.getIdAndDomain());
+            foreach (MessageCacheTable entry in list)
             {
                 if (state != ConnectionState.CONNECTED)
                 {
@@ -298,7 +308,7 @@ namespace XMPP_API.Classes.Network
                     }
                     if (await TCP_CONNECTION.sendAsync(entry.message))
                     {
-                        MessageCache.INSTANCE.removeEntry(entry);
+                        MessageCacheDBManager.INSTANCE.removeEntry(entry);
 
                         // Only trigger onMessageSend(...) for chat messages:
                         if (entry.isChatMessage)

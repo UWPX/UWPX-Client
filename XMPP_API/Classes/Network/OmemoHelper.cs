@@ -5,6 +5,7 @@ using Windows.System.Threading;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {

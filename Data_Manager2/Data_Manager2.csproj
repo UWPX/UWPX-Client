@@ -108,7 +108,6 @@
   <ItemGroup>
     <Compile Include="Classes\ChatType.cs" />
     <Compile Include="Classes\ConnectionHandler.cs" />
-    <Compile Include="Classes\DBManager\AbstractDBManager.cs" />
     <Compile Include="Classes\DBManager\AccountDBManager.cs" />
     <Compile Include="Classes\DBManager\ChatDBManager.cs" />
     <Compile Include="Classes\DBManager\DiscoDBManager.cs" />

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
+using Thread_Save_Components.Classes.SQLite;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 

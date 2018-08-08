@@ -1,21 +1,13 @@
-﻿using SQLite;
+﻿using Thread_Save_Components.Classes.SQLite;
+using XMPP_API.Classes.Network.XML.DBEntries;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace XMPP_API.Classes.Network.XML.DBManager
 {
-    [Table(DBTableConsts.MESSAGE_TABLE)]
-    class MessageTable
+    class SignalKeyDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        [PrimaryKey]
-        public string messageId { get; set; }
-        [NotNull]
-        public string accountId { get; set; }
-        [NotNull]
-        public string message { get; set; }
-        [NotNull]
-        public bool isChatMessage { get; set; }
-        public string chatMessageId { get; set; }
+        public readonly SignedPreKeyTable INSTANCE = new SignedPreKeyTable();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,11 +16,10 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 26/09/2017 Created [Fabian Sauter]
+        /// 17/03/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageTable()
+        public SignalKeyDBManager()
         {
-
         }
 
         #endregion
@@ -39,7 +30,19 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        protected override void createTables()
+        {
+            dB.CreateTable<IdentityKeyTable>();
+            dB.CreateTable<SignedPreKeyTable>();
+            dB.CreateTable<PreKeyTable>();
+        }
 
+        protected override void dropTables()
+        {
+            dB.DropTable<IdentityKeyTable>();
+            dB.DropTable<SignedPreKeyTable>();
+            dB.DropTable<PreKeyTable>();
+        }
 
         #endregion
 
