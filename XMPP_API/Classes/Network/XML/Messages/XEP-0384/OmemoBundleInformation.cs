@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
@@ -13,7 +14,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public string BASE_64_IDENTITY_KEY { get; private set; }
         public string BASE_64_SIGNED_PRE_KEY { get; private set; }
         public string BASE_64_SIGNED_PRE_KEY_SIGNATURE { get; private set; }
-        public readonly List<string> BASE_64_PRE_KEYS;
+        public readonly List<Tuple<uint, string>> BASE_64_PRE_KEYS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,11 +25,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <history>
         /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoBundleInformation() : this(null, null, null, new List<string>())
+        public OmemoBundleInformation() : this(null, null, null, new List<Tuple<uint, string>>())
         {
         }
 
-        public OmemoBundleInformation(string base64IdentityKey, string base64SignedPreKey, string base64SignedPreKeySignature, List<string> base64PreKeys)
+        public OmemoBundleInformation(string base64IdentityKey, string base64SignedPreKey, string base64SignedPreKeySignature, List<Tuple<uint, string>> base64PreKeys)
         {
             this.BASE_64_IDENTITY_KEY = base64IdentityKey;
             this.BASE_64_SIGNED_PRE_KEY = base64SignedPreKey;
@@ -68,13 +69,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
 
             XElement preKeyNode;
-            for (int i = 0; i < BASE_64_PRE_KEYS.Count; i++)
+            foreach (Tuple<uint, string> key in BASE_64_PRE_KEYS)
             {
                 preKeyNode = new XElement(ns1 + "preKeyPublic")
                 {
-                    Value = BASE_64_PRE_KEYS[i]
+                    Value = key.Item2
                 };
-                preKeyNode.Add(new XAttribute("preKeyId", i));
+                preKeyNode.Add(new XAttribute("preKeyId", key.Item1));
                 bundleNode.Add(preKeyNode);
             }
 
@@ -110,7 +111,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                                     break;
 
                                 case "preKeyPublic":
-                                    BASE_64_PRE_KEYS.Add(n.InnerText);
+                                    if (uint.TryParse(n.Attributes["id"]?.Value, out uint id))
+                                    {
+                                        BASE_64_PRE_KEYS.Add(new Tuple<uint, string>(id, n.InnerText));
+                                    }
+                                    else
+                                    {
+                                        Logger.Warn("Failed to parse preKeyPublic: " + n.ToString());
+                                    }
                                     break;
                             }
                         }

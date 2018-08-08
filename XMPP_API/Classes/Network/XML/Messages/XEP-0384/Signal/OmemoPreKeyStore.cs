@@ -1,9 +1,6 @@
-﻿using libsignal.state;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using libsignal;
+using libsignal.state;
+using XMPP_API.Classes.Network.XML.DBManager;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 {
@@ -36,22 +33,27 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsPreKey(uint preKeyId)
         {
-            throw new NotImplementedException();
+            return SignalKeyDBManager.INSTANCE.containsPreKeyRecord(preKeyId);
         }
 
         public PreKeyRecord LoadPreKey(uint preKeyId)
         {
-            throw new NotImplementedException();
+            PreKeyRecord preKeyRecord = SignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId);
+            if (preKeyRecord == null)
+            {
+                throw new InvalidKeyIdException("No such key: " + preKeyId);
+            }
+            return preKeyRecord;
         }
 
         public void RemovePreKey(uint preKeyId)
         {
-            throw new NotImplementedException();
+            SignalKeyDBManager.INSTANCE.deletePreKeyRecord(preKeyId);
         }
 
-        public void StorePreKey(uint preKeyId, PreKeyRecord record)
+        public void StorePreKey(uint preKeyId, PreKeyRecord preKey)
         {
-            throw new NotImplementedException();
+            SignalKeyDBManager.INSTANCE.setPreKey(preKeyId, preKey);
         }
 
         #endregion

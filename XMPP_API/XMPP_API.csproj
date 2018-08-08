@@ -142,6 +142,7 @@
     <Compile Include="Classes\Network\XML\DBEntries\IdentityKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageCacheTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\PreKeyTable.cs" />
+    <Compile Include="Classes\Network\XML\DBEntries\SessionStoreTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\SignedPreKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBManager\MessageCacheDBManager.cs" />
     <Compile Include="Classes\Network\XML\DBManager\SignalKeyDBManager.cs" />

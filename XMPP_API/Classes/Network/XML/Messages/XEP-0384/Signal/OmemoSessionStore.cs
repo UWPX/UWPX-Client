@@ -1,13 +1,13 @@
 ﻿using libsignal;
+using libsignal.protocol;
 using libsignal.state;
-using System;
+using Logging;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using XMPP_API.Classes.Network.XML.DBManager;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 {
+    // https://github.com/signalapp/Signal-Android/blob/2beb1dd8d9e77c0b2773c483133977b9bbe5319a/src/org/thoughtcrime/securesms/crypto/storage/TextSecureSessionStore.java
     public class OmemoSessionStore : SessionStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -26,13 +26,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         public OmemoSessionStore()
         {
         }
-        
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         public List<uint> GetSubDeviceSessions(string name)
         {
-            throw new NotImplementedException();
+            return SignalKeyDBManager.INSTANCE.getDeviceIds(name);
         }
 
         #endregion
@@ -40,27 +40,34 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsSession(SignalProtocolAddress address)
         {
-            throw new NotImplementedException();
+            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address);
+            return session != null && session.getSessionState().hasSenderChain() && session.getSessionState().getSessionVersion() == CiphertextMessage.CURRENT_VERSION;
         }
 
         public void DeleteAllSessions(string name)
         {
-            throw new NotImplementedException();
+            SignalKeyDBManager.INSTANCE.deleteSessions(name);
         }
 
         public void DeleteSession(SignalProtocolAddress address)
         {
-            throw new NotImplementedException();
+            SignalKeyDBManager.INSTANCE.deleteSession(address);
         }
 
         public SessionRecord LoadSession(SignalProtocolAddress address)
         {
-            throw new NotImplementedException();
+            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address);
+            if (session == null)
+            {
+                Logger.Warn("No existing session information found.");
+                session = new SessionRecord();
+            }
+            return session;
         }
 
         public void StoreSession(SignalProtocolAddress address, SessionRecord record)
         {
-            throw new NotImplementedException();
+            SignalKeyDBManager.INSTANCE.setSession(address, record);
         }
 
         #endregion

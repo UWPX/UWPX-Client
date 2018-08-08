@@ -86,10 +86,10 @@ namespace XMPP_API.Classes.Network
             string bas64IdentKeyPair = Convert.ToBase64String(omemoIdentityKeyPair.getPublicKey().serialize());
             string bas64SignedPreKey = Convert.ToBase64String(omemoSignedPreKeyPair.getKeyPair().getPublicKey().serialize());
             string bas64SignedPreKeySig = Convert.ToBase64String(omemoSignedPreKeyPair.getSignature());
-            List<string> base64PreKeys = new List<string>();
+            List<Tuple<uint, string>> base64PreKeys = new List<Tuple<uint, string>>();
             foreach (PreKeyRecord key in omemoPreKeys)
             {
-                base64PreKeys.Add(Convert.ToBase64String(key.serialize()));
+                base64PreKeys.Add(new Tuple<uint, string>(key.getId(), Convert.ToBase64String(key.serialize())));
             }
 
             return new OmemoBundleInformation(bas64IdentKeyPair, bas64SignedPreKey, bas64SignedPreKeySig, base64PreKeys);

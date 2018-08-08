@@ -1,4 +1,5 @@
-﻿using libsignal.state;
+﻿using libsignal;
+using libsignal.state;
 using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
@@ -24,7 +25,6 @@ namespace XMPP_API.Classes.Network
         #region --Attributes--
         private readonly TCPConnection2 TCP_CONNECTION;
         private readonly OmemoHelper OMEMO_HELPER;
-        private readonly SessionStore OMEMO_SESSION_STORE;
 
         public ConnectionError lastConnectionError;
         private int connectionErrorCount;
@@ -111,7 +111,6 @@ namespace XMPP_API.Classes.Network
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
 
             this.OMEMO_HELPER = new OmemoHelper(this);
-            this.OMEMO_SESSION_STORE = new OmemoSessionStore();
         }
 
         #endregion

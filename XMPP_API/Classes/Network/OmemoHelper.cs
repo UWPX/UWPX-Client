@@ -1,5 +1,8 @@
-﻿using Logging;
+﻿using libsignal;
+using libsignal.state;
+using Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -27,6 +30,12 @@ namespace XMPP_API.Classes.Network
         private const int TIMEOUT_5_SEC = 5;
         private ThreadPoolTimer timer;
 
+        private readonly Dictionary<string, SessionBuilder> SESSIONS_BUILDER;
+        private readonly SessionStore SESSION_STORE;
+        private readonly PreKeyStore PRE_KEY_STORE;
+        private readonly SignedPreKeyStore SIGNED_PRE_KEY_STORE;
+        private readonly IdentityKeyStore IDENTITY_STORE;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -40,6 +49,13 @@ namespace XMPP_API.Classes.Network
         {
             this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.CONNECTION = connection;
+
+            this.SESSIONS_BUILDER = new Dictionary<string, SessionBuilder>();
+            this.SESSION_STORE = new OmemoSessionStore();
+            this.PRE_KEY_STORE = new OmemoPreKeyStore();
+            this.SIGNED_PRE_KEY_STORE = new OmemoSignedPreKeyStore();
+            this.IDENTITY_STORE = new OmemoIdentityKeyStore(connection.account);
+
             reset();
         }
 
@@ -68,6 +84,23 @@ namespace XMPP_API.Classes.Network
                     Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Enabled.");
                 }
             }
+        }
+
+        public SessionBuilder getSession(string chatJid)
+        {
+            if (SESSIONS_BUILDER.ContainsKey(chatJid))
+            {
+                return SESSIONS_BUILDER[chatJid];
+            }
+            return null;
+        }
+
+        public SessionBuilder getNewSession(string chatJid, uint recipientDeviceId)
+        {
+            SignalProtocolAddress address = new SignalProtocolAddress(chatJid, recipientDeviceId);
+            SessionBuilder builder = new SessionBuilder(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, address);
+            SESSIONS_BUILDER[chatJid] = builder;
+            return builder;
         }
 
         #endregion

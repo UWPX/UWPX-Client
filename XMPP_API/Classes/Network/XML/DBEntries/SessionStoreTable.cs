@@ -1,15 +1,18 @@
 ﻿using libsignal;
-using libsignal.state;
-using System.Collections.Generic;
-using XMPP_API.Classes.Network.XML.DBManager;
+using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
+namespace XMPP_API.Classes.Network.XML.DBEntries
 {
-    public class OmemoSignedPreKeyStore : SignedPreKeyStore
+    [Table(DBTableConsts.SESSION_STORE_TABLE)]
+    class SessionStoreTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        [PrimaryKey]
+        public string id { get; set; }
+        public string name { get; set; }
+        public uint deviceId { get; set; }
+        public byte[] session { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// <history>
         /// 08/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoSignedPreKeyStore()
+        public SessionStoreTable()
         {
         }
 
@@ -32,34 +35,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool ContainsSignedPreKey(uint signedPreKeyId)
+        public static string generateId(SignalProtocolAddress address)
         {
-            return SignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId);
-        }
-
-        public SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId)
-        {
-            SignedPreKeyRecord signedPreKeyRecord = SignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId);
-            if (signedPreKeyRecord == null)
-            {
-                throw new InvalidKeyIdException("No such key: " + signedPreKeyId);
-            }
-            return signedPreKeyRecord;
-        }
-
-        public List<SignedPreKeyRecord> LoadSignedPreKeys()
-        {
-            return SignalKeyDBManager.INSTANCE.getAllSignedPreKeys();
-        }
-
-        public void RemoveSignedPreKey(uint signedPreKeyId)
-        {
-            SignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId);
-        }
-
-        public void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey)
-        {
-            SignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey);
+            return address.getName() + "_" + address.getDeviceId();
         }
 
         #endregion

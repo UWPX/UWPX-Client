@@ -8,9 +8,10 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
-        public uint identityKeyId { get; set; }
+        public string name { get; set; }
         [NotNull]
         public byte[] identityKey { get; set; }
+        public bool nonBlockingApproval { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -1,11 +1,9 @@
 ﻿using libsignal;
 using libsignal.state;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using XMPP_API.Classes.Network.XML.DBManager;
 
+// https://github.com/signalapp/libsignal-protocol-java/blob/master/java/src/main/java/org/whispersystems/libsignal/state/IdentityKeyStore.java
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 {
     public class OmemoIdentityKeyStore : IdentityKeyStore
@@ -13,6 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly Dictionary<string, IdentityKey> IDENTITY_KEYS;
+        private readonly XMPPAccount ACCOUNT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,8 +22,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// <history>
         /// 08/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoIdentityKeyStore()
+        public OmemoIdentityKeyStore(XMPPAccount account)
         {
+            this.ACCOUNT = account;
             this.IDENTITY_KEYS = new Dictionary<string, IdentityKey>();
         }
         
@@ -33,17 +33,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Set-, Get- Methods--
         public IdentityKeyPair GetIdentityKeyPair()
         {
-            throw new NotImplementedException();
+            return ACCOUNT.omemoIdentityKeyPair;
         }
 
         public uint GetLocalRegistrationId()
         {
-            throw new NotImplementedException();
+            return ACCOUNT.omemoDeviceId;
         }
 
         public bool IsTrustedIdentity(string name, IdentityKey identityKey)
         {
-            throw new NotImplementedException();
+            if (SignalKeyDBManager.INSTANCE.containsIdentityKey(name))
+            {
+                // ToDo check against the local store
+                return false;
+            }
+            return true;
         }
 
         #endregion
@@ -51,7 +56,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool SaveIdentity(string name, IdentityKey identityKey)
         {
-            throw new NotImplementedException();
+            bool contains = SignalKeyDBManager.INSTANCE.containsIdentityKey(name);
+            SignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, false);
+            return contains;
         }
 
         #endregion
