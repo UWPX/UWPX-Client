@@ -12,6 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0054;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
 {
@@ -166,12 +167,14 @@ namespace XMPP_API.Classes
 
         public async Task sendAsync(MessageMessage msg)
         {
-            await connection.sendAsync(msg, true, false);
-        }
-
-        public async Task sendOmemoEncrypted(MessageMessage msg)
-        {
-            await connection.sendOmemoEncrypted(msg);
+            if (msg is OmemoMessageMessage omemoMessageMessage)
+            {
+                await connection.sendOmemoEncrypted(omemoMessageMessage);
+            }
+            else
+            {
+                await connection.sendAsync(msg, true, false);
+            }
         }
 
         public async Task sendMessageAsync(AbstractMessage msg, bool cacheIfNotConnected)

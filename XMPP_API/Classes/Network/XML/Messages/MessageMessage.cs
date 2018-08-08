@@ -8,14 +8,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string MESSAGE;
+        public string MESSAGE { get; protected set; }
         public readonly string TYPE;
         public readonly string FROM_NICK;
         public readonly bool RECIPT_REQUESTED;
         public readonly CarbonCopyType CC_TYPE;
-        public DateTime delay { get; private set; }
+        public DateTime delay { get; protected set; }
         // Already shown as a toast:
-        public bool toasted { get; private set; }
+        public bool toasted { get; protected set; }
         // The unique DB id of the message. Only required for send messages:
         public string chatMessageId;
 

@@ -20,6 +20,7 @@ using Data_Manager2.Classes.Events;
 using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.UI.Xaml.Controls.Primitives;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -359,7 +360,14 @@ namespace UWP_XMPP_Client.Controls
                     }
                     else
                     {
-                        sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), true);
+                        if (Chat.omemoEnabled)
+                        {
+                            sendMessage = new OmemoMessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), true);
+                        }
+                        else
+                        {
+                            sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), true);
+                        }
                     }
                     ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING };
 
@@ -375,15 +383,7 @@ namespace UWP_XMPP_Client.Controls
                         ChatDBManager.INSTANCE.setChat(chatCpy, false, true);
                     });
 
-                    // Send message:
-                    if (Chat.omemoEnabled)
-                    {
-                        Task t = Client.sendOmemoEncrypted(sendMessage);
-                    }
-                    else
-                    {
-                        Task t = Client.sendAsync(sendMessage);
-                    }
+                    Task t = Client.sendAsync(sendMessage);
                 }
 
                 message_tbx.Text = "";

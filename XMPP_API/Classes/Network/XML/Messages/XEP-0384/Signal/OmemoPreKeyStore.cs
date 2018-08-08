@@ -8,7 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private readonly XMPPAccount ACCOUNT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,8 +19,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// <history>
         /// 08/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoPreKeyStore()
+        public OmemoPreKeyStore(XMPPAccount account)
         {
+            this.ACCOUNT = account;
         }
 
         #endregion
@@ -33,12 +34,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsPreKey(uint preKeyId)
         {
-            return SignalKeyDBManager.INSTANCE.containsPreKeyRecord(preKeyId);
+            return SignalKeyDBManager.INSTANCE.containsPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
         }
 
         public PreKeyRecord LoadPreKey(uint preKeyId)
         {
-            PreKeyRecord preKeyRecord = SignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId);
+            PreKeyRecord preKeyRecord = SignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
             if (preKeyRecord == null)
             {
                 throw new InvalidKeyIdException("No such key: " + preKeyId);
@@ -48,12 +49,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public void RemovePreKey(uint preKeyId)
         {
-            SignalKeyDBManager.INSTANCE.deletePreKeyRecord(preKeyId);
+            SignalKeyDBManager.INSTANCE.deletePreKey(preKeyId, ACCOUNT.getIdAndDomain());
         }
 
         public void StorePreKey(uint preKeyId, PreKeyRecord preKey)
         {
-            SignalKeyDBManager.INSTANCE.setPreKey(preKeyId, preKey);
+            SignalKeyDBManager.INSTANCE.setPreKey(preKeyId, preKey, ACCOUNT.getIdAndDomain());
         }
 
         #endregion

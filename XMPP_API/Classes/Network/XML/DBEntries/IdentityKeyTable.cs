@@ -8,10 +8,13 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
+        public string id { get; set; }
+        [NotNull]
         public string name { get; set; }
         [NotNull]
+        public string accountId { get; set; }
+        [NotNull]
         public byte[] identityKey { get; set; }
-        public bool nonBlockingApproval { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,7 +37,10 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static string generateId(string name, string accountId)
+        {
+            return name + "_" + accountId;
+        }
 
         #endregion
 

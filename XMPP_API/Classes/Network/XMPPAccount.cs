@@ -3,6 +3,7 @@ using libsignal.state;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
@@ -98,6 +99,61 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void loadPreKeys()
+        {
+            omemoPreKeys = SignalKeyDBManager.INSTANCE.getAllPreKeys(getIdAndDomain());
+        }
+
+        public void loadSignedPreKey()
+        {
+            omemoSignedPreKeyPair = SignalKeyDBManager.INSTANCE.getSignedPreKey(omemoDeviceId, getIdAndDomain());
+        }
+
+        public void savePreKeys()
+        {
+            if (omemoPreKeys != null)
+            {
+                string accountId = getIdAndDomain();
+                foreach (PreKeyRecord key in omemoPreKeys)
+                {
+                    SignalKeyDBManager.INSTANCE.setPreKey(key.getId(), key, accountId);
+                }
+            }
+        }
+
+        public void deleteAccountSignedPreKey()
+        {
+            if(omemoSignedPreKeyPair != null)
+            {
+                SignalKeyDBManager.INSTANCE.deleteSignedPreKey(omemoSignedPreKeyPair.getId(), getIdAndDomain());
+            }
+        }
+
+        public void deleteAccountPreKeys()
+        {
+            if (omemoPreKeys != null)
+            {
+                string accountId = getIdAndDomain();
+                foreach (PreKeyRecord key in omemoPreKeys)
+                {
+                    SignalKeyDBManager.INSTANCE.deleteSignedPreKey(key.getId(), accountId);
+                }
+            }
+        }
+
+        public void saveSignedPreKey()
+        {
+            if(omemoSignedPreKeyPair != null)
+            {
+                SignalKeyDBManager.INSTANCE.setSignedPreKey(omemoSignedPreKeyPair.getId(), omemoSignedPreKeyPair, getIdAndDomain());
+            }
+        }
+
+        public void deleteKeys()
+        {
+            SignalKeyDBManager.INSTANCE.deleteAllForAccount(getIdAndDomain());
+        }
+
         /// <summary>
         /// Generates a new omemoIdentityKeyPair, omemoSignedPreKeyPair, omemoPreKeys.
         /// Sets omemoDeviceId to 0.

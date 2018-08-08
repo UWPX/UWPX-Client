@@ -38,8 +38,6 @@ namespace Data_Manager2.Classes.DBTables
         public string status { get; set; }
         // The private key for XEP-0384 (OMEMO Encryption) 
         public byte[] omemoIdentityKeyPair { get; set; }
-        // The public key for XEP-0384 (OMEMO Encryption) 
-        public byte[] omemoSignedPreKeyPair { get; set; }
         // The device id for XEP-0384 (OMEMO Encryption) 
         public uint omemoDeviceId { get; set; }
         public bool omemoBundleInfoAnnounced { get; set; }
@@ -72,7 +70,6 @@ namespace Data_Manager2.Classes.DBTables
             this.status = account.status;
             this.omemoDeviceId = account.omemoDeviceId;
             this.omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
-            this.omemoSignedPreKeyPair = account.omemoSignedPreKeyPair?.serialize();
             this.omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
         }
 
@@ -87,7 +84,6 @@ namespace Data_Manager2.Classes.DBTables
                 status = status,
                 omemoDeviceId = omemoDeviceId,
                 omemoIdentityKeyPair = omemoIdentityKeyPair == null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
-                omemoSignedPreKeyPair = omemoSignedPreKeyPair == null ? null : new libsignal.state.SignedPreKeyRecord(omemoSignedPreKeyPair),
                 omemoBundleInfoAnnounced = omemoBundleInfoAnnounced
             };
         }

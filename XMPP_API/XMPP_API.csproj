@@ -238,6 +238,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoMessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoIdentityKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoPreKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />

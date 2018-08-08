@@ -12,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private readonly XMPPAccount ACCOUNT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,8 +23,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// <history>
         /// 08/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoSessionStore()
+        public OmemoSessionStore(XMPPAccount account)
         {
+            this.ACCOUNT = account;
         }
 
         #endregion
@@ -32,7 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Set-, Get- Methods--
         public List<uint> GetSubDeviceSessions(string name)
         {
-            return SignalKeyDBManager.INSTANCE.getDeviceIds(name);
+            return SignalKeyDBManager.INSTANCE.getDeviceIds(name, ACCOUNT.getIdAndDomain());
         }
 
         #endregion
@@ -40,7 +41,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsSession(SignalProtocolAddress address)
         {
-            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address);
+            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
             return session != null && session.getSessionState().hasSenderChain() && session.getSessionState().getSessionVersion() == CiphertextMessage.CURRENT_VERSION;
         }
 
@@ -51,12 +52,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public void DeleteSession(SignalProtocolAddress address)
         {
-            SignalKeyDBManager.INSTANCE.deleteSession(address);
+            SignalKeyDBManager.INSTANCE.deleteSession(address, ACCOUNT.getIdAndDomain());
         }
 
         public SessionRecord LoadSession(SignalProtocolAddress address)
         {
-            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address);
+            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
             if (session == null)
             {
                 Logger.Warn("No existing session information found.");
@@ -67,7 +68,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public void StoreSession(SignalProtocolAddress address, SessionRecord record)
         {
-            SignalKeyDBManager.INSTANCE.setSession(address, record);
+            SignalKeyDBManager.INSTANCE.setSession(address, record, ACCOUNT.getIdAndDomain());
         }
 
         #endregion

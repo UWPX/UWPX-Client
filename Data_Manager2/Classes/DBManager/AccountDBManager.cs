@@ -5,7 +5,6 @@ using XMPP_API.Classes.Network;
 using Windows.Security.Cryptography.Certificates;
 using Logging;
 using System.Threading;
-using libsignal.state;
 using Thread_Save_Components.Classes.SQLite;
 
 namespace Data_Manager2.Classes.DBManager
@@ -48,7 +47,8 @@ namespace Data_Manager2.Classes.DBManager
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
-            setAccoundPreKeys(account);
+            account.savePreKeys();
+            account.saveSignedPreKey();
 
             if (triggerAccountChanged)
             {
@@ -92,18 +92,6 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<IgnoredCertificateErrorTable>(true, "SELECT * FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", accountId);
         }
 
-        private IList<PreKeyRecord> getPreKeys(XMPPAccount account)
-        {
-            IList<AccountPreKeyTable> entrys = dB.Query<AccountPreKeyTable>(true, "SELECT preKey FROM " + DBTableConsts.ACCOUNT_PRE_KEY_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
-            List<PreKeyRecord> keys = new List<PreKeyRecord>();
-            foreach (AccountPreKeyTable k in entrys)
-            {
-                keys.Add(new PreKeyRecord(k.preKey));
-            }
-
-            return keys;
-        }
-
         /// <summary>
         /// Returns a list of all accounts from the DB.
         /// </summary>
@@ -127,12 +115,21 @@ namespace Data_Manager2.Classes.DBManager
         /// Deletes the given account.
         /// </summary>
         /// <param name="account">The account to delete.</param>
-        public void deleteAccount(XMPPAccount account, bool triggerAccountChanged)
+        /// <param name="deleteAllKeys">Whether to delete all OMEMO keys.</param>
+        public void deleteAccount(XMPPAccount account, bool triggerAccountChanged, bool deleteAllKeys)
         {
             dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_TABLE + " WHERE id = ?;", account.getIdAndDomain());
             dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
             dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
-            dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_PRE_KEY_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
+            if (deleteAllKeys)
+            {
+                account.deleteKeys();
+            }
+            else
+            {
+                account.deleteAccountPreKeys();
+                account.deleteAccountSignedPreKey();
+            }
             Vault.deletePassword(account);
 
             if (triggerAccountChanged)
@@ -155,7 +152,8 @@ namespace Data_Manager2.Classes.DBManager
                 XMPPAccount acc = accounts[i].toXMPPAccount();
                 Vault.loadPassword(acc);
                 loadAccountConnectionConfiguration(acc);
-                acc.omemoPreKeys = getPreKeys(acc);
+                acc.loadPreKeys();
+                acc.loadSignedPreKey();
                 results.Add(acc);
             }
             return results;
@@ -173,7 +171,7 @@ namespace Data_Manager2.Classes.DBManager
             dB.BeginTransaction();
             try
             {
-                deleteAccount(oldAccount, true);
+                deleteAccount(oldAccount, true, false);
                 setAccount(account, true);
             }
             catch (System.Exception e)
@@ -238,17 +236,6 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setAccoundPreKeys(XMPPAccount account)
-        {
-            dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_PRE_KEY_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
-            List<AccountPreKeyTable> entries = new List<AccountPreKeyTable>();
-            foreach (PreKeyRecord key in account.omemoPreKeys)
-            {
-                entries.Add(new AccountPreKeyTable(account.getIdAndDomain(), key.serialize()));
-            }
-            dB.InsertAll(entries);
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--
@@ -260,7 +247,6 @@ namespace Data_Manager2.Classes.DBManager
         protected override void createTables()
         {
             dB.CreateTable<AccountTable>();
-            dB.CreateTable<AccountPreKeyTable>();
             dB.CreateTable<ConnectionOptionsTable>();
             dB.CreateTable<IgnoredCertificateErrorTable>();
         }
@@ -268,7 +254,6 @@ namespace Data_Manager2.Classes.DBManager
         protected override void dropTables()
         {
             dB.DropTable<AccountTable>();
-            dB.DropTable<AccountPreKeyTable>();
             dB.DropTable<ConnectionOptionsTable>();
             dB.DropTable<IgnoredCertificateErrorTable>();
         }

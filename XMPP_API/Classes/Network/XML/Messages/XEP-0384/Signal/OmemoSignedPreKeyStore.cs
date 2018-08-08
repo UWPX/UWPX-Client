@@ -9,7 +9,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private readonly XMPPAccount ACCOUNT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,8 +20,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// <history>
         /// 08/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoSignedPreKeyStore()
+        public OmemoSignedPreKeyStore(XMPPAccount account)
         {
+            this.ACCOUNT = account;
         }
 
         #endregion
@@ -34,12 +35,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsSignedPreKey(uint signedPreKeyId)
         {
-            return SignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId);
+            return SignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
         }
 
         public SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId)
         {
-            SignedPreKeyRecord signedPreKeyRecord = SignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId);
+            SignedPreKeyRecord signedPreKeyRecord = SignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
             if (signedPreKeyRecord == null)
             {
                 throw new InvalidKeyIdException("No such key: " + signedPreKeyId);
@@ -49,17 +50,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public List<SignedPreKeyRecord> LoadSignedPreKeys()
         {
-            return SignalKeyDBManager.INSTANCE.getAllSignedPreKeys();
+            return SignalKeyDBManager.INSTANCE.getAllSignedPreKeys(ACCOUNT.getIdAndDomain());
         }
 
         public void RemoveSignedPreKey(uint signedPreKeyId)
         {
-            SignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId);
+            SignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
         }
 
         public void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey)
         {
-            SignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey);
+            SignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey, ACCOUNT.getIdAndDomain());
         }
 
         #endregion

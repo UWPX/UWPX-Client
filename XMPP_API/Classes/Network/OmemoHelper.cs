@@ -30,7 +30,8 @@ namespace XMPP_API.Classes.Network
         private const int TIMEOUT_5_SEC = 5;
         private ThreadPoolTimer timer;
 
-        private readonly Dictionary<string, SessionBuilder> SESSIONS_BUILDER;
+        // Keep sessions during App runtime:
+        private readonly Dictionary<string, Tuple<SignalProtocolAddress, SessionBuilder>> SESSIONS_BUILDER;
         private readonly SessionStore SESSION_STORE;
         private readonly PreKeyStore PRE_KEY_STORE;
         private readonly SignedPreKeyStore SIGNED_PRE_KEY_STORE;
@@ -50,10 +51,10 @@ namespace XMPP_API.Classes.Network
             this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.CONNECTION = connection;
 
-            this.SESSIONS_BUILDER = new Dictionary<string, SessionBuilder>();
-            this.SESSION_STORE = new OmemoSessionStore();
-            this.PRE_KEY_STORE = new OmemoPreKeyStore();
-            this.SIGNED_PRE_KEY_STORE = new OmemoSignedPreKeyStore();
+            this.SESSIONS_BUILDER = new Dictionary<string, Tuple<SignalProtocolAddress, SessionBuilder>>();
+            this.SESSION_STORE = new OmemoSessionStore(connection.account);
+            this.PRE_KEY_STORE = new OmemoPreKeyStore(connection.account);
+            this.SIGNED_PRE_KEY_STORE = new OmemoSignedPreKeyStore(connection.account);
             this.IDENTITY_STORE = new OmemoIdentityKeyStore(connection.account);
 
             reset();
@@ -86,21 +87,22 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public SessionBuilder getSession(string chatJid)
+        public Tuple<SignalProtocolAddress, SessionBuilder> getSession(string name)
         {
-            if (SESSIONS_BUILDER.ContainsKey(chatJid))
+            if (SESSIONS_BUILDER.ContainsKey(name))
             {
-                return SESSIONS_BUILDER[chatJid];
+                return SESSIONS_BUILDER[name];
             }
             return null;
         }
 
-        public SessionBuilder getNewSession(string chatJid, uint recipientDeviceId)
+        public SessionCipher getSessionCipher(SignalProtocolAddress remoteAddress)
         {
-            SignalProtocolAddress address = new SignalProtocolAddress(chatJid, recipientDeviceId);
-            SessionBuilder builder = new SessionBuilder(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, address);
-            SESSIONS_BUILDER[chatJid] = builder;
-            return builder;
+            if (SESSIONS_BUILDER.ContainsKey(remoteAddress.getName()))
+            {
+                return new SessionCipher(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, remoteAddress);
+            }
+            return null;
         }
 
         #endregion
@@ -126,6 +128,15 @@ namespace XMPP_API.Classes.Network
 
             msgId = null;
             tmpDeviceId = 0;
+        }
+
+        public SessionBuilder newSession(string chatJid, uint recipientDeviceId, PreKeyBundle recipientPreKey)
+        {
+            SignalProtocolAddress address = new SignalProtocolAddress(chatJid, recipientDeviceId);
+            SessionBuilder builder = new SessionBuilder(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, address);
+            builder.process(recipientPreKey);
+            SESSIONS_BUILDER[chatJid] = new Tuple<SignalProtocolAddress, SessionBuilder>(address, builder);
+            return builder;
         }
 
         #endregion

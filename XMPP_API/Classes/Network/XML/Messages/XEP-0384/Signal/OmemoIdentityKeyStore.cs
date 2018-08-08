@@ -27,7 +27,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
             this.ACCOUNT = account;
             this.IDENTITY_KEYS = new Dictionary<string, IdentityKey>();
         }
-        
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -43,11 +43,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public bool IsTrustedIdentity(string name, IdentityKey identityKey)
         {
-            if (SignalKeyDBManager.INSTANCE.containsIdentityKey(name))
-            {
-                // ToDo check against the local store
-                return false;
-            }
+            // XEP-0384 (OMEMO Encryption) recommends to disable trust management provided by the signal library:
+            // Source: https://xmpp.org/extensions/xep-0384.html#impl
             return true;
         }
 
@@ -56,8 +53,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool SaveIdentity(string name, IdentityKey identityKey)
         {
-            bool contains = SignalKeyDBManager.INSTANCE.containsIdentityKey(name);
-            SignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, false);
+            bool contains = SignalKeyDBManager.INSTANCE.containsIdentityKey(name, ACCOUNT.getIdAndDomain());
+            SignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, ACCOUNT.getIdAndDomain());
             return contains;
         }
 

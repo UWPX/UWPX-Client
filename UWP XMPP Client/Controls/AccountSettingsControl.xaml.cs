@@ -236,7 +236,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     await ConnectionHandler.INSTANCE.removeAccountAsync(account.getIdAndDomain());
 
-                    AccountDBManager.INSTANCE.deleteAccount(account, true);
+                    AccountDBManager.INSTANCE.deleteAccount(account, true, true);
 
                     if (!dialog.keepChatMessages)
                     {

@@ -8,7 +8,11 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
+        public string id { get; set; }
+        [NotNull]
         public uint signedPreKeyId { get; set; }
+        [NotNull]
+        public string accountId { get; set; }
         [NotNull]
         public byte[] signedPreKey { get; set; }
 
@@ -33,7 +37,10 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static string generateId(uint signedPreKeyId, string accountId)
+        {
+            return signedPreKeyId + "_" + accountId;
+        }
 
         #endregion
 
