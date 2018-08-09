@@ -117,8 +117,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         #region --Events--
         private void AbstractBackRequestPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 return;
             }

@@ -29,6 +29,11 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static bool isDarkThemeActive()
+        {
+            return Application.Current.RequestedTheme == ApplicationTheme.Dark;
+        }
+
         public static async Task<ContentDialogResult> showDialogAsyncQueue(ContentDialog dialog)
         {
             // Make sure it gets invoked by the UI thread:

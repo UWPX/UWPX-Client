@@ -44,6 +44,28 @@ namespace UWP_XMPP_Client.Dialogs
         }
         public static readonly DependencyProperty ParserStatsProperty = DependencyProperty.Register(nameof(ParserStats), typeof(MessageParserStats), typeof(ConnectionInfoDialog), null);
 
+        public OmemoHelperState OmemoState
+        {
+            get { return (OmemoHelperState)GetValue(OmemoStateProperty); }
+            set
+            {
+                SetValue(OmemoStateProperty, value);
+                showOmemoState();
+            }
+        }
+        public static readonly DependencyProperty OmemoStateProperty = DependencyProperty.Register(nameof(OmemoState), typeof(OmemoHelperState), typeof(ConnectionInfoDialog), new PropertyMetadata(OmemoHelperState.DISABLED));
+
+        public XMPPAccount Account
+        {
+            get { return (XMPPAccount)GetValue(AccountProperty); }
+            set
+            {
+                SetValue(AccountProperty, value);
+                showAccount();
+            }
+        }
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(ConnectionInfoDialog), new PropertyMetadata(null));
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -77,6 +99,7 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 showTlsConnected();
                 showMsgCarbonsState();
+                showOmemoState();
             }
         }
 
@@ -91,6 +114,48 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 tlsConnected_run.Text = "";
                 tlsDisconnected_run.Text = "Disconnected";
+            }
+        }
+
+        private void showOmemoState()
+        {
+            switch (OmemoState)
+            {
+                case OmemoHelperState.REQUESTING_DEVICE_LIST:
+                    omemoDisabled_run.Text = "";
+                    omemoEnabled_run.Text = "";
+                    omemoWip_run.Text = "Requested device list";
+                    break;
+
+                case OmemoHelperState.UPDATING_DEVICE_LIST:
+                    omemoDisabled_run.Text = "";
+                    omemoEnabled_run.Text = "";
+                    omemoWip_run.Text = "Updating device list";
+                    break;
+
+                case OmemoHelperState.ANNOUNCING_BUNDLE_INFO:
+                    omemoDisabled_run.Text = "";
+                    omemoEnabled_run.Text = "";
+                    omemoWip_run.Text = "Announcing bundle info";
+                    break;
+
+                case OmemoHelperState.ENABLED:
+                    omemoDisabled_run.Text = "";
+                    omemoEnabled_run.Text = "Enabled";
+                    omemoWip_run.Text = "";
+                    break;
+
+                case OmemoHelperState.DISABLED:
+                    omemoDisabled_run.Text = "Disabled";
+                    omemoEnabled_run.Text = "";
+                    omemoWip_run.Text = "";
+                    break;
+
+                default:
+                    omemoDisabled_run.Text = "Error - view logs";
+                    omemoEnabled_run.Text = "";
+                    omemoWip_run.Text = "";
+                    break;
             }
         }
 
@@ -127,6 +192,23 @@ namespace UWP_XMPP_Client.Dialogs
                     carbonsEnabled_run.Text = "";
                     carbonsReqested_run.Text = "";
                     break;
+            }
+        }
+
+        private void showAccount()
+        {
+            omemoFingerprint_ofc.MyFingerprint = Account?.getOmemoFingerprint();
+            if (Account != null)
+            {
+                if (!Account.hasOmemoKeys())
+                {
+                    omemoError_itbx.Text = "OMEMO keys are corrupted. Please remove and add your account again!";
+                    omemoError_itbx.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    omemoError_itbx.Visibility = Visibility.Collapsed;
+                }
             }
         }
 

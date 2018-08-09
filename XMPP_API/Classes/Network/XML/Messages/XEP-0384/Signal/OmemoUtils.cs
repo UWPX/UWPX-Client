@@ -2,6 +2,7 @@
 using libsignal;
 using libsignal.state;
 using libsignal.util;
+using org.whispersystems.libsignal.fingerprint;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 {
@@ -9,7 +10,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private static readonly NumericFingerprintGenerator FINGERPRINT_GENERATOR = new NumericFingerprintGenerator(5200);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -65,6 +66,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
                 }
             }
             throw new System.InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ".Count = " + usedDeviceIds.Count);
+        }
+
+        public static Fingerprint getFingerprint(string accountId, IdentityKey key)
+        {
+            return FINGERPRINT_GENERATOR.createFor(accountId, key, accountId, key);
         }
 
         #endregion

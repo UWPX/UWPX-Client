@@ -33,8 +33,8 @@
                         <Run FontWeight="Bold"
                              Text="Message Carbons:"/>
                         <Run x:Name="carbonsEnabled_run"
-                             Text="Enabled"
-                             Foreground="Green"/>
+                             Foreground="Green"
+                             Text="Enabled"/>
                         <Run x:Name="carbonsDisabled_run"
                              Foreground="Red"/>
                         <Run x:Name="carbonsReqested_run"/>
@@ -105,6 +105,31 @@
 
         <PivotItem Header="Certificate">
             <controls:CertificateControl Cert="{x:Bind Cert, Mode=OneWay}"/>
+        </PivotItem>
+
+        <PivotItem Header="OMEMO">
+            <ScrollViewer HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Hidden">
+                <StackPanel>
+                    <TextBlock>
+                        <Run FontWeight="Bold"
+                             Text="OMEMO session:"/>
+                        <Run x:Name="omemoEnabled_run"
+                             Foreground="Green"
+                             Text="Enabled"/>
+                        <Run x:Name="omemoDisabled_run"
+                             Foreground="Red"/>
+                        <Run x:Name="omemoWip_run"/>
+                    </TextBlock>
+                    <controls:IconTextBlockControl x:Name="omemoError_itbx"
+                                                   Margin="0,10,0,0"
+                                                   Icon="&#xE7BA;"
+                                                   IconForeground="Red"
+                                                   Visibility="Collapsed"/>
+                    <controls:OmemoFingerprintControl x:Name="omemoFingerprint_ofc"
+                                                      Margin="0,10,0,0"/>
+                </StackPanel>
+            </ScrollViewer>
         </PivotItem>
     </Pivot>
 </ContentDialog>

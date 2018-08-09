@@ -1,21 +1,12 @@
 ﻿using QRCoder;
 using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+using UWP_XMPP_Client.Classes;
 using Windows.Storage.Streams;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -76,28 +67,41 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void updateQRCode()
         {
-            Task t = updateQRCodeAsync();
-        }
-
-        private async Task updateQRCodeAsync()
-        {
-            QRCodeData qRCodeData = QR_CODE_GENERATOR.CreateQrCode(QRCodeText, QRCodeGenerator.ECCLevel.Q);
-            BitmapByteQRCode qRCode = new BitmapByteQRCode(qRCodeData);
-            var bitmapImage = new BitmapImage();
-
-            using (var stream = new InMemoryRandomAccessStream())
+            generating_pgr.Visibility = Visibility.Visible;
+            string text = QRCodeText;
+            bool darkTheme = UiUtils.isDarkThemeActive();
+            Task.Run(async () =>
             {
-                using (var writer = new DataWriter(stream))
+                QRCodeData qRCodeData = QR_CODE_GENERATOR.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
+                BitmapByteQRCode qRCode = new BitmapByteQRCode(qRCodeData);
+                byte[] qRCodeGraphic;
+                if (darkTheme)
                 {
-                    writer.WriteBytes(qRCode.GetGraphic(20));
-                    await writer.StoreAsync();
-                    await writer.FlushAsync();
-                    writer.DetachStream();
+                    qRCodeGraphic = qRCode.GetGraphic(10, new byte[] { Colors.White.R, Colors.White.G, Colors.White.B }, new byte[] { Colors.Black.R, Colors.Black.G, Colors.Black.B });
                 }
-                stream.Seek(0);
-                await bitmapImage.SetSourceAsync(stream);
-            }
-            QRCodeBitmap = bitmapImage;
+                else
+                {
+                    qRCodeGraphic = qRCode.GetGraphic(10);
+                }
+
+                await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                {
+                    QRCodeBitmap = new BitmapImage();
+                    using (var stream = new InMemoryRandomAccessStream())
+                    {
+                        using (var writer = new DataWriter(stream))
+                        {
+                            writer.WriteBytes(qRCodeGraphic);
+                            await writer.StoreAsync();
+                            await writer.FlushAsync();
+                            writer.DetachStream();
+                        }
+                        stream.Seek(0);
+                        await QRCodeBitmap.SetSourceAsync(stream);
+                    }
+                    generating_pgr.Visibility = Visibility.Collapsed;
+                });
+            });
         }
 
         #endregion

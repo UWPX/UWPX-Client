@@ -4,7 +4,6 @@ using Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Windows.System.Threading;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -21,14 +20,10 @@ namespace XMPP_API.Classes.Network
 
         private readonly XMPPConnection2 CONNECTION;
 
-        private string msgId;
         private uint tmpDeviceId;
-        /// <summary>
-        /// The default timeout is 5000 ms = 5 sec.
-        /// </summary>
-        public TimeSpan timeout;
-        private const int TIMEOUT_5_SEC = 5;
-        private ThreadPoolTimer timer;
+        private MessageResponseHelper<IQMessage> requestDeviceListHelper;
+        private MessageResponseHelper<IQMessage> updateDeviceListHelper;
+        private MessageResponseHelper<IQMessage> announceBundleInfoHelper;
 
         // Keep sessions during App runtime:
         private readonly Dictionary<string, Tuple<SignalProtocolAddress, SessionBuilder>> SESSIONS_BUILDER;
@@ -48,7 +43,6 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public OmemoHelper(XMPPConnection2 connection)
         {
-            this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.CONNECTION = connection;
 
             this.SESSIONS_BUILDER = new Dictionary<string, Tuple<SignalProtocolAddress, SessionBuilder>>();
@@ -67,10 +61,9 @@ namespace XMPP_API.Classes.Network
         {
             if (STATE != newState)
             {
-                Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") " + STATE + "->" + newState);
+                Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") " + STATE + " -> " + newState);
                 if (newState == OmemoHelperState.ERROR)
                 {
-                    stopTimer();
                     CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
                     STATE = newState;
                 }
@@ -116,8 +109,6 @@ namespace XMPP_API.Classes.Network
 
         public void reset()
         {
-            stopTimer();
-
             setState(OmemoHelperState.DISABLED);
 
             CONNECTION.ConnectionStateChanged -= CONNECTION_ConnectionStateChanged;
@@ -126,8 +117,23 @@ namespace XMPP_API.Classes.Network
             CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
             CONNECTION.NewValidMessage += CONNECTION_ConnectionNewValidMessage;
 
-            msgId = null;
             tmpDeviceId = 0;
+
+            if (requestDeviceListHelper != null)
+            {
+                requestDeviceListHelper.Dispose();
+                requestDeviceListHelper = null;
+            }
+            if (updateDeviceListHelper != null)
+            {
+                updateDeviceListHelper.Dispose();
+                updateDeviceListHelper = null;
+            }
+            if (announceBundleInfoHelper != null)
+            {
+                announceBundleInfoHelper.Dispose();
+                announceBundleInfoHelper = null;
+            }
         }
 
         public SessionBuilder newSession(string chatJid, uint recipientDeviceId, PreKeyBundle recipientPreKey)
@@ -142,27 +148,76 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task requestDeviceListAsync()
+        private void requestDeviceList()
         {
             setState(OmemoHelperState.REQUESTING_DEVICE_LIST);
             Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Requesting device list.");
+            if (requestDeviceListHelper != null)
+            {
+                requestDeviceListHelper.Dispose();
+            }
+            requestDeviceListHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onRequestDeviceListMsg, onTimeout);
             OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), null);
-            msgId = msg.ID;
-            resetTimer();
-            await CONNECTION.sendAsync(msg, false, false);
+            requestDeviceListHelper.start(msg);
         }
 
-        private async Task announceBundleInfoAsync()
+        private bool onRequestDeviceListMsg(AbstractMessage msg)
+        {
+            if (msg is OmemoDeviceListResultMessage devMsg)
+            {
+                updateDevicesIfNeeded(devMsg.DEVICES);
+                return true;
+            }
+            else if (msg is IQErrorMessage errMsg)
+            {
+                if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
+                {
+                    Logger.Warn("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to request OMEMO device list - node does not exist. Creating node.");
+                    updateDevicesIfNeeded(null);
+                }
+                else
+                {
+                    Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to request OMEMO device list form: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
+                    setState(OmemoHelperState.ERROR);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        private void announceBundleInfo()
         {
             setState(OmemoHelperState.ANNOUNCING_BUNDLE_INFO);
             Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Announcing bundle information for: " + CONNECTION.account.omemoDeviceId);
+            if (announceBundleInfoHelper != null)
+            {
+                announceBundleInfoHelper.Dispose();
+            }
+            announceBundleInfoHelper = new MessageResponseHelper<IQMessage>(CONNECTION, announceBundleInfoMsg, onTimeout);
             OmemoSetBundleInformationMessage msg = new OmemoSetBundleInformationMessage(CONNECTION.account.getIdDomainAndResource(), CONNECTION.account.getOmemoBundleInformation(), CONNECTION.account.omemoDeviceId);
-            msgId = msg.ID;
-            resetTimer();
-            await CONNECTION.sendAsync(msg, false, false);
+            announceBundleInfoHelper.start(msg);
         }
 
-        private async Task updateDevicesIfNeeded(OmemoDevices devicesRemote)
+        private bool announceBundleInfoMsg(AbstractMessage msg)
+        {
+            if (msg is PubSubPublishResultMessage pubSubBundleResultMsg)
+            {
+                Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Bundle info announced.");
+                CONNECTION.account.omemoBundleInfoAnnounced = true;
+                CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoBundleInfoAnnounced));
+                setState(OmemoHelperState.ENABLED);
+                return true;
+            }
+            else if (msg is IQErrorMessage errMsg)
+            {
+                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to announce OMEMO bundle info to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
+                setState(OmemoHelperState.ERROR);
+                return true;
+            }
+            return false;
+        }
+
+        private void updateDevicesIfNeeded(OmemoDevices devicesRemote)
         {
             if (devicesRemote == null)
             {
@@ -190,14 +245,17 @@ namespace XMPP_API.Classes.Network
             {
                 setState(OmemoHelperState.UPDATING_DEVICE_LIST);
                 Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Updating device list.");
+                if (updateDeviceListHelper != null)
+                {
+                    updateDeviceListHelper.Dispose();
+                }
+                updateDeviceListHelper = new MessageResponseHelper<IQMessage>(CONNECTION, updateDevicesIfNeededMsg, onTimeout);
                 OmemoSetDeviceListMessage msg = new OmemoSetDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), devicesRemote);
-                msgId = msg.ID;
-                resetTimer();
-                await CONNECTION.sendAsync(msg, false, false);
+                updateDeviceListHelper.start(msg);
             }
             else if (!CONNECTION.account.omemoBundleInfoAnnounced)
             {
-                await announceBundleInfoAsync();
+                announceBundleInfo();
             }
             else
             {
@@ -206,24 +264,36 @@ namespace XMPP_API.Classes.Network
             DEVICES = devicesRemote;
         }
 
-        private void startTimer()
+        private bool updateDevicesIfNeededMsg(AbstractMessage msg)
         {
-            timer = ThreadPoolTimer.CreateTimer(onTimerTimeout, timeout);
+            if (msg is PubSubPublishResultMessage pubSubResultMsg)
+            {
+                Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Device list updated.");
+                if (CONNECTION.account.omemoDeviceId == 0)
+                {
+                    CONNECTION.account.omemoDeviceId = tmpDeviceId;
+                    CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoDeviceId));
+                }
+                if (!CONNECTION.account.omemoBundleInfoAnnounced)
+                {
+                    announceBundleInfo();
+                }
+                else
+                {
+                    setState(OmemoHelperState.ENABLED);
+                }
+                return true;
+            }
+            else if (msg is IQErrorMessage errMsg)
+            {
+                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to set OMEMO device list to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
+                setState(OmemoHelperState.ERROR);
+                return true;
+            }
+            return false;
         }
 
-        private void resetTimer()
-        {
-            stopTimer();
-            startTimer();
-        }
-
-        private void stopTimer()
-        {
-            timer?.Cancel();
-            timer = null;
-        }
-
-        private void onTimerTimeout(ThreadPoolTimer source)
+        private void onTimeout()
         {
             switch (STATE)
             {
@@ -264,78 +334,6 @@ namespace XMPP_API.Classes.Network
             {
                 await onOmemoDeviceListEventMessageAsync(eventMsg);
             }
-
-            switch (STATE)
-            {
-                case OmemoHelperState.REQUESTING_DEVICE_LIST:
-                    if (args.MESSAGE is OmemoDeviceListResultMessage msg && string.Equals(msgId, msg.ID))
-                    {
-                        stopTimer();
-                        await updateDevicesIfNeeded(msg.DEVICES);
-                    }
-                    else if (args.MESSAGE is IQErrorMessage errMsg && string.Equals(msgId, errMsg.ID))
-                    {
-                        stopTimer();
-                        if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
-                        {
-                            Logger.Warn("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to request OMEMO device list - node does not exist. Creating node.");
-                            await updateDevicesIfNeeded(null);
-                        }
-                        else
-                        {
-                            Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to request OMEMO device list form: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
-                            setState(OmemoHelperState.ERROR);
-                        }
-                    }
-                    break;
-
-                case OmemoHelperState.UPDATING_DEVICE_LIST:
-                    if (args.MESSAGE is PubSubPublishResultMessage pubSubResultMsg && string.Equals(msgId, pubSubResultMsg.ID))
-                    {
-                        stopTimer();
-                        Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Device list updated.");
-                        if (CONNECTION.account.omemoDeviceId == 0)
-                        {
-                            CONNECTION.account.omemoDeviceId = tmpDeviceId;
-                            CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoDeviceId));
-                        }
-                        if (!CONNECTION.account.omemoBundleInfoAnnounced)
-                        {
-                            await announceBundleInfoAsync();
-                        }
-                        else
-                        {
-                            setState(OmemoHelperState.ENABLED);
-                        }
-                    }
-                    else if (args.MESSAGE is IQErrorMessage errMsg && string.Equals(msgId, errMsg.ID))
-                    {
-                        stopTimer();
-                        Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to set OMEMO device list to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
-                        setState(OmemoHelperState.ERROR);
-                    }
-                    break;
-
-                case OmemoHelperState.ANNOUNCING_BUNDLE_INFO:
-                    if (args.MESSAGE is PubSubPublishResultMessage pubSubBundleResultMsg && string.Equals(msgId, pubSubBundleResultMsg.ID))
-                    {
-                        stopTimer();
-                        Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Bundle info announced.");
-                        CONNECTION.account.omemoBundleInfoAnnounced = true;
-                        CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoBundleInfoAnnounced));
-                        setState(OmemoHelperState.ENABLED);
-                    }
-                    else if (args.MESSAGE is IQErrorMessage errMsg && string.Equals(msgId, errMsg.ID))
-                    {
-                        stopTimer();
-                        Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to announce OMEMO bundle info to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
-                        setState(OmemoHelperState.ERROR);
-                    }
-                    break;
-
-                case OmemoHelperState.ENABLED:
-                    break;
-            }
         }
 
         private async void CONNECTION_ConnectionStateChanged(AbstractConnection2 connection, Events.ConnectionStateChangedEventArgs arg)
@@ -350,7 +348,7 @@ namespace XMPP_API.Classes.Network
                     }
                     else if (STATE == OmemoHelperState.DISABLED)
                     {
-                        await requestDeviceListAsync();
+                        requestDeviceList();
                     }
                     break;
 

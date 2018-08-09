@@ -1,5 +1,6 @@
 ﻿using libsignal;
 using libsignal.state;
+using org.whispersystems.libsignal.fingerprint;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -94,6 +95,15 @@ namespace XMPP_API.Classes.Network
             }
 
             return new OmemoBundleInformation(bas64IdentKeyPair, bas64SignedPreKey, bas64SignedPreKeySig, base64PreKeys);
+        }
+
+        public Fingerprint getOmemoFingerprint()
+        {
+            if (omemoIdentityKeyPair != null)
+            {
+                return OmemoUtils.getFingerprint(getIdAndDomain(), omemoIdentityKeyPair.getPublicKey());
+            }
+            return null;
         }
 
         #endregion

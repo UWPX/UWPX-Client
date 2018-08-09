@@ -177,8 +177,8 @@
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OmemoKeyControl.xaml.cs">
-      <DependentUpon>OmemoKeyControl.xaml</DependentUpon>
+    <Compile Include="Controls\OmemoFingerprintControl.xaml.cs">
+      <DependentUpon>OmemoFingerprintControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PasswordCredentialControl.xaml.cs">
       <DependentUpon>PasswordCredentialControl.xaml</DependentUpon>
@@ -523,7 +523,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OmemoKeyControl.xaml">
+    <Page Include="Controls\OmemoFingerprintControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
