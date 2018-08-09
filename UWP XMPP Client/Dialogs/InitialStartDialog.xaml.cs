@@ -48,11 +48,6 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void viewOnGithub_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            await UiUtils.launchUriAsync(new System.Uri("https://github.com/UWPX/UWPX-Client"));
-        }
-
         private void close_btn_Click(object sender, RoutedEventArgs e)
         {
             showOnStartup = (bool)showOnStartup_cbx.IsChecked;
