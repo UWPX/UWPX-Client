@@ -67,18 +67,18 @@ namespace XMPP_API.Classes.Network
         {
             if (STATE != newState)
             {
+                Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") " + STATE + "->" + newState);
                 if (newState == OmemoHelperState.ERROR)
                 {
                     stopTimer();
                     CONNECTION.ConnectionNewValidMessage -= CONNECTION_ConnectionNewValidMessage;
+                    STATE = newState;
                 }
                 else if (STATE == OmemoHelperState.ERROR && newState != OmemoHelperState.ERROR)
                 {
+                    STATE = newState;
                     reset();
                 }
-
-                Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") " + STATE + "->" + newState);
-                STATE = newState;
 
                 if (STATE == OmemoHelperState.ENABLED)
                 {
