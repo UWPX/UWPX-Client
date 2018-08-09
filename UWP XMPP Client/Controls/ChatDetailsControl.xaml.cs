@@ -383,7 +383,7 @@ namespace UWP_XMPP_Client.Controls
                         ChatDBManager.INSTANCE.setChat(chatCpy, false, true);
                     });
 
-                    Task t = Client.sendAsync(sendMessage);
+                    Task t = Client.sendMessageAsync(sendMessage);
                 }
 
                 message_tbx.Text = "";

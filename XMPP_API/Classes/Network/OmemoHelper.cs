@@ -71,7 +71,7 @@ namespace XMPP_API.Classes.Network
                 if (newState == OmemoHelperState.ERROR)
                 {
                     stopTimer();
-                    CONNECTION.ConnectionNewValidMessage -= CONNECTION_ConnectionNewValidMessage;
+                    CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
                     STATE = newState;
                 }
                 else if (STATE == OmemoHelperState.ERROR && newState != OmemoHelperState.ERROR)
@@ -111,7 +111,7 @@ namespace XMPP_API.Classes.Network
         public void Dispose()
         {
             CONNECTION.ConnectionStateChanged -= CONNECTION_ConnectionStateChanged;
-            CONNECTION.ConnectionNewValidMessage -= CONNECTION_ConnectionNewValidMessage;
+            CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
         }
 
         public void reset()
@@ -123,8 +123,8 @@ namespace XMPP_API.Classes.Network
             CONNECTION.ConnectionStateChanged -= CONNECTION_ConnectionStateChanged;
             CONNECTION.ConnectionStateChanged += CONNECTION_ConnectionStateChanged;
 
-            CONNECTION.ConnectionNewValidMessage -= CONNECTION_ConnectionNewValidMessage;
-            CONNECTION.ConnectionNewValidMessage += CONNECTION_ConnectionNewValidMessage;
+            CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
+            CONNECTION.NewValidMessage += CONNECTION_ConnectionNewValidMessage;
 
             msgId = null;
             tmpDeviceId = 0;
@@ -258,7 +258,7 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void CONNECTION_ConnectionNewValidMessage(XMPPConnection2 connection, Events.NewValidMessageEventArgs args)
+        private async void CONNECTION_ConnectionNewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
         {
             if (args.MESSAGE is OmemoDeviceListEventMessage eventMsg)
             {

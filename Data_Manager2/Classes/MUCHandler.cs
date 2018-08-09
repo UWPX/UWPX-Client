@@ -116,7 +116,7 @@ namespace Data_Manager2.Classes
             string from = client.getXMPPAccount().getIdDomainAndResource();
             string to = muc.chatJabberId + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
-            await client.sendMessageAsync(msg, false);
+            await client.sendAsync(msg, false);
         }
 
         private void enterAllMUCs(XMPPClient client)
@@ -319,11 +319,11 @@ namespace Data_Manager2.Classes
             });
         }
 
-        private async void Client_NewValidMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
+        private async void Client_NewValidMessage(IMessageSender sender, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
         {
             if (args.MESSAGE is MUCErrorMessage)
             {
-                await onMUCErrorMessageAsync(client, args.MESSAGE as MUCErrorMessage);
+                await onMUCErrorMessageAsync((XMPPClient)sender, args.MESSAGE as MUCErrorMessage);
             }
         }
 

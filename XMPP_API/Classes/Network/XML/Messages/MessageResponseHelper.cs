@@ -8,7 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPClient CLIENT;
+        private readonly IMessageSender MESSAGE_SENDER;
 
         private readonly Func<T, bool> ON_MESSAGE;
         private readonly Action ON_TIMEOUT;
@@ -34,9 +34,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 09/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageResponseHelper(XMPPClient client, Func<T, bool> onMessage, Action onTimeout)
+        public MessageResponseHelper(IMessageSender messageSender, Func<T, bool> onMessage, Action onTimeout)
         {
-            this.CLIENT = client;
+            this.MESSAGE_SENDER = messageSender;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
             this.timeout = TimeSpan.FromSeconds(5);
@@ -71,11 +71,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
             if (ON_MESSAGE != null)
             {
-                CLIENT.NewValidMessage -= Client_NewValidMessage;
-                CLIENT.NewValidMessage += Client_NewValidMessage;
+                MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
+                MESSAGE_SENDER.NewValidMessage += Client_NewValidMessage;
             }
 
-            await CLIENT.sendMessageAsync(msg, false);
+            await MESSAGE_SENDER.sendAsync(msg);
 
             if (ON_TIMEOUT != null)
             {
@@ -90,7 +90,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void stopTimer()
         {
-            CLIENT.NewValidMessage -= Client_NewValidMessage;
+            MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
             timer?.Cancel();
             timer = null;
         }
@@ -108,7 +108,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Client_NewValidMessage(XMPPClient client, Events.NewValidMessageEventArgs args)
+        private void Client_NewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
         {
             if (args.MESSAGE is T)
             {

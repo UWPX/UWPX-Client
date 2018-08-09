@@ -154,7 +154,7 @@ namespace UWP_XMPP_Client.Controls
                     reason = dialog.Reason;
                 }
                 DirectMUCInvitationMessage msg = new DirectMUCInvitationMessage(Client.getXMPPAccount().getIdAndDomain(), dialog.UserJid, Chat.chatJabberId, MUCInfo.password, reason);
-                await Client.sendMessageAsync(msg, true);
+                await Client.sendAsync(msg, true);
             }
         }
 

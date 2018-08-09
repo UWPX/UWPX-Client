@@ -127,6 +127,7 @@
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewValidMessageEventHandler.cs" />
     <Compile Include="Classes\Network\MessageCarbonsState.cs" />
     <Compile Include="Classes\Network\OmemoHelper.cs" />
     <Compile Include="Classes\Network\OmemoHelperState.cs" />
@@ -153,6 +154,7 @@
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
+    <Compile Include="Classes\Network\XML\Messages\IMessageSender.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\IXElementable.cs" />

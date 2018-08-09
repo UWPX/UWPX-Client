@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using System.Threading;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
+using XMPP_API.Classes.Network.Events;
 
 namespace Data_Manager2.Classes
 {
@@ -352,8 +353,9 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void C_NewRoosterMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewValidMessageEventArgs args)
+        private void C_NewRoosterMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
+            XMPPClient client = sender as XMPPClient;
             if (args.MESSAGE is RosterMessage)
             {
                 RosterMessage msg = args.MESSAGE as RosterMessage;
@@ -545,7 +547,7 @@ namespace Data_Manager2.Classes
                 Task.Run(async () =>
                 {
                     DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getIdDomainAndResource(), from, msg.ID);
-                    await client.sendMessageAsync(receiptMessage, true);
+                    await client.sendAsync(receiptMessage, true);
                 });
             }
 

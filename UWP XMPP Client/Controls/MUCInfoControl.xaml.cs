@@ -205,7 +205,7 @@ namespace UWP_XMPP_Client.Controls
             string to = Chat.chatJabberId;
             string id = Chat.id;
             MUCRoomSubjectMessage msg = new MUCRoomSubjectMessage(from, to, subject_stbx.Text);
-            Task t = Client.sendMessageAsync(msg, true);
+            Task t = Client.sendAsync(msg, true);
             Task.Run(async () =>
             {
                 MUCDBManager.INSTANCE.setMUCSubject(id, msg.SUBJECT, false);

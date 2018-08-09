@@ -57,19 +57,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
         protected void stopListeningForMessages()
         {
-            XMPP_CONNECTION.ConnectionNewValidMessage -= XMPP_CONNECTION_ConnectionNewValidMessage;
+            XMPP_CONNECTION.NewValidMessage -= XMPP_CONNECTION_ConnectionNewValidMessage;
         }
 
         protected void startListeningForMessages()
         {
             stopListeningForMessages();
-            XMPP_CONNECTION.ConnectionNewValidMessage += XMPP_CONNECTION_ConnectionNewValidMessage;
+            XMPP_CONNECTION.NewValidMessage += XMPP_CONNECTION_ConnectionNewValidMessage;
         }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void XMPP_CONNECTION_ConnectionNewValidMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
+        private async void XMPP_CONNECTION_ConnectionNewValidMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
             await processMessageAsync(args);
         }

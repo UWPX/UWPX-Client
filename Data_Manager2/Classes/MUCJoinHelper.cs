@@ -55,7 +55,7 @@ namespace Data_Manager2.Classes
         public async Task requestReservedNicksAsync()
         {
             DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId);
-            await CLIENT.sendMessageAsync(msg, false);
+            await CLIENT.sendAsync(msg, false);
         }
 
         public async Task enterRoomAsync()
@@ -75,7 +75,7 @@ namespace Data_Manager2.Classes
             CLIENT.NewMUCMemberPresenceMessage += CLIENT_NewMUCMemberPresenceMessage;
 
             // Send message:
-            await CLIENT.sendMessageAsync(msg, false);
+            await CLIENT.sendAsync(msg, false);
             Logger.Info("Entering MUC room '" + MUC.chatJabberId + "' as '" + INFO.nickname + '\'');
         }
 

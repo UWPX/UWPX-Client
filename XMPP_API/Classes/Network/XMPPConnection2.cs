@@ -1,5 +1,4 @@
 ﻿using libsignal;
-using libsignal.state;
 using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
@@ -16,11 +15,10 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {
-    public class XMPPConnection2 : AbstractConnection2
+    public class XMPPConnection2 : AbstractConnection2, IMessageSender
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -40,13 +38,12 @@ namespace XMPP_API.Classes.Network
         private string streamId;
         private TSTimedList<string> messageIdCache;
 
-        public delegate void ConnectionNewValidMessageEventHandler(XMPPConnection2 connection, NewValidMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPConnection2 connection, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPConnection2 connection, NewBookmarksResultMessageEventArgs args);
 
-        public event ConnectionNewValidMessageEventHandler ConnectionNewValidMessage;
-        public event ConnectionNewValidMessageEventHandler ConnectionNewRoosterMessage;
-        public event ConnectionNewValidMessageEventHandler ConnectionNewPresenceMessage;
+        public event NewValidMessageEventHandler NewValidMessage;
+        public event NewValidMessageEventHandler NewRoosterMessage;
+        public event NewValidMessageEventHandler NewPresenceMessage;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event MessageSendEventHandler MessageSend;
 
@@ -190,6 +187,11 @@ namespace XMPP_API.Classes.Network
             {
                 MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
             }
+        }
+
+        public async Task sendAsync(AbstractMessage msg)
+        {
+            await sendAsync(msg, false, false);
         }
 
         /// <summary>
@@ -504,7 +506,7 @@ namespace XMPP_API.Classes.Network
                 }
 
                 // Invoke message processors:
-                ConnectionNewValidMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
+                NewValidMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
 
                 // Should restart connection?
                 if (msg.getRestartConnection() != AbstractMessage.NO_RESTART)
@@ -556,12 +558,12 @@ namespace XMPP_API.Classes.Network
                 // Rooster:
                 else if (msg is RosterMessage)
                 {
-                    ConnectionNewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
+                    NewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
                 // Presence:
                 else if (msg is PresenceMessage && (msg as PresenceMessage).getFrom() != null)
                 {
-                    ConnectionNewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
+                    NewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
                 // Bookmarks:
                 else if (msg is BookmarksResultMessage)

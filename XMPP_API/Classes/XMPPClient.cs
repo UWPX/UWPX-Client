@@ -16,7 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
 {
-    public class XMPPClient
+    public class XMPPClient : IMessageSender
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -32,7 +32,6 @@ namespace XMPP_API.Classes
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client, NewBookmarksResultMessageEventArgs args);
         public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
-        public delegate void NewValidMessageEventHandler(XMPPClient client, NewValidMessageEventArgs args);
         public delegate void NewDeliveryReceiptHandler(XMPPClient client, NewDeliveryReceiptEventArgs args);
 
         public event NewValidMessageEventHandler NewRoosterMessage;
@@ -121,10 +120,10 @@ namespace XMPP_API.Classes
                     case ConnectionState.CONNECTED:
                         throw new InvalidOperationException("Unable to set account, if the client is still connecting or connected! state = " + connection.state);
                 }
-                connection.ConnectionNewRoosterMessage -= Connection_ConnectionNewRoosterMessage;
+                connection.NewRoosterMessage -= Connection_ConnectionNewRoosterMessage;
                 connection.ConnectionStateChanged -= Connection_ConnectionStateChanged;
-                connection.ConnectionNewValidMessage -= Connection_ConnectionNewValidMessage;
-                connection.ConnectionNewPresenceMessage -= Connection_ConnectionNewPresenceMessage;
+                connection.NewValidMessage -= Connection_ConnectionNewValidMessage;
+                connection.NewPresenceMessage -= Connection_ConnectionNewPresenceMessage;
                 connection.MessageSend -= Connection_MessageSend;
                 connection.NewBookmarksResultMessage -= Connection_NewBookmarksResultMessage;
             }
@@ -165,7 +164,7 @@ namespace XMPP_API.Classes
             await connection.disconnectAsyncs();
         }
 
-        public async Task sendAsync(MessageMessage msg)
+        public async Task sendMessageAsync(MessageMessage msg)
         {
             if (msg is OmemoMessageMessage omemoMessageMessage)
             {
@@ -177,7 +176,12 @@ namespace XMPP_API.Classes
             }
         }
 
-        public async Task sendMessageAsync(AbstractMessage msg, bool cacheIfNotConnected)
+        public async Task sendAsync(AbstractMessage msg)
+        {
+            await sendAsync(msg, false);
+        }
+
+        public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
         {
             await connection.sendAsync(msg, cacheIfNotConnected, false);
         }
@@ -255,10 +259,10 @@ namespace XMPP_API.Classes
         private void initConnection(XMPPAccount account)
         {
             connection = new XMPPConnection2(account);
-            connection.ConnectionNewRoosterMessage += Connection_ConnectionNewRoosterMessage;
+            connection.NewRoosterMessage += Connection_ConnectionNewRoosterMessage;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
-            connection.ConnectionNewValidMessage += Connection_ConnectionNewValidMessage;
-            connection.ConnectionNewPresenceMessage += Connection_ConnectionNewPresenceMessage;
+            connection.NewValidMessage += Connection_ConnectionNewValidMessage;
+            connection.NewPresenceMessage += Connection_ConnectionNewPresenceMessage;
             connection.MessageSend += Connection_MessageSend;
             connection.NewBookmarksResultMessage += Connection_NewBookmarksResultMessage;
         }
@@ -355,7 +359,7 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Connection_ConnectionNewRoosterMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewRoosterMessage(IMessageSender connection, NewValidMessageEventArgs args)
         {
             NewRoosterMessage?.Invoke(this, args);
         }
@@ -386,7 +390,7 @@ namespace XMPP_API.Classes
             ConnectionStateChanged?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionNewValidMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewValidMessage(IMessageSender connection, NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.MESSAGE;
             if (msg is MessageMessage mMsg)
@@ -409,7 +413,7 @@ namespace XMPP_API.Classes
             NewValidMessage?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionNewPresenceMessage(XMPPConnection2 connection, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewPresenceMessage(IMessageSender connection, NewValidMessageEventArgs args)
         {
             // XEP-0045 (MUC member presence):
             if (args.MESSAGE is MUCMemberPresenceMessage)
