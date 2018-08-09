@@ -69,7 +69,8 @@ namespace UWP_XMPP_Client.Controls
         {
             generating_pgr.Visibility = Visibility.Visible;
             string text = QRCodeText;
-            bool darkTheme = UiUtils.isDarkThemeActive();
+
+            bool darkTheme = !(bool)defaultQRCode_ckbx.IsChecked;
             Task.Run(async () =>
             {
                 QRCodeData qRCodeData = QR_CODE_GENERATOR.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
@@ -112,7 +113,17 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void defaultQRCode_ckbx_Checked(object sender, RoutedEventArgs e)
+        {
+            updateQRCode();
+        }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            bool darkTheme = UiUtils.isDarkThemeActive();
+            defaultQRCode_ckbx.IsChecked = !darkTheme;
+            defaultQRCode_ckbx.IsEnabled = darkTheme;
+        }
 
         #endregion
     }
