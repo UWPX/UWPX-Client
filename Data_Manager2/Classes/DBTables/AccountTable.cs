@@ -36,9 +36,11 @@ namespace Data_Manager2.Classes.DBTables
         public Presence presence { get; set; }
         // The current status message for account e.g. 'My status'
         public string status { get; set; }
-        // The private key for XEP-0384 (OMEMO Encryption) 
+        // The private key for XEP-0384 (OMEMO Encryption)
         public byte[] omemoIdentityKeyPair { get; set; }
-        // The device id for XEP-0384 (OMEMO Encryption) 
+        // The id of the omemoSignedPreKey for XEP-0384 (OMEMO Encryption)
+        public uint omemoSignedPreKeyId { get; set; }
+        // The device id for XEP-0384 (OMEMO Encryption)
         public uint omemoDeviceId { get; set; }
         public bool omemoBundleInfoAnnounced { get; set; }
 
@@ -71,6 +73,7 @@ namespace Data_Manager2.Classes.DBTables
             this.omemoDeviceId = account.omemoDeviceId;
             this.omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
             this.omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
+            this.omemoSignedPreKeyId = account.omemoSignedPreKeyId;
         }
 
         internal XMPPAccount toXMPPAccount()
@@ -84,7 +87,8 @@ namespace Data_Manager2.Classes.DBTables
                 status = status,
                 omemoDeviceId = omemoDeviceId,
                 omemoIdentityKeyPair = omemoIdentityKeyPair == null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
-                omemoBundleInfoAnnounced = omemoBundleInfoAnnounced
+                omemoBundleInfoAnnounced = omemoBundleInfoAnnounced,
+                omemoSignedPreKeyId = omemoSignedPreKeyId
             };
         }
 

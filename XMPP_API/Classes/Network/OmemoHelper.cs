@@ -61,15 +61,16 @@ namespace XMPP_API.Classes.Network
         {
             if (STATE != newState)
             {
-                Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") " + STATE + " -> " + newState);
-                if (newState == OmemoHelperState.ERROR)
+                OmemoHelperState oldState = STATE;
+                STATE = newState;
+                Logger.Debug("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") " + oldState + " -> " + STATE);
+                if (STATE == OmemoHelperState.ERROR)
                 {
                     CONNECTION.NewValidMessage -= CONNECTION_ConnectionNewValidMessage;
-                    STATE = newState;
+
                 }
-                else if (STATE == OmemoHelperState.ERROR && newState != OmemoHelperState.ERROR)
+                else if (oldState == OmemoHelperState.ERROR && STATE != OmemoHelperState.ERROR)
                 {
-                    STATE = newState;
                     reset();
                 }
 
@@ -200,18 +201,18 @@ namespace XMPP_API.Classes.Network
 
         private bool announceBundleInfoMsg(AbstractMessage msg)
         {
-            if (msg is PubSubPublishResultMessage pubSubBundleResultMsg)
+            if (msg is IQErrorMessage errMsg)
+            {
+                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to announce OMEMO bundle info to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
+                setState(OmemoHelperState.ERROR);
+                return true;
+            }
+            else if (msg is IQMessage)
             {
                 Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Bundle info announced.");
                 CONNECTION.account.omemoBundleInfoAnnounced = true;
                 CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoBundleInfoAnnounced));
                 setState(OmemoHelperState.ENABLED);
-                return true;
-            }
-            else if (msg is IQErrorMessage errMsg)
-            {
-                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to announce OMEMO bundle info to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
-                setState(OmemoHelperState.ERROR);
                 return true;
             }
             return false;
@@ -266,7 +267,13 @@ namespace XMPP_API.Classes.Network
 
         private bool updateDevicesIfNeededMsg(AbstractMessage msg)
         {
-            if (msg is PubSubPublishResultMessage pubSubResultMsg)
+            if (msg is IQErrorMessage errMsg)
+            {
+                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to set OMEMO device list to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
+                setState(OmemoHelperState.ERROR);
+                return true;
+            }
+            else if (msg is IQMessage)
             {
                 Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Device list updated.");
                 if (CONNECTION.account.omemoDeviceId == 0)
@@ -282,12 +289,6 @@ namespace XMPP_API.Classes.Network
                 {
                     setState(OmemoHelperState.ENABLED);
                 }
-                return true;
-            }
-            else if (msg is IQErrorMessage errMsg)
-            {
-                Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed to set OMEMO device list to: " + CONNECTION.account.user.domain + "\n" + errMsg.ERROR_OBJ.ToString());
-                setState(OmemoHelperState.ERROR);
                 return true;
             }
             return false;
@@ -336,7 +337,7 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        private async void CONNECTION_ConnectionStateChanged(AbstractConnection2 connection, Events.ConnectionStateChangedEventArgs arg)
+        private void CONNECTION_ConnectionStateChanged(AbstractConnection2 connection, Events.ConnectionStateChangedEventArgs arg)
         {
             switch (arg.newState)
             {

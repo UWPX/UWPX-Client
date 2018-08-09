@@ -26,6 +26,7 @@ namespace XMPP_API.Classes.Network
         public readonly ConnectionInformation CONNECTION_INFO;
         // XEP-0384 (OMEMO Encryption):
         public IdentityKeyPair omemoIdentityKeyPair;
+        public uint omemoSignedPreKeyId;
         public SignedPreKeyRecord omemoSignedPreKeyPair;
         public IList<PreKeyRecord> omemoPreKeys;
         public uint omemoDeviceId;
@@ -116,7 +117,7 @@ namespace XMPP_API.Classes.Network
 
         public void loadSignedPreKey()
         {
-            omemoSignedPreKeyPair = SignalKeyDBManager.INSTANCE.getSignedPreKey(omemoDeviceId, getIdAndDomain());
+            omemoSignedPreKeyPair = SignalKeyDBManager.INSTANCE.getSignedPreKey(omemoSignedPreKeyId, getIdAndDomain());
         }
 
         public void savePreKeys()
@@ -155,7 +156,7 @@ namespace XMPP_API.Classes.Network
         {
             if(omemoSignedPreKeyPair != null)
             {
-                SignalKeyDBManager.INSTANCE.setSignedPreKey(omemoSignedPreKeyPair.getId(), omemoSignedPreKeyPair, getIdAndDomain());
+                SignalKeyDBManager.INSTANCE.setSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair, getIdAndDomain());
             }
         }
 
@@ -176,6 +177,7 @@ namespace XMPP_API.Classes.Network
             omemoIdentityKeyPair = OmemoUtils.generateIdentityKeyPair();
             omemoPreKeys = OmemoUtils.generatePreKeys();
             omemoSignedPreKeyPair = OmemoUtils.generateSignedPreKey(omemoIdentityKeyPair);
+            omemoSignedPreKeyId = omemoSignedPreKeyPair.getId();
         }
 
         public override bool Equals(object obj)

@@ -25,7 +25,7 @@
                            Text="Add an account:"/>
                 <controls:AccountControl x:Name="account_ac"
                                          Grid.Row="1"
-                                         Margin="10, 0, 10, 0"
+                                         Margin="10,0,10,0"
                                          AccountAccepted="account_ac_AccountAccepted"/>
             </Grid>
         </ScrollViewer>
@@ -67,6 +67,10 @@
                     <TextBlock Margin="10,0,0,0"
                                VerticalAlignment="Center"
                                Text="Accept"/>
+                    <ProgressRing x:Name="accept_pgr"
+                                  Margin="10,0,0,0"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
         </Grid>

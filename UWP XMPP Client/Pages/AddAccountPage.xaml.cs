@@ -47,18 +47,34 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private async Task acceptAsync()
         {
+            accept_pgr.Visibility = Visibility.Visible;
+            IsEnabled = false;
             if (await account_ac.isAccountVaildAsync())
             {
                 XMPPAccount account = account_ac.getAccount();
-                if (account != null)
+                Task t = Task.Run(async () =>
                 {
-                    AccountDBManager.INSTANCE.setAccount(account, true);
-                    moveOn();
-                }
-                else
-                {
-                    await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
-                }
+                    if (account != null)
+                    {
+                        account.generateOmemoKeys();
+                        AccountDBManager.INSTANCE.setAccount(account, true);
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, moveOn);
+                    }
+                    else
+                    {
+                        await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
+                        {
+                            await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
+                            accept_pgr.Visibility = Visibility.Collapsed;
+                            IsEnabled = true;
+                        });
+                    }
+                });
+            }
+            else
+            {
+                accept_pgr.Visibility = Visibility.Collapsed;
+                IsEnabled = true;
             }
         }
 
@@ -99,8 +115,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void AbstractBackRequestPage_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 return;
             }
