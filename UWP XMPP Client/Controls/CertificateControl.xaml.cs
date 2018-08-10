@@ -128,7 +128,7 @@ namespace UWP_XMPP_Client.Controls
             certDetails.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.SignatureHashAlgorithmName,
-                name = "Signature hash algorithmName"
+                name = "Signature hash algorithm name"
             });
         }
 
