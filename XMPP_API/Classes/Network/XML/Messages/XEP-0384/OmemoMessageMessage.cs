@@ -1,12 +1,10 @@
 ﻿using libsignal;
-using libsignal.groups;
 using libsignal.protocol;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Security.Cryptography;
 using System.Text;
 using System.Xml.Linq;
+using XMPP_API.Classes.Crypto;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -15,7 +13,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public uint SOURCE_DEVICE_ID { get; private set; }
-        public IList<uint> DEVICE_IDS { get; private set; }
+        public uint REMOTE_DEVICE_ID { get; private set; }
 
         public string BASE_64_KEY { get; private set; }
         public uint PRE_KEY_ID { get; private set; }
@@ -58,16 +56,33 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Sets ENCRYPTED to true.
         /// </summary>
         /// <param name="cipher">The SessionCipher for encrypting the content of MESSAGE.</param>
-        public void encrypt(SessionCipher cipher, uint sourceDeviceId, IList<uint> deviceIds)
+        public void encrypt(SessionCipher cipher, uint sourceDeviceId, uint remoteDeviceId)
         {
             SOURCE_DEVICE_ID = sourceDeviceId;
-            DEVICE_IDS = deviceIds;
-            BASE_64_IV = Convert.ToBase64String(BitConverter.GetBytes(cipher.getSessionVersion()));
-            //cipher.getSessionVersion
+            REMOTE_DEVICE_ID = remoteDeviceId;
 
-            byte[] encoded = Encoding.Unicode.GetBytes(MESSAGE);
-            CiphertextMessage ciphertextMessage = cipher.encrypt(encoded);
-            BASE_64_PAYLOAD = Convert.ToBase64String(ciphertextMessage.serialize());
+            // 1. Generate a new AES-128 GCM key/iv pair:
+            Aes128Gcm aes128Gcm = new Aes128Gcm()
+            {
+                data = Encoding.Unicode.GetBytes(MESSAGE)
+            };
+            aes128Gcm.generateKey();
+
+            // 2. Encrypt the message using this Aes128Gcm instance:
+            aes128Gcm.encrypt();
+            BASE_64_PAYLOAD = Convert.ToBase64String(aes128Gcm.encryptedData);
+
+            byte[] iv = aes128Gcm.cipherParameters.GetIV();
+            BASE_64_IV = Convert.ToBase64String(iv);
+
+            // 3. Concatenate the AES:
+            byte[] keyiv = new byte[iv.Length + aes128Gcm.key.Length];
+            Buffer.BlockCopy(aes128Gcm.key, 0, keyiv, 0, aes128Gcm.key.Length);
+            Buffer.BlockCopy(iv, 0, keyiv, aes128Gcm.key.Length, iv.Length);
+
+            // 4. Encrypt the key/iv pair with libsignal ??for each device??:
+            CiphertextMessage ciphertextMessage = cipher.encrypt(keyiv);
+            BASE_64_KEY = Convert.ToBase64String(ciphertextMessage.serialize());
             ENCRYPTED = true;
         }
 
@@ -104,19 +119,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 Value = BASE_64_KEY
             };
-            //keyNode.Add(new XAttribute("rid", KEY_RID));
+            keyNode.Add(new XAttribute("rid", REMOTE_DEVICE_ID));
             headerNode.Add(keyNode);
-            XElement preKeyNode = new XElement(ns + "key")
-            {
-                Value = BASE_64_PRE_KEY
-            };
-            preKeyNode.Add(new XAttribute("rid", PRE_KEY_ID));
-            preKeyNode.Add(new XAttribute("prekey", true));
-            headerNode.Add(preKeyNode);
             headerNode.Add(new XElement(ns + "iv")
             {
                 Value = BASE_64_IV
             });
+            encNode.Add(headerNode);
             msgNode.Add(encNode);
 
             return msgNode;

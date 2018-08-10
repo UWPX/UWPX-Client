@@ -4,6 +4,7 @@ using Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
@@ -156,9 +157,9 @@ namespace XMPP_API.Classes.Network
         public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
         {
             SessionCipher cipher = getSessionCipher(chatJid);
-            if(cipher != null)
+            if (cipher != null)
             {
-                //msg.encrypt(cipher);
+                msg.encrypt(cipher, CONNECTION.account.omemoDeviceId, cipher.getRemoteRegistrationId());
                 await CONNECTION.sendAsync(msg, true, false);
             }
             else
@@ -194,7 +195,7 @@ namespace XMPP_API.Classes.Network
             Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[chatJid];
             foreach (OmemoMessageMessage msg in cache.Item1)
             {
-                //msg.encrypt(cipher);
+                msg.encrypt(cipher, CONNECTION.account.omemoDeviceId, cipher.getRemoteRegistrationId());
                 await CONNECTION.sendAsync(msg, true, false);
             }
             cache.Item2.Dispose();
@@ -282,7 +283,7 @@ namespace XMPP_API.Classes.Network
             // Device id hasn't been set. Pick a random, unique one:
             if (CONNECTION.account.omemoDeviceId == 0)
             {
-                tmpDeviceId = OmemoUtils.generateDeviceId(devicesRemote.DEVICES);
+                tmpDeviceId = CryptoUtils.generateOmemoDeviceIds(devicesRemote.DEVICES);
                 devicesRemote.DEVICES.Add(tmpDeviceId);
                 updateDeviceList = true;
             }

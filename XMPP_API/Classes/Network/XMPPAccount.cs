@@ -5,9 +5,9 @@ using org.whispersystems.libsignal.fingerprint;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {
@@ -99,7 +99,7 @@ namespace XMPP_API.Classes.Network
         {
             if (omemoIdentityKeyPair != null)
             {
-                return OmemoUtils.getFingerprint(getIdAndDomain(), omemoIdentityKeyPair.getPublicKey());
+                return CryptoUtils.generateOmemoFingerprint(getIdAndDomain(), omemoIdentityKeyPair.getPublicKey());
             }
             return null;
         }
@@ -171,9 +171,9 @@ namespace XMPP_API.Classes.Network
         {
             omemoDeviceId = 0;
             omemoBundleInfoAnnounced = false;
-            omemoIdentityKeyPair = OmemoUtils.generateIdentityKeyPair();
-            omemoPreKeys = OmemoUtils.generatePreKeys();
-            omemoSignedPreKeyPair = OmemoUtils.generateSignedPreKey(omemoIdentityKeyPair);
+            omemoIdentityKeyPair = CryptoUtils.generateOmemoIdentityKeyPair();
+            omemoPreKeys = CryptoUtils.generateOmemoPreKeys();
+            omemoSignedPreKeyPair = CryptoUtils.generateOmemoSignedPreKey(omemoIdentityKeyPair);
             omemoSignedPreKeyId = omemoSignedPreKeyPair.getId();
         }
 

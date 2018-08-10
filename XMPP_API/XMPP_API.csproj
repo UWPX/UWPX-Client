@@ -107,6 +107,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
+    <Compile Include="Classes\Crypto\Aes128Gcm.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
@@ -150,7 +151,7 @@
     <Compile Include="Classes\Network\XML\MessageParserStats.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\CryptoUtils.cs" />
+    <Compile Include="Classes\Crypto\CryptoUtils.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
@@ -241,19 +242,18 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoMessageMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoIdentityKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoPreKeyStore.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSessionStore.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSignedPreKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelperState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildResult.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSessionStore.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoUtils.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSignedPreKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\AddBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\BookmarksResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\ConferenceItem.cs" />
@@ -308,6 +308,9 @@
     <EmbeddedResource Include="Properties\XMPP_API.rd.xml" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="BouncyCastle.NetCore">
+      <Version>1.8.2</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.5</Version>
     </PackageReference>

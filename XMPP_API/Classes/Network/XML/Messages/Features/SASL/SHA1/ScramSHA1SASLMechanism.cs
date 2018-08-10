@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Text;
 using Windows.Security.Cryptography;
+using XMPP_API.Classes.Crypto;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
 {

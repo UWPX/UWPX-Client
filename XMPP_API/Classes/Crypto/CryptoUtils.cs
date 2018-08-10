@@ -1,17 +1,22 @@
-﻿using System;
+﻿using libsignal;
+using libsignal.state;
+using libsignal.util;
+using org.whispersystems.libsignal.fingerprint;
+using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
 
-namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
+namespace XMPP_API.Classes.Crypto
 {
     public class CryptoUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private static readonly NumericFingerprintGenerator FINGERPRINT_GENERATOR = new NumericFingerprintGenerator(5200);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -81,6 +86,46 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
             }
 
             return new string(output);
+        }
+
+        public static SignedPreKeyRecord generateOmemoSignedPreKey(IdentityKeyPair identityKeyPair)
+        {
+            return KeyHelper.generateSignedPreKey(identityKeyPair, 5);
+        }
+
+        public static IdentityKeyPair generateOmemoIdentityKeyPair()
+        {
+            return KeyHelper.generateIdentityKeyPair();
+        }
+
+        public static IList<PreKeyRecord> generateOmemoPreKeys()
+        {
+            return KeyHelper.generatePreKeys(0, 100);
+        }
+
+        public static uint generateOmemoDeviceId()
+        {
+            return KeyHelper.generateRegistrationId(false);
+        }
+
+        public static uint generateOmemoDeviceIds(IList<uint> usedDeviceIds)
+        {
+            // Try 10 times to get a random, unique device id:
+            uint id;
+            for (int i = 0; i < 10; i++)
+            {
+                id = generateOmemoDeviceId();
+                if (!usedDeviceIds.Contains(id))
+                {
+                    return id;
+                }
+            }
+            throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ".Count = " + usedDeviceIds.Count);
+        }
+
+        public static Fingerprint generateOmemoFingerprint(string accountId, IdentityKey key)
+        {
+            return FINGERPRINT_GENERATOR.createFor(accountId, key, accountId, key);
         }
 
         #endregion
