@@ -15,6 +15,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network
 {
@@ -179,19 +180,9 @@ namespace XMPP_API.Classes.Network
             await internalDisconnectAsync();
         }
 
-        public async Task sendOmemoEncrypted(OmemoMessageMessage msg)
+        public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
         {
-            Tuple<SignalProtocolAddress, SessionBuilder> session = OMEMO_HELPER.getSession(msg.getBareChatJid());
-            if (session != null)
-            {
-                SessionCipher cipher = OMEMO_HELPER.getSessionCipher(session.Item1);
-                msg.encrypt(cipher);
-                await sendAsync(msg, true, false);
-            }
-            else
-            {
-                MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
-            }
+            await OMEMO_HELPER.sendOmemoMessageAsync(msg, chatJid, accountJid);
         }
 
         public async Task sendAsync(AbstractMessage msg)

@@ -1,4 +1,5 @@
-﻿using Windows.Security.Cryptography.Certificates;
+﻿using System;
+using Windows.Security.Cryptography.Certificates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network;
@@ -225,21 +226,24 @@ namespace UWP_XMPP_Client.Dialogs
             Hide();
         }
 
-        private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (ConnectionInfo != null)
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                switch (e.PropertyName)
+                if (ConnectionInfo != null)
                 {
-                    case nameof(ConnectionInfo.msgCarbonsState):
-                        showMsgCarbonsState();
-                        break;
+                    switch (e.PropertyName)
+                    {
+                        case "msgCarbonsState":
+                            showMsgCarbonsState();
+                            break;
 
-                    case nameof(ConnectionInfo.tlsConnected):
-                        showTlsConnected();
-                        break;
+                        case "tlsConnected":
+                            showTlsConnected();
+                            break;
+                    }
                 }
-            }
+            });
         }
 
         #endregion

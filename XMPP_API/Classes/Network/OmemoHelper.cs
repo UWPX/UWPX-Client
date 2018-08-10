@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network
 {
@@ -27,6 +27,7 @@ namespace XMPP_API.Classes.Network
 
         // Keep sessions during App runtime:
         private readonly Dictionary<string, Tuple<SignalProtocolAddress, SessionBuilder>> SESSIONS_BUILDER;
+        private readonly Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>> MESSAGE_CACHE;
         private readonly SessionStore SESSION_STORE;
         private readonly PreKeyStore PRE_KEY_STORE;
         private readonly SignedPreKeyStore SIGNED_PRE_KEY_STORE;
@@ -46,6 +47,7 @@ namespace XMPP_API.Classes.Network
             this.CONNECTION = connection;
 
             this.SESSIONS_BUILDER = new Dictionary<string, Tuple<SignalProtocolAddress, SessionBuilder>>();
+            this.MESSAGE_CACHE = new Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>>();
             this.SESSION_STORE = new OmemoSessionStore(connection.account);
             this.PRE_KEY_STORE = new OmemoPreKeyStore(connection.account);
             this.SIGNED_PRE_KEY_STORE = new OmemoSignedPreKeyStore(connection.account);
@@ -81,20 +83,20 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public Tuple<SignalProtocolAddress, SessionBuilder> getSession(string name)
+        public Tuple<SignalProtocolAddress, SessionBuilder> getSession(string chatJid)
         {
-            if (SESSIONS_BUILDER.ContainsKey(name))
+            if (SESSIONS_BUILDER.ContainsKey(chatJid))
             {
-                return SESSIONS_BUILDER[name];
+                return SESSIONS_BUILDER[chatJid];
             }
             return null;
         }
 
-        public SessionCipher getSessionCipher(SignalProtocolAddress remoteAddress)
+        public SessionCipher getSessionCipher(string chatJid)
         {
-            if (SESSIONS_BUILDER.ContainsKey(remoteAddress.getName()))
+            if (SESSIONS_BUILDER.ContainsKey(chatJid))
             {
-                return new SessionCipher(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, remoteAddress);
+                return new SessionCipher(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, SESSIONS_BUILDER[chatJid].Item1);
             }
             return null;
         }
@@ -137,18 +139,69 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public SessionBuilder newSession(string chatJid, uint recipientDeviceId, PreKeyBundle recipientPreKey)
+        public Tuple<SignalProtocolAddress, SessionBuilder> newSession(string chatJid, OmemoBundleInformationResultMessage bundleInfoMsg)
+        {
+            return newSession(chatJid, bundleInfoMsg.DEVICE_ID, bundleInfoMsg.BUNDLE_INFO.getRandomPreKey(bundleInfoMsg.DEVICE_ID));
+        }
+
+        public Tuple<SignalProtocolAddress, SessionBuilder> newSession(string chatJid, uint recipientDeviceId, PreKeyBundle recipientPreKey)
         {
             SignalProtocolAddress address = new SignalProtocolAddress(chatJid, recipientDeviceId);
             SessionBuilder builder = new SessionBuilder(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, address);
             builder.process(recipientPreKey);
             SESSIONS_BUILDER[chatJid] = new Tuple<SignalProtocolAddress, SessionBuilder>(address, builder);
-            return builder;
+            return SESSIONS_BUILDER[chatJid];
+        }
+
+        public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
+        {
+            SessionCipher cipher = getSessionCipher(chatJid);
+            if(cipher != null)
+            {
+                //msg.encrypt(cipher);
+                await CONNECTION.sendAsync(msg, true, false);
+            }
+            else
+            {
+                if (!MESSAGE_CACHE.ContainsKey(chatJid))
+                {
+                    OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(chatJid, accountJid, onSessionBuilderResult, CONNECTION, this);
+                    sessionHelper.start();
+                    MESSAGE_CACHE[chatJid] = new Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>(new List<OmemoMessageMessage>(), sessionHelper);
+                }
+                MESSAGE_CACHE[chatJid].Item1.Add(msg);
+            }
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void onSessionBuilderResult(OmemoSessionBuildResult result)
+        {
+            if (result.SUCCESS)
+            {
+                Task.Run(() => sendAllOutstandingMessagesAsync(result.SESSION.Item1.getName()));
+            }
+            else
+            {
+                // ToDo: Error handling - show message
+            }
+        }
+
+        private async Task sendAllOutstandingMessagesAsync(string chatJid)
+        {
+            SessionCipher cipher = getSessionCipher(chatJid);
+            Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[chatJid];
+            foreach (OmemoMessageMessage msg in cache.Item1)
+            {
+                //msg.encrypt(cipher);
+                await CONNECTION.sendAsync(msg, true, false);
+            }
+            cache.Item2.Dispose();
+            MESSAGE_CACHE.Remove(chatJid);
+            Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + chatJid);
+        }
+
         private void requestDeviceList()
         {
             setState(OmemoHelperState.REQUESTING_DEVICE_LIST);

@@ -1,13 +1,15 @@
-﻿using System.Xml;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
+﻿using libsignal;
+using System;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 {
-    public class OmemoDeviceListResultMessage : AbstractPubSubResultMessage
+    public class OmemoSessionBuildResult
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public OmemoDevices DEVICES { get; set; }
+        public readonly bool SUCCESS;
+        public readonly OmemoSessionBuildError ERROR;
+        public readonly Tuple<SignalProtocolAddress, SessionBuilder> SESSION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,10 +18,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/08/2018 Created [Fabian Sauter]
+        /// 10/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoDeviceListResultMessage(XmlNode node) : base(node)
+        internal OmemoSessionBuildResult(Tuple<SignalProtocolAddress, SessionBuilder> session)
         {
+            this.SESSION = session;
+            this.SUCCESS = true;
+        }
+
+        internal OmemoSessionBuildResult(OmemoSessionBuildError error)
+        {
+            this.ERROR = error;
+            this.SUCCESS = false;
         }
 
         #endregion
@@ -40,18 +50,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void loadContent(XmlNodeList content)
-        {
-            DEVICES = new OmemoDevices();
-            foreach (XmlNode n in content)
-            {
-                if (string.Equals(n.Name, "items") && string.Equals(n.Attributes["node"]?.Value, Consts.XML_XEP_0384_DEVICE_LIST_NODE))
-                {
-                    DEVICES.loadDevices(n);
-                    return;
-                }
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

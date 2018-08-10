@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using libsignal;
+using Logging;
 using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
@@ -13,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes
 {
@@ -169,16 +171,14 @@ namespace XMPP_API.Classes
             await connection.disconnectAsyncs();
         }
 
+        public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
+        {
+            await connection.sendOmemoMessageAsync(msg, chatJid, accountJid);
+        }
+
         public async Task sendMessageAsync(MessageMessage msg)
         {
-            if (msg is OmemoMessageMessage omemoMessageMessage)
-            {
-                await connection.sendOmemoEncrypted(omemoMessageMessage);
-            }
-            else
-            {
-                await connection.sendAsync(msg, true, false);
-            }
+            await connection.sendAsync(msg, true, false);
         }
 
         public async Task sendAsync(AbstractMessage msg)

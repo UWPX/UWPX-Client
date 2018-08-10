@@ -244,6 +244,10 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoIdentityKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoPreKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildError.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelperState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildResult.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSessionStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />

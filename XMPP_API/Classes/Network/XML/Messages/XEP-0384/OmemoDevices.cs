@@ -43,6 +43,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return listNode;
         }
 
+        public uint getRandomDeviceId()
+        {
+            if (DEVICES.Count <= 0)
+            {
+                throw new InvalidOperationException("Failed to get random device id! Device count = " + DEVICES.Count);
+            }
+            Random r = new Random();
+            return DEVICES[r.Next(0, DEVICES.Count)];
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -52,7 +62,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 if (string.Equals(itemNode.Name, "item"))
                 {
-                    XmlNode listNode = XMLUtils.getChildNode(itemNode, "list", Consts.XML_XMLNS, Consts.XML_XEP_0384_DEVICE_LIST_NODE);
+                    XmlNode listNode = XMLUtils.getChildNode(itemNode, "list", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
                     if (listNode != null)
                     {
                         foreach (XmlNode device in listNode.ChildNodes)

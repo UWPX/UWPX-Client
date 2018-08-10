@@ -1,4 +1,5 @@
 ﻿using libsignal;
+using libsignal.ecc;
 using libsignal.state;
 using org.whispersystems.libsignal.fingerprint;
 using System;
@@ -86,16 +87,12 @@ namespace XMPP_API.Classes.Network
 
         public OmemoBundleInformation getOmemoBundleInformation()
         {
-            string bas64IdentKeyPair = Convert.ToBase64String(omemoIdentityKeyPair.getPublicKey().serialize());
-            string bas64SignedPreKey = Convert.ToBase64String(omemoSignedPreKeyPair.getKeyPair().getPublicKey().serialize());
-            string bas64SignedPreKeySig = Convert.ToBase64String(omemoSignedPreKeyPair.getSignature());
-            List<Tuple<uint, string>> base64PreKeys = new List<Tuple<uint, string>>();
+            List<Tuple<uint, ECPublicKey>> pubPreKeys = new List<Tuple<uint, ECPublicKey>>();
             foreach (PreKeyRecord key in omemoPreKeys)
             {
-                base64PreKeys.Add(new Tuple<uint, string>(key.getId(), Convert.ToBase64String(key.serialize())));
+                pubPreKeys.Add(new Tuple<uint, ECPublicKey>(key.getId(), key.getKeyPair().getPublicKey()));
             }
-
-            return new OmemoBundleInformation(bas64IdentKeyPair, bas64SignedPreKey, bas64SignedPreKeySig, base64PreKeys);
+            return new OmemoBundleInformation(omemoIdentityKeyPair.getPublicKey(), omemoSignedPreKeyPair.getKeyPair().getPublicKey(), omemoSignedPreKeyId, omemoSignedPreKeyPair.getSignature(), pubPreKeys);
         }
 
         public Fingerprint getOmemoFingerprint()
@@ -134,7 +131,7 @@ namespace XMPP_API.Classes.Network
 
         public void deleteAccountSignedPreKey()
         {
-            if(omemoSignedPreKeyPair != null)
+            if (omemoSignedPreKeyPair != null)
             {
                 SignalKeyDBManager.INSTANCE.deleteSignedPreKey(omemoSignedPreKeyPair.getId(), getIdAndDomain());
             }
@@ -154,7 +151,7 @@ namespace XMPP_API.Classes.Network
 
         public void saveSignedPreKey()
         {
-            if(omemoSignedPreKeyPair != null)
+            if (omemoSignedPreKeyPair != null)
             {
                 SignalKeyDBManager.INSTANCE.setSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair, getIdAndDomain());
             }

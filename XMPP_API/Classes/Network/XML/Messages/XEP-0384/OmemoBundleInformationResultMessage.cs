@@ -8,6 +8,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public OmemoBundleInformation BUNDLE_INFO { get; private set; }
+        public uint DEVICE_ID { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -47,6 +48,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 if (string.Equals(n.Name, "items") && n.Attributes["node"] != null && n.Attributes["node"].Value.StartsWith(Consts.XML_XEP_0384_BUNDLE_INFO_NODE))
                 {
+                    uint.TryParse(n.Attributes["node"].Value.Replace(Consts.XML_XEP_0384_BUNDLE_INFO_NODE, ""), out uint deviceId);
+                    DEVICE_ID = deviceId;
                     BUNDLE_INFO.loadBundleInformation(n);
                     return;
                 }

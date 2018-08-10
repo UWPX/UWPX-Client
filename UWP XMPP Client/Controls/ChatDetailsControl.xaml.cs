@@ -382,8 +382,14 @@ namespace UWP_XMPP_Client.Controls
                         ChatDBManager.INSTANCE.setChatMessage(sendMessageTable, true, false);
                         ChatDBManager.INSTANCE.setChat(chatCpy, false, true);
                     });
-
-                    Task t = Client.sendMessageAsync(sendMessage);
+                    if (sendMessage is OmemoMessageMessage omemoMsg)
+                    {
+                        Task t = Client.sendOmemoMessageAsync(omemoMsg, Chat.chatJabberId, Client.getXMPPAccount().getIdAndDomain());
+                    }
+                    else
+                    {
+                        Task t = Client.sendMessageAsync(sendMessage);
+                    }
                 }
 
                 message_tbx.Text = "";
