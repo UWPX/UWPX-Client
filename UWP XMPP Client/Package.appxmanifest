@@ -34,5 +34,6 @@
     <Capability Name="internetClient" />
     <Capability Name="privateNetworkClientServer" />
     <uap:Capability Name="picturesLibrary" />
+    <DeviceCapability Name="webcam" />
   </Capabilities>
 </Package>

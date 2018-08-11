@@ -21,6 +21,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.UI.Xaml.Controls.Primitives;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using UWP_XMPP_Client.Dialogs;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -612,11 +613,13 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private void test_bnt_Click(object sender, RoutedEventArgs e)
+        private async void test_bnt_Click(object sender, RoutedEventArgs e)
         {
             //await Client.requestVCardAsync(Chat.chatJabberId);
             //Client.OMEMO_COMMAND_HELPER.requestDeviceList(Chat.chatJabberId, null, null);
-            Client.OMEMO_COMMAND_HELPER.requestBundleInformation(Chat.chatJabberId, 2005576180, null, null);
+            // Client.OMEMO_COMMAND_HELPER.requestBundleInformation(Chat.chatJabberId, 2005576180, null, null);
+            ReadQRCodeDialog dialog = new ReadQRCodeDialog();
+            await UiUtils.showDialogAsyncQueue(dialog);
         }
 
         private void message_tbx_GotFocus(object sender, RoutedEventArgs e)
