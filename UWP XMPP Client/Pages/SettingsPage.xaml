@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     xmlns:controls1="using:UWP_XMPP_Client.Controls"
+    xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -56,6 +57,7 @@
                   ItemClick="AdaptiveGridView_ItemClick"
                   Margin="0, 10, 0, 10"
                   ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                  ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+                  ScrollViewer.VerticalScrollBarVisibility="Hidden"
+                  animations:ReorderGridAnimation.Duration="800"/>
     </Grid>
 </Page>
