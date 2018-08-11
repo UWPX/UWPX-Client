@@ -3,7 +3,6 @@ using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using Windows.Storage.Streams;
-using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -74,11 +73,11 @@ namespace UWP_XMPP_Client.Controls
             Task.Run(async () =>
             {
                 QRCodeData qRCodeData = QR_CODE_GENERATOR.CreateQrCode(text, QRCodeGenerator.ECCLevel.Q);
-                BitmapByteQRCode qRCode = new BitmapByteQRCode(qRCodeData);
+                PngByteQRCode qRCode = new PngByteQRCode(qRCodeData);
                 byte[] qRCodeGraphic;
                 if (darkTheme)
                 {
-                    qRCodeGraphic = qRCode.GetGraphic(10, new byte[] { Colors.White.R, Colors.White.G, Colors.White.B }, new byte[] { Colors.Black.R, Colors.Black.G, Colors.Black.B });
+                    qRCodeGraphic = qRCode.GetGraphic(10, new byte[] { 0x00, 0x00, 0x00 }, new byte[] { 0xFF, 0xFF, 0xFF });
                 }
                 else
                 {
@@ -87,17 +86,15 @@ namespace UWP_XMPP_Client.Controls
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, async () =>
                 {
-                    QRCodeBitmap = new BitmapImage();
-                    using (var stream = new InMemoryRandomAccessStream())
+
+                    using (InMemoryRandomAccessStream stream = new InMemoryRandomAccessStream())
                     {
-                        using (var writer = new DataWriter(stream))
+                        using (DataWriter writer = new DataWriter(stream.GetOutputStreamAt(0)))
                         {
                             writer.WriteBytes(qRCodeGraphic);
                             await writer.StoreAsync();
-                            await writer.FlushAsync();
-                            writer.DetachStream();
                         }
-                        stream.Seek(0);
+                        QRCodeBitmap = new BitmapImage();
                         await QRCodeBitmap.SetSourceAsync(stream);
                     }
                     generating_pgr.Visibility = Visibility.Collapsed;
