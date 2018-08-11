@@ -128,26 +128,35 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock x:Name="state_tbx"
+                    <TextBlock x:Name="encrypted_tbx"
+                               Grid.Column="0"
+                               Margin="0,2,5,0"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="10"
+                               FontWeight="Bold"
+                               Text="&#xE72E;"
+                               Visibility="{x:Bind ChatMessage.isEncrypted, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
+                    <TextBlock x:Name="carbonCopy_tbx"
                                Grid.Column="1"
+                               Margin="0,2,5,0"
+                               FontFamily="Segoe MDL2 Assets"
+                               FontSize="10"
+                               FontWeight="Bold"
+                               Text="&#xE8C8;"
+                               Visibility="{x:Bind ChatMessage.isCC, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
+                    <TextBlock x:Name="state_tbx"
+                               Grid.Column="2"
                                FontFamily="Segoe MDL2 Assets"
                                Text="&#xE725;"/>
                     <TextBlock x:Name="stateCheck_tbx"
-                               Grid.Column="1"
+                               Grid.Column="3"
                                Margin="4,-5,0,0"
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="10"
                                FontWeight="Bold"
                                Text="&#xE73E;"/>
-                    <TextBlock x:Name="carbonCopy_tbx"
-                               Grid.Column="0"
-                               Margin="0, 2, 5, 0"
-                               FontFamily="Segoe MDL2 Assets"
-                               FontSize="10"
-                               FontWeight="Bold"
-                               Visibility="{x:Bind ChatMessage.isCC, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"
-                               Text="&#xE8C8;"/>
                 </Grid>
             </Grid>
         </StackPanel>

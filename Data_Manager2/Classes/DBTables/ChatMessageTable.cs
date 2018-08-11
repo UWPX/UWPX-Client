@@ -3,6 +3,7 @@ using System;
 using System.Text.RegularExpressions;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -30,6 +31,8 @@ namespace Data_Manager2.Classes.DBTables
         public bool isImage { get; set; }
         // Whether the received message is a carbon copy (XEP-0280)
         public bool isCC { get; set; }
+        // Whether the message got received or send encrypted
+        public bool isEncrypted { get; set; }
 
         // Defines if the message is a dummy message like for the personalize settings page chat preview
         [Ignore]
@@ -80,7 +83,7 @@ namespace Data_Manager2.Classes.DBTables
             {
                 this.date = DateTime.Now;
             }
-            if(msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT)
+            if (msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT)
             {
                 this.state = MessageState.SEND;
             }
@@ -90,6 +93,7 @@ namespace Data_Manager2.Classes.DBTables
             }
             this.isImage = isMessageAnImageUrl(msg.MESSAGE);
             this.isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
+            this.isEncrypted = msg is OmemoMessageMessage;
         }
 
         #endregion
