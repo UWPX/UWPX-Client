@@ -77,7 +77,7 @@ namespace UWP_XMPP_Client.Controls
                 byte[] qRCodeGraphic;
                 if (darkTheme)
                 {
-                    qRCodeGraphic = qRCode.GetGraphic(10, new byte[] { 0x00, 0x00, 0x00 }, new byte[] { 0xFF, 0xFF, 0xFF });
+                    qRCodeGraphic = qRCode.GetGraphic(10, new byte[] { 0xFF, 0xFF, 0xFF }, new byte[] { 0x00, 0x00, 0x00 });
                 }
                 else
                 {
