@@ -48,7 +48,7 @@ namespace Thread_Save_Components.Classes.SQLite
 
         public int InsertOrReplace(object obj)
         {
-            return dB.InsertOrReplace(obj); ;
+            return dB.InsertOrReplace(obj);
         }
 
         public int InsertAll(IEnumerable<object> objects, bool runInTransaction = true)

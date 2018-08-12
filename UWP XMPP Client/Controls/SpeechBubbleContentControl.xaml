@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:extensions="using:UWP_XMPP_Client.Controls.Extensions"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -93,8 +94,10 @@
                 </Grid>
             </Grid>
             <TextBlock x:Name="message_tbx"
+                       HorizontalAlignment="Center"
                        IsTextSelectionEnabled="True"
-                       TextWrapping="Wrap"/>
+                       TextWrapping="Wrap"
+                       extensions:TextBlockChatTextFormatExtension.FormattedText="{x:Bind Message, Mode=OneWay}"/>
             <Grid Margin="0,5,0,0"
                   HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>

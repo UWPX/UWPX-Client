@@ -37,7 +37,14 @@ namespace UWP_XMPP_Client.Controls
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(SpeechBubbleTopControl), null);
-
+        
+        public string Message
+        {
+            get { return (string)GetValue(MessageProperty); }
+            set { SetValue(MessageProperty, value); }
+        }
+        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message), typeof(string), typeof(SpeechBubbleTopControl), new PropertyMetadata(""));
+        
         private string imgPath;
 
         #endregion
@@ -111,7 +118,7 @@ namespace UWP_XMPP_Client.Controls
                             imageLoading_grid.Visibility = Visibility.Collapsed;
                             image_img.Visibility = Visibility.Collapsed;
                             imageError_grid.Visibility = Visibility.Visible;
-                            message_tbx.Text = "Unable to get local image path.\nPlease tap to redownload!";
+                            Message = "Unable to get local image path.\nPlease tap to redownload!";
                             message_tbx.Visibility = Visibility.Visible;
                         }
                     }
@@ -119,7 +126,7 @@ namespace UWP_XMPP_Client.Controls
                 else
                 {
                     image_img.Visibility = Visibility.Collapsed;
-                    message_tbx.Text = ChatMessage.message ?? "";
+                    Message = ChatMessage.message ?? "";
                     message_tbx.Visibility = Visibility.Visible;
                 }
                 switch (ChatMessage.state)
@@ -175,7 +182,7 @@ namespace UWP_XMPP_Client.Controls
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;
                     imageLoading_grid.Visibility = Visibility.Collapsed;
                     imageError_grid.Visibility = Visibility.Visible;
-                    message_tbx.Text = "Image not found!";
+                    Message = "Image not found!";
                     message_tbx.Visibility = Visibility.Visible;
                     redownloadImage_mfo.IsEnabled = true;
                     return;
@@ -207,7 +214,7 @@ namespace UWP_XMPP_Client.Controls
                     imageLoading_grid.Visibility = Visibility.Collapsed;
                     imageError_grid.Visibility = Visibility.Visible;
                     image_img.Source = null;
-                    message_tbx.Text = string.IsNullOrWhiteSpace(img.errorMessage) ? "No error message given!" : img.errorMessage;
+                    Message = string.IsNullOrWhiteSpace(img.errorMessage) ? "No error message given!" : img.errorMessage;
                     message_tbx.Visibility = Visibility.Visible;
                     redownloadImage_mfo.IsEnabled = true;
                     break;
@@ -265,7 +272,7 @@ namespace UWP_XMPP_Client.Controls
             imageLoading_grid.Visibility = Visibility.Collapsed;
             image_img.Visibility = Visibility.Collapsed;
             imageError_grid.Visibility = Visibility.Visible;
-            message_tbx.Text = e.ErrorMessage;
+            Message = e.ErrorMessage;
             message_tbx.Visibility = Visibility.Visible;
         }
 
