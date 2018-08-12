@@ -418,6 +418,11 @@ namespace XMPP_API.Classes.Network.XML
                     messages.Add(new MessageMessage(n, ccType));
                 }
             }
+            // XEP-0384 (OMEMO Encryption):
+            else if (XMLUtils.getChildNode(n, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE) != null)
+            {
+                messages.Add(new OmemoMessageMessage(n, ccType));
+            }
             // XEP-0184 (Message Delivery Receipts):
             else if (XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE) != null)
             {

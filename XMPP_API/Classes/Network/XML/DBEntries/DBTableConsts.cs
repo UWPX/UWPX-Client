@@ -7,5 +7,6 @@
         public const string PRE_KEY_TABLE = "PreKeyTable";
         public const string IDENTITY_KEY_TABLE = "IdentityKeyTable";
         public const string SESSION_STORE_TABLE = "SessionStoreTable";
+        public const string OMEMO_DEVICE_TABLE = "OmemoDeviceTable";
     }
 }

@@ -1,5 +1,4 @@
-﻿using libsignal;
-using Logging;
+﻿using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using System.Collections.Generic;
@@ -15,7 +14,6 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network
 {
@@ -24,7 +22,7 @@ namespace XMPP_API.Classes.Network
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly TCPConnection2 TCP_CONNECTION;
-        private readonly OmemoHelper OMEMO_HELPER;
+        public readonly OmemoHelper OMEMO_HELPER;
 
         public ConnectionError lastConnectionError;
         private int connectionErrorCount;
@@ -565,6 +563,10 @@ namespace XMPP_API.Classes.Network
                 else if (msg is BookmarksResultMessage)
                 {
                     NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(msg as BookmarksResultMessage));
+                }
+                else if (msg is OmemoDeviceListEventMessage deviceListEvent)
+                {
+                    OMEMO_HELPER.onOmemoDeviceListEventMessage(deviceListEvent);
                 }
             }
         }

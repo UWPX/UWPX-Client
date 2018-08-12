@@ -1,17 +1,15 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Linq;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class PubSubSubscriptionMessage : PubSubMessage
+    public class OmemoKey : IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE_NAME;
-        public readonly string JID;
-        public readonly string SUBID;
-        public readonly PubSubSubscription SUBSCRIPTION;
+        public readonly uint REMOTE_DEVICE_ID;
+        public readonly bool IS_PRE_KEY;
+        public readonly string BASE_64_KEY;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,21 +18,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/07/2018 Created [Fabian Sauter]
+        /// 12/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubSubscriptionMessage(XmlNode n) : base(n)
+        public OmemoKey(uint remoteDeviceId, bool isPreKey, string base64Key)
         {
-            XmlNode subNode = XMLUtils.getChildNode(n, "subscription");
-            if (subNode != null)
-            {
-                this.NODE_NAME = subNode.Attributes["node"]?.Value;
-                this.JID = subNode.Attributes["jid"]?.Value;
-                this.SUBID = subNode.Attributes["subid"]?.Value;
-                if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
-                {
-                    this.SUBSCRIPTION = PubSubSubscription.NONE;
-                }
-            }
+            this.REMOTE_DEVICE_ID = remoteDeviceId;
+            this.IS_PRE_KEY = isPreKey;
+            this.BASE_64_KEY = base64Key;
+        }
+
+        public OmemoKey(XmlNode node)
+        {
+            BASE_64_KEY = node.InnerText;
+            XmlAttribute isPreKeyAtt = node.Attributes["prekey"];
+            IS_PRE_KEY = isPreKeyAtt != null && XMLUtils.tryParseToBool(isPreKeyAtt.Value);
+            uint.TryParse(node.Attributes["rid"].Value, out uint rid);
+            REMOTE_DEVICE_ID = rid;
         }
 
         #endregion
@@ -45,7 +44,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public XElement toXElement(XNamespace ns)
+        {
+            XElement keyNode = new XElement(ns + "key")
+            {
+                Value = BASE_64_KEY
+            };
+            keyNode.Add(new XAttribute("rid", REMOTE_DEVICE_ID));
+            if (IS_PRE_KEY)
+            {
+                keyNode.Add(new XAttribute("prekey", true));
+            }
 
+            return keyNode;
+        }
 
         #endregion
 
@@ -55,10 +67,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void addContent(XElement node, XNamespace ns)
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

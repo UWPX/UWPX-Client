@@ -71,7 +71,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                             {
                                 if (uint.TryParse(device.Attributes["id"].Value, out uint d))
                                 {
-                                    DEVICES.Add(d);
+                                    if (!DEVICES.Contains(d))
+                                    {
+                                        DEVICES.Add(d);
+                                    }
                                 }
                             }
                         }

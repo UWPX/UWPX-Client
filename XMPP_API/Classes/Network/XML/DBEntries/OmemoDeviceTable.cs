@@ -1,17 +1,19 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Linq;
+﻿using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.DBEntries
 {
-    public class PubSubSubscriptionMessage : PubSubMessage
+    [Table(DBTableConsts.OMEMO_DEVICE_TABLE)]
+    public class OmemoDeviceTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE_NAME;
-        public readonly string JID;
-        public readonly string SUBID;
-        public readonly PubSubSubscription SUBSCRIPTION;
+        [PrimaryKey]
+        public string id { get; set; }
+        [NotNull]
+        public string chatJid { get; set; }
+        [NotNull]
+        public string accountJid { get; set; }
+        public uint deviceId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,21 +22,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/07/2018 Created [Fabian Sauter]
+        /// 12/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubSubscriptionMessage(XmlNode n) : base(n)
+        public OmemoDeviceTable()
         {
-            XmlNode subNode = XMLUtils.getChildNode(n, "subscription");
-            if (subNode != null)
-            {
-                this.NODE_NAME = subNode.Attributes["node"]?.Value;
-                this.JID = subNode.Attributes["jid"]?.Value;
-                this.SUBID = subNode.Attributes["subid"]?.Value;
-                if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
-                {
-                    this.SUBSCRIPTION = PubSubSubscription.NONE;
-                }
-            }
         }
 
         #endregion
@@ -45,7 +36,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static string generateId(string chatJid, string accountJid, uint deviceId)
+        {
+            return chatJid + '_' + accountJid + '_' + deviceId;
+        }
 
         #endregion
 
@@ -55,10 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void addContent(XElement node, XNamespace ns)
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

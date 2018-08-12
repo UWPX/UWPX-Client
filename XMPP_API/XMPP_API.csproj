@@ -143,10 +143,12 @@
     <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\IdentityKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageCacheTable.cs" />
+    <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\PreKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\SessionStoreTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\SignedPreKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBManager\MessageCacheDBManager.cs" />
+    <Compile Include="Classes\Network\XML\DBManager\OmemoDeviceDBManager.cs" />
     <Compile Include="Classes\Network\XML\DBManager\SignalKeyDBManager.cs" />
     <Compile Include="Classes\Network\XML\MessageParserStats.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
@@ -241,11 +243,13 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKey.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoMessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSubscribeToDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoIdentityKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoPreKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSessionStore.cs" />
@@ -334,7 +338,10 @@
       <Name>Thread_Save_Components</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Classes\Network\XML\Messages\XEP-0163\" />
+    <Folder Include="Classes\Network\XML\Messages\XEP-0334\" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -1,17 +1,12 @@
-﻿using System;
-using System.Xml;
-using System.Xml.Linq;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class PubSubSubscriptionMessage : PubSubMessage
+    public class OmemoSubscribeToDeviceListMessage : PubSubSubscribeMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE_NAME;
-        public readonly string JID;
-        public readonly string SUBID;
-        public readonly PubSubSubscription SUBSCRIPTION;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,21 +15,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/07/2018 Created [Fabian Sauter]
+        /// 12/08/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubSubscriptionMessage(XmlNode n) : base(n)
+        public OmemoSubscribeToDeviceListMessage(string fromFullJid, string fromBareJid, string to) : base(fromFullJid, fromBareJid, to, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
         {
-            XmlNode subNode = XMLUtils.getChildNode(n, "subscription");
-            if (subNode != null)
-            {
-                this.NODE_NAME = subNode.Attributes["node"]?.Value;
-                this.JID = subNode.Attributes["jid"]?.Value;
-                this.SUBID = subNode.Attributes["subid"]?.Value;
-                if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
-                {
-                    this.SUBSCRIPTION = PubSubSubscription.NONE;
-                }
-            }
         }
 
         #endregion
@@ -55,10 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void addContent(XElement node, XNamespace ns)
-        {
-            throw new NotImplementedException();
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

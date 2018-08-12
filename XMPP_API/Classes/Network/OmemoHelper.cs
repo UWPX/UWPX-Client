@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
@@ -166,12 +167,18 @@ namespace XMPP_API.Classes.Network
             {
                 if (!MESSAGE_CACHE.ContainsKey(chatJid))
                 {
-                    OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(chatJid, accountJid, onSessionBuilderResult, CONNECTION, this);
+                    OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(chatJid, accountJid, CONNECTION.account.getIdDomainAndResource(), onSessionBuilderResult, CONNECTION, this);
                     sessionHelper.start();
                     MESSAGE_CACHE[chatJid] = new Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>(new List<OmemoMessageMessage>(), sessionHelper);
                 }
                 MESSAGE_CACHE[chatJid].Item1.Add(msg);
             }
+        }
+
+        public void onOmemoDeviceListEventMessage(OmemoDeviceListEventMessage msg)
+        {
+            string chatJid = Utils.getBareJidFromFullJid(msg.getFrom());
+            OmemoDeviceDBManager.INSTANCE.setDevices(msg.DEVICES, chatJid, CONNECTION.account.getIdAndDomain());
         }
 
         #endregion

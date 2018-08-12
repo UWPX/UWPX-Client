@@ -1,5 +1,4 @@
-﻿using libsignal;
-using Logging;
+﻿using Logging;
 using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
@@ -14,7 +13,6 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes
 {
@@ -109,6 +107,11 @@ namespace XMPP_API.Classes
         public OmemoHelperState getOmemoHelperState()
         {
             return connection.getOmemoHelperState();
+        }
+
+        public OmemoHelper getOmemoHelper()
+        {
+            return connection.OMEMO_HELPER;
         }
 
         /// <summary>

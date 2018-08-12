@@ -3,6 +3,7 @@ using libsignal.protocol;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Crypto;
 
@@ -13,11 +14,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public uint SOURCE_DEVICE_ID { get; private set; }
-        public uint REMOTE_DEVICE_ID { get; private set; }
 
-        public string BASE_64_KEY { get; private set; }
-        public uint PRE_KEY_ID { get; private set; }
-        public string BASE_64_PRE_KEY { get; private set; }
+        public IList<OmemoKey> KEYS { get; private set; }
+
         public string BASE_64_IV { get; private set; }
         public string BASE_64_PAYLOAD { get; private set; }
         public bool ENCRYPTED { get; private set; }
@@ -33,19 +32,54 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoMessageMessage(string from, string to, string message, string type, bool reciptRequested) : base(from, to, message, type, reciptRequested)
         {
+            this.KEYS = new List<OmemoKey>();
+        }
 
+        public OmemoMessageMessage(XmlNode node, CarbonCopyType ccType) : base(node, ccType)
+        {
+            this.KEYS = new List<OmemoKey>();
+            XmlNode encryptedNode = XMLUtils.getChildNode(node, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
+            if (encryptedNode != null)
+            {
+                XmlNode headerNode = XMLUtils.getChildNode(encryptedNode, "header");
+                if (headerNode != null)
+                {
+                    foreach (XmlNode n in headerNode.ChildNodes)
+                    {
+                        switch (n.Name)
+                        {
+                            case "key":
+                                KEYS.Add(new OmemoKey(n));
+                                break;
+
+                            case "iv":
+                                this.BASE_64_IV = n.InnerText;
+                                break;
+                        }
+                    }
+                }
+
+                XmlNode payloadNode = XMLUtils.getChildNode(encryptedNode, "header");
+                if (payloadNode != null)
+                {
+                    this.BASE_64_PAYLOAD = payloadNode.InnerText;
+                }
+            }
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        /// <summary>
-        /// Takes the TO property and returns the bare JID e.g 'coven@chat.shakespeare.lit'
-        /// </summary>
-        /// <returns>The bare JID e.g 'coven@chat.shakespeare.lit'</returns>
-        public string getBareChatJid()
+        public bool hasDeviceIdKey(uint deviceId)
         {
-            return Utils.getBareJidFromFullJid(TO);
+            foreach (OmemoKey key in KEYS)
+            {
+                if (key.REMOTE_DEVICE_ID == deviceId)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         #endregion
@@ -59,7 +93,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public void encrypt(SessionCipher cipher, uint sourceDeviceId, uint remoteDeviceId)
         {
             SOURCE_DEVICE_ID = sourceDeviceId;
-            REMOTE_DEVICE_ID = remoteDeviceId;
 
             // 1. Generate a new AES-128 GCM key/iv pair:
             Aes128Gcm aes128Gcm = new Aes128Gcm()
@@ -82,7 +115,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             // 4. Encrypt the key/iv pair with libsignal ??for each device??:
             CiphertextMessage ciphertextMessage = cipher.encrypt(keyiv);
-            BASE_64_KEY = Convert.ToBase64String(ciphertextMessage.serialize());
+            KEYS = new List<OmemoKey>
+            {
+                new OmemoKey(remoteDeviceId, false, Convert.ToBase64String(ciphertextMessage.serialize()))
+            };
             ENCRYPTED = true;
         }
 
@@ -115,12 +151,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XElement headerNode = new XElement(ns + "header");
             headerNode.Add(new XAttribute("sid", SOURCE_DEVICE_ID));
 
-            XElement keyNode = new XElement(ns + "key")
+            foreach (OmemoKey key in KEYS)
             {
-                Value = BASE_64_KEY
-            };
-            keyNode.Add(new XAttribute("rid", REMOTE_DEVICE_ID));
-            headerNode.Add(keyNode);
+                headerNode.Add(key.toXElement(ns));
+            }
+
             headerNode.Add(new XElement(ns + "iv")
             {
                 Value = BASE_64_IV

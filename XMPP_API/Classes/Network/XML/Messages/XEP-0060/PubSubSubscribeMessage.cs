@@ -7,6 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string NODE_NAME;
+        public readonly string FROM_BARE_JID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,9 +18,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 17/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubSubscribeMessage(string from, string to, string nodeName) : base(from, to)
+        public PubSubSubscribeMessage(string fromFullJid, string fromBareJid, string to, string nodeName) : base(fromFullJid, to)
         {
             this.NODE_NAME = nodeName;
+            this.FROM_BARE_JID = fromBareJid;
         }
 
         #endregion
@@ -44,7 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         {
             XElement subscribeNode = new XElement(ns + "subscribe");
             subscribeNode.Add(new XAttribute("node", NODE_NAME));
-            subscribeNode.Add(new XAttribute("jid", FROM));
+            subscribeNode.Add(new XAttribute("jid", FROM_BARE_JID));
             node.Add(subscribeNode);
         }
 

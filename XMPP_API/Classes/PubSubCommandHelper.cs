@@ -143,7 +143,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> requestNodeSubscription(string to, string nodeName, Func<IQMessage, bool> onMessage, Action onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, nodeName);
+            PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), CLIENT.getXMPPAccount().getIdAndDomain(), to, nodeName);
             helper.start(msg);
             return helper;
         }
