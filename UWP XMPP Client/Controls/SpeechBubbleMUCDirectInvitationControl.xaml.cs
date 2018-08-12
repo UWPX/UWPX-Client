@@ -19,14 +19,14 @@ namespace UWP_XMPP_Client.Controls
             get { return (ChatTable)GetValue(ChatProperty); }
             set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatDetailsControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(SpeechBubbleMUCDirectInvitationControl), null);
 
         public MUCDirectInvitationTable Invitation
         {
             get { return (MUCDirectInvitationTable)GetValue(InvitationProperty); }
             set { SetValue(InvitationProperty, value); }
         }
-        public static readonly DependencyProperty InvitationProperty = DependencyProperty.Register("Invitation", typeof(MUCDirectInvitationTable), typeof(SpeechBubbleMUCDirectInvitationControl), null);
+        public static readonly DependencyProperty InvitationProperty = DependencyProperty.Register(nameof(Invitation), typeof(MUCDirectInvitationTable), typeof(SpeechBubbleMUCDirectInvitationControl), null);
 
         public ChatMessageTable ChatMessage
         {
@@ -37,7 +37,7 @@ namespace UWP_XMPP_Client.Controls
                 loadInvitation();
             }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleMUCDirectInvitationControl), null);
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageTable), typeof(SpeechBubbleMUCDirectInvitationControl), null);
 
         private bool invitationLoaded;
 

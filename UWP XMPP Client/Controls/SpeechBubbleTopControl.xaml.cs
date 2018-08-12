@@ -13,14 +13,14 @@ namespace UWP_XMPP_Client.Controls
             get { return (ChatMessageTable)GetValue(ChatMessageProperty); }
             set { SetValue(ChatMessageProperty, value); }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleTopControl), null);
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageTable), typeof(SpeechBubbleTopControl), null);
 
         public ChatTable Chat
         {
             get { return (ChatTable)GetValue(ChatProperty); }
             set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(SpeechBubbleTopControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(SpeechBubbleTopControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

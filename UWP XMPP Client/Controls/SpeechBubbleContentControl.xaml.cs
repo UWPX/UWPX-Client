@@ -25,7 +25,7 @@ namespace UWP_XMPP_Client.Controls
                 showChatMessage();
             }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register("ChatMessage", typeof(ChatMessageTable), typeof(SpeechBubbleTopControl), null);
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageTable), typeof(SpeechBubbleContentControl), null);
 
         public ChatTable Chat
         {
@@ -36,14 +36,14 @@ namespace UWP_XMPP_Client.Controls
                 setSenderNicknameVisability();
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(SpeechBubbleTopControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(SpeechBubbleContentControl), null);
         
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
             set { SetValue(MessageProperty, value); }
         }
-        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message), typeof(string), typeof(SpeechBubbleTopControl), new PropertyMetadata(""));
+        public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message), typeof(string), typeof(SpeechBubbleContentControl), new PropertyMetadata(""));
         
         private string imgPath;
 
