@@ -160,7 +160,9 @@ namespace XMPP_API.Classes.Network
             SessionCipher cipher = getSessionCipher(chatJid);
             if (cipher != null)
             {
-                msg.encrypt(cipher, CONNECTION.account.omemoDeviceId, cipher.getRemoteRegistrationId());
+                Tuple<SignalProtocolAddress, SessionBuilder> session = getSession(chatJid);
+                List<uint> deviceIds = OmemoDeviceDBManager.INSTANCE.getDeviceIds(chatJid, accountJid);
+                msg.encrypt(cipher, CONNECTION.account.omemoDeviceId, session.Item1.getDeviceId(), deviceIds);
                 await CONNECTION.sendAsync(msg, true, false);
             }
             else
@@ -200,9 +202,11 @@ namespace XMPP_API.Classes.Network
         {
             SessionCipher cipher = getSessionCipher(chatJid);
             Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[chatJid];
+            Tuple<SignalProtocolAddress, SessionBuilder> session = getSession(chatJid);
             foreach (OmemoMessageMessage msg in cache.Item1)
             {
-                msg.encrypt(cipher, CONNECTION.account.omemoDeviceId, cipher.getRemoteRegistrationId());
+                List<uint> deviceIds = OmemoDeviceDBManager.INSTANCE.getDeviceIds(chatJid, CONNECTION.account.getIdAndDomain());
+                msg.encrypt(cipher, CONNECTION.account.omemoDeviceId, session.Item1.getDeviceId(), deviceIds);
                 await CONNECTION.sendAsync(msg, true, false);
             }
             cache.Item2.Dispose();

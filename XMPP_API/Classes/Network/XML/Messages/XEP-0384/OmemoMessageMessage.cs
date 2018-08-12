@@ -90,7 +90,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Sets ENCRYPTED to true.
         /// </summary>
         /// <param name="cipher">The SessionCipher for encrypting the content of MESSAGE.</param>
-        public void encrypt(SessionCipher cipher, uint sourceDeviceId, uint remoteDeviceId)
+        public void encrypt(SessionCipher cipher, uint sourceDeviceId, uint preKeyRemoteDeviceId, IList<uint> remoteDeviceIds)
         {
             SOURCE_DEVICE_ID = sourceDeviceId;
 
@@ -113,12 +113,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             Buffer.BlockCopy(aes128Gcm.key, 0, keyiv, 0, aes128Gcm.key.Length);
             Buffer.BlockCopy(iv, 0, keyiv, aes128Gcm.key.Length, iv.Length);
 
-            // 4. Encrypt the key/iv pair with libsignal ??for each device??:
+            // 4. Encrypt the key/iv pair with libsignal for each deviceId:
             CiphertextMessage ciphertextMessage = cipher.encrypt(keyiv);
-            KEYS = new List<OmemoKey>
+            foreach (uint deviceId in remoteDeviceIds)
             {
-                new OmemoKey(remoteDeviceId, false, Convert.ToBase64String(ciphertextMessage.serialize()))
-            };
+                KEYS = new List<OmemoKey>()
+                {
+                    new OmemoKey(deviceId, deviceId == preKeyRemoteDeviceId, Convert.ToBase64String(ciphertextMessage.serialize()))
+                };
+            }
             ENCRYPTED = true;
         }
 

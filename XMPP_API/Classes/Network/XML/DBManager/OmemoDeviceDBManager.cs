@@ -54,9 +54,20 @@ namespace XMPP_API.Classes.Network.XML.DBManager
             setDevices(deviceTables, chatJid);
         }
 
-        public List<OmemoDeviceTable> getDevicesForChatJid(string chatJid)
+        public List<OmemoDeviceTable> getDevices(string chatJid, string accountJid)
         {
-            return dB.Query<OmemoDeviceTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE chatJid = ?", chatJid);
+            return dB.Query<OmemoDeviceTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE chatJid = ? AND accountJid = ?;", chatJid, accountJid);
+        }
+
+        public List<uint> getDeviceIds(string chatJid, string accountJid)
+        {
+            List<OmemoDeviceTable> devices = getDevices(chatJid, accountJid);
+            List<uint> deviceIds = new List<uint>();
+            foreach (OmemoDeviceTable device in devices)
+            {
+                deviceIds.Add(device.deviceId);
+            }
+            return deviceIds;
         }
 
         #endregion
@@ -64,12 +75,12 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         #region --Misc Methods (Public)--
         public void deleteDevicesForChat(string chatJid)
         {
-
+            dB.Query<OmemoDeviceTable>(true, "DELETE FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE chatJid = ?;", chatJid);
         }
 
         public void deleteDevicesForAccount(string accountId)
         {
-
+            dB.Query<OmemoDeviceTable>(true, "DELETE FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         #endregion
