@@ -796,6 +796,14 @@ namespace UWP_XMPP_Client.Controls
             });
         }
 
+        private void scrollDown_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (chatMessages.Count >= 1)
+            {
+                invertedListView_lstv.ScrollIntoView(chatMessages[0]);
+            }
+        }
+
         #endregion
     }
 }

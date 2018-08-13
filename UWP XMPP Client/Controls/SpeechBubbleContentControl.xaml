@@ -4,8 +4,8 @@
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:extensions="using:UWP_XMPP_Client.Controls.Extensions"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -13,9 +13,7 @@
         <datatemplates:BoolVisabilityValueConverter x:Key="boolVisabilityValueConverter"/>
     </UserControl.Resources>
 
-    <Border MinWidth="150"
-            MinHeight="50"
-            Padding="10"
+    <Border Padding="10"
             VerticalAlignment="Bottom"
             Background="{x:Bind Background}"
             BorderBrush="Black"
@@ -95,9 +93,9 @@
             </Grid>
             <TextBlock x:Name="message_tbx"
                        HorizontalAlignment="Center"
+                       extensions:TextBlockChatTextFormatExtension.FormattedText="{x:Bind Message, Mode=OneWay}"
                        IsTextSelectionEnabled="True"
-                       TextWrapping="Wrap"
-                       extensions:TextBlockChatTextFormatExtension.FormattedText="{x:Bind Message, Mode=OneWay}"/>
+                       TextWrapping="Wrap"/>
             <Grid Margin="0,5,0,0"
                   HorizontalAlignment="Right">
                 <Grid.ColumnDefinitions>
