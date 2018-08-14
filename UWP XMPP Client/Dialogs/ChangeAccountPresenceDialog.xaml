@@ -80,6 +80,10 @@
                     <TextBlock Margin="10,0,0,0"
                                VerticalAlignment="Center"
                                Text="Save"/>
+                    <ProgressRing x:Name="save_pgr"
+                                  Margin="10,0,0,0"
+                                  IsActive="True"
+                                  Visibility="Collapsed"/>
                 </StackPanel>
             </Button>
             <Button x:Name="close_btn"

@@ -11,7 +11,7 @@ namespace UWP_XMPP_Client.Classes
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074
     /// </summary>
-    public class CustomObservableCollection<T> : ObservableCollection<T> where T : class
+    public class CustomObservableCollection<T> : ObservableCollection<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

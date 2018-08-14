@@ -1,13 +1,9 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
 using Data_Manager2.Classes.DBManager;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
-using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Input;
 using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Dialogs
@@ -60,8 +56,6 @@ namespace UWP_XMPP_Client.Dialogs
                 return;
             }
 
-            save_btn.IsEnabled = false;
-
             if (presence_cbx.SelectedIndex < 0)
             {
                 accountSelection_asc.showErrorMessage("No presence selected!");
@@ -70,24 +64,35 @@ namespace UWP_XMPP_Client.Dialogs
 
             if (presence_cbx.SelectedItem is PresenceTemplate)
             {
+                save_btn.IsEnabled = false;
+                save_pgr.Visibility = Visibility.Visible;
+
                 PresenceTemplate templateItem = presence_cbx.SelectedItem as PresenceTemplate;
                 string status = string.IsNullOrEmpty(status_tbx.Text) ? null : status_tbx.Text;
 
-                // Save presence and status:
-                client.getXMPPAccount().presence = templateItem.presence;
-                client.getXMPPAccount().status = status;
+                Task.Run(async () =>
+                {
+                    // Save presence and status:
+                    client.getXMPPAccount().presence = templateItem.presence;
+                    client.getXMPPAccount().status = status;
 
-                AccountDBManager.INSTANCE.setAccount(client.getXMPPAccount(), false);
+                    AccountDBManager.INSTANCE.setAccount(client.getXMPPAccount(), false);
 
-                // Send the updated presence and status to the server:
-                Task t = client.setPreseceAsync(templateItem.presence, status);
-                accountSelection_asc.showInfoMessage("Presence updated!");
+                    // Send the updated presence and status to the server:
+                    await client.setPreseceAsync(templateItem.presence, status);
+
+                    await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+                    {
+                        save_pgr.Visibility = Visibility.Collapsed;
+                        save_btn.IsEnabled = true;
+                        accountSelection_asc.showInfoMessage("Presence updated!");
+                    });
+                });
             }
             else
             {
                 accountSelection_asc.showErrorMessage("Invalid presence!");
             }
-            save_btn.IsEnabled = true;
         }
 
         #endregion
