@@ -6,6 +6,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -165,6 +166,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             });
             encNode.Add(headerNode);
             msgNode.Add(encNode);
+
+            addMPHints(msgNode, null, new List<MessageProcessingHint>() { MessageProcessingHint.STORE });
 
             return msgNode;
         }

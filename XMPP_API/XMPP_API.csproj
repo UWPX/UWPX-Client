@@ -233,6 +233,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsDisableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsEnableMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0334\MessageProcessingHint.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
@@ -340,7 +341,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\Network\XML\Messages\XEP-0163\" />
-    <Folder Include="Classes\Network\XML\Messages\XEP-0334\" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

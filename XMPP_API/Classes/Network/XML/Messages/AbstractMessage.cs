@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -95,6 +97,66 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             return toXmlString();
         }
+
+        /// <summary>
+        /// Adds the XEP-0334 (Message Processing Hints) to the given node.
+        /// </summary>
+        /// <param name="node">The node where the hints should get added to.</param>
+        /// <param name="ns">The namespace of the node. Can be null.</param>
+        /// <param name="hints">A list of hints that should get added to the given node.</param>
+        public void addMPHints(XElement node, XNamespace ns, IList<MessageProcessingHint> hints)
+        {
+            foreach (MessageProcessingHint hint in hints)
+            {
+                switch (hint)
+                {
+                    case MessageProcessingHint.STORE:
+                        if (ns == null)
+                        {
+                            node.Add(new XElement("store"));
+                        }
+                        else
+                        {
+                            node.Add(new XElement(ns + "store"));
+                        }
+                        break;
+
+                    case MessageProcessingHint.NO_PERMANENT_STORE:
+                        if (ns == null)
+                        {
+                            node.Add(new XElement("no-permanent-store"));
+                        }
+                        else
+                        {
+                            node.Add(new XElement(ns + "no-permanent-store"));
+                        }
+                        break;
+
+                    case MessageProcessingHint.NO_STORE:
+                        if (ns == null)
+                        {
+                            node.Add(new XElement("no-store"));
+                        }
+                        else
+                        {
+                            node.Add(new XElement(ns + "no-store"));
+                        }
+                        break;
+
+                    case MessageProcessingHint.NO_COPIES:
+                        if (ns == null)
+                        {
+                            node.Add(new XElement("no-copy"));
+                        }
+                        else
+                        {
+                            node.Add(new XElement(ns + "no-copy"));
+                        }
+                        break;
+                }
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
