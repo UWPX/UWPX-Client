@@ -3,6 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controls1="using:UWP_XMPP_Client.Controls"
+      xmlns:controlsChat="using:UWP_XMPP_Client.Controls.Chat"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -12,16 +13,16 @@
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate"
                       x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatMasterControl Chat="{x:Bind chat, Mode=TwoWay}"
-                                         Client="{x:Bind client, Mode=OneWay}"
-                                         MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
+            <controlsChat:ChatMasterControl Chat="{x:Bind chat, Mode=TwoWay}"
+                                            Client="{x:Bind client, Mode=OneWay}"
+                                            MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate"
                       x:DataType="datatemplates:ChatTemplate">
-            <controls1:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}"
-                                          Client="{x:Bind client, Mode=OneWay}"
-                                          MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
+            <controlsChat:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}"
+                                             Client="{x:Bind client, Mode=OneWay}"
+                                             MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">
@@ -79,8 +80,8 @@
                 <controls:MasterDetailsView.MasterHeader>
                     <StackPanel x:Name="filter_stckp"
                                 Margin="-12,0,-12,0"
-                                Visibility="Collapsed"
-                                Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
+                                Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+                                Visibility="Collapsed">
                         <AutoSuggestBox x:Name="searchChats_asb"
                                         Margin="10"
                                         BorderThickness="0"

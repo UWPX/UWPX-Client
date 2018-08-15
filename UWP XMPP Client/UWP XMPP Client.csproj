@@ -129,8 +129,8 @@
     <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
       <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BanListControl.xaml.cs">
-      <DependentUpon>BanListControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucBanListControl.xaml.cs">
+      <DependentUpon>MucBanListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BrowseMUCRoomsDetailsControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsDetailsControl.xaml</DependentUpon>
@@ -151,8 +151,8 @@
     <Compile Include="Controls\IconTextBlockControl.xaml.cs">
       <DependentUpon>IconTextBlockControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\KickBanOccupantControl.xaml.cs">
-      <DependentUpon>KickBanOccupantControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucKickBanOccupantControl.xaml.cs">
+      <DependentUpon>MucKickBanOccupantControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
@@ -163,43 +163,43 @@
     <Compile Include="Controls\ManageBookmarksMasterControl.xaml.cs">
       <DependentUpon>ManageBookmarksMasterControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MUCInfoControl.xaml.cs">
-      <DependentUpon>MUCInfoControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucInfoControl.xaml.cs">
+      <DependentUpon>MucInfoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MUCManageControl.xaml.cs">
-      <DependentUpon>MUCManageControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucManageControl.xaml.cs">
+      <DependentUpon>MucManageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MUCFieldControl.xaml.cs">
-      <DependentUpon>MUCFieldControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucFieldControl.xaml.cs">
+      <DependentUpon>MucFieldControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MUCOccupantsControl.xaml.cs">
-      <DependentUpon>MUCOccupantsControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucOccupantsControl.xaml.cs">
+      <DependentUpon>MucOccupantsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OmemoFingerprintControl.xaml.cs">
+    <Compile Include="Controls\Omemo\OmemoFingerprintControl.xaml.cs">
       <DependentUpon>OmemoFingerprintControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\PasswordCredentialControl.xaml.cs">
       <DependentUpon>PasswordCredentialControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\QRCodeControl.xaml.cs">
+    <Compile Include="Controls\Omemo\QRCodeControl.xaml.cs">
       <DependentUpon>QRCodeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\QRCodeReaderControl.xaml.cs">
+    <Compile Include="Controls\Omemo\QRCodeReaderControl.xaml.cs">
       <DependentUpon>QRCodeReaderControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SaveablePasswordBox.xaml.cs">
+    <Compile Include="Controls\Muc\SaveablePasswordBox.xaml.cs">
       <DependentUpon>SaveablePasswordBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SaveableTextBox.xaml.cs">
+    <Compile Include="Controls\Muc\SaveableTextBox.xaml.cs">
       <DependentUpon>SaveableTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleMUCDirectInvitationControl.xaml.cs">
+    <Compile Include="Controls\Chat\SpeechBubbleMUCDirectInvitationControl.xaml.cs">
       <DependentUpon>SpeechBubbleMUCDirectInvitationControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleInfoControl.xaml.cs">
+    <Compile Include="Controls\Chat\SpeechBubbleInfoControl.xaml.cs">
       <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
@@ -230,7 +230,7 @@
     <Compile Include="Controls\BackgroundImageSelectionControl.xaml.cs">
       <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\ChatDetailsControl.xaml.cs">
+    <Compile Include="Controls\Chat\ChatDetailsControl.xaml.cs">
       <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
@@ -290,23 +290,23 @@
     <Compile Include="Controls\SettingsHeaderControl.xaml.cs">
       <DependentUpon>SettingsHeaderControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleContentControl.xaml.cs">
+    <Compile Include="Controls\Chat\SpeechBubbleContentControl.xaml.cs">
       <DependentUpon>SpeechBubbleContentControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleDownControl.xaml.cs">
+    <Compile Include="Controls\Chat\SpeechBubbleDownControl.xaml.cs">
       <DependentUpon>SpeechBubbleDownControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleErrorControl.xaml.cs">
+    <Compile Include="Controls\Chat\SpeechBubbleErrorControl.xaml.cs">
       <DependentUpon>SpeechBubbleErrorControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SpeechBubbleTopControl.xaml.cs">
+    <Compile Include="Controls\Chat\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\BackgroundImageTemplate.cs" />
     <Compile Include="DataTemplates\ServerFeaturesTemplate.cs" />
     <Compile Include="DataTemplates\SettingTemplate.cs" />
     <Compile Include="DataTemplates\ChatTemplate.cs" />
-    <Compile Include="Controls\ChatMasterControl.xaml.cs">
+    <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
       <DependentUpon>ChatMasterControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\AddAccountPage.xaml.cs">
@@ -466,7 +466,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\BanListControl.xaml">
+    <Page Include="Controls\Muc\MucBanListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -494,7 +494,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\KickBanOccupantControl.xaml">
+    <Page Include="Controls\Muc\MucKickBanOccupantControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -510,19 +510,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MUCInfoControl.xaml">
+    <Page Include="Controls\Muc\MucInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MUCManageControl.xaml">
+    <Page Include="Controls\Muc\MucManageControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MUCFieldControl.xaml">
+    <Page Include="Controls\Muc\MucFieldControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\MUCOccupantsControl.xaml">
+    <Page Include="Controls\Muc\MucOccupantsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -530,7 +530,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OmemoFingerprintControl.xaml">
+    <Page Include="Controls\Omemo\OmemoFingerprintControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -538,27 +538,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\QRCodeControl.xaml">
+    <Page Include="Controls\Omemo\QRCodeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\QRCodeReaderControl.xaml">
+    <Page Include="Controls\Omemo\QRCodeReaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SaveablePasswordBox.xaml">
+    <Page Include="Controls\Muc\SaveablePasswordBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SaveableTextBox.xaml">
+    <Page Include="Controls\Muc\SaveableTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpeechBubbleMUCDirectInvitationControl.xaml">
+    <Page Include="Controls\Chat\SpeechBubbleMUCDirectInvitationControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpeechBubbleInfoControl.xaml">
+    <Page Include="Controls\Chat\SpeechBubbleInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -578,7 +578,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ChatDetailsControl.xaml">
+    <Page Include="Controls\Chat\ChatDetailsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -650,7 +650,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\ChatMasterControl.xaml">
+    <Page Include="Controls\Chat\ChatMasterControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -662,19 +662,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpeechBubbleContentControl.xaml">
+    <Page Include="Controls\Chat\SpeechBubbleContentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpeechBubbleDownControl.xaml">
+    <Page Include="Controls\Chat\SpeechBubbleDownControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SpeechBubbleErrorControl.xaml">
+    <Page Include="Controls\Chat\SpeechBubbleErrorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SpeechBubbleTopControl.xaml">
+    <Page Include="Controls\Chat\SpeechBubbleTopControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

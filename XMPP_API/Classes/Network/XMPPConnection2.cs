@@ -134,11 +134,6 @@ namespace XMPP_API.Classes.Network
             return parser.STATS;
         }
 
-        public OmemoHelperState getOmemoHelperState()
-        {
-            return OMEMO_HELPER.STATE;
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

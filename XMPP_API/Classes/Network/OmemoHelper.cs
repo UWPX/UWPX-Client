@@ -85,6 +85,11 @@ namespace XMPP_API.Classes.Network
             }
         }
 
+        public IList<uint> getDevicesIdsForChat(string chatJid)
+        {
+            return OmemoDeviceDBManager.INSTANCE.getDeviceIds(chatJid, CONNECTION.account.getIdAndDomain());
+        }
+
         public Tuple<SignalProtocolAddress, SessionBuilder> getSession(string chatJid)
         {
             if (SESSIONS_BUILDER.ContainsKey(chatJid))

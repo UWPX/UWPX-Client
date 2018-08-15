@@ -104,11 +104,6 @@ namespace XMPP_API.Classes
             return connection.lastConnectionError;
         }
 
-        public OmemoHelperState getOmemoHelperState()
-        {
-            return connection.getOmemoHelperState();
-        }
-
         public OmemoHelper getOmemoHelper()
         {
             return connection.OMEMO_HELPER;

@@ -20,16 +20,26 @@ namespace UWP_XMPP_Client.Pages
         public ChatTable Chat
         {
             get { return (ChatTable)GetValue(chatProperty); }
-            set { SetValue(chatProperty, value); }
+            set
+            {
+                SetValue(chatProperty, value);
+                loadOmemoDevices();
+            }
         }
         public static readonly DependencyProperty chatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(UserProfilePage), null);
 
         public XMPPClient Client
         {
             get { return (XMPPClient)GetValue(clientProperty); }
-            set { SetValue(clientProperty, value); }
+            set
+            {
+                SetValue(clientProperty, value);
+                loadOmemoDevices();
+            }
         }
         public static readonly DependencyProperty clientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(UserProfilePage), null);
+
+        private readonly CustomObservableCollection<uint> OMEMO_DEVICES;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -42,6 +52,7 @@ namespace UWP_XMPP_Client.Pages
         /// </history>
         public UserProfilePage()
         {
+            this.OMEMO_DEVICES = new CustomObservableCollection<uint>();
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += UserProfilePage_BackRequested;
         }
@@ -69,6 +80,15 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
+        private void loadOmemoDevices()
+        {
+            if (Client != null && Chat != null)
+            {
+                OMEMO_DEVICES.Clear();
+                OMEMO_DEVICES.AddRange(Client.getOmemoHelper().getDevicesIdsForChat(Chat.chatJabberId));
+            }
+        }
+
         private void showClient()
         {
             if (Client == null)

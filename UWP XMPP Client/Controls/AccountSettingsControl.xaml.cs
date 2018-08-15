@@ -302,7 +302,7 @@ namespace UWP_XMPP_Client.Controls
                     Cert = client.getXMPPAccount().CONNECTION_INFO.socketInfo?.ServerCertificate,
                     ConnectionInfo = client.getXMPPAccount().CONNECTION_INFO,
                     ParserStats = client.getMessageParserStats(),
-                    OmemoState = client.getOmemoHelperState(),
+                    OmemoState = client.getOmemoHelper().STATE,
                     Account = client.getXMPPAccount()
                 };
                 await UiUtils.showDialogAsyncQueue(dialog);

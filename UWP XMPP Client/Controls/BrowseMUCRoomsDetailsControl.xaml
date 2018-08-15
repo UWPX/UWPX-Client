@@ -6,14 +6,14 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
     xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:mucinfo="using:UWP_XMPP_Client.Controls"
+    xmlns:mucinfo="using:UWP_XMPP_Client.Controls.Muc"
     mc:Ignorable="d"
     Loaded="UserControl_Loaded"
     DataContextChanged="UserControl_DataContextChanged">
 
     <UserControl.Resources>
         <DataTemplate x:Key="mucFieldTemplate" x:DataType="datatemplates:MUCInfoFieldTemplate">
-            <mucinfo:MUCFieldControl Field="{x:Bind field, Mode=OneWay}" Margin="10, 0, 10, 5" InputEnabled="False"/>
+            <mucinfo:MucFieldControl Field="{x:Bind field, Mode=OneWay}" Margin="10, 0, 10, 5" InputEnabled="False"/>
         </DataTemplate>
     </UserControl.Resources>
 

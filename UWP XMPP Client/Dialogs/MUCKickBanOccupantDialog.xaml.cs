@@ -1,6 +1,6 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using System.Collections.ObjectModel;
-using UWP_XMPP_Client.Controls;
+using UWP_XMPP_Client.Controls.Muc;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -62,7 +62,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             foreach (MUCOccupantTemplate t in OCCUPANTS)
             {
-                occupants_itmsc.Items.Add(new KickBanOccupantControl(this, client, chat, canKick, canBan)
+                occupants_itmsc.Items.Add(new MucKickBanOccupantControl(this, client, chat, canKick, canBan)
                 {
                     Occupant = t.occupant
                 });
@@ -73,9 +73,9 @@ namespace UWP_XMPP_Client.Dialogs
         {
             foreach (object o in occupants_itmsc.Items)
             {
-                if (o is KickBanOccupantControl)
+                if (o is MucKickBanOccupantControl)
                 {
-                    KickBanOccupantControl c = o as KickBanOccupantControl;
+                    MucKickBanOccupantControl c = o as MucKickBanOccupantControl;
                     c.kick();
                 }
             }
@@ -85,9 +85,9 @@ namespace UWP_XMPP_Client.Dialogs
         {
             foreach (object o in occupants_itmsc.Items)
             {
-                if (o is KickBanOccupantControl)
+                if (o is MucKickBanOccupantControl)
                 {
-                    KickBanOccupantControl c = o as KickBanOccupantControl;
+                    MucKickBanOccupantControl c = o as MucKickBanOccupantControl;
                     c.ban();
                 }
             }

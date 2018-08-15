@@ -1,6 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
-using UWP_XMPP_Client.Controls;
+using UWP_XMPP_Client.Controls.Chat;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
