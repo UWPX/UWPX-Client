@@ -307,13 +307,13 @@ namespace Data_Manager2.Classes
         {
             string from = Utils.getBareJidFromFullJid(args.PRESENCE_MESSAGE.getFrom());
 
-            // If received a presence message from your own account
+            // If received a presence message from your own account, ignore it:
             if (string.Equals(from, client.getXMPPAccount().getIdAndDomain()))
             {
-                XMPPAccount account = client.getXMPPAccount();
+                /*XMPPAccount account = client.getXMPPAccount();
                 account.presence = args.PRESENCE_MESSAGE.PRESENCE;
                 account.status = args.PRESENCE_MESSAGE.STATUS;
-                AccountDBManager.INSTANCE.setAccount(account, false);
+                AccountDBManager.INSTANCE.setAccount(account, false);*/
                 return;
             }
 
