@@ -23,6 +23,7 @@ namespace XMPP_API.Classes.Network
         #region --Attributes--
         private readonly TCPConnection2 TCP_CONNECTION;
         public readonly OmemoHelper OMEMO_HELPER;
+        private readonly DiscoFeatureHelper DISCO_FEATURE_HELPER;
 
         public ConnectionError lastConnectionError;
         private int connectionErrorCount;
@@ -108,6 +109,7 @@ namespace XMPP_API.Classes.Network
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
 
             this.OMEMO_HELPER = new OmemoHelper(this);
+            this.DISCO_FEATURE_HELPER = new DiscoFeatureHelper(this);
         }
 
         #endregion

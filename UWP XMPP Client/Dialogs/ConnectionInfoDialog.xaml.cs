@@ -26,11 +26,11 @@ namespace UWP_XMPP_Client.Dialogs
                 SetValue(ConnectionInfoProperty, value);
                 if (ConnectionInfo != null)
                 {
-                    ConnectionInfo.PropertyChanged -= Value_PropertyChanged;
+                    //ConnectionInfo.PropertyChanged -= Value_PropertyChanged;
                 }
                 if (value != null)
                 {
-                    value.PropertyChanged += Value_PropertyChanged;
+                    //value.PropertyChanged += Value_PropertyChanged;
                 }
                 showConnectionInfo();
             }

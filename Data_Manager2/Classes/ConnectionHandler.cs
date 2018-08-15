@@ -699,7 +699,7 @@ namespace Data_Manager2.Classes
         {
             if(sender is XMPPAccount account)
             {
-                AccountDBManager.INSTANCE.setAccount(account, true);
+                AccountDBManager.INSTANCE.setAccount(account, false);
             }
         }
 

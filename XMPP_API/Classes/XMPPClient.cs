@@ -11,7 +11,6 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0054;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
@@ -21,8 +20,6 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private XMPPConnection2 connection;
-        private MessageResponseHelper<IQMessage> discoMessageResponseHelper;
-        private MessageResponseHelper<IQMessage> carbonsMessageResponseHelper;
 
         public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionStateChangedEventArgs args);
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
@@ -64,8 +61,6 @@ namespace XMPP_API.Classes
             this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
             this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
             this.OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
-            this.discoMessageResponseHelper = null;
-            this.carbonsMessageResponseHelper = null;
             initConnection(account);
         }
 
@@ -270,90 +265,6 @@ namespace XMPP_API.Classes
             connection.NewBookmarksResultMessage += Connection_NewBookmarksResultMessage;
         }
 
-        private void requestDisoInfo()
-        {
-            connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
-            if (discoMessageResponseHelper != null)
-            {
-                discoMessageResponseHelper.Dispose();
-            }
-            discoMessageResponseHelper = new MessageResponseHelper<IQMessage>(this, onDiscoMessage, onDiscoTimeout);
-            discoMessageResponseHelper.start(new DiscoRequestMessage(connection.account.getIdDomainAndResource(), connection.account.user.domain, DiscoType.INFO));
-        }
-
-        private bool onDiscoMessage(IQMessage msg)
-        {
-            if (msg is DiscoResponseMessage disco)
-            {
-                switch (disco.DISCO_TYPE)
-                {
-                    case DiscoType.ITEMS:
-                        break;
-
-                    case DiscoType.INFO:
-                        bool foundCarbons = false;
-                        foreach (DiscoFeature f in disco.FEATURES)
-                        {
-                            if (string.Equals(f.VAR, Consts.XML_XEP_0280_NAMESPACE))
-                            {
-                                foundCarbons = true;
-                                if (connection.account.connectionConfiguration.disableMessageCarbons)
-                                {
-                                    connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
-                                }
-                                else if (connection.account.CONNECTION_INFO.msgCarbonsState != MessageCarbonsState.ENABLED)
-                                {
-                                    carbonsMessageResponseHelper = new MessageResponseHelper<IQMessage>(this, onCarbonsMessage, onCarbonsTimeout);
-                                    carbonsMessageResponseHelper.start(new CarbonsEnableMessage(connection.account.getIdDomainAndResource()));
-                                }
-                                break;
-                            }
-                        }
-
-                        if (!foundCarbons)
-                        {
-                            connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
-                        }
-                        break;
-                }
-                return true;
-            }
-            else if (msg is IQErrorMessage errMsg)
-            {
-                connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
-                Logger.Error("Failed to request initial server disco: " + errMsg.ERROR_OBJ.ToString());
-                return true;
-            }
-            return false;
-        }
-
-        private void onDiscoTimeout()
-        {
-            Logger.Error("Failed to request initial server disco - timeout!");
-        }
-
-        private bool onCarbonsMessage(IQMessage msg)
-        {
-            if (msg is IQErrorMessage errMsg)
-            {
-                connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-                Logger.Error("Failed to enable message carbons: " + errMsg.ERROR_OBJ.ToString());
-                return true;
-            }
-            else if (string.Equals(msg.TYPE, IQMessage.RESULT))
-            {
-                connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ENABLED;
-                return true;
-            }
-            return false;
-        }
-
-        private void onCarbonsTimeout()
-        {
-            connection.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-            Logger.Error("Failed to enable message carbons - timeout!");
-        }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -372,21 +283,9 @@ namespace XMPP_API.Classes
             if (args.newState == ConnectionState.CONNECTED)
             {
                 Logger.Info("Connected to account: " + getXMPPAccount().getIdAndDomain());
-                requestDisoInfo();
             }
             else if (args.newState == ConnectionState.DISCONNECTED)
             {
-                // Stop message processors:
-                if (discoMessageResponseHelper != null)
-                {
-                    discoMessageResponseHelper.Dispose();
-                    discoMessageResponseHelper = null;
-                }
-                if (carbonsMessageResponseHelper != null)
-                {
-                    carbonsMessageResponseHelper.Dispose();
-                    carbonsMessageResponseHelper = null;
-                }
                 Logger.Info("Disconnected account: " + getXMPPAccount().getIdAndDomain());
             }
 

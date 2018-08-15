@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.System.Threading;
 
@@ -12,6 +13,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private readonly Func<T, bool> ON_MESSAGE;
         private readonly Action ON_TIMEOUT;
+
+        private readonly SemaphoreSlim SEMA;
 
         /// <summary>
         /// The default timeout is 5000 ms = 5 sec.
@@ -39,9 +42,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.MESSAGE_SENDER = messageSender;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
-            this.timeout = TimeSpan.FromSeconds(5);
+            this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.matchId = true;
             this.sendId = null;
+            this.SEMA = new SemaphoreSlim(1, 1);
         }
 
         #endregion
@@ -85,7 +89,25 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void startTimer()
         {
-            timer = ThreadPoolTimer.CreateTimer((source) => ON_TIMEOUT(), timeout);
+            timer = ThreadPoolTimer.CreateTimer((source) => onTimeout(), timeout);
+        }
+
+        private void onTimeout()
+        {
+            SEMA.Wait();
+            try
+            {
+                MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
+                ON_TIMEOUT();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                SEMA.Release();
+            }
         }
 
         private void stopTimer()
@@ -98,6 +120,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public void Dispose()
         {
             stop();
+            SEMA.Dispose();
         }
 
         #endregion
@@ -117,9 +140,21 @@ namespace XMPP_API.Classes.Network.XML.Messages
                     return;
                 }
 
-                if (ON_MESSAGE(args.MESSAGE as T))
+                try
                 {
-                    stopTimer();
+                    SEMA.Wait();
+                    if (ON_MESSAGE(args.MESSAGE as T))
+                    {
+                        stopTimer();
+                    }
+                }
+                catch (Exception)
+                {
+                    throw;
+                }
+                finally
+                {
+                    SEMA.Release();
                 }
             }
         }

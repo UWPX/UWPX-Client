@@ -280,9 +280,9 @@ namespace XMPP_API.Classes.Network
             else if (msg is IQMessage)
             {
                 Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Bundle info announced.");
+                setState(OmemoHelperState.ENABLED);
                 CONNECTION.account.omemoBundleInfoAnnounced = true;
                 CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoBundleInfoAnnounced));
-                setState(OmemoHelperState.ENABLED);
                 return true;
             }
             return false;
@@ -324,7 +324,7 @@ namespace XMPP_API.Classes.Network
                 OmemoSetDeviceListMessage msg = new OmemoSetDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), devicesRemote);
                 updateDeviceListHelper.start(msg);
             }
-            else if (!CONNECTION.account.omemoBundleInfoAnnounced || true)
+            else if (!CONNECTION.account.omemoBundleInfoAnnounced)
             {
                 announceBundleInfo();
             }
