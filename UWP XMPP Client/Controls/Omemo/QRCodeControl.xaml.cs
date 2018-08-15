@@ -21,6 +21,7 @@ namespace UWP_XMPP_Client.Controls.Omemo
                 if (QRCodeText != value)
                 {
                     SetValue(QRCodeTextProperty, value);
+                    Visibility = string.IsNullOrEmpty(value) ? Visibility.Collapsed : Visibility.Visible;
                     updateQRCode();
                 }
             }

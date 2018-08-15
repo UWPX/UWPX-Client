@@ -10,6 +10,7 @@ using Data_Manager2.Classes.DBManager;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.Network;
 using Data_Manager2.Classes.Events;
+using System.Collections.Generic;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -84,8 +85,9 @@ namespace UWP_XMPP_Client.Pages
         {
             if (Client != null && Chat != null)
             {
-                OMEMO_DEVICES.Clear();
-                OMEMO_DEVICES.AddRange(Client.getOmemoHelper().getDevicesIdsForChat(Chat.chatJabberId));
+                IList<uint> devices = Client.getOmemoHelper().getDevicesIdsForChat(Chat.chatJabberId);
+                omemoDevices_odlc.setDevices(devices);
+                omemoNoDevices_tbx.Visibility = devices.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -196,8 +198,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void UserProfilePage_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 return;
             }

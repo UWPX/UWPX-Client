@@ -178,6 +178,9 @@
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Omemo\OmemoDeviceListControl.xaml.cs">
+      <DependentUpon>OmemoDeviceListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Omemo\OmemoFingerprintControl.xaml.cs">
       <DependentUpon>OmemoFingerprintControl.xaml</DependentUpon>
     </Compile>
@@ -218,6 +221,7 @@
     <Compile Include="DataTemplates\BoolVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
+    <Compile Include="DataTemplates\UintTemplate.cs" />
     <Compile Include="Dialogs\AddBookmarkDialog.xaml.cs">
       <DependentUpon>AddBookmarkDialog.xaml</DependentUpon>
     </Compile>
@@ -527,6 +531,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\MultiSelectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Omemo\OmemoDeviceListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
