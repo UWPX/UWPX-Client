@@ -103,7 +103,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             };
             aes128Gcm.generateKey();
 
-            // 2. Encrypt the message using this Aes128Gcm instance:
+            // 2. Encrypt the message using the Aes128Gcm instance:
             aes128Gcm.encrypt();
             BASE_64_PAYLOAD = Convert.ToBase64String(aes128Gcm.encryptedData);
 
