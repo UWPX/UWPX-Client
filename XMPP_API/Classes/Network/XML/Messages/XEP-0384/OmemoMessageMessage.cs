@@ -33,6 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoMessageMessage(string from, string to, string message, string type, bool reciptRequested) : base(from, to, message, type, reciptRequested)
         {
+            this.includeBody = false;
             this.KEYS = new List<OmemoKey>();
         }
 
@@ -167,7 +168,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             encNode.Add(headerNode);
             msgNode.Add(encNode);
 
-            addMPHints(msgNode, null, new List<MessageProcessingHint>() { MessageProcessingHint.STORE });
+            addMPHints(msgNode, new List<MessageProcessingHint>() { MessageProcessingHint.STORE });
 
             return msgNode;
         }

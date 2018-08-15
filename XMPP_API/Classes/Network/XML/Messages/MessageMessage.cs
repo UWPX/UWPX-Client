@@ -18,6 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public bool toasted { get; protected set; }
         // The unique DB id of the message. Only required for send messages:
         public string chatMessageId;
+        protected bool includeBody;
 
         public const string TYPE_CHAT = "chat";
         public const string TYPE_GROUPCHAT = "groupchat";
@@ -46,6 +47,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.FROM_NICK = from_nick;
             this.RECIPT_REQUESTED = reciptRequested;
             this.CC_TYPE = CarbonCopyType.NONE;
+            this.includeBody = true;
         }
 
         public MessageMessage(XmlNode node, string type) : this(node, CarbonCopyType.NONE)
@@ -163,7 +165,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 msgNode.Add(new XAttribute("type", TYPE));
             }
 
-            if (MESSAGE != null)
+            if (includeBody && MESSAGE != null)
             {
                 msgNode.Add(new XElement("body", MESSAGE));
             }

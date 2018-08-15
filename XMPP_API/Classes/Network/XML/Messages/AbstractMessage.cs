@@ -102,10 +102,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Adds the XEP-0334 (Message Processing Hints) to the given node.
         /// </summary>
         /// <param name="node">The node where the hints should get added to.</param>
-        /// <param name="ns">The namespace of the node. Can be null.</param>
         /// <param name="hints">A list of hints that should get added to the given node.</param>
-        public void addMPHints(XElement node, XNamespace ns, IList<MessageProcessingHint> hints)
+        protected void addMPHints(XElement node, IList<MessageProcessingHint> hints)
         {
+            XNamespace ns = Consts.XML_XEP_0334_NAMESPACE;
             foreach (MessageProcessingHint hint in hints)
             {
                 switch (hint)
@@ -113,7 +113,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                     case MessageProcessingHint.STORE:
                         if (ns == null)
                         {
-                            node.Add(new XElement("store"));
+                            node.Add(new XElement(ns + "store"));
                         }
                         else
                         {
@@ -124,7 +124,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                     case MessageProcessingHint.NO_PERMANENT_STORE:
                         if (ns == null)
                         {
-                            node.Add(new XElement("no-permanent-store"));
+                            node.Add(new XElement(ns + "no-permanent-store"));
                         }
                         else
                         {
@@ -135,7 +135,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                     case MessageProcessingHint.NO_STORE:
                         if (ns == null)
                         {
-                            node.Add(new XElement("no-store"));
+                            node.Add(new XElement(ns + "no-store"));
                         }
                         else
                         {
@@ -146,7 +146,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                     case MessageProcessingHint.NO_COPIES:
                         if (ns == null)
                         {
-                            node.Add(new XElement("no-copy"));
+                            node.Add(new XElement(ns + "no-copy"));
                         }
                         else
                         {

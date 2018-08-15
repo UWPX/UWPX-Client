@@ -76,5 +76,7 @@ namespace XMPP_API.Classes
         // XEP-0280 (Message Carbons):
         public const string XML_XEP_0280_NAMESPACE = "urn:xmpp:carbons:2";
         public const string XML_XEP_0280_NAMESPACE_FORWARDED = "urn:xmpp:forward:0";
+        // XEP-0334 (Message Processing Hints):
+        public const string XML_XEP_0334_NAMESPACE = "urn:xmpp:hints";
     }
 }
