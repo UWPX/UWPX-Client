@@ -35,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             XElement node = base.toXElement();
             XNamespace ns = Consts.XML_XEP_0045_NAMESPACE;
             XElement xNode = new XElement(ns + "x");
-            if (ROOM_PASSWORD != null)
+            if (!string.IsNullOrEmpty(ROOM_PASSWORD))
             {
                 xNode.Add(new XElement(ns + "password")
                 {
