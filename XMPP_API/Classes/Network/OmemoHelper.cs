@@ -324,7 +324,7 @@ namespace XMPP_API.Classes.Network
                 OmemoSetDeviceListMessage msg = new OmemoSetDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), devicesRemote);
                 updateDeviceListHelper.start(msg);
             }
-            else if (!CONNECTION.account.omemoBundleInfoAnnounced)
+            else if (!CONNECTION.account.omemoBundleInfoAnnounced || true)
             {
                 announceBundleInfo();
             }

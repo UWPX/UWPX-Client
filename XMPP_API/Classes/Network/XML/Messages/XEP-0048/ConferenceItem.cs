@@ -51,7 +51,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         {
             XElement confNode = new XElement(ns + "conference");
             confNode.Add(new XAttribute("autojoin", autoJoin));
-            if (name != null)
+            if (!string.IsNullOrEmpty(name))
             {
                 confNode.Add(new XAttribute("name", name));
             }
@@ -59,7 +59,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
             {
                 confNode.Add(new XAttribute("jid", jid));
             }
-            if (password != null)
+            if (!string.IsNullOrEmpty(password))
             {
                 confNode.Add(new XElement(ns + "password", password));
             }
