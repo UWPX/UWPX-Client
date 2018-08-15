@@ -262,6 +262,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (chatMessage != null)
             {
                 lastChatMessage = chatMessage;
+                chatMessage.ChatMessageChanged -= ChatMessage_ChatMessageChanged;
                 chatMessage.ChatMessageChanged += ChatMessage_ChatMessageChanged;
                 switch (chatMessage.state)
                 {
@@ -707,6 +708,14 @@ namespace UWP_XMPP_Client.Controls.Chat
         private async void join_mfo_Click(object sender, RoutedEventArgs e)
         {
             await joinRoomAsync();
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (lastChatMessage != null)
+            {
+                lastChatMessage.ChatMessageChanged -= ChatMessage_ChatMessageChanged;
+            }
         }
 
         #endregion
