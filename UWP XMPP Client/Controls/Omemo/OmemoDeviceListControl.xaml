@@ -44,6 +44,7 @@
                   SelectionMode="None"/>
         <TextBlock x:Name="devicesInfo_tbx"
                    Grid.Row="2"
-                   Margin="0,10,0,0"/>
+                   Margin="0,10,0,0"
+                   FontWeight="Normal"/>
     </Grid>
 </UserControl>

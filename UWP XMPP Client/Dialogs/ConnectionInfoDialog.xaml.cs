@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
 using Windows.Security.Cryptography.Certificates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -56,16 +59,16 @@ namespace UWP_XMPP_Client.Dialogs
         }
         public static readonly DependencyProperty OmemoStateProperty = DependencyProperty.Register(nameof(OmemoState), typeof(OmemoHelperState), typeof(ConnectionInfoDialog), new PropertyMetadata(OmemoHelperState.DISABLED));
 
-        public XMPPAccount Account
+        public XMPPClient Client
         {
-            get { return (XMPPAccount)GetValue(AccountProperty); }
+            get { return (XMPPClient)GetValue(ClientProperty); }
             set
             {
-                SetValue(AccountProperty, value);
-                showAccount();
+                SetValue(ClientProperty, value);
+                showClient();
             }
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(ConnectionInfoDialog), new PropertyMetadata(null));
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ConnectionInfoDialog), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -196,12 +199,12 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
-        private void showAccount()
+        private void showClient()
         {
-            omemoFingerprint_ofc.MyFingerprint = Account?.getOmemoFingerprint();
-            if (Account != null)
+            omemoFingerprint_ofc.MyFingerprint = Client?.getXMPPAccount().getOmemoFingerprint();
+            if (Client != null)
             {
-                if (!Account.hasOmemoKeys())
+                if (!Client.getXMPPAccount().hasOmemoKeys())
                 {
                     omemoError_itbx.Text = "OMEMO keys are corrupted. Please remove and add your account again!";
                     omemoError_itbx.Visibility = Visibility.Visible;
@@ -209,6 +212,28 @@ namespace UWP_XMPP_Client.Dialogs
                 else
                 {
                     omemoError_itbx.Visibility = Visibility.Collapsed;
+                }
+
+                OmemoDevices devices = Client.getOmemoHelper().DEVICES;
+                if (devices != null)
+                {
+                    omemoDevices_odc.setDevices(devices.DEVICES);
+                    omemoDevicesInfo_tbx.Visibility = Visibility.Collapsed;
+                }
+                else
+                {
+                    omemoDevices_odc.setDevices(new List<uint>());
+                    omemoDevicesInfo_tbx.Visibility = Visibility.Visible;
+                }
+
+                uint deviceId = Client.getXMPPAccount().omemoDeviceId;
+                if (deviceId != 0)
+                {
+                    omemoDeviceId_run.Text = deviceId.ToString();
+                }
+                else
+                {
+                    omemoDeviceId_run.Text = "-";
                 }
             }
         }

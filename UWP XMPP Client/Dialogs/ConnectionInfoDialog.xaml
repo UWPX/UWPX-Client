@@ -129,6 +129,18 @@
                                                    Visibility="Collapsed"/>
                     <controlsOmemo:OmemoFingerprintControl x:Name="omemoFingerprint_ofc"
                                                            Margin="0,10,0,0"/>
+                    <TextBlock Margin="0,10,0,0">
+                        <Run FontWeight="Bold"
+                             Text="Your OMEMO device id:"/>
+                        <Run x:Name="omemoDeviceId_run"/>
+                    </TextBlock>
+                    <controlsOmemo:OmemoDeviceListControl x:Name="omemoDevices_odc"
+                                                          Margin="0,10,0,0"
+                                                          FontWeight="Bold"
+                                                          Header="Your OMEMO devices:"/>
+                    <TextBlock x:Name="omemoDevicesInfo_tbx"
+                               Text="OMEMO session not established."
+                               Visibility="Collapsed"/>
                 </StackPanel>
             </ScrollViewer>
         </PivotItem>
