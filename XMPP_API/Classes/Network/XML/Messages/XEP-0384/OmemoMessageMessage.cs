@@ -97,16 +97,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             SOURCE_DEVICE_ID = sourceDeviceId;
 
             // 1. Generate a new AES-128 GCM key/iv pair:
-            Aes128Gcm aes128Gcm = new Aes128Gcm()
-            {
-                data = Encoding.Unicode.GetBytes(MESSAGE)
-            };
+            Aes128Gcm aes128Gcm = new Aes128Gcm();
             aes128Gcm.generateKey();
             aes128Gcm.generateIv();
 
             // 2. Encrypt the message using the Aes128Gcm instance:
-            aes128Gcm.encrypt();
-            BASE_64_PAYLOAD = Convert.ToBase64String(aes128Gcm.encryptedData);
+            byte[] encryptedData = aes128Gcm.encrypt(Encoding.Unicode.GetBytes(MESSAGE));
+            BASE_64_PAYLOAD = Convert.ToBase64String(encryptedData);
             BASE_64_IV = Convert.ToBase64String(aes128Gcm.iv);
 
             // 3. Concatenate key and authentication tag:
