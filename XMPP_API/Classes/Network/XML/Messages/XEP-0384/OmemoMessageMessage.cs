@@ -96,7 +96,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             SOURCE_DEVICE_ID = sourceDeviceId;
 
-            // 1. Generate a new AES-128 GCM key/iv pair:
+            // 1. Generate a new AES-128 GCM key/iv:
             Aes128Gcm aes128Gcm = new Aes128Gcm();
             aes128Gcm.generateKey();
             aes128Gcm.generateIv();
