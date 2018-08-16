@@ -3,7 +3,6 @@ using Org.BouncyCastle.Crypto.Modes;
 using Org.BouncyCastle.Crypto.Parameters;
 using Org.BouncyCastle.Security;
 using System;
-using System.Security.Cryptography;
 
 namespace XMPP_API.Classes.Crypto
 {
@@ -14,18 +13,14 @@ namespace XMPP_API.Classes.Crypto
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private const string ALGORITHM_NAME = "AES";
-        private const int ALGORITHM_NONCE_SIZE = 12;
-        private const int ALGORITHM_KEY_SIZE = 16;
-        private const int PBKDF2_SALT_SIZE = 16;
-        private const int PBKDF2_ITERATIONS = 32767;
+        private const int IV_SIZE_BYTES = 12;
+        private const int KEY_SIZE_BYTES = 16;
+        private const int AUTH_TAG_SIZE_BITS = 128;
 
-        private readonly GcmBlockCipher CIPHER;
         private readonly SecureRandom SECURE_RANDOM;
-        public ParametersWithIV cipherParameters { get; private set; }
         public byte[] key;
-        public byte[] data;
-        public byte[] encryptedData;
+        public byte[] iv;
+        public byte[] authTag;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -38,12 +33,10 @@ namespace XMPP_API.Classes.Crypto
         /// </history>
         public Aes128Gcm()
         {
-            this.CIPHER = new GcmBlockCipher(new AesEngine());
             this.SECURE_RANDOM = new SecureRandom();
-            this.cipherParameters = null;
             this.key = null;
-            this.data = null;
-            this.encryptedData = null;
+            this.iv = null;
+            this.authTag = null;
         }
 
         #endregion
@@ -54,44 +47,48 @@ namespace XMPP_API.Classes.Crypto
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void encrypt()
+        public byte[] encrypt(byte[] data)
         {
-            // Generate a 96-bit nonce using a CSPRNG.
-            byte[] nonce = new byte[ALGORITHM_NONCE_SIZE];
-            SECURE_RANDOM.NextBytes(nonce);
+            // Create the cipher instance and initialize:
+            GcmBlockCipher cipher = new GcmBlockCipher(new AesEngine());
+            KeyParameter keyParam = new KeyParameter(key);
+            AeadParameters aeadParams = new AeadParameters(keyParam, AUTH_TAG_SIZE_BITS, iv);
+            cipher.Init(true, aeadParams);
 
-            // Create the cipher instance and initialize.
-            KeyParameter keyParam = ParameterUtilities.CreateKeyParameter(ALGORITHM_NAME, key);
-            cipherParameters = new ParametersWithIV(keyParam, nonce);
-            CIPHER.Init(true, cipherParameters);
+            // Encrypt and prepend iv:
+            byte[] ciphertext = new byte[cipher.GetOutputSize(data.Length)];
+            int length = cipher.ProcessBytes(data, 0, data.Length, ciphertext, 0);
+            cipher.DoFinal(ciphertext, length);
+            authTag = cipher.GetMac();
 
-            // Encrypt and prepend nonce.
-            byte[] ciphertext = new byte[CIPHER.GetOutputSize(data.Length)];
-            int length = CIPHER.ProcessBytes(data, 0, data.Length, ciphertext, 0);
-            CIPHER.DoFinal(ciphertext, length);
+            byte[] encryptedData = new byte[iv.Length + ciphertext.Length];
+            Buffer.BlockCopy(iv, 0, encryptedData, 0, iv.Length);
+            Buffer.BlockCopy(ciphertext, 0, encryptedData, iv.Length, ciphertext.Length);
 
-            encryptedData = new byte[nonce.Length + ciphertext.Length];
-            Array.Copy(nonce, 0, encryptedData, 0, nonce.Length);
-            Array.Copy(ciphertext, 0, encryptedData, nonce.Length, ciphertext.Length);
+            return encryptedData;
         }
 
-        public void decrypt()
+        public byte[] decrypt(byte[] encryptedData)
         {
-            // Retrieve the nonce and ciphertext.
-            byte[] nonce = new byte[ALGORITHM_NONCE_SIZE];
-            byte[] ciphertext = new byte[encryptedData.Length - ALGORITHM_NONCE_SIZE];
-            Array.Copy(encryptedData, 0, nonce, 0, nonce.Length);
-            Array.Copy(encryptedData, nonce.Length, ciphertext, 0, ciphertext.Length);
+            // Retrieve the nonce and ciphertext:
+            iv = new byte[IV_SIZE_BYTES];
+            byte[] ciphertext = new byte[encryptedData.Length - IV_SIZE_BYTES];
 
-            // Create the cipher instance and initialize.
-            KeyParameter keyParam = ParameterUtilities.CreateKeyParameter(ALGORITHM_NAME, key);
-            cipherParameters = new ParametersWithIV(keyParam, nonce);
-            CIPHER.Init(false, cipherParameters);
+            Buffer.BlockCopy(encryptedData, 0, iv, 0, iv.Length);
+            Buffer.BlockCopy(encryptedData, iv.Length, ciphertext, 0, ciphertext.Length);
 
-            // Decrypt and return result.
-            data = new byte[CIPHER.GetOutputSize(ciphertext.Length)];
-            int length = CIPHER.ProcessBytes(ciphertext, 0, ciphertext.Length, data, 0);
-            CIPHER.DoFinal(data, length);
+            // Create the cipher instance and initialize:
+            GcmBlockCipher cipher = new GcmBlockCipher(new AesEngine());
+            KeyParameter keyParam = new KeyParameter(key);
+            AeadParameters aeadParams = new AeadParameters(keyParam, AUTH_TAG_SIZE_BITS, iv);
+            cipher.Init(false, aeadParams);
+
+            // Decrypt and return result:
+            byte[] data = new byte[cipher.GetOutputSize(ciphertext.Length)];
+            int length = cipher.ProcessBytes(ciphertext, 0, ciphertext.Length, data, 0);
+            cipher.DoFinal(data, length);
+
+            return data;
         }
 
         /// <summary>
@@ -99,8 +96,17 @@ namespace XMPP_API.Classes.Crypto
         /// </summary>
         public void generateKey()
         {
-            key = new byte[16];
+            key = new byte[KEY_SIZE_BYTES];
             SECURE_RANDOM.NextBytes(key);
+        }
+
+        /// <summary>
+        /// Generates a 12 byte iv.
+        /// </summary>
+        public void generateIv()
+        {
+            iv = new byte[IV_SIZE_BYTES];
+            SECURE_RANDOM.NextBytes(iv);
         }
     }
 

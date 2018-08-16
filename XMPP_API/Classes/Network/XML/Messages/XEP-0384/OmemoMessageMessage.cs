@@ -102,21 +102,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 data = Encoding.Unicode.GetBytes(MESSAGE)
             };
             aes128Gcm.generateKey();
+            aes128Gcm.generateIv();
 
             // 2. Encrypt the message using the Aes128Gcm instance:
             aes128Gcm.encrypt();
             BASE_64_PAYLOAD = Convert.ToBase64String(aes128Gcm.encryptedData);
+            BASE_64_IV = Convert.ToBase64String(aes128Gcm.iv);
 
-            byte[] iv = aes128Gcm.cipherParameters.GetIV();
-            BASE_64_IV = Convert.ToBase64String(iv);
+            // 3. Concatenate key and authentication tag:
+            byte[] keyAuthTag = new byte[aes128Gcm.authTag.Length + aes128Gcm.key.Length];
+            Buffer.BlockCopy(aes128Gcm.key, 0, keyAuthTag, 0, aes128Gcm.key.Length);
+            Buffer.BlockCopy(aes128Gcm.authTag, 0, keyAuthTag, aes128Gcm.key.Length, aes128Gcm.authTag.Length);
 
-            // 3. Concatenate the AES:
-            byte[] keyiv = new byte[iv.Length + aes128Gcm.key.Length];
-            Buffer.BlockCopy(aes128Gcm.key, 0, keyiv, 0, aes128Gcm.key.Length);
-            Buffer.BlockCopy(iv, 0, keyiv, aes128Gcm.key.Length, iv.Length);
-
-            // 4. Encrypt the key/iv pair with libsignal for each deviceId:
-            CiphertextMessage ciphertextMessage = cipher.encrypt(keyiv);
+            // 4. Encrypt the key/authTag pair with libsignal for each deviceId:
+            CiphertextMessage ciphertextMessage = cipher.encrypt(keyAuthTag);
             foreach (uint deviceId in remoteDeviceIds)
             {
                 KEYS = new List<OmemoKey>()
