@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using Windows.Security.Cryptography;
 using XMPP_API.Classes.Crypto;
 
@@ -15,10 +13,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         #region --Attributes--
         private const byte CLIENT_NONCE_LENGTH = 32;
 
-        private readonly string CLIENT_NONCE;
+        private readonly string CLIENT_NONCE_BASE_64;
         private readonly string PASSWORD_NORMALIZED;
         private string serverNonce;
-        private string salt;
+        private string saltBase64;
         private string clientFirstMsg;
         private string serverFirstMsg;
 
@@ -31,23 +29,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public ScramSHA1SASLMechanism(string id, string password) : base(id, password)
+        public ScramSHA1SASLMechanism(string id, string password) : this(id, password, CryptographicBuffer.EncodeToBase64String(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH)))
         {
-            this.PASSWORD_NORMALIZED = password.Normalize();
-            this.CLIENT_NONCE = CryptographicBuffer.EncodeToHexString(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH));
-            this.serverNonce = null;
-            this.salt = null;
-            this.clientFirstMsg = null;
-            this.serverFirstMsg = null;
+
         }
 
-        public ScramSHA1SASLMechanism(string id, string password, string clientNonce) : base(id, password)
+        public ScramSHA1SASLMechanism(string id, string password, string clientNonceBase64) : base(id, password)
         {
             this.PASSWORD_NORMALIZED = password.Normalize();
-            this.CLIENT_NONCE = CryptographicBuffer.EncodeToHexString(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH));
-            this.CLIENT_NONCE = "fyko+d2lbbFgONRv9qkxdawL";
+            this.CLIENT_NONCE_BASE_64 = clientNonceBase64;
             this.serverNonce = null;
-            this.salt = null;
+            this.saltBase64 = null;
             this.clientFirstMsg = null;
             this.serverFirstMsg = null;
         }
@@ -65,9 +57,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
             if (msg is ScramSHA1ChallengeMessage challenge)
             {
                 serverFirstMsg = decodeStringBase64(challenge.CHALLENGE);
-
-                serverFirstMsg = "r=fyko+d2lbbFgONRv9qkxdawL3rfcNHYJY1ZVvWVs7j,s=QSXCR+Q6sek8bf92,i=4096";
-
 
                 string[] parts = serverFirstMsg.Split(',');
                 if (parts.Length != 3)
@@ -87,7 +76,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
                 {
                     // Throw wrong order
                 }
-                salt = decodeStringBase64(saltTemp.Substring(2));
+                saltBase64 = saltTemp.Substring(2);
 
                 string itersStr = parts[2];
                 if (!itersStr.StartsWith("i="))
@@ -95,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
                     // Throw wrong order
                 }
                 itersStr = itersStr.Substring(2);
-                if (!uint.TryParse(itersStr, out uint iters))
+                if (!int.TryParse(itersStr, out int iters))
                 {
                     // Throw could not pars iterations
                 }
@@ -108,7 +97,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
 
         public override SelectSASLMechanismMessage getSelectSASLMechanismMessage()
         {
-            clientFirstMsg = "n=" + ID + ",r=" + CLIENT_NONCE;
+            clientFirstMsg = "n=" + ID + ",r=" + CLIENT_NONCE_BASE_64;
             string encClientFirstMsg = encodeStringBase64("n,," + clientFirstMsg);
 
             return new SelectSASLMechanismMessage("SCRAM-SHA-1", encClientFirstMsg);
@@ -117,38 +106,23 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         #endregion
 
         #region --Misc Methods (Private)--
-        private string computeAnswer(uint iterations)
+        private string computeAnswer(int iterations)
         {
-            byte[] b = Encoding.ASCII.GetBytes(salt);
-            byte[] b1 = Encoding.ASCII.GetBytes("A%ÂGä:±é<mÿv");
-            byte[] b2 = hexStringToByteArray("4125c247e43ab1e93c6dff76");
-
-
             string clientFinalMessageBare = "c=biws,r=" + serverNonce;
-            string saltedPassword = CryptoUtils.PBKDF2_SHA_1(PASSWORD_NORMALIZED, salt, iterations);
-            string saltedPassword2 = CryptoUtils.PBKDF2_SHA_1(PASSWORD_NORMALIZED, "A%ÂGä:±é<mÿv", iterations);
+            byte[] saltBytes = Convert.FromBase64String(saltBase64);
+            byte[] saltedPassword = CryptoUtils.Pbkdf2Sha1(PASSWORD_NORMALIZED, saltBytes, iterations);
 
-            byte[] b3 = hexStringToByteArray("1d96ee3a529b5a5f9e47c01f229a2cb8a6e15f7d");
-            byte[] b4 = hexStringToByteArray(saltedPassword);
-            byte[] b5 = hexStringToByteArray(saltedPassword2);
-
-            string clientKey = CryptoUtils.HMAC_SHA_1(saltedPassword, hexStringToByteArray("e234c47bf6c36696dd6d852b99aaa2ba26555728"));
-            string storedKey = CryptoUtils.SHA_1(clientKey);
+            byte[] clientKey = CryptoUtils.HmacSha1("Client Key", saltedPassword);
+            byte[] storedKey = CryptoUtils.SHA_1(clientKey);
             string authMessage = clientFirstMsg + ',' + serverFirstMsg + ',' + clientFinalMessageBare;
-            string clientSignature = CryptoUtils.HMAC_SHA_1(storedKey, authMessage);
-            string clientProof = CryptoUtils.xorStrings(clientKey, authMessage);
-            string serverKey = CryptoUtils.HMAC_SHA_1(saltedPassword, hexStringToByteArray("e9d94660c39d65c38fbad91c358f14da0eef2bd6"));
-            string serverSignature = CryptoUtils.HMAC_SHA_1(serverKey, authMessage);
-            string clientFinalMessage = clientFinalMessageBare + ",p=" + encodeStringBase64(clientProof);
-            return encodeStringBase64(clientFinalMessage);
-        }
 
-        public static byte[] hexStringToByteArray(string hex)
-        {
-            return Enumerable.Range(0, hex.Length)
-                             .Where(x => x % 2 == 0)
-                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
-                             .ToArray();
+            byte[] clientSignature = CryptoUtils.HmacSha1(authMessage, storedKey);
+            byte[] clientProof = CryptoUtils.xor(clientKey, clientSignature);
+            byte[] serverKey = CryptoUtils.HmacSha1("Server Key", saltedPassword);
+            byte[] serverSignature = CryptoUtils.HmacSha1(authMessage, serverKey);
+            string clientFinalMessage = clientFinalMessageBare + ",p=" + Convert.ToBase64String(clientProof);
+
+            return encodeStringBase64(clientFinalMessage);
         }
 
         #endregion

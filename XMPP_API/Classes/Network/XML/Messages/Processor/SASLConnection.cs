@@ -16,8 +16,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Attributes--
         private SASLState state;
         private AbstractSASLMechanism selectedMechanism;
-        //private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "scram-sha-1" };
-        private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "plain" };
+        // The offered authentication mechanism in preferred order:
+        private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "scram-sha-1", "plain" };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

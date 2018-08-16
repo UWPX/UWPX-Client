@@ -9,6 +9,8 @@ using System.Text;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Linq;
 
 namespace XMPP_API.Classes.Crypto
 {
@@ -32,60 +34,56 @@ namespace XMPP_API.Classes.Crypto
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Based on: https://gist.github.com/charlesportwoodii/a571e1a3541b708df18881f086e31002
+        /// RFC 2898 with Sha1
         /// </summary>
-        public static string PBKDF2_SHA_1(string normalizedPassword, string salt, uint iterations)
+        public static byte[] Pbkdf2Sha1(string normalizedPassword, byte[] salt, int iterations)
         {
-            KeyDerivationAlgorithmProvider provider = KeyDerivationAlgorithmProvider.OpenAlgorithm(KeyDerivationAlgorithmNames.Pbkdf2Sha1);
+            string s = byteArrayToHexString(salt);
+            Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(normalizedPassword, salt)
+            {
+                IterationCount = iterations
+            };
 
-            // This is our secret password
-            IBuffer buffSecret = CryptographicBuffer.ConvertStringToBinary(normalizedPassword, BinaryStringEncoding.Utf8);
-
-            // Use the provided salt
-            IBuffer buffSalt = CryptographicBuffer.ConvertStringToBinary(salt, BinaryStringEncoding.Utf8);
-
-            // Create the derivation parameters.
-            KeyDerivationParameters pbkdf2Params = KeyDerivationParameters.BuildForPbkdf2(buffSalt, iterations);
-
-            // Create a key from the secret value.
-            CryptographicKey keyOriginal = provider.CreateKey(buffSecret);
-
-            // Derive a key based on the original key and the derivation parameters.
-            IBuffer keyDerived = CryptographicEngine.DeriveKeyMaterial(keyOriginal, pbkdf2Params, 20);
-
-            // Encode the key to a hexadecimal value (for display)
-            return CryptographicBuffer.EncodeToHexString(keyDerived);
+            return deriveBytes.GetBytes(20);
         }
 
-        public static string HMAC_SHA_1(string data, string key)
+        public static byte[] HmacSha1(byte[] data, string key)
         {
-            return HMAC_SHA_1(data, Encoding.ASCII.GetBytes(key));
+            return HmacSha1(data, Encoding.ASCII.GetBytes(key));
         }
 
-        public static string HMAC_SHA_1(string data, byte[] key)
+        public static byte[] HmacSha1(string data, string key)
         {
-            HMACSHA1 hMACSHA1 = new HMACSHA1(key);
-            hMACSHA1.Initialize();
-            byte[] result = hMACSHA1.ComputeHash(Encoding.ASCII.GetBytes(data));
-            return Encoding.ASCII.GetString(result);
+            return HmacSha1(Encoding.ASCII.GetBytes(data), Encoding.ASCII.GetBytes(key));
         }
 
-        public static string SHA_1(string data)
+        public static byte[] HmacSha1(string data, byte[] key)
+        {
+            return HmacSha1(Encoding.ASCII.GetBytes(data), key);
+        }
+
+        public static byte[] HmacSha1(byte[] data, byte[] key)
+        {
+            HMACSHA1 hmac = new HMACSHA1(key);
+            hmac.Initialize();
+            return hmac.ComputeHash(data);
+        }
+
+        public static byte[] SHA_1(byte[] data)
         {
             return hash(data, HashAlgorithmNames.Sha1);
         }
 
-        public static string xorStrings(string a, string b)
+        public static byte[] xor(byte[] a, byte[] b)
         {
-            char[] key = b.ToCharArray();
-            char[] output = new char[a.Length];
+            byte[] output = new byte[b.Length];
 
-            for (int i = 0; i < a.Length; i++)
+            for (int i = 0; i < b.Length; i++)
             {
-                output[i] = (char)(a[i] ^ key[i % key.Length]);
+                output[i] = (byte)(b[i] ^ a[i % a.Length]);
             }
 
-            return new string(output);
+            return output;
         }
 
         public static SignedPreKeyRecord generateOmemoSignedPreKey(IdentityKeyPair identityKeyPair)
@@ -128,20 +126,36 @@ namespace XMPP_API.Classes.Crypto
             return FINGERPRINT_GENERATOR.createFor(accountId, key, accountId, key);
         }
 
+        public static byte[] hexStringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
+
+        public static string byteArrayToHexString(byte[] data)
+        {
+            StringBuilder hex = new StringBuilder(data.Length * 2);
+            foreach (byte b in data)
+                hex.AppendFormat("{0:x2}", b);
+            return hex.ToString();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
         // Source: https://docs.microsoft.com/en-us/uwp/api/windows.security.cryptography.core.hashalgorithmprovider
-        private static string hash(string data, string algName)
+        private static byte[] hash(byte[] data, string algName)
         {
             // Convert the message string to binary data.
-            IBuffer buffUtf8Msg = CryptographicBuffer.ConvertStringToBinary(data, BinaryStringEncoding.Utf8);
+            IBuffer buffUtf8Msg = CryptographicBuffer.CreateFromByteArray(data);
 
             // Create a HashAlgorithmProvider object.
             HashAlgorithmProvider objAlgProv = HashAlgorithmProvider.OpenAlgorithm(algName);
 
             // Demonstrate how to retrieve the name of the hashing algorithm.
-            String strAlgNameUsed = objAlgProv.AlgorithmName;
+            string strAlgNameUsed = objAlgProv.AlgorithmName;
 
             // Hash the message.
             IBuffer buffHash = objAlgProv.HashData(buffUtf8Msg);
@@ -152,11 +166,8 @@ namespace XMPP_API.Classes.Crypto
                 throw new Exception("There was an error creating the hash");
             }
 
-            // Convert the hash to a string (for display).
-            String strHashBase64 = CryptographicBuffer.EncodeToBase64String(buffHash);
-
             // Return the encoded string
-            return strHashBase64;
+            return buffHash.ToArray();
         }
 
         #endregion

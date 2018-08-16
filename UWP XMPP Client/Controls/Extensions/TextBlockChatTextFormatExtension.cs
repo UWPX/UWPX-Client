@@ -66,25 +66,25 @@ namespace UWP_XMPP_Client.Controls.Extensions
                             var firstMatch = matches.Where(x => x.Success).OrderBy(x => x.Index).FirstOrDefault();
                             if (firstMatch == matches[0])
                             {
-                                // the first match is an URL
+                                // the first match is an URL:
                                 CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
                                 lastPosition = CreateUrlElement(textBlock, firstMatch);
                             }
                             else if (firstMatch == matches[1])
                             {
-                                // the first match is an email
+                                // the first match is an email:
                                 CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
                                 lastPosition = CreateContactElement(textBlock, firstMatch, null);
                             }
                             else if (firstMatch == matches[2])
                             {
-                                // the first match is a phonenumber
+                                // the first match is a phone number:
                                 CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
                                 lastPosition = CreateContactElement(textBlock, null, firstMatch);
                             }
                             else
                             {
-                                // no match, we add the whole text
+                                // no match, we add the whole text:
                                 textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) });
                                 lastPosition = text.Length;
                             }
