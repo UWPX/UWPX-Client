@@ -84,7 +84,7 @@
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
-            <Button x:Name="scrollDown_btn"
+            <!--<Button x:Name="scrollDown_btn"
                     Grid.Row="0"
                     Margin="10"
                     HorizontalAlignment="Right"
@@ -92,7 +92,7 @@
                     Click="scrollDown_btn_Click"
                     Content="&#xF0AE;"
                     FontFamily="Segoe MDL2 Assets"
-                    FontSize="30"/>
+                    FontSize="30"/>-->
 
             <controls1:Loading x:Name="loading_ldng"
                                Grid.Row="0"

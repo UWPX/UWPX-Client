@@ -800,7 +800,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (chatMessages.Count >= 1)
             {
-                invertedListView_lstv.ScrollIntoView(chatMessages[0]);
+                invertedListView_lstv.ScrollIntoView(chatMessages[chatMessages.Count - 1]);
             }
         }
 
