@@ -62,7 +62,7 @@
                                         Background="Transparent"
                                         DetailsTemplate="{StaticResource detailsTemplate}"
                                         ItemTemplate="{StaticResource masterTemplate}"
-                                        ItemsSource="{x:Bind chatsList, Mode=OneWay}"
+                                        ItemsSource="{x:Bind CHATS, Mode=OneWay}"
                                         MasterPaneBackground="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         NoSelectionContentTemplate="{StaticResource noSelectionTemplate}"
                                         SelectionChanged="masterDetail_pnl_SelectionChanged">
