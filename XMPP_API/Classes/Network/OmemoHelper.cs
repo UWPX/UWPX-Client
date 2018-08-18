@@ -28,6 +28,11 @@ namespace XMPP_API.Classes.Network
         private MessageResponseHelper<IQMessage> updateDeviceListHelper;
         private MessageResponseHelper<IQMessage> announceBundleInfoHelper;
 
+        private MessageResponseHelper<IQMessage> requestDeviceListStatelessHelper;
+        private MessageResponseHelper<IQMessage> resetDeviceListStatelessHelper;
+        private Action<bool, OmemoDevices> requestDeviceListStatelessOnResult;
+        private Action<bool> resetDeviceListStatelessOnResult;
+
         // Keep sessions during App runtime:
         private readonly Dictionary<string, OmemoSession> OMEMO_SESSIONS;
         private readonly Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>> MESSAGE_CACHE;
@@ -137,6 +142,19 @@ namespace XMPP_API.Classes.Network
                 announceBundleInfoHelper.Dispose();
                 announceBundleInfoHelper = null;
             }
+            if (requestDeviceListStatelessHelper != null)
+            {
+                requestDeviceListStatelessHelper.Dispose();
+                requestDeviceListStatelessHelper = null;
+            }
+            if (resetDeviceListStatelessHelper != null)
+            {
+                resetDeviceListStatelessHelper.Dispose();
+                resetDeviceListStatelessHelper = null;
+            }
+
+            requestDeviceListStatelessOnResult = null;
+            resetDeviceListStatelessOnResult = null;
         }
 
         public SignalProtocolAddress newSession(string chatJid, OmemoBundleInformationResultMessage bundleInfoMsg)
@@ -177,9 +195,93 @@ namespace XMPP_API.Classes.Network
             OmemoDeviceDBManager.INSTANCE.setDeviceListSubscription(new OmemoDeviceListSubscriptionTable(chatJid, CONNECTION.account.getIdAndDomain(), OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
         }
 
+        public void requestDeviceListStateless(Action<bool, OmemoDevices> onResult)
+        {
+            requestDeviceListStatelessOnResult = onResult;
+
+            if (requestDeviceListStatelessHelper != null)
+            {
+                requestDeviceListStatelessHelper.Dispose();
+                requestDeviceListStatelessHelper = null;
+            }
+            requestDeviceListStatelessHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onRequestDeviceListStatelessMessage, onRequestDeviceListStatelessTimeout);
+            OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), null);
+            requestDeviceListStatelessHelper.start(msg);
+        }
+
+        public void resetDeviceListStateless(Action<bool> onResult)
+        {
+            resetDeviceListStatelessOnResult = onResult;
+            if (resetDeviceListStatelessHelper != null)
+            {
+                resetDeviceListStatelessHelper.Dispose();
+                resetDeviceListStatelessHelper = null;
+            }
+            OmemoDevices devices = new OmemoDevices();
+            devices.DEVICES.Add(CONNECTION.account.omemoDeviceId);
+            resetDeviceListStatelessHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onResetDeviceListStatelessMessage, onResetDeviceListStatelessTimeout);
+            OmemoSetDeviceListMessage msg = new OmemoSetDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), devices);
+            resetDeviceListStatelessHelper.start(msg);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
+        private bool onResetDeviceListStatelessMessage(IQMessage msg)
+        {
+            if (msg is IQErrorMessage errMsg)
+            {
+                resetDeviceListStatelessOnResult?.Invoke(false);
+                resetDeviceListStatelessOnResult = null;
+                return true;
+            }
+            else if (msg is IQMessage)
+            {
+                DEVICES.DEVICES.Clear();
+                DEVICES.DEVICES.Add(CONNECTION.account.omemoDeviceId);
+                resetDeviceListStatelessOnResult?.Invoke(true);
+                resetDeviceListStatelessOnResult = null;
+                return true;
+            }
+            return false;
+        }
+
+        private void onResetDeviceListStatelessTimeout()
+        {
+            resetDeviceListStatelessOnResult?.Invoke(false);
+            resetDeviceListStatelessOnResult = null;
+        }
+
+        private bool onRequestDeviceListStatelessMessage(IQMessage msg)
+        {
+            if (msg is OmemoDeviceListResultMessage devMsg)
+            {
+                requestDeviceListStatelessOnResult?.Invoke(true, devMsg.DEVICES);
+                requestDeviceListStatelessOnResult = null;
+                return true;
+            }
+            else if (msg is IQErrorMessage errMsg)
+            {
+                if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
+                {
+                    requestDeviceListStatelessOnResult?.Invoke(true, new OmemoDevices());
+                }
+                else
+                {
+                    requestDeviceListStatelessOnResult?.Invoke(false, null);
+                }
+                requestDeviceListStatelessOnResult = null;
+                return true;
+            }
+            return false;
+        }
+
+        private void onRequestDeviceListStatelessTimeout()
+        {
+            requestDeviceListStatelessOnResult?.Invoke(false, null);
+            requestDeviceListStatelessOnResult = null;
+        }
+
         private void onSessionBuilderResult(OmemoSessionBuildResult result)
         {
             if (result.SUCCESS)
@@ -224,7 +326,7 @@ namespace XMPP_API.Classes.Network
         {
             if (msg is OmemoDeviceListResultMessage devMsg)
             {
-                updateDevicesIfNeeded(devMsg.DEVICES);
+                updateDevicesIfNeeded(null);
                 return true;
             }
             else if (msg is IQErrorMessage errMsg)

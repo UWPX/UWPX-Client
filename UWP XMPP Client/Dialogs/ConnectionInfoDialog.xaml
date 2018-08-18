@@ -141,6 +141,51 @@
                     <TextBlock x:Name="omemoDevicesInfo_tbx"
                                Text="OMEMO session not established."
                                Visibility="Collapsed"/>
+                    <Grid Margin="0,10,0,0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button x:Name="resetOmemoDevices_btn"
+                                Grid.Column="0"
+                                Margin="0,0,1,0"
+                                HorizontalAlignment="Stretch"
+                                Click="resetOmemoDevices_btn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           Foreground="{ThemeResource SystemAccentColor}"
+                                           Text="&#xED62;"/>
+                                <TextBlock Margin="10,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Text="Reset devices"/>
+                                <ProgressRing x:Name="resetOmemoDevices_pgr"
+                                              Margin="10,0,0,0"
+                                              IsActive="True"
+                                              Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Button>
+                        <Button x:Name="refreshOmemoDevices_btn"
+                                Grid.Column="1"
+                                Margin="1,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                Click="refreshOmemoDevices_btn_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock VerticalAlignment="Center"
+                                           FontFamily="Segoe MDL2 Assets"
+                                           Foreground="{ThemeResource SystemAccentColor}"
+                                           Text="&#xE72C;"/>
+                                <TextBlock Margin="10,0,0,0"
+                                           VerticalAlignment="Center"
+                                           Text="Refresh"/>
+                                <ProgressRing x:Name="refreshOmemoDevices_pgr"
+                                              Margin="10,0,0,0"
+                                              IsActive="True"
+                                              Visibility="Collapsed"/>
+                            </StackPanel>
+                        </Button>
+                    </Grid>
                 </StackPanel>
             </ScrollViewer>
         </PivotItem>

@@ -271,6 +271,48 @@ namespace UWP_XMPP_Client.Dialogs
             });
         }
 
+        private void resetOmemoDevices_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Client != null)
+            {
+                resetOmemoDevices_btn.IsEnabled = false;
+                resetOmemoDevices_pgr.Visibility = Visibility.Visible;
+                Client.getOmemoHelper().resetDeviceListStateless(onResetDeviceListResult);
+            }
+        }
+
+        private void refreshOmemoDevices_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (Client != null)
+            {
+                refreshOmemoDevices_btn.IsEnabled = false;
+                refreshOmemoDevices_pgr.Visibility = Visibility.Visible;
+                Client.getOmemoHelper().requestDeviceListStateless(onDeviceListResult);
+            }
+        }
+
+        private async void onResetDeviceListResult(bool success)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                resetOmemoDevices_pgr.Visibility = Visibility.Collapsed;
+                resetOmemoDevices_btn.IsEnabled = true;
+            });
+        }
+
+        private async void onDeviceListResult(bool success, OmemoDevices devices)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (success)
+                {
+                    omemoDevices_odc.setDevices(devices.DEVICES);
+                    refreshOmemoDevices_pgr.Visibility = Visibility.Collapsed;
+                    refreshOmemoDevices_btn.IsEnabled = true;
+                }
+            });
+        }
+
         #endregion
     }
 }
