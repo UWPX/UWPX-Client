@@ -355,6 +355,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     messageText = messageText.TrimEnd(TRIM_CHARS);
 
                     // For MUC messages also pass the nickname:
+                    bool toEncrypt = false;
                     if (Chat.chatType == ChatType.MUC && MUCInfo != null)
                     {
                         sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), MUCInfo.nickname, false);
@@ -364,13 +365,17 @@ namespace UWP_XMPP_Client.Controls.Chat
                         if (Chat.omemoEnabled)
                         {
                             sendMessage = new OmemoMessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), true);
+                            toEncrypt = true;
                         }
                         else
                         {
                             sendMessage = new MessageMessage(Client.getXMPPAccount().getIdAndDomain(), Chat.chatJabberId, messageText, getChatType(), true);
                         }
                     }
-                    ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat) { state = MessageState.SENDING };
+                    ChatMessageTable sendMessageTable = new ChatMessageTable(sendMessage, Chat)
+                    {
+                        state = toEncrypt ? MessageState.TO_ENCRYPT : MessageState.SENDING
+                    };
 
                     // Set chatMessageId:
                     sendMessage.chatMessageId = sendMessageTable.id;

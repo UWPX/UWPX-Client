@@ -7,5 +7,6 @@
         UNREAD,
         READ,
         DELIVERED,
+        TO_ENCRYPT
     }
 }

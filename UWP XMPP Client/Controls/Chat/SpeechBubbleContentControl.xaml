@@ -160,6 +160,9 @@
                                Text="&#xE73E;"/>
                 </Grid>
             </Grid>
+            <ProgressBar x:Name="toEncryp_pgb"
+                         IsIndeterminate="True"
+                         Visibility="Collapsed"/>
         </StackPanel>
     </Border>
 </UserControl>
