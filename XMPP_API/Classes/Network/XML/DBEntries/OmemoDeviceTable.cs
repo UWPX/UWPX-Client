@@ -12,7 +12,7 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         [NotNull]
         public string chatJid { get; set; }
         [NotNull]
-        public string accountJid { get; set; }
+        public string accountId { get; set; }
         public uint deviceId { get; set; }
 
         #endregion
@@ -36,9 +36,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string chatJid, string accountJid, uint deviceId)
+        public static string generateId(string chatJid, string accountId, uint deviceId)
         {
-            return chatJid + '_' + accountJid + '_' + deviceId;
+            return chatJid + '_' + accountId + '_' + deviceId;
         }
 
         #endregion

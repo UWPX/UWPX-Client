@@ -13,7 +13,7 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         [NotNull]
         public string chatJid { get; set; }
         [NotNull]
-        public string accountJid { get; set; }
+        public string accountId { get; set; }
         public OmemoDeviceListSubscriptionState state { get; set; }
         public DateTime lastUpdateReceived { get; set; }
 
@@ -30,11 +30,11 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         {
         }
 
-        public OmemoDeviceListSubscriptionTable(string chatJid, string accountJid, OmemoDeviceListSubscriptionState state, DateTime lastUpdateReceived)
+        public OmemoDeviceListSubscriptionTable(string chatJid, string accountId, OmemoDeviceListSubscriptionState state, DateTime lastUpdateReceived)
         {
-            this.id = generateId(chatJid, accountJid);
+            this.id = generateId(chatJid, accountId);
             this.chatJid = chatJid;
-            this.accountJid = accountJid;
+            this.accountId = accountId;
             this.state = state;
             this.lastUpdateReceived = lastUpdateReceived;
         }
@@ -47,9 +47,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string chatJid, string accountJid)
+        public static string generateId(string chatJid, string accountId)
         {
-            return chatJid + '_' + accountJid;
+            return chatJid + '_' + accountId;
         }
 
         #endregion
