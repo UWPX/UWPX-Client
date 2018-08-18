@@ -15,6 +15,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private readonly Action ON_TIMEOUT;
 
         private readonly SemaphoreSlim SEMA;
+        private bool disposed;
 
         /// <summary>
         /// The default timeout is 5000 ms = 5 sec.
@@ -46,6 +47,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.matchId = true;
             this.sendId = null;
             this.SEMA = new SemaphoreSlim(1, 1);
+            this.disposed = false;
         }
 
         #endregion
@@ -106,7 +108,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
             finally
             {
-                SEMA.Release();
+                if (!disposed)
+                {
+                    SEMA.Release();
+                }
             }
         }
 
@@ -119,6 +124,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public void Dispose()
         {
+            disposed = true;
             stop();
             SEMA.Dispose();
         }
@@ -154,7 +160,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 }
                 finally
                 {
-                    SEMA.Release();
+                    if (!disposed)
+                    {
+                        SEMA.Release();
+                    }
                 }
             }
         }
