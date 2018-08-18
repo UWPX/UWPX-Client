@@ -210,14 +210,24 @@ namespace Component_Tests
         [TestMethod]
         public void TestAes128Gcm()
         {
-            Aes128Gcm aes = new Aes128Gcm();
-            aes.generateKey();
-            aes.generateIv();
-            aes.encrypt(new byte[10]);
-            string a = CryptoUtils.byteArrayToHexString(aes.authTag);
+            for (int i = 0; i < 100; i++)
+            {
+                Aes128Gcm aesEnc = new Aes128Gcm();
+                aesEnc.generateKey();
+                aesEnc.generateIv();
+                Random r = new Random();
+                byte[] data = new byte[200];
+                r.NextBytes(data);
+                byte[] dataEnc = aesEnc.encrypt(data);
 
-            aes.encrypt(new byte[10]);
-            string b = CryptoUtils.byteArrayToHexString(aes.authTag);
+                Aes128Gcm aesDec = new Aes128Gcm()
+                {
+                    authTag = aesEnc.authTag,
+                    iv = aesEnc.iv,
+                    key = aesEnc.key
+                };
+                Assert.IsTrue(data.SequenceEqual(aesDec.decrypt(dataEnc)));
+            }
         }
         #endregion
 
