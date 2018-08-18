@@ -444,7 +444,7 @@ namespace Data_Manager2.Classes
                     return;
                 }
                 OmemoHelper omemoHelper = client.getOmemoHelper();
-                SessionCipher cipher = omemoHelper.getSessionCipher(from);
+                /*SessionCipher cipher = omemoHelper.get(from);
                 if (cipher != null)
                 {
                     omemoMessage.decrypt(cipher);
@@ -452,7 +452,7 @@ namespace Data_Manager2.Classes
                 else
                 {
                     // ToDo: Build new session
-                }
+                }*/
             }
 
             string to = Utils.getBareJidFromFullJid(msg.getTo());

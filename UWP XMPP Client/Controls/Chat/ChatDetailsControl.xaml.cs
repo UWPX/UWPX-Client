@@ -390,7 +390,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     });
                     if (sendMessage is OmemoMessageMessage omemoMsg)
                     {
-                        Task t = Client.sendOmemoMessageAsync(omemoMsg, Chat.chatJabberId, Client.getXMPPAccount().getIdAndDomain());
+                        Client.sendOmemoMessage(omemoMsg, Chat.chatJabberId, Client.getXMPPAccount().getIdAndDomain());
                     }
                     else
                     {

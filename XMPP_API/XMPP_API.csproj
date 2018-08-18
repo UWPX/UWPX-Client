@@ -144,6 +144,8 @@
     <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\IdentityKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageCacheTable.cs" />
+    <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceListSubscriptionState.cs" />
+    <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceListSubscriptionTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\PreKeyTable.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\SessionStoreTable.cs" />
@@ -256,6 +258,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoPreKeyStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSessionStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\OmemoSignedPreKeyStore.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSession.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelperState.cs" />

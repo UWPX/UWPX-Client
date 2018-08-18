@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Thread_Save_Components.Classes.SQLite;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -54,9 +55,26 @@ namespace XMPP_API.Classes.Network.XML.DBManager
             setDevices(deviceTables, chatJid);
         }
 
+        public void setDeviceListSubscription(OmemoDeviceListSubscriptionTable subscriptionTable)
+        {
+            dB.InsertOrReplace(subscriptionTable);
+        }
+
         public List<OmemoDeviceTable> getDevices(string chatJid, string accountJid)
         {
             return dB.Query<OmemoDeviceTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE chatJid = ? AND accountJid = ?;", chatJid, accountJid);
+        }
+
+        public OmemoDevices getOmemoDevices(string chatJid, string accountJid)
+        {
+            List<OmemoDeviceTable> deviceTables = getDevices(chatJid, accountJid);
+            OmemoDevices devices = new OmemoDevices();
+            List<uint> deviceIds = new List<uint>();
+            foreach (OmemoDeviceTable device in deviceTables)
+            {
+                devices.DEVICES.Add(device.deviceId);
+            }
+            return devices;
         }
 
         public List<uint> getDeviceIds(string chatJid, string accountJid)
@@ -70,17 +88,34 @@ namespace XMPP_API.Classes.Network.XML.DBManager
             return deviceIds;
         }
 
+        public OmemoDeviceListSubscriptionTable getDeviceListSubscription(string chatJid, string accountJid)
+        {
+            List<OmemoDeviceListSubscriptionTable> subscriptions = dB.Query<OmemoDeviceListSubscriptionTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE + " WHERE id = ?;", OmemoDeviceListSubscriptionTable.generateId(chatJid, accountJid));
+            if (subscriptions == null || subscriptions.Count <= 0)
+            {
+                return new OmemoDeviceListSubscriptionTable(chatJid, accountJid, OmemoDeviceListSubscriptionState.NONE, DateTime.MinValue);
+            }
+            return subscriptions[0];
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void deleteDevicesForChat(string chatJid)
+        public void deleteAllForChat(string chatJid)
         {
-            dB.Query<OmemoDeviceTable>(true, "DELETE FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE chatJid = ?;", chatJid);
+            deleteDevicesForChat(chatJid);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE + " WHERE chatJid = ?;", chatJid);
         }
 
-        public void deleteDevicesForAccount(string accountId)
+        public void deleteDevicesForChat(string chatJid)
         {
-            dB.Query<OmemoDeviceTable>(true, "DELETE FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE accountId = ?;", accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE chatJid = ?;", chatJid);
+        }
+
+        public void deleteAllForAccount(string accountId)
+        {
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_DEVICE_TABLE + " WHERE accountId = ?;", accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         #endregion
@@ -94,11 +129,13 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         protected override void createTables()
         {
             dB.CreateTable<OmemoDeviceTable>();
+            dB.CreateTable<OmemoDeviceListSubscriptionTable>();
         }
 
         protected override void dropTables()
         {
             dB.DropTable<OmemoDeviceTable>();
+            dB.DropTable<OmemoDeviceListSubscriptionTable>();
         }
 
         #endregion

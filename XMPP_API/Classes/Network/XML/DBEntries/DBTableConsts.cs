@@ -8,5 +8,6 @@
         public const string IDENTITY_KEY_TABLE = "IdentityKeyTable";
         public const string SESSION_STORE_TABLE = "SessionStoreTable";
         public const string OMEMO_DEVICE_TABLE = "OmemoDeviceTable";
+        public const string OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE = "OmemoDeviceListSubscriptionTable";
     }
 }

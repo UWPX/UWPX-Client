@@ -1,12 +1,15 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
+﻿using libsignal;
+using System;
+using System.Collections.Generic;
+
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 {
-    public class OmemoSessionBuildResult
+    public class OmemoSession
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly bool SUCCESS;
-        public readonly OmemoSessionBuildError ERROR;
-        public readonly OmemoSession SESSION;
+        public readonly Dictionary<uint, Tuple<SessionCipher, bool>> DEVICE_SESSIONS;
+        public readonly string CHAT_JID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,18 +18,12 @@
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 10/08/2018 Created [Fabian Sauter]
+        /// 18/08/2018 Created [Fabian Sauter]
         /// </history>
-        internal OmemoSessionBuildResult(OmemoSession session)
+        public OmemoSession(string chatJid)
         {
-            this.SESSION = session;
-            this.SUCCESS = true;
-        }
-
-        internal OmemoSessionBuildResult(OmemoSessionBuildError error)
-        {
-            this.ERROR = error;
-            this.SUCCESS = false;
+            this.CHAT_JID = chatJid;
+            this.DEVICE_SESSIONS = new Dictionary<uint, Tuple<SessionCipher, bool>>();
         }
 
         #endregion

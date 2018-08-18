@@ -123,7 +123,7 @@ namespace Data_Manager2.Classes.DBManager
             dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
             if (deleteAllKeys)
             {
-                account.deleteKeys();
+                account.deleteOmemoKeysAndDevices();
             }
             else
             {

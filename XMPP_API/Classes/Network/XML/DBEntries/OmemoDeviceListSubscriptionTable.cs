@@ -1,12 +1,21 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
+﻿using SQLite;
+using System;
+
+namespace XMPP_API.Classes.Network.XML.DBEntries
 {
-    public class OmemoSessionBuildResult
+    [Table(DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE)]
+    class OmemoDeviceListSubscriptionTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly bool SUCCESS;
-        public readonly OmemoSessionBuildError ERROR;
-        public readonly OmemoSession SESSION;
+        [PrimaryKey]
+        public string id { get; set; }
+        [NotNull]
+        public string chatJid { get; set; }
+        [NotNull]
+        public string accountJid { get; set; }
+        public OmemoDeviceListSubscriptionState state { get; set; }
+        public DateTime lastUpdateReceived { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,18 +24,19 @@
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 10/08/2018 Created [Fabian Sauter]
+        /// 18/08/2018 Created [Fabian Sauter]
         /// </history>
-        internal OmemoSessionBuildResult(OmemoSession session)
+        public OmemoDeviceListSubscriptionTable()
         {
-            this.SESSION = session;
-            this.SUCCESS = true;
         }
 
-        internal OmemoSessionBuildResult(OmemoSessionBuildError error)
+        public OmemoDeviceListSubscriptionTable(string chatJid, string accountJid, OmemoDeviceListSubscriptionState state, DateTime lastUpdateReceived)
         {
-            this.ERROR = error;
-            this.SUCCESS = false;
+            this.id = generateId(chatJid, accountJid);
+            this.chatJid = chatJid;
+            this.accountJid = accountJid;
+            this.state = state;
+            this.lastUpdateReceived = lastUpdateReceived;
         }
 
         #endregion
@@ -37,7 +47,10 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public static string generateId(string chatJid, string accountJid)
+        {
+            return chatJid + '_' + accountJid;
+        }
 
         #endregion
 

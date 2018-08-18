@@ -7,6 +7,7 @@ using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -92,7 +93,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Sets ENCRYPTED to true.
         /// </summary>
         /// <param name="cipher">The SessionCipher for encrypting the content of MESSAGE.</param>
-        public void encrypt(SessionCipher cipher, uint sourceDeviceId, uint preKeyRemoteDeviceId, IList<uint> remoteDeviceIds)
+        public void encrypt(OmemoSession omemoSession, uint sourceDeviceId)
         {
             SOURCE_DEVICE_ID = sourceDeviceId;
 
@@ -112,12 +113,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             Buffer.BlockCopy(aes128Gcm.authTag, 0, keyAuthTag, aes128Gcm.key.Length, aes128Gcm.authTag.Length);
 
             // 4. Encrypt the key/authTag pair with libsignal for each deviceId:
-            CiphertextMessage ciphertextMessage = cipher.encrypt(keyAuthTag);
-            foreach (uint deviceId in remoteDeviceIds)
+            CiphertextMessage ciphertextMessage;
+            foreach (KeyValuePair<uint, Tuple<SessionCipher, bool>> pair in omemoSession.DEVICE_SESSIONS)
             {
+                ciphertextMessage = pair.Value.Item1.encrypt(keyAuthTag);
                 KEYS = new List<OmemoKey>()
                 {
-                    new OmemoKey(deviceId, deviceId == preKeyRemoteDeviceId, Convert.ToBase64String(ciphertextMessage.serialize()))
+                    new OmemoKey(pair.Key, pair.Value.Item2, Convert.ToBase64String(ciphertextMessage.serialize()))
                 };
             }
             ENCRYPTED = true;

@@ -157,9 +157,10 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public void deleteKeys()
+        public void deleteOmemoKeysAndDevices()
         {
             SignalKeyDBManager.INSTANCE.deleteAllForAccount(getIdAndDomain());
+            OmemoDeviceDBManager.INSTANCE.deleteAllForAccount(getIdAndDomain());
         }
 
         /// <summary>

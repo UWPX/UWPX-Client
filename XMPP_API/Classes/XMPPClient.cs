@@ -164,9 +164,9 @@ namespace XMPP_API.Classes
             await connection.disconnectAsyncs();
         }
 
-        public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
+        public void sendOmemoMessage(OmemoMessageMessage msg, string chatJid, string accountJid)
         {
-            await connection.sendOmemoMessageAsync(msg, chatJid, accountJid);
+            connection.OMEMO_HELPER.sendOmemoMessage(msg, chatJid, accountJid);
         }
 
         public async Task sendMessageAsync(MessageMessage msg)
