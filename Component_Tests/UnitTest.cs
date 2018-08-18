@@ -206,6 +206,19 @@ namespace Component_Tests
             string saltStringHex = CryptoUtils.byteArrayToHexString(salt);
             Assert.IsTrue(saltStringHex.Equals(saltStringHexRef));
         }
+
+        [TestMethod]
+        public void TestAes128Gcm()
+        {
+            Aes128Gcm aes = new Aes128Gcm();
+            aes.generateKey();
+            aes.generateIv();
+            aes.encrypt(new byte[10]);
+            string a = CryptoUtils.byteArrayToHexString(aes.authTag);
+
+            aes.encrypt(new byte[10]);
+            string b = CryptoUtils.byteArrayToHexString(aes.authTag);
+        }
         #endregion
     }
 }
