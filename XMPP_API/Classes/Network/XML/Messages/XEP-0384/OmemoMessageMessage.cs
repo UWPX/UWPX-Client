@@ -85,14 +85,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return false;
         }
 
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
         /// <summary>
         /// Encrypts the content of MESSAGE with the given SessionCipher and saves the result in BASE_64_PAYLOAD.
         /// Sets ENCRYPTED to true.
         /// </summary>
         /// <param name="cipher">The SessionCipher for encrypting the content of MESSAGE.</param>
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+        /// <summary>
+        /// Encrypts the content of MESSAGE with the given SessionCipher and saves the result in BASE_64_PAYLOAD.
+        /// </summary>
+        /// <param name="omemoSession">A storage object containing all SessionCipher for the target OMEMO devices.</param>
+        /// <param name="sourceDeviceId">The sender OMEMO device id.</param>
         public void encrypt(OmemoSession omemoSession, uint sourceDeviceId)
         {
             SOURCE_DEVICE_ID = sourceDeviceId;
@@ -119,6 +125,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 ciphertextMessage = pair.Value.Item1.encrypt(keyAuthTag);
                 KEYS = new List<OmemoKey>()
                 {
+                    // Create a new OmemoKey object with the target device id, whether it's the first time the session got established and the encrypted key:
                     new OmemoKey(pair.Key, pair.Value.Item2, Convert.ToBase64String(ciphertextMessage.serialize()))
                 };
             }
