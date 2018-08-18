@@ -326,7 +326,7 @@ namespace XMPP_API.Classes.Network
         {
             if (msg is OmemoDeviceListResultMessage devMsg)
             {
-                updateDevicesIfNeeded(null);
+                updateDevicesIfNeeded(devMsg.DEVICES);
                 return true;
             }
             else if (msg is IQErrorMessage errMsg)
