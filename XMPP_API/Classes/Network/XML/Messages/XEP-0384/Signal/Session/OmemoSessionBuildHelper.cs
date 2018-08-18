@@ -187,7 +187,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 if (OMEMO_HELPER.containsSession(address))
                 {
                     SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                    SESSION.DEVICE_SESSIONS.Add(curDevice, new Tuple<SessionCipher, bool>(cipher, false));
+                    SESSION.DEVICE_SESSIONS.Add(curDevice, cipher);
                     createSessionForNextDevice();
                 }
                 else
@@ -290,7 +290,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 Logger.Info("[OmemoSessionBuildHelper] Session with " + CHAT_JID + ':' + curDevice + " established.");
                 SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
                 SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                SESSION.DEVICE_SESSIONS.Add(curDevice, new Tuple<SessionCipher, bool>(cipher, true));
+                SESSION.DEVICE_SESSIONS.Add(curDevice, cipher);
                 createSessionForNextDevice();
                 return true;
             }
