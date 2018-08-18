@@ -14,9 +14,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         #region --Attributes--
         public OmemoSessionBuildHelperState STATE { get; private set; }
 
-        private readonly Action<OmemoSessionBuildResult> ON_SESSION_RESULT;
+        private readonly Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> ON_SESSION_RESULT;
         private readonly IMessageSender MESSAGE_SENDER;
-        private readonly string CHAT_JID;
+        public readonly string CHAT_JID;
         private readonly string BARE_ACCOUNT_JID;
         private readonly string FULL_ACCOUNT_JID;
         private readonly OmemoHelper OMEMO_HELPER;
@@ -36,7 +36,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         /// <history>
         /// 10/08/2018 Created [Fabian Sauter]
         /// </history>
-        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, Action<OmemoSessionBuildResult> onSessionResult, IMessageSender messageSender, OmemoHelper omemoHelper)
+        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> onSessionResult, IMessageSender messageSender, OmemoHelper omemoHelper)
         {
             this.MESSAGE_SENDER = messageSender;
             this.ON_SESSION_RESULT = onSessionResult;
@@ -140,19 +140,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 case OmemoSessionBuildHelperState.REQUESTING_DEVICE_LIST:
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_TIMEOUT));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_TIMEOUT));
                     break;
 
                 case OmemoSessionBuildHelperState.SUBSCRIBING_TO_DEVICE_LIST:
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.SUBSCRIBE_TO_DEVICE_LIST_TIMEOUT));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.SUBSCRIBE_TO_DEVICE_LIST_TIMEOUT));
                     break;
 
                 case OmemoSessionBuildHelperState.REQUESTING_BUNDLE_INFORMATION:
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_TIMEOUT));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_TIMEOUT));
                     break;
             }
         }
@@ -171,12 +171,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 if (SESSION.DEVICE_SESSIONS.Count <= 0)
                 {
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
                 }
                 else
                 {
                     setState(OmemoSessionBuildHelperState.ESTABLISHED);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(SESSION));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(SESSION));
                 }
             }
             else
@@ -219,7 +219,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 {
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " doesn't support OMEMO: No devices");
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
                 }
                 return true;
             }
@@ -229,13 +229,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 {
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
                 }
                 else
                 {
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request device list failed: " + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_IQ_ERROR));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_IQ_ERROR));
                 }
                 return true;
             }
@@ -300,13 +300,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 {
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + ':' + curDevice + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
                 }
                 else
                 {
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request bundle info failed(" + CHAT_JID + ':' + curDevice + "): " + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_IQ_ERROR));
+                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_IQ_ERROR));
                 }
                 return true;
             }

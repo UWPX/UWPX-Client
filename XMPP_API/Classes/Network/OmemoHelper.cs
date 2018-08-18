@@ -282,7 +282,7 @@ namespace XMPP_API.Classes.Network
             requestDeviceListStatelessOnResult = null;
         }
 
-        private void onSessionBuilderResult(OmemoSessionBuildResult result)
+        private void onSessionBuilderResult(OmemoSessionBuildHelper sender, OmemoSessionBuildResult result)
         {
             if (result.SUCCESS)
             {
@@ -291,7 +291,7 @@ namespace XMPP_API.Classes.Network
             }
             else
             {
-                Logger.Error("Failed to build OMEMO session for: " + result.SESSION.CHAT_JID);
+                Logger.Error("Failed to build OMEMO session for: " + sender.CHAT_JID);
                 // ToDo: Error handling - show message
             }
         }

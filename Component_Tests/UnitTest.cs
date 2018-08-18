@@ -220,5 +220,16 @@ namespace Component_Tests
             string b = CryptoUtils.byteArrayToHexString(aes.authTag);
         }
         #endregion
+
+        //-------------------------------------------------------------------------------------MessageParser2:---------------------------------------------------------------------------------------------
+        #region
+        [TestMethod]
+        public void TestMessageParser2_1()
+        {
+            string msg = "<iq xml:lang='en' to='uwptest@404.city/FABIAN-TOWER-PC' from='fabi@xmpp.uwpx.org' type='error' id='134077900-349929748-1523671119-224987985-1457976454'><pubsub xmlns='http://jabber.org/protocol/pubsub'><items node='eu.siacs.conversations.axolotl.devicelist'/></pubsub><error code='405' type='cancel'><closed-node xmlns='http://jabber.org/protocol/pubsub#errors'/><not-allowed xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error></iq>";
+            MessageParser2 parser = new MessageParser2();
+            List<AbstractMessage> messages = parser.parseMessages(msg);
+        }
+        #endregion
     }
 }

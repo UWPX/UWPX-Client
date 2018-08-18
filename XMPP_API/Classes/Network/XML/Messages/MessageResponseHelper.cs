@@ -98,11 +98,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             try
             {
                 MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
-                ON_TIMEOUT();
+                ON_TIMEOUT?.Invoke();
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                throw;
+                throw e;
             }
             finally
             {
@@ -143,7 +143,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 try
                 {
                     SEMA.Wait();
-                    if (ON_MESSAGE(args.MESSAGE as T))
+                    if (ON_MESSAGE == null || ON_MESSAGE(args.MESSAGE as T))
                     {
                         stopTimer();
                     }

@@ -618,13 +618,14 @@ namespace UWP_XMPP_Client.Controls.Chat
             }
         }
 
-        private async void test_bnt_Click(object sender, RoutedEventArgs e)
+        private void test_bnt_Click(object sender, RoutedEventArgs e)
         {
             //await Client.requestVCardAsync(Chat.chatJabberId);
             //Client.OMEMO_COMMAND_HELPER.requestDeviceList(Chat.chatJabberId, null, null);
             // Client.OMEMO_COMMAND_HELPER.requestBundleInformation(Chat.chatJabberId, 2005576180, null, null);
-            ReadQRCodeDialog dialog = new ReadQRCodeDialog();
-            await UiUtils.showDialogAsyncQueue(dialog);
+            /*ReadQRCodeDialog dialog = new ReadQRCodeDialog();
+            await UiUtils.showDialogAsyncQueue(dialog);*/
+            Client.PUB_SUB_COMMAND_HELPER.deleteNode(null, Consts.XML_XEP_0384_DEVICE_LIST_NODE, null, null);
         }
 
         private void message_tbx_GotFocus(object sender, RoutedEventArgs e)
