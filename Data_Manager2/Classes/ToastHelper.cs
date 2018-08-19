@@ -165,6 +165,10 @@ namespace Data_Manager2.Classes
                             {
                                 Text = chat.chatJabberId,
                                 HintMaxLines = 1
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "You received an image!"
                             }
                         },
                         HeroImage = new ToastGenericHeroImage()
