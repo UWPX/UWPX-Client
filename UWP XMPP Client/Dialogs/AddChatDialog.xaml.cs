@@ -3,8 +3,6 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
-using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -23,8 +21,6 @@ namespace UWP_XMPP_Client.Dialogs
         public string jabberId;
         public bool cancled;
         public XMPPClient client;
-        private ObservableCollection<string> accounts;
-        private List<XMPPClient> clients;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -38,22 +34,13 @@ namespace UWP_XMPP_Client.Dialogs
         public AddChatDialog()
         {
             this.InitializeComponent();
-            loadAccounts();
             this.cancled = true;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void loadAccounts()
-        {
-            accounts = new ObservableCollection<string>();
-            clients = ConnectionHandler.INSTANCE.getClients();
-            foreach (XMPPClient c in clients)
-            {
-                accounts.Add(c.getXMPPAccount().getIdAndDomain());
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -63,56 +50,46 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task addChatAsync()
+        private bool checkUserInput()
         {
-            if (account_cbx.SelectedIndex < 0 || account_cbx.SelectedIndex >= clients.Count)
+            client = accountSelection_asc.getSelectedAccount();
+            if (client == null)
             {
-                TextDialog dialog = new TextDialog()
-                {
-                    Title = "Error",
-                    Text = "Please select a valid account!"
-                };
-                await UiUtils.showDialogAsyncQueue(dialog);
+                accountSelection_asc.showErrorMessage("No account selected!");
+                return false;
             }
-            else if (((string)account_cbx.SelectedItem).Equals(jabberId_tbx.Text))
+            if (client.getXMPPAccount().getIdAndDomain().Equals(jabberId_tbx.Text))
             {
-                TextDialog dialog = new TextDialog()
-                {
-                    Title = "Error",
-                    Text = "You can't start a chat with your self!"
-                };
-                await UiUtils.showDialogAsyncQueue(dialog);
+                accountSelection_asc.showErrorMessage("You can't start a chat with your self!");
+                return false;
             }
-            else if (Utils.isBareJid(jabberId_tbx.Text))
+            if (!Utils.isBareJid(jabberId_tbx.Text))
             {
-                jabberId = jabberId_tbx.Text;
-                client = clients[account_cbx.SelectedIndex];
-                if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
-                {
-                    TextDialog dialog = new TextDialog()
-                    {
-                        Title = "Error",
-                        Text = "Chat does already exist!"
-                    };
-                    await UiUtils.showDialogAsyncQueue(dialog);
-                }
-                else
-                {
-                    addToRoster = (bool)roster_cbx.IsChecked;
-                    requestSubscription = (bool)subscription_cbx.IsChecked;
-                    cancled = false;
-                    Hide();
-                }
+                accountSelection_asc.showErrorMessage("Invalid JabberID!");
+                return false;
             }
-            else
+            jabberId = jabberId_tbx.Text;
+            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
             {
-                TextDialog dialog = new TextDialog()
-                {
-                    Title = "Error",
-                    Text = "Invalid JabberID!"
-                };
-                await UiUtils.showDialogAsyncQueue(dialog);
+                accountSelection_asc.showErrorMessage("Chat does already exist!");
+                return false;
             }
+            return true;
+        }
+
+        private void addChat()
+        {
+            add_btn.IsEnabled = false;
+            add_pgr.Visibility = Visibility.Visible;
+            if (checkUserInput())
+            {
+                addToRoster = (bool)roster_cbx.IsChecked;
+                requestSubscription = (bool)subscription_cbx.IsChecked;
+                cancled = false;
+                Hide();
+            }
+            add_pgr.Visibility = Visibility.Collapsed;
+            add_btn.IsEnabled = true;
         }
 
         #endregion
@@ -123,12 +100,12 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void add_btn_Click(object sender, RoutedEventArgs e)
+        private void add_btn_Click(object sender, RoutedEventArgs e)
         {
-            await addChatAsync();
+            addChat();
         }
 
-        private void cancle_btn_Click(object sender, RoutedEventArgs e)
+        private void cancel_btn_Click(object sender, RoutedEventArgs e)
         {
             cancled = true;
             Hide();
@@ -139,14 +116,6 @@ namespace UWP_XMPP_Client.Dialogs
             if (e.Key == Windows.System.VirtualKey.Space)
             {
                 e.Handled = true;
-            }
-        }
-
-        private void account_cbx_DataContextChanged(FrameworkElement sender, DataContextChangedEventArgs args)
-        {
-            if (account_cbx.Items.Count > 0)
-            {
-                account_cbx.SelectedIndex = 0;
             }
         }
 
@@ -166,11 +135,12 @@ namespace UWP_XMPP_Client.Dialogs
             jabberId_tbx.BorderBrush = new SolidColorBrush(Utils.isBareJid(jabberId_tbx.Text) ? Colors.Green : Colors.Red);
         }
 
-        private async void jabberId_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void jabberId_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
+            accountSelection_asc.hideErrorMessage();
             if (e.Key == Windows.System.VirtualKey.Enter)
             {
-                await addChatAsync();
+                addChat();
             }
         }
 

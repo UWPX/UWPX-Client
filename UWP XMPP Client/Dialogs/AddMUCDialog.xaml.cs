@@ -22,10 +22,8 @@ namespace UWP_XMPP_Client.Dialogs
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public bool cancled;
-        private ObservableCollection<string> accounts;
         private List<DiscoFeatureTable> serverList;
         private ObservableCollection<string> servers;
-        private List<XMPPClient> clients;
 
         MessageResponseHelper<IQMessage> setBookmarkHelper;
 
@@ -56,12 +54,9 @@ namespace UWP_XMPP_Client.Dialogs
         {
             this.setBookmarkHelper = null;
             this.cancled = true;
-            this.accounts = new ObservableCollection<string>();
             this.serverList = new List<DiscoFeatureTable>();
             this.servers = new ObservableCollection<string>();
             InitializeComponent();
-            loadAccounts();
-            loadServers();
 
             if (roomJid != null)
             {
@@ -83,22 +78,6 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Loads all accounts.
-        /// </summary>
-        public void loadAccounts()
-        {
-            clients = ConnectionHandler.INSTANCE.getClients();
-            if (clients != null)
-            {
-                accounts.Clear();
-                foreach (XMPPClient c in clients)
-                {
-                    accounts.Add(c.getXMPPAccount().getIdAndDomain());
-                }
-            }
-        }
-
         /// <summary>
         /// Loads all servers from the DB.
         /// </summary>
@@ -376,6 +355,11 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 nick_tbx.Text = "";
             }
+        }
+
+        private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
+        {
+            loadServers();
         }
 
         #endregion
