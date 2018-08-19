@@ -24,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XmlNode eventNode = XMLUtils.getChildNode(node, "event", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE_EVENT);
             if (eventNode != null)
             {
-                XmlNode itemsNode = XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_NAMESPACE);
+                XmlNode itemsNode = XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_DEVICE_LIST_NODE);
                 if (itemsNode != null)
                 {
                     DEVICES.loadDevices(itemsNode);

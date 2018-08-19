@@ -471,7 +471,7 @@ namespace XMPP_API.Classes.Network.XML
                 if (eventNode != null)
                 {
                     // XEP-0384 (OMEMO Encryption) device list:
-                    if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_NAMESPACE) != null)
+                    if (XMLUtils.getChildNode(eventNode, "items", "node", Consts.XML_XEP_0384_DEVICE_LIST_NODE) != null)
                     {
                         messages.Add(new OmemoDeviceListEventMessage(n));
                     }
