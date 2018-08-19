@@ -280,7 +280,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void sendMessage()
         {
-            if (!String.IsNullOrWhiteSpace(message_tbx.Text))
+            if (!string.IsNullOrWhiteSpace(message_tbx.Text))
             {
                 if (IsDummy)
                 {
@@ -352,7 +352,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
                     string messageText = message_tbx.Text;
                     // Remove all tailing whitespaces, tabs and newlines:
-                    messageText = messageText.TrimEnd(TRIM_CHARS);
+                    messageText = messageText.TrimEnd(TRIM_CHARS).TrimStart(TRIM_CHARS);
 
                     // For MUC messages also pass the nickname:
                     bool toEncrypt = false;
@@ -522,7 +522,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void message_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (String.IsNullOrWhiteSpace(message_tbx.Text))
+            if (string.IsNullOrWhiteSpace(message_tbx.Text))
             {
                 send_btn.IsEnabled = false;
             }
