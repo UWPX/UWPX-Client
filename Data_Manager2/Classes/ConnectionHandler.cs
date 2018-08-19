@@ -17,6 +17,8 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using libsignal;
+using Windows.Media.Playback;
+using Windows.Media.Core;
 
 namespace Data_Manager2.Classes
 {
@@ -488,21 +490,6 @@ namespace Data_Manager2.Classes
                 };
             }
 
-            // ToDo re-implement show toast message
-            /*Task.Run(() =>
-            {
-                if (!msg.getToasted())
-                {
-                    switch (msg.getType())
-                    {
-                        case "chat":
-                            ToastHelper.showChatTextToast(msg.getMessage(), msg.getId(), chat);
-                            break;
-                    }
-                    msg.setToasted();
-                }
-            });*/
-
             ChatMessageTable message = new ChatMessageTable(msg, chat);
 
             // Handle MUC invite messages:
@@ -575,6 +562,32 @@ namespace Data_Manager2.Classes
             }
 
             ChatDBManager.INSTANCE.setChatMessage(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
+
+            // Play notification sound if app is running:
+            if (!doesMessageExist)
+            {
+                MediaPlayer player = new MediaPlayer
+                {
+                    Source = MediaSource.CreateFromUri(new Uri("ms-winsoundevent:Notification.IM"))
+                };
+                player.Play();
+            }
+
+            // ToDo re-implement show toast message
+            /*Task.Run(() =>
+            {
+                if (!msg.getToasted())
+                {
+                    switch (msg.getType())
+                    {
+                        case "chat":
+                            ToastHelper.showChatTextToast(msg.getMessage(), msg.getId(), chat);
+                            break;
+                    }
+                    msg.setToasted();
+                }
+            });*/
+
         }
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
