@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Windows.ApplicationModel;
 using Windows.UI.Notifications;
 
 namespace Data_Manager2.Classes
@@ -8,8 +9,9 @@ namespace Data_Manager2.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        // https://blogs.msdn.microsoft.com/tiles_and_toasts/2015/07/08/quickstart-sending-a-local-toast-notification-and-handling-activations-from-it-windows-10/
-        // https://github.com/WindowsNotifications/quickstart-sending-local-toast-win10/tree/master/Quickstart-Sending-Local-Toast
+        private const string DEFAULT_MUC_IMAGE_PATH = "Assets/Images/default_muc_image.png";
+        private const string DEFAULT_USER_IMAGE_PATH = "Assets/Images/default_user_image.png";
+        private const string SEND_BUTTON_IMAGE_PATH = "Assets/Images/send.png";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,6 +26,11 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public static void removeToastGroup(string group)
+        {
+            ToastNotificationManager.History.RemoveGroup(group);
+        }
+
         public static void showChatTextToast(string text, string msgId, ChatTable chat)
         {
             var toastContent = new ToastContent()
@@ -46,7 +53,7 @@ namespace Data_Manager2.Classes
                         },
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
-                            Source = "Assets/Images/default_user_image.png",
+                            Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
                             HintCrop = ToastGenericAppLogoCrop.Default
                         }
                     }
@@ -65,18 +72,80 @@ namespace Data_Manager2.Classes
                         new ToastButton("Send", chat.id)
                         {
                             ActivationType = ToastActivationType.Background,
-                            ImageUri = "Assets/Images/send.png",
+                            ImageUri = SEND_BUTTON_IMAGE_PATH,
                             TextBoxId = "textBox",
                         }
                     }
                 },
-                Launch = chat.id
+                Launch = "CHAT=" + chat.id
             };
 
             // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml());
-            toastNotif.Group = chat.id;
-            toastNotif.Tag = msgId;
+            var toastNotif = new ToastNotification(toastContent.GetXml())
+            {
+                Group = chat.id,
+                Tag = msgId
+            };
+
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+        }
+
+        public static void showChatTextEncryptedToast(string text, string msgId, ChatTable chat)
+        {
+            var toastContent = new ToastContent()
+            {
+                Visual = new ToastVisual()
+                {
+                    BindingGeneric = new ToastBindingGeneric()
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = chat.chatJabberId,
+                                HintMaxLines = 1
+                            },
+                            new AdaptiveText()
+                            {
+                                Text = "You received an encrypted message!"
+                            }
+                        },
+                        AppLogoOverride = new ToastGenericAppLogo()
+                        {
+                            Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
+                            HintCrop = ToastGenericAppLogoCrop.Default
+                        }
+                    }
+                },
+                Actions = new ToastActionsCustom()
+                {
+                    Inputs =
+                    {
+                        new ToastTextBox("textBox")
+                        {
+                            PlaceholderContent = "Reply"
+                        }
+                    },
+                    Buttons =
+                    {
+                        new ToastButton("Send", chat.id)
+                        {
+                            ActivationType = ToastActivationType.Background,
+                            ImageUri = SEND_BUTTON_IMAGE_PATH,
+                            TextBoxId = "textBox",
+                        }
+                    }
+                },
+                Launch = "CHAT=" + chat.id
+            };
+
+            // Create the toast notification
+            var toastNotif = new ToastNotification(toastContent.GetXml())
+            {
+                Group = chat.id,
+                Tag = msgId
+            };
 
             // And send the notification
             ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
@@ -96,19 +165,15 @@ namespace Data_Manager2.Classes
                             {
                                 Text = chat.chatJabberId,
                                 HintMaxLines = 1
-                            },
-                            new AdaptiveText()
-                            {
-                                Text = text
                             }
                         },
                         HeroImage = new ToastGenericHeroImage()
                         {
-                            Source = imgPath
+                            Source = text
                         },
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
-                            Source = "Assets/Images/default_user_image.png",
+                            Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
                             HintCrop = ToastGenericAppLogoCrop.Default
                         }
                     }
@@ -124,15 +189,15 @@ namespace Data_Manager2.Classes
                     },
                     Buttons =
                     {
-                        new ToastButton("Send", "action=reply&threadId=92187")
+                        new ToastButton("Send", chat.id)
                         {
                             ActivationType = ToastActivationType.Background,
-                            ImageUri = "Assets/Images/send.png",
+                            ImageUri = SEND_BUTTON_IMAGE_PATH,
                             TextBoxId = "textBox",
                         }
                     }
                 },
-                Launch = "action=openThread&threadId=92187"
+                Launch = "CHAT=" + chat.id
             };
 
             // Create the toast notification

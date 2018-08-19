@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Classes.AppActivation;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.Activation;
@@ -147,7 +148,7 @@ namespace UWP_XMPP_Client.Pages
                 List<ChatTemplate> chats = getFilterdChats(null);
                 for (int i = 0; i < chats.Count; i++)
                 {
-                    if (string.Equals(selectedChatId, chats[i].chat.chatJabberId))
+                    if (string.Equals(selectedChatId, chats[i].chat.id))
                     {
                         selectedChat = chats[i];
                     }
@@ -272,8 +273,12 @@ namespace UWP_XMPP_Client.Pages
             else if (e.Parameter is ToastNotificationActivatedEventArgs)
             {
                 var toasActivationArgs = e.Parameter as ToastNotificationActivatedEventArgs;
-                toastActivationString = toasActivationArgs.Argument;
-                Logger.Info("ChatPage2 activated through toast with argument:" + toastActivationString);
+                AbstractToastActivation activation = ToastActivationArgumentParser.parseArguments(toasActivationArgs.Argument);
+                if(activation is ChatToastActivation chatToastActivation)
+                {
+                    toastActivationString = chatToastActivation.CHAT_ID;
+                }
+                Logger.Info("ChatPage2 activated through toast with argument:" + toasActivationArgs.Argument);
             }
             loadChats(toastActivationString);
 

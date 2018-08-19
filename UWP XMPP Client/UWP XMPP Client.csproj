@@ -102,6 +102,9 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\ToastActivation\AbstractToastActivation.cs" />
+    <Compile Include="Classes\ToastActivation\ToastActivationArgumentParser.cs" />
+    <Compile Include="Classes\ToastActivation\ChatToastActivation.cs" />
     <Compile Include="Classes\AppUpdateHandler.cs" />
     <Compile Include="Classes\BackgroundImageCache.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
@@ -393,6 +396,8 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\Images\default_muc_image.png" />
+    <Content Include="Assets\Images\default_user_image.png" />
     <Content Include="Assets\Images\github_mark.png" />
     <Content Include="Assets\Images\license.png" />
     <Content Include="Assets\Images\lp.png" />

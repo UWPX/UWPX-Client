@@ -563,31 +563,37 @@ namespace Data_Manager2.Classes
 
             ChatDBManager.INSTANCE.setChatMessage(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
 
-            // Play notification sound if app is running:
-            if (!doesMessageExist)
+            // Show toast:
+            if (!doesMessageExist && !chat.muted)
             {
-                MediaPlayer player = new MediaPlayer
+                Task.Run(() =>
                 {
-                    Source = MediaSource.CreateFromUri(new Uri("ms-winsoundevent:Notification.IM"))
-                };
-                player.Play();
-            }
-
-            // ToDo re-implement show toast message
-            /*Task.Run(() =>
-            {
-                if (!msg.getToasted())
-                {
-                    switch (msg.getType())
+                    if (!msg.toasted)
                     {
-                        case "chat":
-                            ToastHelper.showChatTextToast(msg.getMessage(), msg.getId(), chat);
-                            break;
+                        switch (msg.TYPE)
+                        {
+                            case MessageMessage.TYPE_CHAT:
+                                if (!message.isCC)
+                                {
+                                    if (message.isEncrypted)
+                                    {
+                                        ToastHelper.showChatTextEncryptedToast(msg.MESSAGE, msg.ID, chat);
+                                    }
+                                    else if(message.isImage)
+                                    {
+                                        ToastHelper.showChatTextImageToast(msg.MESSAGE, msg.ID, chat);
+                                    }
+                                    else
+                                    {
+                                        ToastHelper.showChatTextToast(msg.MESSAGE, msg.ID, chat);
+                                    }
+                                }
+                                break;
+                        }
+                        msg.setToasted();
                     }
-                    msg.setToasted();
-                }
-            });*/
-
+                });
+            }
         }
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)

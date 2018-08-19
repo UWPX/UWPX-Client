@@ -206,6 +206,8 @@ namespace UWP_XMPP_Client.Controls.Chat
                 {
                     // Mark all unread messages as read for this chat:
                     ChatDBManager.INSTANCE.markAllMessagesAsRead(chatCpy);
+                    // Remove notification group:
+                    ToastHelper.removeToastGroup(chatCpy.id);
 
                     // Show all chat messages:
                     List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
