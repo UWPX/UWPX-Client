@@ -208,7 +208,7 @@ namespace Component_Tests
         }
 
         [TestMethod]
-        public void TestAes128Gcm()
+        public void TestAes128Gcm_1()
         {
             for (int i = 0; i < 100; i++)
             {
@@ -228,6 +228,24 @@ namespace Component_Tests
                 };
                 Assert.IsTrue(data.SequenceEqual(aesDec.decrypt(dataEnc)));
             }
+        }
+
+        [TestMethod]
+        public void TestAes128Gcm_2()
+        {
+            Aes128Gcm aesEnc = new Aes128Gcm
+            {
+                key = CryptoUtils.hexStringToByteArray("AD7A2BD03EAC835A6F620FDCB506B345"),
+                iv = CryptoUtils.hexStringToByteArray("12153524C0895E81B2C28465"),
+                authTag = CryptoUtils.hexStringToByteArray("12153524C0895E81B2C28465")
+            };
+
+            byte[] data = CryptoUtils.hexStringToByteArray("D609B1F056637A0D46DF998D88E5222AB2C2846512153524C0895E8108000F101112131415161718191A1B1C1D1E1F202122232425262728292A2B2C2D2E2F30313233340001");
+
+            string refDataEnc = "b8AggfYXMdlpIO+RJFuDt9vXcBYiz8J9axw=";
+            string encData = CryptoUtils.byteArrayToHexString(aesEnc.encrypt(data));
+
+            Assert.IsTrue(encData.Equals(refDataEnc));
         }
         #endregion
 

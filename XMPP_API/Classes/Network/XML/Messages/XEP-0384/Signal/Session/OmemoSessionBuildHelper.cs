@@ -15,13 +15,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         public OmemoSessionBuildHelperState STATE { get; private set; }
 
         private readonly Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> ON_SESSION_RESULT;
-        private readonly IMessageSender MESSAGE_SENDER;
+        private readonly XMPPConnection2 CONNECTION;
         public readonly string CHAT_JID;
         private readonly string BARE_ACCOUNT_JID;
         private readonly string FULL_ACCOUNT_JID;
         private readonly OmemoHelper OMEMO_HELPER;
-        private List<uint> toDoDevices;
-        private uint curDevice;
+        private List<uint> toDoDevicesRemote;
+        private List<uint> toDoDevicesOwn;
+        private SignalProtocolAddress curAddress;
         private readonly OmemoSession SESSION;
         private MessageResponseHelper<IQMessage> requestDeviceListHelper;
         private MessageResponseHelper<IQMessage> requestBundleInfoHelper;
@@ -36,9 +37,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         /// <history>
         /// 10/08/2018 Created [Fabian Sauter]
         /// </history>
-        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> onSessionResult, IMessageSender messageSender, OmemoHelper omemoHelper)
+        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> onSessionResult, XMPPConnection2 connection, OmemoHelper omemoHelper)
         {
-            this.MESSAGE_SENDER = messageSender;
+            this.CONNECTION = connection;
             this.ON_SESSION_RESULT = onSessionResult;
             this.CHAT_JID = chatJid;
             this.BARE_ACCOUNT_JID = bareAccountJid;
@@ -48,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             this.requestDeviceListHelper = null;
             this.requestBundleInfoHelper = null;
             this.SESSION = new OmemoSession(chatJid);
-            this.curDevice = 0;
+            this.curAddress = null;
         }
 
         #endregion
@@ -100,7 +101,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 requestDeviceListHelper = null;
             }
 
-            requestDeviceListHelper = new MessageResponseHelper<IQMessage>(MESSAGE_SENDER, onRequestDeviceListMessage, onTimeout);
+            requestDeviceListHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onRequestDeviceListMessage, onTimeout);
             OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(BARE_ACCOUNT_JID, CHAT_JID);
             requestDeviceListHelper.start(msg);
         }
@@ -114,12 +115,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 subscribeToDeviceListHelper = null;
             }
 
-            subscribeToDeviceListHelper = new MessageResponseHelper<IQMessage>(MESSAGE_SENDER, onSubscribeToDeviceListMessage, onTimeout);
+            subscribeToDeviceListHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onSubscribeToDeviceListMessage, onTimeout);
             OmemoSubscribeToDeviceListMessage msg = new OmemoSubscribeToDeviceListMessage(FULL_ACCOUNT_JID, BARE_ACCOUNT_JID, CHAT_JID);
             subscribeToDeviceListHelper.start(msg);
         }
 
-        private void requestBundleInformation(uint remoteDeviceId)
+        private void requestBundleInformation()
         {
             setState(OmemoSessionBuildHelperState.REQUESTING_BUNDLE_INFORMATION);
             if (requestBundleInfoHelper != null)
@@ -128,8 +129,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 requestBundleInfoHelper = null;
             }
 
-            requestBundleInfoHelper = new MessageResponseHelper<IQMessage>(MESSAGE_SENDER, onRequestBundleInformationMessage, onTimeout);
-            OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(BARE_ACCOUNT_JID, CHAT_JID, remoteDeviceId);
+            requestBundleInfoHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onRequestBundleInformationMessage, onTimeout);
+            OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(FULL_ACCOUNT_JID, curAddress.getName(), curAddress.getDeviceId());
             requestBundleInfoHelper.start(msg);
         }
 
@@ -150,22 +151,34 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                     break;
 
                 case OmemoSessionBuildHelperState.REQUESTING_BUNDLE_INFORMATION:
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
+                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " didn't respond in time!");
                     setState(OmemoSessionBuildHelperState.ERROR);
                     ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_TIMEOUT));
                     break;
             }
         }
 
-        private void createSessionsForDevices(List<uint> devices)
+        private void createSessionsForDevices(List<uint> remoteDevices)
         {
-            toDoDevices = devices;
+            // Add remote devices:
+            toDoDevicesRemote = remoteDevices;
+
+            // Add own devices:
+            toDoDevicesOwn = new List<uint>();
+            for (int i = 0; i < OMEMO_HELPER.DEVICES.DEVICES.Count; i++)
+            {
+                if (OMEMO_HELPER.DEVICES.DEVICES[i] != CONNECTION.account.omemoDeviceId)
+                {
+                    toDoDevicesOwn.Add(OMEMO_HELPER.DEVICES.DEVICES[i]);
+                }
+            }
+
             createSessionForNextDevice();
         }
 
         private void createSessionForNextDevice()
         {
-            if (toDoDevices == null || toDoDevices.Count <= 0)
+            if ((toDoDevicesRemote == null || toDoDevicesRemote.Count <= 0) && (toDoDevicesOwn == null || toDoDevicesOwn.Count <= 0))
             {
                 // All sessions created:
                 if (SESSION.DEVICE_SESSIONS.Count <= 0)
@@ -181,18 +194,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
             else
             {
-                curDevice = toDoDevices[0];
-                toDoDevices.RemoveAt(0);
-                SignalProtocolAddress address = new SignalProtocolAddress(CHAT_JID, curDevice);
-                if (OMEMO_HELPER.containsSession(address))
+                if (toDoDevicesRemote == null || toDoDevicesRemote.Count <= 0)
                 {
-                    SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                    SESSION.DEVICE_SESSIONS.Add(curDevice, cipher);
+                    curAddress = new SignalProtocolAddress(BARE_ACCOUNT_JID, toDoDevicesOwn[0]);
+                    toDoDevicesOwn.RemoveAt(0);
+                }
+                else
+                {
+                    curAddress = new SignalProtocolAddress(CHAT_JID, toDoDevicesRemote[0]);
+                    toDoDevicesRemote.RemoveAt(0);
+                }
+
+                if (OMEMO_HELPER.containsSession(curAddress))
+                {
+                    SessionCipher cipher = OMEMO_HELPER.loadCipher(curAddress);
+                    SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
                     createSessionForNextDevice();
                 }
                 else
                 {
-                    requestBundleInformation(curDevice);
+                    requestBundleInformation();
                 }
             }
         }
@@ -287,10 +308,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 
             if (msg is OmemoBundleInformationResultMessage bundleMsg)
             {
-                Logger.Info("[OmemoSessionBuildHelper] Session with " + CHAT_JID + ':' + curDevice + " established.");
+                Logger.Info("[OmemoSessionBuildHelper] Session with " + curAddress.getName() + ':' + curAddress.getDeviceId() + " established.");
                 SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
                 SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                SESSION.DEVICE_SESSIONS.Add(curDevice, cipher);
+                SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
                 createSessionForNextDevice();
                 return true;
             }
@@ -298,13 +319,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             {
                 if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
                 {
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + ':' + curDevice + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
+                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoSessionBuildHelperState.ERROR);
                     ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
                 }
                 else
                 {
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request bundle info failed(" + CHAT_JID + ':' + curDevice + "): " + errMsg.ERROR_OBJ.ToString());
+                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request bundle info failed(" + curAddress.getName() + ':' + curAddress.getDeviceId() + "): " + errMsg.ERROR_OBJ.ToString());
                     setState(OmemoSessionBuildHelperState.ERROR);
                     ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_IQ_ERROR));
                 }
