@@ -104,8 +104,6 @@ namespace UWP_XMPP_Client.Controls.Chat
                             switch (img.state)
                             {
                                 case DownloadState.WAITING:
-                                    waitForImageDownloadToFinish(img);
-                                    break;
                                 case DownloadState.DOWNLOADING:
                                     waitForImageDownloadToFinish(img);
                                     break;
