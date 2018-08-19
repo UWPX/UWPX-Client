@@ -8,6 +8,7 @@ using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
@@ -212,6 +213,27 @@ namespace XMPP_API.Classes.Network
         public void resetDeviceListStateless(Action<bool> onResult)
         {
             resetDeviceListStatelessOnResult = onResult;
+            deleteDeviceListNode();
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private void deleteDeviceListNode()
+        {
+            if (resetDeviceListStatelessHelper != null)
+            {
+                resetDeviceListStatelessHelper.Dispose();
+                resetDeviceListStatelessHelper = null;
+            }
+
+            resetDeviceListStatelessHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onDeleteDeviceListNodeMessage, onDeleteDeviceListNodeTimeout);
+            PubSubDeleteNodeMessage msg = new PubSubDeleteNodeMessage(CONNECTION.account.getIdDomainAndResource(), null, Consts.XML_XEP_0384_DEVICE_LIST_NODE);
+            resetDeviceListStatelessHelper.start(msg);
+        }
+
+        private void setDeviceListToOwnDevice()
+        {
             if (resetDeviceListStatelessHelper != null)
             {
                 resetDeviceListStatelessHelper.Dispose();
@@ -224,9 +246,21 @@ namespace XMPP_API.Classes.Network
             resetDeviceListStatelessHelper.start(msg);
         }
 
-        #endregion
+        private bool onDeleteDeviceListNodeMessage(AbstractMessage msg)
+        {
+            if (msg is IQErrorMessage || (msg is IQMessage iMsg && string.Equals(iMsg.TYPE, IQMessage.RESULT)))
+            {
+                setDeviceListToOwnDevice();
+                return true;
+            }
+            return false;
+        }
 
-        #region --Misc Methods (Private)--
+        private void onDeleteDeviceListNodeTimeout()
+        {
+            setDeviceListToOwnDevice();
+        }
+
         private bool onResetDeviceListStatelessMessage(IQMessage msg)
         {
             if (msg is IQErrorMessage errMsg)

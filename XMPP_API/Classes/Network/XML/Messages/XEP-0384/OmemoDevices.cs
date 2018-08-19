@@ -27,6 +27,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             this.id = null;
         }
 
+        public OmemoDevices(string id)
+        {
+            this.DEVICES = new List<uint>();
+            this.id = id;
+        }
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -34,10 +40,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             XNamespace ns1 = Consts.XML_XEP_0384_NAMESPACE;
             XElement listNode = new XElement(ns1 + "list");
-            foreach (Int32 d in DEVICES)
+            foreach (uint i in DEVICES)
             {
                 XElement device = new XElement(ns1 + "device");
-                device.Add(new XAttribute("id", d));
+                device.Add(new XAttribute("id", i));
                 listNode.Add(device);
             }
             return listNode;
@@ -62,6 +68,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 if (string.Equals(itemNode.Name, "item"))
                 {
+                    this.id = itemNode.Attributes["id"]?.Value;
                     XmlNode listNode = XMLUtils.getChildNode(itemNode, "list", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
                     if (listNode != null)
                     {
