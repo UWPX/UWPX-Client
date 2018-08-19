@@ -7,6 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly string NODE_NAME;
+        public readonly uint MAX_ITEMS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,9 +18,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 17/03/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestNodeMessage(string from, string to, string nodeName) : base(from, to)
+        public PubSubRequestNodeMessage(string from, string to, string nodeName, uint maxItems) : base(from, to)
         {
             this.NODE_NAME = nodeName;
+            this.MAX_ITEMS = maxItems;
         }
 
         #endregion
@@ -28,7 +30,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         protected override XElement getContent(XNamespace ns)
         {
             XElement itemsNode = new XElement(ns + "items");
-            itemsNode.Add(new XAttribute("node", NODE_NAME));
+            if (NODE_NAME != null)
+            {
+                itemsNode.Add(new XAttribute("node", NODE_NAME));
+            }
+            if (MAX_ITEMS > 0)
+            {
+                itemsNode.Add(new XAttribute("max_items", MAX_ITEMS));
+            }
             return itemsNode;
         }
 

@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         /// <history>
         /// 22/07/2018 Created [Fabian Sauter]
         /// </history>
-        public RequestBookmarksMessage(string from) : base(from, null, Consts.XML_XEP_0048_NAMESPACE)
+        public RequestBookmarksMessage(string from) : base(from, null, Consts.XML_XEP_0048_NAMESPACE, 0)
         {
         }
 

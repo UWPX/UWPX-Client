@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <history>
         /// 07/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoRequestBundleInformationMessage(string from, string to, uint deviceId) : base(from, to, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceId)
+        public OmemoRequestBundleInformationMessage(string from, string to, uint deviceId) : base(from, to, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceId, 1)
         {
             this.DEVICE_ID = deviceId;
         }
