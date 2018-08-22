@@ -96,7 +96,15 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void onTimeout()
         {
+            if (disposed)
+            {
+                return;
+            }
             SEMA.Wait();
+            if (disposed)
+            {
+                return;
+            }
             try
             {
                 MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
