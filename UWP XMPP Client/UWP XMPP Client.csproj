@@ -102,6 +102,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+	<Reference Include="mscorlib" />
     <Compile Include="Classes\ToastActivation\AbstractToastActivation.cs" />
     <Compile Include="Classes\ToastActivation\ToastActivationArgumentParser.cs" />
     <Compile Include="Classes\ToastActivation\ChatToastActivation.cs" />
