@@ -16,9 +16,6 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using libsignal;
-using Windows.Media.Playback;
-using Windows.Media.Core;
 
 namespace Data_Manager2.Classes
 {
