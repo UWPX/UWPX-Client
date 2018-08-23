@@ -653,6 +653,10 @@ namespace XMPP_API.Classes.Network
                         setState(ConnectionState.ERROR, args.param);
                     }
                     break;
+
+                case ConnectionState.DISCONNECTED when holdConnection:
+                    await reconnectAsync(false);
+                    break;
             }
         }
 
