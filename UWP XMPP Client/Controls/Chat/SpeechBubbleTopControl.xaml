@@ -3,19 +3,41 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls1="using:UWP_XMPP_Client.Controls.Chat"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <datatemplates:BoolVisabilityValueConverter x:Key="boolVisabilityValueConverter"/>
+    </UserControl.Resources>
+
     <Grid Padding="6"
           HorizontalAlignment="Left">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
         <Polygon Margin="10,0,0,0"
                  Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
                  Points="0,0 10,10 0,10"
                  Stroke="Black"/>
-        <controls1:SpeechBubbleContentControl Margin="0,10,0,0"
-                                              Background="{StaticResource SpeechBubbleBackgroundLightBrush}"
-                                              Chat="{x:Bind Chat, Mode=OneWay}"
-                                              ChatMessage="{x:Bind ChatMessage, Mode=OneWay}"/>
+        <Grid Grid.Row="0"
+              Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <controls1:SpeechBubbleContentControl Background="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                                                  Chat="{x:Bind Chat, Mode=OneWay}"
+                                                  ChatMessage="{x:Bind ChatMessage, Mode=OneWay}"/>
+            <TextBlock Grid.Row="0"
+                       Margin="0,-7.5,-7.5,0"
+                       HorizontalAlignment="Right"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="15"
+                       Foreground="Gold"
+                       Text="&#xE734;"
+                       Visibility="{x:Bind ChatMessage.isFavorite, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
+        </Grid>
         <Polygon Margin="10.4,1,0,0"
                  Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
                  Points="0,0 11,11 0,11"

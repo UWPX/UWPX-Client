@@ -33,6 +33,8 @@ namespace Data_Manager2.Classes.DBTables
         public bool isCC { get; set; }
         // Whether the message got received or send encrypted
         public bool isEncrypted { get; set; }
+        // Whether the message got favorite
+        public bool isFavorite { get; set; }
 
         // Defines if the message is a dummy message like for the personalize settings page chat preview
         [Ignore]
@@ -94,6 +96,7 @@ namespace Data_Manager2.Classes.DBTables
             this.isImage = isMessageAnImageUrl(msg.MESSAGE);
             this.isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
             this.isEncrypted = msg is OmemoMessageMessage;
+            this.isFavorite = false;
         }
 
         #endregion

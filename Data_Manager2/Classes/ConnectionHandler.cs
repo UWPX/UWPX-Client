@@ -447,7 +447,7 @@ namespace Data_Manager2.Classes
 
             string to = Utils.getBareJidFromFullJid(msg.getTo());
             string id;
-            if(msg.CC_TYPE == CarbonCopyType.SENT)
+            if (msg.CC_TYPE == CarbonCopyType.SENT)
             {
                 id = ChatTable.generateId(to, from);
             }
@@ -568,7 +568,7 @@ namespace Data_Manager2.Classes
                                     {
                                         ToastHelper.showChatTextEncryptedToast(msg.MESSAGE, msg.ID, chat);
                                     }
-                                    else if(message.isImage)
+                                    else if (message.isImage)
                                     {
                                         ToastHelper.showChatTextImageToast(msg.MESSAGE, msg.ID, chat);
                                     }
@@ -705,7 +705,7 @@ namespace Data_Manager2.Classes
 
         private void ConnectionHandler_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(sender is XMPPAccount account)
+            if (sender is XMPPAccount account)
             {
                 AccountDBManager.INSTANCE.setAccount(account, false);
             }

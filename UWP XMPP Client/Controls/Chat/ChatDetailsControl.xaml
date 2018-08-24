@@ -214,6 +214,7 @@
                                 <ToggleMenuFlyoutItem x:Name="omemo_tmfo"
                                                       Click="omemo_tmfo_Click"
                                                       IsChecked="False"
+                                                      IsEnabled="False"
                                                       Text="OMEMO">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72E;"/>
