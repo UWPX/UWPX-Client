@@ -16,6 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using libsignal;
 
 namespace Data_Manager2.Classes
 {
@@ -437,21 +438,11 @@ namespace Data_Manager2.Classes
             // Check if device id is valid and if, decrypt the OMEMO messages:
             if (msg is OmemoMessageMessage omemoMessage)
             {
-                if (!omemoMessage.hasDeviceIdKey(client.getXMPPAccount().omemoDeviceId))
+                if (!omemoMessage.decrypt(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
                 {
-                    Logger.Info("Discarded received OMEMO message - doesn't contain device id!");
+                    // Decryption failed:
                     return;
                 }
-                OmemoHelper omemoHelper = client.getOmemoHelper();
-                /*SessionCipher cipher = omemoHelper.get(from);
-                if (cipher != null)
-                {
-                    omemoMessage.decrypt(cipher);
-                }
-                else
-                {
-                    // ToDo: Build new session
-                }*/
             }
 
             string to = Utils.getBareJidFromFullJid(msg.getTo());
@@ -634,12 +625,12 @@ namespace Data_Manager2.Classes
             CLIENT_SEMA.Release();
         }
 
-        private void C_MessageSend(XMPPClient client, XMPP_API.Classes.Network.Events.MessageSendEventArgs args)
+        private void C_MessageSend(XMPPClient client, MessageSendEventArgs args)
         {
             ChatDBManager.INSTANCE.updateChatMessageState(args.CHAT_MESSAGE_ID, MessageState.SEND);
         }
 
-        private void C_NewBookmarksResultMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewBookmarksResultMessageEventArgs args)
+        private void C_NewBookmarksResultMessage(XMPPClient client, NewBookmarksResultMessageEventArgs args)
         {
             foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
             {

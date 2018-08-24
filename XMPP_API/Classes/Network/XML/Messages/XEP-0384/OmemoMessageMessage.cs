@@ -1,5 +1,6 @@
 ﻿using libsignal;
 using libsignal.protocol;
+using Logging;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -47,6 +48,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 XmlNode headerNode = XMLUtils.getChildNode(encryptedNode, "header");
                 if (headerNode != null)
                 {
+                    if (uint.TryParse(headerNode.Attributes["sid"]?.Value, out uint sid))
+                    {
+                        SOURCE_DEVICE_ID = sid;
+                    }
+
                     foreach (XmlNode n in headerNode.ChildNodes)
                     {
                         switch (n.Name)
@@ -73,23 +79,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public bool hasDeviceIdKey(uint deviceId)
+        public OmemoKey getOmemoKey(uint deviceId)
         {
             foreach (OmemoKey key in KEYS)
             {
                 if (key.REMOTE_DEVICE_ID == deviceId)
                 {
-                    return true;
+                    return key;
                 }
             }
-            return false;
+            return null;
         }
-
-        /// <summary>
-        /// Encrypts the content of MESSAGE with the given SessionCipher and saves the result in BASE_64_PAYLOAD.
-        /// Sets ENCRYPTED to true.
-        /// </summary>
-        /// <param name="cipher">The SessionCipher for encrypting the content of MESSAGE.</param>
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -136,9 +136,67 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Sets ENCRYPTED to false.
         /// </summary>
         /// <param name="cipher">The SessionCipher for decrypting the content of BASE_64_PAYLOAD.</param>
-        public void decrypt(SessionCipher cipher)
+        public bool decrypt(OmemoHelper omemoHelper, uint localOmemoDeviceId)
         {
-            ENCRYPTED = false;
+            try
+            {
+                // 1. Check if the message contains a key for the local device:
+                OmemoKey key = getOmemoKey(localOmemoDeviceId);
+                if (key == null)
+                {
+                    Logger.Info("Discarded received OMEMO message - doesn't contain device id!");
+                    return false;
+                }
+
+                // 2. Load the cipher:
+                SignalProtocolAddress address = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
+                SessionCipher cipher = omemoHelper.loadCipher(address);
+                byte[] encryptedKeyAuthTag = Convert.FromBase64String(key.BASE_64_KEY);
+                byte[] decryptedKeyAuthTag = null;
+                if (key.IS_PRE_KEY)
+                {
+                    decryptedKeyAuthTag = cipher.decrypt(new PreKeySignalMessage(encryptedKeyAuthTag));
+                    // ToDo republish the bundle info and remove used pre key
+                }
+                else
+                {
+                    decryptedKeyAuthTag = cipher.decrypt(new SignalMessage(encryptedKeyAuthTag));
+                }
+
+                // 3. Check if the cipher got loaded successfully:
+                if (decryptedKeyAuthTag == null)
+                {
+                    Logger.Info("Discarded received OMEMO message - failed to decrypt keyAuthTag is null!");
+                    return false;
+                }
+
+                // 4. Decrypt the payload:
+                byte[] aesIv = Convert.FromBase64String(BASE_64_IV);
+                byte[] aesKey = new byte[16];
+                byte[] aesAuthTag = new byte[decryptedKeyAuthTag.Length - aesKey.Length];
+                Buffer.BlockCopy(decryptedKeyAuthTag, 0, aesKey, 0, aesKey.Length);
+                Buffer.BlockCopy(decryptedKeyAuthTag, aesKey.Length, aesAuthTag, 0, aesAuthTag.Length);
+                Aes128Gcm aes = new Aes128Gcm()
+                {
+                    key = aesKey,
+                    authTag = aesAuthTag,
+                    iv = aesIv
+                };
+
+                byte[] encryptedData = Convert.FromBase64String(BASE_64_PAYLOAD);
+                byte[] decryptedData = aes.decrypt(encryptedData);
+
+                // 5. Convert decrypted data to Unicode string:
+                MESSAGE = Encoding.Unicode.GetString(decryptedData);
+
+                ENCRYPTED = false;
+                return true;
+            }
+            catch (Exception e)
+            {
+                Logger.Info("Discarded received OMEMO message - failed to decrypt with:" + e.Message);
+            }
+            return false;
         }
 
         public override XElement toXElement()

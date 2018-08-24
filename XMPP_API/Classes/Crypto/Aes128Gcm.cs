@@ -55,27 +55,27 @@ namespace XMPP_API.Classes.Crypto
             AeadParameters aeadParams = new AeadParameters(keyParam, AUTH_TAG_SIZE_BITS, iv);
             cipher.Init(true, aeadParams);
 
-            // Encrypt and prepend iv:
+            // Encrypt:
             byte[] ciphertext = new byte[cipher.GetOutputSize(data.Length)];
             int length = cipher.ProcessBytes(data, 0, data.Length, ciphertext, 0);
             cipher.DoFinal(ciphertext, length);
             authTag = cipher.GetMac();
 
-            byte[] encryptedData = new byte[iv.Length + ciphertext.Length];
+            /*byte[] encryptedData = new byte[iv.Length + ciphertext.Length];
             Buffer.BlockCopy(iv, 0, encryptedData, 0, iv.Length);
-            Buffer.BlockCopy(ciphertext, 0, encryptedData, iv.Length, ciphertext.Length);
+            Buffer.BlockCopy(ciphertext, 0, encryptedData, iv.Length, ciphertext.Length);*/
 
-            return encryptedData;
+            return ciphertext;
         }
 
-        public byte[] decrypt(byte[] encryptedData)
+        public byte[] decrypt(byte[] ciphertext)
         {
             // Retrieve the nonce and ciphertext:
-            iv = new byte[IV_SIZE_BYTES];
+            /*iv = new byte[IV_SIZE_BYTES];
             byte[] ciphertext = new byte[encryptedData.Length - IV_SIZE_BYTES];
 
             Buffer.BlockCopy(encryptedData, 0, iv, 0, iv.Length);
-            Buffer.BlockCopy(encryptedData, iv.Length, ciphertext, 0, ciphertext.Length);
+            Buffer.BlockCopy(encryptedData, iv.Length, ciphertext, 0, ciphertext.Length);*/
 
             // Create the cipher instance and initialize:
             GcmBlockCipher cipher = new GcmBlockCipher(new AesEngine());
