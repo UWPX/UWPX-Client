@@ -560,6 +560,7 @@ namespace Data_Manager2.Classes
                     {
                         switch (msg.TYPE)
                         {
+                            case MessageMessage.TYPE_GROUPCHAT:
                             case MessageMessage.TYPE_CHAT:
                                 if (!message.isCC)
                                 {
