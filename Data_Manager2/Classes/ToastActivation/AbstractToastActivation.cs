@@ -1,12 +1,10 @@
-﻿using System.Linq;
-
-namespace UWP_XMPP_Client.Classes.AppActivation
+﻿namespace Data_Manager2.Classes.ToastActivation
 {
-    class ToastActivationArgumentParser
+    public abstract class AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public bool IS_VALID { get; protected set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,7 +15,7 @@ namespace UWP_XMPP_Client.Classes.AppActivation
         /// <history>
         /// 19/08/2018 Created [Fabian Sauter]
         /// </history>
-        public ToastActivationArgumentParser()
+        public AbstractToastActivation()
         {
         }
 
@@ -29,24 +27,7 @@ namespace UWP_XMPP_Client.Classes.AppActivation
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static AbstractToastActivation parseArguments(string activationString)
-        {
-            if (string.IsNullOrEmpty(activationString) || !activationString.Contains('='))
-            {
-                return null;
-            }
-
-            string type = activationString.Substring(0, activationString.IndexOf('='));
-            string args = activationString.Substring(activationString.IndexOf('=') + 1);
-
-            switch (type)
-            {
-                case ChatToastActivation.TYPE:
-                    return new ChatToastActivation(args, true);
-            }
-
-            return null;
-        }
+        public abstract string generate();
 
         #endregion
 

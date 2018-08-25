@@ -102,12 +102,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-	<Reference Include="mscorlib" />
-    <Compile Include="Classes\ToastActivation\AbstractToastActivation.cs" />
-    <Compile Include="Classes\ToastActivation\ToastActivationArgumentParser.cs" />
-    <Compile Include="Classes\ToastActivation\ChatToastActivation.cs" />
+    <Reference Include="mscorlib" />
     <Compile Include="Classes\AppUpdateHandler.cs" />
     <Compile Include="Classes\BackgroundImageCache.cs" />
+    <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />

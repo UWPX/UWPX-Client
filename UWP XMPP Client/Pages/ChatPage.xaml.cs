@@ -2,6 +2,7 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
+using Data_Manager2.Classes.ToastActivation;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
@@ -9,10 +10,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.Classes.AppActivation;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
-using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Popups;
 using Windows.UI.Xaml;
@@ -270,15 +269,9 @@ namespace UWP_XMPP_Client.Pages
                 await UiUtils.showInitialStartDialogAsync();
                 await UiUtils.showWhatsNewDialog();
             }
-            else if (e.Parameter is ToastNotificationActivatedEventArgs)
+            else if (e.Parameter is ChatToastActivation chatToastActivation)
             {
-                var toasActivationArgs = e.Parameter as ToastNotificationActivatedEventArgs;
-                AbstractToastActivation activation = ToastActivationArgumentParser.parseArguments(toasActivationArgs.Argument);
-                if(activation is ChatToastActivation chatToastActivation)
-                {
-                    toastActivationString = chatToastActivation.CHAT_ID;
-                }
-                Logger.Info("ChatPage2 activated through toast with argument:" + toasActivationArgs.Argument);
+                toastActivationString = chatToastActivation.CHAT_ID;
             }
             loadChats(toastActivationString);
 

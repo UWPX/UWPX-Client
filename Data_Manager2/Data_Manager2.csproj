@@ -106,7 +106,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="mscorlib" />
+    <Reference Include="mscorlib" />
     <Compile Include="Classes\ChatType.cs" />
     <Compile Include="Classes\ConnectionHandler.cs" />
     <Compile Include="Classes\DBManager\AccountDBManager.cs" />
@@ -143,7 +143,12 @@
     <Compile Include="Classes\MUCEnterState.cs" />
     <Compile Include="Classes\Settings.cs" />
     <Compile Include="Classes\SettingsConsts.cs" />
-    <Compile Include="Classes\ToastHelper.cs" />
+    <Compile Include="Classes\ToastActivation\AbstractToastActivation.cs" />
+    <Compile Include="Classes\ToastActivation\ChatToastActivation.cs" />
+    <Compile Include="Classes\ToastActivation\MarkChatAsReadToastActivation.cs" />
+    <Compile Include="Classes\ToastActivation\MarkMessageAsReadToastActivation.cs" />
+    <Compile Include="Classes\ToastActivation\ToastActivationArgumentParser.cs" />
+    <Compile Include="Classes\ToastActivation\ToastHelper.cs" />
     <Compile Include="Classes\Vault.cs" />
     <Compile Include="Classes\MUCHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

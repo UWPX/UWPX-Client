@@ -16,7 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using libsignal;
+using Data_Manager2.Classes.ToastActivation;
 
 namespace Data_Manager2.Classes
 {
@@ -556,30 +556,37 @@ namespace Data_Manager2.Classes
             {
                 Task.Run(() =>
                 {
-                    if (!msg.toasted)
+                    try
                     {
-                        switch (msg.TYPE)
+                        if (!msg.toasted)
                         {
-                            case MessageMessage.TYPE_GROUPCHAT:
-                            case MessageMessage.TYPE_CHAT:
-                                if (!message.isCC)
-                                {
-                                    if (message.isEncrypted)
+                            switch (msg.TYPE)
+                            {
+                                case MessageMessage.TYPE_GROUPCHAT:
+                                case MessageMessage.TYPE_CHAT:
+                                    if (!message.isCC)
                                     {
-                                        ToastHelper.showChatTextEncryptedToast(msg.MESSAGE, msg.ID, chat);
+                                        if (message.isEncrypted)
+                                        {
+                                            ToastHelper.showChatTextEncryptedToast(message, chat);
+                                        }
+                                        else if (message.isImage)
+                                        {
+                                            ToastHelper.showChatTextImageToast(message, chat);
+                                        }
+                                        else
+                                        {
+                                            ToastHelper.showChatTextToast(message, chat);
+                                        }
                                     }
-                                    else if (message.isImage)
-                                    {
-                                        ToastHelper.showChatTextImageToast(msg.MESSAGE, msg.ID, chat);
-                                    }
-                                    else
-                                    {
-                                        ToastHelper.showChatTextToast(msg.MESSAGE, msg.ID, chat);
-                                    }
-                                }
-                                break;
+                                    break;
+                            }
+                            msg.setToasted();
                         }
-                        msg.setToasted();
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Failed to send toast notification!", e);
                     }
                 });
             }

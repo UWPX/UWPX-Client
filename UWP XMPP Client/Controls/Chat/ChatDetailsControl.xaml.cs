@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.UI.Xaml.Controls.Primitives;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using UWP_XMPP_Client.Dialogs;
+using Data_Manager2.Classes.ToastActivation;
 
 namespace UWP_XMPP_Client.Controls.Chat
 {
@@ -205,7 +205,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                 Task.Run(async () =>
                 {
                     // Mark all unread messages as read for this chat:
-                    ChatDBManager.INSTANCE.markAllMessagesAsRead(chatCpy);
+                    ChatDBManager.INSTANCE.markAllMessagesAsRead(chatCpy.id);
                     // Remove notification group:
                     ToastHelper.removeToastGroup(chatCpy.id);
 

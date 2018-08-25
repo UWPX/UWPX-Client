@@ -1,9 +1,8 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.ApplicationModel;
 using Windows.UI.Notifications;
 
-namespace Data_Manager2.Classes
+namespace Data_Manager2.Classes.ToastActivation
 {
     public class ToastHelper
     {
@@ -31,7 +30,7 @@ namespace Data_Manager2.Classes
             ToastNotificationManager.History.RemoveGroup(group);
         }
 
-        public static void showChatTextToast(string text, string msgId, ChatTable chat)
+        public static void showChatTextToast(ChatMessageTable msg, ChatTable chat)
         {
             var toastContent = new ToastContent()
             {
@@ -48,7 +47,7 @@ namespace Data_Manager2.Classes
                             },
                             new AdaptiveText()
                             {
-                                Text = text
+                                Text = msg.message
                             }
                         },
                         AppLogoOverride = new ToastGenericAppLogo()
@@ -58,40 +57,15 @@ namespace Data_Manager2.Classes
                         }
                     }
                 },
-                Actions = new ToastActionsCustom()
-                {
-                    Inputs =
-                    {
-                        new ToastTextBox("textBox")
-                        {
-                            PlaceholderContent = "Reply"
-                        }
-                    },
-                    Buttons =
-                    {
-                        new ToastButton("Send", chat.id)
-                        {
-                            ActivationType = ToastActivationType.Background,
-                            ImageUri = SEND_BUTTON_IMAGE_PATH,
-                            TextBoxId = "textBox",
-                        }
-                    }
-                },
-                Launch = "CHAT=" + chat.id
+                Actions = getActions(msg, chat),
+                DisplayTimestamp = msg.date,
+                Launch = new ChatToastActivation(chat.id, false).generate()
             };
 
-            // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml())
-            {
-                Group = chat.id,
-                Tag = msgId
-            };
-
-            // And send the notification
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            popToast(toastContent, chat);
         }
 
-        public static void showChatTextEncryptedToast(string text, string msgId, ChatTable chat)
+        public static void showChatTextEncryptedToast(ChatMessageTable msg, ChatTable chat)
         {
             var toastContent = new ToastContent()
             {
@@ -118,40 +92,15 @@ namespace Data_Manager2.Classes
                         }
                     }
                 },
-                Actions = new ToastActionsCustom()
-                {
-                    Inputs =
-                    {
-                        new ToastTextBox("textBox")
-                        {
-                            PlaceholderContent = "Reply"
-                        }
-                    },
-                    Buttons =
-                    {
-                        new ToastButton("Send", chat.id)
-                        {
-                            ActivationType = ToastActivationType.Background,
-                            ImageUri = SEND_BUTTON_IMAGE_PATH,
-                            TextBoxId = "textBox",
-                        }
-                    }
-                },
-                Launch = "CHAT=" + chat.id
+                Actions = getActions(msg, chat),
+                DisplayTimestamp = msg.date,
+                Launch = new ChatToastActivation(chat.id, false).generate()
             };
 
-            // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml())
-            {
-                Group = chat.id,
-                Tag = msgId
-            };
-
-            // And send the notification
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            popToast(toastContent, chat);
         }
 
-        public static void showChatTextImageToast(string text, string imgPath, ChatTable chat)
+        public static void showChatTextImageToast(ChatMessageTable msg, ChatTable chat)
         {
             var toastContent = new ToastContent()
             {
@@ -173,7 +122,7 @@ namespace Data_Manager2.Classes
                         },
                         HeroImage = new ToastGenericHeroImage()
                         {
-                            Source = text
+                            Source = msg.message
                         },
                         AppLogoOverride = new ToastGenericAppLogo()
                         {
@@ -182,39 +131,58 @@ namespace Data_Manager2.Classes
                         }
                     }
                 },
-                Actions = new ToastActionsCustom()
-                {
-                    Inputs =
-                    {
-                        new ToastTextBox("textBox")
-                        {
-                            PlaceholderContent = "Reply"
-                        }
-                    },
-                    Buttons =
-                    {
-                        new ToastButton("Send", chat.id)
-                        {
-                            ActivationType = ToastActivationType.Background,
-                            ImageUri = SEND_BUTTON_IMAGE_PATH,
-                            TextBoxId = "textBox",
-                        }
-                    }
-                },
-                Launch = "CHAT=" + chat.id
+                Actions = getActions(msg, chat),
+                DisplayTimestamp = msg.date,
+                Launch = new ChatToastActivation(chat.id, false).generate()
             };
 
-            // Create the toast notification
-            var toastNotif = new ToastNotification(toastContent.GetXml());
-
-            // And send the notification
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            popToast(toastContent, chat);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private static void popToast(ToastContent content, ChatTable chat)
+        {
+            var toastNotif = new ToastNotification(content.GetXml())
+            {
+                Group = chat.id
+            };
 
+            // And send the notification
+            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+        }
+
+        private static ToastActionsCustom getActions(ChatMessageTable msg, ChatTable chat)
+        {
+            return new ToastActionsCustom()
+            {
+                Inputs =
+                {
+                    new ToastTextBox("msg_tbx")
+                    {
+                        PlaceholderContent = "Reply"
+                    }
+                },
+                Buttons =
+                {
+                    new ToastButton("Send", chat.id)
+                    {
+                        ActivationType = ToastActivationType.Background,
+                        ImageUri = SEND_BUTTON_IMAGE_PATH,
+                        TextBoxId = "msg_tbx",
+                    },
+                    new ToastButton("Mark chat as read", new MarkChatAsReadToastActivation(chat.id, false).generate())
+                    {
+                        ActivationType = ToastActivationType.Background
+                    },
+                    new ToastButton("Mark as read", new MarkMessageAsReadToastActivation(msg.id, false).generate())
+                    {
+                        ActivationType = ToastActivationType.Background
+                    }
+                }
+            };
+        }
 
         #endregion
 

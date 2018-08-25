@@ -1,10 +1,11 @@
-﻿namespace UWP_XMPP_Client.Classes.AppActivation
+﻿namespace Data_Manager2.Classes.ToastActivation
 {
-    abstract class AbstractToastActivation
+    public class ChatToastActivation : AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool IS_VALID { get; protected set; }
+        public const string TYPE = "CHAT";
+        public readonly string CHAT_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,8 +16,10 @@
         /// <history>
         /// 19/08/2018 Created [Fabian Sauter]
         /// </history>
-        public AbstractToastActivation()
+        public ChatToastActivation(string args, bool received)
         {
+            this.CHAT_ID = args;
+            this.IS_VALID = !string.IsNullOrEmpty(args);
         }
 
         #endregion
@@ -27,7 +30,10 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public abstract string generate();
+        public override string generate()
+        {
+            return TYPE + '=' + CHAT_ID;
+        }
 
         #endregion
 

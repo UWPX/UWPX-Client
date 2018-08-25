@@ -16,6 +16,8 @@ using Microsoft.HockeyApp;
 using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
+using Data_Manager2.Classes.ToastActivation;
+using Windows.UI.Notifications;
 
 namespace UWP_XMPP_Client
 {
@@ -145,10 +147,15 @@ namespace UWP_XMPP_Client
             }
         }
 
-        private void onActivatedOrLaunched(IActivatedEventArgs args)
+        private async Task onActivatedOrLaunchedAsync(IActivatedEventArgs args)
         {
             // Sets the log level:
             initLogLevel();
+
+            // Register background tasks:
+            Logger.Info("Registering background tasks...");
+            await BackgroundTaskHelper.registerToastBackgroundTaskAsync();
+            Logger.Info("Finished registering background tasks.");
 
             // Init all db managers to force event subscriptions:
             initAllDBManagers();
@@ -167,11 +174,10 @@ namespace UWP_XMPP_Client
                 Push_App_Server.Classes.PushManager.init();
             }
 
-            Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 // Create a Frame to act as the navigation context and navigate to the first page:
                 rootFrame = new Frame();
@@ -190,7 +196,7 @@ namespace UWP_XMPP_Client
             if (args is ToastNotificationActivatedEventArgs)
             {
                 var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
-
+                Logger.Info("App activated by toast with: " + toastActivationArgs.Argument);
                 // If empty args, no specific action (just launch the app)
                 if (string.IsNullOrEmpty(toastActivationArgs.Argument))
                 {
@@ -208,7 +214,7 @@ namespace UWP_XMPP_Client
                 }
                 else
                 {
-                    rootFrame.Navigate(typeof(ChatPage), args);
+                    rootFrame.Navigate(typeof(ChatPage), ToastActivationArgumentParser.parseArguments(toastActivationArgs.Argument));
                 }
                 if (rootFrame.BackStack.Count == 0)
                 {
@@ -261,16 +267,49 @@ namespace UWP_XMPP_Client
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
-            onActivatedOrLaunched(args);
+            var deferral = args.TaskInstance.GetDeferral();
+
+            switch (args.TaskInstance.Task.Name)
+            {
+                case BackgroundTaskHelper.TOAST_BACKGROUND_TASK_NAME:
+                    ToastNotificationActionTriggerDetail details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
+                    if (details != null)
+                    {
+                        initLogLevel();
+
+                        string arguments = details.Argument;
+                        var userInput = details.UserInput;
+
+                        Logger.Debug("App activated in background through toast with: " + arguments);
+                        AbstractToastActivation abstractToastActivation = ToastActivationArgumentParser.parseArguments(arguments);
+
+                        if (abstractToastActivation is MarkChatAsReadToastActivation markChatAsRead)
+                        {
+                            ChatDBManager.INSTANCE.markAllMessagesAsRead(markChatAsRead.CHAT_ID);
+                        }
+                        else if (abstractToastActivation is MarkMessageAsReadToastActivation markMessageAsRead)
+                        {
+                            ChatDBManager.INSTANCE.markMessageAsRead(markMessageAsRead.CHAT_MESSAGE_ID);
+                        }
+                    }
+                    break;
+            }
+
+            deferral.Complete();
+        }
+
+        protected async override void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            await onActivatedOrLaunchedAsync(args);
 
             setupAppCenterPush(args);
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected async override void OnActivated(IActivatedEventArgs args)
         {
-            onActivatedOrLaunched(args);
+            await onActivatedOrLaunchedAsync(args);
         }
 
         #endregion

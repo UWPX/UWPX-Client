@@ -139,9 +139,9 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        private List<ChatMessageTable> getAllUnreadMessages(ChatTable chat)
+        private List<ChatMessageTable> getAllUnreadMessages(string chatId)
         {
-            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ? AND fromUser != ?;", chat.id, MessageState.UNREAD, chat.userAccountId);
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ?;", chatId, MessageState.UNREAD);
         }
 
         public List<ChatTable> getAllChatsForClient(string userAccountId, string filter)
@@ -221,18 +221,21 @@ namespace Data_Manager2.Classes.DBManager
             dB.Execute("DELETE FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
-        public void markAllMessagesAsRead(ChatTable chat)
+        public void markAllMessagesAsRead(string chatId)
         {
-            List<ChatMessageTable> list = getAllUnreadMessages(chat);
+            List<ChatMessageTable> list = getAllUnreadMessages(chatId);
             if (list.Count > 0)
             {
-                Parallel.ForEach(list, (msg) =>
-                {
-                    msg.state = MessageState.READ;
-                    update(msg);
-                    msg.onChanged();
-                    ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
-                });
+                Parallel.ForEach(list, (msg) => markMessageAsRead(msg));
+            }
+        }
+
+        public void markMessageAsRead(string id)
+        {
+            ChatMessageTable msg = getChatMessageById(id);
+            if (id != null)
+            {
+                markMessageAsRead(msg);
             }
         }
 
@@ -275,6 +278,14 @@ namespace Data_Manager2.Classes.DBManager
             {
                 ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, deleted));
             }
+        }
+
+        private void markMessageAsRead(ChatMessageTable msg)
+        {
+            msg.state = MessageState.READ;
+            update(msg);
+            msg.onChanged();
+            ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
         }
 
         private void onChatChanged(string chatId)
