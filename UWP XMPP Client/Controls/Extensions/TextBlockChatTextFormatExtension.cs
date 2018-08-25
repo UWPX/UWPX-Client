@@ -56,14 +56,20 @@ namespace UWP_XMPP_Client.Controls.Extensions
                     else
                     {
                         var lastPosition = 0;
-                        var matches = new Match[3];
+                        var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
                         do
                         {
-                            matches[0] = URL_REGEX.Match(text, lastPosition);
-                            matches[1] = EMAIL_REGEX.Match(text, lastPosition);
-                            matches[2] = PHONE_REGEX.Match(text, lastPosition);
+                            try
+                            {
+                                matches[0] = URL_REGEX.Match(text, lastPosition);
+                                matches[1] = EMAIL_REGEX.Match(text, lastPosition);
+                                matches[2] = PHONE_REGEX.Match(text, lastPosition);
+                            }
+                            catch (RegexMatchTimeoutException)
+                            {
+                            }
 
-                            var firstMatch = matches.Where(x => x.Success).OrderBy(x => x.Index).FirstOrDefault();
+                            var firstMatch = matches.Where(x => x != null && x.Success).OrderBy(x => x.Index).FirstOrDefault();
                             if (firstMatch == matches[0])
                             {
                                 // the first match is an URL:
