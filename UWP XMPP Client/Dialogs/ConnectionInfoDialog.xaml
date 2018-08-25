@@ -9,6 +9,7 @@
                Title="Connection info:"
                SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
                SecondaryButtonText="Close"
+               Unloaded="ContentDialog_Unloaded"
                mc:Ignorable="d">
 
     <ContentDialog.Resources>

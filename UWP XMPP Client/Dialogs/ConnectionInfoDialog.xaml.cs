@@ -29,11 +29,12 @@ namespace UWP_XMPP_Client.Dialogs
                 SetValue(ConnectionInfoProperty, value);
                 if (ConnectionInfo != null)
                 {
-                    //ConnectionInfo.PropertyChanged -= Value_PropertyChanged;
+                    ConnectionInfo.PropertyChanged -= Value_PropertyChanged;
                 }
                 if (value != null)
                 {
-                    //value.PropertyChanged += Value_PropertyChanged;
+                    value.PropertyChanged -= Value_PropertyChanged;
+                    value.PropertyChanged += Value_PropertyChanged;
                 }
                 showConnectionInfo();
             }
@@ -311,6 +312,14 @@ namespace UWP_XMPP_Client.Dialogs
                     refreshOmemoDevices_btn.IsEnabled = true;
                 }
             });
+        }
+
+        private void ContentDialog_Unloaded(object sender, RoutedEventArgs e)
+        {
+            if (ConnectionInfo != null)
+            {
+                ConnectionInfo.PropertyChanged -= Value_PropertyChanged;
+            }
         }
 
         #endregion

@@ -5,7 +5,7 @@ using Windows.Networking.Sockets;
 
 namespace XMPP_API.Classes.Network
 {
-    public class ConnectionInformation : INotifyPropertyChanged
+    public class ConnectionInformation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
