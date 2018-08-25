@@ -147,6 +147,7 @@
     <Compile Include="Classes\ToastActivation\ChatToastActivation.cs" />
     <Compile Include="Classes\ToastActivation\MarkChatAsReadToastActivation.cs" />
     <Compile Include="Classes\ToastActivation\MarkMessageAsReadToastActivation.cs" />
+    <Compile Include="Classes\ToastActivation\SendReplyToastActivation.cs" />
     <Compile Include="Classes\ToastActivation\ToastActivationArgumentParser.cs" />
     <Compile Include="Classes\ToastActivation\ToastHelper.cs" />
     <Compile Include="Classes\Vault.cs" />

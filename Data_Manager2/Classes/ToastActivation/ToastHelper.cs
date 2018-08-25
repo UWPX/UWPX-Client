@@ -11,6 +11,7 @@ namespace Data_Manager2.Classes.ToastActivation
         private const string DEFAULT_MUC_IMAGE_PATH = "Assets/Images/default_muc_image.png";
         private const string DEFAULT_USER_IMAGE_PATH = "Assets/Images/default_user_image.png";
         private const string SEND_BUTTON_IMAGE_PATH = "Assets/Images/send.png";
+        public const string TEXT_BOX_ID = "msg_tbx";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -157,21 +158,21 @@ namespace Data_Manager2.Classes.ToastActivation
         {
             return new ToastActionsCustom()
             {
-                Inputs =
+                /*Inputs =
                 {
-                    new ToastTextBox("msg_tbx")
+                    new ToastTextBox(TEXT_BOX_ID)
                     {
                         PlaceholderContent = "Reply"
                     }
-                },
+                },*/
                 Buttons =
                 {
-                    new ToastButton("Send", chat.id)
+                    /*new ToastButton("Send", new SendReplyToastActivation(chat.id, false).generate())
                     {
                         ActivationType = ToastActivationType.Background,
                         ImageUri = SEND_BUTTON_IMAGE_PATH,
-                        TextBoxId = "msg_tbx",
-                    },
+                        TextBoxId = TEXT_BOX_ID,
+                    },*/
                     new ToastButton("Mark chat as read", new MarkChatAsReadToastActivation(chat.id, false).generate())
                     {
                         ActivationType = ToastActivationType.Background

@@ -18,6 +18,10 @@ using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
 using Data_Manager2.Classes.ToastActivation;
 using Windows.UI.Notifications;
+using Data_Manager2.Classes.DBTables;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWP_XMPP_Client
 {
@@ -49,11 +53,15 @@ namespace UWP_XMPP_Client
             }
         }
 
+        private bool isRunning;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public App()
         {
+            this.isRunning = false;
+
             //Crash reports capturing:
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
             {
@@ -174,6 +182,7 @@ namespace UWP_XMPP_Client
                 Push_App_Server.Classes.PushManager.init();
             }
 
+            isRunning = true;
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -293,6 +302,21 @@ namespace UWP_XMPP_Client
                         {
                             ChatDBManager.INSTANCE.markMessageAsRead(markMessageAsRead.CHAT_MESSAGE_ID);
                         }
+                        else if (abstractToastActivation is SendReplyToastActivation sendReply)
+                        {
+                            ChatTable chat = ChatDBManager.INSTANCE.getChat(sendReply.CHAT_ID);
+                            if (chat != null && userInput[ToastHelper.TEXT_BOX_ID] != null)
+                            {
+                                if (isRunning)
+                                {
+
+                                }
+                                else
+                                {
+
+                                }
+                            }
+                        }
                     }
                     break;
             }
@@ -317,6 +341,8 @@ namespace UWP_XMPP_Client
         #region --Events--
         private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
+            isRunning = false;
+
             var deferral = e.SuspendingOperation.GetDeferral();
             // TODO re-implement transfer socket ownership:
             //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
@@ -330,6 +356,7 @@ namespace UWP_XMPP_Client
         {
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
+            isRunning = true;
         }
 
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)

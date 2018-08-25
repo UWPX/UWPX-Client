@@ -1,12 +1,11 @@
-﻿using System.Linq;
-
-namespace Data_Manager2.Classes.ToastActivation
+﻿namespace Data_Manager2.Classes.ToastActivation
 {
-    public class ToastActivationArgumentParser
+    public class SendReplyToastActivation : AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public const string TYPE = "SEND_REPLY";
+        public readonly string CHAT_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,10 +14,12 @@ namespace Data_Manager2.Classes.ToastActivation
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 19/08/2018 Created [Fabian Sauter]
+        /// 25/08/2018 Created [Fabian Sauter]
         /// </history>
-        public ToastActivationArgumentParser()
+        public SendReplyToastActivation(string args, bool received)
         {
+            this.CHAT_ID = args;
+            this.IS_VALID = !string.IsNullOrEmpty(args);
         }
 
         #endregion
@@ -29,32 +30,9 @@ namespace Data_Manager2.Classes.ToastActivation
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static AbstractToastActivation parseArguments(string activationString)
+        public override string generate()
         {
-            if (string.IsNullOrEmpty(activationString) || !activationString.Contains('='))
-            {
-                return null;
-            }
-
-            string type = activationString.Substring(0, activationString.IndexOf('='));
-            string args = activationString.Substring(activationString.IndexOf('=') + 1);
-
-            switch (type)
-            {
-                case ChatToastActivation.TYPE:
-                    return new ChatToastActivation(args, true);
-
-                case MarkChatAsReadToastActivation.TYPE:
-                    return new MarkChatAsReadToastActivation(args, true);
-
-                case MarkMessageAsReadToastActivation.TYPE:
-                    return new MarkMessageAsReadToastActivation(args, true);
-
-                case SendReplyToastActivation.TYPE:
-                    return new SendReplyToastActivation(args, true);
-            }
-
-            return null;
+            return TYPE + '=' + CHAT_ID;
         }
 
         #endregion
