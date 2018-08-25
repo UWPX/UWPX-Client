@@ -71,6 +71,9 @@ namespace UWP_XMPP_Client.Dialogs
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ConnectionInfoDialog), new PropertyMetadata(null));
 
+        private bool omemoPviLoaded;
+        private bool certsPviLoaded;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -82,6 +85,8 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public ConnectionInfoDialog()
         {
+            this.omemoPviLoaded = false;
+            this.certsPviLoaded = false;
             this.InitializeComponent();
         }
 
@@ -124,6 +129,11 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void showOmemoState()
         {
+            if (!omemoPviLoaded)
+            {
+                return;
+            }
+
             switch (OmemoState)
             {
                 case OmemoHelperState.REQUESTING_DEVICE_LIST:
@@ -202,6 +212,11 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void showClient()
         {
+            if (!omemoPviLoaded)
+            {
+                return;
+            }
+
             omemoFingerprint_ofc.MyFingerprint = Client?.getXMPPAccount().getOmemoFingerprint();
             if (Client != null)
             {
@@ -320,6 +335,18 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 ConnectionInfo.PropertyChanged -= Value_PropertyChanged;
             }
+        }
+
+        private void cert_pvi_Loaded(object sender, RoutedEventArgs e)
+        {
+            certsPviLoaded = true;
+        }
+
+        private void omemo_pvi_Loaded(object sender, RoutedEventArgs e)
+        {
+            omemoPviLoaded = true;
+            showOmemoState();
+            showClient();
         }
 
         #endregion

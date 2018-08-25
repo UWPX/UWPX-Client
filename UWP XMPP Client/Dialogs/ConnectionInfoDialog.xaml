@@ -19,7 +19,8 @@
 
     <Pivot Grid.Row="0"
            Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
-        <PivotItem Header="General">
+        <PivotItem x:Name="general_pvi"
+                   Header="General">
             <ScrollViewer HorizontalScrollMode="Disabled">
                 <StackPanel>
                     <TextBlock>
@@ -105,11 +106,15 @@
             </ScrollViewer>
         </PivotItem>
 
-        <PivotItem Header="Certificate">
+        <PivotItem x:Name="cert_pvi"
+                   Header="Certificate"
+                   Loaded="cert_pvi_Loaded">
             <controls:CertificateControl Cert="{x:Bind Cert, Mode=OneWay}"/>
         </PivotItem>
 
-        <PivotItem Header="OMEMO">
+        <PivotItem x:Name="omemo_pvi"
+                   Header="OMEMO"
+                   Loaded="omemo_pvi_Loaded">
             <ScrollViewer HorizontalScrollMode="Disabled"
                           VerticalScrollBarVisibility="Hidden">
                 <StackPanel>
