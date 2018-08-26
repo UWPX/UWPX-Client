@@ -296,6 +296,7 @@ namespace UWP_XMPP_Client
 
                         if (abstractToastActivation is MarkChatAsReadToastActivation markChatAsRead)
                         {
+                            ToastHelper.removeToastGroup(markChatAsRead.CHAT_ID);
                             ChatDBManager.INSTANCE.markAllMessagesAsRead(markChatAsRead.CHAT_ID);
                         }
                         else if (abstractToastActivation is MarkMessageAsReadToastActivation markMessageAsRead)
