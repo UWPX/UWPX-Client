@@ -194,13 +194,33 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.8.0.0 [August 2018] Bookmarks and Message Delivery Receipts:
+    <value># v.0.9.0.0 [September 2018] OMEMO?!
 
-With this months release UWPX gets full XEP-0048 (Bookmarks) and XEP-0184 (Message Delivery Receipts) support.
-If the receiving client supports XEP-0184 (Message Delivery Receipts) and decides to reply, that he received the message, a small check mark will show up at the message status icon.
-If you don't want UWPX to send those message delivery receipts, you can disable them in the chat settings.
-I also started refactoring the chats list to fix the delete chat crash [#23](https://github.com/UWPX/UWPX-Client/issues/23).
-So because I'm in the middle of refactoring the chats list, the chats list might act a little bit funky from time to time at the moment.
+I've invested **a lot** of time and effort into UWPX this month and basically almost all of it went into OMEMO support. So here is what I've archived:
+
+* OMEMO key generation and publishing should be ready to go
+* Establishing OMEMO sessions is done
+* Managing OMEMO sessions is almost done
+* Message encryption is theoretically done. There is just one bug to fix left (more on this later)
+* Message decryption is also theoretically done (same bug like message encryption)
+* Key management ~20% done (trust/untrust devices)
+* Fingerprint validation is ~45% done. You can already view your own fingerprint as a QR-Code but scanning other ones is still on the to do list.
+* The OMEMO UI controls are about ~40% done
+
+For more up to date information on the state of OMEMO please visit: [#5](https://github.com/UWPX/UWPX-Client/issues/5)
+
+So now to the before mentioned bug that prevents me from encrypting and decrypting messages:
+Something with the actual encryption process is wrong. Other clients like Gajim and Conversations don't seem to be able to decrypt my messages. 
+_I think_ this is caused by a faulty AES 128 GCM implementation on my side. 
+So if you know a good source for a valid C# implementation of the AES 128 GCM algorithm or are able to help me validate my implementation (click [here](https://github.com/UWPX/UWPX-Client/blob/master/XMPP_API/Classes/Crypto/Aes128Gcm.cs) for the implementation) you are more then welcome! 
+Just contact me via XMPP ([com8@xmpp.uwpx.org](xmpp:com8@xmpp.uwpx.org)), email (support@uwpx.org) or by posting your solution in the OMEMO issue [#5](https://github.com/UWPX/UWPX-Client/issues/5).
+
+Besides OMEMO I've also added SCRAM-SHA-1 support for authentication, added support for inline URLs, phone numbers and email addresses in chat messages and much more... 
+
+**A small note:**
+
+I will probably be unable to invest a lot of time into UWPX development for the next two months (September, October) because I have to do an internship and write a bunch of exams in the upcoming two months at my university.
+Never the less I will **try** to allocate some time to fix bugs!
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -210,19 +230,24 @@ So because I'm in the middle of refactoring the chats list, the chats list might
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34) 
 
 ### Changes:
-* Added [XEP-0048 (Bookmarks))](https://xmpp.org/extensions/xep-0048.html) support
-* Added [XEP-0184 (Message Delivery Receipts)](https://xmpp.org/extensions/xep-0184.html) support
-* Added chat details right click options
-* Added message parser stats
-* Started refactoring the chats list (still WIP)
-* Improved some account connection error messages
-* Reenabled Hockey App crash reporting again
-* Changed the default chat background for new users
-* Fixed data form serialization
-* Fixed accounts not reconnecting as soon as the network connection status changes
-* Fixed app crashes sometimes, if you try to delete a chat #23
-* Fixed deleting chat won't delete MUCInfo from DB
+* Added [XEP-0280 (Message Carbons)](https://xmpp.org/extensions/xep-0280.html) support. It will show a small copy if the message is a CC
+* Added [XEP-0384 (OMEMO Encryption)](https://xmpp.org/extensions/xep-0384.html) key announcement support
+* Added [XEP-0163 (Personal Eventing Protocol)](https://xmpp.org/extensions/xep-0163.html) support
+* Added [XEP-0334 (Message Processing Hints)](https://xmpp.org/extensions/xep-0334.html) support
+* Added an animation for rescaling the settings page
+* Added email, phone number and URL detection in chat messages
+* Added toast notifications for incoming messages **if the app is running**
+* Improved DB performance
+* General UI improvements
+* Ignoring own presence broadcast - prevents setting you as unavailable
+* Fixed adding empty bookmark fields
+* Fixed changing the presence locking up the UI
+* Fixed MUC joining sends empty password field if no password is required
+* Fixed a cause for an account reconnecting loop
+* Fixed one memory leak
+* Fixed headline message chats getting registered as MUCs
+* Fixed chats not staying in focus if the order changes
 
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.8.0.0)</value>
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.9.0.0)</value>
   </data>
 </root>
