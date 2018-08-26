@@ -282,6 +282,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             await ImageDBManager.INSTANCE.openCachedImagesFolderAsync();
         }
 
+        private async void thanks_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchUriAsync(new Uri("https://uwpx.org/about/"));
+        }
+
         #endregion
     }
 }
