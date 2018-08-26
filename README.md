@@ -10,31 +10,32 @@ UWPX is an XMPP client that connects to all your favourite XMPP servers.<br/>
 It works on all Windows 10 UWP devices.
 
 ## Features:
-| Name          | XEPs         |
-| -------------     | ------------- |
-| MUC           | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
-| Chat State    | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
-| Bookmarks     | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") |
-| Data Forms    | [XEP-0004](https://xmpp.org/extensions/xep-0004.html "XEP-0004") |
+| Name | XEPs |
+| ------------- | ------------- |
+| Data Forms | [XEP-0004](https://xmpp.org/extensions/xep-0004.html "XEP-0004") |
 | Service Discovery | [XEP-0030](https://xmpp.org/extensions/xep-0030.html "XEP-0030") |
+| MUC | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
+| Bookmarks | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") |
 | Publish-Subscribe | [XEP-0060](https://xmpp.org/extensions/xep-0060.html "XEP-0060") |
-| Message Delivery Receipts     | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
-| Direct MUC Invitations     | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
-| Message Carbons     | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
+| Chat State | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
+| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0085.html "XEP-0163") |
+| Message Delivery Receipts | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
+| Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
+| Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
+| Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0280.html "XEP-0334") |
 
 
 ## ToDo:
-| Name          | XEPs         |
-| -------------     | ------------- |
-| OMEMO (status -> [#5](https://github.com/UWPX/UWPX-Client/issues/5)) | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
-| Jingle            | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
-| HTTP-Upload       | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
-| Mix               | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") |
+| Name | XEPs |
+| ------------- | ------------- |
+| vcard-temp | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") |
+| User Avatar | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") |
+| Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") |
-| HTTP File Upload  | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
-| User Avatar       | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") |
-| vcard-temp        | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") |
-| Chat Markers      | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |
+| Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |
+| HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
+| Mix | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") |
+| OMEMO (status -> [#5](https://github.com/UWPX/UWPX-Client/issues/5)) | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
 
 [MORE NOTES TO COME]
 
