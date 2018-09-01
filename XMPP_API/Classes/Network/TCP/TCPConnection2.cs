@@ -160,6 +160,7 @@ namespace XMPP_API.Classes.Network.TCP
             }
 
             setState(ConnectionState.DISCONNECTING);
+            Logger.Info("[TCPConnection2]: Disconnecting");
             connectingCTS?.Cancel();
             readingCTS?.Cancel();
             tlsUpgradeCTS?.Cancel();
@@ -179,6 +180,7 @@ namespace XMPP_API.Classes.Network.TCP
             socket?.Dispose();
             socket = null;
             setState(ConnectionState.DISCONNECTED);
+            Logger.Info("[TCPConnection2]: Disconnected");
         }
 
         /// <summary>
