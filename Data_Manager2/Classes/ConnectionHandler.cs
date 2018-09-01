@@ -99,6 +99,9 @@ namespace Data_Manager2.Classes
                                 }
                             });
                             break;
+
+                        default:
+                            break;
                     }
                 }
             });
@@ -127,7 +130,7 @@ namespace Data_Manager2.Classes
 
             for (int i = 0; i < tasks.Length; i++)
             {
-                await tasks[i];
+                await tasks[i].ConfigureAwait(true);
             }
         }
 
@@ -195,7 +198,7 @@ namespace Data_Manager2.Classes
             XMPPClient c = new XMPPClient(acc);
 
             // Ensure no event gets bound multiple times:
-            unloadAccount(c);
+            unsubscribeFromEvents(c);
 
             c.NewChatMessage += C_NewChatMessage;
             c.NewRoosterMessage += C_NewRoosterMessage;
@@ -212,7 +215,7 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// Unsubscribes from all events of the given XMPPClient.
         /// </summary>
-        private void unloadAccount(XMPPClient c)
+        private void unsubscribeFromEvents(XMPPClient c)
         {
             c.NewChatMessage -= C_NewChatMessage;
             c.NewRoosterMessage -= C_NewRoosterMessage;
@@ -300,6 +303,9 @@ namespace Data_Manager2.Classes
                 case ConnectionState.DISCONNECTED:
                     onClientDisconnectedOrError(client);
                     break;
+                
+                default:
+                    break;
             }
         }
 
@@ -310,10 +316,6 @@ namespace Data_Manager2.Classes
             // If received a presence message from your own account, ignore it:
             if (string.Equals(from, client.getXMPPAccount().getIdAndDomain()))
             {
-                /*XMPPAccount account = client.getXMPPAccount();
-                account.presence = args.PRESENCE_MESSAGE.PRESENCE;
-                account.status = args.PRESENCE_MESSAGE.STATUS;
-                AccountDBManager.INSTANCE.setAccount(account, false);*/
                 return;
             }
 
@@ -326,7 +328,7 @@ namespace Data_Manager2.Classes
                 case "unsubscribed":
                     if (chat == null)
                     {
-                        chat = new ChatTable()
+                        chat = new ChatTable
                         {
                             id = id,
                             chatJabberId = from,
@@ -340,6 +342,9 @@ namespace Data_Manager2.Classes
                         };
                     }
                     chat.subscription = args.PRESENCE_MESSAGE.TYPE;
+                    break;
+
+                default:
                     break;
             }
 
@@ -361,7 +366,6 @@ namespace Data_Manager2.Classes
             if (args.MESSAGE is RosterMessage)
             {
                 RosterMessage msg = args.MESSAGE as RosterMessage;
-                XMPPAccount account = client.getXMPPAccount();
                 string to = client.getXMPPAccount().getIdAndDomain();
                 string type = msg.TYPE;
 
@@ -415,6 +419,9 @@ namespace Data_Manager2.Classes
                         case null:
                             chat.presence = Presence.Unavailable;
                             break;
+
+                        default:
+                            break;
                     }
 
                     ChatDBManager.INSTANCE.setChat(chat, false, true);
@@ -438,9 +445,9 @@ namespace Data_Manager2.Classes
             // Check if device id is valid and if, decrypt the OMEMO messages:
             if (msg is OmemoMessageMessage omemoMessage)
             {
+                // Decryption failed:
                 if (!omemoMessage.decrypt(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
                 {
-                    // Decryption failed:
                     return;
                 }
             }
@@ -580,6 +587,9 @@ namespace Data_Manager2.Classes
                                         }
                                     }
                                     break;
+
+                                default:
+                                    break;
                             }
                             msg.setToasted();
                         }
@@ -604,7 +614,7 @@ namespace Data_Manager2.Classes
 
                     if (args.REMOVED)
                     {
-                        unloadAccount(CLIENTS[i]);
+                        unsubscribeFromEvents(CLIENTS[i]);
                         CLIENTS.RemoveAt(i);
                     }
                     else
@@ -674,7 +684,7 @@ namespace Data_Manager2.Classes
                 MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
                 if (info == null)
                 {
-                    info = new MUCChatInfoTable()
+                    info = new MUCChatInfoTable
                     {
                         chatId = chat.id,
                         subject = null
@@ -698,7 +708,7 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void C_NewDeliveryReceipt(XMPPClient client, XMPP_API.Classes.Network.Events.NewDeliveryReceiptEventArgs args)
+        private void C_NewDeliveryReceipt(XMPPClient client, NewDeliveryReceiptEventArgs args)
         {
             Task.Run(() =>
             {

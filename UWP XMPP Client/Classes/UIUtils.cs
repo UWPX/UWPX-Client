@@ -47,10 +47,9 @@ namespace UWP_XMPP_Client.Classes
                 await contentDialogShowRequest.Task;
             }
 
-            var request = contentDialogShowRequest = new TaskCompletionSource<ContentDialog>();
+            contentDialogShowRequest = new TaskCompletionSource<ContentDialog>();
             var result = await dialog.ShowAsync();
-            contentDialogShowRequest = null;
-            request.SetResult(dialog);
+            contentDialogShowRequest.SetResult(dialog);
 
             return result;
         }

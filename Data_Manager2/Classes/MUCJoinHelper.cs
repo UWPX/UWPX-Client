@@ -148,6 +148,9 @@ namespace Data_Manager2.Classes
                                 saveMUCEnterState();
                                 Logger.Info("Entered MUC room '" + roomJId + "' as '" + INFO.nickname + '\'');
                                 break;
+
+                            default:
+                                break;
                         }
                     }
                     break;

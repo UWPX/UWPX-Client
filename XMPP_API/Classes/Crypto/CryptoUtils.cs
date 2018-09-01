@@ -163,7 +163,7 @@ namespace XMPP_API.Classes.Crypto
             // Verify that the hash length equals the length specified for the algorithm.
             if (buffHash.Length != objAlgProv.HashLength)
             {
-                throw new Exception("There was an error creating the hash");
+                throw new InvalidOperationException("There was an error creating the hash");
             }
 
             // Return the encoded string

@@ -91,6 +91,9 @@ namespace XMPP_API.Classes.Network
                             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
                         }
                         break;
+
+                    default:
+                        break;
                 }
                 return true;
             }

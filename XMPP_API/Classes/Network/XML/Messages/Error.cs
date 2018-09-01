@@ -142,6 +142,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                         case "unexpected-request":
                             return ErrorName.UNEXPECTED_REQUEST;
+
+                        default:
+                            break;
                     }
             }
             return ErrorName.UNKNOWN;

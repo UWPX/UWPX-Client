@@ -207,6 +207,9 @@ namespace UWP_XMPP_Client.Dialogs
                     carbonsEnabled_run.Text = "";
                     carbonsReqested_run.Text = "";
                     break;
+
+                default:
+                    throw new InvalidOperationException("Unexpected value for ConnectionInfo.msgCarbonsState: " + ConnectionInfo.msgCarbonsState);
             }
         }
 
@@ -281,6 +284,9 @@ namespace UWP_XMPP_Client.Dialogs
 
                         case "tlsConnected":
                             showTlsConnected();
+                            break;
+
+                        default:
                             break;
                     }
                 }

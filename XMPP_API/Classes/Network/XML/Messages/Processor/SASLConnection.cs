@@ -1,4 +1,5 @@
 ﻿using Logging;
+using System;
 using System.Collections;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.Events;
@@ -104,7 +105,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         protected async override Task processMessageAsync(NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.MESSAGE;
-            if (state == SASLState.CONNECTED || msg.isProcessed())
+            if (msg.isProcessed())
             {
                 return;
             }
@@ -182,8 +183,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
 
                 case SASLState.CONNECTED:
                     break;
-            }
 
+                default:
+                    throw new InvalidOperationException("Unexpected value for state: " + state);
+            }
         }
 
         #endregion

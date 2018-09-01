@@ -13,7 +13,7 @@ namespace Data_Manager2.Classes.DBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static AccountDBManager INSTANCE = new AccountDBManager();
+        public static readonly AccountDBManager INSTANCE = new AccountDBManager();
         private static readonly SemaphoreSlim ADD_ACCOUNT_SEMA = new SemaphoreSlim(1, 1);
 
         public delegate void AccountChangedHandler(AccountDBManager handler, AccountChangedEventArgs args);

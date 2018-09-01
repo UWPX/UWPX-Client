@@ -373,6 +373,9 @@ namespace Data_Manager2.Classes.DBManager
                 case DownloadState.ERROR:
                     downloading.Remove(img);
                     break;
+
+                default:
+                    break;
             }
         }
 

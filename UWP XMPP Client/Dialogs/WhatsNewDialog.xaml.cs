@@ -9,7 +9,7 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool showOnStartup;
+        public bool showOnStartup { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

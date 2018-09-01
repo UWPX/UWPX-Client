@@ -64,6 +64,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                             case "iv":
                                 this.BASE_64_IV = n.InnerText;
                                 break;
+
+                            default:
+                                break;
                         }
                     }
                 }

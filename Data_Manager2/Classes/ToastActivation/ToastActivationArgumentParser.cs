@@ -52,9 +52,10 @@ namespace Data_Manager2.Classes.ToastActivation
 
                 case SendReplyToastActivation.TYPE:
                     return new SendReplyToastActivation(args, true);
-            }
 
-            return null;
+                default:
+                    return null;
+            }
         }
 
         #endregion

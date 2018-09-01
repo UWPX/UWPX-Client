@@ -7,9 +7,9 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool keepChats;
-        public bool keepChatMessages;
-        public bool deleteAccount;
+        public bool keepChats { get; private set; }
+        public bool keepChatMessages { get; private set; }
+        public bool deleteAccount { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

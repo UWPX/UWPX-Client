@@ -53,6 +53,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
                     case "resume":
                         this.RESUME = XMLUtils.tryParseToBool(att.Value);
                         break;
+
+                    default:
+                        break;
                 }
             }
         }

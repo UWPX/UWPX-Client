@@ -115,8 +115,12 @@ namespace UWP_XMPP_Client.Controls
                 case DiscoType.ITEMS:
                     sendDiscoItems();
                     break;
+
                 case DiscoType.INFO:
                     sendDiscoInfo();
+                    break;
+
+                default:
                     break;
             }
         }

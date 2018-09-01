@@ -10,7 +10,7 @@ namespace Thread_Save_Components.Classes.Collections
         #region --Attributes--
         private bool itemAdded;
         private Timer timer;
-        public int cleanupIntervallInMs;
+        private int cleanupIntervallInMs;
         public int itemTimeoutInMs;
         private readonly List<TimedListEntry<T>> LIST;
         private static readonly object _locker = new object();

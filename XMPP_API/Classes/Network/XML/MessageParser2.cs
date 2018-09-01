@@ -72,7 +72,6 @@ namespace XMPP_API.Classes.Network.XML
         private List<XmlNode> parseToXmlNodes(string msg)
         {
             List<XmlNode> nodes = new List<XmlNode>();
-            XmlDocument doc = new XmlDocument();
             using (XmlReader reader = XmlReader.Create(new StringReader(msg), READER_SETTINGS))
             {
                 while (reader.Read())
@@ -98,7 +97,7 @@ namespace XMPP_API.Classes.Network.XML
 
             if (msg.Equals("<stream:features/>"))
             {
-                return new List<AbstractMessage>() { new StreamFeaturesMessage(null) };
+                return new List<AbstractMessage> { new StreamFeaturesMessage(null) };
             }
             // Stream close:
             else if ((msg.Contains(Consts.XML_STREAM_CLOSE)))
@@ -106,7 +105,7 @@ namespace XMPP_API.Classes.Network.XML
                 string s = msg.Replace(Consts.XML_STREAM_CLOSE, "");
                 if (string.IsNullOrEmpty(s))
                 {
-                    return new List<AbstractMessage>() { new CloseStreamMessage((XmlNode)null) };
+                    return new List<AbstractMessage> { new CloseStreamMessage((XmlNode)null) };
                 }
                 else
                 {
@@ -119,8 +118,8 @@ namespace XMPP_API.Classes.Network.XML
             }
 
             // Fix non valid xml strings:
-            bool hasCloseStream;
-            if (!(hasCloseStream = msg.Contains(Consts.XML_STREAM_CLOSE)))
+            bool hasCloseStream = msg.Contains(Consts.XML_STREAM_CLOSE);
+            if (!hasCloseStream)
             {
                 if (msg.Contains(Consts.XML_STREAM_START))
                 {
@@ -171,6 +170,9 @@ namespace XMPP_API.Classes.Network.XML
                                     case "http://jabber.org/protocol/muc":
                                         messages.Add(new MUCErrorMessage(n));
                                         continue;
+
+                                    default:
+                                        break;
                                 }
                             }
                         }
@@ -307,6 +309,9 @@ namespace XMPP_API.Classes.Network.XML
                                                 case "subscription":
                                                     messages.Add(new PubSubSubscriptionMessage(n));
                                                     fondNode = true;
+                                                    break;
+
+                                                default:
                                                     break;
                                             }
                                             if (fondNode)
