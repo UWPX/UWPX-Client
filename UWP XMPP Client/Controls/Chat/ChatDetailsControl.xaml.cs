@@ -812,6 +812,26 @@ namespace UWP_XMPP_Client.Controls.Chat
             }
         }
 
+        private void clipImgLib_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clipImgCam_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clipDraw_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void clipFile_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
     }
 }

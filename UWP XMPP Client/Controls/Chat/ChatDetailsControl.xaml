@@ -253,8 +253,85 @@
                         Click="clip_btn_Click"
                         Content="&#xE723;"
                         FontFamily="Segoe MDL2 Assets"
-                        FontSize="27"
-                        IsEnabled="False"/>
+                        FontSize="27">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <Button x:Name="clipImgLib_btn"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="clipImgLib_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xE8F1;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="Image from library"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="clipImgCam_btn"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="clipImgCam_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xE722;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="Image from camera"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="clipDraw_btn"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="clipDraw_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xE929;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="Drawing"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="clipFile_btn"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="clipFile_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xEC50;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="File"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <TextBox x:Name="message_tbx"
                          Grid.Column="1"
                          MaxHeight="200"
