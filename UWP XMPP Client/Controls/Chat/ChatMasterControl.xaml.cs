@@ -596,9 +596,9 @@ namespace UWP_XMPP_Client.Controls.Chat
             resetAsk();
         }
 
-        private void ChatMessage_ChatMessageChanged(object sender, EventArgs e)
+        private async void ChatMessage_ChatMessageChanged(object sender, EventArgs e)
         {
-            showLastChatMessage(lastChatMessage);
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showLastChatMessage(lastChatMessage));
         }
 
         private async void INSTANCE_ChatMessageChanged(ChatDBManager handler, ChatMessageChangedEventArgs args)

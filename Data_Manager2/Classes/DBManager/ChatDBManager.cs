@@ -233,10 +233,18 @@ namespace Data_Manager2.Classes.DBManager
         public void markMessageAsRead(string id)
         {
             ChatMessageTable msg = getChatMessageById(id);
-            if (id != null)
+            if (msg != null)
             {
                 markMessageAsRead(msg);
             }
+        }
+
+        public void markMessageAsRead(ChatMessageTable msg)
+        {
+            msg.state = MessageState.READ;
+            update(msg);
+            msg.onChanged();
+            ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
         }
 
         public void setChatMessage(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
@@ -278,14 +286,6 @@ namespace Data_Manager2.Classes.DBManager
             {
                 ChatChanged?.Invoke(this, new ChatChangedEventArgs(chat, deleted));
             }
-        }
-
-        private void markMessageAsRead(ChatMessageTable msg)
-        {
-            msg.state = MessageState.READ;
-            update(msg);
-            msg.onChanged();
-            ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
         }
 
         private void onChatChanged(string chatId)

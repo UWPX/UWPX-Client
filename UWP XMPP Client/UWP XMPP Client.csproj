@@ -208,6 +208,7 @@
       <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
+    <Compile Include="DataTemplates\MessageUnreadVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />

@@ -204,11 +204,6 @@ namespace UWP_XMPP_Client.Controls.Chat
 
                 Task.Run(async () =>
                 {
-                    // Mark all unread messages as read for this chat:
-                    ChatDBManager.INSTANCE.markAllMessagesAsRead(chatCpy.id);
-                    // Remove notification group:
-                    ToastHelper.removeToastGroup(chatCpy.id);
-
                     // Show all chat messages:
                     List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                     foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chatCpy.id))
@@ -219,6 +214,12 @@ namespace UWP_XMPP_Client.Controls.Chat
                             chat = chatCpy
                         });
                     }
+
+                    // Mark all unread messages as read for this chat:
+                    ChatDBManager.INSTANCE.markAllMessagesAsRead(chatCpy.id);
+                    // Remove notification group:
+                    ToastHelper.removeToastGroup(chatCpy.id);
+
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
                         chatMessages.Clear();
@@ -486,18 +487,17 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
-                ChatMessageTable msg = args.MESSAGE;
-                if (Chat != null && Chat.id.Equals(msg.chatId))
+                if (Chat != null && Chat.id.Equals(args.MESSAGE.chatId))
                 {
                     // Only update for unread messages:
-                    if (msg.state == MessageState.UNREAD)
+                    if (args.MESSAGE.state == MessageState.UNREAD)
                     {
-                        msg.state = MessageState.READ;
-                        ChatDBManager.INSTANCE.setChatMessage(msg, false, true);
+                        Task.Run(() => ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE));
                     }
+
                     chatMessages.Add(new ChatMessageDataTemplate()
                     {
-                        message = msg,
+                        message = args.MESSAGE,
                         chat = Chat
                     });
                 }
