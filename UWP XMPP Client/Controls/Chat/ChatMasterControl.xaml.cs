@@ -364,10 +364,6 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (MUCInfo != null && Chat != null)
             {
                 Chat.inRoster = !Chat.inRoster;
-                if (updateBookmarkHelper != null)
-                {
-                    updateBookmarkHelper.Dispose();
-                }
                 ChatDBManager.INSTANCE.setChatTableValue(nameof(Chat.id), Chat.id, nameof(Chat.inRoster), Chat.inRoster);
                 setBookarks();
                 showChat(Chat);
@@ -378,40 +374,20 @@ namespace UWP_XMPP_Client.Controls.Chat
         private void setBookarks()
         {
             List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(Client.getXMPPAccount().getIdAndDomain());
-            Client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, onSetBookmarkMessage, onSetBookmarkTimeout);
-        }
-
-        private void onRemoveBookmarkTimeout()
-        {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            if (updateBookmarkHelper != null)
             {
-                TextDialog dialog = new TextDialog("Failed to remove bookmark!\nServer did not respond in time.", "Error");
-                Task t = UiUtils.showDialogAsyncQueue(dialog);
-            }).AsTask();
-        }
-
-        private bool onRemoveBookmarkMessage(IQMessage msg)
-        {
-            if (msg is IQErrorMessage errMsg)
-            {
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    TextDialog dialog = new TextDialog("Failed to remove bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
-                    Task t = UiUtils.showDialogAsyncQueue(dialog);
-                }
-                ).AsTask();
-                return true;
+                updateBookmarkHelper.Dispose();
             }
-            if (string.Equals(msg.TYPE, IQMessage.RESULT))
-            {
-                return true;
-            }
-            return false;
+            updateBookmarkHelper = Client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, onSetBookmarkMessage, onSetBookmarkTimeout);
         }
 
         private void onSetBookmarkTimeout()
         {
-
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                TextDialog dialog = new TextDialog("Failed to update bookmark!\nServer did not respond in time.", "Error");
+                Task t = UiUtils.showDialogAsyncQueue(dialog);
+            }).AsTask();
         }
 
         private bool onSetBookmarkMessage(IQMessage msg)
@@ -449,7 +425,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     {
                         if (Client != null && !Client.isConnected())
                         {
-                            TextDialog errDialog = new TextDialog()
+                            TextDialog errDialog = new TextDialog
                             {
                                 Title = "Warning",
                                 Text = "Unable to remove bookmark - account not connected!"
@@ -554,7 +530,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (subscriptionRequest)
             {
-                await presenceSubscriptionRequestClickedAsync(false);
+                await presenceSubscriptionRequestClickedAsync(false).ConfigureAwait(false);
             }
             else
             {
@@ -565,12 +541,12 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void deleteChat_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await deleteChatAsync();
+            await deleteChatAsync().ConfigureAwait(false);
         }
 
         private async void removeFromRoster_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await switchChatInRoosterAsync();
+            await switchChatInRoosterAsync().ConfigureAwait(false);
         }
 
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)

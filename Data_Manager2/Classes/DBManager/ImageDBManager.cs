@@ -302,7 +302,8 @@ namespace Data_Manager2.Classes.DBManager
                         await outputStream.WriteAsync(buffer, 0, bytesRead);
 
                         // Update progress:
-                        lastProgressUpdatePercent = updateProgress(img, response.ContentLength, (bytesReadTotal += bytesRead), lastProgressUpdatePercent);
+                        bytesReadTotal += bytesRead;
+                        lastProgressUpdatePercent = updateProgress(img, response.ContentLength, bytesReadTotal, lastProgressUpdatePercent);
 
                     } while (bytesRead != 0);
                 }

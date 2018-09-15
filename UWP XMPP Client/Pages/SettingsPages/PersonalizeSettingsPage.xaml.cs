@@ -14,7 +14,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private CustomObservableCollection<BackgroundImageTemplate> backgroundImages;
+        private readonly CustomObservableCollection<BackgroundImageTemplate> BACKGROUND_IMAGES;
 
         public BackgroundImageTemplate CustomBackgroundImage
         {
@@ -39,7 +39,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         {
             this.InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
-            this.backgroundImages = BackgroundImageCache.backgroundImages;
+            this.BACKGROUND_IMAGES = BackgroundImageCache.backgroundImages;
             this.CustomBackgroundImage = BackgroundImageCache.customBackgroundImage;
         }
 
@@ -157,7 +157,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private async void browseImage_btn_Click(object sender, RoutedEventArgs e)
         {
-            await browseBackgroundAsync();
+            await browseBackgroundAsync().ConfigureAwait(false);
         }
 
         private void Page_Loaded(object sender, RoutedEventArgs e)

@@ -320,6 +320,9 @@ namespace UWP_XMPP_Client
                         }
                     }
                     break;
+
+                default:
+                    break;
             }
 
             deferral.Complete();

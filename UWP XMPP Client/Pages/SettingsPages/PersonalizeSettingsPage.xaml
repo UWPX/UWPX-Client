@@ -125,7 +125,7 @@
                                                     ItemClick="AdaptiveGridView_ItemClick"
                                                     ItemHeight="180"
                                                     ItemTemplate="{StaticResource BackgroundImageTemplate}"
-                                                    ItemsSource="{x:Bind backgroundImages}"
+                                                    ItemsSource="{x:Bind BACKGROUND_IMAGES}"
                                                     OneRowModeEnabled="False"
                                                     SelectionMode="None"/>
                     </StackPanel>

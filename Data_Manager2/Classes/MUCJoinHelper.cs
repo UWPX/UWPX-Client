@@ -16,12 +16,6 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
-        /// The timeout for receiving a response message in ms.
-        /// Default = 5000ms
-        /// </summary>
-        public int messageTimeout = 5000;
-
-        /// <summary>
         /// The Full JID of the room e.g. 'coven@chat.shakespeare.lit'.
         /// </summary>
         public readonly ChatTable MUC;
@@ -153,6 +147,9 @@ namespace Data_Manager2.Classes
                                 break;
                         }
                     }
+                    break;
+
+                default:
                     break;
             }
         }

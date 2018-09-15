@@ -189,6 +189,9 @@ namespace UWP_XMPP_Client.Classes
                         case NONE_BACKGROUND:
                             selectedImage = null;
                             break;
+
+                        default:
+                            break;
                     }
 
                     // Load example images:
