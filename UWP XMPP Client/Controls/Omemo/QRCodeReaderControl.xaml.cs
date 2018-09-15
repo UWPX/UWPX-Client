@@ -145,10 +145,10 @@ namespace UWP_XMPP_Client.Controls.Omemo
 
             if (frameReader != null)
             {
+                frameReader.FrameArrived -= FrameReader_FrameArrived;
                 frameReader.Dispose();
                 frameReader = null;
             }
-            frameReader.FrameArrived -= FrameReader_FrameArrived;
             QR_CODE_READER.ResultFound -= QR_CODE_READER_ResultFound;
             Application.Current.Suspending -= Current_Suspending;
         }
