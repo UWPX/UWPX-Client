@@ -14,8 +14,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public readonly bool RECIPT_REQUESTED;
         public readonly CarbonCopyType CC_TYPE;
         public DateTime delay { get; protected set; }
-        // Already shown as a toast:
-        public bool toasted { get; protected set; }
         // The unique DB id of the message. Only required for send messages:
         public string chatMessageId;
         protected bool includeBody;
@@ -41,7 +39,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
             this.MESSAGE = message;
             this.TYPE = type;
-            this.toasted = false;
             this.cacheUntilSend = true;
             this.delay = DateTime.MinValue;
             this.FROM_NICK = from_nick;
@@ -128,11 +125,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void setToasted()
-        {
-            toasted = true;
-        }
-
         public DateTime getDelay()
         {
             return delay;

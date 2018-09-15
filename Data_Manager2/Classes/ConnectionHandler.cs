@@ -565,33 +565,29 @@ namespace Data_Manager2.Classes
                 {
                     try
                     {
-                        if (!msg.toasted)
+                        switch (msg.TYPE)
                         {
-                            switch (msg.TYPE)
-                            {
-                                case MessageMessage.TYPE_GROUPCHAT:
-                                case MessageMessage.TYPE_CHAT:
-                                    if (!message.isCC)
+                            case MessageMessage.TYPE_GROUPCHAT:
+                            case MessageMessage.TYPE_CHAT:
+                                if (!message.isCC)
+                                {
+                                    if (message.isEncrypted)
                                     {
-                                        if (message.isEncrypted)
-                                        {
-                                            ToastHelper.showChatTextEncryptedToast(message, chat);
-                                        }
-                                        else if (message.isImage)
-                                        {
-                                            ToastHelper.showChatTextImageToast(message, chat);
-                                        }
-                                        else
-                                        {
-                                            ToastHelper.showChatTextToast(message, chat);
-                                        }
+                                        ToastHelper.showChatTextEncryptedToast(message, chat);
                                     }
-                                    break;
+                                    else if (message.isImage)
+                                    {
+                                        ToastHelper.showChatTextImageToast(message, chat);
+                                    }
+                                    else
+                                    {
+                                        ToastHelper.showChatTextToast(message, chat);
+                                    }
+                                }
+                                break;
 
-                                default:
-                                    break;
-                            }
-                            msg.setToasted();
+                            default:
+                                break;
                         }
                     }
                     catch (Exception e)
