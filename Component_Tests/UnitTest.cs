@@ -232,9 +232,50 @@ namespace Component_Tests
         }
 
         [TestMethod]
-        public void TestAes128Gcm_2()
+        public void TestAes128GcmCpp_1()
         {
-            Aes128Gcm aesEnc = new Aes128Gcm
+            for (int i = 0; i < 100; i++)
+            {
+                Aes128GcmCpp aesEnc = new Aes128GcmCpp();
+                aesEnc.generateKey();
+                aesEnc.generateIv();
+                Random r = new Random();
+                byte[] data = new byte[200];
+                r.NextBytes(data);
+                byte[] dataEnc = aesEnc.encrypt(data);
+
+                Aes128GcmCpp aesDec = new Aes128GcmCpp()
+                {
+                    authTag = aesEnc.authTag,
+                    iv = aesEnc.iv,
+                    key = aesEnc.key
+                };
+                byte[] dataDec = aesDec.decrypt(dataEnc);
+                Assert.IsTrue(data.SequenceEqual(dataDec));
+            }
+        }
+
+        [TestMethod]
+        public void TestAes128GcmCpp_2()
+        {
+            Aes128GcmCpp aesEnc = new Aes128GcmCpp();
+
+            aesEnc.generateIv();
+            aesEnc.generateKey();
+
+            byte[] data = { 0, 1, 2, 3, 4, 5};
+
+            string refDataEnc = "b8AggfYXMdlpIO+RJFuDt9vXcBYiz8J9axw=";
+            byte[] resultEnc = aesEnc.encrypt(data);
+            string encData = CryptoUtils.byteArrayToHexString(resultEnc);
+
+            Assert.IsTrue(encData.Equals(refDataEnc));
+        }
+
+        [TestMethod]
+        public void TestAes128GcmCpp_3()
+        {
+            Aes128GcmCpp aesEnc = new Aes128GcmCpp
             {
                 key = CryptoUtils.hexStringToByteArray("AD7A2BD03EAC835A6F620FDCB506B345"),
                 iv = CryptoUtils.hexStringToByteArray("12153524C0895E81B2C28465"),

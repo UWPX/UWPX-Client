@@ -51,12 +51,14 @@ namespace XMPP_API.Classes.Crypto
         {
             byte[] result = new byte[calcOutputSize(data.Length)];
             AES_GCM_WRAPPER_CPP.encrypt(result, data, key, iv);
-            return null;
+            return result;
         }
 
         public byte[] decrypt(byte[] ciphertext)
         {
-            return null;
+            byte[] result = new byte[calcOutputSize(ciphertext.Length)];
+            AES_GCM_WRAPPER_CPP.decrypt(result, ciphertext, key, iv);
+            return result;
         }
 
         /// <summary>
