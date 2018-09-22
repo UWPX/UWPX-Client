@@ -106,9 +106,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="mscorlib" />
+    <Reference Include="mscorlib" />
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\Crypto\Aes128Gcm.cs" />
+    <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
@@ -335,6 +336,10 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AES_GCM\AES_GCM.vcxproj">
+      <Project>{6fe90c15-0d01-4659-a760-109a38ec892a}</Project>
+      <Name>AES_GCM</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
       <Name>Logging</Name>
