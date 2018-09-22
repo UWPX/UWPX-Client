@@ -4,6 +4,7 @@ using namespace AES_GCM;
 using namespace Platform;
 
 AesGcmWrapper::AesGcmWrapper() {
+	gcm_initialize();
 }
 
 int AesGcmWrapper::encrypt(WriteOnlyArray<uint8>^ output, const Array<uint8>^ input, const Array<uint8>^ key, const Array<uint8>^ iv) {
@@ -56,13 +57,13 @@ int AesGcmWrapper::decrypt(WriteOnlyArray<uint8>^ output, const Array<uint8>^ in
 
 void AesGcmWrapper::winArrToCharArr(const Platform::Array<uint8>^ input, unsigned char* output) {
 	for (int i = 0; i < input->Length; i++) {
-		output[i] = i;
+		output[i] = input[i];
 	}
 }
 
 void AesGcmWrapper::charArrToWinArr(unsigned char* input, Platform::WriteOnlyArray<uint8>^ output) {
 	for (int i = 0; i < output->Length; i++) {
-		output[i] = i;
+		output[i] = input[i];
 	}
 }
 
