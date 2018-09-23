@@ -106,7 +106,7 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-	<Reference Include="mscorlib" />
+    <Reference Include="mscorlib" />
     <Compile Include="Classes\Collections\ITimedEntry.cs" />
     <Compile Include="Classes\Collections\TSTimedList.cs" />
     <Compile Include="Classes\Collections\TimedListEntry.cs" />
@@ -121,7 +121,7 @@
       <Version>6.1.7</Version>
     </PackageReference>
     <PackageReference Include="sqlite-net-pcl">
-      <Version>1.3.3</Version>
+      <Version>1.5.231</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>

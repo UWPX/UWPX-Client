@@ -107,7 +107,7 @@ namespace Thread_Save_Components.Classes.SQLite
             return DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args);
         }
 
-        public int CreateTable<T>() where T : new()
+        public CreateTableResult CreateTable<T>() where T : new()
         {
             return DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>();
         }
@@ -117,7 +117,7 @@ namespace Thread_Save_Components.Classes.SQLite
             return DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>();
         }
 
-        public int RecreateTable<T>() where T : new()
+        public CreateTableResult RecreateTable<T>() where T : new()
         {
             DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>();
             return DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>();
