@@ -13,7 +13,7 @@ namespace XMPP_API.Classes.Crypto
         #region --Attributes--
         private const int IV_SIZE_BYTES = 12;
         private const int KEY_SIZE_BYTES = 16;
-        private const int AUTH_TAG_SIZE_BITS = 128;
+        private const int AUTH_TAG_SIZE_BYTES = 16;
 
         private readonly SecureRandom SECURE_RANDOM;
         private readonly AES_GCM.AesGcmWrapper AES_GCM_WRAPPER_CPP;
@@ -49,16 +49,17 @@ namespace XMPP_API.Classes.Crypto
         #region --Misc Methods (Public)--
         public byte[] encrypt(byte[] data)
         {
-            byte[] result = new byte[calcOutputSize(data.Length)];
-            AES_GCM_WRAPPER_CPP.encrypt(result, data, key, iv);
-            return result;
+            byte[] ciphertext = new byte[AES_GCM_WRAPPER_CPP.calcEncryptSize((uint)data.Length)];
+            authTag = new byte[AUTH_TAG_SIZE_BYTES];
+            AES_GCM_WRAPPER_CPP.encrypt(ciphertext, authTag, data, key, iv);
+            return ciphertext;
         }
 
         public byte[] decrypt(byte[] ciphertext)
         {
-            byte[] result = new byte[calcOutputSize(ciphertext.Length)];
-            AES_GCM_WRAPPER_CPP.decrypt(result, ciphertext, key, iv);
-            return result;
+            byte[] data = new byte[AES_GCM_WRAPPER_CPP.calcDecryptSize((uint)ciphertext.Length)];
+            AES_GCM_WRAPPER_CPP.decrypt(data, authTag, ciphertext, key, iv);
+            return data;
         }
 
         /// <summary>
@@ -82,10 +83,7 @@ namespace XMPP_API.Classes.Crypto
         #endregion
 
         #region --Misc Methods (Private)--
-        private int calcOutputSize(int inputSize)
-        {
-            return (inputSize / 16 + 1) * 16;
-        }
+
 
         #endregion
 

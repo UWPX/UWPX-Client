@@ -108,7 +108,6 @@
   <ItemGroup>
     <Reference Include="mscorlib" />
     <Compile Include="Classes\Consts.cs" />
-    <Compile Include="Classes\Crypto\Aes128Gcm.cs" />
     <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />

@@ -8,15 +8,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AesGcmWrapper.cpp" />
-    <ClCompile Include="c\gcm.c" />
     <ClCompile Include="c\aes.c" />
-    <ClCompile Include="c\aes-gcm.c" />
+    <ClCompile Include="c\gcm.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AesGcmWrapper.h" />
-    <ClInclude Include="c\detect_platform.h" />
-    <ClInclude Include="c\gcm.h" />
     <ClInclude Include="c\aes.h" />
-    <ClInclude Include="c\aes-gcm.h" />
+    <ClInclude Include="c\gcm.h" />
   </ItemGroup>
 </Project>

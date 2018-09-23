@@ -209,29 +209,6 @@ namespace Component_Tests
         }
 
         [TestMethod]
-        public void TestAes128Gcm_1()
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                Aes128Gcm aesEnc = new Aes128Gcm();
-                aesEnc.generateKey();
-                aesEnc.generateIv();
-                Random r = new Random();
-                byte[] data = new byte[200];
-                r.NextBytes(data);
-                byte[] dataEnc = aesEnc.encrypt(data);
-
-                Aes128Gcm aesDec = new Aes128Gcm()
-                {
-                    authTag = aesEnc.authTag,
-                    iv = aesEnc.iv,
-                    key = aesEnc.key
-                };
-                Assert.IsTrue(data.SequenceEqual(aesDec.decrypt(dataEnc)));
-            }
-        }
-
-        [TestMethod]
         public void TestAes128GcmCpp_1()
         {
             for (int i = 0; i < 100; i++)
@@ -248,7 +225,7 @@ namespace Component_Tests
                 {
                     authTag = aesEnc.authTag,
                     iv = aesEnc.iv,
-                    key = aesEnc.key
+                    key = aesEnc.key,
                 };
                 byte[] dataDec = aesDec.decrypt(dataEnc);
                 Assert.IsTrue(data.SequenceEqual(dataDec));
@@ -258,36 +235,41 @@ namespace Component_Tests
         [TestMethod]
         public void TestAes128GcmCpp_2()
         {
-            Aes128GcmCpp aesEnc = new Aes128GcmCpp();
+            // Test vectors from: https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=6b7b34330beaf7ff062d6a06b7733f069d77feaa
+            Aes128GcmCpp aesEnc = new Aes128GcmCpp
+            {
+                key = CryptoUtils.hexStringToByteArray("00000000000000000000000000000000"),
+                iv = CryptoUtils.hexStringToByteArray("000000000000000000000000"),
+            };
 
-            aesEnc.generateIv();
-            aesEnc.generateKey();
+            byte[] data = CryptoUtils.hexStringToByteArray("00000000000000000000000000000000");
 
-            byte[] data = { 0, 1, 2, 3, 4, 5};
+            byte[] refCiphertext = CryptoUtils.hexStringToByteArray("0388dace60b6a392f328c2b971b2fe78");
+            byte[] refAuthTag = CryptoUtils.hexStringToByteArray("ab6e47d42cec13bdf53a67b21257bddf");
+            byte[] encData = aesEnc.encrypt(data);
 
-            string refDataEnc = "b8AggfYXMdlpIO+RJFuDt9vXcBYiz8J9axw=";
-            byte[] resultEnc = aesEnc.encrypt(data);
-            string encData = CryptoUtils.byteArrayToHexString(resultEnc);
-
-            Assert.IsTrue(encData.Equals(refDataEnc));
+            Assert.IsTrue(encData.SequenceEqual(refCiphertext));
+            Assert.IsTrue(aesEnc.authTag.SequenceEqual(refAuthTag));
         }
 
         [TestMethod]
         public void TestAes128GcmCpp_3()
         {
+            // Test vectors from: https://git.openssl.org/gitweb/?p=openssl.git;a=commitdiff;h=6b7b34330beaf7ff062d6a06b7733f069d77feaa
             Aes128GcmCpp aesEnc = new Aes128GcmCpp
             {
-                key = CryptoUtils.hexStringToByteArray("AD7A2BD03EAC835A6F620FDCB506B345"),
-                iv = CryptoUtils.hexStringToByteArray("12153524C0895E81B2C28465"),
-                authTag = CryptoUtils.hexStringToByteArray("12153524C0895E81B2C28465")
+                key = CryptoUtils.hexStringToByteArray("feffe9928665731c6d6a8f9467308308"),
+                iv = CryptoUtils.hexStringToByteArray("cafebabefacedbaddecaf888"),
             };
 
-            byte[] data = CryptoUtils.hexStringToByteArray("D609B1F056637A0D46DF998D88E5222AB2C2846512153524C0895E8108000F101112131415161718191A1B1C1D1E1F202122232425262728292A2B2C2D2E2F30313233340001");
+            byte[] data = CryptoUtils.hexStringToByteArray("d9313225f88406e5a55909c5aff5269a86a7a9531534f7da2e4c303d8a318a721c3c0c95956809532fcf0e2449a6b525b16aedf5aa0de657ba637b391aafd255");
 
-            string refDataEnc = "b8AggfYXMdlpIO+RJFuDt9vXcBYiz8J9axw=";
-            string encData = CryptoUtils.byteArrayToHexString(aesEnc.encrypt(data));
+            byte[] refCiphertext = CryptoUtils.hexStringToByteArray("42831ec2217774244b7221b784d0d49ce3aa212f2c02a4e035c17e2329aca12e21d514b25466931c7d8f6a5aac84aa051ba30b396a0aac973d58e091473f5985");
+            byte[] refAuthTag = CryptoUtils.hexStringToByteArray("4d5c2af327cd64a62cf35abd2ba6fab4");
+            byte[] encData = aesEnc.encrypt(data);
 
-            Assert.IsTrue(encData.Equals(refDataEnc));
+            Assert.IsTrue(encData.SequenceEqual(refCiphertext));
+            Assert.IsTrue(aesEnc.authTag.SequenceEqual(refAuthTag));
         }
         #endregion
 

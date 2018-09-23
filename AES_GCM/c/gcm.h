@@ -1,186 +1,162 @@
-/******************************************************************************
-*
-* THIS SOURCE CODE IS HEREBY PLACED INTO THE PUBLIC DOMAIN FOR THE GOOD OF ALL
-*
-* This is a simple and straightforward implementation of AES-GCM authenticated
-* encryption. The focus of this work was correctness & accuracy. It is written
-* in straight 'C' without any particular focus upon optimization or speed. It
-* should be endian (memory byte order) neutral since the few places that care
-* are handled explicitly.
-*
-* This implementation of AES-GCM was created by Steven M. Gibson of GRC.com.
-*
-* It is intended for general purpose use, but was written in support of GRC's
-* reference implementation of the SQRL (Secure Quick Reliable Login) client.
-*
-* See:    http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf
-*         http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/ \
-*         gcm/gcm-revised-spec.pdf
-*
-* NO COPYRIGHT IS CLAIMED IN THIS WORK, HOWEVER, NEITHER IS ANY WARRANTY MADE
-* REGARDING ITS FITNESS FOR ANY PARTICULAR PURPOSE. USE IT AT YOUR OWN RISK.
-*
-*******************************************************************************/
-#ifndef GCM_HEADER
-#define GCM_HEADER
+/*
+ *
+ * Chinese Academy of Sciences
+ * State Key Laboratory of Information Security, 
+ * Institute of Information Engineering
+ *
+ * Copyright (C) 2016 Chinese Academy of Sciences
+ *
+ * LuoPeng, luopeng@iie.ac.cn
+ * Updated in May 2016
+ *
+ */
 
-#define GCM_AUTH_FAILURE    0x55555555  // authentication failure
+#ifndef GCM_H
+#define GCM_H
 
-#include "aes.h"                        // gcm_context includes aes_context
+#include <stdint.h>
+#include "aes.h"
 
-#if defined(_MSC_VER)
-    #include <basetsd.h>
-    // typedef unsigned int size_t;// use the right type for length declarations
-    typedef UINT32 uint32_t;
-    typedef UINT64 uint64_t;
-#else
-    #include <stdint.h>
-#endif
+#define GCM_BLOCK_SIZE  AES_BLOCK_SIZE       /* block size in bytes, AES 128-128 */
+#define GCM_DEFAULT_IV_LEN (12)              /* default iv length in bytes */
+#define GCM_FIELD_CONST (0xe100000000000000) /* the const value in filed */
 
+typedef enum {
+    OPERATION_FAIL = -1,
+    OPERATION_SUC = 0,
+} operation_result;
 
-/******************************************************************************
- *  GCM_CONTEXT : GCM context / holds keytables, instance data, and AES ctx
- ******************************************************************************/
+/*
+ * basic functions of a block cipher
+ */
+typedef int (*block_key_schedule_p)(const uint8_t *key, uint8_t *roundkeys);
+typedef int (*block_encrypt_p)(const uint8_t *roundkeys, const uint8_t *input, uint8_t *output);
+typedef int (*block_decrypt_p)(const uint8_t *roundkeys, const uint8_t *input, uint8_t *output);
+
+/*
+ * block cipher context structure
+ */
 typedef struct {
-    int mode;               // cipher direction: encrypt/decrypt
-    uint64_t len;           // cipher data length processed so far
-    uint64_t add_len;       // total add data length
-    uint64_t HL[16];        // precalculated lo-half HTable
-    uint64_t HH[16];        // precalculated hi-half HTable
-    uchar base_ectr[16];    // first counter-mode cipher output for tag
-    uchar y[16];            // the current cipher-input IV|Counter value
-    uchar buf[16];          // buf working value
-    aes_context aes_ctx;    // cipher context used
+    // rounds keys of block cipher
+    uint8_t *rk;
+    // block cipher encryption
+    block_encrypt_p block_encrypt;
+    uint8_t H[GCM_BLOCK_SIZE];
+    uint8_t buff[GCM_BLOCK_SIZE];
+    uint8_t T[GCM_BLOCK_SIZE][256][GCM_BLOCK_SIZE];
 } gcm_context;
 
+/**
+ * @par purpose
+ *    Initialize GCM context (just makes references valid)
+ *    Makes the context ready for gcm_setkey() or
+ *    gcm_free().
+ */
+void *gcm_init();
 
-/******************************************************************************
- *  GCM_CONTEXT : MUST be called once before ANY use of this library
- ******************************************************************************/
-int gcm_initialize( void );
+/**
+ * @par purpose
+ *    GCM initialization
+ *
+ * @par ctx      GCM context to be initialized
+ * @par cipher   cipher to use
+ * @par key      master keys
+ * @par keybits  useless now
+ *
+ * @par return values
+ *    0 if successful, or a cipher specific error code
+ */
+operation_result gcm_setkey( void *ctx,
+        const unsigned char *key,
+        unsigned int keybits );
 
+/**
+ * @par purpose
+ *    Free a GCM context and underlying cipher sub-context
+ *
+ * @par ctx    GCM context to free
+ */
+void gcm_free( void *ctx );
 
-/******************************************************************************
- *  GCM_SETKEY : sets the GCM (and AES) keying material for use
- ******************************************************************************/
-int gcm_setkey( gcm_context *ctx,   // caller-provided context ptr
-                const uchar *key,   // pointer to cipher key
-                const uint keysize  // must be 128, 192 or 256
-); // returns 0 for success
+/**
+ * @par purpose
+ * GCM authenticated encryption
+ * The Galois/Counter Mode of Operation(GCM)
+ * http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/gcm/gcm-spec.pdf
+ *
+ * @note     On encryption, the output buffer can be the same as the input buffer.
+ *
+ * @par ctx      GCM context
+ * @par iv       an initialization vector IV, that can have any number of bits between 1 and 2^64.
+ *               For a fixed value of the key, each IV value must be distinct, but need not have equal lengths.
+ *               the value is (0^32||IV) if length of IV is 96.
+ *     @note     iv can NOT be NULL.
+ * @par iv_len   length of IV, the recommended length is 96-bit.
+ *     @note     iv_len can NOT be 0.
+ * @par add      additional authenticated data. It includes addresses, ports, sequence numbers, protocal version
+ *               numbers, and other fields that indicate how the plaintext should be handled, forwarded and processed.
+ *     @note     add can be NULL with add_len set to 0
+ * @par add_len  add' length
+ * @par input    buffer holding the input data
+ *     @note     input can be NULL, therefore length is 0 and output is NULL
+ * @par length   length of the input data
+ * @par output   buffer for holding the output data
+ * @par tag      an authentication tag, whose length can be any value between 0 and 64(not included)
+ *     @note     tag can NOT be NULL
+ * @par tag_len  length of the tag to generate
+ *     @note     tag_len can NOT be 0
+ *
+ * @par return values
+ *     OPERATION_SUC if successful
+ *     else OPERATION_FAIL
+ */
+operation_result gcm_crypt_and_tag( void *ctx,
+        const unsigned char *iv,
+        size_t iv_len,
+        const unsigned char *add,
+        size_t add_len,
+        const unsigned char *input,
+        size_t length,
+        unsigned char *output,
+        unsigned char *tag,
+        size_t tag_len);
 
+/**
+ * @par purpose
+ * GCM authenticated decryption
+ * The Galois/Counter Mode of Operation(GCM)
+ * http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/gcm/gcm-spec.pdf
+ *
+ * @note      On decryption, the output buffer cannot be the same as input buffer.
+ *            If buffers overlap, the output buffer must trail at least 8 bytes
+ *            behind the input buffer
+ *
+ * @par ctx      GCM context
+ * @par iv       an initialization vector IV, that can have any number of bits between 1 and 2^64.
+ *               For a fixed value of the key, each IV value must be distinct, but need not have equal lengths.
+ * @par iv_len   length of IV, the recommended length is 96-bit.
+ * @par add      additional authenticated data. It includes addresses, ports, sequence numbers, protocal version
+ *               numbers, and other fields that indicate how the plaintext should be handled, forwarded and processed.
+ * @par add_len  ength of additional data
+ * @par tag_len  length of the tag to generate
+ * @par tag      an authentication tag, whose length can be any value between 0 and 64(not included)
+ * @par input    buffer holding the input data
+ * @par length   length of the input data
+ * @par output   buffer for holding the output data
+ *
+ * @par return values
+ *      OPERATION_SUC if successful and authenticated,
+ *      OPERATION_FAIL if tag does not match or decryption fails.
+ */
+operation_result gcm_auth_decrypt( void *ctx,
+        const unsigned char *iv,
+        size_t iv_len,
+        const unsigned char *add,
+        size_t add_len,
+        const unsigned char *tag,
+        size_t tag_len,
+        const unsigned char *input,
+        size_t length,
+        unsigned char *output );
 
-/******************************************************************************
- *
- *  GCM_CRYPT_AND_TAG
- *
- *  This either encrypts or decrypts the user-provided data and, either
- *  way, generates an authentication tag of the requested length. It must be
- *  called with a GCM context whose key has already been set with GCM_SETKEY.
- *
- *  The user would typically call this explicitly to ENCRYPT a buffer of data
- *  and optional associated data, and produce its an authentication tag.
- *
- *  To reverse the process the user would typically call the companion
- *  GCM_AUTH_DECRYPT function to decrypt data and verify a user-provided
- *  authentication tag.  The GCM_AUTH_DECRYPT function calls this function
- *  to perform its decryption and tag generation, which it then compares.
- *
- ******************************************************************************/
-int gcm_crypt_and_tag(
-        gcm_context *ctx,       // gcm context with key already setup
-        int mode,               // cipher direction: GCM_ENCRYPT or GCM_DECRYPT
-        const uchar *iv,        // pointer to the 12-byte initialization vector
-        size_t iv_len,          // byte length if the IV. should always be 12
-        const uchar *add,       // pointer to the non-ciphered additional data
-        size_t add_len,         // byte length of the additional AEAD data
-        const uchar *input,     // pointer to the cipher data source
-        uchar *output,          // pointer to the cipher data destination
-        size_t length,          // byte length of the cipher data
-        uchar *tag,             // pointer to the tag to be generated
-        size_t tag_len );       // byte length of the tag to be generated
-
-
-/******************************************************************************
- *
- *  GCM_AUTH_DECRYPT
- *
- *  This DECRYPTS a user-provided data buffer with optional associated data.
- *  It then verifies a user-supplied authentication tag against the tag just
- *  re-created during decryption to verify that the data has not been altered.
- *
- *  This function calls GCM_CRYPT_AND_TAG (above) to perform the decryption
- *  and authentication tag generation.
- *
- ******************************************************************************/
-int gcm_auth_decrypt(
-        gcm_context *ctx,       // gcm context with key already setup
-        const uchar *iv,        // pointer to the 12-byte initialization vector
-        size_t iv_len,          // byte length if the IV. should always be 12
-        const uchar *add,       // pointer to the non-ciphered additional data
-        size_t add_len,         // byte length of the additional AEAD data
-        const uchar *input,     // pointer to the cipher data source
-        uchar *output,          // pointer to the cipher data destination
-        size_t length,          // byte length of the cipher data
-        const uchar *tag,       // pointer to the tag to be authenticated
-        size_t tag_len );       // byte length of the tag <= 16
-
-
-/******************************************************************************
- *
- *  GCM_START
- *
- *  Given a user-provided GCM context, this initializes it, sets the encryption
- *  mode, and preprocesses the initialization vector and additional AEAD data.
- *
- ******************************************************************************/
-int gcm_start( gcm_context *ctx,    // pointer to user-provided GCM context
-               int mode,            // GCM_ENCRYPT or GCM_DECRYPT
-               const uchar *iv,     // pointer to initialization vector
-               size_t iv_len,       // IV length in bytes (should == 12)
-               const uchar *add,    // pointer to additional AEAD data (NULL if none)
-               size_t add_len );    // length of additional AEAD data (bytes)
-
-
-/******************************************************************************
- *
- *  GCM_UPDATE
- *
- *  This is called once or more to process bulk plaintext or ciphertext data.
- *  We give this some number of bytes of input and it returns the same number
- *  of output bytes. If called multiple times (which is fine) all but the final
- *  invocation MUST be called with length mod 16 == 0. (Only the final call can
- *  have a partial block length of < 128 bits.)
- *
- ******************************************************************************/
-int gcm_update( gcm_context *ctx,       // pointer to user-provided GCM context
-                size_t length,          // length, in bytes, of data to process
-                const uchar *input,     // pointer to source data
-                uchar *output );        // pointer to destination data
-
-
-/******************************************************************************
- *
- *  GCM_FINISH
- *
- *  This is called once after all calls to GCM_UPDATE to finalize the GCM.
- *  It performs the final GHASH to produce the resulting authentication TAG.
- *
- ******************************************************************************/
-int gcm_finish( gcm_context *ctx,   // pointer to user-provided GCM context
-                uchar *tag,         // ptr to tag buffer - NULL if tag_len = 0
-                size_t tag_len );   // length, in bytes, of the tag-receiving buf
-
-
-/******************************************************************************
- *
- *  GCM_ZERO_CTX
- *
- *  The GCM context contains both the GCM context and the AES context.
- *  This includes keying and key-related material which is security-
- *  sensitive, so it MUST be zeroed after use. This function does that.
- *
- ******************************************************************************/
-void gcm_zero_ctx( gcm_context *ctx );
-
-
-#endif /* GCM_HEADER */
+#endif

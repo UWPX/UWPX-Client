@@ -1,477 +1,296 @@
-/******************************************************************************
-*
-* THIS SOURCE CODE IS HEREBY PLACED INTO THE PUBLIC DOMAIN FOR THE GOOD OF ALL
-*
-* This is a simple and straightforward implementation of the AES Rijndael
-* 128-bit block cipher designed by Vincent Rijmen and Joan Daemen. The focus
-* of this work was correctness & accuracy.  It is written in 'C' without any
-* particular focus upon optimization or speed. It should be endian (memory
-* byte order) neutral since the few places that care are handled explicitly.
-*
-* This implementation of Rijndael was created by Steven M. Gibson of GRC.com.
-*
-* It is intended for general purpose use, but was written in support of GRC's
-* reference implementation of the SQRL (Secure Quick Reliable Login) client.
-*
-* See:    http://csrc.nist.gov/archive/aes/rijndael/wsdindex.html
-*
-* NO COPYRIGHT IS CLAIMED IN THIS WORK, HOWEVER, NEITHER IS ANY WARRANTY MADE
-* REGARDING ITS FITNESS FOR ANY PARTICULAR PURPOSE. USE IT AT YOUR OWN RISK.
-*
-*******************************************************************************/
+/*
+ *
+ * Chinese Academy of Sciences
+ * State Key Laboratory of Information Security
+ * Institute of Information Engineering
+ *
+ * Copyright (C) 2016 Chinese Academy of Sciences
+ *
+ * LuoPeng, luopeng@iie.ac.cn
+ * Updated in Oct 2016
+ * Updated in Jan 2017, update muliple function on GF(2^8).
+ *
+ */
+#include <stdint.h>
+#include <stdio.h>
 
 #include "aes.h"
 
-static int aes_tables_inited = 0;   // run-once flag for performing key
-                                    // expasion table generation (see below)
 /*
- *  The following static local tables must be filled-in before the first use of
- *  the GCM or AES ciphers. They are used for the AES key expansion/scheduling
- *  and once built are read-only and thread safe. The "gcm_initialize" function
- *  must be called once during system initialization to populate these arrays
- *  for subsequent use by the AES key scheduler. If they have not been built
- *  before attempted use, an error will be returned to the caller.
- *
- *  NOTE: GCM Encryption/Decryption does NOT REQUIRE AES decryption. Since
- *  GCM uses AES in counter-mode, where the AES cipher output is XORed with
- *  the GCM input, we ONLY NEED AES encryption.  Thus, to save space AES
- *  decryption is typically disabled by setting AES_DECRYPTION to 0 in aes.h.
+ * round constants
  */
-                            // We always need our forward tables
-static uchar FSb[256];      // Forward substitution box (FSb)
-static uint32_t FT0[256];   // Forward key schedule assembly tables
-static uint32_t FT1[256];
-static uint32_t FT2[256];
-static uint32_t FT3[256];
-
-#if AES_DECRYPTION          // We ONLY need reverse for decryption
-static uchar RSb[256];      // Reverse substitution box (RSb)
-static uint32_t RT0[256];   // Reverse key schedule assembly tables
-static uint32_t RT1[256];
-static uint32_t RT2[256];
-static uint32_t RT3[256];
-#endif                      /* AES_DECRYPTION */
-
-static uint32_t RCON[10];   // AES round constants
-
-/* 
- * Platform Endianness Neutralizing Load and Store Macro definitions
- * AES wants platform-neutral Little Endian (LE) byte ordering
- */
-#define GET_UINT32_LE(n,b,i) {                  \
-    (n) = ( (uint32_t) (b)[(i)    ]       )     \
-        | ( (uint32_t) (b)[(i) + 1] <<  8 )     \
-        | ( (uint32_t) (b)[(i) + 2] << 16 )     \
-        | ( (uint32_t) (b)[(i) + 3] << 24 ); }
-
-#define PUT_UINT32_LE(n,b,i) {                  \
-    (b)[(i)    ] = (uchar) ( (n)       );       \
-    (b)[(i) + 1] = (uchar) ( (n) >>  8 );       \
-    (b)[(i) + 2] = (uchar) ( (n) >> 16 );       \
-    (b)[(i) + 3] = (uchar) ( (n) >> 24 ); }
+static uint8_t RC[] = {0x01, 0x02, 0x04, 0x08, 0x10, 0x20, 0x40, 0x80, 0x1b, 0x36};
 
 /*
- *  AES forward and reverse encryption round processing macros
+ * Sbox
  */
-#define AES_FROUND(X0,X1,X2,X3,Y0,Y1,Y2,Y3)     \
-{                                               \
-    X0 = *RK++ ^ FT0[ ( Y0       ) & 0xFF ] ^   \
-                 FT1[ ( Y1 >>  8 ) & 0xFF ] ^   \
-                 FT2[ ( Y2 >> 16 ) & 0xFF ] ^   \
-                 FT3[ ( Y3 >> 24 ) & 0xFF ];    \
-                                                \
-    X1 = *RK++ ^ FT0[ ( Y1       ) & 0xFF ] ^   \
-                 FT1[ ( Y2 >>  8 ) & 0xFF ] ^   \
-                 FT2[ ( Y3 >> 16 ) & 0xFF ] ^   \
-                 FT3[ ( Y0 >> 24 ) & 0xFF ];    \
-                                                \
-    X2 = *RK++ ^ FT0[ ( Y2       ) & 0xFF ] ^   \
-                 FT1[ ( Y3 >>  8 ) & 0xFF ] ^   \
-                 FT2[ ( Y0 >> 16 ) & 0xFF ] ^   \
-                 FT3[ ( Y1 >> 24 ) & 0xFF ];    \
-                                                \
-    X3 = *RK++ ^ FT0[ ( Y3       ) & 0xFF ] ^   \
-                 FT1[ ( Y0 >>  8 ) & 0xFF ] ^   \
-                 FT2[ ( Y1 >> 16 ) & 0xFF ] ^   \
-                 FT3[ ( Y2 >> 24 ) & 0xFF ];    \
-}
-
-#define AES_RROUND(X0,X1,X2,X3,Y0,Y1,Y2,Y3)     \
-{                                               \
-    X0 = *RK++ ^ RT0[ ( Y0       ) & 0xFF ] ^   \
-                 RT1[ ( Y3 >>  8 ) & 0xFF ] ^   \
-                 RT2[ ( Y2 >> 16 ) & 0xFF ] ^   \
-                 RT3[ ( Y1 >> 24 ) & 0xFF ];    \
-                                                \
-    X1 = *RK++ ^ RT0[ ( Y1       ) & 0xFF ] ^   \
-                 RT1[ ( Y0 >>  8 ) & 0xFF ] ^   \
-                 RT2[ ( Y3 >> 16 ) & 0xFF ] ^   \
-                 RT3[ ( Y2 >> 24 ) & 0xFF ];    \
-                                                \
-    X2 = *RK++ ^ RT0[ ( Y2       ) & 0xFF ] ^   \
-                 RT1[ ( Y1 >>  8 ) & 0xFF ] ^   \
-                 RT2[ ( Y0 >> 16 ) & 0xFF ] ^   \
-                 RT3[ ( Y3 >> 24 ) & 0xFF ];    \
-                                                \
-    X3 = *RK++ ^ RT0[ ( Y3       ) & 0xFF ] ^   \
-                 RT1[ ( Y2 >>  8 ) & 0xFF ] ^   \
-                 RT2[ ( Y1 >> 16 ) & 0xFF ] ^   \
-                 RT3[ ( Y0 >> 24 ) & 0xFF ];    \
-}
+static uint8_t SBOX[256] = {
+    0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76,
+    0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
+    0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15,
+    0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a, 0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
+    0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0, 0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84,
+    0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b, 0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
+    0xd0, 0xef, 0xaa, 0xfb, 0x43, 0x4d, 0x33, 0x85, 0x45, 0xf9, 0x02, 0x7f, 0x50, 0x3c, 0x9f, 0xa8,
+    0x51, 0xa3, 0x40, 0x8f, 0x92, 0x9d, 0x38, 0xf5, 0xbc, 0xb6, 0xda, 0x21, 0x10, 0xff, 0xf3, 0xd2,
+    0xcd, 0x0c, 0x13, 0xec, 0x5f, 0x97, 0x44, 0x17, 0xc4, 0xa7, 0x7e, 0x3d, 0x64, 0x5d, 0x19, 0x73,
+    0x60, 0x81, 0x4f, 0xdc, 0x22, 0x2a, 0x90, 0x88, 0x46, 0xee, 0xb8, 0x14, 0xde, 0x5e, 0x0b, 0xdb,
+    0xe0, 0x32, 0x3a, 0x0a, 0x49, 0x06, 0x24, 0x5c, 0xc2, 0xd3, 0xac, 0x62, 0x91, 0x95, 0xe4, 0x79,
+    0xe7, 0xc8, 0x37, 0x6d, 0x8d, 0xd5, 0x4e, 0xa9, 0x6c, 0x56, 0xf4, 0xea, 0x65, 0x7a, 0xae, 0x08,
+    0xba, 0x78, 0x25, 0x2e, 0x1c, 0xa6, 0xb4, 0xc6, 0xe8, 0xdd, 0x74, 0x1f, 0x4b, 0xbd, 0x8b, 0x8a,
+    0x70, 0x3e, 0xb5, 0x66, 0x48, 0x03, 0xf6, 0x0e, 0x61, 0x35, 0x57, 0xb9, 0x86, 0xc1, 0x1d, 0x9e,
+    0xe1, 0xf8, 0x98, 0x11, 0x69, 0xd9, 0x8e, 0x94, 0x9b, 0x1e, 0x87, 0xe9, 0xce, 0x55, 0x28, 0xdf,
+    0x8c, 0xa1, 0x89, 0x0d, 0xbf, 0xe6, 0x42, 0x68, 0x41, 0x99, 0x2d, 0x0f, 0xb0, 0x54, 0xbb, 0x16};
 
 /*
- *  These macros improve the readability of the key
- *  generation initialization code by collapsing
- *  repetitive common operations into logical pieces.
+ * Inverse Sboxs
  */
-#define ROTL8(x) ( ( x << 8 ) & 0xFFFFFFFF ) | ( x >> 24 )
-#define XTIME(x) ( ( x << 1 ) ^ ( ( x & 0x80 ) ? 0x1B : 0x00 ) )
-#define MUL(x,y) ( ( x && y ) ? pow[(log[x]+log[y]) % 255] : 0 )
-#define MIX(x,y) { y = ( (y << 1) | (y >> 7) ) & 0xFF; x ^= y; }
-#define CPY128   { *RK++ = *SK++; *RK++ = *SK++; \
-                   *RK++ = *SK++; *RK++ = *SK++; }
+static uint8_t INV_SBOX[256] = {
+    0x52, 0x09, 0x6a, 0xd5, 0x30, 0x36, 0xa5, 0x38, 0xbf, 0x40, 0xa3, 0x9e, 0x81, 0xf3, 0xd7, 0xfb,
+    0x7c, 0xe3, 0x39, 0x82, 0x9b, 0x2f, 0xff, 0x87, 0x34, 0x8e, 0x43, 0x44, 0xc4, 0xde, 0xe9, 0xcb,
+    0x54, 0x7b, 0x94, 0x32, 0xa6, 0xc2, 0x23, 0x3d, 0xee, 0x4c, 0x95, 0x0b, 0x42, 0xfa, 0xc3, 0x4e,
+    0x08, 0x2e, 0xa1, 0x66, 0x28, 0xd9, 0x24, 0xb2, 0x76, 0x5b, 0xa2, 0x49, 0x6d, 0x8b, 0xd1, 0x25,
+    0x72, 0xf8, 0xf6, 0x64, 0x86, 0x68, 0x98, 0x16, 0xd4, 0xa4, 0x5c, 0xcc, 0x5d, 0x65, 0xb6, 0x92,
+    0x6c, 0x70, 0x48, 0x50, 0xfd, 0xed, 0xb9, 0xda, 0x5e, 0x15, 0x46, 0x57, 0xa7, 0x8d, 0x9d, 0x84,
+    0x90, 0xd8, 0xab, 0x00, 0x8c, 0xbc, 0xd3, 0x0a, 0xf7, 0xe4, 0x58, 0x05, 0xb8, 0xb3, 0x45, 0x06,
+    0xd0, 0x2c, 0x1e, 0x8f, 0xca, 0x3f, 0x0f, 0x02, 0xc1, 0xaf, 0xbd, 0x03, 0x01, 0x13, 0x8a, 0x6b,
+    0x3a, 0x91, 0x11, 0x41, 0x4f, 0x67, 0xdc, 0xea, 0x97, 0xf2, 0xcf, 0xce, 0xf0, 0xb4, 0xe6, 0x73,
+    0x96, 0xac, 0x74, 0x22, 0xe7, 0xad, 0x35, 0x85, 0xe2, 0xf9, 0x37, 0xe8, 0x1c, 0x75, 0xdf, 0x6e,
+    0x47, 0xf1, 0x1a, 0x71, 0x1d, 0x29, 0xc5, 0x89, 0x6f, 0xb7, 0x62, 0x0e, 0xaa, 0x18, 0xbe, 0x1b,
+    0xfc, 0x56, 0x3e, 0x4b, 0xc6, 0xd2, 0x79, 0x20, 0x9a, 0xdb, 0xc0, 0xfe, 0x78, 0xcd, 0x5a, 0xf4,
+    0x1f, 0xdd, 0xa8, 0x33, 0x88, 0x07, 0xc7, 0x31, 0xb1, 0x12, 0x10, 0x59, 0x27, 0x80, 0xec, 0x5f,
+    0x60, 0x51, 0x7f, 0xa9, 0x19, 0xb5, 0x4a, 0x0d, 0x2d, 0xe5, 0x7a, 0x9f, 0x93, 0xc9, 0x9c, 0xef,
+    0xa0, 0xe0, 0x3b, 0x4d, 0xae, 0x2a, 0xf5, 0xb0, 0xc8, 0xeb, 0xbb, 0x3c, 0x83, 0x53, 0x99, 0x61,
+    0x17, 0x2b, 0x04, 0x7e, 0xba, 0x77, 0xd6, 0x26, 0xe1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0c, 0x7d};
 
-/******************************************************************************
- *
- *  AES_INIT_KEYGEN_TABLES
- *
- *  Fills the AES key expansion tables allocated above with their static
- *  data. This is not "per key" data, but static system-wide read-only
- *  table data. THIS FUNCTION IS NOT THREAD SAFE. It must be called once
- *  at system initialization to setup the tables for all subsequent use.
- *
- ******************************************************************************/
-void aes_init_keygen_tables( void )
-{
-    int i, x, y, z;     // general purpose iteration and computation locals
-    int pow[256];
-    int log[256];
-
-    // fill the 'pow' and 'log' tables over GF(2^8)
-    for( i = 0, x = 1; i < 256; i++ )   {
-        pow[i] = x;
-        log[x] = i;
-        x = ( x ^ XTIME( x ) ) & 0xFF;
-    }
-    // compute the round constants
-    for( i = 0, x = 1; i < 10; i++ )    {
-        RCON[i] = (uint32_t) x;
-        x = XTIME( x ) & 0xFF;
-    }
-    // fill the forward and reverse substitution boxes
-    FSb[0x00] = 0x63;
-#if AES_DECRYPTION  // whether AES decryption is supported
-    RSb[0x63] = 0x00;
-#endif /* AES_DECRYPTION */
-
-    for( i = 1; i < 256; i++ )          {
-        x = y = pow[255 - log[i]];
-        MIX(x,y);
-        MIX(x,y);
-        MIX(x,y);
-        MIX(x,y); 
-        FSb[i] = (uchar) ( x ^= 0x63 );
-#if AES_DECRYPTION  // whether AES decryption is supported
-        RSb[x] = (uchar) i;
-#endif /* AES_DECRYPTION */
-
-    }
-    // generate the forward and reverse key expansion tables
-    for( i = 0; i < 256; i++ )          {
-        x = FSb[i];
-        y = XTIME( x ) & 0xFF;
-        z =  ( y ^ x ) & 0xFF;
-
-        FT0[i] = ( (uint32_t) y       ) ^ ( (uint32_t) x <<  8 ) ^
-                 ( (uint32_t) x << 16 ) ^ ( (uint32_t) z << 24 );
-
-        FT1[i] = ROTL8( FT0[i] );
-        FT2[i] = ROTL8( FT1[i] );
-        FT3[i] = ROTL8( FT2[i] );
-
-#if AES_DECRYPTION  // whether AES decryption is supported
-        x = RSb[i];
-
-        RT0[i] = ( (uint32_t) MUL( 0x0E, x )       ) ^
-                 ( (uint32_t) MUL( 0x09, x ) <<  8 ) ^
-                 ( (uint32_t) MUL( 0x0D, x ) << 16 ) ^
-                 ( (uint32_t) MUL( 0x0B, x ) << 24 );
-
-        RT1[i] = ROTL8( RT0[i] );
-        RT2[i] = ROTL8( RT1[i] );
-        RT3[i] = ROTL8( RT2[i] );
-#endif /* AES_DECRYPTION */
-    }
-    aes_tables_inited = 1;  // flag that the tables have been generated
-}                           // to permit subsequent use of the AES cipher
-
-/******************************************************************************
- *
- *  AES_SET_ENCRYPTION_KEY
- *
- *  This is called by 'aes_setkey' when we're establishing a key for
- *  subsequent encryption.  We give it a pointer to the encryption
- *  context, a pointer to the key, and the key's length in bytes.
- *  Valid lengths are: 16, 24 or 32 bytes (128, 192, 256 bits).
- *
- ******************************************************************************/
-int aes_set_encryption_key( aes_context *ctx,
-                            const uchar *key,
-                            uint keysize )
-{
-    uint i;                 // general purpose iteration local
-    uint32_t *RK = ctx->rk; // initialize our RoundKey buffer pointer
-
-    for( i = 0; i < (keysize >> 2); i++ ) {
-        GET_UINT32_LE( RK[i], key, i << 2 );
-    }
-
-    switch( ctx->rounds )
-    {
-        case 10:
-            for( i = 0; i < 10; i++, RK += 4 ) {
-                RK[4]  = RK[0] ^ RCON[i] ^
-                ( (uint32_t) FSb[ ( RK[3] >>  8 ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[3] >> 16 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[3] >> 24 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[3]       ) & 0xFF ] << 24 );
-
-                RK[5]  = RK[1] ^ RK[4];
-                RK[6]  = RK[2] ^ RK[5];
-                RK[7]  = RK[3] ^ RK[6];
-            }
-            break;
-
-        case 12:
-            for( i = 0; i < 8; i++, RK += 6 ) {
-                RK[6]  = RK[0] ^ RCON[i] ^
-                ( (uint32_t) FSb[ ( RK[5] >>  8 ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[5] >> 16 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[5] >> 24 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[5]       ) & 0xFF ] << 24 );
-
-                RK[7]  = RK[1] ^ RK[6];
-                RK[8]  = RK[2] ^ RK[7];
-                RK[9]  = RK[3] ^ RK[8];
-                RK[10] = RK[4] ^ RK[9];
-                RK[11] = RK[5] ^ RK[10];
-            }
-            break;
-
-        case 14:
-            for( i = 0; i < 7; i++, RK += 8 ) {
-                RK[8]  = RK[0] ^ RCON[i] ^
-                ( (uint32_t) FSb[ ( RK[7] >>  8 ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[7] >> 16 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[7] >> 24 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[7]       ) & 0xFF ] << 24 );
-
-                RK[9]  = RK[1] ^ RK[8];
-                RK[10] = RK[2] ^ RK[9];
-                RK[11] = RK[3] ^ RK[10];
-
-                RK[12] = RK[4] ^
-                ( (uint32_t) FSb[ ( RK[11]       ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( RK[11] >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( RK[11] >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( RK[11] >> 24 ) & 0xFF ] << 24 );
-
-                RK[13] = RK[5] ^ RK[12];
-                RK[14] = RK[6] ^ RK[13];
-                RK[15] = RK[7] ^ RK[14];
-            }
-            break;
-    }
-    return( 0 );
+/**
+ * https://en.wikipedia.org/wiki/Finite_field_arithmetic
+ * Multiply two numbers in the GF(2^8) finite field defined
+ * by the polynomial x^8 + x^4 + x^3 + x + 1 = 0
+ * We do use mul2(int8_t a) but not mul(uint8_t a, uint8_t b)
+ * just in order to get a higher speed.
+ */
+static inline uint8_t mul2(uint8_t a) {
+    return (a&0x80) ? ((a<<1)^0x1b) : (a<<1);
 }
 
-#if AES_DECRYPTION  // whether AES decryption is supported
+/**
+ * @purpose:    ShiftRows
+ * @descrption:
+ *  Row0: s0  s4  s8  s12   <<< 0 byte
+ *  Row1: s1  s5  s9  s13   <<< 1 byte
+ *  Row2: s2  s6  s10 s14   <<< 2 bytes
+ *  Row3: s3  s7  s11 s15   <<< 3 bytes
+ */
+static void shift_rows(uint8_t *state) {
+    uint8_t temp;
+    // row1
+    temp        = *(state+1);
+    *(state+1)  = *(state+5);
+    *(state+5)  = *(state+9);
+    *(state+9)  = *(state+13);
+    *(state+13) = temp;
+    // row2
+    temp        = *(state+2);
+    *(state+2)  = *(state+10);
+    *(state+10) = temp;
+    temp        = *(state+6);
+    *(state+6)  = *(state+14);
+    *(state+14) = temp;
+    // row3
+    temp        = *(state+15);
+    *(state+15) = *(state+11);
+    *(state+11) = *(state+7);
+    *(state+7)  = *(state+3);
+    *(state+3)  = temp;
+}
 
-/******************************************************************************
- *
- *  AES_SET_DECRYPTION_KEY
- *
- *  This is called by 'aes_setkey' when we're establishing a
- *  key for subsequent decryption.  We give it a pointer to
- *  the encryption context, a pointer to the key, and the key's
- *  length in bits. Valid lengths are: 128, 192, or 256 bits.
- *
- ******************************************************************************/
-int aes_set_decryption_key( aes_context *ctx,
-                            const uchar *key,
-                            uint keysize )
-{
-    int i, j;
-    aes_context cty;            // a calling aes context for set_encryption_key
-    uint32_t *RK = ctx->rk;     // initialize our RoundKey buffer pointer
-    uint32_t *SK;
-    int ret;
+/**
+ * @purpose:    Inverse ShiftRows
+ * @description
+ *  Row0: s0  s4  s8  s12   >>> 0 byte
+ *  Row1: s1  s5  s9  s13   >>> 1 byte
+ *  Row2: s2  s6  s10 s14   >>> 2 bytes
+ *  Row3: s3  s7  s11 s15   >>> 3 bytes
+ */
+static void inv_shift_rows(uint8_t *state) {
+    uint8_t temp;
+    // row1
+    temp        = *(state+13);
+    *(state+13) = *(state+9);
+    *(state+9)  = *(state+5);
+    *(state+5)  = *(state+1);
+    *(state+1)  = temp;
+    // row2
+    temp        = *(state+14);
+    *(state+14) = *(state+6);
+    *(state+6)  = temp;
+    temp        = *(state+10);
+    *(state+10) = *(state+2);
+    *(state+2)  = temp;
+    // row1
+    temp        = *(state+3);
+    *(state+3)  = *(state+7);
+    *(state+7)  = *(state+11);
+    *(state+11) = *(state+15);
+    *(state+15) = temp;
+}
 
-    cty.rounds = ctx->rounds;   // initialize our local aes context
-    cty.rk = cty.buf;           // round count and key buf pointer
+void aes_key_schedule_128(const uint8_t *key, uint8_t *roundkeys) {
 
-    if (( ret = aes_set_encryption_key( &cty, key, keysize )) != 0 )
-        return( ret );
+    uint8_t temp[4];
+    uint8_t *last4bytes; // point to the last 4 bytes of one round
+    uint8_t *lastround;
+    uint8_t i;
 
-    SK = cty.rk + cty.rounds * 4;
+    for (i = 0; i < 16; ++i) {
+        *roundkeys++ = *key++;
+    }
 
-    CPY128  // copy a 128-bit block from *SK to *RK
+    last4bytes = roundkeys-4;
+    for (i = 0; i < AES_ROUNDS; ++i) {
+        // k0-k3 for next round
+        temp[3] = SBOX[*last4bytes++];
+        temp[0] = SBOX[*last4bytes++];
+        temp[1] = SBOX[*last4bytes++];
+        temp[2] = SBOX[*last4bytes++];
+        temp[0] ^= RC[i];
+        lastround = roundkeys-16;
+        *roundkeys++ = temp[0] ^ *lastround++;
+        *roundkeys++ = temp[1] ^ *lastround++;
+        *roundkeys++ = temp[2] ^ *lastround++;
+        *roundkeys++ = temp[3] ^ *lastround++;
+        // k4-k7 for next round        
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        // k8-k11 for next round
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        // k12-k15 for next round
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+        *roundkeys++ = *last4bytes++ ^ *lastround++;
+    }
+}
 
-    for( i = ctx->rounds - 1, SK -= 8; i > 0; i--, SK -= 8 ) {
-        for( j = 0; j < 4; j++, SK++ ) {
-            *RK++ = RT0[ FSb[ ( *SK       ) & 0xFF ] ] ^
-                    RT1[ FSb[ ( *SK >>  8 ) & 0xFF ] ] ^
-                    RT2[ FSb[ ( *SK >> 16 ) & 0xFF ] ] ^
-                    RT3[ FSb[ ( *SK >> 24 ) & 0xFF ] ];
+void aes_encrypt_128(const uint8_t *roundkeys, const uint8_t *plaintext, uint8_t *ciphertext) {
+
+    uint8_t tmp[16], t;
+    uint8_t i, j;
+
+    // first AddRoundKey
+    for ( i = 0; i < AES_BLOCK_SIZE; ++i ) {
+        *(ciphertext+i) = *(plaintext+i) ^ *roundkeys++;
+    }
+
+    // 9 rounds
+    for (j = 1; j < AES_ROUNDS; ++j) {
+
+        // SubBytes
+        for (i = 0; i < AES_BLOCK_SIZE; ++i) {
+            *(tmp+i) = SBOX[*(ciphertext+i)];
         }
+        shift_rows(tmp);
+        /*
+         * MixColumns 
+         * [02 03 01 01]   [s0  s4  s8  s12]
+         * [01 02 03 01] . [s1  s5  s9  s13]
+         * [01 01 02 03]   [s2  s6  s10 s14]
+         * [03 01 01 02]   [s3  s7  s11 s15]
+         */
+        for (i = 0; i < AES_BLOCK_SIZE; i+=4)  {
+            t = tmp[i] ^ tmp[i+1] ^ tmp[i+2] ^ tmp[i+3];
+            ciphertext[i]   = mul2(tmp[i]   ^ tmp[i+1]) ^ tmp[i]   ^ t;
+            ciphertext[i+1] = mul2(tmp[i+1] ^ tmp[i+2]) ^ tmp[i+1] ^ t;
+            ciphertext[i+2] = mul2(tmp[i+2] ^ tmp[i+3]) ^ tmp[i+2] ^ t;
+            ciphertext[i+3] = mul2(tmp[i+3] ^ tmp[i]  ) ^ tmp[i+3] ^ t;
+        }
+
+        // AddRoundKey
+        for ( i = 0; i < AES_BLOCK_SIZE; ++i ) {
+            *(ciphertext+i) ^= *roundkeys++;
+        }
+
     }
-    CPY128  // copy a 128-bit block from *SK to *RK
-    memset( &cty, 0, sizeof( aes_context ) );   // clear local aes context
-    return( 0 );
-}
-
-#endif /* AES_DECRYPTION */
-
-/******************************************************************************
- *
- *  AES_SETKEY
- *
- *  Invoked to establish the key schedule for subsequent encryption/decryption
- *
- ******************************************************************************/
-int aes_setkey( aes_context *ctx,   // AES context provided by our caller
-                int mode,           // ENCRYPT or DECRYPT flag
-                const uchar *key,   // pointer to the key
-                uint keysize )      // key length in bytes
-{
-    // since table initialization is not thread safe, we could either add
-    // system-specific mutexes and init the AES key generation tables on
-    // demand, or ask the developer to simply call "gcm_initialize" once during
-    // application startup before threading begins. That's what we choose.
-    if( !aes_tables_inited ) return ( 0 );  // fail the call when not inited.
     
-    ctx->mode = mode;       // capture the key type we're creating
-    ctx->rk = ctx->buf;     // initialize our round key pointer
-
-    switch( keysize )       // set the rounds count based upon the keysize
-    {
-        case 16: ctx->rounds = 10; break;   // 16-byte, 128-bit key
-        case 24: ctx->rounds = 12; break;   // 24-byte, 192-bit key
-        case 32: ctx->rounds = 14; break;   // 32-byte, 256-bit key
+    // last round
+    for (i = 0; i < AES_BLOCK_SIZE; ++i) {
+        *(ciphertext+i) = SBOX[*(ciphertext+i)];
+    }
+    shift_rows(ciphertext);
+    for ( i = 0; i < AES_BLOCK_SIZE; ++i ) {
+        *(ciphertext+i) ^= *roundkeys++;
     }
 
-#if AES_DECRYPTION
-    if( mode == DECRYPT )   // expand our key for encryption or decryption
-        return( aes_set_decryption_key( ctx, key, keysize ) );
-    else     /* ENCRYPT */
-#endif /* AES_DECRYPTION */
-        return( aes_set_encryption_key( ctx, key, keysize ) );
 }
 
-/******************************************************************************
- *
- *  AES_CIPHER
- *
- *  Perform AES encryption and decryption.
- *  The AES context will have been setup with the encryption mode
- *  and all keying information appropriate for the task.
- *
- ******************************************************************************/
-int aes_cipher( aes_context *ctx,
-                    const uchar input[16],
-                    uchar output[16] )
-{
-    int i;
-    uint32_t *RK, X0, X1, X2, X3, Y0, Y1, Y2, Y3;   // general purpose locals
+void aes_decrypt_128(const uint8_t *roundkeys, const uint8_t *ciphertext, uint8_t *plaintext) {
 
-    RK = ctx->rk;
+    uint8_t tmp[16];
+    uint8_t t, u, v;
+    uint8_t i, j;
 
-    GET_UINT32_LE( X0, input,  0 ); X0 ^= *RK++;    // load our 128-bit
-    GET_UINT32_LE( X1, input,  4 ); X1 ^= *RK++;    // input buffer in a storage
-    GET_UINT32_LE( X2, input,  8 ); X2 ^= *RK++;    // memory endian-neutral way
-    GET_UINT32_LE( X3, input, 12 ); X3 ^= *RK++;
+    roundkeys += 160;
 
-#if AES_DECRYPTION  // whether AES decryption is supported
+    // first round
+    for ( i = 0; i < AES_BLOCK_SIZE; ++i ) {
+        *(plaintext+i) = *(plaintext+i) ^ *(roundkeys+i);
+    }
+    roundkeys -= 16;
+    inv_shift_rows(plaintext);
+    for (i = 0; i < AES_BLOCK_SIZE; ++i) {
+        *(plaintext+i) = INV_SBOX[*(plaintext+i)];
+    }
 
-    if( ctx->mode == DECRYPT )
-    {
-        for( i = (ctx->rounds >> 1) - 1; i > 0; i-- )
-        {
-            AES_RROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );
-            AES_RROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );
+    for (j = 1; j < AES_ROUNDS; ++j) {
+        
+        // Inverse AddRoundKey
+        for ( i = 0; i < AES_BLOCK_SIZE; ++i ) {
+            *(tmp+i) = *(plaintext+i) ^ *(roundkeys+i);
+        }
+        
+        /*
+         * Inverse MixColumns
+         * [0e 0b 0d 09]   [s0  s4  s8  s12]
+         * [09 0e 0b 0d] . [s1  s5  s9  s13]
+         * [0d 09 0e 0b]   [s2  s6  s10 s14]
+         * [0b 0d 09 0e]   [s3  s7  s11 s15]
+         */
+        for (i = 0; i < AES_BLOCK_SIZE; i+=4) {
+            t = tmp[i] ^ tmp[i+1] ^ tmp[i+2] ^ tmp[i+3];
+            plaintext[i]   = t ^ tmp[i]   ^ mul2(tmp[i]   ^ tmp[i+1]);
+            plaintext[i+1] = t ^ tmp[i+1] ^ mul2(tmp[i+1] ^ tmp[i+2]);
+            plaintext[i+2] = t ^ tmp[i+2] ^ mul2(tmp[i+2] ^ tmp[i+3]);
+            plaintext[i+3] = t ^ tmp[i+3] ^ mul2(tmp[i+3] ^ tmp[i]);
+            u = mul2(mul2(tmp[i]   ^ tmp[i+2]));
+            v = mul2(mul2(tmp[i+1] ^ tmp[i+3]));
+            t = mul2(u ^ v);
+            plaintext[i]   ^= t ^ u;
+            plaintext[i+1] ^= t ^ v;
+            plaintext[i+2] ^= t ^ u;
+            plaintext[i+3] ^= t ^ v;
+        }
+        
+        // Inverse ShiftRows
+        inv_shift_rows(plaintext);
+        
+        // Inverse SubBytes
+        for (i = 0; i < AES_BLOCK_SIZE; ++i) {
+            *(plaintext+i) = INV_SBOX[*(plaintext+i)];
         }
 
-        AES_RROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );
+        roundkeys -= 16;
 
-        X0 = *RK++ ^ \
-                ( (uint32_t) RSb[ ( Y0       ) & 0xFF ]       ) ^
-                ( (uint32_t) RSb[ ( Y3 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) RSb[ ( Y2 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) RSb[ ( Y1 >> 24 ) & 0xFF ] << 24 );
-
-        X1 = *RK++ ^ \
-                ( (uint32_t) RSb[ ( Y1       ) & 0xFF ]       ) ^
-                ( (uint32_t) RSb[ ( Y0 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) RSb[ ( Y3 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) RSb[ ( Y2 >> 24 ) & 0xFF ] << 24 );
-
-        X2 = *RK++ ^ \
-                ( (uint32_t) RSb[ ( Y2       ) & 0xFF ]       ) ^
-                ( (uint32_t) RSb[ ( Y1 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) RSb[ ( Y0 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) RSb[ ( Y3 >> 24 ) & 0xFF ] << 24 );
-
-        X3 = *RK++ ^ \
-                ( (uint32_t) RSb[ ( Y3       ) & 0xFF ]       ) ^
-                ( (uint32_t) RSb[ ( Y2 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) RSb[ ( Y1 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) RSb[ ( Y0 >> 24 ) & 0xFF ] << 24 );
     }
-    else /* ENCRYPT */
-    {
-#endif /* AES_DECRYPTION */
 
-        for( i = (ctx->rounds >> 1) - 1; i > 0; i-- )
-        {
-            AES_FROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );
-            AES_FROUND( X0, X1, X2, X3, Y0, Y1, Y2, Y3 );
-        }
-
-        AES_FROUND( Y0, Y1, Y2, Y3, X0, X1, X2, X3 );
-
-        X0 = *RK++ ^ \
-                ( (uint32_t) FSb[ ( Y0       ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( Y1 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( Y2 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( Y3 >> 24 ) & 0xFF ] << 24 );
-
-        X1 = *RK++ ^ \
-                ( (uint32_t) FSb[ ( Y1       ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( Y2 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( Y3 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( Y0 >> 24 ) & 0xFF ] << 24 );
-
-        X2 = *RK++ ^ \
-                ( (uint32_t) FSb[ ( Y2       ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( Y3 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( Y0 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( Y1 >> 24 ) & 0xFF ] << 24 );
-
-        X3 = *RK++ ^ \
-                ( (uint32_t) FSb[ ( Y3       ) & 0xFF ]       ) ^
-                ( (uint32_t) FSb[ ( Y0 >>  8 ) & 0xFF ] <<  8 ) ^
-                ( (uint32_t) FSb[ ( Y1 >> 16 ) & 0xFF ] << 16 ) ^
-                ( (uint32_t) FSb[ ( Y2 >> 24 ) & 0xFF ] << 24 );
-
-#if AES_DECRYPTION  // whether AES decryption is supported
+    // last AddRoundKey
+    for ( i = 0; i < AES_BLOCK_SIZE; ++i ) {
+        *(plaintext+i) ^= *(roundkeys+i);
     }
-#endif /* AES_DECRYPTION */
 
-    PUT_UINT32_LE( X0, output,  0 );
-    PUT_UINT32_LE( X1, output,  4 );
-    PUT_UINT32_LE( X2, output,  8 );
-    PUT_UINT32_LE( X3, output, 12 );
-
-    return( 0 );
 }
-/* end of aes.c */

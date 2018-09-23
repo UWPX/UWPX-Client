@@ -1,493 +1,475 @@
-/******************************************************************************
-*
-* THIS SOURCE CODE IS HEREBY PLACED INTO THE PUBLIC DOMAIN FOR THE GOOD OF ALL
-*
-* This is a simple and straightforward implementation of AES-GCM authenticated
-* encryption. The focus of this work was correctness & accuracy. It is written
-* in straight 'C' without any particular focus upon optimization or speed. It
-* should be endian (memory byte order) neutral since the few places that care
-* are handled explicitly.
-*
-* This implementation of AES-GCM was created by Steven M. Gibson of GRC.com.
-*
-* It is intended for general purpose use, but was written in support of GRC's
-* reference implementation of the SQRL (Secure Quick Reliable Login) client.
-*
-* See:    http://csrc.nist.gov/publications/nistpubs/800-38D/SP-800-38D.pdf
-*         http://csrc.nist.gov/groups/ST/toolkit/BCM/documents/proposedmodes/
-*         gcm/gcm-revised-spec.pdf
-*
-* NO COPYRIGHT IS CLAIMED IN THIS WORK, HOWEVER, NEITHER IS ANY WARRANTY MADE
-* REGARDING ITS FITNESS FOR ANY PARTICULAR PURPOSE. USE IT AT YOUR OWN RISK.
-*
-*******************************************************************************/
+/*
+ *
+ * Chinese Academy of Sciences
+ * State Key Laboratory of Information Security, 
+ * Institute of Information Engineering
+ *
+ * Copyright (C) 2016 Chinese Academy of Sciences
+ *
+ * LuoPeng(luopeng@iie.ac.cn)
+ * XiangZejun(xiangzejun@iie.ac.cn)
+ *
+ * Updated in May 2016
+ *
+ */
+
+#include <stdint.h>
+#include <stdlib.h>
 
 #include "gcm.h"
 #include "aes.h"
 
-/******************************************************************************
- *                      ==== IMPLEMENTATION WARNING ====
- *
- *  This code was developed for use within SQRL's fixed environmnent. Thus, it
- *  is somewhat less "general purpose" than it would be if it were designed as
- *  a general purpose AES-GCM library. Specifically, it bothers with almost NO
- *  error checking on parameter limits, buffer bounds, etc. It assumes that it
- *  is being invoked by its author or by someone who understands the values it
- *  expects to receive. Its behavior will be undefined otherwise.
- *
- *  All functions that might fail are defined to return 'ints' to indicate a
- *  problem. Most do not do so now. But this allows for error propagation out
- *  of internal functions if robust error checking should ever be desired.
- *
- ******************************************************************************/
+#define DEBUG (1)
 
-/* Calculating the "GHASH"
+void *gcm_init() {
+    return malloc(sizeof(gcm_context));
+}
+
+operation_result gcm_setkey( void *ctx,
+    const unsigned char *key,
+    unsigned int keybits ) {
+    if ( NULL == ctx || NULL == key || 128 != keybits) { return OPERATION_FAIL; }
+    gcm_context *temp_ctx = (gcm_context*)ctx;
+    temp_ctx->block_encrypt = (block_encrypt_p)aes_encrypt_128;
+    temp_ctx->rk = (uint8_t*)malloc(sizeof(uint8_t)*AES_ROUND_KEY_SIZE);
+    if ( NULL == temp_ctx->rk ) { return OPERATION_FAIL; }
+    aes_key_schedule_128((const uint8_t *)key, temp_ctx->rk);
+    return OPERATION_SUC;
+}
+
+void gcm_free( void *ctx ) {
+    if ( ctx ) {
+        gcm_context *temp_ctx = (gcm_context*)ctx;
+        if ( temp_ctx->rk ) {
+            free(temp_ctx->rk);
+        }
+        free(ctx);
+    }
+}
+
+/**
+ * compute T1, T2, ... , and T15
+ * suppose 0^n is a string with n bit zeros, s1||s2 is a jointed string of s1 and s2
+ * 
+ * T1 = T0 . P^8
+ * 	where P^8 = 0^8 || 1 || 0^119
+ * T2 = T1 . P^8 = T0 . P^16
+ * 	where P^16 = 0^16 || 1 || 0^111
+ * T3 = T2 . P^8 = T0 . P^24
+ * ...
+ * T15 = T14 . P^8 = T0 . P^120
+ * 	where P^120 = 0^120 || 1 || 0^7
  *
- * There are many ways of calculating the so-called GHASH in software, each with
- * a traditional size vs performance tradeoff.  The GHASH (Galois field hash) is
- * an intriguing construction which takes two 128-bit strings (also the cipher's
- * block size and the fundamental operation size for the system) and hashes them
- * into a third 128-bit result.
- *
- * Many implementation solutions have been worked out that use large precomputed
- * table lookups in place of more time consuming bit fiddling, and this approach
- * can be scaled easily upward or downward as needed to change the time/space
- * tradeoff. It's been studied extensively and there's a solid body of theory and
- * practice.  For example, without using any lookup tables an implementation
- * might obtain 119 cycles per byte throughput, whereas using a simple, though
- * large, key-specific 64 kbyte 8-bit lookup table the performance jumps to 13
- * cycles per byte.
- *
- * And Intel's processors have, since 2010, included an instruction which does
- * the entire 128x128->128 bit job in just several 64x64->128 bit pieces.
- *
- * Since SQRL is interactive, and only processing a few 128-bit blocks, I've
- * settled upon a relatively slower but appealing small-table compromise which
- * folds a bunch of not only time consuming but also bit twiddling into a simple
- * 16-entry table which is attributed to Victor Shoup's 1996 work while at
- * Bellcore: "On Fast and Provably Secure MessageAuthentication Based on
- * Universal Hashing."  See: http://www.shoup.net/papers/macs.pdf
- * See, also section 4.1 of the "gcm-revised-spec" cited above.
  */
+static void otherT(uint8_t T[][256][16]) {
+	int i = 0, j = 0, k = 0;
+	uint64_t vh, vl;
+	uint64_t zh, zl;
+	for ( i = 0; i < 256; i++ ) {
+		vh = ((uint64_t)T[0][i][0]<<56) ^ ((uint64_t)T[0][i][1]<<48) ^ ((uint64_t)T[0][i][2]<<40) ^ ((uint64_t)T[0][i][3]<<32) ^
+			((uint64_t)T[0][i][4]<<24) ^ ((uint64_t)T[0][i][5]<<16) ^ ((uint64_t)T[0][i][6]<<8) ^ ((uint64_t)T[0][i][7]);
+		vl = ((uint64_t)T[0][i][8]<<56) ^ ((uint64_t)T[0][i][9]<<48) ^ ((uint64_t)T[0][i][10]<<40) ^ ((uint64_t)T[0][i][11]<<32) ^
+			((uint64_t)T[0][i][12]<<24) ^ ((uint64_t)T[0][i][13]<<16) ^ ((uint64_t)T[0][i][14]<<8) ^ ((uint64_t)T[0][i][15]);
+		zh = zl = 0;
+		for ( j = 0; j <= 120; j++ ) {
+			if ( (j > 0) && (0 == j%8) ) {
+				zh ^= vh;
+				zl ^= vl;
+				for ( k = 1; k <= GCM_BLOCK_SIZE/2; k++ ) {
+					T[j/8][i][GCM_BLOCK_SIZE/2-k] = (uint8_t)zh;
+					zh = zh >> 8;
+					T[j/8][i][GCM_BLOCK_SIZE-k] = (uint8_t)zl;
+					zl = zl >> 8;
+				}
+				zh = zl = 0;
+			}
+			if ( vl & 0x1 ) {
+				vl = vl >> 1;
+				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
+				vh = vh >> 1;
+				vh ^= GCM_FIELD_CONST;
+			} else {
+				vl = vl >> 1;
+				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
+				vh = vh >> 1;
+			}
+		}
+	}
+}
+
+/**
+ * @purpose
+ * compute table T0 = X0 . H
+ * only the first byte of X0 is nonzero, other bytes are all 0
+ * @T
+ * the final tables: 16 tables in total, each has 256 elements, the value of which is 16 bytes
+ * @H
+ * 128-bit, H = E(K, 0^128)
+ * the leftmost(most significant) bit of H[0] is bit-0 of H(in GCM)
+ * the rightmost(least significant) bit of H[15] is bit-127 of H(in GCM)
+ */
+static void computeTable (uint8_t T[][256][16], uint8_t H[]) {
+
+	// zh is the higher 64-bit, zl is the lower 64-bit
+	uint64_t zh = 0, zl = 0;
+	// vh is the higher 64-bit, vl is the lower 64-bit
+	uint64_t vh = ((uint64_t)H[0]<<56) ^ ((uint64_t)H[1]<<48) ^ ((uint64_t)H[2]<<40) ^ ((uint64_t)H[3]<<32) ^
+			((uint64_t)H[4]<<24) ^ ((uint64_t)H[5]<<16) ^ ((uint64_t)H[6]<<8) ^ ((uint64_t)H[7]);
+	uint64_t vl = ((uint64_t)H[8]<<56) ^ ((uint64_t)H[9]<<48) ^ ((uint64_t)H[10]<<40) ^ ((uint64_t)H[11]<<32) ^
+			((uint64_t)H[12]<<24) ^ ((uint64_t)H[13]<<16) ^ ((uint64_t)H[14]<<8) ^ ((uint64_t)H[15]);
+	uint8_t temph;
+
+	uint64_t tempvh = vh;
+	uint64_t tempvl = vl;
+	int i = 0, j = 0;
+	for ( i = 0; i < 256; i++ ) {
+		temph = (uint8_t)i;
+		vh = tempvh;
+		vl = tempvl;
+		zh = zl = 0;
+
+		for ( j = 0; j < 8; j++ ) {
+			if ( 0x80 & temph ) {
+				zh ^= vh;
+				zl ^= vl;
+			}
+			if ( vl & 0x1 ) {
+				vl = vl >> 1;
+				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
+				vh = vh >> 1;
+				vh ^= GCM_FIELD_CONST;
+			} else {
+				vl = vl >> 1;
+				if ( vh & 0x1) { vl ^= 0x8000000000000000;}
+				vh = vh >> 1;
+			}
+			temph = temph << 1;
+		}
+		// get result
+		for ( j = 1; j <= GCM_BLOCK_SIZE/2; j++ ) {
+			T[0][i][GCM_BLOCK_SIZE/2-j] = (uint8_t)zh;
+			zh = zh >> 8;
+			T[0][i][GCM_BLOCK_SIZE-j] = (uint8_t)zl;
+			zl = zl >> 8;
+		}
+	}
+	otherT(T);
+}
+
+/**
+ * return the value of (output.H) by looking up tables
+ */
+static void multi(uint8_t T[][256][16], uint8_t *output) {
+	uint8_t i, j;
+	uint8_t temp[16];
+	for ( i = 0; i < 16; i++ ) {
+		temp[i] = output[i];
+		output[i] = 0;
+	}
+	for ( i = 0; i < 16; i++ ) {
+		for ( j = 0; j < 16; j++ ) {
+			output[j] ^= T[i][*(temp+i)][j];
+		}
+	}
+}
+
+/**
+ * return the value of vector after increasement
+ */
+static void incr (uint8_t *iv) {
+	iv += 12;
+	uint32_t temp = ((uint32_t)iv[0]<<24) + ((uint32_t)iv[1]<<16) + ((uint32_t)iv[2]<<8) + ((uint32_t)iv[3]) + 1;
+	iv[3] = (uint8_t)(temp); // the priority of () is higher than >>, ^_^
+	iv[2] = (uint8_t)(temp>>8);
+	iv[1] = (uint8_t)(temp>>16);
+	iv[0] = (uint8_t)(temp>>24);
+}
+
+#if defined(DEBUG)
+static int countY = 0;
+
+static void printf_output(uint8_t *p, size_t length) {
+	uint8_t i = 0, j = 0;
+	if ( length > GCM_BLOCK_SIZE) {
+		// first block
+		for ( i = 0; i < GCM_BLOCK_SIZE; i++ ) {
+			printf("%2x ", p[i]);
+		}
+		printf("\n");
+		// middle blocks
+		for ( i = 1; i < length/GCM_BLOCK_SIZE; i++ ) {
+			printf("                ");
+			for ( j = 0; j < GCM_BLOCK_SIZE; j++ ) {
+				printf("%2x ", p[i*GCM_BLOCK_SIZE+j]);
+			}
+			printf("\n");
+		}
+		// last block
+		printf("                ");
+		i = length/GCM_BLOCK_SIZE*GCM_BLOCK_SIZE;
+		for ( ; i < length; i++ ) {
+			printf("%2x ", p[i]);
+		}
+		printf("\n");
+	} else {
+		for ( i = 0; i < length; i++ ) {
+			printf("%2x ", p[i]);
+		}
+		printf("\n");
+	}
+}
+#endif
 
 /*
- *  This 16-entry table of pre-computed constants is used by the
- *  GHASH multiplier to improve over a strictly table-free but
- *  significantly slower 128x128 bit multiple within GF(2^128).
+ * a: additional authenticated data
+ * c: the cipher text or initial vector
  */
-static const uint64_t last4[16] = {
-    0x0000, 0x1c20, 0x3840, 0x2460, 0x7080, 0x6ca0, 0x48c0, 0x54e0,
-    0xe100, 0xfd20, 0xd940, 0xc560, 0x9180, 0x8da0, 0xa9c0, 0xb5e0  };
+static void ghash(uint8_t T[][256][16],
+		const uint8_t *add, 
+		size_t add_len,
+		const uint8_t *cipher,
+		size_t length,
+		uint8_t *output) {
+	/* x0 = 0 */
+	*(uint64_t *)output = 0;
+	*((uint64_t *)output+1) = 0;
+
+	/* compute with add */
+	int i = 0;
+	for ( i = 0; i < add_len/GCM_BLOCK_SIZE; i++ ) {
+		*(uint64_t *)output ^= *(uint64_t *)add;
+		*((uint64_t *)output+1) ^= *((uint64_t *)add+1);
+		add += GCM_BLOCK_SIZE;
+		multi(T, output);
+	}
+
+	if ( add_len % GCM_BLOCK_SIZE ) {
+		// the remaining add
+		for ( i = 0; i < add_len%GCM_BLOCK_SIZE; i++ ) {
+			*(output+i) ^= *(add+i);
+		}
+		multi(T, output);
+	}
+
+	/* compute with cipher text */
+	for ( i = 0; i < length/GCM_BLOCK_SIZE; i++ ) {
+		*(uint64_t *)output ^= *(uint64_t *)cipher;
+		*((uint64_t *)output+1) ^= *((uint64_t *)cipher+1);
+		cipher += GCM_BLOCK_SIZE;
+		multi(T, output);
+	}
+	if ( length % GCM_BLOCK_SIZE ) {
+		// the remaining cipher
+		for ( i = 0; i < length%GCM_BLOCK_SIZE; i++ ) {
+			*(output+i) ^= *(cipher+i);
+		}
+		multi(T, output);
+	}
+
+	/* eor (len(A)||len(C)) */
+	uint64_t temp_len = (uint64_t)(add_len*8); // len(A) = (uint64_t)(add_len*8)
+	for ( i = 1; i <= GCM_BLOCK_SIZE/2; i++ ) {
+		output[GCM_BLOCK_SIZE/2-i] ^= (uint8_t)temp_len;
+		temp_len = temp_len >> 8;
+	}
+	temp_len = (uint64_t)(length*8); // len(C) = (uint64_t)(length*8)
+	for ( i = 1; i <= GCM_BLOCK_SIZE/2; i++ ) {
+		output[GCM_BLOCK_SIZE-i] ^= (uint8_t)temp_len;
+		temp_len = temp_len >> 8;
+	}
+	multi(T, output);
+}
+
+#define xor_state(output, input, buff, size) \
+    for (t = 0; t < size; ++t) {             \
+        output[t] = input[t] ^ buff[t];      \
+    }
+
+#define copy_state(output, input, size) \
+    for (t = 0; t < size; ++t) {        \
+        output[t] = input[t];           \
+    }
+
+/**
+ * authenticated encryption
+ */
+operation_result gcm_crypt_and_tag( void *context,
+        const unsigned char *iv,
+        size_t iv_len,
+        const unsigned char *add,
+        size_t add_len,
+        const unsigned char *input,
+        size_t length,
+        unsigned char *output,
+        unsigned char *tag,
+        size_t tag_len) {
+
+    gcm_context *ctx = (gcm_context*)context;
+    if ( !ctx || !(ctx->rk) ) { return OPERATION_FAIL; }
+    if ( tag_len <= 0 || tag_len > GCM_BLOCK_SIZE ) { return OPERATION_FAIL; }
+
+    int i, t;
+    uint8_t y0[GCM_BLOCK_SIZE] = {0}; // store the counter
+    uint8_t ency0[GCM_BLOCK_SIZE]; // the cihper text of first counter
+
+    // set H
+    (ctx->block_encrypt)(ctx->rk, y0, ency0);
+    for ( i = 0; i < GCM_BLOCK_SIZE; ++i ) { ctx->H[i] = ency0[i]; }
+
+#if defined(DEBUG)
+    printf("\n----AUTH-ENCRYPTION----\n");
+    printf("H:              ");
+    printf_output(ctx->H, GCM_BLOCK_SIZE);
+    printf("COMPUTE TABLES\n");
+    countY = 0;
+#endif
+    computeTable(ctx->T, ctx->H);
+
+    // compute y0 (initilization vector)
+    if (GCM_DEFAULT_IV_LEN == iv_len) {
+        copy_state(y0, iv, GCM_DEFAULT_IV_LEN);
+        y0[15] = 1;
+    } else {
+        ghash(ctx->T, NULL, 0, iv, iv_len, y0);
+    }
+
+#if defined(DEBUG)
+    printf("Y%d:             ", countY);
+    printf_output(y0, GCM_BLOCK_SIZE);
+#endif
+
+    // compute ency0 = ENC(K, y0)
+    (ctx->block_encrypt)(ctx->rk, y0, ency0);
+
+#if defined(DEBUG)
+    printf("E(K, Y%d):       ", countY++);
+    printf_output(ency0, GCM_BLOCK_SIZE);
+#endif
+
+    // encyrption
+    uint8_t * output_temp = output; // store the start pointer of cipher text
+    for ( i = 0; i < length/GCM_BLOCK_SIZE; ++i ) {
+        incr(y0);
+        (ctx->block_encrypt)(ctx->rk, y0, ctx->buff);
+        xor_state(output, input, ctx->buff, GCM_BLOCK_SIZE);
+        output += GCM_BLOCK_SIZE;
+            input += GCM_BLOCK_SIZE;
+    }
+    // the remaining plain text
+    if ( length % GCM_BLOCK_SIZE ) {
+        incr(y0);
+        // the last block size man be smaller than GCM_BLOCK_SIZE, can NOT be written directly.
+              // (ctx->block_encrypt)((const uint8_t *)(ctx->rk), (const uint8_t *)y0, output);
+        (ctx->block_encrypt)(ctx->rk, y0, ctx->buff);
+        xor_state(output, input, ctx->buff, length%GCM_BLOCK_SIZE);
+    }
+
+#if defined(DEBUG)
+    printf("CIPHER:         ");
+    printf_output(output_temp, length);
+#endif
+
+    // compute tag
+    ghash(ctx->T, add, add_len, output_temp, length, ctx->buff);
+#if defined(DEBUG)
+    printf("GHASH(H, A, C): ");
+    printf_output(ctx->buff, GCM_BLOCK_SIZE);
+#endif
+
+    for ( i = 0; i < tag_len; ++i ) {
+        tag[i] = ctx->buff[i] ^ ency0[i];
+    }
+#if defined(DEBUG)
+    printf("TAG:            ");
+    printf_output(tag, tag_len);
+#endif
+
+    return OPERATION_SUC;
+}
+
 
 /*
- * Platform Endianness Neutralizing Load and Store Macro definitions
- * GCM wants platform-neutral Big Endian (BE) byte ordering
+ * authenticated decryption
  */
-#define GET_UINT32_BE(n,b,i) {                      \
-    (n) = ( (uint32_t) (b)[(i)    ] << 24 )         \
-        | ( (uint32_t) (b)[(i) + 1] << 16 )         \
-        | ( (uint32_t) (b)[(i) + 2] <<  8 )         \
-        | ( (uint32_t) (b)[(i) + 3]       ); }
+operation_result gcm_auth_decrypt( void *context,
+        const unsigned char *iv,
+        size_t iv_len,
+        const unsigned char *add,
+        size_t add_len,
+        const unsigned char *tag,
+        size_t tag_len,
+        const unsigned char *input,
+        size_t length,
+        unsigned char *output ) {
 
-#define PUT_UINT32_BE(n,b,i) {                      \
-    (b)[(i)    ] = (uchar) ( (n) >> 24 );   \
-    (b)[(i) + 1] = (uchar) ( (n) >> 16 );   \
-    (b)[(i) + 2] = (uchar) ( (n) >>  8 );   \
-    (b)[(i) + 3] = (uchar) ( (n)       ); }
+    gcm_context *ctx = (gcm_context*)context;
+    if ( !ctx || !(ctx->rk) ) { return OPERATION_FAIL; }
+    if ( tag_len <= 0 || tag_len > GCM_BLOCK_SIZE ) { return OPERATION_FAIL; }
 
+    uint8_t y0[GCM_BLOCK_SIZE] = {0}; // store the counter
+    uint8_t ency0[GCM_BLOCK_SIZE]; // the cipher text of first counter
 
-/******************************************************************************
- *
- *  GCM_INITIALIZE
- *
- *  Must be called once to initialize the GCM library.
- *
- *  At present, this only calls the AES keygen table generator, which expands
- *  the AES keying tables for use. This is NOT A THREAD-SAFE function, so it
- *  MUST be called during system initialization before a multi-threading
- *  environment is running.
- *
- ******************************************************************************/
-int gcm_initialize( void )
-{
-    aes_init_keygen_tables();
-    return( 0 );
-}
+    // set H
+    (ctx->block_encrypt)(ctx->rk, y0, ency0);
+    int i, t;
+    for ( i = 0; i < GCM_BLOCK_SIZE; ++i ) { ctx->H[i] = ency0[i]; }
 
+#if defined(DEBUG)
+    printf("\n----AUTH-DECRYPTION----\n");
+    printf("H:              ");
+    printf_output(ctx->H, GCM_BLOCK_SIZE);
+    printf("COMPUTE TABLES\n");
+    countY = 0;
+#endif
+    computeTable(ctx->T, ctx->H);
 
-/******************************************************************************
- *
- *  GCM_MULT
- *
- *  Performs a GHASH operation on the 128-bit input vector 'x', setting
- *  the 128-bit output vector to 'x' times H using our precomputed tables.
- *  'x' and 'output' are seen as elements of GCM's GF(2^128) Galois field.
- *
- ******************************************************************************/
-static void gcm_mult( gcm_context *ctx,     // pointer to established context
-                      const uchar x[16],    // pointer to 128-bit input vector
-                      uchar output[16] )    // pointer to 128-bit output vector
-{
-    int i;
-    uchar lo, hi, rem;
-    uint64_t zh, zl;
+    // compute tag
+    ghash(ctx->T, add, add_len, input, length, ctx->buff);
+#if defined(DEBUG)
+    printf("GHASH(H, A, C): ");
+    printf_output(ctx->buff, GCM_BLOCK_SIZE);
+#endif
 
-    lo = (uchar)( x[15] & 0x0f );
-    hi = (uchar)( x[15] >> 4 );
-    zh = ctx->HH[lo];
-    zl = ctx->HL[lo];
-
-    for( i = 15; i >= 0; i-- ) {
-        lo = (uchar) ( x[i] & 0x0f );
-        hi = (uchar) ( x[i] >> 4 );
-
-        if( i != 15 ) {
-            rem = (uchar) ( zl & 0x0f );
-            zl = ( zh << 60 ) | ( zl >> 4 );
-            zh = ( zh >> 4 );
-            zh ^= (uint64_t) last4[rem] << 48;
-            zh ^= ctx->HH[lo];
-            zl ^= ctx->HL[lo];
-        }
-        rem = (uchar) ( zl & 0x0f );
-        zl = ( zh << 60 ) | ( zl >> 4 );
-        zh = ( zh >> 4 );
-        zh ^= (uint64_t) last4[rem] << 48;
-        zh ^= ctx->HH[hi];
-        zl ^= ctx->HL[hi];
+    // compute y0 (initilization vector)
+    if (GCM_DEFAULT_IV_LEN == iv_len) {
+              copy_state(y0, iv, GCM_DEFAULT_IV_LEN);
+              y0[15] = 1;
+    } else {
+        ghash(ctx->T, NULL, 0, iv, iv_len, y0);
     }
-    PUT_UINT32_BE( zh >> 32, output, 0 );
-    PUT_UINT32_BE( zh, output, 4 );
-    PUT_UINT32_BE( zl >> 32, output, 8 );
-    PUT_UINT32_BE( zl, output, 12 );
-}
 
+    // compute ency0 = ENC(K, y0)
+    (ctx->block_encrypt)(ctx->rk, y0, ency0);
 
-/******************************************************************************
- *
- *  GCM_SETKEY
- *
- *  This is called to set the AES-GCM key. It initializes the AES key
- *  and populates the gcm context's pre-calculated HTables.
- *
- ******************************************************************************/
-int gcm_setkey( gcm_context *ctx,   // pointer to caller-provided gcm context
-                const uchar *key,   // pointer to the AES encryption key
-                const uint keysize) // must be 128, 192 or 256
-{
-    int ret, i, j;
-    uint64_t hi, lo;
-    uint64_t vl, vh;
-    unsigned char h[16];
-
-    memset( ctx, 0, sizeof(gcm_context) );  // zero caller-provided GCM context
-    memset( h, 0, 16 );                     // initialize the block to encrypt
-
-    // encrypt the null 128-bit block to generate a key-based value
-    // which is then used to initialize our GHASH lookup tables
-    if(( ret = aes_setkey( &ctx->aes_ctx, ENCRYPT, key, keysize )) != 0 )
-        return( ret );
-    if(( ret = aes_cipher( &ctx->aes_ctx, h, h )) != 0 )
-        return( ret );
-
-    GET_UINT32_BE( hi, h,  0  );    // pack h as two 64-bit ints, big-endian
-    GET_UINT32_BE( lo, h,  4  );
-    vh = (uint64_t) hi << 32 | lo;
-
-    GET_UINT32_BE( hi, h,  8  );
-    GET_UINT32_BE( lo, h,  12 );
-    vl = (uint64_t) hi << 32 | lo;
-
-    ctx->HL[8] = vl;                // 8 = 1000 corresponds to 1 in GF(2^128)
-    ctx->HH[8] = vh;
-    ctx->HH[0] = 0;                 // 0 corresponds to 0 in GF(2^128)
-    ctx->HL[0] = 0;
-
-    for( i = 4; i > 0; i >>= 1 ) {
-        uint32_t T = (uint32_t) ( vl & 1 ) * 0xe1000000U;
-        vl  = ( vh << 63 ) | ( vl >> 1 );
-        vh  = ( vh >> 1 ) ^ ( (uint64_t) T << 32);
-        ctx->HL[i] = vl;
-        ctx->HH[i] = vh;
+    // authentication
+    for ( i = 0; i < tag_len; ++i ) {
+        if ( tag[i] != (ency0[i] ^ ctx->buff[i]) ) { break; }
     }
-    for (i = 2; i < 16; i <<= 1 ) {
-        uint64_t *HiL = ctx->HL + i, *HiH = ctx->HH + i;
-        vh = *HiH;
-        vl = *HiL;
-        for( j = 1; j < i; j++ ) {
-            HiH[j] = vh ^ ctx->HH[j];
-            HiL[j] = vl ^ ctx->HL[j];
-        }
+    if ( i != tag_len ) {
+           return OPERATION_FAIL;
     }
-    return( 0 );
-}
 
-
-/******************************************************************************
- *
- *    GCM processing occurs four phases: SETKEY, START, UPDATE and FINISH.
- *
- *  SETKEY: 
- *  
- *   START: Sets the Encryption/Decryption mode.
- *          Accepts the initialization vector and additional data.
- *
- *  UPDATE: Encrypts or decrypts the plaintext or ciphertext.
- *
- *  FINISH: Performs a final GHASH to generate the authentication tag.
- *
- ******************************************************************************
- *
- *  GCM_START
- *
- *  Given a user-provided GCM context, this initializes it, sets the encryption
- *  mode, and preprocesses the initialization vector and additional AEAD data.
- *
- ******************************************************************************/
-int gcm_start( gcm_context *ctx,    // pointer to user-provided GCM context
-               int mode,            // GCM_ENCRYPT or GCM_DECRYPT
-               const uchar *iv,     // pointer to initialization vector
-               size_t iv_len,       // IV length in bytes (should == 12)
-               const uchar *add,    // ptr to additional AEAD data (NULL if none)
-               size_t add_len )     // length of additional AEAD data (bytes)
-{
-    int ret;            // our error return if the AES encrypt fails
-    uchar work_buf[16]; // XOR source built from provided IV if len != 16
-    const uchar *p;     // general purpose array pointer
-    size_t use_len;     // byte count to process, up to 16 bytes
-    size_t i;           // local loop iterator
-
-    // since the context might be reused under the same key
-    // we zero the working buffers for this next new process
-    memset( ctx->y,   0x00, sizeof(ctx->y  ) );
-    memset( ctx->buf, 0x00, sizeof(ctx->buf) );
-    ctx->len = 0;
-    ctx->add_len = 0;
-
-    ctx->mode = mode;               // set the GCM encryption/decryption mode
-    ctx->aes_ctx.mode = ENCRYPT;    // GCM *always* runs AES in ENCRYPTION mode
-
-    if( iv_len == 12 ) {                // GCM natively uses a 12-byte, 96-bit IV
-        memcpy( ctx->y, iv, iv_len );   // copy the IV to the top of the 'y' buff
-        ctx->y[15] = 1;                 // start "counting" from 1 (not 0)
+    // decyrption
+    uint8_t * output_temp = output;
+    for ( i = 0; i < length/GCM_BLOCK_SIZE; ++i ) {
+        incr(y0);
+        (ctx->block_encrypt)(ctx->rk, y0, ctx->buff);
+        xor_state(output, input, ctx->buff, GCM_BLOCK_SIZE);
+        output += GCM_BLOCK_SIZE;
+        input += GCM_BLOCK_SIZE;
     }
-    else    // if we don't have a 12-byte IV, we GHASH whatever we've been given
-    {   
-        memset( work_buf, 0x00, 16 );               // clear the working buffer
-        PUT_UINT32_BE( iv_len * 8, work_buf, 12 );  // place the IV into buffer
-
-        p = iv;
-        while( iv_len > 0 ) {
-            use_len = ( iv_len < 16 ) ? iv_len : 16;
-            for( i = 0; i < use_len; i++ ) ctx->y[i] ^= p[i];
-            gcm_mult( ctx, ctx->y, ctx->y );
-            iv_len -= use_len;
-            p += use_len;
-        }
-        for( i = 0; i < 16; i++ ) ctx->y[i] ^= work_buf[i];
-        gcm_mult( ctx, ctx->y, ctx->y );
+    // the remaining plain text
+    if ( length % GCM_BLOCK_SIZE ) {
+        incr(y0);
+        (ctx->block_encrypt)(ctx->rk, y0, ctx->buff);
+        xor_state(output, input, ctx->buff, length%GCM_BLOCK_SIZE);
     }
-    if( ( ret = aes_cipher( &ctx->aes_ctx, ctx->y, ctx->base_ectr ) ) != 0 )
-        return( ret );
 
-    ctx->add_len = add_len;
-    p = add;
-    while( add_len > 0 ) {
-        use_len = ( add_len < 16 ) ? add_len : 16;
-        for( i = 0; i < use_len; i++ ) ctx->buf[i] ^= p[i];
-        gcm_mult( ctx, ctx->buf, ctx->buf );
-        add_len -= use_len;
-        p += use_len;
-    }
-    return( 0 );
-}
+#if defined(DEBUG)
+    printf("PLAIN:          ");
+    printf_output(output_temp, length);
+#endif
 
-/******************************************************************************
- *
- *  GCM_UPDATE
- *
- *  This is called once or more to process bulk plaintext or ciphertext data.
- *  We give this some number of bytes of input and it returns the same number
- *  of output bytes. If called multiple times (which is fine) all but the final
- *  invocation MUST be called with length mod 16 == 0. (Only the final call can
- *  have a partial block length of < 128 bits.)
- *
- ******************************************************************************/
-int gcm_update( gcm_context *ctx,       // pointer to user-provided GCM context
-                size_t length,          // length, in bytes, of data to process
-                const uchar *input,     // pointer to source data
-                uchar *output )         // pointer to destination data
-{
-    int ret;            // our error return if the AES encrypt fails
-    uchar ectr[16];     // counter-mode cipher output for XORing
-    size_t use_len;     // byte count to process, up to 16 bytes
-    size_t i;           // local loop iterator
+    return OPERATION_SUC;
 
-    ctx->len += length; // bump the GCM context's running length count
-
-    while( length > 0 ) {
-        // clamp the length to process at 16 bytes
-        use_len = ( length < 16 ) ? length : 16;
-
-        // increment the context's 128-bit IV||Counter 'y' vector
-        for( i = 16; i > 12; i-- ) if( ++ctx->y[i - 1] != 0 ) break;
-
-        // encrypt the context's 'y' vector under the established key
-        if( ( ret = aes_cipher( &ctx->aes_ctx, ctx->y, ectr ) ) != 0 )
-            return( ret );
-
-        // encrypt or decrypt the input to the output
-        for( i = 0; i < use_len; i++ ) {
-            // XOR the cipher's ouptut vector (ectr) with our input
-            output[i] = (uchar) ( ectr[i] ^ input[i] );
-            // now we mix in our data into the authentication hash.
-            // if we're ENcrypting we XOR in the post-XOR (output) results,
-            // but if we're DEcrypting we XOR in the input data
-            if( ctx->mode == ENCRYPT )  ctx->buf[i] ^= output[i];
-            else                        ctx->buf[i] ^= input[i];
-        }
-        gcm_mult( ctx, ctx->buf, ctx->buf );    // perform a GHASH operation
-
-        length -= use_len;  // drop the remaining byte count to process
-        input  += use_len;  // bump our input pointer forward
-        output += use_len;  // bump our output pointer forward
-    }
-    return( 0 );
-}
-
-/******************************************************************************
- *
- *  GCM_FINISH
- *
- *  This is called once after all calls to GCM_UPDATE to finalize the GCM.
- *  It performs the final GHASH to produce the resulting authentication TAG.
- *
- ******************************************************************************/
-int gcm_finish( gcm_context *ctx,   // pointer to user-provided GCM context
-                uchar *tag,         // pointer to buffer which receives the tag
-                size_t tag_len )    // length, in bytes, of the tag-receiving buf
-{
-    uchar work_buf[16];
-    uint64_t orig_len     = ctx->len * 8;
-    uint64_t orig_add_len = ctx->add_len * 8;
-    size_t i;
-
-    if( tag_len != 0 ) memcpy( tag, ctx->base_ectr, tag_len );
-
-    if( orig_len || orig_add_len ) {
-        memset( work_buf, 0x00, 16 );
-
-        PUT_UINT32_BE( ( orig_add_len >> 32 ), work_buf, 0  );
-        PUT_UINT32_BE( ( orig_add_len       ), work_buf, 4  );
-        PUT_UINT32_BE( ( orig_len     >> 32 ), work_buf, 8  );
-        PUT_UINT32_BE( ( orig_len           ), work_buf, 12 );
-
-        for( i = 0; i < 16; i++ ) ctx->buf[i] ^= work_buf[i];
-        gcm_mult( ctx, ctx->buf, ctx->buf );
-        for( i = 0; i < tag_len; i++ ) tag[i] ^= ctx->buf[i];
-    }
-    return( 0 );
-}
-
-
-/******************************************************************************
- *
- *  GCM_CRYPT_AND_TAG
- *
- *  This either encrypts or decrypts the user-provided data and, either
- *  way, generates an authentication tag of the requested length. It must be
- *  called with a GCM context whose key has already been set with GCM_SETKEY.
- *
- *  The user would typically call this explicitly to ENCRYPT a buffer of data
- *  and optional associated data, and produce its an authentication tag.
- *
- *  To reverse the process the user would typically call the companion
- *  GCM_AUTH_DECRYPT function to decrypt data and verify a user-provided
- *  authentication tag.  The GCM_AUTH_DECRYPT function calls this function
- *  to perform its decryption and tag generation, which it then compares.
- *
- ******************************************************************************/
-int gcm_crypt_and_tag(
-        gcm_context *ctx,       // gcm context with key already setup
-        int mode,               // cipher direction: GCM_ENCRYPT or GCM_DECRYPT
-        const uchar *iv,        // pointer to the 12-byte initialization vector
-        size_t iv_len,          // byte length if the IV. should always be 12
-        const uchar *add,       // pointer to the non-ciphered additional data
-        size_t add_len,         // byte length of the additional AEAD data
-        const uchar *input,     // pointer to the cipher data source
-        uchar *output,          // pointer to the cipher data destination
-        size_t length,          // byte length of the cipher data
-        uchar *tag,             // pointer to the tag to be generated
-        size_t tag_len )        // byte length of the tag to be generated
-{   /*
-       assuming that the caller has already invoked gcm_setkey to
-       prepare the gcm context with the keying material, we simply
-       invoke each of the three GCM sub-functions in turn...
-    */
-    gcm_start  ( ctx, mode, iv, iv_len, add, add_len );
-    gcm_update ( ctx, length, input, output );
-    gcm_finish ( ctx, tag, tag_len );
-    return( 0 );
-}
-
-
-/******************************************************************************
- *
- *  GCM_AUTH_DECRYPT
- *
- *  This DECRYPTS a user-provided data buffer with optional associated data.
- *  It then verifies a user-supplied authentication tag against the tag just
- *  re-created during decryption to verify that the data has not been altered.
- *
- *  This function calls GCM_CRYPT_AND_TAG (above) to perform the decryption
- *  and authentication tag generation.
- *
- ******************************************************************************/
-int gcm_auth_decrypt(
-        gcm_context *ctx,       // gcm context with key already setup
-        const uchar *iv,        // pointer to the 12-byte initialization vector
-        size_t iv_len,          // byte length if the IV. should always be 12
-        const uchar *add,       // pointer to the non-ciphered additional data
-        size_t add_len,         // byte length of the additional AEAD data
-        const uchar *input,     // pointer to the cipher data source
-        uchar *output,          // pointer to the cipher data destination
-        size_t length,          // byte length of the cipher data
-        const uchar *tag,       // pointer to the tag to be authenticated
-        size_t tag_len )        // byte length of the tag <= 16
-{
-    uchar check_tag[16];        // the tag generated and returned by decryption
-    int diff;                   // an ORed flag to detect authentication errors
-    size_t i;                   // our local iterator
-    /*
-       we use GCM_DECRYPT_AND_TAG (above) to perform our decryption
-       (which is an identical XORing to reverse the previous one)
-       and also to re-generate the matching authentication tag
-    */
-    gcm_crypt_and_tag(  ctx, DECRYPT, iv, iv_len, add, add_len,
-                        input, output, length, check_tag, tag_len );
-
-    // now we verify the authentication tag in 'constant time'
-    for( diff = 0, i = 0; i < tag_len; i++ )
-        diff |= tag[i] ^ check_tag[i];
-
-    if( diff != 0 ) {                   // see whether any bits differed?
-        memset( output, 0, length );    // if so... wipe the output data
-        return( GCM_AUTH_FAILURE );     // return GCM_AUTH_FAILURE
-    }
-    return( 0 );
-}
-
-/******************************************************************************
- *
- *  GCM_ZERO_CTX
- *
- *  The GCM context contains both the GCM context and the AES context.
- *  This includes keying and key-related material which is security-
- *  sensitive, so it MUST be zeroed after use. This function does that.
- *
- ******************************************************************************/
-void gcm_zero_ctx( gcm_context *ctx )
-{
-    // zero the context originally provided to us
-    memset( ctx, 0, sizeof( gcm_context ) );
 }

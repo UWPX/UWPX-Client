@@ -107,7 +107,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             SOURCE_DEVICE_ID = sourceDeviceId;
 
             // 1. Generate a new AES-128 GCM key/iv:
-            Aes128Gcm aes128Gcm = new Aes128Gcm();
+            Aes128GcmCpp aes128Gcm = new Aes128GcmCpp();
             aes128Gcm.generateKey();
             aes128Gcm.generateIv();
 
@@ -179,7 +179,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 byte[] aesAuthTag = new byte[decryptedKeyAuthTag.Length - aesKey.Length];
                 Buffer.BlockCopy(decryptedKeyAuthTag, 0, aesKey, 0, aesKey.Length);
                 Buffer.BlockCopy(decryptedKeyAuthTag, aesKey.Length, aesAuthTag, 0, aesAuthTag.Length);
-                Aes128Gcm aes = new Aes128Gcm()
+                Aes128GcmCpp aes128Gcm = new Aes128GcmCpp()
                 {
                     key = aesKey,
                     authTag = aesAuthTag,
@@ -187,7 +187,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 };
 
                 byte[] encryptedData = Convert.FromBase64String(BASE_64_PAYLOAD);
-                byte[] decryptedData = aes.decrypt(encryptedData);
+                byte[] decryptedData = aes128Gcm.decrypt(encryptedData);
 
                 // 5. Convert decrypted data to Unicode string:
                 MESSAGE = Encoding.Unicode.GetString(decryptedData);
