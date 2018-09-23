@@ -19,9 +19,6 @@ using Windows.UI.Core;
 using Data_Manager2.Classes.ToastActivation;
 using Windows.UI.Notifications;
 using Data_Manager2.Classes.DBTables;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWP_XMPP_Client
 {
@@ -68,17 +65,8 @@ namespace UWP_XMPP_Client
                 // Setup Hockey App crashes:
                 HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
 
-                // Setup App Center crashes:
-                try
-                {
-                    Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes));
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("Failed to start APPCenter!", e);
-                    throw e;
-                }
-                Logger.Info("App Center crash reporting registered.");
+                // Setup App Center crashes, push:
+                // setupAppCenter();
             }
 
             // Init buy content helper:
@@ -107,21 +95,27 @@ namespace UWP_XMPP_Client
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Sets up App Center push support.
+        /// Sets up App Center crash and push support.
         /// </summary>
-        private void setupAppCenterPush(LaunchActivatedEventArgs args)
+        private void setupAppCenter()
         {
-            // Setup App Center push:
-            Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Push));
-            if (!Microsoft.AppCenter.AppCenter.Configured)
+            try
             {
-                Push.PushNotificationReceived -= Push_PushNotificationReceived;
-                Push.PushNotificationReceived += Push_PushNotificationReceived;
+                Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes), typeof(Push));
+                if (!Microsoft.AppCenter.AppCenter.Configured)
+                {
+                    Push.PushNotificationReceived -= Push_PushNotificationReceived;
+                    Push.PushNotificationReceived += Push_PushNotificationReceived;
+                }
             }
-
+            catch (Exception e)
+            {
+                Logger.Error("Failed to start APPCenter!", e);
+                throw e;
+            }
+            Logger.Info("App Center crash reporting registered.");
             Logger.Info("App Center push registered.");
         }
-
 
         /// <summary>
         /// Inits all db managers in a new task to force event subscriptions.
@@ -331,8 +325,6 @@ namespace UWP_XMPP_Client
         protected async override void OnLaunched(LaunchActivatedEventArgs args)
         {
             await onActivatedOrLaunchedAsync(args);
-
-            setupAppCenterPush(args);
         }
 
         protected async override void OnActivated(IActivatedEventArgs args)
