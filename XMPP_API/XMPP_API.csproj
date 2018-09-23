@@ -318,9 +318,6 @@
     <EmbeddedResource Include="Properties\XMPP_API.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="BouncyCastle.NetCore">
-      <Version>1.8.2</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.1.7</Version>
     </PackageReference>

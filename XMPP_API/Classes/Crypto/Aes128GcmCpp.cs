@@ -1,11 +1,4 @@
-﻿using Org.BouncyCastle.Security;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace XMPP_API.Classes.Crypto
+﻿namespace XMPP_API.Classes.Crypto
 {
     public class Aes128GcmCpp
     {
@@ -15,7 +8,6 @@ namespace XMPP_API.Classes.Crypto
         private const int KEY_SIZE_BYTES = 16;
         private const int AUTH_TAG_SIZE_BYTES = 16;
 
-        private readonly SecureRandom SECURE_RANDOM;
         private readonly AES_GCM.AesGcmWrapper AES_GCM_WRAPPER_CPP;
         public byte[] key;
         public byte[] iv;
@@ -32,7 +24,6 @@ namespace XMPP_API.Classes.Crypto
         /// </history>
         public Aes128GcmCpp()
         {
-            this.SECURE_RANDOM = new SecureRandom();
             this.AES_GCM_WRAPPER_CPP = new AES_GCM.AesGcmWrapper();
             this.key = null;
             this.iv = null;
@@ -68,7 +59,7 @@ namespace XMPP_API.Classes.Crypto
         public void generateKey()
         {
             key = new byte[KEY_SIZE_BYTES];
-            SECURE_RANDOM.NextBytes(key);
+            CryptoUtils.nextBytesSecureRandom(key);
         }
 
         /// <summary>
@@ -77,7 +68,7 @@ namespace XMPP_API.Classes.Crypto
         public void generateIv()
         {
             iv = new byte[IV_SIZE_BYTES];
-            SECURE_RANDOM.NextBytes(iv);
+            CryptoUtils.nextBytesSecureRandom(iv);
         }
 
         #endregion
