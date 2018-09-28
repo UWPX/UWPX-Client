@@ -142,10 +142,10 @@ namespace XMPP_API.Classes.Crypto
             return hex.ToString();
         }
 
-        public static void nextBytesSecureRandom(byte[] b)
+        public static byte[] nextBytesSecureRandom(uint length)
         {
-            IBuffer buf = CryptographicBuffer.GenerateRandom((uint)b.Length);
-            CryptographicBuffer.CopyToByteArray(buf, out b);
+            IBuffer buf = CryptographicBuffer.GenerateRandom(length);
+            return buf.ToArray();
         }
 
         #endregion

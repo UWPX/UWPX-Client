@@ -58,8 +58,7 @@
         /// </summary>
         public void generateKey()
         {
-            key = new byte[KEY_SIZE_BYTES];
-            CryptoUtils.nextBytesSecureRandom(key);
+            key = CryptoUtils.nextBytesSecureRandom(KEY_SIZE_BYTES);
         }
 
         /// <summary>
@@ -67,8 +66,7 @@
         /// </summary>
         public void generateIv()
         {
-            iv = new byte[IV_SIZE_BYTES];
-            CryptoUtils.nextBytesSecureRandom(iv);
+            iv = CryptoUtils.nextBytesSecureRandom(IV_SIZE_BYTES);
         }
 
         #endregion
