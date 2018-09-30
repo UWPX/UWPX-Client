@@ -197,7 +197,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
             catch (Exception e)
             {
-                Logger.Info("Discarded received OMEMO message - failed to decrypt with:" + e.Message);
+                Logger.Info("Discarded received OMEMO message - failed to decrypt with: " + e.Message);
             }
             return false;
         }

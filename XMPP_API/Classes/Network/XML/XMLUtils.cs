@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <param name="node">The node, containing the node.</param>
         /// <param name="name">The node name.</param>
         /// <returns>Returns null if node does not exist, else the node.</returns>
-        public static XmlNode getChildNode(XmlNode node, string name)
+        public static XmlNode getChildNode(XmlNode node, in string name)
         {
             return getChildNode(node, name, null, (string)null);
         }
@@ -38,7 +38,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <param name="node">The node, containing the node.</param>
         /// <param name="name">The node name.</param>
         /// <returns>Returns null if node does not exist, else the node.</returns>
-        public static XElement getNodeFromXElement(XElement node, string name)
+        public static XElement getNodeFromXElement(XElement node, in string name)
         {
             if(node != null)
             {
@@ -63,7 +63,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <param name="attribute">The attribute name.</param>
         /// <param name="attributeValueRegex">The attribute value regular expression.</param>
         /// <returns>Returns null if node does not exist, else the node.</returns>
-        public static XmlNode getChildNode(XmlNode node, string name, string attribute, Regex attributeValueRegex)
+        public static XmlNode getChildNode(XmlNode node, in string name, in string attribute, Regex attributeValueRegex)
         {
             if (node != null && node.HasChildNodes)
             {
@@ -97,7 +97,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <param name="attribute">The attribute name.</param>
         /// <param name="attributeValue">The value of the attribute.</param>
         /// <returns>Returns null if node does not exist, else the node.</returns>
-        public static XmlNode getChildNode(XmlNode node, string name, string attribute, string attributeValue)
+        public static XmlNode getChildNode(XmlNode node, in string name, in string attribute, in string attributeValue)
         {
             if (node != null && node.HasChildNodes)
             {
@@ -130,7 +130,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <param name="attribute">The attribute name.</param>
         /// <param name="attributeValue">The value of the attribute.</param>
         /// <returns>Returns null if node does not exist, else the node.</returns>
-        public static XmlNode getChildNode(XmlNode node, string attribute, string attributeValue)
+        public static XmlNode getChildNode(XmlNode node, in string attribute, in string attributeValue)
         {
             if (node != null && node.HasChildNodes)
             {
@@ -151,7 +151,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <param name="node">The node containing the attribute.</param>
         /// <param name="name">The attribute name.</param>
         /// <returns>Returns the attribute if found else null.</returns>
-        public static XmlAttribute getAttribute(XmlNode node, string name)
+        public static XmlAttribute getAttribute(XmlNode node, in string name)
         {
             if (node.Attributes != null)
             {
@@ -167,7 +167,7 @@ namespace XMPP_API.Classes.Network.XML
         /// </summary>
         /// <param name="s">The string containing the boolean.</param>
         /// <returns>The boolean representation of the given string.</returns>
-        public static bool tryParseToBool(string s)
+        public static bool tryParseToBool(in string s)
         {
             if (s != null)
             {

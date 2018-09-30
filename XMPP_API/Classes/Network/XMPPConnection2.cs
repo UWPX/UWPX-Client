@@ -469,7 +469,7 @@ namespace XMPP_API.Classes.Network
             List<AbstractMessage> messages = null;
             try
             {
-                messages = parser.parseMessages(data);
+                messages = parser.parseMessages(ref data);
             }
             catch (Exception e)
             {

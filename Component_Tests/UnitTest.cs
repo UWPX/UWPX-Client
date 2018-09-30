@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -59,7 +60,8 @@ namespace Component_Tests
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
             SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
-            List<AbstractMessage> msgs = parser.parseMessages("<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>");
+            string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
+            List<AbstractMessage> msgs = parser.parseMessages(ref s);
             Assert.IsTrue(msgs.Count == 1);
         }
 
@@ -69,7 +71,8 @@ namespace Component_Tests
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
             SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
-            List<AbstractMessage> msgs = parser.parseMessages("<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>");
+            string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
+            List<AbstractMessage> msgs = parser.parseMessages(ref s);
             Assert.IsTrue(msgs[0] is ScramSHA1ChallengeMessage);
 
         }
@@ -80,7 +83,8 @@ namespace Component_Tests
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
             SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
-            List<AbstractMessage> msgs = parser.parseMessages("<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>");
+            string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
+            List<AbstractMessage> msgs = parser.parseMessages(ref s);
             ScramSHA1ChallengeMessage challenge = (ScramSHA1ChallengeMessage)msgs[0];
             AbstractMessage resp = mechanism.generateResponse(challenge);
             Assert.IsTrue(resp is ScramSha1ChallengeSolutionMessage);
@@ -92,7 +96,8 @@ namespace Component_Tests
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
             SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
-            List<AbstractMessage> msgs = parser.parseMessages("<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>");
+            string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
+            List<AbstractMessage> msgs = parser.parseMessages(ref s);
             ScramSHA1ChallengeMessage challenge = (ScramSHA1ChallengeMessage)msgs[0];
             AbstractMessage resp = mechanism.generateResponse(challenge);
             ScramSha1ChallengeSolutionMessage respMsg = (ScramSha1ChallengeSolutionMessage)resp;
@@ -280,7 +285,28 @@ namespace Component_Tests
         {
             string msg = "<iq xml:lang='en' to='uwptest@404.city/FABIAN-TOWER-PC' from='fabi@xmpp.uwpx.org' type='error' id='134077900-349929748-1523671119-224987985-1457976454'><pubsub xmlns='http://jabber.org/protocol/pubsub'><items node='eu.siacs.conversations.axolotl.devicelist'/></pubsub><error code='405' type='cancel'><closed-node xmlns='http://jabber.org/protocol/pubsub#errors'/><not-allowed xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error></iq>";
             MessageParser2 parser = new MessageParser2();
-            List<AbstractMessage> messages = parser.parseMessages(msg);
+            List<AbstractMessage> messages = parser.parseMessages(ref msg);
+        }
+
+        [TestMethod]
+        public void TestMessageParser2Performance_1()
+        {
+            string msg = "<iq xml:lang='en' to='uwptest@404.city/FABIAN-TOWER-PC' from='fabi@xmpp.uwpx.org' type='error' id='134077900-349929748-1523671119-224987985-1457976454'><pubsub xmlns='http://jabber.org/protocol/pubsub'><items node='eu.siacs.conversations.axolotl.devicelist'/></pubsub><error code='405' type='cancel'><closed-node xmlns='http://jabber.org/protocol/pubsub#errors'/><not-allowed xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error></iq>";
+            MessageParser2 parser = new MessageParser2();
+            Stopwatch watch = new Stopwatch();
+            long sum = 0;
+            for (int e = 0; e < 100; e++)
+            {
+                watch.Start();
+                for (int i = 0; i < 1000; i++)
+                {
+                    parser.parseMessages(ref msg);
+                }
+                watch.Stop();
+                sum += watch.ElapsedTicks;
+            }
+            sum /= 100;
+            Logging.Logger.Info("Message Parser average parse time: " + sum);
         }
         #endregion
 
@@ -291,6 +317,10 @@ namespace Component_Tests
         {
             OmemoMessageMessage msg = new OmemoMessageMessage("from", "to", "TestMessage", "chat", true);
         }
+        #endregion
+
+        //-------------------------------------------------------------------------------------Performance:------------------------------------------------------------------------------------------------
+        #region
         #endregion
     }
 }

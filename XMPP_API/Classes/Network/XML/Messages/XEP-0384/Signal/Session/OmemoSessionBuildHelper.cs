@@ -320,15 +320,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
                 {
                     Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
-                    setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
                 }
                 else
                 {
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request bundle info failed(" + curAddress.getName() + ':' + curAddress.getDeviceId() + "): " + errMsg.ERROR_OBJ.ToString());
-                    setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_IQ_ERROR));
+                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request bundle info failed (" + curAddress.getName() + ':' + curAddress.getDeviceId() + "): " + errMsg.ERROR_OBJ.ToString());
                 }
+                createSessionForNextDevice();
                 return true;
             }
             return false;

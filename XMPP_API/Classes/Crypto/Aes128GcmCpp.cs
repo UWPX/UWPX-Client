@@ -38,7 +38,7 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public byte[] encrypt(byte[] data)
+        public byte[] encrypt(in byte[] data)
         {
             byte[] ciphertext = new byte[AES_GCM_WRAPPER_CPP.calcEncryptSize((uint)data.Length)];
             authTag = new byte[AUTH_TAG_SIZE_BYTES];
@@ -46,7 +46,7 @@
             return ciphertext;
         }
 
-        public byte[] decrypt(byte[] ciphertext)
+        public byte[] decrypt(in byte[] ciphertext)
         {
             byte[] data = new byte[AES_GCM_WRAPPER_CPP.calcDecryptSize((uint)ciphertext.Length)];
             AES_GCM_WRAPPER_CPP.decrypt(data, authTag, ciphertext, key, iv);
@@ -58,7 +58,7 @@
         /// </summary>
         public void generateKey()
         {
-            key = CryptoUtils.nextBytesSecureRandom(KEY_SIZE_BYTES);
+            CryptoUtils.nextBytesSecureRandom(out key, KEY_SIZE_BYTES);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@
         /// </summary>
         public void generateIv()
         {
-            iv = CryptoUtils.nextBytesSecureRandom(IV_SIZE_BYTES);
+            CryptoUtils.nextBytesSecureRandom(out iv, IV_SIZE_BYTES);
         }
 
         #endregion

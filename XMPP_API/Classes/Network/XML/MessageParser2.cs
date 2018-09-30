@@ -51,11 +51,11 @@ namespace XMPP_API.Classes.Network.XML
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public List<AbstractMessage> parseMessages(string msg)
+        public List<AbstractMessage> parseMessages(ref string msg)
         {
             System.Diagnostics.Stopwatch stopwatch = new System.Diagnostics.Stopwatch();
             stopwatch.Start();
-            List<AbstractMessage> messages = parseMessageInternal(msg);
+            List<AbstractMessage> messages = parseMessageInternal(ref msg);
             stopwatch.Stop();
             STATS.onMeasurement(stopwatch.ElapsedMilliseconds);
             return messages;
@@ -69,7 +69,7 @@ namespace XMPP_API.Classes.Network.XML
         /// </summary>
         /// <param name="msg">A valid xml string.</param>
         /// <returns>A list of XmlNodes read from the given xml string.</returns>
-        private List<XmlNode> parseToXmlNodes(string msg)
+        private List<XmlNode> parseToXmlNodes(in string msg)
         {
             List<XmlNode> nodes = new List<XmlNode>();
             using (XmlReader reader = XmlReader.Create(new StringReader(msg), READER_SETTINGS))
@@ -91,7 +91,7 @@ namespace XMPP_API.Classes.Network.XML
             return nodes;
         }
 
-        private List<AbstractMessage> parseMessageInternal(string msg)
+        private List<AbstractMessage> parseMessageInternal(ref string msg)
         {
             List<AbstractMessage> messages = new List<AbstractMessage>();
 
