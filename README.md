@@ -1,4 +1,4 @@
-[<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="80">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
+wished xeps[<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="80">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](http://liberapay.uwpx.org)
 [![Donate](https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-100px.png)](http://paypal.uwpx.org)
 
@@ -38,6 +38,8 @@ It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([X
 | HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
 | Mix | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") |
 | OMEMO (status -> [#5](https://github.com/UWPX/UWPX-Client/issues/5)) | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
+| XMPP Compliance Suites 2016 | [XEP-0375](https://xmpp.org/extensions/xep-0375.html) |
+
 
 [MORE NOTES TO COME]
 
