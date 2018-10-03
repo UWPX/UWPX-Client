@@ -1,5 +1,6 @@
 ﻿using Logging;
 using System;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Networking;
@@ -262,7 +263,7 @@ namespace XMPP_API.Classes.Network.TCP
                 return new TCPReadResult(TCPReadState.FAILURE, null);
             }
 
-            string data = "";
+            StringBuilder data = new StringBuilder();
             uint readCount = 0;
 
             // Read the first batch:
@@ -280,7 +281,7 @@ namespace XMPP_API.Classes.Network.TCP
 
             while (dataReader.UnconsumedBufferLength > 0)
             {
-                data += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                data.Append(dataReader.ReadString(dataReader.UnconsumedBufferLength));
             }
 
             // If there is still data left to read, continue until a timeout occurs or a close got requested:
@@ -292,7 +293,7 @@ namespace XMPP_API.Classes.Network.TCP
 
                     while (dataReader.UnconsumedBufferLength > 0)
                     {
-                        data += dataReader.ReadString(dataReader.UnconsumedBufferLength);
+                        data.Append(dataReader.ReadString(dataReader.UnconsumedBufferLength));
                     }
                 }
                 catch (OperationCanceledException)
@@ -300,7 +301,7 @@ namespace XMPP_API.Classes.Network.TCP
                 }
             }
 
-            return new TCPReadResult(TCPReadState.SUCCESS, data);
+            return new TCPReadResult(TCPReadState.SUCCESS, data.ToString());
         }
 
         public void startReaderTask()

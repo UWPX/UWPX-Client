@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Text;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.Security.Cryptography.Certificates;
@@ -134,16 +135,16 @@ namespace UWP_XMPP_Client.Controls
 
         private string byteArryToString(byte[] b)
         {
-            string s = "";
+            StringBuilder s = new StringBuilder();
             for (int i = 0; i < b.Length; i++)
             {
-                s += b[i];
+                s.Append(b[i]);
                 if (i < b.Length)
                 {
-                    s += " ";
+                    s.Append(' ');
                 }
             }
-            return s;
+            return s.ToString();
         }
 
         private async Task exportCertificate()

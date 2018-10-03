@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
 
@@ -66,16 +67,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public static string getRandomId()
         {
-            string s = "";
-            for (int i = 0; i < 5; i++)
-            {
-                s += (R.Next() + 1000).ToString();
-                if (i < 4)
-                {
-                    s += '-';
-                }
-            }
-            return s;
+            return Guid.NewGuid().ToString();
         }
 
         public bool shouldSaveUntilSend()

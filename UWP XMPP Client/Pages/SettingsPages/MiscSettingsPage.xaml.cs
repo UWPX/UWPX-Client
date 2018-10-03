@@ -269,7 +269,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private async void logLevelDebug_btn_Click(object sender, RoutedEventArgs e)
         {
-            TextDialog dialog = new TextDialog()
+            TextDialog dialog = new TextDialog
             {
                 Title = "Warning",
                 Text = "If you set the log-level to 'Debug' you may experience performance and connection problems, because EVERY send and received XML message gets logged!"

@@ -19,6 +19,7 @@ using Windows.UI.Core;
 using Data_Manager2.Classes.ToastActivation;
 using Windows.UI.Notifications;
 using Data_Manager2.Classes.DBTables;
+using System.Text;
 
 namespace UWP_XMPP_Client
 {
@@ -101,7 +102,7 @@ namespace UWP_XMPP_Client
         {
             try
             {
-                Microsoft.AppCenter.AppCenter.Start("6e35320f-3a41-42f2-8060-011b25e36f24", typeof(Crashes), typeof(Push));
+                Microsoft.AppCenter.AppCenter.Start("523e7039-f6cb-4bf1-9000-53277ed97c53", typeof(Crashes), typeof(Push));
                 if (!Microsoft.AppCenter.AppCenter.Configured)
                 {
                     Push.PushNotificationReceived -= Push_PushNotificationReceived;
@@ -363,22 +364,22 @@ namespace UWP_XMPP_Client
         private async void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
         {
             // Add the notification message and title to the message:
-            string pushSummary = $"Push notification received:" +
-                                $"\n\tNotification title: {e.Title}" +
-                                $"\n\tMessage: {e.Message}";
+            StringBuilder pushSummary = new StringBuilder("Push notification received:\n");
+            pushSummary.Append($"\tNotification title: {e.Title}\n");
+            pushSummary.Append($"\tMessage: {e.Message}");
 
             // If there is custom data associated with the notification, print the entries:
             if (e.CustomData != null)
             {
-                pushSummary += "\n\tCustom data:\n";
+                pushSummary.Append("\n\tCustom data:\n");
                 foreach (var key in e.CustomData.Keys)
                 {
-                    pushSummary += $"\t\t{key} : {e.CustomData[key]}\n";
+                    pushSummary.Append($"\t\t{key} : {e.CustomData[key]}\n");
                 }
             }
 
             // Log notification summary:
-            Logger.Info(pushSummary);
+            Logger.Info(pushSummary.ToString());
 
             // Show push dialog:
             if (e.CustomData.TryGetValue("markdown", out string markdownText))
