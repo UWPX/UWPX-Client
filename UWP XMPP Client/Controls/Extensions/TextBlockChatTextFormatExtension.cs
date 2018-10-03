@@ -2,7 +2,10 @@
 using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Contacts;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -44,59 +47,71 @@ namespace UWP_XMPP_Client.Controls.Extensions
                     // Clear all inlines:
                     textBlock.Inlines.Clear();
 
-                    // Check if single emoji:
-                    if (isSingleEmoji(text))
+                    Task.Run(async () =>
                     {
-                        textBlock.Inlines.Add(new Run()
+                        // Check if single emoji:
+                        if (isSingleEmoji(text))
                         {
-                            Text = text,
-                            FontSize = 50
-                        });
-                    }
-                    else
-                    {
-                        var lastPosition = 0;
-                        var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
-                        do
-                        {
-                            try
+                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => textBlock.Inlines.Add(new Run
                             {
-                                matches[0] = URL_REGEX.Match(text, lastPosition);
-                                matches[1] = EMAIL_REGEX.Match(text, lastPosition);
-                                matches[2] = PHONE_REGEX.Match(text, lastPosition);
-                            }
-                            catch (RegexMatchTimeoutException)
-                            {
-                            }
-
-                            var firstMatch = matches.Where(x => x != null && x.Success).OrderBy(x => x.Index).FirstOrDefault();
-                            if (firstMatch == matches[0])
-                            {
-                                // the first match is an URL:
-                                CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                                lastPosition = CreateUrlElement(textBlock, firstMatch);
-                            }
-                            else if (firstMatch == matches[1])
-                            {
-                                // the first match is an email:
-                                CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                                lastPosition = CreateContactElement(textBlock, firstMatch, null);
-                            }
-                            else if (firstMatch == matches[2])
-                            {
-                                // the first match is a phone number:
-                                CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                                lastPosition = CreateContactElement(textBlock, null, firstMatch);
-                            }
-                            else
-                            {
-                                // no match, we add the whole text:
-                                textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) });
-                                lastPosition = text.Length;
-                            }
+                                Text = text,
+                                FontSize = 50
+                            }));
                         }
-                        while (lastPosition < text.Length);
-                    }
+                        else
+                        {
+                            var lastPosition = 0;
+                            var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
+                            do
+                            {
+                                try
+                                {
+                                    matches[0] = URL_REGEX.Match(text, lastPosition);
+                                    matches[1] = EMAIL_REGEX.Match(text, lastPosition);
+                                    matches[2] = PHONE_REGEX.Match(text, lastPosition);
+                                }
+                                catch (RegexMatchTimeoutException)
+                                {
+                                }
+
+                                var firstMatch = matches.Where(x => x != null && x.Success).OrderBy(x => x.Index).FirstOrDefault();
+                                if (firstMatch == matches[0])
+                                {
+                                    // the first match is an URL:
+                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                    {
+                                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                                        lastPosition = createUrlElement(textBlock, firstMatch);
+                                    });
+                                }
+                                else if (firstMatch == matches[1])
+                                {
+                                    // the first match is an email:
+                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                    {
+                                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                                        lastPosition = createContactElement(textBlock, firstMatch, null);
+                                    });
+                                }
+                                else if (firstMatch == matches[2])
+                                {
+                                    // the first match is a phone number:
+                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                    {
+                                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                                        lastPosition = createContactElement(textBlock, null, firstMatch);
+                                    });
+                                }
+                                else
+                                {
+                                    // no match, we add the whole text:
+                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) }));
+                                    lastPosition = text.Length;
+                                }
+                            }
+                            while (lastPosition < text.Length);
+                        }
+                    });
                 }
             }));
 
@@ -135,8 +150,7 @@ namespace UWP_XMPP_Client.Controls.Extensions
         {
             if (StringInfo.ParseCombiningCharacters(text).Length == 1)
             {
-                Regex r = new Regex(EMOJI_REGEX_PATTERN);
-                return r.IsMatch(text);
+                return EMOJI_REGEX.IsMatch(text);
             }
             return false;
         }
@@ -149,7 +163,7 @@ namespace UWP_XMPP_Client.Controls.Extensions
         /// <param name="rawText">the raw text where the fragment will be extracted</param>
         /// <param name="startPosition">the start position to extract the fragment</param>
         /// <param name="endPosition">the end position to extract the fragment</param>
-        private static void CreateRunElement(TextBlock textBlock, string rawText, int startPosition, int endPosition)
+        private static void createRunElement(TextBlock textBlock, string rawText, int startPosition, int endPosition)
         {
             var fragment = rawText.Substring(startPosition, endPosition - startPosition);
             textBlock.Inlines.Add(new Run { Text = fragment });
@@ -162,7 +176,7 @@ namespace UWP_XMPP_Client.Controls.Extensions
         /// <param name="textBlock">the textblock where to add the hyperlink</param>
         /// <param name="urlMatch">the match for the URL to use to create the hyperlink element</param>
         /// <returns>the newest position on the source string for the parsing</returns>
-        private static int CreateUrlElement(TextBlock textBlock, Match urlMatch)
+        private static int createUrlElement(TextBlock textBlock, Match urlMatch)
         {
             if (Uri.TryCreate(urlMatch.Value, UriKind.RelativeOrAbsolute, out Uri targetUri))
             {
@@ -170,10 +184,13 @@ namespace UWP_XMPP_Client.Controls.Extensions
                 link.Inlines.Add(new Run { Text = urlMatch.Value });
 
                 if (targetUri.IsAbsoluteUri)
+                {
                     link.NavigateUri = targetUri;
+                }
                 else
+                {
                     link.NavigateUri = new Uri(RelativeUriDefaultPrefix + targetUri.OriginalString);
-
+                }
 
                 textBlock.Inlines.Add(link);
             }
@@ -196,7 +213,7 @@ namespace UWP_XMPP_Client.Controls.Extensions
         /// <param name="emailMatch">the match for the email to use to create the hyperlink element. Set to null if not available but at least one of emailMatch and phoneMatch must be not null.</param>
         /// <param name="phoneMatch">the match for the phone number to create the hyperlink element. Set to null if not available but at least one of emailMatch and phoneMatch must be not null.</param>
         /// <returns>the newest position on the source string for the parsing</returns>
-        private static int CreateContactElement(TextBlock textBlock, Match emailMatch, Match phoneMatch)
+        private static int createContactElement(TextBlock textBlock, Match emailMatch, Match phoneMatch)
         {
             var currentMatch = emailMatch ?? phoneMatch;
 
@@ -219,26 +236,6 @@ namespace UWP_XMPP_Client.Controls.Extensions
 
             textBlock.Inlines.Add(link);
             return currentMatch.Index + currentMatch.Length;
-        }
-
-        /// <summary>
-        /// Return the InteractiveText value on the provided object
-        /// </summary>
-        /// <param name="obj">the object to query</param>
-        /// <returns>the InteractiveText value</returns>
-        public static string GetInteractiveText(DependencyObject obj)
-        {
-            return (string)obj.GetValue(FormattedTextProperty);
-        }
-
-        /// <summary>
-        /// SEt the InteractiveText value on the provided object
-        /// </summary>
-        /// <param name="obj">the object to query</param>
-        /// <param name="value">the value to set</param>
-        public static void SetInteractiveText(DependencyObject obj, string value)
-        {
-            obj.SetValue(FormattedTextProperty, value);
         }
 
         #endregion
