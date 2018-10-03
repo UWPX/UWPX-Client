@@ -2,7 +2,7 @@
 
 namespace UWP_XMPP_Client.Classes
 {
-    class Localisation
+    static class Localisation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

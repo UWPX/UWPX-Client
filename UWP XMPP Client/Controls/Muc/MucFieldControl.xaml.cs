@@ -109,15 +109,6 @@ namespace UWP_XMPP_Client.Controls.Muc
             }
         }
 
-        private void hideAllControls()
-        {
-            passwordField_pswd.Visibility = Visibility.Collapsed;
-            textField_tbx.Visibility = Visibility.Collapsed;
-            toggleField_tgls.Visibility = Visibility.Collapsed;
-            listField_cmbb.Visibility = Visibility.Collapsed;
-            label_tblck.Visibility = Visibility.Visible;
-        }
-
         #endregion
 
         #region --Misc Methods (Protected)--

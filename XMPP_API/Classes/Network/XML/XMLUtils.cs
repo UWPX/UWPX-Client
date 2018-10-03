@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 using System.Xml;
 using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML
 {
-    class XMLUtils
+    static class XMLUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -42,7 +41,6 @@ namespace XMPP_API.Classes.Network.XML
         {
             if(node != null)
             {
-                IEnumerable<XElement> nodes = node.Elements();
                 foreach (XElement n in node.Elements())
                 {
                     if (n.Name.LocalName.Equals(name))

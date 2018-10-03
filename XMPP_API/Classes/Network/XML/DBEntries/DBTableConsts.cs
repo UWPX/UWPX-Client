@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.DBEntries
 {
-    class DBTableConsts
+    static class DBTableConsts
     {
         public const string MESSAGE_CACHE_TABLE = "MessageCacheTable";
         public const string SIGNED_PRE_KEY_TABLE = "SignedPreKeyTable";

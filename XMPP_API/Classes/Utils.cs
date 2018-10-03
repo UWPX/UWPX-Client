@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace XMPP_API.Classes
 {
-    public class Utils
+    public static class Utils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

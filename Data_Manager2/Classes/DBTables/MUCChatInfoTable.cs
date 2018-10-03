@@ -70,7 +70,7 @@ namespace Data_Manager2.Classes.DBTables
         #region --Misc Methods (Public)--
         public ConferenceItem toConferenceItem()
         {
-            return new ConferenceItem()
+            return new ConferenceItem
             {
                 autoJoin = autoEnterRoom,
                 name = name,

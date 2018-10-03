@@ -44,7 +44,7 @@ namespace XMPP_API.Classes.Network.XML.DBManager
             List<OmemoDeviceTable> deviceTables = new List<OmemoDeviceTable>();
             foreach (uint deviceId in devices.DEVICES)
             {
-                deviceTables.Add(new OmemoDeviceTable()
+                deviceTables.Add(new OmemoDeviceTable
                 {
                     id = OmemoDeviceTable.generateId(chatJid, accountId, deviceId),
                     accountId = accountId,

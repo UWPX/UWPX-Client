@@ -29,7 +29,7 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 05/05/2018 Created [Fabian Sauter]
         /// </history>
-        public AbstractConnection2(XMPPAccount account)
+        protected AbstractConnection2(XMPPAccount account)
         {
             this.account = account;
             this.state = ConnectionState.DISCONNECTED;

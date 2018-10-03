@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public class RemoveBookmarkMessage : PubSubRetractMessage
+    public class RemoveBookmarkMessage : AbstractPubSubRetractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

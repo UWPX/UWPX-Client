@@ -8,7 +8,7 @@ using Windows.Storage;
 
 namespace UWP_XMPP_Client.Classes
 {
-    class BackgroundImageCache
+    static class BackgroundImageCache
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -123,7 +123,7 @@ namespace UWP_XMPP_Client.Classes
                 {
                     await file.CopyAndReplaceAsync(f);
 
-                    customBackgroundImage = new BackgroundImageTemplate()
+                    customBackgroundImage = new BackgroundImageTemplate
                     {
                         imagePath = f.Path,
                         name = f.Name,

@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Dialogs
 
                 string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLower();
 
-                ChatTable muc = new ChatTable()
+                ChatTable muc = new ChatTable
                 {
                     id = ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain()),
                     ask = null,

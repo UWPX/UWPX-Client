@@ -9,7 +9,7 @@ using Windows.Storage.Search;
 
 namespace Logging
 {
-    public class Logger
+    public static class Logger
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -50,7 +50,7 @@ namespace Logging
         /// <returns>Returns the selected path.</returns>
         private static async Task<StorageFile> getTargetPathAsync()
         {
-            var savePicker = new Windows.Storage.Pickers.FileSavePicker()
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker
             {
                 SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
             };

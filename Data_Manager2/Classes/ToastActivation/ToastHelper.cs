@@ -4,7 +4,7 @@ using Windows.UI.Notifications;
 
 namespace Data_Manager2.Classes.ToastActivation
 {
-    public class ToastHelper
+    public static class ToastHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

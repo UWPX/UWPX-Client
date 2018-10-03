@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractMessageProcessor(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection)
+        protected AbstractMessageProcessor(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection)
         {
             this.TCP_CONNECTION = tcpConnection;
             this.XMPP_CONNECTION = xMPPConnection;

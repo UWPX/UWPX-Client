@@ -160,7 +160,7 @@ namespace UWP_XMPP_Client.Controls.Muc
                     banedUsers.Clear();
                     foreach (BanedUser user in banListMessage.BANED_USERS)
                     {
-                        banedUsers.Add(new MUCBanedUserTemplate() { banedUser = user });
+                        banedUsers.Add(new MUCBanedUserTemplate { banedUser = user });
                     }
                     reload_btn.IsEnabled = true;
                     reload_prgr.Visibility = Visibility.Collapsed;

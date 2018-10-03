@@ -15,7 +15,7 @@ using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Classes
 {
-    class UiUtils
+    static class UiUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

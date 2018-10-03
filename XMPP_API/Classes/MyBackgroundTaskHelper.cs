@@ -1,11 +1,12 @@
 ﻿using Logging;
 using Microsoft.Toolkit.Uwp.Helpers;
 using System;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Background;
 
 namespace XMPP_API.Classes
 {
-    public class MyBackgroundTaskHelper
+    public static class MyBackgroundTaskHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -37,7 +38,7 @@ namespace XMPP_API.Classes
         /// <summary>
         /// Registers the socket background task if necessary.
         /// </summary>
-        public async static void registerBackgroundTask()
+        public async static Task registerBackgroundTask()
         {
             if (BackgroundTaskHelper.IsBackgroundTaskRegistered(BACKGROUND_TASK_NAME))
             {

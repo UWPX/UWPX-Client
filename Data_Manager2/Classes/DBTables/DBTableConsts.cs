@@ -1,6 +1,6 @@
 ﻿namespace Data_Manager2.Classes.DBTables
 {
-    class DBTableConsts
+    static class DBTableConsts
     {
         public const string ACCOUNT_TABLE = "AccountTable_2";
         public const string CHAT_MESSAGE_TABLE = "ChatMessageTable";

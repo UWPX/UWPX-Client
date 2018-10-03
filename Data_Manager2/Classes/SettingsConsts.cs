@@ -1,6 +1,6 @@
 ﻿namespace Data_Manager2.Classes
 {
-    public class SettingsConsts
+    public static class SettingsConsts
     {
         public const string INITIALLY_STARTED = "initially_started";
         public const string HIDE_INITIAL_START_DIALOG_ALPHA = "hide_initial_start_dialog_alpha";

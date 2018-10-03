@@ -49,7 +49,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             PASSWORDS.Clear();
             foreach (PasswordCredential c in Vault.getAll())
             {
-                PASSWORDS.Add(new PasswordCredentialTemplate()
+                PASSWORDS.Add(new PasswordCredentialTemplate
                 {
                     Credential = c,
                     securitySettingsPage = this

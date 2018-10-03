@@ -48,7 +48,7 @@ namespace UWP_XMPP_Client.Controls.Omemo
             List<UintTemplate> dev = new List<UintTemplate>();
             foreach (uint d in devices)
             {
-                dev.Add(new UintTemplate()
+                dev.Add(new UintTemplate
                 {
                     value = d
                 });

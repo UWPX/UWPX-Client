@@ -14,7 +14,7 @@ using System.Linq;
 
 namespace XMPP_API.Classes.Crypto
 {
-    public class CryptoUtils
+    public static class CryptoUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

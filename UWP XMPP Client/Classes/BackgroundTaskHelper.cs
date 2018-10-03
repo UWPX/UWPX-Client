@@ -6,7 +6,7 @@ using Windows.ApplicationModel.Background;
 
 namespace UWP_XMPP_Client.Classes
 {
-    class BackgroundTaskHelper
+    static class BackgroundTaskHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -38,7 +38,7 @@ namespace UWP_XMPP_Client.Classes
             BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
 
             // Create the background task
-            BackgroundTaskBuilder builder = new BackgroundTaskBuilder()
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
             {
                 Name = TOAST_BACKGROUND_TASK_NAME
             };
@@ -47,7 +47,7 @@ namespace UWP_XMPP_Client.Classes
             builder.SetTrigger(new ToastNotificationActionTrigger());
 
             // And register the task
-            BackgroundTaskRegistration registration = builder.Register();
+            builder.Register();
 
             Logger.Info("Registered " + TOAST_BACKGROUND_TASK_NAME + " background task.");
         }

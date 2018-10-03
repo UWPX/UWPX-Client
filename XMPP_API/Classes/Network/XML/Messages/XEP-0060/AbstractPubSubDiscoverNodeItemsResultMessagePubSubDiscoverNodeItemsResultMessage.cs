@@ -1,13 +1,13 @@
 ﻿using System.Xml;
-using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubMessage : IQMessage
+    public abstract class AbstractPubSubDiscoverNodeItemsResultMessage : DiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly string NODE_NAME;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,35 +16,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 07/04/2018 Created [Fabian Sauter]
+        /// 17/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubMessage(string from, string to) : base(from, to, SET, getRandomId())
+        public AbstractPubSubDiscoverNodeItemsResultMessage(XmlNode n) : base(n)
         {
-        }
-
-        public PubSubMessage(XmlNode n) : base(n)
-        {
-
+            XmlNode queryNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0030_ITEMS_NAMESPACE);
+            if(queryNode != null)
+            {
+                NODE_NAME = queryNode.Attributes["node"]?.Value;
+            }
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = getPubSubNamespace();
-            XElement pubSubNode = new XElement(ns + "pubsub");
 
-            addContent(pubSubNode, ns);
-            return pubSubNode;
-        }
-
-        protected abstract void addContent(XElement node, XNamespace ns);
-
-        protected virtual XNamespace getPubSubNamespace()
-        {
-            return Consts.XML_XEP_0060_NAMESPACE;
-        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

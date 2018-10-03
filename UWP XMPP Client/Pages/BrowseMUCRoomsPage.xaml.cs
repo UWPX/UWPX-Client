@@ -118,10 +118,10 @@ namespace UWP_XMPP_Client.Pages
             {
                 foreach (DiscoItem i in disco.ITEMS)
                 {
-                    rooms.Add(new MUCRoomTemplate()
+                    rooms.Add(new MUCRoomTemplate
                     {
                         client = Client,
-                        roomInfo = new MUCRoomInfo()
+                        roomInfo = new MUCRoomInfo
                         {
                             jid = i.JID ?? "",
                             name = i.NAME ?? (i.JID ?? "")

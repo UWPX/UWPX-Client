@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes
 {
-    public class Vault
+    public static class Vault
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,16 +16,7 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 17/11/2017 Created [Fabian Sauter]
-        /// </history>
-        public Vault()
-        {
 
-        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -1,9 +1,8 @@
-﻿using System.Xml;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
+﻿using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubDiscoverNodeItemsResultMessage : DiscoResponseMessage
+    public abstract class AbstractPubSubRetractMessage : AbstractPubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,21 +15,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/07/2018 Created [Fabian Sauter]
+        /// 04/07/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubDiscoverNodeItemsResultMessage(XmlNode n) : base(n)
+        protected AbstractPubSubRetractMessage(string from, string to, string nodeName) : base(from, to)
         {
-            XmlNode queryNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0030_ITEMS_NAMESPACE);
-            if(queryNode != null)
-            {
-                NODE_NAME = queryNode.Attributes["node"]?.Value;
-            }
+            this.NODE_NAME = nodeName;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        protected abstract AbstractPubSubItem getPubSubItem();
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -45,7 +40,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void addContent(XElement node, XNamespace ns)
+        {
+            XElement retractNode = new XElement(ns + "retract");
+            retractNode.Add(new XAttribute("node", NODE_NAME));
+            AbstractPubSubItem item = getPubSubItem();
+            if (item != null)
+            {
+                retractNode.Add(item.toXElement(ns));
+            }
+            node.Add(retractNode);
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

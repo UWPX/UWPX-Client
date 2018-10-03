@@ -23,7 +23,7 @@ namespace Thread_Save_Components.Classes.SQLite
         /// <history>
         /// 17/11/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractDBManager()
+        protected AbstractDBManager()
         {
             if (RESET_DB_ON_STARTUP)
             {

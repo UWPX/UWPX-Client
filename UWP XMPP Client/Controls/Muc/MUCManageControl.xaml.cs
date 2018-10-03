@@ -109,7 +109,6 @@ namespace UWP_XMPP_Client.Controls.Muc
             info_grid.Visibility = Visibility.Collapsed;
             timeout_stckpnl.Visibility = Visibility.Collapsed;
 
-            string chatJID = Chat.chatJabberId;
             string chatID = Chat.id;
             string nickname = MUCInfo.nickname;
 
@@ -150,7 +149,7 @@ namespace UWP_XMPP_Client.Controls.Muc
                     {
                         if (o.type != FieldType.HIDDEN)
                         {
-                            fields.Add(new MUCInfoFieldTemplate() { field = o });
+                            fields.Add(new MUCInfoFieldTemplate { field = o });
                         }
                     }
                     reload_btn.IsEnabled = true;

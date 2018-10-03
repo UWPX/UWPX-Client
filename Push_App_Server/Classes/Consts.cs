@@ -1,6 +1,6 @@
 ﻿namespace Push_App_Server.Classes
 {
-    public class Consts
+    public static class Consts
     {
         public const string PUSH_SERVER_ADDRESS = "push.uwpx.org";
         public const int PORT = 6000;

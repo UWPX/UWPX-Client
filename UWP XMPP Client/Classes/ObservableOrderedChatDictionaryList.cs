@@ -238,15 +238,6 @@ namespace UWP_XMPP_Client.Classes
 
         private int AddSortedToList(ChatTemplate item)
         {
-            /*if(SORTED_LIST.Count <= 0)
-            {
-                item.index = SORTED_LIST.Count;
-                SORTED_LIST.Add(item);
-                return 0;
-            }
-
-            AddSortedToListRec(Count / 2, item);*/
-
             for (int i = 0; i < SORTED_LIST.Count; i++)
             {
                 if (SORTED_LIST[i].chat.lastActive.CompareTo(item.chat.lastActive) <= 0)
@@ -270,16 +261,6 @@ namespace UWP_XMPP_Client.Classes
             }
         }
 
-        /*private int AddSortedToListRec(int index, ChatTemplate item)
-        {
-            int i = SORTED_LIST[i].chat.lastActive.CompareTo(item.chat.lastActive);
-            if(i == 0)
-            {
-                SORTED_LIST.Insert(index - 1, item);
-                return index - 1;
-            }
-        }*/
-
         private void InternalRemoveAt(int index, ChatTemplate item)
         {
             item.PropertyChanged -= Item_PropertyChanged;
@@ -291,7 +272,7 @@ namespace UWP_XMPP_Client.Classes
 
         private void SortItem(int index)
         {
-            if(index > 0 && index < (SORTED_LIST.Count - 1))
+            if (index > 0 && index < (SORTED_LIST.Count - 1))
             {
                 int leftComp = SORTED_LIST[index - 1].chat.lastActive.CompareTo(SORTED_LIST[index].chat.lastActive);
                 int rightComp = SORTED_LIST[index + 1].chat.lastActive.CompareTo(SORTED_LIST[index].chat.lastActive);
@@ -314,7 +295,7 @@ namespace UWP_XMPP_Client.Classes
             ChatTemplate tmp = SORTED_LIST[index1];
             SORTED_LIST[index1] = SORTED_LIST[index2];
             SORTED_LIST[index2] = tmp;
-            
+
             SORTED_LIST[index2].index = index2;
             SORTED_LIST[index1].index = index1;
 

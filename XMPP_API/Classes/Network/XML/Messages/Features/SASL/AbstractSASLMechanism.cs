@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractSASLMechanism(string id, string password)
+        protected AbstractSASLMechanism(string id, string password)
         {
             this.ID = id;
             this.PASSWORD = password;

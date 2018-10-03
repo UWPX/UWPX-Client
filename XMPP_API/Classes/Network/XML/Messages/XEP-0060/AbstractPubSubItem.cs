@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 15/07/2018 Created [Fabian Sauter]
         /// </history>
-        public AbstractPubSubItem()
+        protected AbstractPubSubItem()
         {
         }
 

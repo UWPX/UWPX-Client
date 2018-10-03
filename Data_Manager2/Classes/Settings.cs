@@ -1,6 +1,6 @@
 ﻿namespace Data_Manager2.Classes
 {
-    public class Settings
+    public static class Settings
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

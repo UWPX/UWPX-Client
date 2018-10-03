@@ -2,11 +2,11 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubRetractMessage : PubSubMessage
+    public abstract class AbstractPubSubRequestMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE_NAME;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -15,17 +15,28 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 04/07/2018 Created [Fabian Sauter]
+        /// 12/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRetractMessage(string from, string to, string nodeName) : base(from, to)
+        protected AbstractPubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
         {
-            this.NODE_NAME = nodeName;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected abstract AbstractPubSubItem getPubSubItem();
+        protected override XElement getQuery()
+        {
+            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
+            XElement pubsub = new XElement(ns + "pubsub");
+            XElement content = getContent(ns);
+            if (content != null)
+            {
+                pubsub.Add(content);
+            }
+            return pubsub;
+        }
+
+        protected abstract XElement getContent(XNamespace ns);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -40,17 +51,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void addContent(XElement node, XNamespace ns)
-        {
-            XElement retractNode = new XElement(ns + "retract");
-            retractNode.Add(new XAttribute("node", NODE_NAME));
-            AbstractPubSubItem item = getPubSubItem();
-            if (item != null)
-            {
-                retractNode.Add(item.toXElement(ns));
-            }
-            node.Add(retractNode);
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

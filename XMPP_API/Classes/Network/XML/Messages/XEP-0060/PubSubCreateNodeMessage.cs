@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubCreateNodeMessage : PubSubMessage
+    public class PubSubCreateNodeMessage : AbstractPubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

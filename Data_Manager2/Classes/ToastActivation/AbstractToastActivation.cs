@@ -15,7 +15,7 @@
         /// <history>
         /// 19/08/2018 Created [Fabian Sauter]
         /// </history>
-        public AbstractToastActivation()
+        protected AbstractToastActivation()
         {
         }
 

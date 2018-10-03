@@ -16,13 +16,13 @@
         /// <history>
         /// 20/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractAddressableMessage(string from, string to)
+        protected AbstractAddressableMessage(string from, string to)
         {
             FROM = from;
             TO = to;
         }
 
-        public AbstractAddressableMessage(string from, string to, string id) : base(id)
+        protected AbstractAddressableMessage(string from, string to, string id) : base(id)
         {
             FROM = from;
             TO = to;

@@ -9,6 +9,7 @@ using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Component_Tests
@@ -69,7 +70,6 @@ namespace Component_Tests
         public void TestScramSHA1SASLMechanism_3()
         {
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
-            SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
             string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
             List<AbstractMessage> msgs = parser.parseMessages(ref s);
@@ -226,7 +226,7 @@ namespace Component_Tests
                 r.NextBytes(data);
                 byte[] dataEnc = aesEnc.encrypt(data);
 
-                Aes128GcmCpp aesDec = new Aes128GcmCpp()
+                Aes128GcmCpp aesDec = new Aes128GcmCpp
                 {
                     authTag = aesEnc.authTag,
                     iv = aesEnc.iv,
@@ -286,6 +286,7 @@ namespace Component_Tests
             string msg = "<iq xml:lang='en' to='uwptest@404.city/FABIAN-TOWER-PC' from='fabi@xmpp.uwpx.org' type='error' id='134077900-349929748-1523671119-224987985-1457976454'><pubsub xmlns='http://jabber.org/protocol/pubsub'><items node='eu.siacs.conversations.axolotl.devicelist'/></pubsub><error code='405' type='cancel'><closed-node xmlns='http://jabber.org/protocol/pubsub#errors'/><not-allowed xmlns='urn:ietf:params:xml:ns:xmpp-stanzas'/></error></iq>";
             MessageParser2 parser = new MessageParser2();
             List<AbstractMessage> messages = parser.parseMessages(ref msg);
+            Assert.IsTrue(messages.Any((x) => x is IQErrorMessage));
         }
 
         [TestMethod]

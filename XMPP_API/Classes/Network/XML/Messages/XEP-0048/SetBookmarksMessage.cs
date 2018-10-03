@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public class SetBookmarksMessage : PubSubPublishMessage
+    public class SetBookmarksMessage : AbstractPubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -30,13 +30,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         protected override PubSubPublishOptions getPublishOptions()
         {
             PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
-            options.OPTIONS.FIELDS.Add(new Field()
+            options.OPTIONS.FIELDS.Add(new Field
             {
                 var = "pubsub#persist_items",
                 value = true,
                 type = FieldType.BOOLEAN
             });
-            options.OPTIONS.FIELDS.Add(new Field()
+            options.OPTIONS.FIELDS.Add(new Field
             {
                 var = "pubsub#access_model",
                 value = "whitelist",

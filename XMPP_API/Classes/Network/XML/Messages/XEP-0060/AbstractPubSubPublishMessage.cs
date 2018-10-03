@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubPublishMessage : PubSubMessage
+    public abstract class AbstractPubSubPublishMessage : AbstractPubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,7 +17,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 02/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubPublishMessage(string from, string to, string nodeName) : base(from, to)
+        protected AbstractPubSubPublishMessage(string from, string to, string nodeName) : base(from, to)
         {
             this.NODE_NAME = nodeName;
         }

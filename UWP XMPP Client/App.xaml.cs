@@ -258,7 +258,7 @@ namespace UWP_XMPP_Client
             ElementTheme theme = ElementTheme.Dark;
             if (themeString != null)
             {
-                bool b = Enum.TryParse(themeString, out theme);
+                Enum.TryParse(themeString, out theme);
             }
             RootTheme = theme;
 

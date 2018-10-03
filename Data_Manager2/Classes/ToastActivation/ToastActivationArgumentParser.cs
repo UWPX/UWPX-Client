@@ -2,7 +2,7 @@
 
 namespace Data_Manager2.Classes.ToastActivation
 {
-    public class ToastActivationArgumentParser
+    public static class ToastActivationArgumentParser
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,15 +11,7 @@ namespace Data_Manager2.Classes.ToastActivation
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 19/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public ToastActivationArgumentParser()
-        {
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

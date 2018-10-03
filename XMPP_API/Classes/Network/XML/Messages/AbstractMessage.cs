@@ -29,12 +29,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public AbstractMessage() : this(getRandomId())
+        protected AbstractMessage() : this(getRandomId())
         {
 
         }
 
-        public AbstractMessage(string id)
+        protected AbstractMessage(string id)
         {
             processed = false;
             this.restartConnection = NO_RESTART;

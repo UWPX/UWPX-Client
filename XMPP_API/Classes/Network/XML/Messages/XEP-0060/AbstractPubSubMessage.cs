@@ -1,8 +1,9 @@
-﻿using System.Xml.Linq;
+﻿using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class PubSubRequestMessage : IQMessage
+    public abstract class AbstractPubSubMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,10 +16,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/06/2018 Created [Fabian Sauter]
+        /// 07/04/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        protected AbstractPubSubMessage(string from, string to) : base(from, to, SET, getRandomId())
         {
+        }
+
+        protected AbstractPubSubMessage(XmlNode n) : base(n)
+        {
+
         }
 
         #endregion
@@ -26,17 +32,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #region --Set-, Get- Methods--
         protected override XElement getQuery()
         {
-            XNamespace ns = Consts.XML_XEP_0060_NAMESPACE;
-            XElement pubsub = new XElement(ns + "pubsub");
-            XElement content = getContent(ns);
-            if (content != null)
-            {
-                pubsub.Add(content);
-            }
-            return pubsub;
+            XNamespace ns = getPubSubNamespace();
+            XElement pubSubNode = new XElement(ns + "pubsub");
+
+            addContent(pubSubNode, ns);
+            return pubSubNode;
         }
 
-        protected abstract XElement getContent(XNamespace ns);
+        protected abstract void addContent(XElement node, XNamespace ns);
+
+        protected virtual XNamespace getPubSubNamespace()
+        {
+            return Consts.XML_XEP_0060_NAMESPACE;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

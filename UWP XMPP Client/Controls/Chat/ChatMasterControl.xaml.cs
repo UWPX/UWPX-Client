@@ -622,7 +622,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                 {
                     if (Client != null && !Client.isConnected())
                     {
-                        TextDialog dialog = new TextDialog()
+                        TextDialog dialog = new TextDialog
                         {
                             Title = "Error",
                             Text = "Account not connected!"

@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes
 {
-    public class Consts
+    public static class Consts
     {
         public const string XML_VERSION = "1.0";
         public const string XML_LANG = "en";
