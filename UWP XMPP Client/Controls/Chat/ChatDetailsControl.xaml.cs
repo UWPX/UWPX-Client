@@ -83,9 +83,9 @@ namespace UWP_XMPP_Client.Controls.Chat
         }
         public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register("IsDummy", typeof(bool), typeof(ChatDetailsControl), null);
 
-        private CustomObservableCollection<ChatMessageDataTemplate> chatMessages;
+        private readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
 
-        private static readonly char[] TRIM_CHARS = new char[] { ' ', '\t', '\n', '\r' };
+        private static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
         private int sendDummyMessages;
 
         #endregion
@@ -100,7 +100,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         public ChatDetailsControl()
         {
             this.sendDummyMessages = 0;
-            this.chatMessages = new CustomObservableCollection<ChatMessageDataTemplate>();
+            this.CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
             this.InitializeComponent();
 
             // Disable the test button on release builds:
@@ -116,10 +116,9 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             switch (Chat.chatType)
             {
-                case ChatType.CHAT:
-                    return MessageMessage.TYPE_CHAT;
                 case ChatType.MUC:
                     return MessageMessage.TYPE_GROUPCHAT;
+                case ChatType.CHAT:
                 default:
                     // For backwards compatibility with older versions of the app:
                     return MessageMessage.TYPE_CHAT;
@@ -141,7 +140,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         public void loadDummyContent()
         {
-            Chat = new ChatTable()
+            Chat = new ChatTable
             {
                 chatJabberId = "dave@example.com",
                 userAccountId = "kevin@example.com",
@@ -168,10 +167,10 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void addDummyMessage(string msg, string fromUser, MessageState state, bool isImage)
         {
-            chatMessages.Add(new ChatMessageDataTemplate()
+            CHAT_MESSAGES.Add(new ChatMessageDataTemplate
             {
                 chat = Chat,
-                message = new ChatMessageTable()
+                message = new ChatMessageTable
                 {
                     message = msg,
                     chatId = Chat.id,
@@ -208,7 +207,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                     foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chatCpy.id))
                     {
-                        msgs.Add(new ChatMessageDataTemplate()
+                        msgs.Add(new ChatMessageDataTemplate
                         {
                             message = msg,
                             chat = chatCpy
@@ -222,8 +221,8 @@ namespace UWP_XMPP_Client.Controls.Chat
 
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                     {
-                        chatMessages.Clear();
-                        chatMessages.AddRange(msgs);
+                        CHAT_MESSAGES.Clear();
+                        CHAT_MESSAGES.AddRange(msgs);
                         invertedListView_lstv.Visibility = Visibility.Visible;
                         loading_ldng.IsLoading = false;
                     });
@@ -235,14 +234,12 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (Chat != null)
             {
-                switch (Chat.chatType)
+                if (Chat.chatType == ChatType.CHAT)
                 {
-                    case ChatType.CHAT:
-                        chatName_tblck.Text = Chat.chatJabberId ?? "";
-                        chatState_tblck.Text = Chat.chatState ?? "";
-                        join_mfo.Visibility = Visibility.Collapsed;
-                        leave_mfo.Visibility = Visibility.Collapsed;
-                        break;
+                    chatName_tblck.Text = Chat.chatJabberId ?? "";
+                    chatState_tblck.Text = Chat.chatState ?? "";
+                    join_mfo.Visibility = Visibility.Collapsed;
+                    leave_mfo.Visibility = Visibility.Collapsed;
                 }
 
                 omemoIndicator_tbx.Visibility = Chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
@@ -407,17 +404,15 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void showBackgroundForViewState(MasterDetailsViewState state)
         {
-            switch (state)
+            if (state == MasterDetailsViewState.Both)
             {
-                case MasterDetailsViewState.Both:
-                    backgroundImage_img.Visibility = Visibility.Collapsed;
-                    main_grid.Background = new SolidColorBrush(Colors.Transparent);
-                    break;
-
-                default:
-                    backgroundImage_img.Visibility = Visibility.Visible;
-                    main_grid.Background = (SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
-                    break;
+                backgroundImage_img.Visibility = Visibility.Collapsed;
+                main_grid.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            else
+            {
+                backgroundImage_img.Visibility = Visibility.Visible;
+                main_grid.Background = (SolidColorBrush)Application.Current.Resources["ApplicationPageBackgroundThemeBrush"];
             }
         }
 
@@ -495,7 +490,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                         Task.Run(() => ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE));
                     }
 
-                    chatMessages.Add(new ChatMessageDataTemplate()
+                    CHAT_MESSAGES.Add(new ChatMessageDataTemplate()
                     {
                         message = args.MESSAGE,
                         chat = Chat
@@ -654,12 +649,12 @@ namespace UWP_XMPP_Client.Controls.Chat
                 {
                     Task.Run(async () =>
                     {
-                        for (int i = 0; i < chatMessages.Count; i++)
+                        for (int i = 0; i < CHAT_MESSAGES.Count; i++)
                         {
-                            if (chatMessages[i].message != null && Equals(chatMessages[i].message.id, args.MESSAGE.id))
+                            if (CHAT_MESSAGES[i].message != null && Equals(CHAT_MESSAGES[i].message.id, args.MESSAGE.id))
                             {
                                 // Only the main thread should update the list to prevent problems:
-                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => chatMessages[i].message = args.MESSAGE);
+                                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CHAT_MESSAGES[i].message = args.MESSAGE);
                             }
                         }
                     });
@@ -806,9 +801,9 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void scrollDown_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (chatMessages.Count >= 1)
+            if (CHAT_MESSAGES.Count >= 1)
             {
-                invertedListView_lstv.ScrollIntoView(chatMessages[chatMessages.Count - 1]);
+                invertedListView_lstv.ScrollIntoView(CHAT_MESSAGES[CHAT_MESSAGES.Count - 1]);
             }
         }
 

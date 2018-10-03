@@ -67,7 +67,7 @@
                       HorizontalContentAlignment="Stretch"
                       IncrementalLoadingTrigger="Edge"
                       ItemTemplateSelector="{StaticResource chatMessageDataTemplateSelector}"
-                      ItemsSource="{x:Bind chatMessages, Mode=OneWay}"
+                      ItemsSource="{x:Bind CHAT_MESSAGES, Mode=OneWay}"
                       ScrollViewer.VerticalScrollBarVisibility="Hidden"
                       SelectionChanged="invertedListView_lstv_SelectionChanged"
                       Visibility="Collapsed">

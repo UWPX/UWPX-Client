@@ -119,7 +119,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
             byte[] clientSignature = CryptoUtils.HmacSha1(authMessage, storedKey);
             byte[] clientProof = CryptoUtils.xor(clientKey, clientSignature);
             byte[] serverKey = CryptoUtils.HmacSha1("Server Key", saltedPassword);
-            byte[] serverSignature = CryptoUtils.HmacSha1(authMessage, serverKey);
             string clientFinalMessage = clientFinalMessageBare + ",p=" + Convert.ToBase64String(clientProof);
 
             return encodeStringBase64(clientFinalMessage);

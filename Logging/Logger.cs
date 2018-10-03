@@ -56,7 +56,7 @@ namespace Logging
             };
             savePicker.FileTypeChoices.Add("Logs", new List<string>() { ".zip" });
             savePicker.SuggestedFileName = "Logs";
-            return await savePicker.PickSaveFileAsync(); ;
+            return await savePicker.PickSaveFileAsync();
         }
 
         /// <summary>
