@@ -24,6 +24,7 @@ namespace UWP_XMPP_Client.Classes
         #region --Attributes--
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
         private static readonly Regex HEX_COLOR_REGEX = new Regex("#[0-9a-fA-F]{6}");
+        private static readonly Random HEX_COLOR_RANDOM = new Random();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -73,46 +74,9 @@ namespace UWP_XMPP_Client.Classes
             }
         }
 
-        public static string getRandomMaterialColor()
+        public static string getRandomColor()
         {
-            Random r = new Random();
-            switch (r.Next(17))
-            {
-                case 0:
-                    return "#4CAF50";
-                case 1:
-                    return "#8BC34A";
-                case 2:
-                    return "#CDDC39";
-                case 3:
-                    return "#F44336";
-                case 4:
-                    return "#E91E63";
-                case 5:
-                    return "#9C27B0";
-                case 6:
-                    return "#673AB7";
-                case 7:
-                    return "#3F51B5";
-                case 8:
-                    return "#2196F3";
-                case 9:
-                    return "#03A9F4";
-                case 10:
-                    return "#00BCD4";
-                case 11:
-                    return "#009688";
-                case 12:
-                    return "#FFEB3B";
-                case 13:
-                    return "#FFC107";
-                case 14:
-                    return "#FF9800";
-                case 15:
-                    return "#FF5722";
-                default:
-                    return "#607D8B";
-            }
+            return string.Format("#{0:X6}", HEX_COLOR_RANDOM.Next(0x1000000));
         }
 
         public static SolidColorBrush getPresenceBrush(Presence presence)
@@ -181,9 +145,9 @@ namespace UWP_XMPP_Client.Classes
         public static SolidColorBrush convertHexColorToBrush(string color)
         {
             color = color.Replace("#", string.Empty);
-            byte r = (byte)Convert.ToUInt32(color.Substring(0, 2), 16);
-            byte g = (byte)Convert.ToUInt32(color.Substring(2, 2), 16);
-            byte b = (byte)Convert.ToUInt32(color.Substring(4, 2), 16);
+            byte r = Convert.ToByte(color.Substring(0, 2), 16);
+            byte g = Convert.ToByte(color.Substring(2, 2), 16);
+            byte b = Convert.ToByte(color.Substring(4, 2), 16);
             return new SolidColorBrush(Color.FromArgb(255, r, g, b));
         }
 

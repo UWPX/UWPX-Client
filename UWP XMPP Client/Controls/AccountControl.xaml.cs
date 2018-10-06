@@ -193,12 +193,12 @@ namespace UWP_XMPP_Client.Controls
 
         private void randomColor_btn_Click(object sender, RoutedEventArgs e)
         {
-            color_tbx.Text = UiUtils.getRandomMaterialColor();
+            color_tbx.Text = UiUtils.getRandomColor();
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            color_tbx.Text = UiUtils.getRandomMaterialColor();
+            color_tbx.Text = UiUtils.getRandomColor();
             showDeviceName();
         }
 
