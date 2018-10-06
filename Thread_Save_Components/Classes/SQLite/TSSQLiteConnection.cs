@@ -9,6 +9,11 @@ namespace Thread_Save_Components.Classes.SQLite
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        /// <summary>
+        /// Can handle multiple DB connections.
+        /// The Tuple contains the following properties:
+        /// Tuple(bool=In transaction, Mutex=A mutex to lock transactions, SQLiteConnection=The actual SQLite connection)
+        /// </summary>
         protected static readonly Dictionary<string, Tuple<bool, Mutex, SQLiteConnection>> DB_CONNECTIONS = new Dictionary<string, Tuple<bool, Mutex, SQLiteConnection>>();
         private static readonly Mutex DB_CONNECTION_MUTEX = new Mutex();
         private readonly string DB_PATH;
