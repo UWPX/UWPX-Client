@@ -80,12 +80,12 @@ namespace UWP_XMPP_Client.Pages
 
         private bool onMessage(IQMessage iq)
         {
-            if(iq is DiscoResponseMessage)
+            if (iq is DiscoResponseMessage)
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(iq as DiscoResponseMessage)).AsTask();
                 return true;
             }
-            else if(iq is IQErrorMessage errorMessage)
+            else if (iq is IQErrorMessage errorMessage)
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
@@ -149,8 +149,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void BrowseMUCRoomsPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (!(Window.Current.Content is Frame rootFrame))
             {
                 return;
             }
@@ -177,6 +176,17 @@ namespace UWP_XMPP_Client.Pages
         private void refresh_btn_Click(object sender, RoutedEventArgs e)
         {
             requestRooms();
+        }
+
+        private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            await UiUtils.onPageSizeChangedAsync(e);
+        }
+
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            await UiUtils.onPageNavigatedFromAsync();
         }
         #endregion
     }

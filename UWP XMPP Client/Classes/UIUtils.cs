@@ -6,12 +6,15 @@ using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.DataTransfer;
+using Windows.Foundation.Metadata;
+using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
+using Windows.UI.ViewManagement;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -20,6 +23,7 @@ namespace UWP_XMPP_Client.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
+        private static readonly Regex HEX_COLOR_REGEX = new Regex("#[0-9a-fA-F]{6}");
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -136,21 +140,50 @@ namespace UWP_XMPP_Client.Classes
             }
         }
 
+        public static bool isHexColor(string color)
+        {
+            return color != null && HEX_COLOR_REGEX.Match(color).Success;
+        }
+
+        /// <summary>
+        /// Checks whether the current device is a Windows Mobile device.
+        /// </summary>
+        public static bool isRunningOnMobileDevice()
+        {
+            return AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile");
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static bool isHexColor(string color)
+        /// <summary>
+        /// Hides the StatusBar on Windows Mobile devices asynchronously.
+        /// </summary>
+        public static async Task hideStatusBarAsync()
         {
-            Regex reg = new Regex("#[0-9a-fA-F]{6}");
-            return color != null && reg.Match(color).Success;
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                await StatusBar.GetForCurrentView().HideAsync();
+            }
+        }
+
+        /// <summary>
+        /// Shows the StatusBar on Windows Mobile devices asynchronously.
+        /// </summary>
+        public static async Task showStatusBarAsync()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                await StatusBar.GetForCurrentView().ShowAsync();
+            }
         }
 
         public static SolidColorBrush convertHexColorToBrush(string color)
         {
             color = color.Replace("#", string.Empty);
-            var r = (byte)Convert.ToUInt32(color.Substring(0, 2), 16);
-            var g = (byte)Convert.ToUInt32(color.Substring(2, 2), 16);
-            var b = (byte)Convert.ToUInt32(color.Substring(4, 2), 16);
+            byte r = (byte)Convert.ToUInt32(color.Substring(0, 2), 16);
+            byte g = (byte)Convert.ToUInt32(color.Substring(2, 2), 16);
+            byte b = (byte)Convert.ToUInt32(color.Substring(4, 2), 16);
             return new SolidColorBrush(Color.FromArgb(255, r, g, b));
         }
 
@@ -189,6 +222,35 @@ namespace UWP_XMPP_Client.Classes
             DataPackage package = new DataPackage();
             package.SetText(text);
             Clipboard.SetContent(package);
+        }
+
+        /// <summary>
+        /// Manages the Windows Mobile StatusBar asynchronously.
+        /// </summary>
+        public static async Task onPageNavigatedFromAsync()
+        {
+            if (isRunningOnMobileDevice())
+            {
+                await showStatusBarAsync();
+            }
+        }
+
+        /// <summary>
+        /// Manages the Windows Mobile StatusBar asynchronously.
+        /// </summary>
+        public static async Task onPageSizeChangedAsync(SizeChangedEventArgs e)
+        {
+            if (isRunningOnMobileDevice())
+            {
+                if (e.NewSize.Height < e.NewSize.Width)
+                {
+                    await hideStatusBarAsync();
+                }
+                else
+                {
+                    await showStatusBarAsync();
+                }
+            }
         }
 
         #endregion

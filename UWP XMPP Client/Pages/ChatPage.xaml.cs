@@ -475,6 +475,16 @@ namespace UWP_XMPP_Client.Pages
             filterChats("", false);
         }
 
+        private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            await UiUtils.onPageSizeChangedAsync(e);
+        }
+
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            await UiUtils.onPageNavigatedFromAsync();
+        }
         #endregion
     }
 }

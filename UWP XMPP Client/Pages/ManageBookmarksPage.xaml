@@ -7,6 +7,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:xep_0048="using:XMPP_API.Classes.Network.XML.Messages.XEP_0048"
       Loaded="Page_Loaded"
+      SizeChanged="Page_SizeChanged"
       Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 

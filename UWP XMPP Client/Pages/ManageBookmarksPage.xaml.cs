@@ -7,6 +7,7 @@ using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
@@ -223,9 +224,19 @@ namespace UWP_XMPP_Client.Pages
 
         private void ManageBookmarksDetailsControl_SaveClicked(Controls.ManageBookmarksDetailsControl sender, RoutedEventArgs args)
         {
-            
+
         }
 
+        private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            await UiUtils.onPageSizeChangedAsync(e);
+        }
+
+        protected async override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            await UiUtils.onPageNavigatedFromAsync();
+        }
         #endregion
     }
 }
