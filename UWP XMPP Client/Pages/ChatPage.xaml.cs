@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.ToastActivation;
 using Logging;
+using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
@@ -25,7 +26,8 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ObservableOrderedChatDictionaryList CHATS;
+        private readonly AdvancedCollectionView CHATS_ACV;
+        private readonly ObservableChatDictionaryList CHATS;
         private string currentChatQuery;
 
         #endregion
@@ -39,8 +41,13 @@ namespace UWP_XMPP_Client.Pages
         /// </history>
         public ChatPage()
         {
-            this.CHATS = new ObservableOrderedChatDictionaryList();
-            this.currentChatQuery = "";
+            this.CHATS = new ObservableChatDictionaryList();
+            this.CHATS_ACV = new AdvancedCollectionView(CHATS, true)
+            {
+                Filter = aCVFilter
+            };
+            this.CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatTemplate.chat), SortDirection.Descending));
+            this.currentChatQuery = string.Empty;
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
         }
@@ -74,6 +81,12 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
+        private bool aCVFilter(object o)
+        {
+            // For searching we could also use something like this: https://www.codeproject.com/Articles/11157/An-improvement-on-capturing-similarity-between-str
+            return string.IsNullOrEmpty(currentChatQuery) || (o is ChatTemplate chat && chat.chat != null && (bool)chat.chat.userAccountId?.Contains(currentChatQuery));
+        }
+
         /// <summary>
         /// Moves the changed item in the given collection to it's appropriate place based on the chats lastActive date.
         /// </summary>
@@ -227,16 +240,7 @@ namespace UWP_XMPP_Client.Pages
             }
 
             currentChatQuery = s;
-            Task.Run(async () =>
-            {
-                List<ChatTemplate> chats = getFilterdChats(s);
-
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                {
-                    CHATS.Clear();
-                    CHATS.AddRange(chats);
-                });
-            });
+            CHATS_ACV.RefreshFilter();
         }
 
         /// <summary>
@@ -326,6 +330,7 @@ namespace UWP_XMPP_Client.Pages
                 {
                     if (CHATS.UpdateChat(args.CHAT))
                     {
+                        CHATS_ACV.RefreshSorting();
                         args.Cancel = true;
                         // Restore selected chat:
                         if (selectedChat != null)
@@ -472,7 +477,7 @@ namespace UWP_XMPP_Client.Pages
         private void filter_abb_Unchecked(object sender, RoutedEventArgs e)
         {
             filter_stckp.Visibility = Visibility.Collapsed;
-            filterChats("", false);
+            filterChats(string.Empty, false);
         }
 
         private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)

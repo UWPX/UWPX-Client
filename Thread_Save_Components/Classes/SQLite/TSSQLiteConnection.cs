@@ -5,7 +5,7 @@ using System.Threading;
 
 namespace Thread_Save_Components.Classes.SQLite
 {
-    public class TSSQLiteConnection
+    public class TSSQLiteConnection : IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -131,6 +131,14 @@ namespace Thread_Save_Components.Classes.SQLite
         public int Delete(object objectToDelete)
         {
             return DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete);
+        }
+
+        public void Dispose()
+        {
+            foreach (var connection in DB_CONNECTIONS)
+            {
+                connection.Value.Item3?.Close();
+            }
         }
 
         #endregion

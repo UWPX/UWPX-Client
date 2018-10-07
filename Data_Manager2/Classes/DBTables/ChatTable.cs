@@ -5,7 +5,7 @@ using XMPP_API.Classes;
 namespace Data_Manager2.Classes.DBTables
 {
     [Table(DBTableConsts.CHAT_TABLE)]
-    public class ChatTable
+    public class ChatTable : IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -65,6 +65,15 @@ namespace Data_Manager2.Classes.DBTables
         public static string generateId(string chatJabberId, string userAccountId)
         {
             return chatJabberId + '_' + userAccountId;
+        }
+
+        public int CompareTo(object obj)
+        {
+            if (obj is ChatTable c)
+            {
+                return lastActive.CompareTo(c.lastActive);
+            }
+            return -1;
         }
 
         #endregion
