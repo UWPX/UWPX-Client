@@ -240,7 +240,7 @@ namespace UWP_XMPP_Client.Controls
 
                     if (!dialog.keepChatMessages)
                     {
-                        foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(account.getIdAndDomain(), null))
+                        foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(account.getIdAndDomain()))
                         {
                             ChatDBManager.INSTANCE.deleteAllChatMessagesForChat(chat.id);
                         }

@@ -144,25 +144,14 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ?;", chatId, MessageState.UNREAD);
         }
 
-        public List<ChatTable> getAllChatsForClient(string userAccountId, string filter)
+        public List<ChatTable> getAllChatsForClient(string userAccountId)
         {
-            if (string.IsNullOrEmpty(filter))
-            {
-                return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
-            }
-            else
-            {
-                SQLiteCommand cmd = dB.CreateCommand("SELECT * FROM " + DBTableConsts.CHAT_TABLE
-                + " WHERE userAccountId = @USER_ACCOUNT_ID AND chatJabberId LIKE @FILTER;");
-                cmd.Bind("@USER_ACCOUNT_ID", userAccountId);
-                cmd.Bind("@FILTER", '%' + filter + '%');
-                return dB.ExecuteCommand<ChatTable>(true, cmd);
-            }
+            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
         public void setAllNotInRoster(string userAccountId)
         {
-            Parallel.ForEach(getAllChatsForClient(userAccountId, null), (c) =>
+            Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>
             {
                 c.inRoster = false;
                 update(c);
@@ -266,7 +255,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public void resetPresence(string userAccountId)
         {
-            foreach (ChatTable c in getAllChatsForClient(userAccountId, null))
+            foreach (ChatTable c in getAllChatsForClient(userAccountId))
             {
                 if (c.chatType == ChatType.CHAT)
                 {

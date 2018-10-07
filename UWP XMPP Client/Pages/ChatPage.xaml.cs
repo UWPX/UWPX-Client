@@ -8,7 +8,6 @@ using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.DataTemplates;
@@ -84,57 +83,23 @@ namespace UWP_XMPP_Client.Pages
         private bool aCVFilter(object o)
         {
             // For searching we could also use something like this: https://www.codeproject.com/Articles/11157/An-improvement-on-capturing-similarity-between-str
-            return string.IsNullOrEmpty(currentChatQuery) || (o is ChatTemplate chat && chat.chat != null && (bool)chat.chat.userAccountId?.Contains(currentChatQuery));
+            return string.IsNullOrEmpty(currentChatQuery)
+                || o is ChatTemplate chat
+                    && (chat.chat.chatJabberId.ToLower().Contains(currentChatQuery)
+                        || (chat.mucInfo != null
+                            && chat.mucInfo.name != null
+                            && chat.mucInfo.name.ToLower().Contains(currentChatQuery)));
         }
 
         /// <summary>
-        /// Moves the changed item in the given collection to it's appropriate place based on the chats lastActive date.
+        /// Returns a list of ChatTemplates loaded from the DB.
         /// </summary>
-        /// <param name="collection">The collection containing the item which got changed.</param>
-        /// <param name="changedIndex">The index of the changed item.</param>
-        /// <returns>Returns true if the item got actually moved or false if it already is on its appropriate position.</returns>
-        private bool sortChangedItemInObservableCollection(ObservableCollection<ChatTemplate> collection, int changedIndex)
-        {
-            for (int i = 0; i < collection.Count; i++)
-            {
-                if (collection[i].chat.lastActive.CompareTo(collection[changedIndex].chat.lastActive) <= 0)
-                {
-                    if (i != changedIndex)
-                    {
-                        collection.Move(changedIndex, i);
-                        return true;
-                    }
-                    return false;
-                }
-            }
-
-            if (changedIndex != collection.Count - 1)
-            {
-                collection.Move(changedIndex, collection.Count - 1);
-                return true;
-            }
-            return false;
-        }
-
-        /// <summary>
-        /// Sorts the given list based on the chats lastActive date.
-        /// </summary>
-        /// <param name="list">The list which should get sorted.</param>
-        /*private void sortList(List<ChatTemplate> list)
-        {
-            list.Sort((a, b) => { return DateTime.Compare(b.chat.lastActive, a.chat.lastActive); });
-        }*/
-
-        /// <summary>
-        /// Returns a list of ChatTemplates which match the given filter.
-        /// </summary>
-        /// <param name="filter">The filter for filtering the chats.</param>
-        private List<ChatTemplate> getFilterdChats(string filter)
+        private List<ChatTemplate> getFilterdChats()
         {
             List<ChatTemplate> list = new List<ChatTemplate>();
             foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
             {
-                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain(), filter))
+                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                 {
                     ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
                     if (chat.chatType == ChatType.MUC)
@@ -157,7 +122,7 @@ namespace UWP_XMPP_Client.Pages
             Task.Run(() =>
             {
                 ChatTemplate selectedChat = null;
-                List<ChatTemplate> chats = getFilterdChats(null);
+                List<ChatTemplate> chats = getFilterdChats();
                 for (int i = 0; i < chats.Count; i++)
                 {
                     if (string.Equals(selectedChatId, chats[i].chat.id))
@@ -211,7 +176,7 @@ namespace UWP_XMPP_Client.Pages
                 {
                     await client.requestPresenceSubscriptionAsync(jID);
                 }
-                ChatDBManager.INSTANCE.setChat(new ChatTable()
+                ChatDBManager.INSTANCE.setChat(new ChatTable
                 {
                     id = ChatTable.generateId(jID, client.getXMPPAccount().getIdAndDomain()),
                     chatJabberId = jID,
@@ -241,16 +206,6 @@ namespace UWP_XMPP_Client.Pages
 
             currentChatQuery = s;
             CHATS_ACV.RefreshFilter();
-        }
-
-        /// <summary>
-        /// Check if the given ChatTemplate matches the given filter.
-        /// </summary>
-        /// <param name="template">The ChatTemplate which should get checked.</param>
-        /// <param name="filter">The filter that should get applied.</param>
-        private bool doesChatTemplateMatchesFilter(ChatTemplate template, string filter)
-        {
-            return template.chat.chatJabberId.ToLower().Contains(filter) || (template.mucInfo != null && template.mucInfo.name != null && template.mucInfo.name.ToLower().Contains(filter));
         }
 
         #endregion
@@ -354,18 +309,15 @@ namespace UWP_XMPP_Client.Pages
                                 chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id);
                             }
 
-                            if (currentChatQuery == null || doesChatTemplateMatchesFilter(chatElement, currentChatQuery))
+                            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                                CHATS.Add(chatElement);
+                                // Restore selected chat:
+                                if (selectedChat != null)
                                 {
-                                    CHATS.Add(chatElement);
-                                    // Restore selected chat:
-                                    if (selectedChat != null)
-                                    {
-                                        masterDetail_pnl.SelectedItem = selectedChat;
-                                    }
-                                }).AsTask();
-                            }
+                                    masterDetail_pnl.SelectedItem = selectedChat;
+                                }
+                            }).AsTask();
                         }
                     }
                 });
@@ -395,7 +347,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void addMIX_mfoi_Click(object sender, RoutedEventArgs e)
         {
-
+            // ToDo Add MIX support.
         }
 
         private void settings_abb_Click(object sender, RoutedEventArgs e)
