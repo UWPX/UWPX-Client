@@ -130,7 +130,6 @@ namespace UWP_XMPP_Client.Classes
 
         public void CopyTo(Array array, int index)
         {
-            int i = index;
             foreach (var item in SORTED_LIST)
             {
                 array.SetValue(item, index);

@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 // https://xmpp.org/extensions/xep-0045.html
@@ -92,18 +91,6 @@ namespace Data_Manager2.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private void processMessage(AbstractMessage msg)
-        {
-            if (msg is DiscoReservedRoomNicknamesResponseMessages)
-            {
-                DiscoReservedRoomNicknamesResponseMessages result = msg as DiscoReservedRoomNicknamesResponseMessages;
-            }
-            else if (msg is IQMessage)
-            {
-                IQMessage iq = msg as IQMessage;
-            }
-        }
-
         private void saveMUCEnterState()
         {
             MUCDBManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);

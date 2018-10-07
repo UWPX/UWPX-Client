@@ -203,7 +203,6 @@ namespace UWP_XMPP_Client.Classes
                     {
                         try
                         {
-                            Uri imgUri = new Uri(file.Path);
                             bool isSelectedImage = imgName != null && imgName.Equals(file.Name) && backgroundMode == EXAMPLE_BACKGROUND;
                             BackgroundImageTemplate bgI = new BackgroundImageTemplate
                             {

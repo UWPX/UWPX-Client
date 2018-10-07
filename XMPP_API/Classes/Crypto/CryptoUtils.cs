@@ -38,7 +38,6 @@ namespace XMPP_API.Classes.Crypto
         /// </summary>
         public static byte[] Pbkdf2Sha1(string normalizedPassword, byte[] salt, int iterations)
         {
-            string s = byteArrayToHexString(salt);
             Rfc2898DeriveBytes deriveBytes = new Rfc2898DeriveBytes(normalizedPassword, salt)
             {
                 IterationCount = iterations
@@ -159,9 +158,6 @@ namespace XMPP_API.Classes.Crypto
 
             // Create a HashAlgorithmProvider object.
             HashAlgorithmProvider objAlgProv = HashAlgorithmProvider.OpenAlgorithm(algName);
-
-            // Demonstrate how to retrieve the name of the hashing algorithm.
-            string strAlgNameUsed = objAlgProv.AlgorithmName;
 
             // Hash the message.
             IBuffer buffHash = objAlgProv.HashData(buffUtf8Msg);
