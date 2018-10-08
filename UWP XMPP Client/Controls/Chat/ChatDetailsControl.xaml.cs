@@ -458,7 +458,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (Client != null && MUCInfo != null && Chat != null)
             {
-                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo);
+                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo).ConfigureAwait(false);
             }
         }
 
@@ -466,7 +466,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (Client != null && MUCInfo != null && Chat != null)
             {
-                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo);
+                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo).ConfigureAwait(false);
             }
         }
 
@@ -674,7 +674,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (!IsDummy)
             {
-                await leaveRoomAsync();
+                await leaveRoomAsync().ConfigureAwait(false);
             }
         }
 
@@ -682,7 +682,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (!IsDummy)
             {
-                await joinRoomAsync();
+                await joinRoomAsync().ConfigureAwait(false);
             }
         }
 
@@ -809,24 +809,23 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void clipImgLib_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            // ToDo implement
         }
 
         private void clipImgCam_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            // ToDo implement
         }
 
         private void clipDraw_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            // ToDo implement
         }
 
         private void clipFile_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            // ToDo implement
         }
-
         #endregion
     }
 }

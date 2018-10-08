@@ -37,14 +37,14 @@ namespace UWP_XMPP_Client.Controls.Chat
             }
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(SpeechBubbleContentControl), null);
-        
+
         public string Message
         {
             get { return (string)GetValue(MessageProperty); }
             set { SetValue(MessageProperty, value); }
         }
         public static readonly DependencyProperty MessageProperty = DependencyProperty.Register(nameof(Message), typeof(string), typeof(SpeechBubbleContentControl), new PropertyMetadata(""));
-        
+
         private string imgPath;
 
         #endregion
@@ -247,7 +247,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (img != null)
             {
                 waitForImageDownloadToFinish(img);
-                await showImageAsync(img);
+                await showImageAsync(img).ConfigureAwait(false);
             }
         }
 
@@ -317,7 +317,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void redownloadImage_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await retryImageDownloadAsync();
+            await retryImageDownloadAsync().ConfigureAwait(false);
         }
 
         private void StackPanel_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
@@ -334,7 +334,6 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             await openImageAsync();
         }
-
         #endregion
     }
 }

@@ -170,11 +170,11 @@ namespace UWP_XMPP_Client.Pages
             {
                 if (addToRoster)
                 {
-                    await client.addToRosterAsync(jID);
+                    await client.addToRosterAsync(jID).ConfigureAwait(false);
                 }
                 if (requestSubscription)
                 {
-                    await client.requestPresenceSubscriptionAsync(jID);
+                    await client.requestPresenceSubscriptionAsync(jID).ConfigureAwait(false);
                 }
                 ChatDBManager.INSTANCE.setChat(new ChatTable
                 {
@@ -285,7 +285,6 @@ namespace UWP_XMPP_Client.Pages
                 {
                     if (CHATS.UpdateChat(args.CHAT))
                     {
-                        CHATS_ACV.RefreshSorting();
                         args.Cancel = true;
                         // Restore selected chat:
                         if (selectedChat != null)
@@ -335,7 +334,7 @@ namespace UWP_XMPP_Client.Pages
             await UiUtils.showDialogAsyncQueue(dialog);
             if (!dialog.cancled)
             {
-                await addChatAsync(dialog.client, dialog.jabberId, dialog.addToRoster, dialog.requestSubscription);
+                await addChatAsync(dialog.client, dialog.jabberId, dialog.addToRoster, dialog.requestSubscription).ConfigureAwait(false);
             }
         }
 
@@ -365,7 +364,7 @@ namespace UWP_XMPP_Client.Pages
                     ChatTemplate c = added as ChatTemplate;
                     if (shouldSendChatState(c.chat))
                     {
-                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE);
+                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE).ConfigureAwait(false);
                     }
                 }
             }
@@ -377,7 +376,7 @@ namespace UWP_XMPP_Client.Pages
                     ChatTemplate c = added as ChatTemplate;
                     if (shouldSendChatState(c.chat))
                     {
-                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.INACTIVE);
+                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.INACTIVE).ConfigureAwait(false);
                     }
                 }
             }

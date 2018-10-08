@@ -331,7 +331,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
         {
-            await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted);
+            await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted).ConfigureAwait(false);
             Chat.ask = null;
             ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
@@ -351,11 +351,11 @@ namespace UWP_XMPP_Client.Controls.Chat
 
             if (Chat.inRoster)
             {
-                await Client.removeFromRosterAsync(Chat.chatJabberId);
+                await Client.removeFromRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
             }
             else
             {
-                await Client.addToRosterAsync(Chat.chatJabberId);
+                await Client.addToRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
             }
         }
 
@@ -441,7 +441,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     }
                     else
                     {
-                        await Client.removeFromRosterAsync(Chat.chatJabberId);
+                        await Client.removeFromRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
                     }
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
@@ -456,7 +456,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (Client != null && MUCInfo != null && Chat != null)
             {
-                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo);
+                await MUCHandler.INSTANCE.leaveRoomAsync(Client, Chat, MUCInfo).ConfigureAwait(false);
             }
         }
 
@@ -464,7 +464,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (Client != null && MUCInfo != null && Chat != null)
             {
-                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo);
+                await MUCHandler.INSTANCE.enterMUCAsync(Client, Chat, MUCInfo).ConfigureAwait(false);
             }
         }
 
@@ -517,7 +517,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (subscriptionRequest)
             {
-                await presenceSubscriptionRequestClickedAsync(true);
+                await presenceSubscriptionRequestClickedAsync(true).ConfigureAwait(false);
             }
             else
             {
@@ -551,12 +551,12 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.requestPresenceSubscriptionAsync(Chat.chatJabberId);
+            await Client.requestPresenceSubscriptionAsync(Chat.chatJabberId).ConfigureAwait(false);
         }
 
         private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.unsubscribeFromPresence(Chat.chatJabberId);
+            await Client.unsubscribeFromPresence(Chat.chatJabberId).ConfigureAwait(false);
             resetAsk();
         }
 
@@ -568,7 +568,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void cancelPresenceSubscriptionRequest_Click(object sender, RoutedEventArgs e)
         {
-            await Client.unsubscribeFromPresence(Chat.chatJabberId);
+            await Client.unsubscribeFromPresence(Chat.chatJabberId).ConfigureAwait(false);
             resetAsk();
         }
 
@@ -616,7 +616,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             {
                 if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
                 {
-                    await deleteChatAsync();
+                    await deleteChatAsync().ConfigureAwait(false);
                 }
                 else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
                 {
@@ -634,7 +634,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                         switch (Chat.chatType)
                         {
                             case ChatType.CHAT:
-                                await switchChatInRoosterAsync();
+                                await switchChatInRoosterAsync().ConfigureAwait(false);
                                 break;
                             case ChatType.MUC:
                                 switchMUCBookmarkes();
@@ -678,12 +678,12 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void leave_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await leaveRoomAsync();
+            await leaveRoomAsync().ConfigureAwait(false);
         }
 
         private async void join_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await joinRoomAsync();
+            await joinRoomAsync().ConfigureAwait(false);
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
@@ -693,7 +693,6 @@ namespace UWP_XMPP_Client.Controls.Chat
                 lastChatMessage.ChatMessageChanged -= ChatMessage_ChatMessageChanged;
             }
         }
-
         #endregion
     }
 }

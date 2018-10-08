@@ -182,7 +182,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
                 Invitation.state = MUCDirectInvitationState.ACCEPTED;
                 string chatMessageId = Invitation.chatMessageId;
-                await Task.Run(() => ChatDBManager.INSTANCE.setMUCDirectInvitationState(chatMessageId, MUCDirectInvitationState.ACCEPTED));
+                await Task.Run(() => ChatDBManager.INSTANCE.setMUCDirectInvitationState(chatMessageId, MUCDirectInvitationState.ACCEPTED)).ConfigureAwait(false);
                 showInvitation();
             }
         }
