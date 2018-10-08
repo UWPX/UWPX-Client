@@ -1,10 +1,12 @@
-﻿namespace Data_Manager2.Classes
+﻿using Microsoft.Toolkit.Uwp.Helpers;
+
+namespace Data_Manager2.Classes
 {
     public static class Settings
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public static LocalObjectStorageHelper LOCAL_OBJECT_STORAGE_HELPER = new LocalObjectStorageHelper();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

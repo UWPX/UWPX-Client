@@ -29,5 +29,11 @@
         public const string VERSION_BUILD = "version_build";
         public const string VERSION_REVISION = "version_revision";
         public const string LOG_LEVEL = "log_level";
+
+        public const string CHAT_FILTER_PRESENCES = "chat_filter_presences";
+        public const string CHAT_FILTER_NOT_ONLINE = "chat_filter_not_online";
+        public const string CHAT_FILTER_NOT_UNAVAILABLE = "chat_filter_not_unavailable";
+        public const string CHAT_FILTER_QUERY = "chat_filter_query";
+        public const string CHAT_FILTER_QUERY_ENABLED = "chat_filter_query_enabled";
     }
 }

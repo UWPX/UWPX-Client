@@ -108,6 +108,7 @@
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\ChatFilter.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />
     <Compile Include="Classes\Events\AddAccountClickedEventArgs.cs" />
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />

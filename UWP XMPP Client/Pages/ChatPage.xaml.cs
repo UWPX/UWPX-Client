@@ -27,7 +27,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Attributes--
         private readonly AdvancedCollectionView CHATS_ACV;
         private readonly ObservableChatDictionaryList CHATS;
-        private string currentChatQuery;
+        private readonly ChatFilter CHAT_FILTER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,7 +46,7 @@ namespace UWP_XMPP_Client.Pages
                 Filter = aCVFilter
             };
             this.CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatTemplate.chat), SortDirection.Descending));
-            this.currentChatQuery = string.Empty;
+            this.CHAT_FILTER = new ChatFilter(this.CHATS_ACV);
             this.InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += ChatPage2_BackRequested;
         }
@@ -82,13 +82,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Misc Methods (Private)--
         private bool aCVFilter(object o)
         {
-            // For searching we could also use something like this: https://www.codeproject.com/Articles/11157/An-improvement-on-capturing-similarity-between-str
-            return string.IsNullOrEmpty(currentChatQuery)
-                || o is ChatTemplate chat
-                    && (chat.chat.chatJabberId.ToLower().Contains(currentChatQuery)
-                        || (chat.mucInfo != null
-                            && chat.mucInfo.name != null
-                            && chat.mucInfo.name.ToLower().Contains(currentChatQuery)));
+            return CHAT_FILTER.filter(o);
         }
 
         /// <summary>
@@ -199,15 +193,24 @@ namespace UWP_XMPP_Client.Pages
         /// <param name="force">Force filtering.</param>
         private void filterChats(string s, bool force)
         {
-            if (!force && Equals(s, currentChatQuery))
+            if (!CHAT_FILTER.setChatQuery(s) && force)
             {
-                return;
+                CHATS_ACV.RefreshFilter();
             }
-
-            currentChatQuery = s;
-            CHATS_ACV.RefreshFilter();
         }
 
+        private void updateFilterUi()
+        {
+            filter_not_unavailable_tmfo.IsChecked = CHAT_FILTER.notUnavailable;
+            filter_not_online_tmfo.IsChecked = CHAT_FILTER.notOnline;
+
+            filter_online_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Online);
+            filter_chat_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Chat);
+            filter_away_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Away);
+            filter_xa_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Xa);
+            filter_dnd_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Dnd);
+            filter_unavailable_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Unavailable);
+        }
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -391,16 +394,20 @@ namespace UWP_XMPP_Client.Pages
             ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
             MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
+
+            // Load chat filter:
+            filterChats_asb.Text = CHAT_FILTER.chatQuery;
+            filter_query_abb.IsChecked = CHAT_FILTER.chatQueryEnabled;
         }
 
-        private void searchChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        private void filterChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
-            filterChats(searchChats_asb.Text.ToLower(), false);
+            filterChats(filterChats_asb.Text, false);
         }
 
-        private void searchChats_asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        private void filterChats_asb_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            filterChats((args.QueryText ?? searchChats_asb.Text).ToLower(), true);
+            filterChats((args.QueryText ?? filterChats_asb.Text), true);
         }
 
         private void master_cmdb_Opening(object sender, object e)
@@ -419,15 +426,17 @@ namespace UWP_XMPP_Client.Pages
             (Window.Current.Content as Frame).Navigate(typeof(ManageBookmarksPage));
         }
 
-        private void filter_abb_Checked(object sender, RoutedEventArgs e)
+        private void filter_query_abb_Checked(object sender, RoutedEventArgs e)
         {
-            filter_stckp.Visibility = Visibility.Visible;
-            filterChats(searchChats_asb.Text.ToLower(), false);
+            CHAT_FILTER.setChatQueryEnabled(true);
+            filter_query_stckp.Visibility = Visibility.Visible;
+            filterChats(filterChats_asb.Text, false);
         }
 
-        private void filter_abb_Unchecked(object sender, RoutedEventArgs e)
+        private void filter_query_abb_Unchecked(object sender, RoutedEventArgs e)
         {
-            filter_stckp.Visibility = Visibility.Collapsed;
+            CHAT_FILTER.setChatQueryEnabled(false);
+            filter_query_stckp.Visibility = Visibility.Collapsed;
             filterChats(string.Empty, false);
         }
 
@@ -440,6 +449,60 @@ namespace UWP_XMPP_Client.Pages
         {
             base.OnNavigatedFrom(e);
             await UiUtils.onPageNavigatedFromAsync();
+        }
+
+        private void filter_not_unavailable_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setNotUnavailable(filter_not_unavailable_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_not_online_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setNotOnline(filter_not_online_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_online_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Online, filter_online_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_chat_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Chat, filter_chat_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_away_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Away, filter_away_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_xa_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Xa, filter_xa_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_dnd_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Dnd, filter_dnd_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_unavailable_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Unavailable, filter_unavailable_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filter_clear_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.clearPresenceFilter();
+            updateFilterUi();
         }
         #endregion
     }
