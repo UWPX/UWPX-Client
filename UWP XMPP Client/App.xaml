@@ -34,7 +34,7 @@
 
         <Style TargetType="controls:MasterDetailsView">
             <Setter Property="CompactModeThresholdWidth" Value="640"/>
-            <Setter Property="MasterPaneWidth" Value="320"/>
+            <Setter Property="MasterPaneWidth" Value="321"/>
         </Style>
     </Application.Resources>
 
