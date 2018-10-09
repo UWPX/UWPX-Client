@@ -129,7 +129,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void jabberId_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
             int selectionStart = jabberId_tbx.SelectionStart;
-            jabberId_tbx.Text = jabberId_tbx.Text.ToLower();
+            jabberId_tbx.Text = jabberId_tbx.Text.ToLowerInvariant();
             jabberId_tbx.SelectionStart = selectionStart;
             jabberId_tbx.SelectionLength = 0;
             jabberId_tbx.BorderBrush = new SolidColorBrush(Utils.isBareJid(jabberId_tbx.Text) ? Colors.Green : Colors.Red);

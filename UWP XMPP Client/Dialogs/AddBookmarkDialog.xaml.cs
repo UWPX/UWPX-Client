@@ -128,7 +128,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void jid_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
             int selectionStart = jid_tbx.SelectionStart;
-            jid_tbx.Text = jid_tbx.Text.ToLower();
+            jid_tbx.Text = jid_tbx.Text.ToLowerInvariant();
             jid_tbx.SelectionStart = selectionStart;
             jid_tbx.SelectionLength = 0;
             bool isBareJid = Utils.isBareJid(jid_tbx.Text);

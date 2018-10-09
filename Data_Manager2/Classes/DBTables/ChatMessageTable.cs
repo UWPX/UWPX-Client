@@ -122,7 +122,7 @@ namespace Data_Manager2.Classes.DBTables
         /// <returns>Is image url?</returns>
         private bool isMessageAnImageUrl(string msg)
         {
-            return msg != null && IMAGE_URL_REGEX.IsMatch(msg.ToLower());
+            return msg != null && IMAGE_URL_REGEX.IsMatch(msg.ToLowerInvariant());
         }
 
         /// <summary>

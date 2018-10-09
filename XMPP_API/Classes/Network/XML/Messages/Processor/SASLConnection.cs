@@ -69,7 +69,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             {
                 foreach (string m in mechanisms)
                 {
-                    if (m.ToLower().Equals(s))
+                    if (m.ToLowerInvariant().Equals(s))
                     {
                         selected = s;
                         break;

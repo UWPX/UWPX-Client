@@ -125,7 +125,7 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 XMPPClient client = accountSelection_asc.getSelectedAccount();
 
-                string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLower();
+                string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLowerInvariant();
 
                 ChatTable muc = new ChatTable
                 {
@@ -291,7 +291,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void roomName_tbx_TextChanged(object sender, TextChangedEventArgs e)
         {
             int selectionStart = roomName_tbx.SelectionStart;
-            roomName_tbx.Text = roomName_tbx.Text.ToLower();
+            roomName_tbx.Text = roomName_tbx.Text.ToLowerInvariant();
             roomName_tbx.SelectionStart = selectionStart;
             roomName_tbx.SelectionLength = 0;
         }

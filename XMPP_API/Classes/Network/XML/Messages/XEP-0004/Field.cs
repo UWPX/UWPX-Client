@@ -143,7 +143,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             fieldNode.Add(new XAttribute("var", var));
             if (type != FieldType.NONE)
             {
-                fieldNode.Add(new XAttribute("type", type.ToString().ToLower().Replace('_', '-')));
+                fieldNode.Add(new XAttribute("type", type.ToString().ToLowerInvariant().Replace('_', '-')));
             }
             switch (type)
             {

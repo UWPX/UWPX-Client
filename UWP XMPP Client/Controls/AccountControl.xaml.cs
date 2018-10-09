@@ -65,7 +65,7 @@ namespace UWP_XMPP_Client.Controls
             if (user != null)
             {
                 Account.user = user;
-                Account.serverAddress = serverAddress_tbx.Text.ToLower();
+                Account.serverAddress = serverAddress_tbx.Text.ToLowerInvariant();
                 int.TryParse(serverPort_tbx.Text, out Account.port);
                 Account.presencePriorety = (int)presencePriorety_slider.Value;
                 Account.color = color_tbx.Text;
@@ -82,8 +82,8 @@ namespace UWP_XMPP_Client.Controls
             int index = jabberId_tbx.Text.IndexOf('@');
             if (index > 0)
             {
-                string userId = jabberId_tbx.Text.ToLower().Substring(0, index);
-                string domain = jabberId_tbx.Text.ToLower().Substring(index + 1);
+                string userId = jabberId_tbx.Text.ToLowerInvariant().Substring(0, index);
+                string domain = jabberId_tbx.Text.ToLowerInvariant().Substring(index + 1);
                 return new XMPPUser(userId, password_pwb.Password, domain, resource_tbx.Text);
             }
             return null;

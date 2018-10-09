@@ -149,7 +149,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             int selectionLengt = tbx.SelectionLength;
             int selectionStart = tbx.SelectionStart;
-            tbx.Text = tbx.Text.ToLower();
+            tbx.Text = tbx.Text.ToLowerInvariant();
             tbx.SelectionStart = selectionStart;
             tbx.SelectionLength = selectionLengt;
 

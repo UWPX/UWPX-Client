@@ -40,7 +40,7 @@ namespace UWP_XMPP_Client.Classes
             this.PRESENCES = Settings.LOCAL_OBJECT_STORAGE_HELPER.Read(SettingsConsts.CHAT_FILTER_PRESENCES, new HashSet<Presence>());
 
             this.chatQuery = Settings.getSettingString(SettingsConsts.CHAT_FILTER_QUERY, string.Empty);
-            this.chatQueryLow = this.chatQuery.ToLower();
+            this.chatQueryLow = this.chatQuery.ToLowerInvariant();
             this.chatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
             this.notOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
             this.notUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
@@ -53,7 +53,7 @@ namespace UWP_XMPP_Client.Classes
         #region --Set-, Get- Methods--
         public bool setChatQuery(string chatQueryNew)
         {
-            string chatQueryNewLow = chatQueryNew.ToLower();
+            string chatQueryNewLow = chatQueryNew.ToLowerInvariant();
             if (string.Equals(chatQueryLow, chatQueryNewLow))
             {
                 return true;
@@ -195,10 +195,10 @@ namespace UWP_XMPP_Client.Classes
         private bool filterChatQuery(ChatTemplate chat)
         {
             // For searching we could also use something like this: https://www.codeproject.com/Articles/11157/An-improvement-on-capturing-similarity-between-str
-            return chat.chat.chatJabberId.ToLower().Contains(chatQueryLow)
+            return chat.chat.chatJabberId.ToLowerInvariant().Contains(chatQueryLow)
                 || (chat.mucInfo != null
                     && chat.mucInfo.name != null
-                    && chat.mucInfo.name.ToLower().Contains(chatQueryLow));
+                    && chat.mucInfo.name.ToLowerInvariant().Contains(chatQueryLow));
         }
 
         private bool filterPresence(ChatTemplate chat)

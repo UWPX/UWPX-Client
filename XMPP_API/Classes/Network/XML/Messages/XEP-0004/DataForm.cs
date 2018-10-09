@@ -59,7 +59,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         {
             XNamespace ns = Consts.XML_XEP_0004_NAMESPACE;
             XElement xNode = new XElement(ns + "x");
-            xNode.Add(new XAttribute("type", type.ToString().ToLower()));
+            xNode.Add(new XAttribute("type", type.ToString().ToLowerInvariant()));
 
             foreach (Field f in FIELDS)
             {
