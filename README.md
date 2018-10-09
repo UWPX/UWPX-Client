@@ -34,6 +34,7 @@ It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([X
 | ------------- | ------------- |
 | vcard-temp | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") |
 | User Avatar | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") |
+| Instant Messaging Intelligence Quotient (IM IQ) | [XEP-0148](https://xmpp.org/extensions/xep-0148.html "XEP-0148") |
 | Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") |
 | Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |
