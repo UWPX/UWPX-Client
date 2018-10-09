@@ -26,7 +26,8 @@ It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([X
 | Message Delivery Receipts | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
 | Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
 | Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
-| Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0280.html "XEP-0334") |
+| Message Archive Management | [XEP-0313](https://xmpp.org/extensions/xep-0313.html "XEP-0313") |
+| Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") |
 
 
 ## ToDo:
