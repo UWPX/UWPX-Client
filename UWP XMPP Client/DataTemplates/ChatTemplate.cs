@@ -19,11 +19,8 @@ namespace UWP_XMPP_Client.DataTemplates
             }
             set
             {
-                if (value != _image)
-                {
-                    _image = value;
-                    onPropertyChanged(nameof(image));
-                }
+                _image = value;
+                onPropertyChanged();
             }
         }
         private ChatTable _chat;
@@ -35,11 +32,8 @@ namespace UWP_XMPP_Client.DataTemplates
             }
             set
             {
-                if (value != _chat)
-                {
-                    _chat = value;
-                    onPropertyChanged(nameof(chat));
-                }
+                _chat = value;
+                onPropertyChanged();
             }
         }
         private MUCChatInfoTable _mucInfo;
@@ -51,11 +45,8 @@ namespace UWP_XMPP_Client.DataTemplates
             }
             set
             {
-                if (value != _mucInfo)
-                {
-                    _mucInfo = value;
-                    onPropertyChanged(nameof(mucInfo));
-                }
+                _mucInfo = value;
+                onPropertyChanged();
             }
         }
         private XMPPClient _client;
@@ -67,20 +58,17 @@ namespace UWP_XMPP_Client.DataTemplates
             }
             set
             {
-                if (value != _client)
-                {
-                    _client = value;
-                    onPropertyChanged(nameof(client));
-                }
+                _client = value;
+                onPropertyChanged();
             }
         }
 
         /// <summary>
-        /// The index in the chatslist.
+        /// The index in the chats list.
         /// </summary>
         public int index;
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

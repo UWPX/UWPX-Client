@@ -60,7 +60,7 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public event PropertyChangedEventHandler PropertyChanged = delegate { };
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
