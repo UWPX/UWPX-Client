@@ -201,15 +201,18 @@ namespace UWP_XMPP_Client.Pages
 
         private void updateFilterUi()
         {
-            filter_not_unavailable_tmfo.IsChecked = CHAT_FILTER.notUnavailable;
-            filter_not_online_tmfo.IsChecked = CHAT_FILTER.notOnline;
+            filterPresenceNotUnavailable_tmfo.IsChecked = CHAT_FILTER.notUnavailable;
+            filterPresenceNotOnline_tmfo.IsChecked = CHAT_FILTER.notOnline;
 
-            filter_online_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Online);
-            filter_chat_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Chat);
-            filter_away_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Away);
-            filter_xa_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Xa);
-            filter_dnd_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Dnd);
-            filter_unavailable_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Unavailable);
+            filterPresenceOnline_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Online);
+            filterPresenceChat_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Chat);
+            filterPresenceAway_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Away);
+            filterPresenceXa_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Xa);
+            filterPresenceDnd_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Dnd);
+            filterPresenceUnavailable_tmfo.IsChecked = CHAT_FILTER.hasPresenceFilter(Presence.Unavailable);
+
+            filterChat_tmfo.IsChecked = CHAT_FILTER.chat;
+            filterMUC_tmfo.IsChecked = CHAT_FILTER.muc;
         }
         #endregion
 
@@ -397,7 +400,7 @@ namespace UWP_XMPP_Client.Pages
 
             // Load chat filter:
             filterChats_asb.Text = CHAT_FILTER.chatQuery;
-            filter_query_abb.IsChecked = CHAT_FILTER.chatQueryEnabled;
+            filterQuery_abb.IsChecked = CHAT_FILTER.chatQueryEnabled;
         }
 
         private void filterChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
@@ -412,32 +415,18 @@ namespace UWP_XMPP_Client.Pages
 
         private void master_cmdb_Opening(object sender, object e)
         {
-            changePresence_apbb.IsEnabled = ConnectionHandler.INSTANCE.getClients().Count > 0;
+            changePresence_abb.IsEnabled = ConnectionHandler.INSTANCE.getClients().Count > 0;
         }
 
-        private async void changePresence_apbb_Click(object sender, RoutedEventArgs e)
+        private async void changePresence_abb_Click(object sender, RoutedEventArgs e)
         {
             ChangeAccountPresenceDialog dialog = new ChangeAccountPresenceDialog();
             await UiUtils.showDialogAsyncQueue(dialog);
         }
 
-        private void manageBookmarks_apbb_Click(object sender, RoutedEventArgs e)
+        private void manageBookmarks_abb_Click(object sender, RoutedEventArgs e)
         {
             (Window.Current.Content as Frame).Navigate(typeof(ManageBookmarksPage));
-        }
-
-        private void filter_query_abb_Checked(object sender, RoutedEventArgs e)
-        {
-            CHAT_FILTER.setChatQueryEnabled(true);
-            filter_query_stckp.Visibility = Visibility.Visible;
-            filterChats(filterChats_asb.Text, false);
-        }
-
-        private void filter_query_abb_Unchecked(object sender, RoutedEventArgs e)
-        {
-            CHAT_FILTER.setChatQueryEnabled(false);
-            filter_query_stckp.Visibility = Visibility.Collapsed;
-            filterChats(string.Empty, false);
         }
 
         private async void Page_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -451,58 +440,84 @@ namespace UWP_XMPP_Client.Pages
             await UiUtils.onPageNavigatedFromAsync();
         }
 
-        private void filter_not_unavailable_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterChat_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setNotUnavailable(filter_not_unavailable_tmfo.IsChecked);
+            CHAT_FILTER.setChatOnly(filterChat_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_not_online_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterMUC_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setNotOnline(filter_not_online_tmfo.IsChecked);
+            CHAT_FILTER.setMUCOnly(filterMUC_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_online_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceNotUnavailable_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setPresenceFilter(Presence.Online, filter_online_tmfo.IsChecked);
+            CHAT_FILTER.setNotUnavailable(filterPresenceNotUnavailable_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_chat_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceNotOnline_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setPresenceFilter(Presence.Chat, filter_chat_tmfo.IsChecked);
+            CHAT_FILTER.setNotOnline(filterPresenceNotOnline_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_away_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceOnline_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setPresenceFilter(Presence.Away, filter_away_tmfo.IsChecked);
+            CHAT_FILTER.setPresenceFilter(Presence.Online, filterPresenceOnline_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_xa_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceChat_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setPresenceFilter(Presence.Xa, filter_xa_tmfo.IsChecked);
+            CHAT_FILTER.setPresenceFilter(Presence.Chat, filterPresenceChat_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_dnd_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceAway_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setPresenceFilter(Presence.Dnd, filter_dnd_tmfo.IsChecked);
+            CHAT_FILTER.setPresenceFilter(Presence.Away, filterPresenceAway_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_unavailable_tmfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceXa_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            CHAT_FILTER.setPresenceFilter(Presence.Unavailable, filter_unavailable_tmfo.IsChecked);
+            CHAT_FILTER.setPresenceFilter(Presence.Xa, filterPresenceXa_tmfo.IsChecked);
             updateFilterUi();
         }
 
-        private void filter_clear_mfo_Click(object sender, RoutedEventArgs e)
+        private void filterPresenceDnd_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Dnd, filterPresenceDnd_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filterPresenceUnavailable_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setPresenceFilter(Presence.Unavailable, filterPresenceUnavailable_tmfo.IsChecked);
+            updateFilterUi();
+        }
+
+        private void filterClear_mfo_Click(object sender, RoutedEventArgs e)
         {
             CHAT_FILTER.clearPresenceFilter();
             updateFilterUi();
+        }
+
+        private void filterQuery_abb_Checked(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setChatQueryEnabled(true);
+            filter_query_stckp.Visibility = Visibility.Visible;
+            filterChats(filterChats_asb.Text, false);
+        }
+
+        private void filterQuery_abb_Unchecked(object sender, RoutedEventArgs e)
+        {
+            CHAT_FILTER.setChatQueryEnabled(false);
+            filter_query_stckp.Visibility = Visibility.Collapsed;
+            filterChats(string.Empty, false);
         }
         #endregion
     }

@@ -125,21 +125,41 @@
                         <AppBarButton Label="Filter">
                             <AppBarButton.Flyout>
                                 <MenuFlyout>
+                                    <MenuFlyoutSubItem Text="Chat type">
+                                        <MenuFlyoutSubItem.Icon>
+                                            <FontIcon Glyph="&#xE125;"/>
+                                        </MenuFlyoutSubItem.Icon>
+                                        <ToggleMenuFlyoutItem x:Name="filterChat_tmfo"
+                                                              Click="filterChat_tmfo_Click"
+                                                              Text="Chat">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE77B;"/>
+                                            </MenuFlyoutItem.Icon>
+                                        </ToggleMenuFlyoutItem>
+                                        <MenuFlyoutSeparator/>
+                                        <ToggleMenuFlyoutItem x:Name="filterMUC_tmfo"
+                                                              Click="filterMUC_tmfo_Click"
+                                                              Text="MUC">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xE125;"/>
+                                            </MenuFlyoutItem.Icon>
+                                        </ToggleMenuFlyoutItem>
+                                    </MenuFlyoutSubItem>
                                     <MenuFlyoutSubItem Text="Presence">
                                         <MenuFlyoutSubItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceOnline}"
                                                       Glyph="&#xEDAF;"/>
                                         </MenuFlyoutSubItem.Icon>
-                                        <ToggleMenuFlyoutItem x:Name="filter_not_unavailable_tmfo"
-                                                              Click="filter_not_unavailable_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceNotUnavailable_tmfo"
+                                                              Click="filterPresenceNotUnavailable_tmfo_Click"
                                                               Text="Not unavailable">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceUnavailable}"
                                                           Glyph="&#xF138;"/>
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
-                                        <ToggleMenuFlyoutItem x:Name="filter_not_online_tmfo"
-                                                              Click="filter_not_online_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceNotOnline_tmfo"
+                                                              Click="filterPresenceNotOnline_tmfo_Click"
                                                               Text="Not online">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceOnline}"
@@ -147,48 +167,48 @@
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
                                         <MenuFlyoutSeparator/>
-                                        <ToggleMenuFlyoutItem x:Name="filter_online_tmfo"
-                                                              Click="filter_online_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceOnline_tmfo"
+                                                              Click="filterPresenceOnline_tmfo_Click"
                                                               Text="Online">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceOnline}"
                                                           Glyph="&#xEDAF;"/>
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
-                                        <ToggleMenuFlyoutItem x:Name="filter_chat_tmfo"
-                                                              Click="filter_chat_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceChat_tmfo"
+                                                              Click="filterPresenceChat_tmfo_Click"
                                                               Text="Chat">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceChat}"
                                                           Glyph="&#xEDAF;"/>
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
-                                        <ToggleMenuFlyoutItem x:Name="filter_away_tmfo"
-                                                              Click="filter_away_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceAway_tmfo"
+                                                              Click="filterPresenceAway_tmfo_Click"
                                                               Text="Away">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceAway}"
                                                           Glyph="&#xEDAF;"/>
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
-                                        <ToggleMenuFlyoutItem x:Name="filter_xa_tmfo"
-                                                              Click="filter_xa_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceXa_tmfo"
+                                                              Click="filterPresenceXa_tmfo_Click"
                                                               Text="Xa">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceXa}"
                                                           Glyph="&#xEDAF;"/>
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
-                                        <ToggleMenuFlyoutItem x:Name="filter_dnd_tmfo"
-                                                              Click="filter_dnd_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceDnd_tmfo"
+                                                              Click="filterPresenceDnd_tmfo_Click"
                                                               Text="Dnd">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceDnd}"
                                                           Glyph="&#xEDAF;"/>
                                             </MenuFlyoutItem.Icon>
                                         </ToggleMenuFlyoutItem>
-                                        <ToggleMenuFlyoutItem x:Name="filter_unavailable_tmfo"
-                                                              Click="filter_unavailable_tmfo_Click"
+                                        <ToggleMenuFlyoutItem x:Name="filterPresenceUnavailable_tmfo"
+                                                              Click="filterPresenceUnavailable_tmfo_Click"
                                                               Text="Unavailable">
                                             <MenuFlyoutItem.Icon>
                                                 <FontIcon Foreground="{StaticResource PresenceUnavailable}"
@@ -197,8 +217,8 @@
                                         </ToggleMenuFlyoutItem>
                                     </MenuFlyoutSubItem>
                                     <MenuFlyoutSeparator/>
-                                    <MenuFlyoutItem x:Name="filter_clear_mfo"
-                                                    Click="filter_clear_mfo_Click"
+                                    <MenuFlyoutItem x:Name="filterClear_mfo"
+                                                    Click="filterClear_mfo_Click"
                                                     Text="Clear">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xED62;"/>
@@ -211,11 +231,11 @@
                                           Glyph="&#xE71C;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>
-                        <AppBarToggleButton x:Name="filter_query_abb"
+                        <AppBarToggleButton x:Name="filterQuery_abb"
                                             Grid.Column="1"
-                                            Checked="filter_query_abb_Checked"
+                                            Checked="filterQuery_abb_Checked"
                                             Label="Search"
-                                            Unchecked="filter_query_abb_Unchecked">
+                                            Unchecked="filterQuery_abb_Unchecked">
                             <AppBarToggleButton.Icon>
                                 <FontIcon FontFamily="Segoe MDL2 Assets"
                                           Glyph="&#xE721;"/>
@@ -232,16 +252,16 @@
                         </AppBarButton>
 
                         <CommandBar.SecondaryCommands>
-                            <AppBarButton x:Name="changePresence_apbb"
-                                          Click="changePresence_apbb_Click"
+                            <AppBarButton x:Name="changePresence_abb"
+                                          Click="changePresence_abb_Click"
                                           Label="Change presence">
                                 <AppBarButton.Icon>
                                     <FontIcon Foreground="{StaticResource PresenceOnline}"
                                               Glyph="&#xEDAF;"/>
                                 </AppBarButton.Icon>
                             </AppBarButton>
-                            <AppBarButton x:Name="manageBookmarks_apbb"
-                                          Click="manageBookmarks_apbb_Click"
+                            <AppBarButton x:Name="manageBookmarks_abb"
+                                          Click="manageBookmarks_abb_Click"
                                           Label="Manage bookmarks">
                                 <AppBarButton.Icon>
                                     <FontIcon Foreground="Gold"

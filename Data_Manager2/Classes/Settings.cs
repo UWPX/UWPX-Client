@@ -6,7 +6,7 @@ namespace Data_Manager2.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static LocalObjectStorageHelper LOCAL_OBJECT_STORAGE_HELPER = new LocalObjectStorageHelper();
+        public static readonly LocalObjectStorageHelper LOCAL_OBJECT_STORAGE_HELPER = new LocalObjectStorageHelper();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

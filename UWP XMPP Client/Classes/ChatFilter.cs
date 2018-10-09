@@ -19,6 +19,10 @@ namespace UWP_XMPP_Client.Classes
 
         private readonly HashSet<Presence> PRESENCES;
 
+        public bool chat { private set; get; }
+        public bool muc { private set; get; }
+
+
         private readonly AdvancedCollectionView CHATS_ACV;
 
         #endregion
@@ -40,6 +44,8 @@ namespace UWP_XMPP_Client.Classes
             this.chatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
             this.notOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
             this.notUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
+            this.chat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHAT);
+            this.muc = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUC);
         }
 
         #endregion
@@ -129,15 +135,37 @@ namespace UWP_XMPP_Client.Classes
             }
         }
 
+        public void setChatOnly(bool chatOnly)
+        {
+            if (this.chat != chatOnly)
+            {
+                this.chat = chatOnly;
+                saveChat();
+                onFilterChanged();
+            }
+        }
+
+        public void setMUCOnly(bool mucOnly)
+        {
+            if (this.muc != mucOnly)
+            {
+                this.muc = mucOnly;
+                saveMUC();
+                onFilterChanged();
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public bool filter(object o)
         {
             return (o is ChatTemplate chat
-                    && (!chatQueryEnabled || string.IsNullOrEmpty(chatQueryLow)
+                    && (!chatQueryEnabled
+                        || string.IsNullOrEmpty(chatQueryLow)
                         || filterChatQuery(chat))
-                    && filterPresence(chat));
+                    && filterPresence(chat))
+                    && filterChatType(chat);
         }
 
         public void clearPresenceFilter()
@@ -153,6 +181,11 @@ namespace UWP_XMPP_Client.Classes
                 savePresences();
 
                 onFilterChanged();
+
+                chat = false;
+                muc = false;
+                saveChat();
+                saveMUC();
             }
         }
 
@@ -179,6 +212,15 @@ namespace UWP_XMPP_Client.Classes
                 return chat.chat.presence != Presence.Unavailable;
             }
             return PRESENCES.Count <= 0 || PRESENCES.Contains(chat.chat.presence);
+        }
+
+        private bool filterChatType(ChatTemplate chat)
+        {
+            if (this.chat || muc)
+            {
+                return chat.chat.chatType == ChatType.CHAT && this.chat || chat.chat.chatType == ChatType.MUC && muc;
+            }
+            return true;
         }
 
         private void onFilterChanged()
@@ -211,6 +253,15 @@ namespace UWP_XMPP_Client.Classes
             Settings.setSetting(SettingsConsts.CHAT_FILTER_QUERY_ENABLED, chatQueryEnabled);
         }
 
+        private void saveChat()
+        {
+            Settings.setSetting(SettingsConsts.CHAT_FILTER_CHAT, chat);
+        }
+
+        private void saveMUC()
+        {
+            Settings.setSetting(SettingsConsts.CHAT_FILTER_MUC, muc);
+        }
         #endregion
 
         #region --Misc Methods (Protected)--

@@ -35,5 +35,7 @@
         public const string CHAT_FILTER_NOT_UNAVAILABLE = "chat_filter_not_unavailable";
         public const string CHAT_FILTER_QUERY = "chat_filter_query";
         public const string CHAT_FILTER_QUERY_ENABLED = "chat_filter_query_enabled";
+        public const string CHAT_FILTER_CHAT = "chat_filter_chat";
+        public const string CHAT_FILTER_MUC = "chat_filter_muc";
     }
 }
