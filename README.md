@@ -5,13 +5,22 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/551476163f8f4784bd1017bf2e8f3db1)](https://www.codacy.com/app/COM8/UWPX-Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UWPX/UWPX-Client&amp;utm_campaign=Badge_Grade)
 
 # UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases)
-[This App is still in alpha stage!]
+[This app is still in alpha stage!]
 
 Chat with all your XMPP contacts.
 
 **UWPX is a secure and Open Source XMPP app for all your UWP (Windows 10) devices.**
 
-It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([XMPP](https://xmpp.org/)). At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior.
+It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([XMPP](https://xmpp.org/)).
+At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior.
+
+## Table of Contents
+1. [Features](#features)
+2. [ToDo](#todo)
+3. [Alpha/Beta tester](#alphabeta-tester)
+4. [Installation (build it by your own)](#installation-build-it-by-your-own)
+5. [Examples](#examples)
+6. [References](#references)
 
 ## Features:
 | Name | XEPs |
@@ -46,7 +55,7 @@ It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([X
 [MORE NOTES TO COME]
 
 ## Alpha/Beta tester:
-An alpha version of the App is available in the Windows Store [LINK](https://www.microsoft.com/store/apps/9NW16X9JB5WV).
+An alpha version of the app is available in the Windows Store [LINK](https://www.microsoft.com/store/apps/9NW16X9JB5WV).
 
 [<img src="https://assets.windowsphone.com/85864462-9c82-451e-9355-a3d5f874397a/English_get-it-from-MS_InvariantCulture_Default.png" width="150">](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)
 
@@ -62,3 +71,8 @@ An alpha version of the App is available in the Windows Store [LINK](https://www
 <br/><br/>
 <img src="https://i.imgur.com/A7oFZ4y.png" width="800">
 <img src="https://i.imgur.com/0CMR7ag.png" width="800">
+
+## References:
+This project wouldn’t be possible without the great work of all those people working on the libraries used by UWPX.
+[Here](https://uwpx.org/about/) you can find a list of all libraries and other references used for the UWPX developement.
+So take a second, head over and take a look at their great work!
