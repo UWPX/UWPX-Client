@@ -170,6 +170,15 @@ namespace UWP_XMPP_Client.Classes
 
         public void clearPresenceFilter()
         {
+            bool changed = false;
+            if (chat || muc)
+            {
+                chat = false;
+                muc = false;
+                saveChat();
+                saveMUC();
+            }
+
             if (notOnline || notUnavailable || PRESENCES.Count > 0)
             {
                 notOnline = false;
@@ -179,13 +188,11 @@ namespace UWP_XMPP_Client.Classes
                 saveNotOnline();
                 saveNotUnavailable();
                 savePresences();
+            }
 
+            if (changed)
+            {
                 onFilterChanged();
-
-                chat = false;
-                muc = false;
-                saveChat();
-                saveMUC();
             }
         }
 
