@@ -11,7 +11,8 @@ Chat with all your XMPP contacts.
 
 **UWPX is a secure and Open Source XMPP app for all your UWP (Windows 10) devices.**
 
-It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([XMPP](https://xmpp.org/)).At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior.
+It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([XMPP](https://xmpp.org/)).
+At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior.
 
 ## Table of Contents
 1. [Features](#features)
