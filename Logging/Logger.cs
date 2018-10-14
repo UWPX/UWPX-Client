@@ -1,9 +1,13 @@
-﻿using System;
+﻿using NLog;
+using NLog.Config;
+using NLog.Targets;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
+using Windows.ApplicationModel;
 using Windows.Storage;
 using Windows.Storage.Search;
 
@@ -13,15 +17,20 @@ namespace Logging
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly SemaphoreSlim WRITE_SEMA = new SemaphoreSlim(1);
-        private static StorageFile logFile = null;
-
         public static LogLevel logLevel;
+        private static readonly NLog.Logger NLOGGER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        static Logger()
+        {
+            LogManager.ThrowExceptions = true;
+            Target.Register<ConsoleTarget>(nameof(ConsoleTarget));
+            LogManager.Configuration = new XmlLoggingConfiguration(Path.Combine(Package.Current.InstalledLocation.Path, @"Logging\NLog.config"));
+            LogManager.Configuration.Variables["LogPath"] = Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs");
+            NLOGGER = LogManager.GetCurrentClassLogger();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -95,9 +104,9 @@ namespace Logging
         /// </history>
         public static void Debug(string message)
         {
-            if (logLevel >= LogLevel.DEBUG)
+            if(logLevel >= LogLevel.DEBUG)
             {
-                addToLog(message, null, "DEBUG");
+                NLOGGER.Debug(message);
             }
         }
 
@@ -111,7 +120,7 @@ namespace Logging
         {
             if (logLevel >= LogLevel.INFO)
             {
-                addToLog(message, null, "INFO");
+                NLOGGER.Info(message);
             }
         }
 
@@ -125,7 +134,7 @@ namespace Logging
         {
             if (logLevel >= LogLevel.WARNING)
             {
-                addToLog(message, null, "WARN");
+                NLOGGER.Warn(message);
             }
         }
 
@@ -139,7 +148,14 @@ namespace Logging
         {
             if (logLevel >= LogLevel.ERROR)
             {
-                addToLog(message, e, "ERROR");
+                if (e != null)
+                {
+                    NLOGGER.Error(e, message);
+                }
+                else
+                {
+                    NLOGGER.Error(message);
+                }
             }
         }
 
@@ -176,10 +192,6 @@ namespace Logging
                 await folder.DeleteAsync();
             }
             await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
-
-            await WRITE_SEMA.WaitAsync();
-            logFile = null;
-            WRITE_SEMA.Release();
 
             Info("Deleted logs!");
         }
@@ -227,49 +239,7 @@ namespace Logging
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Creates a task that adds the given message and exception to the log.
-        /// </summary>
-        /// <param name="message">The log message.</param>
-        /// <param name="e">The thrown exception.</param>
-        /// <param name="code">The log code (INFO, DEBUG, ...)</param>
-        private static void addToLog(string message, Exception e, string code)
-        {
-            Task.Run(async () => await addToLogAsync(message, e, code));
-        }
-
-        /// <summary>
-        /// Adds the given message and exception to the log.
-        /// </summary>
-        /// <param name="message">The log message.</param>
-        /// <param name="e">The thrown exception.</param>
-        /// <param name="code">The log code (INFO, DEBUG, ...)</param>
-        private static async Task addToLogAsync(string message, Exception e, string code)
-        {
-            await WRITE_SEMA.WaitAsync();
-
-            if (logFile == null)
-            {
-                logFile = await (await getLogFolderAsync()).CreateFileAsync(getFilename(), CreationCollisionOption.OpenIfExists);
-            }
-            string s = "[" + code + "][" + getTimeStamp() + "]: " + message;
-            if (e != null)
-            {
-                s += ":\n" + e.Message + "\n" + e.StackTrace;
-            }
-
-            System.Diagnostics.Debug.WriteLine(s);
-            try
-            {
-                await FileIO.AppendTextAsync(logFile, s + Environment.NewLine);
-            }
-            catch (Exception)
-            {
-                logFile = null;
-            }
-
-            WRITE_SEMA.Release();
-        }
+        
 
         #endregion
 
