@@ -31,10 +31,10 @@ namespace UWP_XMPP_Client.Dialogs
         public static readonly DependencyProperty ReasonProperty = DependencyProperty.Register("Reason", typeof(string), typeof(InviteUserMUCDialog), null);
 
         private TextBox tbx;
-        public bool canceled;
-        private ObservableCollection<string> suggestions;
-        private string userAccountId;
-        private List<string> memberList;
+        public bool canceled { get; private set; }
+        private readonly ObservableCollection<string> SUGGESTIONS;
+        private readonly string USER_ACCOUNT_ID;
+        private readonly List<string> MEMBER_LIST;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -47,10 +47,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public InviteUserMUCDialog(XMPPClient client, List<string> memberList)
         {
-            this.userAccountId = client.getXMPPAccount().getIdAndDomain();
-            this.memberList = memberList;
+            this.USER_ACCOUNT_ID = client.getXMPPAccount().getIdAndDomain();
+            this.MEMBER_LIST = memberList;
             this.canceled = true;
-            this.suggestions = new ObservableCollection<string>();
+            this.SUGGESTIONS = new ObservableCollection<string>();
             this.InitializeComponent();
             this.Reason = "Hi, I'd like to invite you to a MUC chat room.";
         }
@@ -79,15 +79,15 @@ namespace UWP_XMPP_Client.Dialogs
                 List<ChatTable> list = ChatDBManager.INSTANCE.findUsers(text);
                 list.RemoveAll((chat) =>
                 {
-                    return Equals(chat.chatJabberId, userAccountId) || memberList.Contains(chat.chatJabberId);
+                    return Equals(chat.chatJabberId, USER_ACCOUNT_ID) || MEMBER_LIST.Contains(chat.chatJabberId);
                 });
 
                 await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    suggestions.Clear();
+                    SUGGESTIONS.Clear();
                     foreach (ChatTable c in list)
                     {
-                        suggestions.Add(c.chatJabberId);
+                        SUGGESTIONS.Add(c.chatJabberId);
                     }
                 });
             });
@@ -153,9 +153,6 @@ namespace UWP_XMPP_Client.Dialogs
             tbx.SelectionStart = selectionStart;
             tbx.SelectionLength = selectionLengt;
 
-            bool isJid = Utils.isBareJid(tbx.Text);
-            bool isOwnAccount = Equals(tbx.Text, userAccountId);
-
             memberInvite_stckp.Visibility = Visibility.Collapsed;
             selfInvite_stckp.Visibility = Visibility.Collapsed;
             invalidJid_stckp.Visibility = Visibility.Collapsed;
@@ -171,14 +168,14 @@ namespace UWP_XMPP_Client.Dialogs
             validJid_stckp.Visibility = Visibility.Visible;
 
             // Check for self invite:
-            if (Equals(tbx.Text, userAccountId))
+            if (Equals(tbx.Text, USER_ACCOUNT_ID))
             {
                 selfInvite_stckp.Visibility = Visibility.Visible;
                 return;
             }
 
             // Check for member invite:
-            if (memberList.Contains(tbx.Text))
+            if (MEMBER_LIST.Contains(tbx.Text))
             {
                 memberInvite_stckp.Visibility = Visibility.Visible;
                 return;

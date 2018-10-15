@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
 
@@ -18,7 +17,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         protected bool cacheUntilSend;
         private bool processed;
         private byte restartConnection;
-        private static readonly Random R = new Random();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
