@@ -3,7 +3,7 @@ using Data_Manager2.Classes.DBTables;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
 using Windows.UI.Xaml;

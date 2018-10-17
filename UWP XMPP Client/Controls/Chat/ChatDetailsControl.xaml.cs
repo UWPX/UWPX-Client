@@ -22,6 +22,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Controls.Primitives;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using Data_Manager2.Classes.ToastActivation;
+using UWP_XMPP_Client.Classes.Collections;
 
 namespace UWP_XMPP_Client.Controls.Chat
 {

@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace UWP_XMPP_Client.Classes
+namespace UWP_XMPP_Client.Classes.Collections
 {
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074

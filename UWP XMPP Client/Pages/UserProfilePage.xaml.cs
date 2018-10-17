@@ -11,6 +11,7 @@ using Windows.UI.Xaml;
 using XMPP_API.Classes.Network;
 using Data_Manager2.Classes.Events;
 using System.Collections.Generic;
+using UWP_XMPP_Client.Classes.Collections;
 
 namespace UWP_XMPP_Client.Pages
 {

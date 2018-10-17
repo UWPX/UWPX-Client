@@ -113,7 +113,7 @@
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.Events.cs" />
     <Compile Include="Classes\Collections\VectorChangedEventArgs.cs" />
-    <Compile Include="Classes\CustomObservableCollection.cs" />
+    <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Events\AddAccountClickedEventArgs.cs" />
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMUCInfoEventArgs.cs" />

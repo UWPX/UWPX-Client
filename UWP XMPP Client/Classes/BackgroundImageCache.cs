@@ -3,6 +3,7 @@ using Logging;
 using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.Storage;
 

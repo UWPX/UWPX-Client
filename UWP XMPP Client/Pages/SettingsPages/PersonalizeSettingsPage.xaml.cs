@@ -7,6 +7,7 @@ using Windows.UI.Xaml.Controls;
 using Windows.Storage.Pickers;
 using Windows.Storage;
 using Logging;
+using UWP_XMPP_Client.Classes.Collections;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {

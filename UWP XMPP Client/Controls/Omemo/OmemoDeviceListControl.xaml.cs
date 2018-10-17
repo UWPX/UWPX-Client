@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;

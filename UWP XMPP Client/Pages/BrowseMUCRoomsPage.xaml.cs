@@ -1,6 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
