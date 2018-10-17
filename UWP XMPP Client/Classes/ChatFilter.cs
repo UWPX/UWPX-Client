@@ -173,6 +173,8 @@ namespace UWP_XMPP_Client.Classes
             bool changed = false;
             if (chat || muc)
             {
+                changed = true;
+
                 chat = false;
                 muc = false;
                 saveChat();
@@ -181,6 +183,8 @@ namespace UWP_XMPP_Client.Classes
 
             if (notOnline || notUnavailable || PRESENCES.Count > 0)
             {
+                changed = true;
+
                 notOnline = false;
                 notUnavailable = false;
                 PRESENCES.Clear();
