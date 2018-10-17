@@ -109,6 +109,10 @@
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\ChatFilter.cs" />
+    <Compile Include="Classes\Collections\MyAdvancedCollectionView.cs" />
+    <Compile Include="Classes\Collections\MyAdvancedCollectionView.Defer.cs" />
+    <Compile Include="Classes\Collections\MyAdvancedCollectionView.Events.cs" />
+    <Compile Include="Classes\Collections\VectorChangedEventArgs.cs" />
     <Compile Include="Classes\CustomObservableCollection.cs" />
     <Compile Include="Classes\Events\AddAccountClickedEventArgs.cs" />
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
@@ -117,8 +121,8 @@
     <Compile Include="Classes\Events\SelectionChangedMultiEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\MUCRoomInfo.cs" />
-    <Compile Include="Classes\ObservableChatDictionaryList.cs" />
-    <Compile Include="Classes\ObservableOrderedChatDictionaryList.cs" />
+    <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
+    <Compile Include="Classes\Collections\ObservableOrderedChatDictionaryList.cs" />
     <Compile Include="Classes\ShowAddMUCNavigationParameter.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Controls\AccountControl.xaml.cs">

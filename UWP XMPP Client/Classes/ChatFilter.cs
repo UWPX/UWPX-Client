@@ -1,6 +1,6 @@
 ﻿using Data_Manager2.Classes;
-using Microsoft.Toolkit.Uwp.UI;
 using System.Collections.Generic;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using XMPP_API.Classes;
 
@@ -23,7 +23,7 @@ namespace UWP_XMPP_Client.Classes
         public bool muc { private set; get; }
 
 
-        private readonly AdvancedCollectionView CHATS_ACV;
+        private readonly MyAdvancedCollectionView CHATS_ACV;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,7 +34,7 @@ namespace UWP_XMPP_Client.Classes
         /// <history>
         /// 08/10/2018 Created [Fabian Sauter]
         /// </history>
-        public ChatFilter(AdvancedCollectionView chatsACV)
+        public ChatFilter(MyAdvancedCollectionView chatsACV)
         {
             this.CHATS_ACV = chatsACV;
             this.PRESENCES = Settings.LOCAL_OBJECT_STORAGE_HELPER.Read(SettingsConsts.CHAT_FILTER_PRESENCES, new HashSet<Presence>());

@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using UWP_XMPP_Client.DataTemplates;
 
-namespace UWP_XMPP_Client.Classes
+namespace UWP_XMPP_Client.Classes.Collections
 {
     class ObservableOrderedChatDictionaryList : ICollection, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList
     {

@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
 using Windows.UI.Core;
@@ -25,7 +26,7 @@ namespace UWP_XMPP_Client.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly AdvancedCollectionView CHATS_ACV;
+        private readonly MyAdvancedCollectionView CHATS_ACV;
         private readonly ObservableChatDictionaryList CHATS;
         private readonly ChatFilter CHAT_FILTER;
 
@@ -41,7 +42,7 @@ namespace UWP_XMPP_Client.Pages
         public ChatPage()
         {
             this.CHATS = new ObservableChatDictionaryList();
-            this.CHATS_ACV = new AdvancedCollectionView(CHATS, true)
+            this.CHATS_ACV = new MyAdvancedCollectionView(CHATS, true)
             {
                 Filter = aCVFilter
             };
@@ -131,8 +132,8 @@ namespace UWP_XMPP_Client.Pages
                     // Clear list:
                     CHATS.Clear();
 
-                    // Add chats
-                    CHATS.AddRange(chats);
+                    // Add chats:
+                    CHATS.AddRange(chats, true);
                     if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
                     {
                         masterDetail_pnl.SelectedItem = selectedChat;

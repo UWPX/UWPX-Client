@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using UWP_XMPP_Client.DataTemplates;
 
-namespace UWP_XMPP_Client.Classes
+namespace UWP_XMPP_Client.Classes.Collections
 {
     class ObservableChatDictionaryList : ICollection, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList
     {
@@ -94,31 +94,32 @@ namespace UWP_XMPP_Client.Classes
         /// <summary>
         /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074
         /// </summary>
-        public void AddRange(IEnumerable<ChatTemplate> collection)
+        /// <param name="list">The list of items that should get added.</param>
+        /// <param name="callCollectionReset">Should we call "collection changed" only once at the end?</param>
+        public void AddRange(IList<ChatTemplate> list, bool callCollectionReset)
         {
-            if (collection == null)
+            if (list == null)
             {
-                throw new ArgumentNullException(nameof(collection));
+                throw new ArgumentNullException(nameof(list));
             }
 
-            if (collection is ICollection<ChatTemplate> list)
-            {
-                if (list.Count == 0) return;
-            }
-            else if (!collection.Any())
+            if (list.Count <= 0)
             {
                 return;
             }
-            else
-            {
-                list = new List<ChatTemplate>(collection);
-            }
 
-            foreach (var i in collection)
+            foreach (var i in list)
             {
-                InternalAdd(i);
+                int index = InternalAdd(i);
+                if(!callCollectionReset)
+                {
+                    OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, i, index));
+                }
             }
-            OnCollectionReset();
+            if(callCollectionReset)
+            {
+                OnCollectionReset();
+            }
         }
 
         public void CopyTo(Array array, int index)
