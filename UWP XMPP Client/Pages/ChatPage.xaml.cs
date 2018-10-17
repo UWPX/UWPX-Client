@@ -330,9 +330,9 @@ namespace UWP_XMPP_Client.Pages
             }).AsTask();
         }
 
-        private void INSTANCE_MUCInfoChanged(MUCDBManager handler, MUCInfoChangedEventArgs args)
+        private async void INSTANCE_MUCInfoChanged(MUCDBManager handler, MUCInfoChangedEventArgs args)
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CHATS.UpdateMUCInfo(args.MUC_INFO)).AsTask();
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => CHATS.UpdateMUCInfo(args.MUC_INFO));
         }
 
         private async void addChat_mfoi_Click(object sender, RoutedEventArgs e)

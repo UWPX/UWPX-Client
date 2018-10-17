@@ -383,10 +383,10 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void onSetBookmarkTimeout()
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
                 TextDialog dialog = new TextDialog("Failed to update bookmark!\nServer did not respond in time.", "Error");
-                Task t = UiUtils.showDialogAsyncQueue(dialog);
+                await UiUtils.showDialogAsyncQueue(dialog);
             }).AsTask();
         }
 
@@ -394,10 +394,10 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (msg is IQErrorMessage errMsg)
             {
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
                 {
                     TextDialog dialog = new TextDialog("Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME, "Error");
-                    Task t = UiUtils.showDialogAsyncQueue(dialog);
+                    await UiUtils.showDialogAsyncQueue(dialog);
                 }).AsTask();
                 return true;
             }
@@ -478,9 +478,8 @@ namespace UWP_XMPP_Client.Controls.Chat
         #region --Events--
         private void Grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            if (Chat != null)
+            if (Chat != null && sender is Grid grid)
             {
-                Grid grid = (Grid)sender;
                 switch (Chat.chatType)
                 {
                     case ChatType.CHAT:
