@@ -34,7 +34,6 @@
                                                               Height="100"
                                                               HorizontalAlignment="Left"
                                                               Chat="{x:Bind Chat, Mode=OneWay}"
-                                                              Client="{x:Bind Client}"
                                                               MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
                     <StackPanel Grid.Column="1"
                                 Margin="10,0,0,0">

@@ -19,6 +19,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using Data_Manager2.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using System.Collections.Generic;
+using UWP_XMPP_Client.DataTemplates;
 
 namespace UWP_XMPP_Client.Controls.Chat
 {
@@ -26,52 +27,50 @@ namespace UWP_XMPP_Client.Controls.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public XMPPClient Client
+        public ChatTemplate ChatTemp
         {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set
-            {
-                if (Client != null)
+            get { return (ChatTemplate)GetValue(ChatTempProperty); }
+            set {
+                ChatTemplate cur = (ChatTemplate)GetValue(ChatTempProperty);
+                if (value != cur)
                 {
-                    ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-                }
-                SetValue(ClientProperty, value);
-                if (Client != null)
-                {
-                    ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
-                    ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
-                }
-                showClient(Client);
-            }
-        }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ChatMasterControl), new PropertyMetadata(null));
+                    if(cur != null)
+                    {
+                        cur.PropertyChanged -= Value_PropertyChanged;
+                    }
+                    if(value != null)
+                    {
+                        value.PropertyChanged += Value_PropertyChanged;
+                    }
+                    SetValue(ChatTempProperty, value);
 
-        public ChatTable Chat
-        {
-            get { return (ChatTable)GetValue(ChatProperty); }
-            set
-            {
-                SetValue(ChatProperty, value);
-                showChat(Chat);
+                    onChatTemplateChanged(value);
+                }
             }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(ChatMasterControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ChatTempProperty = DependencyProperty.Register(nameof(ChatTemp), typeof(ChatTemplate), typeof(ChatMasterControl), new PropertyMetadata(null));
 
-        public MUCChatInfoTable MUCInfo
+        private ChatTable Chat
         {
-            get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
-            set
-            {
-                SetValue(MUCInfoProperty, value);
-                showMUCInfo();
-            }
+            get { return ChatTemp?.chat; }
+            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.chat - ChatTemp is null in ChatMasterControl."); } ChatTemp.chat = value; }
         }
-        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register(nameof(MUCInfo), typeof(MUCChatInfoTable), typeof(ChatMasterControl), new PropertyMetadata(null));
+
+        private XMPPClient Client
+        {
+            get { return ChatTemp?.client; }
+            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.client - ChatTemp is null in ChatMasterControl."); } ChatTemp.client = value; }
+        }
+
+        private MUCChatInfoTable MUCInfo
+        {
+            get { return ChatTemp?.mucInfo; }
+            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.MUCInfo - ChatTemp is null in ChatMasterControl."); } ChatTemp.mucInfo = value; }
+        }
 
         private bool subscriptionRequest;
         private ChatMessageTable lastChatMessage;
         private MessageResponseHelper<IQMessage> updateBookmarkHelper;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -102,6 +101,13 @@ namespace UWP_XMPP_Client.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
+        private void onChatTemplateChanged(ChatTemplate chatTemp)
+        {
+            showClient(chatTemp.client);
+            showChat(chatTemp.chat);
+            showMUCInfo(chatTemp.mucInfo, chatTemp.chat);
+        }
+
         private void showPresenceSubscriptionRequest()
         {
             accountAction_grid.Visibility = Visibility.Visible;
@@ -120,17 +126,17 @@ namespace UWP_XMPP_Client.Controls.Chat
             subscriptionRequest = false;
         }
 
-        private void showMUCInfo()
+        private void showMUCInfo(MUCChatInfoTable info, ChatTable chat)
         {
-            if (MUCInfo != null && Chat != null)
+            if (info != null && chat != null)
             {
                 // Chat jabber id:
-                name_tblck.Text = string.IsNullOrWhiteSpace(MUCInfo.name) ? Chat.chatJabberId : MUCInfo.name;
+                name_tblck.Text = string.IsNullOrWhiteSpace(info.name) ? chat.chatJabberId : info.name;
 
                 // Menu Flyout:
-                muteMUC_tmfo.Text = Chat.muted ? "Unmute" : "Mute";
-                muteMUC_tmfo.IsChecked = Chat.muted;
-                bookmark_tmfo.Text = Chat.inRoster ? "Remove bookmark" : "Bookmark";
+                muteMUC_tmfo.Text = chat.muted ? "Unmute" : "Mute";
+                muteMUC_tmfo.IsChecked = chat.muted;
+                bookmark_tmfo.Text = chat.inRoster ? "Remove bookmark" : "Bookmark";
 
                 //Slide list item:
                 slideListItem_sli.LeftLabel = bookmark_tmfo.Text;
@@ -367,7 +373,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                 ChatDBManager.INSTANCE.setChatTableValue(nameof(Chat.id), Chat.id, nameof(Chat.inRoster), Chat.inRoster);
                 setBookarks();
                 showChat(Chat);
-                showMUCInfo();
+                showMUCInfo(MUCInfo, Chat);
             }
         }
 
@@ -604,9 +610,11 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            // Subscribe to the chat message changed event:
+            // Subscribe to the chat message events:
             ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
             ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+            ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+            ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
         }
 
         private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
@@ -690,6 +698,37 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (lastChatMessage != null)
             {
                 lastChatMessage.ChatMessageChanged -= ChatMessage_ChatMessageChanged;
+            }
+
+            // Unsubscribe from the chat message events:
+            ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+            ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+        }
+
+        private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if(ChatTemp == null)
+            {
+                return;
+            }
+
+            switch (e.PropertyName)
+            {
+                case nameof(ChatTemplate.chat):
+                    showChat(ChatTemp.chat);
+                    showMUCInfo(ChatTemp.mucInfo, ChatTemp.chat);
+                    break;
+
+                case nameof(ChatTemplate.client):
+                    showClient(ChatTemp.client);
+                    break;
+
+                case nameof(ChatTemplate.mucInfo):
+                    showMUCInfo(ChatTemp.mucInfo, ChatTemp.chat);
+                    break;
+
+                default:
+                    break;
             }
         }
         #endregion

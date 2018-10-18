@@ -23,6 +23,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using Data_Manager2.Classes.ToastActivation;
 using UWP_XMPP_Client.Classes.Collections;
+using System.ComponentModel;
 
 namespace UWP_XMPP_Client.Controls.Chat
 {
@@ -30,65 +31,67 @@ namespace UWP_XMPP_Client.Controls.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public XMPPClient Client
-        {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set
-            {
-                if (Client != null)
-                {
-                    Client.NewChatState -= Client_NewChatState;
-                }
-                SetValue(ClientProperty, value);
-                showClient();
-                if (Client != null)
-                {
-                    Client.NewChatState -= Client_NewChatState;
-                    Client.NewChatState += Client_NewChatState;
-                }
-            }
-        }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(ChatDetailsControl), null);
-
-        public ChatTable Chat
-        {
-            get { return (ChatTable)GetValue(ChatProperty); }
-            set
-            {
-                if (!IsDummy)
-                {
-                    showChatMessages(value, Chat);
-                }
-                SetValue(ChatProperty, value);
-                showChat();
-                showMUCInfo();
-            }
-        }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(ChatDetailsControl), null);
-
-        public MUCChatInfoTable MUCInfo
-        {
-            get { return (MUCChatInfoTable)GetValue(MUCInfoProperty); }
-            set
-            {
-                SetValue(MUCInfoProperty, value);
-                showMUCInfo();
-            }
-        }
-        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(ChatDetailsControl), null);
-
         public bool IsDummy
         {
             get { return (bool)GetValue(IsDummyProperty); }
-            set { SetValue(IsDummyProperty, value); }
+            set
+            {
+                SetValue(IsDummyProperty, value);
+                if (!IsDummy)
+                {
+                    showChatMessages(Chat);
+                }
+            }
         }
-        public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register("IsDummy", typeof(bool), typeof(ChatDetailsControl), null);
+        public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register(nameof(IsDummy), typeof(bool), typeof(ChatDetailsControl), null);
+
+        public ChatTemplate ChatTemp
+        {
+            get { return (ChatTemplate)GetValue(ChatTempProperty); }
+            set
+            {
+                ChatTemplate cur = (ChatTemplate)GetValue(ChatTempProperty);
+                if (value != cur)
+                {
+                    if (cur != null)
+                    {
+                        cur.PropertyChanged -= Value_PropertyChanged;
+                    }
+                    if (value != null)
+                    {
+                        value.PropertyChanged += Value_PropertyChanged;
+                    }
+                    SetValue(ChatTempProperty, value);
+
+                    onChatTemplateChanged(value);
+                }
+            }
+        }
+        public static readonly DependencyProperty ChatTempProperty = DependencyProperty.Register(nameof(ChatTemp), typeof(ChatTemplate), typeof(ChatDetailsControl), new PropertyMetadata(null));
+
+        private ChatTable Chat
+        {
+            get { return ChatTemp?.chat; }
+            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.chat - ChatTemp is null in ChatDetailsControl."); } ChatTemp.chat = value; }
+        }
+
+        private XMPPClient Client
+        {
+            get { return ChatTemp?.client; }
+            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.client - ChatTemp is null in ChatDetailsControl."); } ChatTemp.client = value; }
+        }
+
+        private MUCChatInfoTable MUCInfo
+        {
+            get { return ChatTemp?.mucInfo; }
+            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.MUCInfo - ChatTemp is null in ChatDetailsControl."); } ChatTemp.mucInfo = value; }
+        }
 
         private readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
 
         private static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
         private int sendDummyMessages;
-
+        private string curChatId;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -102,6 +105,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             this.sendDummyMessages = 0;
             this.CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
+            this.curChatId = null;
             this.InitializeComponent();
 
             // Disable the test button on release builds:
@@ -161,6 +165,18 @@ namespace UWP_XMPP_Client.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
+        private void onChatTemplateChanged(ChatTemplate chatTemp)
+        {
+            showClient(chatTemp.client);
+            showChat(chatTemp.chat);
+            showMUCInfo(chatTemp.mucInfo, chatTemp.chat);
+
+            if (!IsDummy)
+            {
+                showChatMessages(Chat);
+            }
+        }
+
         private void addDummyMessage(string msg, string fromUser, MessageState state)
         {
             addDummyMessage(msg, fromUser, state, false);
@@ -185,22 +201,23 @@ namespace UWP_XMPP_Client.Controls.Chat
             });
         }
 
-        private void showChatMessages(ChatTable newChat, ChatTable oldChat)
+        private void showChatMessages(ChatTable chat)
         {
-            if (newChat != null)
+            if (chat != null)
             {
                 // Only show chat messages if the chat changed:
-                if (oldChat != null && Equals(newChat.id, oldChat.id))
+                if (curChatId != null && Equals(chat.id, curChatId))
                 {
                     return;
                 }
+                curChatId = chat.id;
 
                 // Show loading:
                 loading_ldng.IsLoading = true;
                 invertedListView_lstv.Visibility = Visibility.Collapsed;
 
                 // Create a copy to prevent multi threading issues:
-                ChatTable chatCpy = newChat;
+                ChatTable chatCpy = chat;
 
                 Task.Run(async () =>
                 {
@@ -231,37 +248,37 @@ namespace UWP_XMPP_Client.Controls.Chat
             }
         }
 
-        private void showChat()
+        private void showChat(ChatTable chat)
         {
-            if (Chat != null)
+            if (chat != null)
             {
-                if (Chat.chatType == ChatType.CHAT)
+                if (chat.chatType == ChatType.CHAT)
                 {
-                    chatName_tblck.Text = Chat.chatJabberId ?? "";
-                    chatState_tblck.Text = Chat.chatState ?? "";
+                    chatName_tblck.Text = chat.chatJabberId ?? "";
+                    chatState_tblck.Text = chat.chatState ?? "";
                     join_mfo.Visibility = Visibility.Collapsed;
                     leave_mfo.Visibility = Visibility.Collapsed;
                 }
 
-                omemoIndicator_tbx.Visibility = Chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
-                omemo_tmfo.IsChecked = Chat.omemoEnabled;
+                omemoIndicator_tbx.Visibility = chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
+                omemo_tmfo.IsChecked = chat.omemoEnabled;
             }
         }
 
-        private void showClient()
+        private void showClient(XMPPClient client)
         {
-            if (Client != null)
+            if (client != null)
             {
-                accountName_tblck.Text = Client.getXMPPAccount().getIdAndDomain();
+                accountName_tblck.Text = client.getXMPPAccount().getIdAndDomain();
             }
         }
 
-        private void showMUCInfo()
+        private void showMUCInfo(MUCChatInfoTable mucInfo, ChatTable chat)
         {
-            if (MUCInfo != null && Chat != null && Equals(MUCInfo.chatId, Chat.id))
+            if (mucInfo != null && chat != null && Equals(mucInfo.chatId, chat.id))
             {
-                chatName_tblck.Text = string.IsNullOrWhiteSpace(MUCInfo.name) ? Chat.chatJabberId : MUCInfo.name;
-                chatState_tblck.Text = MUCInfo.subject ?? "";
+                chatName_tblck.Text = string.IsNullOrWhiteSpace(mucInfo.name) ? chat.chatJabberId : mucInfo.name;
+                chatState_tblck.Text = mucInfo.subject ?? "";
             }
         }
 
@@ -395,7 +412,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     }
                     else
                     {
-                        Task t = Client.sendMessageAsync(sendMessage);
+                        Client.sendMessageAsync(sendMessage).ConfigureAwait(false);
                     }
                 }
 
@@ -630,7 +647,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (shouldSendChatState())
             {
-                Task t = Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING);
+                Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING).ConfigureAwait(false);
             }
         }
 
@@ -638,7 +655,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (shouldSendChatState())
             {
-                Task t = Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE);
+                Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE).ConfigureAwait(false);
             }
         }
 
@@ -792,12 +809,9 @@ namespace UWP_XMPP_Client.Controls.Chat
         private void omemo_tmfo_Click(object sender, RoutedEventArgs e)
         {
             Chat.omemoEnabled = omemo_tmfo.IsChecked;
-            showChat();
+            showChat(Chat);
             ChatTable cpy = Chat;
-            Task.Run(() =>
-            {
-                ChatDBManager.INSTANCE.setChatTableValue(nameof(cpy.id), cpy.id, nameof(cpy.omemoEnabled), cpy.omemoEnabled);
-            });
+            Task.Run(() => ChatDBManager.INSTANCE.setChatTableValue(nameof(cpy.id), cpy.id, nameof(cpy.omemoEnabled), cpy.omemoEnabled));
         }
 
         private void scrollDown_btn_Click(object sender, RoutedEventArgs e)
@@ -826,6 +840,38 @@ namespace UWP_XMPP_Client.Controls.Chat
         private void clipFile_btn_Click(object sender, RoutedEventArgs e)
         {
             // ToDo implement
+        }
+
+        private void Value_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (ChatTemp == null)
+            {
+                return;
+            }
+
+            switch (e.PropertyName)
+            {
+                case nameof(ChatTemplate.chat):
+                    showChat(ChatTemp.chat);
+                    showMUCInfo(ChatTemp.mucInfo, ChatTemp.chat);
+                    break;
+
+                case nameof(ChatTemplate.client):
+                    showClient(ChatTemp.client);
+                    if (ChatTemp.client != null)
+                    {
+                        ChatTemp.client.NewChatState -= Client_NewChatState;
+                        ChatTemp.client.NewChatState += Client_NewChatState;
+                    }
+                    break;
+
+                case nameof(ChatTemplate.mucInfo):
+                    showMUCInfo(ChatTemp.mucInfo, ChatTemp.chat);
+                    break;
+
+                default:
+                    break;
+            }
         }
         #endregion
     }

@@ -14,16 +14,12 @@
     <Page.Resources>
         <DataTemplate x:Key="masterTemplate"
                       x:DataType="datatemplates:ChatTemplate">
-            <controlsChat:ChatMasterControl Chat="{x:Bind chat, Mode=TwoWay}"
-                                            Client="{x:Bind client, Mode=OneWay}"
-                                            MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
+            <controlsChat:ChatMasterControl ChatTemp="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="detailsTemplate"
                       x:DataType="datatemplates:ChatTemplate">
-            <controlsChat:ChatDetailsControl Chat="{x:Bind chat, Mode=TwoWay}"
-                                             Client="{x:Bind client, Mode=OneWay}"
-                                             MUCInfo="{x:Bind mucInfo, Mode=OneWay}"/>
+            <controlsChat:ChatDetailsControl ChatTemp="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="noSelectionTemplate">

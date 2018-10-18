@@ -170,9 +170,8 @@
                 <controls:AccountImageWithPresenceControl x:Name="image_aciwp"
                                                           Grid.Column="1"
                                                           Margin="5,0,0,0"
-                                                          Chat="{x:Bind Chat, Mode=OneWay}"
-                                                          Client="{x:Bind Client, Mode=OneWay}"
-                                                          MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
+                                                          Chat="{x:Bind ChatTemp.chat, Mode=OneWay}"
+                                                          MUCInfo="{x:Bind ChatTemp.mucInfo, Mode=OneWay}"/>
                 <StackPanel Grid.Column="2"
                             HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck"

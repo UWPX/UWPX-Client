@@ -31,8 +31,7 @@
                             <controls:AccountImageWithPresenceControl Grid.Column="0"
                                                                       Width="100"
                                                                       Height="100"
-                                                                      Chat="{x:Bind Chat}"
-                                                                      Client="{x:Bind Client}"/>
+                                                                      Chat="{x:Bind Chat}"/>
                             <StackPanel Grid.Column="1"
                                         Margin="10,0,0,0">
                                 <TextBlock x:Name="name_tblck"/>
@@ -81,8 +80,7 @@
                                            Text="&#xE00F;"/>
                             </Grid>
                             <StackPanel Grid.Column="2">
-                                <controls:AccountImageWithPresenceControl Chat="{x:Bind Chat}"
-                                                                          Client="{x:Bind Client}"/>
+                                <controls:AccountImageWithPresenceControl Chat="{x:Bind Chat}"/>
                             </StackPanel>
                         </Grid>
                         <StackPanel Margin="0,10,0,0">

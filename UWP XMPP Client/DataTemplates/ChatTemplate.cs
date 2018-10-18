@@ -79,8 +79,20 @@ namespace UWP_XMPP_Client.DataTemplates
         /// <history>
         /// 28/08/2017 Created [Fabian Sauter]
         /// </history>
-        public ChatTemplate()
+        public ChatTemplate() : this(null, null, null, null)
         {
+        }
+
+        public ChatTemplate(XMPPClient client, ChatTable chat, BitmapImage image) : this(client, chat, null, image)
+        {
+        }
+
+        public ChatTemplate(XMPPClient client, ChatTable chat, MUCChatInfoTable info, BitmapImage image)
+        {
+            this._client = client;
+            this._chat = chat;
+            this._mucInfo = mucInfo;
+            this._image = image;
             this.index = -1;
         }
 

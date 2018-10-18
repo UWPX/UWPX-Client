@@ -55,7 +55,7 @@ namespace UWP_XMPP_Client.DataTemplates
             if (element != null)
             {
                 ChatDetailsControl detailsControl = element as ChatDetailsControl;
-                return detailsControl.MUCInfo;
+                return detailsControl.ChatTemp?.mucInfo;
             }
             return null;
         }

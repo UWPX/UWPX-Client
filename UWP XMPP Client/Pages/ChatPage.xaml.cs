@@ -87,21 +87,23 @@ namespace UWP_XMPP_Client.Pages
         }
 
         /// <summary>
-        /// Returns a list of ChatTemplates loaded from the DB.
+        /// Returns a list of ChatTemplates loaded from the DB, bases on the XMPPClients from the ConnectionHandler.
         /// </summary>
-        private List<ChatTemplate> getFilterdChats()
+        private List<ChatTemplate> getChatsFromDB()
         {
             List<ChatTemplate> list = new List<ChatTemplate>();
             foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
             {
                 foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
                 {
-                    ChatTemplate chatElement = new ChatTemplate { chat = chat, client = c };
                     if (chat.chatType == ChatType.MUC)
                     {
-                        chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
+                        list.Add(new ChatTemplate(c, chat, MUCDBManager.INSTANCE.getMUCInfo(chat.id), null));
                     }
-                    list.Add(chatElement);
+                    else
+                    {
+                        list.Add(new ChatTemplate(c, chat, null));
+                    }
                 }
             }
             return list;
@@ -117,7 +119,7 @@ namespace UWP_XMPP_Client.Pages
             Task.Run(() =>
             {
                 ChatTemplate selectedChat = null;
-                List<ChatTemplate> chats = getFilterdChats();
+                List<ChatTemplate> chats = getChatsFromDB();
                 for (int i = 0; i < chats.Count; i++)
                 {
                     if (string.Equals(selectedChatId, chats[i].chat.id))
@@ -133,7 +135,10 @@ namespace UWP_XMPP_Client.Pages
                     CHATS.Clear();
 
                     // Add chats:
-                    CHATS.AddRange(chats, true);
+                    using (CHATS_ACV.DeferRefresh())
+                    {
+                        CHATS.AddRange(chats, false);
+                    }
                     if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
                     {
                         masterDetail_pnl.SelectedItem = selectedChat;
@@ -265,9 +270,9 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private void INSTANCE_ChatChanged(ChatDBManager handler, ChatChangedEventArgs args)
+        private async void INSTANCE_ChatChanged(ChatDBManager handler, ChatChangedEventArgs args)
         {
-            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 // Backup selected chat:
                 ChatTemplate selectedChat = null;
@@ -302,32 +307,36 @@ namespace UWP_XMPP_Client.Pages
                     }
                 }
 
-                Task.Run(() =>
+                Task.Run(async () =>
                 {
                     // Add the new chat to the list of chats:
                     foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                     {
                         if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getIdAndDomain()))
                         {
-                            ChatTemplate chatElement = new ChatTemplate { chat = args.CHAT, client = c };
+                            ChatTemplate chat;
                             if (args.CHAT.chatType == ChatType.MUC)
                             {
-                                chatElement.mucInfo = MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id);
+                                chat = new ChatTemplate(c, args.CHAT, MUCDBManager.INSTANCE.getMUCInfo(args.CHAT.id), null);
+                            }
+                            else
+                            {
+                                chat = new ChatTemplate(c, args.CHAT, null);
                             }
 
-                            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                             {
-                                CHATS.Add(chatElement);
+                                CHATS.Add(chat);
                                 // Restore selected chat:
                                 if (selectedChat != null)
                                 {
                                     masterDetail_pnl.SelectedItem = selectedChat;
                                 }
-                            }).AsTask();
+                            });
                         }
                     }
                 });
-            }).AsTask();
+            });
         }
 
         private async void INSTANCE_MUCInfoChanged(MUCDBManager handler, MUCInfoChangedEventArgs args)

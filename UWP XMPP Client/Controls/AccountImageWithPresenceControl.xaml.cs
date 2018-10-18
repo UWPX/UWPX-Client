@@ -30,13 +30,6 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(AccountImageWithPresenceControl), null);
 
-        public XMPPClient Client
-        {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set { SetValue(ClientProperty, value); }
-        }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(AccountImageWithPresenceControl), null);
-
         public ChatTable Chat
         {
             get { return (ChatTable)GetValue(ChatProperty); }
