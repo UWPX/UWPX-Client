@@ -216,11 +216,25 @@ namespace UWP_XMPP_Client.Classes
         {
             if (notOnline)
             {
-                return chat.chat.presence != Presence.Online;
+                if (chat.chat.chatType == ChatType.CHAT)
+                {
+                    return chat.chat.presence != Presence.Online;
+                }
+                else
+                {
+                    return chat.mucInfo != null && chat.mucInfo.state != MUCState.ENTERD;
+                }
             }
             else if (notUnavailable)
             {
-                return chat.chat.presence != Presence.Unavailable;
+                if(chat.chat.chatType == ChatType.CHAT)
+                {
+                    return chat.chat.presence != Presence.Unavailable;
+                }
+                else
+                {
+                    return chat.mucInfo != null && chat.mucInfo.state != MUCState.DISCONNECTED;
+                }
             }
             return PRESENCES.Count <= 0 || PRESENCES.Contains(chat.chat.presence);
         }
