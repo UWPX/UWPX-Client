@@ -43,7 +43,7 @@ namespace UWP_XMPP_Client.Classes.Collections
         private Predicate<object> _filter;
         private int _deferCounter;
 
-        private HashSet<string> _observedFilterProperties = new HashSet<string>();
+        private readonly HashSet<string> _observedFilterProperties = new HashSet<string>();
 
         private WeakEventListener<MyAdvancedCollectionView, object, NotifyCollectionChangedEventArgs> _sourceWeakEventListener;
 

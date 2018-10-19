@@ -124,7 +124,6 @@ namespace UWP_XMPP_Client.Classes.Collections
 
         public void CopyTo(Array array, int index)
         {
-            int i = index;
             foreach (var item in LIST)
             {
                 array.SetValue(item, index);
