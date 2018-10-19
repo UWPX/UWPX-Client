@@ -46,6 +46,8 @@ namespace UWP_XMPP_Client.Pages
             {
                 Filter = aCVFilter
             };
+
+            this.CHATS_ACV.ObserveFilterProperty(nameof(ChatTemplate.chat));
             this.CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatTemplate.chat), SortDirection.Descending));
             this.CHAT_FILTER = new ChatFilter(this.CHATS_ACV);
             this.InitializeComponent();
