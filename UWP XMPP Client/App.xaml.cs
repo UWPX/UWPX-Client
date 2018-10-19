@@ -197,9 +197,25 @@ namespace UWP_XMPP_Client
                 Window.Current.Content = rootFrame;
             }
 
-            if (args is ToastNotificationActivatedEventArgs)
+            if(args is ProtocolActivatedEventArgs protocolActivationArgs)
             {
-                var toastActivationArgs = args as ToastNotificationActivatedEventArgs;
+                Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
+
+                // If we're currently not on a page, navigate to the main page
+                if (rootFrame.Content == null)
+                {
+                    if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+                    {
+                        rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs"); // ToDo add arguments
+                    }
+                    else
+                    {
+                        rootFrame.Navigate(typeof(ChatPage), "App.xaml.cs"); // ToDo add arguments
+                    }
+                }
+            }
+            else if (args is ToastNotificationActivatedEventArgs toastActivationArgs)
+            {
                 Logger.Info("App activated by toast with: " + toastActivationArgs.Argument);
                 // If empty args, no specific action (just launch the app)
                 if (string.IsNullOrEmpty(toastActivationArgs.Argument))
@@ -225,10 +241,8 @@ namespace UWP_XMPP_Client
                     rootFrame.BackStack.Add(new PageStackEntry(typeof(ChatPage), null, null));
                 }
             }
-            else if (args is LaunchActivatedEventArgs)
+            else if (args is LaunchActivatedEventArgs launchActivationArgs)
             {
-                var launchActivationArgs = args as LaunchActivatedEventArgs;
-
                 Push.CheckLaunchedFromNotification(launchActivationArgs);
 
                 // If launched with arguments (not a normal primary tile/applist launch)

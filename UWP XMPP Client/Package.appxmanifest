@@ -27,6 +27,12 @@
             <Task Type="systemEvent" />
           </BackgroundTasks>
         </Extension>
+        <uap:Extension Category="windows.protocol">
+          <uap:Protocol Name="xmpp">
+            <uap:Logo>Assets\uri_activation_icon.png</uap:Logo>
+            <uap:DisplayName>UWPX</uap:DisplayName>
+          </uap:Protocol>
+        </uap:Extension>
       </Extensions>
     </Application>
   </Applications>
