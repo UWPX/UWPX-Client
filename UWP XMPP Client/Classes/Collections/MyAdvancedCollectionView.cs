@@ -475,6 +475,12 @@ namespace UWP_XMPP_Client.Classes.Collections
             {
                 var oldIndex = _view.IndexOf(item);
 
+                // Check if item is in view:
+                if (oldIndex < 0)
+                {
+                    return;
+                }
+
                 _view.RemoveAt(oldIndex);
                 var targetIndex = _view.BinarySearch(item, this);
                 if (targetIndex < 0)
