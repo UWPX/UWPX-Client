@@ -125,8 +125,8 @@
                                                               Margin="10"
                                                               HorizontalAlignment="Left"
                                                               VerticalAlignment="Center"
-                                                              Chat="{x:Bind Chat, Mode=OneWay}"
-                                                              MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"
+                                                              Chat="{x:Bind ChatTemp.chat, Mode=OneWay}"
+                                                              MUCInfo="{x:Bind ChatTemp.mucInfo, Mode=OneWay}"
                                                               Tapped="AccountImageWithPresenceControl_Tapped"/>
                     <Grid x:Name="chatDetails_grid"
                           Grid.Column="1"
