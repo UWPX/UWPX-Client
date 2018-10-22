@@ -43,15 +43,14 @@
                             <TextBlock x:Name="account_tblck"/>
                             <controls:SeperatorControl Margin="0,10,0,10"/>
                         </StackPanel>
-                        <Grid Margin="0,10,0,0">
+                        <Grid Margin="0,10,10,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <StackPanel Grid.Column="0">
-                                <controls:AccountImageWithPresenceControl x:Name="account_aiwp"/>
-                            </StackPanel>
+                            <controls:AccountImageWithPresenceControl x:Name="account_aiwp"
+                                                                      Grid.Column="0"/>
                             <TextBlock x:Name="subscriptionStatus_tblck"
                                        Grid.Column="1"
                                        HorizontalAlignment="Center"/>
@@ -79,9 +78,8 @@
                                            FontFamily="Segoe MDL2 Assets"
                                            Text="&#xE00F;"/>
                             </Grid>
-                            <StackPanel Grid.Column="2">
-                                <controls:AccountImageWithPresenceControl Chat="{x:Bind Chat}"/>
-                            </StackPanel>
+                            <controls:AccountImageWithPresenceControl Grid.Column="2"
+                                                                      Chat="{x:Bind Chat}"/>
                         </Grid>
                         <StackPanel Margin="0,10,0,0">
                             <controls:SeperatorControl Margin="0,10,0,10"/>
