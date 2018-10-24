@@ -67,7 +67,7 @@ namespace UWP_XMPP_Client
                 HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
 
                 // Setup App Center crashes, push:
-                // setupAppCenter();
+                setupAppCenter();
             }
 
             // Init buy content helper:
