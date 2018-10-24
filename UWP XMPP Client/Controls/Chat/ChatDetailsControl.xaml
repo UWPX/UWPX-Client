@@ -229,7 +229,8 @@
                             Click="test_bnt_Click"
                             Content="&#xE81F;"
                             FontFamily="Segoe MDL2 Assets"
-                            FontSize="20"/>
+                            FontSize="20"
+                            Visibility="Collapsed"/>
                 </Grid>
                 <controls:SeperatorControl Grid.Row="1"
                                            Margin="0,-2,0,0"/>

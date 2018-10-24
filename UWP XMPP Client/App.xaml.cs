@@ -20,6 +20,7 @@ using Data_Manager2.Classes.ToastActivation;
 using Windows.UI.Notifications;
 using Data_Manager2.Classes.DBTables;
 using System.Text;
+using Microsoft.AppCenter.Analytics;
 
 namespace UWP_XMPP_Client
 {
@@ -27,6 +28,9 @@ namespace UWP_XMPP_Client
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private readonly string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
+        private readonly string HOCKEY_APP_SECRET = "6e35320f3a4142f28060011b25e36f24";
+
         /// <summary>
         /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
         /// </summary>
@@ -64,7 +68,7 @@ namespace UWP_XMPP_Client
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
             {
                 // Setup Hockey App crashes:
-                HockeyClient.Current.Configure("6e35320f3a4142f28060011b25e36f24");
+                HockeyClient.Current.Configure(HOCKEY_APP_SECRET);
 
                 // Setup App Center crashes, push:
                 setupAppCenter();
@@ -102,7 +106,11 @@ namespace UWP_XMPP_Client
         {
             try
             {
-                Microsoft.AppCenter.AppCenter.Start("523e7039-f6cb-4bf1-9000-53277ed97c53", typeof(Crashes), typeof(Push));
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
+#if DEBUG
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics), typeof(Push)); // Only enable analytics and push for debug builds
+#endif
+
                 if (!Microsoft.AppCenter.AppCenter.Configured)
                 {
                     Push.PushNotificationReceived -= Push_PushNotificationReceived;

@@ -107,11 +107,6 @@ namespace UWP_XMPP_Client.Controls.Chat
             this.CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
             this.curChatId = null;
             this.InitializeComponent();
-
-            // Disable the test button on release builds:
-#if !DEBUG
-            test_bnt.Visibility = Visibility.Collapsed;
-#endif
         }
 
         #endregion
@@ -576,6 +571,11 @@ namespace UWP_XMPP_Client.Controls.Chat
             {
                 loadDummyContent();
             }
+
+            // Enable the test button only on debug builds:
+#if DEBUG
+            test_bnt.Visibility = Visibility.Visible;
+#endif
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
