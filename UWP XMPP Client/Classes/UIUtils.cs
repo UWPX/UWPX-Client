@@ -217,7 +217,6 @@ namespace UWP_XMPP_Client.Classes
                 }
             }
         }
-
         #endregion
 
         #region --Misc Methods (Private)--

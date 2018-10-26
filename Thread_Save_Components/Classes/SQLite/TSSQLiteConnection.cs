@@ -64,6 +64,11 @@ namespace Thread_Save_Components.Classes.SQLite
             connection.Item2.ReleaseMutex();
         }
 
+        public int DeleteAll<T>()
+        {
+            return DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>();
+        }
+
         public List<T> ExecuteCommand<T>(bool readOnly, SQLiteCommand cmd) where T : new()
         {
             return cmd.ExecuteQuery<T>();

@@ -42,7 +42,7 @@ namespace Thread_Save_Components.Classes.SQLite
         /// <summary>
         /// Inits the manager.
         /// </summary>
-        public void initManager()
+        public virtual void initManager()
         {
         }
 
