@@ -212,6 +212,7 @@
     <Compile Include="Controls\Chat\SpeechBubbleInfoControl.xaml.cs">
       <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="DataTemplates\PresenceBrushValueConverter.cs" />
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
     <Compile Include="DataTemplates\MessageUnreadVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\StringEmptyVisabilityValueConverter.cs" />
@@ -784,7 +785,7 @@
       <Version>4.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.1.181025003-prerelease</Version>
+      <Version>2.0.181018003</Version>
     </PackageReference>
     <PackageReference Include="QRCoder">
       <Version>1.3.3</Version>

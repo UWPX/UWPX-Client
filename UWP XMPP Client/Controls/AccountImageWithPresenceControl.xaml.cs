@@ -1,5 +1,4 @@
 ﻿using Data_Manager2.Classes.DBTables;
-using UWP_XMPP_Client.Classes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -12,23 +11,23 @@ namespace UWP_XMPP_Client.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public Presence Presence
+
+
+        public Presence PresenceP
         {
-            get { return (Presence)GetValue(PresenceProperty); }
-            set
-            {
-                SetValue(PresenceProperty, value);
-                showPresenceColor();
-            }
+            get { return (Presence)GetValue(PresencePProperty); }
+            set { SetValue(PresencePProperty, value); }
         }
-        public static readonly DependencyProperty PresenceProperty = DependencyProperty.Register("Presence", typeof(Presence), typeof(AccountImageWithPresenceControl), null);
+        public static readonly DependencyProperty PresencePProperty = DependencyProperty.Register(nameof(PresenceP), typeof(Presence), typeof(AccountImageWithPresenceControl), new PropertyMetadata(Presence.Unavailable));
+
+
 
         public ImageSource Image
         {
             get { return (BitmapImage)GetValue(ImageProperty); }
             set { SetValue(ImageProperty, value); }
         }
-        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register("Image", typeof(BitmapImage), typeof(AccountImageWithPresenceControl), null);
+        public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(BitmapImage), typeof(AccountImageWithPresenceControl), null);
 
         public ChatTable Chat
         {
@@ -40,7 +39,7 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register("Chat", typeof(ChatTable), typeof(AccountImageWithPresenceControl), null);
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(AccountImageWithPresenceControl), null);
 
         public MUCChatInfoTable MUCInfo
         {
@@ -50,11 +49,11 @@ namespace UWP_XMPP_Client.Controls
                 SetValue(MUCInfoProperty, value);
                 if (MUCInfo != null)
                 {
-                    Presence = value.getMUCPresence();
+                    PresenceP = value.getMUCPresence();
                 }
             }
         }
-        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(AccountImageWithPresenceControl), null);
+        public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register(nameof(MUCInfo), typeof(MUCChatInfoTable), typeof(AccountImageWithPresenceControl), null);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -83,11 +82,6 @@ namespace UWP_XMPP_Client.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void showPresenceColor()
-        {
-            presence_elipse.Fill = UiUtils.getPresenceBrush(Presence);
-        }
-
         private void showPresence()
         {
             if (Chat != null)
@@ -95,20 +89,20 @@ namespace UWP_XMPP_Client.Controls
                 switch (Chat.chatType)
                 {
                     case Data_Manager2.Classes.ChatType.MUC:
-                        placeholder_tbx.Text = "\uE125";
+                        contact_pp.Initials = "\uE125";
                         if (MUCInfo != null)
                         {
-                            Presence = MUCInfo.getMUCPresence();
+                            PresenceP = MUCInfo.getMUCPresence();
                         }
                         else
                         {
-                            Presence = Presence.Unavailable;
+                            PresenceP = Presence.Unavailable;
                         }
                         break;
 
                     default:
-                        Presence = Chat.presence;
-                        placeholder_tbx.Text = "\uE77B";
+                        PresenceP = Chat.presence;
+                        contact_pp.Initials = "\uE77B";
                         break;
                 }
             }

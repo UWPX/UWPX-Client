@@ -304,18 +304,18 @@ namespace UWP_XMPP_Client.Controls.Chat
                     switch (sendDummyMessages)
                     {
                         case 1:
-                            accImg_aiwp.Presence = Presence.Online;
+                            accImg_aiwp.PresenceP = Presence.Online;
                             break;
 
                         case 3:
                             sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_3_img"), true, 3000);
                             sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_3"), false, 4000);
-                            accImg_aiwp.Presence = Presence.Chat;
+                            accImg_aiwp.PresenceP = Presence.Chat;
                             break;
 
                         case 4:
                             sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_4"), false, 3000);
-                            accImg_aiwp.Presence = Presence.Online;
+                            accImg_aiwp.PresenceP = Presence.Online;
                             break;
 
                         case 7:
@@ -328,7 +328,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
                         case 15:
                             sendBotMessage(Localisation.getLocalizedString("chat_details_dummy_answer_15"), false, 3000);
-                            accImg_aiwp.Presence = Presence.Xa;
+                            accImg_aiwp.PresenceP = Presence.Xa;
                             break;
 
                         case 20:
@@ -353,7 +353,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                                 {
                                     storeChatState(ChatState.GONE);
-                                    accImg_aiwp.Presence = Presence.Unavailable;
+                                    accImg_aiwp.PresenceP = Presence.Unavailable;
                                 });
                             });
                             break;

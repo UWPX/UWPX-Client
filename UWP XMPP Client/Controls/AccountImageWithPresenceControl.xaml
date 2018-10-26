@@ -2,13 +2,13 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              Width="40"
              Height="40"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <SolidColorBrush Color="#ffffff" x:Key="ImageBackgroundBrush" Opacity="0.4"/>
         <Style x:Key="ShadowPanelStyle"
                TargetType="controls:DropShadowPanel">
             <Setter Property="BlurRadius" Value="8"/>
@@ -27,42 +27,22 @@
         </Grid.RowDefinitions>
 
 
-        <Grid Grid.Row="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Rectangle Grid.Row="0"
-                           HorizontalAlignment="Stretch"
-                           VerticalAlignment="Stretch"
-                           Fill="{StaticResource ImageBackgroundBrush}"/>
-            <Viewbox HorizontalAlignment="Stretch"
-                         VerticalAlignment="Stretch"
-                         Stretch="Uniform">
-                <TextBlock x:Name="placeholder_tbx"
-                               Grid.Column="0"
-                               Margin="3"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
-                               Foreground="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-                               Text="&#xE2AF;"/>
-            </Viewbox>
-        </Grid>
-
-        <Image x:Name="user_img"
-               Grid.Row="0"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="{x:Bind Image}"/>
+        <controlsComp:PersonPicture x:Name="contact_pp"
+                                    Grid.Row="0"
+                                    Width="{x:Bind Width, Mode=OneWay}"
+                                    Height="{x:Bind Height, Mode=OneWay}"
+                                    FontFamily="Segoe MDL2 Assets"
+                                    Initials="&#xE2AF;"
+                                    ProfilePicture="{x:Bind Image, Mode=OneWay}"/>
 
         <controls:DropShadowPanel Grid.Row="0"
-                                  Margin="0,0,-4,-4"
+                                  Margin="0,0,-2,-2"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Bottom">
             <Ellipse x:Name="presence_elipse"
                      Width="13"
                      Height="13"
-                     Fill="{StaticResource PresenceUnavailable}"/>
+                     Fill="{x:Bind PresenceP, Mode=OneWay, Converter={StaticResource presenceBrushValueConverter}}"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>

@@ -1,7 +1,8 @@
 ﻿<Application x:Class="UWP_XMPP_Client.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -46,6 +47,7 @@
             </Style>
 
             <!--Converters:-->
+            <datatemplates:PresenceBrushValueConverter x:Key="presenceBrushValueConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

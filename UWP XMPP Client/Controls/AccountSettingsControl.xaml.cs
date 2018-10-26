@@ -155,19 +155,19 @@ namespace UWP_XMPP_Client.Controls
             switch (state)
             {
                 case ConnectionState.DISCONNECTED:
-                    image_aciwp.Presence = Presence.Unavailable;
+                    image_aciwp.PresenceP = Presence.Unavailable;
                     break;
                 case ConnectionState.CONNECTING:
-                    image_aciwp.Presence = Presence.Chat;
+                    image_aciwp.PresenceP = Presence.Chat;
                     break;
                 case ConnectionState.CONNECTED:
-                    image_aciwp.Presence = Presence.Online;
+                    image_aciwp.PresenceP = Presence.Online;
                     break;
                 case ConnectionState.DISCONNECTING:
-                    image_aciwp.Presence = Presence.Chat;
+                    image_aciwp.PresenceP = Presence.Chat;
                     break;
                 case ConnectionState.ERROR:
-                    image_aciwp.Presence = Presence.Dnd;
+                    image_aciwp.PresenceP = Presence.Dnd;
                     showError(param);
                     break;
                 default:
