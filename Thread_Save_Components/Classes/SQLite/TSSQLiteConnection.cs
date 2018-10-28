@@ -76,7 +76,12 @@ namespace Thread_Save_Components.Classes.SQLite
 
         public int InsertOrReplace(object obj)
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj);
+            // Not using DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj); to prevent exceptions (https://github.com/praeclarum/sqlite-net/issues/761):
+            BeginTransaction();
+            DB_CONNECTIONS[DB_PATH].Item3.Delete(obj);
+            int i = DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
+            Commit();
+            return i;
         }
 
         public int InsertAll(IEnumerable<object> objects, bool runInTransaction = true)
