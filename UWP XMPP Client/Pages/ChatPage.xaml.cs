@@ -163,11 +163,8 @@ namespace UWP_XMPP_Client.Pages
             {
                 string errorMessage = "Unable to add chat! client ?= " + (client == null) + " jabberId ?=" + (jID == null);
                 Logger.Error(errorMessage);
-                MessageDialog messageDialog = new MessageDialog("Error")
-                {
-                    Content = errorMessage
-                };
-                await messageDialog.ShowAsync();
+                TextDialog dialog = new TextDialog(errorMessage, "Error");
+                await UiUtils.showDialogAsyncQueue(dialog);
             }
             else
             {
