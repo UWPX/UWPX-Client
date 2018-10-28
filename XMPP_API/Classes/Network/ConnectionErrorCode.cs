@@ -12,5 +12,6 @@
         TLS_CONNECTION_FAILED = 7,
         SASL_FAILED = 8,
         XMPP_CONNECTION_TIMEOUT = 9,
+        SENDING_FAILED = 10,
     }
 }

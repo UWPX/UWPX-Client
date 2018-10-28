@@ -391,6 +391,7 @@ namespace XMPP_API.Classes.Network
 
         private async Task onConnectionErrorAsync()
         {
+            Logger.Debug("onConnectionErrorAsync() got triggered - connectionErrorCount: " + connectionErrorCount);
             if (++connectionErrorCount >= 3)
             {
                 // Establishing the connection failed for the third time:
@@ -426,9 +427,15 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task sendStreamCloseMessageAsync()
         {
+            Logger.Debug("Sending stream close...");
             if (TCP_CONNECTION.state == ConnectionState.CONNECTED)
             {
                 await TCP_CONNECTION.sendAsync(Consts.XML_STREAM_CLOSE);
+                Logger.Debug("Stream close send.");
+            }
+            else
+            {
+                Logger.Debug("Skipping sending stream close - TCP_CONNECTION.state != ConnectionState.CONNECTED: " + TCP_CONNECTION.state.ToString());
             }
         }
 

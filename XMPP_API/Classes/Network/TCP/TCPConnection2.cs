@@ -160,8 +160,8 @@ namespace XMPP_API.Classes.Network.TCP
                 return;
             }
 
-            setState(ConnectionState.DISCONNECTING);
             Logger.Info("[TCPConnection2]: Disconnecting");
+            setState(ConnectionState.DISCONNECTING);
             connectingCTS?.Cancel();
             readingCTS?.Cancel();
             tlsUpgradeCTS?.Cancel();
@@ -180,8 +180,8 @@ namespace XMPP_API.Classes.Network.TCP
             }
             socket?.Dispose();
             socket = null;
-            setState(ConnectionState.DISCONNECTED);
             Logger.Info("[TCPConnection2]: Disconnected");
+            setState(ConnectionState.DISCONNECTED);
         }
 
         /// <summary>
@@ -216,36 +216,57 @@ namespace XMPP_API.Classes.Network.TCP
                 try
                 {
                     WRITE_SEMA.Wait();
-                    dataWriter.WriteString(s);
+                    uint l = dataWriter.WriteString(s);
+
+                    // Check if all bytes got actually written to the TCP buffer:
+                    if (l < s.Length)
+                    {
+                        lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "Send only " + l + " of " + s.Length + "bytes");
+                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
+                        return false;
+                    }
 
                     // Sometimes dataWriter is blocking for an infinite time, so give it a timeout:
                     sendCTS = new CancellationTokenSource(SEND_TIMEOUT_MS);
-                    await dataWriter.StoreAsync().AsTask(sendCTS.Token);
-                    await dataWriter.FlushAsync().AsTask(sendCTS.Token);
+                    sendCTS.CancelAfter(SEND_TIMEOUT_MS);
+                    await Task.Run(async () =>
+                    {
+                        await dataWriter.StoreAsync();
+                        await dataWriter.FlushAsync();
+                    }, sendCTS.Token);
+
+                    if (sendCTS.IsCancellationRequested)
+                    {
+                        lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "IsCancellationRequested");
+                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
+                        return false;
+                    }
 
                     Logger.Debug("[TCPConnection2]: Send to (" + account.serverAddress + "):" + s);
                     return true;
                 }
                 catch (TaskCanceledException e)
                 {
+                    lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "TaskCanceledException");
                     if (Logger.logLevel >= LogLevel.DEBUG)
                     {
-                        Logger.Error("[TCPConnection2]: failed to send - TaskCanceledException: " + s, e);
+                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s, e);
                     }
                     else
                     {
-                        Logger.Error("[TCPConnection2]: failed to send message - TaskCanceledException!", e);
+                        Logger.Error("[TCPConnection2]: failed to send message - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
                     }
                 }
                 catch (Exception e)
                 {
+                    lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, e.Message);
                     if (Logger.logLevel >= LogLevel.DEBUG)
                     {
-                        Logger.Error("[TCPConnection2]: failed to send: " + s, e);
+                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s, e);
                     }
                     else
                     {
-                        Logger.Error("[TCPConnection2]: failed to send message!", e);
+                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
                     }
                 }
                 finally

@@ -1,4 +1,5 @@
-﻿using Windows.Networking.Sockets;
+﻿using System.Text;
+using Windows.Networking.Sockets;
 
 namespace XMPP_API.Classes.Network
 {
@@ -51,7 +52,17 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder("[ConnectionError] ");
+            sb.Append("SOCKET_ERROR: ");
+            sb.Append(SOCKET_ERROR.ToString());
+            sb.Append(", ERROR_CODE: ");
+            sb.Append(ERROR_CODE.ToString());
+            sb.Append(", ERROR_MESSAGE: ");
+            sb.Append(ERROR_MESSAGE ?? "NULL");
+            return sb.ToString();
+        }
 
         #endregion
 

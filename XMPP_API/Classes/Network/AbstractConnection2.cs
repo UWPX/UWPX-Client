@@ -55,7 +55,11 @@ namespace XMPP_API.Classes.Network
             state = newState;
             ConnectionStateChanged?.Invoke(this, new ConnectionStateChangedEventArgs(newState, oldState, param));
 
-            Logger.Debug("[" + this.GetType().Name + "] " + oldState + " -> " + newState);
+            if (!(param is string s))
+            {
+                s = param?.ToString();
+            }
+            Logger.Debug("[" + this.GetType().Name + "] " + oldState + " -> " + newState + ": " + s);
         }
 
         /// <summary>
