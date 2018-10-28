@@ -19,6 +19,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -382,7 +383,7 @@ namespace UWP_XMPP_Client.Pages
                     ChatTemplate c = added as ChatTemplate;
                     if (shouldSendChatState(c.chat))
                     {
-                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.ACTIVE).ConfigureAwait(false);
+                        await c.client.sendChatStateAsync(c.chat.chatJabberId, ChatState.ACTIVE);
                     }
                 }
             }
@@ -394,7 +395,7 @@ namespace UWP_XMPP_Client.Pages
                     ChatTemplate c = added as ChatTemplate;
                     if (shouldSendChatState(c.chat))
                     {
-                        await c.client.sendChatStateAsync(c.chat.chatJabberId, XMPP_API.Classes.Network.XML.Messages.XEP_0085.ChatState.INACTIVE).ConfigureAwait(false);
+                        await c.client.sendChatStateAsync(c.chat.chatJabberId, ChatState.INACTIVE);
                     }
                 }
             }
