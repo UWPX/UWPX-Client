@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 using Windows.UI.ViewManagement;
+using System.Linq;
+using System.Text;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -24,7 +26,7 @@ namespace UWP_XMPP_Client.Classes
         #region --Attributes--
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
         private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
-        private static readonly Random HEX_COLOR_RANDOM = new Random();
+        private static readonly Random RANDOM = new Random();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -80,7 +82,7 @@ namespace UWP_XMPP_Client.Classes
         /// </summary>
         public static string getRandomColorHexString()
         {
-            return string.Format("#{0:X6}", HEX_COLOR_RANDOM.Next(0x1000000));
+            return string.Format("#{0:X6}", RANDOM.Next(0x1000000));
         }
 
         /// <summary>
@@ -132,6 +134,33 @@ namespace UWP_XMPP_Client.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Generates a random bare JID.
+        /// e.g. 'chat.shakespeare.lit'
+        /// </summary>
+        /// <returns>A random bare JID string.</returns>
+        public static string genRandomBareJid()
+        {
+            StringBuilder sb = new StringBuilder(genRandomString(RANDOM.Next(4, 10)));
+            sb.Append('@');
+            sb.Append(genRandomString(RANDOM.Next(4, 6)));
+            sb.Append('.');
+            sb.Append(genRandomString(RANDOM.Next(2, 4)));
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Generates a random string and returns it.
+        /// Based on: https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings-in-c
+        /// </summary>
+        /// <param name="length">The length of the string that should be generated.</param>
+        /// <returns>A random string.</returns>
+        private static string genRandomString(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[RANDOM.Next(s.Length)]).ToArray());
+        }
+
         /// <summary>
         /// Converts the given Color to a hex string e.g. #012345.
         /// </summary>
