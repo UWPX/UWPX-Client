@@ -107,12 +107,12 @@
                                  PlaceholderText="e.g. #D50000"
                                  Text="{x:Bind Account.color, Mode=OneWay}"
                                  TextChanged="color_tbx_TextChanged"/>
-                        <Button x:Name="randomColor_btn"
+                        <Button x:Name="pickColor_btn"
                                 Grid.Column="1"
                                 Height="32"
                                 VerticalAlignment="Bottom"
-                                Click="randomColor_btn_Click"
-                                Content="&#xE72C;"
+                                Click="pickColor_btn_Click"
+                                Content="&#xE790;"
                                 FontFamily="Segoe MDL2 Assets"/>
                     </Grid>
                 </Grid>

@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Controls
             if (UiUtils.isHexColor(color))
             {
                 color_tbx.Header = "Hex color:";
-                color_rcta.Fill = UiUtils.convertHexColorToBrush(color);
+                color_rcta.Fill = UiUtils.convertHexStringToBrush(color);
                 color_rcta.Visibility = Visibility.Visible;
             }
             else
@@ -191,14 +191,19 @@ namespace UWP_XMPP_Client.Controls
             updateColor(color_tbx.Text);
         }
 
-        private void randomColor_btn_Click(object sender, RoutedEventArgs e)
+        private async void pickColor_btn_Click(object sender, RoutedEventArgs e)
         {
-            color_tbx.Text = UiUtils.getRandomColor();
+            ColorPickerDialog dialog = new ColorPickerDialog(color_tbx.Text);
+            await UiUtils.showDialogAsyncQueue(dialog);
+            if(!dialog.canceled)
+            {
+                color_tbx.Text = dialog.getHexColor();
+            }
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            color_tbx.Text = UiUtils.getRandomColor();
+            color_tbx.Text = UiUtils.getRandomColorHexString();
             showDeviceName();
         }
 

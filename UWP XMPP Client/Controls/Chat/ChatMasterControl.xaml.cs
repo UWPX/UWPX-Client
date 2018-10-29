@@ -247,7 +247,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             // Chat color:
             if (UiUtils.isHexColor(client.getXMPPAccount().color))
             {
-                SolidColorBrush brush = UiUtils.convertHexColorToBrush(client.getXMPPAccount().color);
+                SolidColorBrush brush = UiUtils.convertHexStringToBrush(client.getXMPPAccount().color);
                 brush.Opacity = 0.9;
                 color_rcta.Fill = brush;
             }

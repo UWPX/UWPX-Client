@@ -23,7 +23,7 @@ namespace UWP_XMPP_Client.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
-        private static readonly Regex HEX_COLOR_REGEX = new Regex("#[0-9a-fA-F]{6}");
+        private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
         private static readonly Random HEX_COLOR_RANDOM = new Random();
 
         #endregion
@@ -75,9 +75,20 @@ namespace UWP_XMPP_Client.Classes
             }
         }
 
-        public static string getRandomColor()
+        /// <summary>
+        /// Returns a random RGB color as hex string.
+        /// </summary>
+        public static string getRandomColorHexString()
         {
             return string.Format("#{0:X6}", HEX_COLOR_RANDOM.Next(0x1000000));
+        }
+
+        /// <summary>
+        /// Returns a random RGB color.
+        /// </summary>
+        public static Color getRandomColor()
+        {
+            return convertHexStringToColor(getRandomColorHexString());
         }
 
         public static SolidColorBrush getPresenceBrush(Presence presence)
@@ -122,6 +133,40 @@ namespace UWP_XMPP_Client.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
+        /// Converts the given Color to a hex string e.g. #012345.
+        /// </summary>
+        /// <param name="c">The Color that should get converted.</param>
+        /// <returns>A hex string representing the given Color object.</returns>
+        public static string convertColorToHexString(Color c)
+        {
+            return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+        }
+
+        /// <summary>
+        /// Converts the given hex string into a Color object.
+        /// </summary>
+        /// <param name="hexString">The hex color string e.g. #012345.</param>
+        /// <returns>Returns the Color object representing the given hex color.</returns>
+        public static Color convertHexStringToColor(string hexString)
+        {
+            hexString = hexString.Replace("#", string.Empty);
+            byte r = (byte)(Convert.ToUInt32(hexString.Substring(0, 2), 16));
+            byte g = (byte)(Convert.ToUInt32(hexString.Substring(2, 2), 16));
+            byte b = (byte)(Convert.ToUInt32(hexString.Substring(4, 2), 16));
+            return Color.FromArgb(255, r, g, b);
+        }
+
+        /// <summary>
+        /// Converts the given hex string into a SolidColorBrush object.
+        /// </summary>
+        /// <param name="hexString">The hex color string e.g. #012345.</param>
+        /// <returns>Returns the SolidColorBrush object representing the given hex color.</returns>
+        public static SolidColorBrush convertHexStringToBrush(string hexString)
+        {
+            return new SolidColorBrush(convertHexStringToColor(hexString));
+        }
+
+        /// <summary>
         /// Hides the StatusBar on Windows Mobile devices asynchronously.
         /// </summary>
         public static async Task hideStatusBarAsync()
@@ -141,15 +186,6 @@ namespace UWP_XMPP_Client.Classes
             {
                 await StatusBar.GetForCurrentView().ShowAsync();
             }
-        }
-
-        public static SolidColorBrush convertHexColorToBrush(string color)
-        {
-            color = color.Replace("#", string.Empty);
-            byte r = Convert.ToByte(color.Substring(0, 2), 16);
-            byte g = Convert.ToByte(color.Substring(2, 2), 16);
-            byte b = Convert.ToByte(color.Substring(4, 2), 16);
-            return new SolidColorBrush(Color.FromArgb(255, r, g, b));
         }
 
         /// <summary>
