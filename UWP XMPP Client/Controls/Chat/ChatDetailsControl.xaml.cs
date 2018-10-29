@@ -140,12 +140,15 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         public void loadDummyContent()
         {
-            Chat = new ChatTable
+            ChatTemp = new ChatTemplate
             {
-                chatJabberId = "dave@example.com",
-                userAccountId = "kevin@example.com",
-                chatType = ChatType.CHAT,
-                presence = Presence.Away
+                chat = new ChatTable
+                {
+                    chatJabberId = "dave@example.com",
+                    userAccountId = "kevin@example.com",
+                    chatType = ChatType.CHAT,
+                    presence = Presence.Away
+                }
             };
 
             addDummyMessage("Hi", Chat.userAccountId, MessageState.READ);
