@@ -67,10 +67,10 @@ An alpha version of the app is available in the Windows Store [LINK](https://www
 [Here](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development) you can find more information about: How to install UWP apps, using the developer mode.
 
 ## Examples:
-<img src="https://i.imgur.com/QegZMmp.png" width="400"> <img src="https://i.imgur.com/AwdYXFv.png" width="400">
+<img src="https://i.imgur.com/s0KbuwE.png" width="400"> <img src="https://i.imgur.com/orptpW0.png" width="400">
 <br/><br/>
-<img src="https://i.imgur.com/A7oFZ4y.png" width="800">
-<img src="https://i.imgur.com/0CMR7ag.png" width="800">
+<img src="https://i.imgur.com/e1h6qTt.png" width="800">
+<img src="https://i.imgur.com/oMLUZ0J.png" width="800">
 
 ## References:
 This project wouldn’t be possible without the great work of all those people working on the libraries used by UWPX.
