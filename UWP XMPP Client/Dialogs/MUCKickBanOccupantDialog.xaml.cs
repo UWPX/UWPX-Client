@@ -19,12 +19,12 @@ namespace UWP_XMPP_Client.Dialogs
         }
         public static readonly DependencyProperty ReasonProperty = DependencyProperty.Register("Reason", typeof(string), typeof(MUCKickBanOccupantDialog), null);
 
-        private XMPPClient client;
-        private ChatTable chat;
+        private readonly XMPPClient CLIENT;
+        private readonly ChatTable CHAT;
         private readonly ObservableCollection<MUCOccupantTemplate> OCCUPANTS;
 
-        private bool canBan;
-        private bool canKick;
+        private readonly bool CAN_BAN;
+        private readonly bool CAN_KICK;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -38,10 +38,10 @@ namespace UWP_XMPP_Client.Dialogs
         public MUCKickBanOccupantDialog(ObservableCollection<MUCOccupantTemplate> occupants, XMPPClient client, ChatTable chat, bool canKick, bool canBan)
         {
             this.OCCUPANTS = occupants;
-            this.client = client;
-            this.chat = chat;
-            this.canKick = canKick;
-            this.canBan = canBan;
+            this.CLIENT = client;
+            this.CHAT = chat;
+            this.CAN_KICK = canKick;
+            this.CAN_BAN = canBan;
             this.InitializeComponent();
         }
 
@@ -62,7 +62,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             foreach (MUCOccupantTemplate t in OCCUPANTS)
             {
-                occupants_itmsc.Items.Add(new MucKickBanOccupantControl(this, client, chat, canKick, canBan)
+                occupants_itmsc.Items.Add(new MucKickBanOccupantControl(this, CLIENT, CHAT, CAN_KICK, CAN_BAN)
                 {
                     Occupant = t.occupant
                 });
@@ -118,8 +118,8 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void ContentDialog_Loaded(object sender, RoutedEventArgs e)
         {
-            banAll_btn.IsEnabled = canBan;
-            kickAll_btn.IsEnabled = canKick;
+            banAll_btn.IsEnabled = CAN_BAN;
+            kickAll_btn.IsEnabled = CAN_KICK;
 
             showOccupants();
         }

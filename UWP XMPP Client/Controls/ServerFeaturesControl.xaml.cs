@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty discoTypeProperty = DependencyProperty.Register("discoType", typeof(DiscoType), typeof(ServerFeaturesControl), null);
 
-        private ObservableCollection<ServerFeaturesTemplate> featuresList;
+        private readonly ObservableCollection<ServerFeaturesTemplate> SERVER_FEATURES;
         private string discoItemsId;
         private string discoInfosId;
         private Timer timerItems;
@@ -86,7 +86,7 @@ namespace UWP_XMPP_Client.Controls
             this.discoInfosId = null;
             this.timerItems = null;
             this.timerInfos = null;
-            this.featuresList = new ObservableCollection<ServerFeaturesTemplate>();
+            this.SERVER_FEATURES = new ObservableCollection<ServerFeaturesTemplate>();
             this.InitializeComponent();
         }
 
@@ -108,7 +108,7 @@ namespace UWP_XMPP_Client.Controls
             items_icon.Visibility = Visibility.Collapsed;
             noneFound_tblck.Visibility = Visibility.Collapsed;
             loading_spnl.Visibility = Visibility.Visible;
-            featuresList.Clear();
+            SERVER_FEATURES.Clear();
 
             switch (discoType)
             {
@@ -193,7 +193,7 @@ namespace UWP_XMPP_Client.Controls
             }
             else if (discoItemsId == null && discoInfosId == null)
             {
-                if(featuresList.Count <= 0)
+                if(SERVER_FEATURES.Count <= 0)
                 {
                     items_icon.Visibility = Visibility.Collapsed;
                     noneFound_tblck.Text = "None";
@@ -219,7 +219,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     if (!string.IsNullOrWhiteSpace(f.VAR))
                     {
-                        featuresList.Add(new ServerFeaturesTemplate()
+                        SERVER_FEATURES.Add(new ServerFeaturesTemplate()
                         {
                             name = f.VAR
                         });
@@ -229,7 +229,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     if (!string.IsNullOrWhiteSpace(i.JID))
                     {
-                        featuresList.Add(new ServerFeaturesTemplate()
+                        SERVER_FEATURES.Add(new ServerFeaturesTemplate()
                         {
                             name = i.NAME ?? i.JID
                         });

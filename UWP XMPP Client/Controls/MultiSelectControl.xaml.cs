@@ -30,7 +30,7 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty itemSourceProperty = DependencyProperty.Register("itemSource", typeof(List<object>), typeof(MultiSelectControl), null);
 
-        private List<object> selectedItems;
+        private readonly List<object> SELECTED_ITEMS;
 
         public delegate void SelectionChangedMultiEventHandler(MultiSelectControl sender, SelectionChangedMultiEventArgs args);
         public event SelectionChangedMultiEventHandler SelectionChanged;
@@ -47,7 +47,7 @@ namespace UWP_XMPP_Client.Controls
         public MultiSelectControl()
         {
             this.MaxHeight = 200;
-            this.selectedItems = new List<object>();
+            this.SELECTED_ITEMS = new List<object>();
             this.InitializeComponent();
         }
 
@@ -56,13 +56,13 @@ namespace UWP_XMPP_Client.Controls
         #region --Set-, Get- Methods--
         public IList<object> getSelectedItems()
         {
-            return selectedItems;
+            return SELECTED_ITEMS;
         }
 
         public void setSelectedItems(List<object> list)
         {
-            selectedItems.Clear();
-            selectedItems.AddRange(list);
+            SELECTED_ITEMS.Clear();
+            SELECTED_ITEMS.AddRange(list);
         }
 
         #endregion
@@ -76,9 +76,9 @@ namespace UWP_XMPP_Client.Controls
         private void showSelectedItems()
         {
             items_listv.SelectedItems.Clear();
-            for (int i = 0; i < selectedItems.Count; i++)
+            for (int i = 0; i < SELECTED_ITEMS.Count; i++)
             {
-                items_listv.SelectedItems.Add(selectedItems[i]);
+                items_listv.SelectedItems.Add(SELECTED_ITEMS[i]);
             }
         }
 
@@ -100,20 +100,20 @@ namespace UWP_XMPP_Client.Controls
             // Remove items:
             for (int i = 0; i < e.RemovedItems.Count; i++)
             {
-                selectedItems.Remove(e.RemovedItems[i]);
+                SELECTED_ITEMS.Remove(e.RemovedItems[i]);
             }
 
             // Add items:
             for (int i = 0; i < e.AddedItems.Count; i++)
             {
-                if (!selectedItems.Contains(e.AddedItems[i]))
+                if (!SELECTED_ITEMS.Contains(e.AddedItems[i]))
                 {
-                    selectedItems.Add(e.AddedItems[i]);
+                    SELECTED_ITEMS.Add(e.AddedItems[i]);
                 }
             }
 
             // Trigger the event:
-            SelectionChanged?.Invoke(this, new SelectionChangedMultiEventArgs(selectedItems));
+            SelectionChanged?.Invoke(this, new SelectionChangedMultiEventArgs(SELECTED_ITEMS));
         }
 
         #endregion

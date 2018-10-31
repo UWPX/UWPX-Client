@@ -23,7 +23,7 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Attributes--
         public bool cancled;
         private List<DiscoFeatureTable> serverList;
-        private ObservableCollection<string> servers;
+        private readonly ObservableCollection<string> SERVERS;
 
         MessageResponseHelper<IQMessage> setBookmarkHelper;
 
@@ -55,7 +55,7 @@ namespace UWP_XMPP_Client.Dialogs
             this.setBookmarkHelper = null;
             this.cancled = true;
             this.serverList = new List<DiscoFeatureTable>();
-            this.servers = new ObservableCollection<string>();
+            this.SERVERS = new ObservableCollection<string>();
             InitializeComponent();
 
             if (roomJid != null)
@@ -96,20 +96,20 @@ namespace UWP_XMPP_Client.Dialogs
         {
             if (string.IsNullOrEmpty(filter))
             {
-                servers.Clear();
+                SERVERS.Clear();
                 foreach (DiscoFeatureTable f in serverList)
                 {
-                    servers.Add(f.fromServer);
+                    SERVERS.Add(f.fromServer);
                 }
             }
             else
             {
-                servers.Clear();
+                SERVERS.Clear();
                 foreach (DiscoFeatureTable f in serverList)
                 {
                     if (f.fromServer.Contains(filter))
                     {
-                        servers.Add(f.fromServer);
+                        SERVERS.Add(f.fromServer);
                     }
                 }
             }

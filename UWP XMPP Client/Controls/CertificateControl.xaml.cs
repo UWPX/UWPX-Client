@@ -28,7 +28,7 @@ namespace UWP_XMPP_Client.Controls
         }
         public static readonly DependencyProperty CertProperty = DependencyProperty.Register("Cert", typeof(Certificate), typeof(CertificateControl), null);
 
-        private ObservableCollection<CertificateDetailsTemplate> certDetails;
+        private readonly ObservableCollection<CertificateDetailsTemplate> CERT_DETAILS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -41,7 +41,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public CertificateControl()
         {
-            this.certDetails = new ObservableCollection<CertificateDetailsTemplate>();
+            this.CERT_DETAILS = new ObservableCollection<CertificateDetailsTemplate>();
             this.InitializeComponent();
         }
 
@@ -60,7 +60,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Misc Methods (Private)--
         private void updateCertDetails()
         {
-            certDetails.Clear();
+            CERT_DETAILS.Clear();
             if (Cert == null)
             {
                 validFormShort_run.Text = "-";
@@ -71,62 +71,62 @@ namespace UWP_XMPP_Client.Controls
             validFormShort_run.Text = Cert.ValidFrom.ToString("dd.MM.yyyy");
             validToShort_run.Text = Cert.ValidTo.ToString("dd.MM.yyyy");
 
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.FriendlyName,
                 name = "Friendly name"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.HasPrivateKey.ToString(),
                 name = "Has private key"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.IsPerUser.ToString(),
                 name = "Is per user"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.Issuer,
                 name = "Issuer"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.KeyAlgorithmName,
                 name = "Key algorithm name"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.KeyStorageProviderName,
                 name = "Key storage provider name"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.ValidTo.ToString("dd.MM.yyyy HH:mm"),
                 name = "Valid to"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.ValidFrom.ToString("dd.MM.yyyy HH:mm"),
                 name = "Valid from"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.Subject,
                 name = "Subject"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = byteArryToString(Cert.SerialNumber),
                 name = "Serial number"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.SignatureAlgorithmName,
                 name = "Signature algorithm name"
             });
-            certDetails.Add(new CertificateDetailsTemplate()
+            CERT_DETAILS.Add(new CertificateDetailsTemplate()
             {
                 value = Cert.SignatureHashAlgorithmName,
                 name = "Signature hash algorithm name"

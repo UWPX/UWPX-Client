@@ -8,7 +8,7 @@ namespace Logging
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        LoggingChannel CHANNEL = new LoggingChannel("UWPX_LOG_CHANNEL", null, new Guid("4bd2826e-54a1-4ba9-bf63-92b73ea1ac4a"));
+        private readonly LoggingChannel CHANNEL = new LoggingChannel("UWPX_LOG_CHANNEL", null, new Guid("4bd2826e-54a1-4ba9-bf63-92b73ea1ac4a"));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

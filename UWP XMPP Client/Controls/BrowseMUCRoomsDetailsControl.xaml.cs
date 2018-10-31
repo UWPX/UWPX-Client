@@ -21,7 +21,7 @@ namespace UWP_XMPP_Client.Controls
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private MessageResponseHelper<ExtendedDiscoResponseMessage> messageResponseHelper;
-        private CustomObservableCollection<MUCInfoFieldTemplate> fields;
+        private readonly CustomObservableCollection<MUCInfoFieldTemplate> FIELDS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -36,7 +36,7 @@ namespace UWP_XMPP_Client.Controls
         {
             this.InitializeComponent();
             this.messageResponseHelper = null;
-            this.fields = new CustomObservableCollection<MUCInfoFieldTemplate>();
+            this.FIELDS = new CustomObservableCollection<MUCInfoFieldTemplate>();
         }
 
         #endregion
@@ -86,7 +86,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void showResultDisco(ExtendedDiscoResponseMessage disco)
         {
-            fields.Clear();
+            FIELDS.Clear();
             messageResponseHelper?.Dispose();
             messageResponseHelper = null;
 
@@ -97,7 +97,7 @@ namespace UWP_XMPP_Client.Controls
                 {
                     if (f.type != FieldType.HIDDEN)
                     {
-                        fields.Add(new MUCInfoFieldTemplate() { field = f });
+                        FIELDS.Add(new MUCInfoFieldTemplate() { field = f });
                     }
                 }
             }

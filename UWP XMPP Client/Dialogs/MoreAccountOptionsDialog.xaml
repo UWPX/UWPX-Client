@@ -19,13 +19,13 @@
             <StackPanel>
                 <ToggleSwitch x:Name="disableMessageCarbons_tggls"
                               Header="Disable Message Carbons:"
-                              IsOn="{x:Bind connectionConfiguration.disableMessageCarbons, Mode=OneWay}"
+                              IsOn="{x:Bind CONNECTION_CONFIG.disableMessageCarbons, Mode=OneWay}"
                               OffContent="Enabled"
                               OnContent="Disabled"/>
                 <ToggleSwitch x:Name="disableStreamManagement_tggls"
                               Header="Disable Stream Management:"
                               IsEnabled="False"
-                              IsOn="{x:Bind connectionConfiguration.disableStreamManagement, Mode=OneWay}"
+                              IsOn="{x:Bind CONNECTION_CONFIG.disableStreamManagement, Mode=OneWay}"
                               OffContent="Enabled"
                               OnContent="Disabled"/>
             </StackPanel>

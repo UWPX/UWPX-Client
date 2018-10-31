@@ -8,7 +8,7 @@ namespace UWP_XMPP_Client.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private ConnectionConfiguration connectionConfiguration;
+        private readonly ConnectionConfiguration CONNECTION_CONFIG;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,7 +21,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public MoreAccountOptionsDialog(ConnectionConfiguration connectionConfiguration)
         {
-            this.connectionConfiguration = connectionConfiguration;
+            this.CONNECTION_CONFIG = connectionConfiguration;
             this.InitializeComponent();
         }
 
@@ -40,8 +40,8 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Misc Methods (Private)--
         private void save()
         {
-            connectionConfiguration.disableStreamManagement = disableStreamManagement_tggls.IsOn;
-            connectionConfiguration.disableMessageCarbons = disableMessageCarbons_tggls.IsOn;
+            CONNECTION_CONFIG.disableStreamManagement = disableStreamManagement_tggls.IsOn;
+            CONNECTION_CONFIG.disableMessageCarbons = disableMessageCarbons_tggls.IsOn;
             Hide();
         }
 

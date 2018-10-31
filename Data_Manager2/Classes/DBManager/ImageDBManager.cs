@@ -22,7 +22,7 @@ namespace Data_Manager2.Classes.DBManager
         private const double DOWNLOAD_PROGRESS_REPORT_INTERVAL = 0.05;
 
         // A list of all currently downloading images:
-        private List<ImageTable> downloading;
+        private readonly List<ImageTable> DOWNLOADING;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -35,7 +35,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public ImageDBManager()
         {
-            downloading = new List<ImageTable>();
+            DOWNLOADING = new List<ImageTable>();
             contiuneAllDownloads();
         }
 
@@ -64,7 +64,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <returns>The corresponding image container.</returns>
         public ImageTable getImageForMessage(ChatMessageTable msg)
         {
-            ImageTable img = downloading.Find(x => string.Equals(x.messageId, msg.id));
+            ImageTable img = DOWNLOADING.Find(x => string.Equals(x.messageId, msg.id));
             if (img == null)
             {
                 List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE messageId = ?;", msg.id);
@@ -160,7 +160,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <returns></returns>
         private async Task downloadImageAsync(ImageTable img, string msg)
         {
-            downloading.Add(img);
+            DOWNLOADING.Add(img);
 
             updateImageState(img, DownloadState.DOWNLOADING);
             string path = await getImagePathAsync(img, msg);
@@ -372,7 +372,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 case DownloadState.DONE:
                 case DownloadState.ERROR:
-                    downloading.Remove(img);
+                    DOWNLOADING.Remove(img);
                     break;
 
                 default:

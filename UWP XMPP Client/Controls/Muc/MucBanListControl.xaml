@@ -30,7 +30,7 @@
                                  Grid.Row="2"
                                  Margin="0,5,0,0"
                                  AutoGenerateColumns="False"
-                                 ItemsSource="{x:Bind banedUsers}"
+                                 ItemsSource="{x:Bind BANNED_USERS}"
                                  SelectionChanged="banedUsers_dgrid_SelectionChanged"
                                  SelectionMode="Multiple"
                                  UserFilterMode="Disabled"

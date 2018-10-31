@@ -31,7 +31,7 @@ namespace UWP_XMPP_Client.Classes.Collections
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -68,7 +68,7 @@ namespace UWP_XMPP_Client.Classes.Collections
             }
 
             NotifyProperties();
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list as IList ?? list.ToList(), startIndex));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list is IList ? list : list.ToList(), startIndex));
         }
 
         #endregion

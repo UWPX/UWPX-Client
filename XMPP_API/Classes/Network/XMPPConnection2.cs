@@ -33,8 +33,8 @@ namespace XMPP_API.Classes.Network
         /// <summary>
         /// For parsing received messages.
         /// </summary>
-        private MessageParser2 parser;
-        private AbstractMessageProcessor[] messageProcessors;
+        private readonly MessageParser2 PARSER;
+        private readonly AbstractMessageProcessor[] MESSAGE_PROCESSORS;
         private string streamId;
         private TSTimedList<string> messageIdCache;
 
@@ -79,8 +79,8 @@ namespace XMPP_API.Classes.Network
             this.TCP_CONNECTION.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
             this.TCP_CONNECTION.NewDataReceived += TCPConnection_NewDataReceived;
 
-            this.parser = new MessageParser2();
-            this.messageProcessors = new AbstractMessageProcessor[4];
+            this.PARSER = new MessageParser2();
+            this.MESSAGE_PROCESSORS = new AbstractMessageProcessor[4];
             this.streamId = null;
             this.messageIdCache = new TSTimedList<string>();
 
@@ -92,18 +92,18 @@ namespace XMPP_API.Classes.Network
             // https://xmpp.org/extensions/xep-0170.html
             //-------------------------------------------------------------
             // TLS:
-            this.messageProcessors[0] = new TLSConnection(TCP_CONNECTION, this);
+            this.MESSAGE_PROCESSORS[0] = new TLSConnection(TCP_CONNECTION, this);
 
             // SASL:
-            this.messageProcessors[1] = new SASLConnection(TCP_CONNECTION, this);
+            this.MESSAGE_PROCESSORS[1] = new SASLConnection(TCP_CONNECTION, this);
 
             // XEP-0198 (Stream Management):
-            this.messageProcessors[2] = new SMConnection(TCP_CONNECTION, this);
+            this.MESSAGE_PROCESSORS[2] = new SMConnection(TCP_CONNECTION, this);
 
             // Resource binding:
             RecourceBindingConnection recourceBindingConnection = new RecourceBindingConnection(TCP_CONNECTION, this);
             recourceBindingConnection.ResourceBound += RecourceBindingConnection_ResourceBound;
-            this.messageProcessors[3] = recourceBindingConnection;
+            this.MESSAGE_PROCESSORS[3] = recourceBindingConnection;
             //-------------------------------------------------------------
 
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
@@ -133,7 +133,7 @@ namespace XMPP_API.Classes.Network
 
         public MessageParserStats getMessageParserStats()
         {
-            return parser.STATS;
+            return PARSER.STATS;
         }
 
         #endregion
@@ -441,7 +441,7 @@ namespace XMPP_API.Classes.Network
 
         private void resetMessageProcessors()
         {
-            foreach (AbstractMessageProcessor mP in messageProcessors)
+            foreach (AbstractMessageProcessor mP in MESSAGE_PROCESSORS)
             {
                 mP.reset();
             }
@@ -476,7 +476,7 @@ namespace XMPP_API.Classes.Network
             List<AbstractMessage> messages = null;
             try
             {
-                messages = parser.parseMessages(ref data);
+                messages = PARSER.parseMessages(ref data);
             }
             catch (Exception e)
             {

@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private MessageResponseHelper<IQMessage> messageResponseHelper;
-        private CustomObservableCollection<ConferenceItem> bookmarks;
+        private readonly CustomObservableCollection<ConferenceItem> BOOKMARKS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -35,7 +35,7 @@ namespace UWP_XMPP_Client.Pages
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
             this.messageResponseHelper = null;
-            this.bookmarks = new CustomObservableCollection<ConferenceItem>();
+            this.BOOKMARKS = new CustomObservableCollection<ConferenceItem>();
             this.InitializeComponent();
         }
 
@@ -68,7 +68,7 @@ namespace UWP_XMPP_Client.Pages
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    bookmarks.Clear();
+                    BOOKMARKS.Clear();
                     if (errorMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
                     {
                         noneFound_notification.Show("Found 0 bookmarks.", 2000);
@@ -87,8 +87,8 @@ namespace UWP_XMPP_Client.Pages
             {
                 Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
                 {
-                    bookmarks.Clear();
-                    bookmarks.AddRange(result.STORAGE.CONFERENCES);
+                    BOOKMARKS.Clear();
+                    BOOKMARKS.AddRange(result.STORAGE.CONFERENCES);
                     if (result.STORAGE.CONFERENCES.Count > 1)
                     {
                         noneFound_notification.Show("Found " + result.STORAGE.CONFERENCES.Count + " bookmarks.", 2000);
@@ -130,7 +130,7 @@ namespace UWP_XMPP_Client.Pages
                 {
 
                 }
-                c.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(bookmarks, null, null);
+                c.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(BOOKMARKS, null, null);
             }
         }
 

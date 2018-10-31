@@ -44,7 +44,7 @@ namespace UWP_XMPP_Client.Controls.Muc
         }
         public static readonly DependencyProperty MUCInfoProperty = DependencyProperty.Register("MUCInfo", typeof(MUCChatInfoTable), typeof(MucOccupantsControl), null);
 
-        private ObservableCollection<MUCOccupantTemplate> occupants;
+        private readonly ObservableCollection<MUCOccupantTemplate> OCCUPANTS;
 
         private bool canBan;
         private bool canKick;
@@ -60,7 +60,7 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucOccupantsControl()
         {
-            this.occupants = new ObservableCollection<MUCOccupantTemplate>();
+            this.OCCUPANTS = new ObservableCollection<MUCOccupantTemplate>();
             MUCDBManager.INSTANCE.MUCOccupantChanged += INSTANCE_MUCMemberChanged;
             this.canBan = false;
             this.canKick = false;
@@ -123,10 +123,10 @@ namespace UWP_XMPP_Client.Controls.Muc
                     List<MUCOccupantTable> list = MUCDBManager.INSTANCE.getAllMUCMembers(chatId);
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {
-                        occupants.Clear();
+                        OCCUPANTS.Clear();
                         foreach (MUCOccupantTable m in list)
                         {
-                            occupants.Add(new MUCOccupantTemplate() { occupant = m });
+                            OCCUPANTS.Add(new MUCOccupantTemplate() { occupant = m });
                         }
                     });
                 });
@@ -136,7 +136,7 @@ namespace UWP_XMPP_Client.Controls.Muc
         private async Task inviteUserAsync()
         {
             List<string> membersJidList = new List<string>();
-            foreach (MUCOccupantTemplate m in occupants)
+            foreach (MUCOccupantTemplate m in OCCUPANTS)
             {
                 if (m.jid != null)
                 {
@@ -193,17 +193,17 @@ namespace UWP_XMPP_Client.Controls.Muc
                 }
 
                 // Add occupant to collection:
-                for (int i = 0; i < occupants.Count; i++)
+                for (int i = 0; i < OCCUPANTS.Count; i++)
                 {
-                    if (Equals(occupants[i].occupant.id, args.MUC_OCCUPANT.id))
+                    if (Equals(OCCUPANTS[i].occupant.id, args.MUC_OCCUPANT.id))
                     {
                         if (args.REMOVED)
                         {
-                            occupants.RemoveAt(i);
+                            OCCUPANTS.RemoveAt(i);
                         }
                         else
                         {
-                            occupants[i] = new MUCOccupantTemplate()
+                            OCCUPANTS[i] = new MUCOccupantTemplate()
                             {
                                 occupant = args.MUC_OCCUPANT
                             };
@@ -211,7 +211,7 @@ namespace UWP_XMPP_Client.Controls.Muc
                         return;
                     }
                 }
-                occupants.Add(new MUCOccupantTemplate() { occupant = args.MUC_OCCUPANT });
+                OCCUPANTS.Add(new MUCOccupantTemplate() { occupant = args.MUC_OCCUPANT });
             });
         }
 

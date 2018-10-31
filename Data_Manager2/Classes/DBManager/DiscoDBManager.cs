@@ -14,7 +14,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly DiscoDBManager INSTANCE = new DiscoDBManager();
-        private TSTimedList<string> messageIdCache;
+        private readonly TSTimedList<string> MESSAGE_ID_CACHE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,7 +27,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public DiscoDBManager()
         {
-            this.messageIdCache = new TSTimedList<string>();
+            this.MESSAGE_ID_CACHE = new TSTimedList<string>();
             ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 
@@ -107,7 +107,7 @@ namespace Data_Manager2.Classes.DBManager
                         });
                         if (requestInfo)
                         {
-                            messageIdCache.addTimed(await client.createDiscoAsync(i.JID, DiscoType.INFO));
+                            MESSAGE_ID_CACHE.addTimed(await client.createDiscoAsync(i.JID, DiscoType.INFO));
                         }
                     }
                 }
@@ -149,7 +149,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 string from = args.DISCO.getFrom();
                 // Only store direct server results:
-                if (from != null && !from.Contains("@") && messageIdCache.getTimed(args.DISCO.ID) != null)
+                if (from != null && !from.Contains("@") && MESSAGE_ID_CACHE.getTimed(args.DISCO.ID) != null)
                 {
                     switch (args.DISCO.DISCO_TYPE)
                     {

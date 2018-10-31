@@ -19,9 +19,9 @@ namespace UWP_XMPP_Client.Controls.Muc
         }
         public static readonly DependencyProperty OccupantProperty = DependencyProperty.Register("Occupant", typeof(MUCOccupantTable), typeof(MucKickBanOccupantControl), null);
 
-        private XMPPClient client;
-        private MUCKickBanOccupantDialog dialog;
-        private ChatTable chat;
+        private readonly XMPPClient CLIENT;
+        private readonly MUCKickBanOccupantDialog KICK_BAN_DIALOG;
+        private readonly ChatTable CHAT;
         private MessageResponseHelper<IQMessage> messageResponseHelper;
 
         private bool canBan;
@@ -38,9 +38,9 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucKickBanOccupantControl(MUCKickBanOccupantDialog dialog, XMPPClient client, ChatTable chat, bool canKick, bool canBan)
         {
-            this.dialog = dialog;
-            this.client = client;
-            this.chat = chat;
+            this.KICK_BAN_DIALOG = dialog;
+            this.CLIENT = client;
+            this.CHAT = chat;
             this.canKick = canKick;
             this.canBan = canBan;
             this.InitializeComponent();
@@ -72,8 +72,8 @@ namespace UWP_XMPP_Client.Controls.Muc
             error_itbx.Visibility = Visibility.Collapsed;
             done_itbx.Visibility = Visibility.Collapsed;
 
-            string reason = string.IsNullOrEmpty(dialog.Reason) ? null : dialog.Reason;
-            messageResponseHelper = client.MUC_COMMAND_HELPER.kickOccupant(chat.chatJabberId, Occupant.nickname, reason, onKickMessage, onKickTimeout);
+            string reason = string.IsNullOrEmpty(KICK_BAN_DIALOG.Reason) ? null : KICK_BAN_DIALOG.Reason;
+            messageResponseHelper = CLIENT.MUC_COMMAND_HELPER.kickOccupant(CHAT.chatJabberId, Occupant.nickname, reason, onKickMessage, onKickTimeout);
         }
 
         public void ban()
@@ -96,8 +96,8 @@ namespace UWP_XMPP_Client.Controls.Muc
             error_itbx.Visibility = Visibility.Collapsed;
             done_itbx.Visibility = Visibility.Collapsed;
 
-            string reason = string.IsNullOrEmpty(dialog.Reason) ? null : dialog.Reason;
-            messageResponseHelper = client.MUC_COMMAND_HELPER.banOccupant(chat.chatJabberId, Occupant.jid, reason, onBanMessage, onBanTimeout);
+            string reason = string.IsNullOrEmpty(KICK_BAN_DIALOG.Reason) ? null : KICK_BAN_DIALOG.Reason;
+            messageResponseHelper = CLIENT.MUC_COMMAND_HELPER.banOccupant(CHAT.chatJabberId, Occupant.jid, reason, onBanMessage, onBanTimeout);
         }
 
         private bool onBanMessage(IQMessage msg)

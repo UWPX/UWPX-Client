@@ -17,7 +17,7 @@ namespace Data_Manager2.Classes
         public const string TYPE_CHAT_INFO = "chat_info";
 
         public static readonly MUCHandler INSTANCE = new MUCHandler();
-        private TSTimedList<MUCJoinHelper> timedList;
+        private readonly TSTimedList<MUCJoinHelper> TIMED_LIST;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -29,7 +29,7 @@ namespace Data_Manager2.Classes
         /// </history>
         public MUCHandler()
         {
-            timedList = new TSTimedList<MUCJoinHelper>
+            TIMED_LIST = new TSTimedList<MUCJoinHelper>
             {
                 itemTimeoutInMs = (int)TimeSpan.FromSeconds(20).TotalMilliseconds
             };
@@ -83,7 +83,7 @@ namespace Data_Manager2.Classes
         public async Task enterMUCAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
             MUCJoinHelper helper = new MUCJoinHelper(client, muc, info);
-            timedList.addTimed(helper);
+            TIMED_LIST.addTimed(helper);
 
             await helper.enterRoomAsync();
         }
@@ -102,7 +102,7 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Private)--
         private void stopMUCJoinHelper(ChatTable muc)
         {
-            foreach (MUCJoinHelper h in timedList.getEntries())
+            foreach (MUCJoinHelper h in TIMED_LIST.getEntries())
             {
                 if (Equals(h.MUC.id, muc.id))
                 {

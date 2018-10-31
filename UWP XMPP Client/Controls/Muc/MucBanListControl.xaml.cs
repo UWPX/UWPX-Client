@@ -50,7 +50,7 @@ namespace UWP_XMPP_Client.Controls.Muc
 
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register("Client", typeof(XMPPClient), typeof(MucBanListControl), null);
 
-        private ObservableCollection<MUCBanedUserTemplate> banedUsers;
+        private readonly ObservableCollection<MUCBanedUserTemplate> BANNED_USERS;
 
         MessageResponseHelper<IQMessage> responseHelper;
 
@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Controls.Muc
         public MucBanListControl()
         {
             this.responseHelper = null;
-            this.banedUsers = new ObservableCollection<MUCBanedUserTemplate>();
+            this.BANNED_USERS = new ObservableCollection<MUCBanedUserTemplate>();
             this.InitializeComponent();
         }
 
@@ -157,10 +157,10 @@ namespace UWP_XMPP_Client.Controls.Muc
                 BanListMessage banListMessage = iq as BanListMessage;
                 Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                 {
-                    banedUsers.Clear();
+                    BANNED_USERS.Clear();
                     foreach (BanedUser user in banListMessage.BANED_USERS)
                     {
-                        banedUsers.Add(new MUCBanedUserTemplate { banedUser = user });
+                        BANNED_USERS.Add(new MUCBanedUserTemplate { banedUser = user });
                     }
                     reload_btn.IsEnabled = true;
                     reload_prgr.Visibility = Visibility.Collapsed;
