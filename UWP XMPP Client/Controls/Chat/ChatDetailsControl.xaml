@@ -212,7 +212,7 @@
                                 </MenuFlyoutItem>
                                 <ToggleMenuFlyoutItem x:Name="omemo_tmfo"
                                                       Click="omemo_tmfo_Click"
-                                                      IsEnabled="False"
+                                                      IsEnabled="True"
                                                       IsChecked="False"
                                                       Text="OMEMO">
                                     <ToggleMenuFlyoutItem.Icon>
