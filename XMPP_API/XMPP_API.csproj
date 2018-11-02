@@ -120,6 +120,7 @@
     <Compile Include="Classes\DateTimeParserHelper.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
+    <Compile Include="Classes\GeneralCommandHelper.cs" />
     <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection2.cs" />
@@ -176,6 +177,8 @@
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMConnection.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\RosterRequestMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\RosterResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataForm.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataFormType.cs" />
@@ -305,7 +308,6 @@
     <Compile Include="Classes\Network\XML\Messages\OpenStreamAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1ChallengeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSha1ChallengeSolutionMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\SelectSASLMechanismMessage.cs" />

@@ -175,9 +175,24 @@ namespace XMPP_API.Classes.Network
             await internalDisconnectAsync();
         }
 
-        public async Task sendAsync(AbstractMessage msg)
+        /// <summary>
+        /// Sends the given message to the server if connected. Won't cache the message if not connected!
+        /// </summary>
+        /// <param name="msg">The message to send.</param>
+        /// <returns>True if the message got send and didn't got cached.</returns>
+        public async Task<bool> sendAsync(AbstractMessage msg)
         {
-            await sendAsync(msg, false, false);
+            return await sendAsync(msg, false);
+        }
+
+        /// <summary>
+        /// Sends the given message to the server if connected.
+        /// </summary>
+        /// <param name="msg">The message to send.</param>
+        /// <returns>True if the message got send and didn't got cached.</returns>
+        public async Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
+        {
+            return await sendAsync(msg, cacheIfNotConnected, false);
         }
 
         /// <summary>
@@ -186,7 +201,8 @@ namespace XMPP_API.Classes.Network
         /// <param name="msg">The message to send.</param>
         /// <param name="cacheIfNotConnected">Cache the message if the connection state does not equals 'CONNECTED', to ensure the message doesn't get lost.</param>
         /// <param name="sendIfNotConnected">Sends the message if the underlaying TCP connection is connected to the server and ignores the connection state of the XMPPConnection.</param>
-        public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
+        /// <returns>True if the message got send and didn't got cached.</returns>
+        public async Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
         {
             if (state == ConnectionState.CONNECTING)
             {
@@ -210,7 +226,7 @@ namespace XMPP_API.Classes.Network
                 }
                 if (!sendIfNotConnected)
                 {
-                    return;
+                    return false;
                 }
             }
 
@@ -226,8 +242,8 @@ namespace XMPP_API.Classes.Network
                     if (msg is MessageMessage m)
                     {
                         onMessageSend(msg.ID, m.chatMessageId, false);
-                        return;
                     }
+                    return true;
                 }
                 else
                 {
@@ -243,6 +259,7 @@ namespace XMPP_API.Classes.Network
             {
                 MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
             }
+            return false;
         }
 
         #endregion
@@ -549,7 +566,7 @@ namespace XMPP_API.Classes.Network
                     }
                 }
                 // Rooster:
-                else if (msg is RosterMessage)
+                else if (msg is RosterResultMessage)
                 {
                     NewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }

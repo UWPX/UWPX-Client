@@ -1,18 +1,25 @@
-﻿using System.Threading.Tasks;
-using XMPP_API.Classes.Network.Events;
+﻿using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public interface IMessageSender
+    public class RosterRequestMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        event NewValidMessageEventHandler NewValidMessage;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        /// <summary>
+        /// Basic Constructor
+        /// </summary>
+        /// <history>
+        /// 02/11/2018 Created [Fabian Sauter]
+        /// </history>
+        public RosterRequestMessage(string from, string to) : base(from, to, GET, getRandomId())
+        {
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -22,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected);
+
 
         #endregion
 
@@ -32,7 +39,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override XElement getQuery()
+        {
+            XNamespace ns = Consts.XML_ROSTER_NAMESPACE;
+            return new XElement(ns + "query");
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

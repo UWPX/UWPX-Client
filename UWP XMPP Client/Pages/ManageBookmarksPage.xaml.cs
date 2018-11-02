@@ -57,12 +57,12 @@ namespace UWP_XMPP_Client.Pages
             messageResponseHelper = c.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(onMessage, onTimeout);
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => noneFound_notification.Show("Request failed - timeout!")).AsTask();
         }
 
-        private bool onMessage(AbstractMessage msg)
+        private bool onMessage(MessageResponseHelper<IQMessage> helper, AbstractMessage msg)
         {
             if (msg is IQErrorMessage errorMsg)
             {

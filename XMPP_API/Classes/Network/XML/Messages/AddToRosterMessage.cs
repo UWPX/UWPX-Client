@@ -7,7 +7,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string TARGET;
+        public readonly string BARE_JID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,9 +22,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         {
         }
 
-        public AddToRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId())
+        public AddToRosterMessage(string fullJabberId, string bareJid) : base(fullJabberId, null, SET, getRandomId())
         {
-            this.TARGET = target;
+            this.BARE_JID = bareJid;
             this.cacheUntilSend = true;
         }
 
@@ -33,9 +33,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Set-, Get- Methods--
         protected override XElement getQuery()
         {
-            XNamespace ns = "jabber:iq:roster";
+            XNamespace ns = Consts.XML_ROSTER_NAMESPACE;
             XElement node = new XElement(ns + "query");
-            node.Add(new XElement(ns + "item", new XAttribute("jid", TARGET)));
+            node.Add(new XElement(ns + "item", new XAttribute("jid", BARE_JID)));
             return node;
         }
 

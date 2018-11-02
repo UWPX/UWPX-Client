@@ -79,7 +79,7 @@ namespace UWP_XMPP_Client.Dialogs
                     AccountDBManager.INSTANCE.setAccount(client.getXMPPAccount(), false);
 
                     // Send the updated presence and status to the server:
-                    await client.setPreseceAsync(templateItem.presence, status);
+                    await client.GENERAL_COMMAND_HELPER.setPreseceAsync(templateItem.presence, status);
 
                     await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
                     {

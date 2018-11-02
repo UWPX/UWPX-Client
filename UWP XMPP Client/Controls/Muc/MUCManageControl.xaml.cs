@@ -117,7 +117,7 @@ namespace UWP_XMPP_Client.Controls.Muc
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatID, nickname);
                 if (member != null)
                 {
-                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRoomConfiguration(Chat.chatJabberId, member.affiliation, onNewMessage, onTimeout));
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => messageResponseHelper = Client.MUC_COMMAND_HELPER.requestRoomConfiguration(Chat.chatJabberId, member.affiliation, onRoomConfigNewMessage, onRoomConfigTimeout));
                 }
                 else
                 {
@@ -134,7 +134,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             });
         }
 
-        private bool onNewMessage(IQMessage iq)
+        private bool onRoomConfigNewMessage(MessageResponseHelper<IQMessage> helper, IQMessage iq)
         {
             if (iq is RoomInfoMessage)
             {
@@ -176,7 +176,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             return false;
         }
 
-        private void onTimeout()
+        private void onRoomConfigTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -223,7 +223,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             });
         }
 
-        private bool onSaveMessage(IQMessage msg)
+        private bool onSaveMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
@@ -252,7 +252,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             return true;
         }
 
-        private void onSaveTimeout()
+        private void onSaveTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

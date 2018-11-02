@@ -1,10 +1,9 @@
 ﻿using System.Collections;
 using System.Xml;
-using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class RosterMessage : IQMessage
+    public class RosterResultMessage : IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,11 +16,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 28/08/2017 Created [Fabian Sauter]
+        /// 02/11/2018 Created [Fabian Sauter]
         /// </history>
-        public RosterMessage(XmlNode n) : base(n)
+        public RosterResultMessage(XmlNode n) : base(n)
         {
-            XmlNode query = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "jabber:iq:roster");
+            XmlNode query = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_ROSTER_NAMESPACE);
             this.ITEMS = new ArrayList();
             if (query != null)
             {
@@ -39,19 +38,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
         }
 
-        public RosterMessage(string from, string to) : base(from, to, GET, getRandomId())
-        {
-            this.ITEMS = null;
-        }
-
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_ROSTER_NAMESPACE;
-            return new XElement(ns + "query");
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

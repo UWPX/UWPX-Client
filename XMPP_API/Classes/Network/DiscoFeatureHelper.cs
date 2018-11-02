@@ -55,7 +55,7 @@ namespace XMPP_API.Classes.Network
             discoMessageResponseHelper.start(new DiscoRequestMessage(CONNECTION.account.getIdDomainAndResource(), CONNECTION.account.user.domain, DiscoType.INFO));
         }
 
-        private bool onDiscoMessage(IQMessage msg)
+        private bool onDiscoMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is DiscoResponseMessage disco)
             {
@@ -106,12 +106,12 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        private void onDiscoTimeout()
+        private void onDiscoTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Logger.Error("Failed to request initial server disco - timeout!");
         }
 
-        private bool onCarbonsMessage(IQMessage msg)
+        private bool onCarbonsMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
@@ -128,7 +128,7 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        private void onCarbonsTimeout()
+        private void onCarbonsTimeout(MessageResponseHelper<IQMessage> helper)
         {
             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
             Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getIdAndDomain() + " - timeout!");

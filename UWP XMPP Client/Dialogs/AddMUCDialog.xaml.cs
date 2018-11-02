@@ -173,7 +173,7 @@ namespace UWP_XMPP_Client.Dialogs
             return false;
         }
 
-        private bool onMessage(IQMessage msg)
+        private bool onMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
@@ -194,7 +194,7 @@ namespace UWP_XMPP_Client.Dialogs
             return false;
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {

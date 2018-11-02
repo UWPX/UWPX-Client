@@ -251,7 +251,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             }
         }
 
-        private bool onChangeNickMessage(PresenceMessage msg)
+        private bool onChangeNickMessage(MessageResponseHelper<PresenceMessage> helper, PresenceMessage msg)
         {
             if (msg is MUCMemberPresenceMessage)
             {
@@ -286,7 +286,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             return false;
         }
 
-        private void onChangeNickTimeout()
+        private void onChangeNickTimeout(MessageResponseHelper<PresenceMessage> helper)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {

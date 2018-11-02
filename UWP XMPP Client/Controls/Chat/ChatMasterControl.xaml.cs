@@ -30,15 +30,16 @@ namespace UWP_XMPP_Client.Controls.Chat
         public ChatTemplate ChatTemp
         {
             get { return (ChatTemplate)GetValue(ChatTempProperty); }
-            set {
+            set
+            {
                 ChatTemplate cur = (ChatTemplate)GetValue(ChatTempProperty);
                 if (value != cur)
                 {
-                    if(cur != null)
+                    if (cur != null)
                     {
                         cur.PropertyChanged -= Value_PropertyChanged;
                     }
-                    if(value != null)
+                    if (value != null)
                     {
                         value.PropertyChanged += Value_PropertyChanged;
                     }
@@ -337,7 +338,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
         {
-            await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, accepted).ConfigureAwait(false);
+            await Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(Chat.chatJabberId, accepted).ConfigureAwait(false);
             Chat.ask = null;
             ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
@@ -357,11 +358,11 @@ namespace UWP_XMPP_Client.Controls.Chat
 
             if (Chat.inRoster)
             {
-                await Client.removeFromRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
+                await Client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
             }
             else
             {
-                await Client.addToRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
+                await Client.GENERAL_COMMAND_HELPER.addToRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
             }
         }
 
@@ -387,7 +388,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             updateBookmarkHelper = Client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, onSetBookmarkMessage, onSetBookmarkTimeout);
         }
 
-        private void onSetBookmarkTimeout()
+        private void onSetBookmarkTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
             {
@@ -396,7 +397,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             }).AsTask();
         }
 
-        private bool onSetBookmarkMessage(IQMessage msg)
+        private bool onSetBookmarkMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
@@ -447,7 +448,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     }
                     else
                     {
-                        await Client.removeFromRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
+                        await Client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
                     }
                 }
                 ChatDBManager.INSTANCE.setChat(Chat, true, true);
@@ -556,24 +557,24 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.requestPresenceSubscriptionAsync(Chat.chatJabberId).ConfigureAwait(false);
+            await Client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(Chat.chatJabberId).ConfigureAwait(false);
         }
 
         private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.unsubscribeFromPresence(Chat.chatJabberId).ConfigureAwait(false);
+            await Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(Chat.chatJabberId).ConfigureAwait(false);
             resetAsk();
         }
 
         private async void rejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.answerPresenceSubscriptionRequest(Chat.chatJabberId, false);
+            await Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(Chat.chatJabberId, false);
             resetAsk();
         }
 
         private async void cancelPresenceSubscriptionRequest_Click(object sender, RoutedEventArgs e)
         {
-            await Client.unsubscribeFromPresence(Chat.chatJabberId).ConfigureAwait(false);
+            await Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(Chat.chatJabberId).ConfigureAwait(false);
             resetAsk();
         }
 
@@ -707,7 +708,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(ChatTemp == null)
+            if (ChatTemp == null)
             {
                 return;
             }

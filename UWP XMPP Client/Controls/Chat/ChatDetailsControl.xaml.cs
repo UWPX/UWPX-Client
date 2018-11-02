@@ -650,7 +650,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (shouldSendChatState())
             {
-                Client.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING).ConfigureAwait(false);
+                Client.GENERAL_COMMAND_HELPER.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING).ConfigureAwait(false);
             }
         }
 
@@ -658,7 +658,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         {
             if (shouldSendChatState())
             {
-                Client.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE).ConfigureAwait(false);
+                Client.GENERAL_COMMAND_HELPER.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE).ConfigureAwait(false);
             }
         }
 

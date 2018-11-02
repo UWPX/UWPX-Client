@@ -89,7 +89,7 @@ namespace UWP_XMPP_Client.Dialogs
             }
         }
 
-        private bool onMessage(IQMessage msg)
+        private bool onMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage errorMsg)
             {
@@ -104,7 +104,7 @@ namespace UWP_XMPP_Client.Dialogs
             return true;
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () => showError("Failed - timeout!")).AsTask();
         }

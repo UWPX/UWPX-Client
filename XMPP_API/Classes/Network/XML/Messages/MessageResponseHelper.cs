@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Windows.System.Threading;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -10,9 +9,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly IMessageSender MESSAGE_SENDER;
+        private bool cacheIfNotConnected;
 
-        private readonly Func<T, bool> ON_MESSAGE;
-        private readonly Action ON_TIMEOUT;
+        private readonly Func<MessageResponseHelper<T>, T, bool> ON_MESSAGE;
+        private readonly Action<MessageResponseHelper<T>> ON_TIMEOUT;
 
         private readonly SemaphoreSlim SEMA;
         private bool disposed;
@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </summary>
         public TimeSpan timeout;
 
-        private ThreadPoolTimer timer;
+        private Timer timer;
 
         public const int TIMEOUT_5_SEC = 5;
 
@@ -38,11 +38,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 09/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageResponseHelper(IMessageSender messageSender, Func<T, bool> onMessage, Action onTimeout)
+        public MessageResponseHelper(IMessageSender messageSender, Func<MessageResponseHelper<T>, T, bool> onMessage, Action<MessageResponseHelper<T>> onTimeout) : this(messageSender, onMessage, onTimeout, false) { }
+
+        public MessageResponseHelper(IMessageSender messageSender, Func<MessageResponseHelper<T>, T, bool> onMessage, Action<MessageResponseHelper<T>> onTimeout, bool cacheIfNotConnected)
         {
             this.MESSAGE_SENDER = messageSender;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
+            this.cacheIfNotConnected = cacheIfNotConnected;
             this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.matchId = true;
             this.sendId = null;
@@ -53,14 +56,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public IMessageSender getMessageSender()
+        {
+            return MESSAGE_SENDER;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void start(AbstractMessage msg)
+        public Task start(AbstractMessage msg)
         {
-            Task t = sendAndWaitAsync(msg);
+            return sendAndWaitAsync(msg);
         }
 
         public void stop()
@@ -77,38 +83,43 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
             if (ON_MESSAGE != null)
             {
-                MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
-                MESSAGE_SENDER.NewValidMessage += Client_NewValidMessage;
+                MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
+                MESSAGE_SENDER.NewValidMessage += MESSAGE_SENDER_NewValidMessage;
             }
 
-            await MESSAGE_SENDER.sendAsync(msg);
+            bool success = await MESSAGE_SENDER.sendAsync(msg, cacheIfNotConnected).ConfigureAwait(false);
 
             if (ON_TIMEOUT != null)
             {
+                if (!success)
+                {
+                    ON_TIMEOUT(this);
+                }
+
                 startTimer();
             }
         }
 
         private void startTimer()
         {
-            timer = ThreadPoolTimer.CreateTimer((source) => onTimeout(), timeout);
+            timer = new Timer(onTimeout, this, timeout, TimeSpan.FromMilliseconds(-1));
         }
 
-        private void onTimeout()
+        private void onTimeout(object state)
         {
-            if (disposed)
+            if (!(state is MessageResponseHelper<T> helper) || helper.disposed || helper.timer is null)
             {
                 return;
             }
-            SEMA.Wait();
-            if (disposed)
+            helper.SEMA.Wait();
+            if (helper.disposed)
             {
                 return;
             }
             try
             {
-                MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
-                ON_TIMEOUT?.Invoke();
+                helper.MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
+                helper.ON_TIMEOUT?.Invoke(this);
             }
             catch (Exception e)
             {
@@ -116,17 +127,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
             finally
             {
-                if (!disposed)
+                if (!helper.disposed)
                 {
-                    SEMA.Release();
+                    helper.SEMA.Release();
                 }
             }
         }
 
         private void stopTimer()
         {
-            MESSAGE_SENDER.NewValidMessage -= Client_NewValidMessage;
-            timer?.Cancel();
+            MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
+            timer?.Dispose();
             timer = null;
         }
 
@@ -145,7 +156,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Client_NewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
+        private void MESSAGE_SENDER_NewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
         {
             if (args.MESSAGE is T)
             {
@@ -157,7 +168,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 try
                 {
                     SEMA.Wait();
-                    if (ON_MESSAGE == null || ON_MESSAGE(args.MESSAGE as T))
+                    if (ON_MESSAGE == null || ON_MESSAGE(this, args.MESSAGE as T))
                     {
                         stopTimer();
                     }

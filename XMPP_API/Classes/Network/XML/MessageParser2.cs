@@ -188,7 +188,7 @@ namespace XMPP_API.Classes.Network.XML
                                 // Rooster:
                                 if (XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_ROSTER_NAMESPACE) != null)
                                 {
-                                    messages.Add(new RosterMessage(n));
+                                    messages.Add(new RosterResultMessage(n));
                                 }
                                 else
                                 {
@@ -235,7 +235,7 @@ namespace XMPP_API.Classes.Network.XML
 
                                         // Rooster:
                                         case Consts.XML_ROSTER_NAMESPACE:
-                                            messages.Add(new RosterMessage(n));
+                                            messages.Add(new RosterResultMessage(n));
                                             break;
 
                                         default:

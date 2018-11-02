@@ -1,10 +1,9 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Thread_Save_Components.Classes.Collections;
 using Thread_Save_Components.Classes.SQLite;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace Data_Manager2.Classes.DBManager
@@ -14,7 +13,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly DiscoDBManager INSTANCE = new DiscoDBManager();
-        private readonly TSTimedList<string> MESSAGE_ID_CACHE;
+        private readonly List<MessageResponseHelper<IQMessage>> RESPONSE_HELPERS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,7 +26,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public DiscoDBManager()
         {
-            this.MESSAGE_ID_CACHE = new TSTimedList<string>();
+            this.RESPONSE_HELPERS = new List<MessageResponseHelper<IQMessage>>();
             ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 
@@ -89,7 +88,7 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        private async Task addItemsAsync(List<DiscoItem> items, string from, XMPPClient client, bool requestInfo)
+        private void addItems(List<DiscoItem> items, string from, XMPPClient client, bool requestInfo)
         {
             if (items != null)
             {
@@ -107,11 +106,40 @@ namespace Data_Manager2.Classes.DBManager
                         });
                         if (requestInfo)
                         {
-                            MESSAGE_ID_CACHE.addTimed(await client.createDiscoAsync(i.JID, DiscoType.INFO));
+                            MessageResponseHelper<IQMessage> helper = client.GENERAL_COMMAND_HELPER.createDisco(i.JID, DiscoType.INFO, onDiscoMsg, onDiscoTimeout);
+                            RESPONSE_HELPERS.Add(helper);
                         }
                     }
                 }
             }
+        }
+
+        private void onDiscoTimeout(MessageResponseHelper<IQMessage> helper)
+        {
+            RESPONSE_HELPERS.Remove(helper);
+            Logging.Logger.Debug("[" + nameof(DiscoDBManager) + "] timeout for: " + helper.sendId);
+        }
+
+        private bool onDiscoMsg(MessageResponseHelper<IQMessage> helper, IQMessage msg)
+        {
+            if (msg is DiscoResponseMessage response && helper.getMessageSender() is XMPPClient client)
+            {
+                switch (response.DISCO_TYPE)
+                {
+                    case DiscoType.ITEMS:
+                        addItems(response.ITEMS, response.getFrom(), client, true);
+                        break;
+
+                    case DiscoType.INFO:
+                        addFeatures(response.FEATURES, response.getFrom());
+                        addIdentities(response.IDENTITIES, response.getFrom());
+                        break;
+
+                    default:
+                        throw new InvalidOperationException("[" + nameof(DiscoDBManager) + "] Unexpected value for DISCO_TYPE: " + response.DISCO_TYPE);
+                }
+            }
+            return false;
         }
 
         #endregion
@@ -136,37 +164,8 @@ namespace Data_Manager2.Classes.DBManager
         #region --Events--
         private async void INSTANCE_ClientConnected(ConnectionHandler handler, Events.ClientConnectedEventArgs args)
         {
-            //args.CLIENT.NewDiscoResponseMessage -= CLIENT_NewDiscoResponseMessage;
-            //args.CLIENT.NewDiscoResponseMessage += CLIENT_NewDiscoResponseMessage;
-
             //messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.ITEMS));
             //messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.INFO));
-        }
-
-        private void CLIENT_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
-        {
-            Task.Run(async () =>
-            {
-                string from = args.DISCO.getFrom();
-                // Only store direct server results:
-                if (from != null && !from.Contains("@") && MESSAGE_ID_CACHE.getTimed(args.DISCO.ID) != null)
-                {
-                    switch (args.DISCO.DISCO_TYPE)
-                    {
-                        case DiscoType.ITEMS:
-                            await addItemsAsync(args.DISCO.ITEMS, from, client, true);
-                            break;
-
-                        case DiscoType.INFO:
-                            addFeatures(args.DISCO.FEATURES, from);
-                            addIdentities(args.DISCO.IDENTITIES, from);
-                            break;
-
-                        default:
-                            throw new InvalidOperationException("Unexpected value for DISCO_TYPE: " + args.DISCO.DISCO_TYPE);
-                    }
-                }
-            });
         }
         #endregion
     }

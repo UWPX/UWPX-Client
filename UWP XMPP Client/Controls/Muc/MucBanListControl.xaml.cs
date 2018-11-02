@@ -129,7 +129,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             }
         }
 
-        private void onRequestBanListTimeout()
+        private void onRequestBanListTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
@@ -139,7 +139,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             }).AsTask();
         }
 
-        private bool onRequestBanListMessage(IQMessage iq)
+        private bool onRequestBanListMessage(MessageResponseHelper<IQMessage> helper, IQMessage iq)
         {
             if (iq is IQErrorMessage)
             {
@@ -171,7 +171,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             return false;
         }
 
-        private bool onUpdateBanListMessage(IQMessage iq)
+        private bool onUpdateBanListMessage(MessageResponseHelper<IQMessage> helper, IQMessage iq)
         {
             if (iq is IQErrorMessage)
             {
@@ -198,7 +198,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             }
         }
 
-        private void onUpdateBanListTimeout()
+        private void onUpdateBanListTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {

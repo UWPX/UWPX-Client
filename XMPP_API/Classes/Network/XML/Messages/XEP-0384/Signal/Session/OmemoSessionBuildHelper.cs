@@ -134,7 +134,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             requestBundleInfoHelper.start(msg);
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<IQMessage> helper)
         {
             switch (STATE)
             {
@@ -218,7 +218,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
         }
 
-        private bool onRequestDeviceListMessage(IQMessage msg)
+        private bool onRequestDeviceListMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (STATE != OmemoSessionBuildHelperState.REQUESTING_DEVICE_LIST)
             {
@@ -263,7 +263,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             return false;
         }
 
-        private bool onSubscribeToDeviceListMessage(IQMessage msg)
+        private bool onSubscribeToDeviceListMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (STATE != OmemoSessionBuildHelperState.SUBSCRIBING_TO_DEVICE_LIST)
             {
@@ -299,7 +299,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             return false;
         }
 
-        private bool onRequestBundleInformationMessage(IQMessage msg)
+        private bool onRequestBundleInformationMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (STATE != OmemoSessionBuildHelperState.REQUESTING_BUNDLE_INFORMATION)
             {

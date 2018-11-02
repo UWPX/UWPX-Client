@@ -246,7 +246,7 @@ namespace XMPP_API.Classes.Network
             resetDeviceListStatelessHelper.start(msg);
         }
 
-        private bool onDeleteDeviceListNodeMessage(AbstractMessage msg)
+        private bool onDeleteDeviceListNodeMessage(MessageResponseHelper<IQMessage> helper, AbstractMessage msg)
         {
             if (msg is IQErrorMessage || (msg is IQMessage iMsg && string.Equals(iMsg.TYPE, IQMessage.RESULT)))
             {
@@ -256,12 +256,12 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        private void onDeleteDeviceListNodeTimeout()
+        private void onDeleteDeviceListNodeTimeout(MessageResponseHelper<IQMessage> helper)
         {
             setDeviceListToOwnDevice();
         }
 
-        private bool onResetDeviceListStatelessMessage(IQMessage msg)
+        private bool onResetDeviceListStatelessMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
@@ -280,13 +280,13 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        private void onResetDeviceListStatelessTimeout()
+        private void onResetDeviceListStatelessTimeout(MessageResponseHelper<IQMessage> helper)
         {
             resetDeviceListStatelessOnResult?.Invoke(false);
             resetDeviceListStatelessOnResult = null;
         }
 
-        private bool onRequestDeviceListStatelessMessage(IQMessage msg)
+        private bool onRequestDeviceListStatelessMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is OmemoDeviceListResultMessage devMsg)
             {
@@ -310,7 +310,7 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        private void onRequestDeviceListStatelessTimeout()
+        private void onRequestDeviceListStatelessTimeout(MessageResponseHelper<IQMessage> helper)
         {
             requestDeviceListStatelessOnResult?.Invoke(false, null);
             requestDeviceListStatelessOnResult = null;
@@ -356,7 +356,7 @@ namespace XMPP_API.Classes.Network
             requestDeviceListHelper.start(msg);
         }
 
-        private bool onRequestDeviceListMsg(AbstractMessage msg)
+        private bool onRequestDeviceListMsg(MessageResponseHelper<IQMessage> helper, AbstractMessage msg)
         {
             if (msg is OmemoDeviceListResultMessage devMsg)
             {
@@ -393,7 +393,7 @@ namespace XMPP_API.Classes.Network
             announceBundleInfoHelper.start(msg);
         }
 
-        private bool announceBundleInfoMsg(AbstractMessage msg)
+        private bool announceBundleInfoMsg(MessageResponseHelper<IQMessage> helper, AbstractMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
@@ -459,7 +459,7 @@ namespace XMPP_API.Classes.Network
             DEVICES = devicesRemote;
         }
 
-        private bool updateDevicesIfNeededMsg(AbstractMessage msg)
+        private bool updateDevicesIfNeededMsg(MessageResponseHelper<IQMessage> helper, AbstractMessage msg)
         {
             if (msg is IQErrorMessage errMsg)
             {
@@ -488,7 +488,7 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<IQMessage> helper)
         {
             switch (STATE)
             {

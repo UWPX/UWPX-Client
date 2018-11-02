@@ -7,8 +7,6 @@ using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0054;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -43,6 +41,7 @@ namespace XMPP_API.Classes
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event NewDeliveryReceiptHandler NewDeliveryReceipt;
 
+        public readonly GeneralCommandHelper GENERAL_COMMAND_HELPER;
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
         public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
         public readonly OmemoCommandHelper OMEMO_COMMAND_HELPER;
@@ -58,10 +57,11 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPClient(XMPPAccount account)
         {
+            this.GENERAL_COMMAND_HELPER = new GeneralCommandHelper(this);
             this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
             this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
             this.OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
-            initConnection(account);
+            init(account);
         }
 
         #endregion
@@ -70,18 +70,6 @@ namespace XMPP_API.Classes
         public bool isConnected()
         {
             return connection != null && connection.state == ConnectionState.CONNECTED;
-        }
-
-        public async Task<string> setPreseceAsync(Presence presence, string status)
-        {
-            return await setPreseceAsync(null, null, presence, status);
-        }
-
-        public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
-        {
-            PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);
-            await connection.sendAsync(presenceMessage, false, false);
-            return presenceMessage.ID;
         }
 
         public ConnectionState getConnetionState()
@@ -128,7 +116,7 @@ namespace XMPP_API.Classes
                 connection.NewBookmarksResultMessage -= Connection_NewBookmarksResultMessage;
             }
 
-            initConnection(account);
+            init(account);
         }
 
         #endregion
@@ -169,92 +157,34 @@ namespace XMPP_API.Classes
             connection.OMEMO_HELPER.sendOmemoMessage(msg, chatJid, accountJid);
         }
 
+        /// <summary>
+        /// Starts a new Task and calls sendAsync(...)
+        /// </summary>
+        /// <param name="msg">The MessageMessage object that should get send.</param>
+        /// <returns>The created Task object.</returns>
         public Task sendMessage(MessageMessage msg)
         {
             return Task.Run(async () => await connection.sendAsync(msg, true, false));
         }
 
-        public async Task sendAsync(AbstractMessage msg)
+        public async Task<bool> sendAsync(AbstractMessage msg)
         {
-            await sendAsync(msg, false);
+            return await sendAsync(msg, false);
         }
 
-        public async Task sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
+        public async Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
         {
-            await connection.sendAsync(msg, cacheIfNotConnected, false);
+            return await connection.sendAsync(msg, cacheIfNotConnected, false);
         }
 
         public XMPPAccount getXMPPAccount()
         {
             return connection.account;
         }
-
-        public async Task requestRoosterAsync()
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new RosterMessage(account.getIdDomainAndResource(), account.getIdAndDomain()), false, false);
-        }
-
-        public async Task addToRosterAsync(string jabberId)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new AddToRosterMessage(account.getIdDomainAndResource(), jabberId), true, false);
-        }
-
-        public async Task requestPresenceSubscriptionAsync(string jabberId)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "subscribe"), true, false);
-        }
-
-        public async Task unsubscribeFromPresence(string jabberId)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, "unsubscribe"), true, false);
-        }
-
-        public async Task requestVCardAsync(string jabberId)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new RequestVCardMessage(jabberId, account.getIdDomainAndResource()), false, false);
-        }
-
-        public async Task requestBookmarksAsync()
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new RequestBookmarksMessage(account.getIdDomainAndResource()), false, false);
-        }
-
-        public async Task answerPresenceSubscriptionRequest(string jabberId, bool accept)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new PresenceMessage(account.getIdAndDomain(), jabberId, accept ? "subscribed" : "unsubscribed"), true, false);
-        }
-
-        public async Task removeFromRosterAsync(string jabberId)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new RemoveFromRosterMessage(account.getIdDomainAndResource(), jabberId), true, false);
-        }
-
-        public async Task<string> createDiscoAsync(string target, DiscoType type)
-        {
-            XMPPAccount account = connection.account;
-            DiscoRequestMessage disco = new DiscoRequestMessage(account.getIdDomainAndResource(), target, type);
-            await connection.sendAsync(disco, false, false);
-            return disco.ID;
-        }
-
-        public async Task sendChatStateAsync(string target, ChatState state)
-        {
-            XMPPAccount account = connection.account;
-            await connection.sendAsync(new ChatStateMessage(target, account.getIdDomainAndResource(), state), false, false);
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--
-        private void initConnection(XMPPAccount account)
+        private void init(XMPPAccount account)
         {
             connection = new XMPPConnection2(account);
             connection.NewRoosterMessage += Connection_ConnectionNewRoosterMessage;

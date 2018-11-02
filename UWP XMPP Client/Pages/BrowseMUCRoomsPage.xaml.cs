@@ -79,7 +79,7 @@ namespace UWP_XMPP_Client.Pages
             }
         }
 
-        private bool onMessage(IQMessage iq)
+        private bool onMessage(MessageResponseHelper<IQMessage> helper, IQMessage iq)
         {
             if (iq is DiscoResponseMessage)
             {
@@ -99,7 +99,7 @@ namespace UWP_XMPP_Client.Pages
             return false;
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null)).AsTask();
         }

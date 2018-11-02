@@ -73,13 +73,13 @@ namespace UWP_XMPP_Client.Controls
             }
         }
 
-        private bool onMessage(ExtendedDiscoResponseMessage msg)
+        private bool onMessage(MessageResponseHelper<ExtendedDiscoResponseMessage> helper, ExtendedDiscoResponseMessage msg)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(msg as ExtendedDiscoResponseMessage)).AsTask();
             return true;
         }
 
-        private void onTimeout()
+        private void onTimeout(MessageResponseHelper<ExtendedDiscoResponseMessage> helper)
         {
             Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null)).AsTask();
         }

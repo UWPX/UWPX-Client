@@ -252,10 +252,10 @@ namespace Data_Manager2.Classes
         /// <param name="client">The Client which entered the state.</param>
         private void onClientConnected(XMPPClient client)
         {
-            Task.Run(async () =>
+            Task.Run(() =>
             {
-                await client.requestRoosterAsync();
-                await client.requestBookmarksAsync();
+                client.GENERAL_COMMAND_HELPER.requestRoster(null, null);
+                client.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(null, null);
                 MUCHandler.INSTANCE.onClientConnected(client);
                 ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
             });
@@ -362,10 +362,8 @@ namespace Data_Manager2.Classes
 
         private void C_NewRoosterMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
-            XMPPClient client = sender as XMPPClient;
-            if (args.MESSAGE is RosterMessage)
+            if (args.MESSAGE is RosterResultMessage msg && sender is XMPPClient client)
             {
-                RosterMessage msg = args.MESSAGE as RosterMessage;
                 string to = client.getXMPPAccount().getIdAndDomain();
                 string type = msg.TYPE;
 
@@ -373,7 +371,7 @@ namespace Data_Manager2.Classes
                 {
                     ChatDBManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
                 }
-                else if (type == null || !string.Equals(type, IQMessage.SET))
+                else if (!string.Equals(type, IQMessage.SET))
                 {
                     // No roster result or set => return
                     return;

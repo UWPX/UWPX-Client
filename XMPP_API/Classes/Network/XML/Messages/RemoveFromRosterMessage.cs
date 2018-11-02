@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Set-, Get- Methods--
         protected override XElement getQuery()
         {
-            XNamespace ns = "jabber:iq:roster";
+            XNamespace ns = Consts.XML_ROSTER_NAMESPACE;
             XElement node = new XElement(ns + "query");
             node.Add(new XElement(ns + "item", new XAttribute("jid", TARGET), new XAttribute("subscription", "remove")));
             return node;

@@ -100,7 +100,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             messageResponseHelper = CLIENT.MUC_COMMAND_HELPER.banOccupant(CHAT.chatJabberId, Occupant.jid, reason, onBanMessage, onBanTimeout);
         }
 
-        private bool onBanMessage(IQMessage msg)
+        private bool onBanMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage)
             {
@@ -126,7 +126,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             return false;
         }
 
-        private bool onKickMessage(IQMessage msg)
+        private bool onKickMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
             if (msg is IQErrorMessage)
             {
@@ -152,7 +152,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             return false;
         }
 
-        private void onKickTimeout()
+        private void onKickTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
@@ -162,7 +162,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             }).AsTask();
         }
 
-        private void onBanTimeout()
+        private void onBanTimeout(MessageResponseHelper<IQMessage> helper)
         {
             Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {

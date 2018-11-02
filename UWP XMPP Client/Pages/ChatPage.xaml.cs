@@ -169,11 +169,11 @@ namespace UWP_XMPP_Client.Pages
             {
                 if (addToRoster)
                 {
-                    await client.addToRosterAsync(jID).ConfigureAwait(false);
+                    await client.GENERAL_COMMAND_HELPER.addToRosterAsync(jID).ConfigureAwait(false);
                 }
                 if (requestSubscription)
                 {
-                    await client.requestPresenceSubscriptionAsync(jID).ConfigureAwait(false);
+                    await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(jID).ConfigureAwait(false);
                 }
                 ChatDBManager.INSTANCE.setChat(new ChatTable
                 {
@@ -379,7 +379,7 @@ namespace UWP_XMPP_Client.Pages
                     ChatTemplate c = added as ChatTemplate;
                     if (shouldSendChatState(c.chat))
                     {
-                        await c.client.sendChatStateAsync(c.chat.chatJabberId, ChatState.ACTIVE);
+                        await c.client.GENERAL_COMMAND_HELPER.sendChatStateAsync(c.chat.chatJabberId, ChatState.ACTIVE);
                     }
                 }
             }
@@ -391,7 +391,7 @@ namespace UWP_XMPP_Client.Pages
                     ChatTemplate c = added as ChatTemplate;
                     if (shouldSendChatState(c.chat))
                     {
-                        await c.client.sendChatStateAsync(c.chat.chatJabberId, ChatState.INACTIVE);
+                        await c.client.GENERAL_COMMAND_HELPER.sendChatStateAsync(c.chat.chatJabberId, ChatState.INACTIVE);
                     }
                 }
             }

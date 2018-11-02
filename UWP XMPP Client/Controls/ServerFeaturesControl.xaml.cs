@@ -1,6 +1,5 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using System.Collections.ObjectModel;
-using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -8,7 +7,7 @@ using XMPP_API.Classes;
 using System;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using Windows.UI.Core;
-using System.Threading;
+using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWP_XMPP_Client.Controls
 {
@@ -32,12 +31,7 @@ namespace UWP_XMPP_Client.Controls
             get { return (XMPPClient)GetValue(clientProperty); }
             set
             {
-                if(Client != null)
-                {
-                    Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-                }
                 SetValue(clientProperty, value);
-                bindEvents();
                 sendDiscos();
             }
         }
@@ -67,10 +61,8 @@ namespace UWP_XMPP_Client.Controls
         public static readonly DependencyProperty discoTypeProperty = DependencyProperty.Register("discoType", typeof(DiscoType), typeof(ServerFeaturesControl), null);
 
         private readonly ObservableCollection<ServerFeaturesTemplate> SERVER_FEATURES;
-        private string discoItemsId;
-        private string discoInfosId;
-        private Timer timerItems;
-        private Timer timerInfos;
+        private MessageResponseHelper<IQMessage> discoInfoHelper;
+        private MessageResponseHelper<IQMessage> discoItemsHelper;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -82,10 +74,8 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public ServerFeaturesControl()
         {
-            this.discoItemsId = null;
-            this.discoInfosId = null;
-            this.timerItems = null;
-            this.timerInfos = null;
+            this.discoInfoHelper = null;
+            this.discoItemsHelper = null;
             this.SERVER_FEATURES = new ObservableCollection<ServerFeaturesTemplate>();
             this.InitializeComponent();
         }
@@ -127,83 +117,71 @@ namespace UWP_XMPP_Client.Controls
 
         private void sendDiscoInfo()
         {
-            if (discoInfosId == null && Client != null && Chat != null)
+            if (Client != null && Chat != null)
             {
-                discoInfosId = "";
-                Task<string> t = Client.createDiscoAsync(Chat.chatJabberId, DiscoType.INFO);
-                Task.Run(async () => discoInfosId = await t);
-                startTimerInfos();
+                if (discoInfoHelper != null)
+                {
+                    return;
+                }
+                discoInfoHelper = Client.GENERAL_COMMAND_HELPER.createDisco(Chat.chatJabberId, DiscoType.INFO, onDiscoMsg, onDiscoTimeout);
             }
         }
 
         private void sendDiscoItems()
         {
-            if (discoItemsId == null && Client != null && Chat != null)
+            if (Client != null && Chat != null)
             {
-                discoItemsId = "";
-                Task<string> t = Client.createDiscoAsync(Chat.chatJabberId, DiscoType.ITEMS);
-                Task.Run(async () => discoItemsId = await t);
-                startTimerItems();
+                if (discoItemsHelper != null)
+                {
+                    return;
+                }
+                discoItemsHelper = Client.GENERAL_COMMAND_HELPER.createDisco(Chat.chatJabberId, DiscoType.ITEMS, onDiscoMsg, onDiscoTimeout);
             }
         }
 
-        private void startTimerInfos()
+        private bool onDiscoMsg(MessageResponseHelper<IQMessage> helper, IQMessage msg)
         {
-            timerInfos = new Timer(async (obj) =>
+            if (msg is DiscoResponseMessage disco)
             {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null));
-            }, null, 5000, Timeout.Infinite);
-        }
-
-        private void startTimerItems()
-        {
-            timerItems = new Timer(async (obj) =>
-            {
-                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(null));
-            }, null, 5000, Timeout.Infinite);
-        }
-
-        private void stopTimerInfos()
-        {
-            timerInfos?.Dispose();
-        }
-
-        private void stopTimerItems()
-        {
-            timerItems?.Dispose();
-        }
-
-        private void bindEvents()
-        {
-            if (Client != null)
-            {
-                Client.NewDiscoResponseMessage -= Client_NewDiscoResponseMessage;
-                Client.NewDiscoResponseMessage += Client_NewDiscoResponseMessage;
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showDiscoResult(disco)).AsTask();
+                return true;
             }
+            else if (msg is IQErrorMessage error)
+            {
+                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showDiscoError(error)).AsTask();
+                return true;
+            }
+            return false;
         }
 
-        private void showResultDisco(DiscoResponseMessage disco)
+        private void onDiscoTimeout(MessageResponseHelper<IQMessage> helper)
+        {
+            Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showDiscoError(null)).AsTask();
+        }
+
+        private void showDiscoError(IQErrorMessage error)
         {
             loading_spnl.Visibility = Visibility.Collapsed;
-            if (disco == null)
+
+            items_icon.Visibility = Visibility.Collapsed;
+            if (error is null)
             {
-                items_icon.Visibility = Visibility.Collapsed;
                 noneFound_tblck.Text = "Server didn't answer in time!";
-                noneFound_tblck.Visibility = Visibility.Visible;
             }
-            else if (discoItemsId == null && discoInfosId == null)
+            else
             {
-                if(SERVER_FEATURES.Count <= 0)
-                {
-                    items_icon.Visibility = Visibility.Collapsed;
-                    noneFound_tblck.Text = "None";
-                    noneFound_tblck.Visibility = Visibility.Visible;
-                }
+                noneFound_tblck.Text = "Request failed with: " + error.ERROR_OBJ.ToString();
             }
-            else if (disco.ERROR_RESULT != null)
+            noneFound_tblck.Visibility = Visibility.Visible;
+        }
+
+        private void showDiscoResult(DiscoResponseMessage disco)
+        {
+            loading_spnl.Visibility = Visibility.Collapsed;
+            if (disco.ERROR_RESULT != null)
             {
                 items_icon.Visibility = Visibility.Collapsed;
-                if(disco.DISCO_TYPE == DiscoType.UNKNOWN)
+                if (disco.DISCO_TYPE == DiscoType.UNKNOWN)
                 {
                     noneFound_tblck.Text = "Server responded with an invalid answer! View the logs for more information.";
                 }
@@ -236,16 +214,6 @@ namespace UWP_XMPP_Client.Controls
                     }
                 }
                 items_icon.Visibility = Visibility.Visible;
-
-                switch (disco.DISCO_TYPE)
-                {
-                    case DiscoType.ITEMS:
-                        discoItemsId = null;
-                        break;
-                    case DiscoType.INFO:
-                        discoInfosId = null;
-                        break;
-                }
             }
         }
 
@@ -257,19 +225,7 @@ namespace UWP_XMPP_Client.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Client_NewDiscoResponseMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewDiscoResponseMessageEventArgs args)
-        {
-            if (discoInfosId != null && string.Equals(discoInfosId, args.DISCO.ID))
-            {
-                stopTimerInfos();
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO)).AsTask();
-            }
-            else if (discoItemsId != null && string.Equals(discoItemsId, args.DISCO.ID))
-            {
-                stopTimerItems();
-                Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => showResultDisco(args.DISCO)).AsTask();
-            }
-        }
+
 
         #endregion
     }

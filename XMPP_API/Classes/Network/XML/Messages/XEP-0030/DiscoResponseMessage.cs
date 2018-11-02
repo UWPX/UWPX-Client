@@ -30,10 +30,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
             FEATURES = new List<DiscoFeature>();
             ITEMS = new List<DiscoItem>();
             ERROR_RESULT = null;
-            XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
+            XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0030_INFO_NAMESPACE);
             if (qNode == null)
             {
-                qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#items");
+                qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0030_ITEMS_NAMESPACE);
                 if (qNode == null)
                 {
                     Logging.Logger.Warn("Invalid disco result message received! " + n.ToString().Replace('\n', ' '));
@@ -72,10 +72,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
             }
 
             // Sort disco items alphabetically:
-            ITEMS.Sort((a, b) => {
+            ITEMS.Sort((a, b) =>
+            {
                 if (a == null || a.NAME == null)
                 {
-                    if(b == null || b.NAME == null)
+                    if (b == null || b.NAME == null)
                     {
                         return 0;
                     }
