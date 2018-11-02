@@ -215,35 +215,42 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 try
                 {
-                    WRITE_SEMA.Wait();
-                    uint l = dataWriter.WriteString(s);
-
-                    // Check if all bytes got actually written to the TCP buffer:
-                    if (l < s.Length)
-                    {
-                        lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "Send only " + l + " of " + s.Length + "bytes");
-                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
-                        return false;
-                    }
-
                     // Sometimes dataWriter is blocking for an infinite time, so give it a timeout:
                     sendCTS = new CancellationTokenSource(SEND_TIMEOUT_MS);
                     sendCTS.CancelAfter(SEND_TIMEOUT_MS);
+
+                    WRITE_SEMA.Wait();
+                    bool success = true;
                     await Task.Run(async () =>
                     {
+                        uint l = dataWriter.WriteString(s);
+
+                        // Check if all bytes got actually written to the TCP buffer:
+                        if (l < s.Length)
+                        {
+                            lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "Send only " + l + " of " + s.Length + "bytes");
+                            Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
+                            success = false;
+                            return;
+                        }
+
                         await dataWriter.StoreAsync();
                         await dataWriter.FlushAsync();
-                    }, sendCTS.Token);
+                    }, sendCTS.Token).ConfigureAwait(false);
 
-                    if (sendCTS.IsCancellationRequested)
+                    WRITE_SEMA.Release();
+
+                    if (success)
                     {
-                        lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "IsCancellationRequested");
-                        Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
-                        return false;
+                        if (sendCTS.IsCancellationRequested)
+                        {
+                            lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "IsCancellationRequested");
+                            Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
+                            return false;
+                        }
+                        Logger.Debug("[TCPConnection2]: Send to (" + account.serverAddress + "):" + s);
+                        return true;
                     }
-
-                    Logger.Debug("[TCPConnection2]: Send to (" + account.serverAddress + "):" + s);
-                    return true;
                 }
                 catch (TaskCanceledException e)
                 {
@@ -256,6 +263,8 @@ namespace XMPP_API.Classes.Network.TCP
                     {
                         Logger.Error("[TCPConnection2]: failed to send message - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
                     }
+
+                    WRITE_SEMA.Release();
                 }
                 catch (Exception e)
                 {
@@ -268,9 +277,7 @@ namespace XMPP_API.Classes.Network.TCP
                     {
                         Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
                     }
-                }
-                finally
-                {
+
                     WRITE_SEMA.Release();
                 }
             }

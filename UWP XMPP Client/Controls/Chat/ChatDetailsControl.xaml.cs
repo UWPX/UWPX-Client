@@ -410,7 +410,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     }
                     else
                     {
-                        Client.sendMessageAsync(sendMessage).ConfigureAwait(false);
+                        Client.sendMessage(sendMessage);
                     }
                 }
 
