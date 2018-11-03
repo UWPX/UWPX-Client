@@ -5,7 +5,6 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
@@ -23,7 +22,6 @@ namespace XMPP_API.Classes
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
         public delegate void NewPresenceEventHandler(XMPPClient client, Events.NewPresenceMessageEventArgs args);
         public delegate void NewChatStateEventHandler(XMPPClient client, NewChatStateEventArgs args);
-        public delegate void NewDiscoResponseMessageEventHandler(XMPPClient client, NewDiscoResponseMessageEventArgs args);
         public delegate void MessageSendEventHandler(XMPPClient client, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client, NewBookmarksResultMessageEventArgs args);
         public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
@@ -34,7 +32,6 @@ namespace XMPP_API.Classes
         public event NewChatMessageEventHandler NewChatMessage;
         public event NewPresenceEventHandler NewPresence;
         public event NewChatStateEventHandler NewChatState;
-        public event NewDiscoResponseMessageEventHandler NewDiscoResponseMessage;
         public event MessageSendEventHandler MessageSend;
         public event NewMUCMemberPresenceMessageEventHandler NewMUCMemberPresenceMessage;
         public event NewValidMessageEventHandler NewValidMessage;
@@ -232,10 +229,6 @@ namespace XMPP_API.Classes
             else if (msg is ChatStateMessage sMsg)
             {
                 NewChatState?.Invoke(this, new NewChatStateEventArgs(sMsg));
-            }
-            else if (msg is DiscoResponseMessage dMsg)
-            {
-                NewDiscoResponseMessage?.Invoke(this, new NewDiscoResponseMessageEventArgs(dMsg));
             }
             else if (msg is DeliveryReceiptMessage dRMsg)
             {
