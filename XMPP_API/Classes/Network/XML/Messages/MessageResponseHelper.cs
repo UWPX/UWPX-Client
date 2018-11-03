@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Windows.System.Threading;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
@@ -14,7 +15,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private readonly Func<MessageResponseHelper<T>, T, bool> ON_MESSAGE;
         private readonly Action<MessageResponseHelper<T>> ON_TIMEOUT;
 
-        private readonly SemaphoreSlim SEMA;
+        private readonly SemaphoreSlim METHOD_SEMA;
+        private readonly SemaphoreSlim TIMER_SEMA;
         private bool disposed;
 
         /// <summary>
@@ -22,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </summary>
         public TimeSpan timeout;
 
-        private Timer timer;
+        private ThreadPoolTimer timer;
 
         public const int TIMEOUT_5_SEC = 5;
 
@@ -49,7 +51,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
             this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.matchId = true;
             this.sendId = null;
-            this.SEMA = new SemaphoreSlim(1, 1);
+            this.METHOD_SEMA = new SemaphoreSlim(1, 1);
+            this.TIMER_SEMA = new SemaphoreSlim(1, 1);
             this.disposed = false;
         }
 
@@ -87,6 +90,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 MESSAGE_SENDER.NewValidMessage += MESSAGE_SENDER_NewValidMessage;
             }
 
+            TIMER_SEMA.Wait();
             bool success = await MESSAGE_SENDER.sendAsync(msg, cacheIfNotConnected).ConfigureAwait(false);
 
             if (ON_TIMEOUT != null)
@@ -98,28 +102,33 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                 startTimer();
             }
+            TIMER_SEMA.Release();
         }
 
         private void startTimer()
         {
-            timer = new Timer(onTimeout, this, timeout, TimeSpan.FromMilliseconds(-1));
+            if(timer != null)
+            {
+                throw new InvalidOperationException("Can not start timer - timer not null!");
+            }
+            timer = ThreadPoolTimer.CreateTimer(onTimeout, timeout);
         }
 
-        private void onTimeout(object state)
+        private void onTimeout(ThreadPoolTimer timer)
         {
-            if (!(state is MessageResponseHelper<T> helper) || helper.disposed || helper.timer is null)
+            if (timer is null || disposed)
             {
                 return;
             }
-            helper.SEMA.Wait();
-            if (helper.disposed)
+            METHOD_SEMA.Wait();
+            if (disposed)
             {
                 return;
             }
             try
             {
-                helper.MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
-                helper.ON_TIMEOUT?.Invoke(this);
+                MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
+                ON_TIMEOUT?.Invoke(this);
             }
             catch (Exception e)
             {
@@ -127,9 +136,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
             finally
             {
-                if (!helper.disposed)
+                if (!disposed)
                 {
-                    helper.SEMA.Release();
+                    METHOD_SEMA.Release();
                 }
             }
         }
@@ -137,15 +146,19 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private void stopTimer()
         {
             MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
-            timer?.Dispose();
-            timer = null;
+            if(timer != null)
+            {
+                timer.Cancel();
+                timer = null;
+            }
         }
 
         public void Dispose()
         {
             disposed = true;
             stop();
-            SEMA.Dispose();
+            METHOD_SEMA.Dispose();
+            TIMER_SEMA.Dispose();
         }
 
         #endregion
@@ -167,10 +180,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                 try
                 {
-                    SEMA.Wait();
+                    METHOD_SEMA.Wait();
                     if (ON_MESSAGE == null || ON_MESSAGE(this, args.MESSAGE as T))
                     {
+                        // Prevent the case that a result is already available although the timer hasn't started yet:
+                        TIMER_SEMA.Wait();
                         stopTimer();
+                        TIMER_SEMA.Release();
                     }
                 }
                 catch (Exception)
@@ -181,7 +197,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 {
                     if (!disposed)
                     {
-                        SEMA.Release();
+                        METHOD_SEMA.Release();
                     }
                 }
             }
