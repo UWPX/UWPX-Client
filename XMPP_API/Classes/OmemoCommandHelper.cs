@@ -1,5 +1,4 @@
-﻿using System;
-using XMPP_API.Classes.Network.XML.Messages;
+﻿using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
@@ -40,7 +39,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for OmemoRequestBundleInformationMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestBundleInformation(string to, uint deviceId, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> requestBundleInformation(string to, uint deviceId, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, deviceId);
@@ -55,7 +54,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for OmemoRequestDeviceListMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestDeviceList(string to, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> requestDeviceList(string to, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to);

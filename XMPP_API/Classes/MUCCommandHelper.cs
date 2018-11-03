@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
@@ -43,7 +42,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestRooms(string server, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> requestRooms(string server, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             return CLIENT.GENERAL_COMMAND_HELPER.createDisco(server, DiscoType.ITEMS, onMessage, onTimeout);
         }
@@ -55,7 +54,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
-        public MessageResponseHelper<ExtendedDiscoResponseMessage> requestRoomInfo(string roomJid, Func<MessageResponseHelper<ExtendedDiscoResponseMessage>, ExtendedDiscoResponseMessage, bool> onMessage, Action<MessageResponseHelper<ExtendedDiscoResponseMessage>> onTimeout)
+        public MessageResponseHelper<ExtendedDiscoResponseMessage> requestRoomInfo(string roomJid, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnMessageHandler onMessage, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<ExtendedDiscoResponseMessage> helper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(CLIENT, onMessage, onTimeout);
             DiscoRequestMessage disco = new DiscoRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, DiscoType.INFO);
@@ -71,7 +70,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for RequestRoomConfigurationMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestRoomConfiguration(string roomJid, MUCAffiliation configLevel, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> requestRoomConfiguration(string roomJid, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             RequestRoomConfigurationMessage msg = new RequestRoomConfigurationMessage(roomJid, configLevel);
@@ -88,7 +87,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for RoomInfoMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, DataForm roomConfiguration, MUCAffiliation configLevel, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, DataForm roomConfiguration, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             RoomInfoMessage msg = new RoomInfoMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, roomConfiguration, configLevel);
@@ -104,7 +103,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for MUCChangeNicknameMessage answers.</returns>
-        public MessageResponseHelper<PresenceMessage> changeNickname(string roomJid, string newNickname, Func<MessageResponseHelper<PresenceMessage>, PresenceMessage, bool> onMessage, Action<MessageResponseHelper<PresenceMessage>> onTimeout)
+        public MessageResponseHelper<PresenceMessage> changeNickname(string roomJid, string newNickname, MessageResponseHelper<PresenceMessage>.OnMessageHandler onMessage, MessageResponseHelper<PresenceMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<PresenceMessage> helper = new MessageResponseHelper<PresenceMessage>(CLIENT, onMessage, onTimeout)
             {
@@ -124,7 +123,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for KickOccupantMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> kickOccupant(string roomJid, string nickname, string reason, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> kickOccupant(string roomJid, string nickname, string reason, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             KickOccupantMessage msg = new KickOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, nickname, reason);
@@ -141,7 +140,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for BanOccupantMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> banOccupant(string roomJid, string jid, string reason, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> banOccupant(string roomJid, string jid, string reason, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             BanOccupantMessage msg = new BanOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, jid, reason);
@@ -157,7 +156,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for BanListMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestBanList(string roomJid, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> requestBanList(string roomJid, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             BanListMessage msg = new BanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid);
@@ -173,7 +172,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for UpdateBanListMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> updateBanList(string roomJid, List<BanedUser> changedUsers, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> updateBanList(string roomJid, List<BanedUser> changedUsers, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             UpdateBanListMessage msg = new UpdateBanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, changedUsers);

@@ -64,7 +64,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for RosterRequestMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestRoster(Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> requestRoster(MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             RosterRequestMessage msg = new RosterRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), CLIENT.getXMPPAccount().getIdAndDomain());
@@ -117,7 +117,7 @@ namespace XMPP_API.Classes
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
         /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> createDisco(string target, DiscoType type, Func<MessageResponseHelper<IQMessage>, IQMessage, bool> onMessage, Action<MessageResponseHelper<IQMessage>> onTimeout)
+        public MessageResponseHelper<IQMessage> createDisco(string target, DiscoType type, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             DiscoRequestMessage disco = new DiscoRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), target, type);

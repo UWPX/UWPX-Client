@@ -12,8 +12,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private readonly IMessageSender MESSAGE_SENDER;
         private bool cacheIfNotConnected;
 
-        private readonly Func<MessageResponseHelper<T>, T, bool> ON_MESSAGE;
-        private readonly Action<MessageResponseHelper<T>> ON_TIMEOUT;
+        private readonly OnMessageHandler ON_MESSAGE;
+        private readonly OnTimeoutHandler ON_TIMEOUT;
 
         private readonly SemaphoreSlim METHOD_SEMA;
         private readonly SemaphoreSlim TIMER_SEMA;
@@ -31,6 +31,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public bool matchId;
         public string sendId;
 
+        public delegate bool OnMessageHandler(MessageResponseHelper<T> helper, T msg);
+        public delegate void OnTimeoutHandler(MessageResponseHelper<T> helper);
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -40,9 +43,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// <history>
         /// 09/01/2018 Created [Fabian Sauter]
         /// </history>
-        public MessageResponseHelper(IMessageSender messageSender, Func<MessageResponseHelper<T>, T, bool> onMessage, Action<MessageResponseHelper<T>> onTimeout) : this(messageSender, onMessage, onTimeout, false) { }
+        public MessageResponseHelper(IMessageSender messageSender, OnMessageHandler onMessage, OnTimeoutHandler onTimeout) : this(messageSender, onMessage, onTimeout, false) { }
 
-        public MessageResponseHelper(IMessageSender messageSender, Func<MessageResponseHelper<T>, T, bool> onMessage, Action<MessageResponseHelper<T>> onTimeout, bool cacheIfNotConnected)
+        public MessageResponseHelper(IMessageSender messageSender, OnMessageHandler onMessage, OnTimeoutHandler onTimeout, bool cacheIfNotConnected)
         {
             this.MESSAGE_SENDER = messageSender;
             this.ON_MESSAGE = onMessage;
