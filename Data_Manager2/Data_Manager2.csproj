@@ -114,6 +114,7 @@
     <Compile Include="Classes\DBManager\DiscoDBManager.cs" />
     <Compile Include="Classes\DBManager\ImageDBManager.cs" />
     <Compile Include="Classes\DBManager\MUCDBManager.cs" />
+    <Compile Include="Classes\DBManager\Omemo\OmemoSignalKeyDBManager.cs" />
     <Compile Include="Classes\DBTables\ConnectionOptionsTable.cs" />
     <Compile Include="Classes\DBTables\DBTableConsts.cs" />
     <Compile Include="Classes\DBTables\DiscoFeatureTable.cs" />
@@ -127,6 +128,14 @@
     <Compile Include="Classes\DBTables\MUCChatInfoTable.cs" />
     <Compile Include="Classes\DBTables\MUCDirectInvitationTable.cs" />
     <Compile Include="Classes\DBTables\MUCOccupantTable.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoIdentityKeyTable.cs" />
+    <Compile Include="Classes\Omemo\OmemoIdentityKeyStore.cs" />
+    <Compile Include="Classes\Omemo\OmemoPreKeyStore.cs" />
+    <Compile Include="Classes\Omemo\OmemoSessionStore.cs" />
+    <Compile Include="Classes\Omemo\OmemoSignedPreKeyStore.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoPreKeyTable.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoSessionStoreTable.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoSignedPreKeyTable.cs" />
     <Compile Include="Classes\DownloadState.cs" />
     <Compile Include="Classes\Events\MUCInfoChangedEventArgs.cs" />
     <Compile Include="Classes\Events\DownloadProgressChangedEventArgs.cs" />

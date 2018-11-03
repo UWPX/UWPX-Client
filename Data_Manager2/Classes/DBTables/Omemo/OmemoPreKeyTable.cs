@@ -1,9 +1,10 @@
-﻿using SQLite;
+﻿using Data_Manager2.Classes.DBTables;
+using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    [Table(DBTableConsts.PRE_KEY_TABLE)]
-    class PreKeyTable
+    [Table(DBTableConsts.OMEMO_PRE_KEY_TABLE)]
+    class OmemoPreKeyTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,9 +24,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
-        public PreKeyTable()
+        public OmemoPreKeyTable()
         {
         }
 

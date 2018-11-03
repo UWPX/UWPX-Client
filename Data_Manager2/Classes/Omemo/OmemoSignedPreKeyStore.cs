@@ -1,9 +1,10 @@
-﻿using libsignal;
+﻿using Data_Manager2.Classes.DBManager.Omemo;
+using libsignal;
 using libsignal.state;
 using System.Collections.Generic;
-using XMPP_API.Classes.Network.XML.DBManager;
+using XMPP_API.Classes.Network;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
+namespace Data_Manager2.Classes.Omemo
 {
     public class OmemoSignedPreKeyStore : SignedPreKeyStore
     {
@@ -18,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
         public OmemoSignedPreKeyStore(XMPPAccount account)
         {
@@ -35,12 +36,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsSignedPreKey(uint signedPreKeyId)
         {
-            return SignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
         }
 
         public SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId)
         {
-            SignedPreKeyRecord signedPreKeyRecord = SignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
+            SignedPreKeyRecord signedPreKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
             if (signedPreKeyRecord == null)
             {
                 throw new InvalidKeyIdException("No such key: " + signedPreKeyId);
@@ -50,19 +51,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public List<SignedPreKeyRecord> LoadSignedPreKeys()
         {
-            return SignalKeyDBManager.INSTANCE.getAllSignedPreKeys(ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.getAllSignedPreKeys(ACCOUNT.getIdAndDomain());
         }
 
         public void RemoveSignedPreKey(uint signedPreKeyId)
         {
-            SignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
         }
 
         public void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey)
         {
-            SignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey, ACCOUNT.getIdAndDomain());
         }
-
         #endregion
 
         #region --Misc Methods (Private)--

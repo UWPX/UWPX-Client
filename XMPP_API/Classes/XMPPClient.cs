@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using libsignal.state;
+using Logging;
 using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
@@ -9,6 +10,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes
 {
@@ -86,7 +88,7 @@ namespace XMPP_API.Classes
 
         public OmemoHelper getOmemoHelper()
         {
-            return connection.OMEMO_HELPER;
+            return connection.omemoHelper;
         }
 
         /// <summary>
@@ -151,7 +153,7 @@ namespace XMPP_API.Classes
 
         public void sendOmemoMessage(OmemoMessageMessage msg, string chatJid, string accountJid)
         {
-            connection.OMEMO_HELPER.sendOmemoMessage(msg, chatJid, accountJid);
+            connection.omemoHelper.sendOmemoMessage(msg, chatJid, accountJid);
         }
 
         /// <summary>
@@ -177,6 +179,19 @@ namespace XMPP_API.Classes
         public XMPPAccount getXMPPAccount()
         {
             return connection.account;
+        }
+
+        /// <summary>
+        /// Enables OMEMO encryption for messages for this connection.
+        /// Has to be enabled before connecting.
+        /// </summary>
+        /// <param name="sessionStore">A persistent store for signal sessions.</param>
+        /// <param name="preKeyStore">A persistent store for pre keys.</param>
+        /// <param name="signedPreKeyStore">A persistent store for signed pre keys.</param>
+        /// <param name="identityKeyStore">A persistent store for identity keys.</param>
+        public void enableOmemo(SessionStore sessionStore, PreKeyStore preKeyStore, SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore, ISignalKeyDBManager signalKeyDBManager)
+        {
+            connection.enableOmemo(sessionStore, preKeyStore, signedPreKeyStore, identityKeyStore, signalKeyDBManager);
         }
         #endregion
 

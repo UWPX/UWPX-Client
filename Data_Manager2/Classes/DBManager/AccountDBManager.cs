@@ -6,6 +6,8 @@ using Windows.Security.Cryptography.Certificates;
 using Logging;
 using System.Threading;
 using Thread_Save_Components.Classes.SQLite;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
+using Data_Manager2.Classes.DBManager.Omemo;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -47,8 +49,8 @@ namespace Data_Manager2.Classes.DBManager
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
-            account.savePreKeys();
-            account.saveSignedPreKey();
+            account.savePreKeys(OmemoSignalKeyDBManager.INSTANCE);
+            account.saveSignedPreKey(OmemoSignalKeyDBManager.INSTANCE);
 
             if (triggerAccountChanged)
             {
@@ -123,12 +125,12 @@ namespace Data_Manager2.Classes.DBManager
             dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
             if (deleteAllKeys)
             {
-                account.deleteOmemoKeysAndDevices();
+                account.deleteOmemoKeysAndDevices(OmemoSignalKeyDBManager.INSTANCE);
             }
             else
             {
-                account.deleteAccountPreKeys();
-                account.deleteAccountSignedPreKey();
+                account.deleteAccountPreKeys(OmemoSignalKeyDBManager.INSTANCE);
+                account.deleteAccountSignedPreKey(OmemoSignalKeyDBManager.INSTANCE);
             }
             Vault.deletePassword(account);
 
@@ -152,8 +154,8 @@ namespace Data_Manager2.Classes.DBManager
                 XMPPAccount acc = accounts[i].toXMPPAccount();
                 Vault.loadPassword(acc);
                 loadAccountConnectionConfiguration(acc);
-                acc.loadPreKeys();
-                acc.loadSignedPreKey();
+                acc.loadPreKeys(OmemoSignalKeyDBManager.INSTANCE);
+                acc.loadSignedPreKey(OmemoSignalKeyDBManager.INSTANCE);
                 results.Add(acc);
             }
             return results;

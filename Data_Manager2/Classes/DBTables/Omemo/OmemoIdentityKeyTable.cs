@@ -1,22 +1,21 @@
-﻿using libsignal;
+﻿using Data_Manager2.Classes.DBTables;
 using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    [Table(DBTableConsts.SESSION_STORE_TABLE)]
-    class SessionStoreTable
+    [Table(DBTableConsts.OMEMO_IDENTITY_KEY_TABLE)]
+    class OmemoIdentityKeyTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
         public string id { get; set; }
         [NotNull]
+        public string name { get; set; }
+        [NotNull]
         public string accountId { get; set; }
         [NotNull]
-        public string name { get; set; }
-        public uint deviceId { get; set; }
-        [NotNull]
-        public byte[] session { get; set; }
+        public byte[] identityKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,9 +24,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
-        public SessionStoreTable()
+        public OmemoIdentityKeyTable()
         {
         }
 
@@ -39,9 +38,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(SignalProtocolAddress address, string accountId)
+        public static string generateId(string name, string accountId)
         {
-            return address.getName() + "_" + address.getDeviceId() + "_" + accountId;
+            return name + "_" + accountId;
         }
 
         #endregion

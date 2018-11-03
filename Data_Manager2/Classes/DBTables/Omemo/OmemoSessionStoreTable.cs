@@ -1,20 +1,23 @@
-﻿using SQLite;
+﻿using Data_Manager2.Classes.DBTables;
+using libsignal;
+using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    [Table(DBTableConsts.SIGNED_PRE_KEY_TABLE)]
-    class SignedPreKeyTable
+    [Table(DBTableConsts.OMEMO_SESSION_STORE_TABLE)]
+    class OmemoSessionStoreTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
         public string id { get; set; }
         [NotNull]
-        public uint signedPreKeyId { get; set; }
-        [NotNull]
         public string accountId { get; set; }
         [NotNull]
-        public byte[] signedPreKey { get; set; }
+        public string name { get; set; }
+        public uint deviceId { get; set; }
+        [NotNull]
+        public byte[] session { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,9 +26,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
-        public SignedPreKeyTable()
+        public OmemoSessionStoreTable()
         {
         }
 
@@ -37,9 +40,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(uint signedPreKeyId, string accountId)
+        public static string generateId(SignalProtocolAddress address, string accountId)
         {
-            return signedPreKeyId + "_" + accountId;
+            return address.getName() + "_" + address.getDeviceId() + "_" + accountId;
         }
 
         #endregion

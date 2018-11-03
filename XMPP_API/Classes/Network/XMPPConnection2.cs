@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using libsignal.state;
+using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using System.Collections.Generic;
@@ -14,6 +15,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {
@@ -22,7 +24,7 @@ namespace XMPP_API.Classes.Network
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly TCPConnection2 TCP_CONNECTION;
-        public readonly OmemoHelper OMEMO_HELPER;
+        public OmemoHelper omemoHelper { get; private set; }
         private readonly DiscoFeatureHelper DISCO_FEATURE_HELPER;
 
         public ConnectionError lastConnectionError;
@@ -108,7 +110,7 @@ namespace XMPP_API.Classes.Network
 
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
 
-            this.OMEMO_HELPER = new OmemoHelper(this);
+            this.omemoHelper = null;
             this.DISCO_FEATURE_HELPER = new DiscoFeatureHelper(this);
         }
 
@@ -139,6 +141,24 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Enables OMEMO encryption for messages for this connection.
+        /// Has to be enabled before connecting.
+        /// </summary>
+        /// <param name="sessionStore">A persistent store for signal sessions.</param>
+        /// <param name="preKeyStore">A persistent store for pre keys.</param>
+        /// <param name="signedPreKeyStore">A persistent store for signed pre keys.</param>
+        /// <param name="identityKeyStore">A persistent store for identity keys.</param>
+        /// <param name="signalKeyDBManager"></param>
+        public void enableOmemo(SessionStore sessionStore, PreKeyStore preKeyStore, SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore, ISignalKeyDBManager signalKeyDBManager)
+        {
+            if (state != ConnectionState.DISCONNECTED)
+            {
+                throw new InvalidOperationException("[XMPPConnection2]: Unable to enable OMEMO. state != " + ConnectionState.DISCONNECTED.ToString() + " - " + state.ToString());
+            }
+            omemoHelper = new OmemoHelper(this, sessionStore, preKeyStore, signedPreKeyStore, identityKeyStore);
+        }
+
         public void connectAndHold()
         {
             holdConnection = true;
@@ -582,7 +602,7 @@ namespace XMPP_API.Classes.Network
                 }
                 else if (msg is OmemoDeviceListEventMessage deviceListEvent)
                 {
-                    OMEMO_HELPER.onOmemoDeviceListEventMessage(deviceListEvent);
+                    omemoHelper?.onOmemoDeviceListEventMessage(deviceListEvent);
                 }
             }
         }

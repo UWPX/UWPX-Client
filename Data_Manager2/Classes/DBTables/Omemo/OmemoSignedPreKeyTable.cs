@@ -1,14 +1,21 @@
-﻿using libsignal;
-using libsignal.state;
-using XMPP_API.Classes.Network.XML.DBManager;
+﻿using Data_Manager2.Classes.DBTables;
+using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
+namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    public class OmemoPreKeyStore : PreKeyStore
+    [Table(DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE)]
+    class OmemoSignedPreKeyTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPAccount ACCOUNT;
+        [PrimaryKey]
+        public string id { get; set; }
+        [NotNull]
+        public uint signedPreKeyId { get; set; }
+        [NotNull]
+        public string accountId { get; set; }
+        [NotNull]
+        public byte[] signedPreKey { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -17,11 +24,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoPreKeyStore(XMPPAccount account)
+        public OmemoSignedPreKeyTable()
         {
-            this.ACCOUNT = account;
         }
 
         #endregion
@@ -32,29 +38,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool ContainsPreKey(uint preKeyId)
+        public static string generateId(uint signedPreKeyId, string accountId)
         {
-            return SignalKeyDBManager.INSTANCE.containsPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
-        }
-
-        public PreKeyRecord LoadPreKey(uint preKeyId)
-        {
-            PreKeyRecord preKeyRecord = SignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
-            if (preKeyRecord == null)
-            {
-                throw new InvalidKeyIdException("No such key: " + preKeyId);
-            }
-            return preKeyRecord;
-        }
-
-        public void RemovePreKey(uint preKeyId)
-        {
-            SignalKeyDBManager.INSTANCE.deletePreKey(preKeyId, ACCOUNT.getIdAndDomain());
-        }
-
-        public void StorePreKey(uint preKeyId, PreKeyRecord preKey)
-        {
-            SignalKeyDBManager.INSTANCE.setPreKey(preKeyId, preKey, ACCOUNT.getIdAndDomain());
+            return signedPreKeyId + "_" + accountId;
         }
 
         #endregion

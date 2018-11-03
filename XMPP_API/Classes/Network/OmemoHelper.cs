@@ -10,7 +10,6 @@ using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network
@@ -51,16 +50,16 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoHelper(XMPPConnection2 connection)
+        public OmemoHelper(XMPPConnection2 connection, SessionStore sessionStore, PreKeyStore preKeyStore, SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore)
         {
             this.CONNECTION = connection;
 
             this.OMEMO_SESSIONS = new Dictionary<string, OmemoSession>();
             this.MESSAGE_CACHE = new Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>>();
-            this.SESSION_STORE = new OmemoSessionStore(connection.account);
-            this.PRE_KEY_STORE = new OmemoPreKeyStore(connection.account);
-            this.SIGNED_PRE_KEY_STORE = new OmemoSignedPreKeyStore(connection.account);
-            this.IDENTITY_STORE = new OmemoIdentityKeyStore(connection.account);
+            this.SESSION_STORE = sessionStore;
+            this.PRE_KEY_STORE = preKeyStore;
+            this.SIGNED_PRE_KEY_STORE = signedPreKeyStore;
+            this.IDENTITY_STORE = identityKeyStore;
 
             reset();
         }

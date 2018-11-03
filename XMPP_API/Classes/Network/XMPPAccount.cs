@@ -8,6 +8,7 @@ using System.ComponentModel;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {
@@ -107,59 +108,59 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void loadPreKeys()
+        public void loadPreKeys(ISignalKeyDBManager signalKeyDBManager)
         {
-            omemoPreKeys = SignalKeyDBManager.INSTANCE.getAllPreKeys(getIdAndDomain());
+            omemoPreKeys = signalKeyDBManager.getAllPreKeys(getIdAndDomain());
         }
 
-        public void loadSignedPreKey()
+        public void loadSignedPreKey(ISignalKeyDBManager signalKeyDBManager)
         {
-            omemoSignedPreKeyPair = SignalKeyDBManager.INSTANCE.getSignedPreKey(omemoSignedPreKeyId, getIdAndDomain());
+            omemoSignedPreKeyPair = signalKeyDBManager.getSignedPreKey(omemoSignedPreKeyId, getIdAndDomain());
         }
 
-        public void savePreKeys()
+        public void savePreKeys(ISignalKeyDBManager signalKeyDBManager)
         {
             if (omemoPreKeys != null)
             {
                 string accountId = getIdAndDomain();
                 foreach (PreKeyRecord key in omemoPreKeys)
                 {
-                    SignalKeyDBManager.INSTANCE.setPreKey(key.getId(), key, accountId);
+                    signalKeyDBManager.setPreKey(key.getId(), key, accountId);
                 }
             }
         }
 
-        public void deleteAccountSignedPreKey()
+        public void deleteAccountSignedPreKey(ISignalKeyDBManager signalKeyDBManager)
         {
             if (omemoSignedPreKeyPair != null)
             {
-                SignalKeyDBManager.INSTANCE.deleteSignedPreKey(omemoSignedPreKeyPair.getId(), getIdAndDomain());
+                signalKeyDBManager.deleteSignedPreKey(omemoSignedPreKeyPair.getId(), getIdAndDomain());
             }
         }
 
-        public void deleteAccountPreKeys()
+        public void deleteAccountPreKeys(ISignalKeyDBManager signalKeyDBManager)
         {
             if (omemoPreKeys != null)
             {
                 string accountId = getIdAndDomain();
                 foreach (PreKeyRecord key in omemoPreKeys)
                 {
-                    SignalKeyDBManager.INSTANCE.deleteSignedPreKey(key.getId(), accountId);
+                    signalKeyDBManager.deleteSignedPreKey(key.getId(), accountId);
                 }
             }
         }
 
-        public void saveSignedPreKey()
+        public void saveSignedPreKey(ISignalKeyDBManager signalKeyDBManager)
         {
             if (omemoSignedPreKeyPair != null)
             {
-                SignalKeyDBManager.INSTANCE.setSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair, getIdAndDomain());
+                signalKeyDBManager.setSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair, getIdAndDomain());
             }
         }
 
-        public void deleteOmemoKeysAndDevices()
+        public void deleteOmemoKeysAndDevices(ISignalKeyDBManager signalKeyDBManager)
         {
-            SignalKeyDBManager.INSTANCE.deleteAllForAccount(getIdAndDomain());
+            signalKeyDBManager.deleteAllForAccount(getIdAndDomain());
             OmemoDeviceDBManager.INSTANCE.deleteAllForAccount(getIdAndDomain());
         }
 

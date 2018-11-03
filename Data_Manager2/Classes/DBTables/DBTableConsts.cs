@@ -14,5 +14,10 @@
         public const string MUC_DIRECT_INVITATION_TABLE = "MUCDirectInvitationTable";
         public const string IGNORED_CERTIFICATE_ERROR_TABLE = "IgnoredCertificateErrorTable";
         public const string CONNECTION_OPTIONS_TABLE = "ConnectionOptionsTable_2";
+
+        public const string OMEMO_SIGNED_PRE_KEY_TABLE = "OmemoSignedPreKeyTable";
+        public const string OMEMO_PRE_KEY_TABLE = "OmemoPreKeyTable";
+        public const string OMEMO_IDENTITY_KEY_TABLE = "OmemoIdentityKeyTable";
+        public const string OMEMO_SESSION_STORE_TABLE = "OmemoSessionStoreTable";
     }
 }

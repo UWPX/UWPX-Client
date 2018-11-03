@@ -1,11 +1,12 @@
-﻿using libsignal;
+﻿using Data_Manager2.Classes.DBManager.Omemo;
+using libsignal;
 using libsignal.protocol;
 using libsignal.state;
 using Logging;
 using System.Collections.Generic;
-using XMPP_API.Classes.Network.XML.DBManager;
+using XMPP_API.Classes.Network;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
+namespace Data_Manager2.Classes.Omemo
 {
     // https://github.com/signalapp/Signal-Android/blob/2beb1dd8d9e77c0b2773c483133977b9bbe5319a/src/org/thoughtcrime/securesms/crypto/storage/TextSecureSessionStore.java
     public class OmemoSessionStore : SessionStore
@@ -21,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
         public OmemoSessionStore(XMPPAccount account)
         {
@@ -33,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Set-, Get- Methods--
         public List<uint> GetSubDeviceSessions(string name)
         {
-            return SignalKeyDBManager.INSTANCE.getDeviceIds(name, ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.getDeviceIds(name, ACCOUNT.getIdAndDomain());
         }
 
         #endregion
@@ -41,23 +42,23 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool ContainsSession(SignalProtocolAddress address)
         {
-            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
+            SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
             return session != null && session.getSessionState().hasSenderChain() && session.getSessionState().getSessionVersion() == CiphertextMessage.CURRENT_VERSION;
         }
 
         public void DeleteAllSessions(string name)
         {
-            SignalKeyDBManager.INSTANCE.deleteSessions(name);
+            OmemoSignalKeyDBManager.INSTANCE.deleteSessions(name);
         }
 
         public void DeleteSession(SignalProtocolAddress address)
         {
-            SignalKeyDBManager.INSTANCE.deleteSession(address, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.deleteSession(address, ACCOUNT.getIdAndDomain());
         }
 
         public SessionRecord LoadSession(SignalProtocolAddress address)
         {
-            SessionRecord session = SignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
+            SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
             if (session == null)
             {
                 Logger.Warn("No existing session information found.");
@@ -68,7 +69,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
 
         public void StoreSession(SignalProtocolAddress address, SessionRecord record)
         {
-            SignalKeyDBManager.INSTANCE.setSession(address, record, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setSession(address, record, ACCOUNT.getIdAndDomain());
         }
 
         #endregion

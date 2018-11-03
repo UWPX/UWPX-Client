@@ -1,16 +1,17 @@
-﻿using libsignal;
+﻿using Data_Manager2.Classes.DBTables;
+using libsignal;
 using libsignal.state;
 using System.Collections.Generic;
 using Thread_Save_Components.Classes.SQLite;
-using XMPP_API.Classes.Network.XML.DBEntries;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
-namespace XMPP_API.Classes.Network.XML.DBManager
+namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    class SignalKeyDBManager : AbstractDBManager
+    public class OmemoSignalKeyDBManager : AbstractDBManager, ISignalKeyDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly SignalKeyDBManager INSTANCE = new SignalKeyDBManager();
+        public static readonly OmemoSignalKeyDBManager INSTANCE = new OmemoSignalKeyDBManager();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -19,9 +20,9 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
-        public SignalKeyDBManager()
+        public OmemoSignalKeyDBManager()
         {
         }
 
@@ -31,8 +32,8 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         public List<SignedPreKeyRecord> getAllSignedPreKeys(string accountId)
         {
             List<SignedPreKeyRecord> keys = new List<SignedPreKeyRecord>();
-            List<SignedPreKeyTable> list = dB.Query<SignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.SIGNED_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
-            foreach (SignedPreKeyTable key in list)
+            List<OmemoSignedPreKeyTable> list = dB.Query<OmemoSignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
+            foreach (OmemoSignedPreKeyTable key in list)
             {
                 keys.Add(new SignedPreKeyRecord(key.signedPreKey));
             }
@@ -42,8 +43,8 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         public List<PreKeyRecord> getAllPreKeys(string accountId)
         {
             List<PreKeyRecord> keys = new List<PreKeyRecord>();
-            List<PreKeyTable> list = dB.Query<PreKeyTable>(true, "SELECT * FROM " + DBTableConsts.PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
-            foreach (PreKeyTable key in list)
+            List<OmemoPreKeyTable> list = dB.Query<OmemoPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
+            foreach (OmemoPreKeyTable key in list)
             {
                 keys.Add(new PreKeyRecord(key.preKey));
             }
@@ -53,8 +54,8 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         public List<IdentityKey> getAllIdentityKeys(string accountId)
         {
             List<IdentityKey> keys = new List<IdentityKey>();
-            List<IdentityKeyTable> list = dB.Query<IdentityKeyTable>(true, "SELECT * FROM " + DBTableConsts.IDENTITY_KEY_TABLE + " WHERE accountId = ?;", accountId);
-            foreach (IdentityKeyTable key in list)
+            List<OmemoIdentityKeyTable> list = dB.Query<OmemoIdentityKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_IDENTITY_KEY_TABLE + " WHERE accountId = ?;", accountId);
+            foreach (OmemoIdentityKeyTable key in list)
             {
                 keys.Add(new IdentityKey(key.identityKey, 0));
             }
@@ -63,7 +64,7 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public SignedPreKeyRecord getSignedPreKey(uint signedPreKeyId, string accountId)
         {
-            List<SignedPreKeyTable> list = dB.Query<SignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", SignedPreKeyTable.generateId(signedPreKeyId, accountId));
+            List<OmemoSignedPreKeyTable> list = dB.Query<OmemoSignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId));
             if (list.Count <= 0)
             {
                 return null;
@@ -73,7 +74,7 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public PreKeyRecord getPreKeyRecord(uint preKeyId, string accountId)
         {
-            List<PreKeyTable> list = dB.Query<PreKeyTable>(true, "SELECT * FROM " + DBTableConsts.PRE_KEY_TABLE + " WHERE id = ?;", PreKeyTable.generateId(preKeyId, accountId));
+            List<OmemoPreKeyTable> list = dB.Query<OmemoPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_PRE_KEY_TABLE + " WHERE id = ?;", OmemoPreKeyTable.generateId(preKeyId, accountId));
             if (list.Count <= 0)
             {
                 return null;
@@ -83,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public IdentityKey getIdentityKey(string name, string accountId)
         {
-            List<IdentityKeyTable> list = dB.Query<IdentityKeyTable>(true, "SELECT * FROM " + DBTableConsts.IDENTITY_KEY_TABLE + " WHERE id = ?;", IdentityKeyTable.generateId(name, accountId));
+            List<OmemoIdentityKeyTable> list = dB.Query<OmemoIdentityKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_IDENTITY_KEY_TABLE + " WHERE id = ?;", OmemoIdentityKeyTable.generateId(name, accountId));
             if (list.Count <= 0)
             {
                 return null;
@@ -93,7 +94,7 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public SessionRecord getSession(SignalProtocolAddress address, string accountId)
         {
-            List<SessionStoreTable> list = dB.Query<SessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.SESSION_STORE_TABLE + " WHERE id = ?;", SessionStoreTable.generateId(address, accountId));
+            List<OmemoSessionStoreTable> list = dB.Query<OmemoSessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE id = ?;", OmemoSessionStoreTable.generateId(address, accountId));
             if (list.Count <= 0)
             {
                 return null;
@@ -103,9 +104,9 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public List<uint> getDeviceIds(string name, string accountId)
         {
-            List<SessionStoreTable> sessions = dB.Query<SessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.SESSION_STORE_TABLE + " WHERE name = ? AND accountId = ?;", name, accountId);
+            List<OmemoSessionStoreTable> sessions = dB.Query<OmemoSessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE name = ? AND accountId = ?;", name, accountId);
             List<uint> deviceIds = new List<uint>();
-            foreach (SessionStoreTable session in sessions)
+            foreach (OmemoSessionStoreTable session in sessions)
             {
                 deviceIds.Add(session.deviceId);
             }
@@ -114,9 +115,9 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public void setSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey, string accountId)
         {
-            dB.InsertOrReplace(new SignedPreKeyTable()
+            dB.InsertOrReplace(new OmemoSignedPreKeyTable()
             {
-                id = SignedPreKeyTable.generateId(signedPreKeyId, accountId),
+                id = OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId),
                 signedPreKeyId = signedPreKeyId,
                 accountId = accountId,
                 signedPreKey = signedPreKey.serialize()
@@ -125,9 +126,9 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public void setPreKey(uint preKeyId, PreKeyRecord preKey, string accountId)
         {
-            dB.InsertOrReplace(new PreKeyTable()
+            dB.InsertOrReplace(new OmemoPreKeyTable()
             {
-                id = PreKeyTable.generateId(preKeyId, accountId),
+                id = OmemoPreKeyTable.generateId(preKeyId, accountId),
                 preKeyId = preKeyId,
                 accountId = accountId,
                 preKey = preKey.serialize()
@@ -136,9 +137,9 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public void setIdentityKey(string name, IdentityKey identityKey, string accountId)
         {
-            dB.InsertOrReplace(new IdentityKeyTable()
+            dB.InsertOrReplace(new OmemoIdentityKeyTable()
             {
-                id = IdentityKeyTable.generateId(name, accountId),
+                id = OmemoIdentityKeyTable.generateId(name, accountId),
                 name = name,
                 accountId = accountId,
                 identityKey = identityKey.serialize()
@@ -147,9 +148,9 @@ namespace XMPP_API.Classes.Network.XML.DBManager
 
         public void setSession(SignalProtocolAddress address, SessionRecord record, string accountId)
         {
-            dB.InsertOrReplace(new SessionStoreTable()
+            dB.InsertOrReplace(new OmemoSessionStoreTable()
             {
-                id = SessionStoreTable.generateId(address, accountId),
+                id = OmemoSessionStoreTable.generateId(address, accountId),
                 accountId = accountId,
                 deviceId = address.getDeviceId(),
                 name = address.getName(),
@@ -162,71 +163,71 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         #region --Misc Methods (Public)--
         public bool containsSignedPreKey(uint signedPreKeyId, string accountId)
         {
-            List<SignedPreKeyTable> list = dB.Query<SignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", SignedPreKeyTable.generateId(signedPreKeyId, accountId));
+            List<OmemoSignedPreKeyTable> list = dB.Query<OmemoSignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId));
             return list.Count > 0;
         }
 
         public bool containsPreKeyRecord(uint preKeyId, string accountId)
         {
-            List<PreKeyTable> list = dB.Query<PreKeyTable>(true, "SELECT * FROM " + DBTableConsts.PRE_KEY_TABLE + " WHERE id = ?;", PreKeyTable.generateId(preKeyId, accountId));
+            List<OmemoPreKeyTable> list = dB.Query<OmemoPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_PRE_KEY_TABLE + " WHERE id = ?;", OmemoPreKeyTable.generateId(preKeyId, accountId));
             return list.Count > 0;
         }
 
         public bool containsIdentityKey(string name, string accountId)
         {
-            List<IdentityKeyTable> list = dB.Query<IdentityKeyTable>(true, "SELECT * FROM " + DBTableConsts.IDENTITY_KEY_TABLE + " WHERE id = ?;", IdentityKeyTable.generateId(name, accountId));
+            List<OmemoIdentityKeyTable> list = dB.Query<OmemoIdentityKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_IDENTITY_KEY_TABLE + " WHERE id = ?;", OmemoIdentityKeyTable.generateId(name, accountId));
             return list.Count > 0;
         }
 
         public bool containsSession(SignalProtocolAddress address, string accountId)
         {
-            List<SessionStoreTable> list = dB.Query<SessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.SESSION_STORE_TABLE + " WHERE id = ?;", SessionStoreTable.generateId(address, accountId));
+            List<OmemoSessionStoreTable> list = dB.Query<OmemoSessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE id = ?;", OmemoSessionStoreTable.generateId(address, accountId));
             return list.Count > 0;
         }
 
         public void deleteSignedPreKey(uint signedPreKeyId, string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", SignedPreKeyTable.generateId(signedPreKeyId, accountId));
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId));
         }
 
         public void deletePreKey(uint preKeyId, string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.PRE_KEY_TABLE + " WHERE id = ?;", PreKeyTable.generateId(preKeyId, accountId));
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_PRE_KEY_TABLE + " WHERE id = ?;", OmemoPreKeyTable.generateId(preKeyId, accountId));
         }
 
         public void deleteIdentityKey(string name, string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.IDENTITY_KEY_TABLE + " WHERE id = ?;", IdentityKeyTable.generateId(name, accountId));
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_IDENTITY_KEY_TABLE + " WHERE id = ?;", OmemoIdentityKeyTable.generateId(name, accountId));
         }
 
         public void deleteSessions(string name, string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.SESSION_STORE_TABLE + " WHERE name = ? AND accountId = ?;", name, accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE name = ? AND accountId = ?;", name, accountId);
         }
 
         public void deleteSession(SignalProtocolAddress address, string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.SESSION_STORE_TABLE + " WHERE id = ?;", SessionStoreTable.generateId(address, accountId));
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE id = ?;", OmemoSessionStoreTable.generateId(address, accountId));
         }
 
         public void deleteSignedPreKey(string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.SIGNED_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         public void deletePreKey(string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         public void deleteIdentityKey(string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.IDENTITY_KEY_TABLE + " WHERE accountId = ?;", accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_IDENTITY_KEY_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         public void deleteSessions(string accountId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.SESSION_STORE_TABLE + " WHERE accountId = ?;", accountId);
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         public void deleteAllForAccount(string accountId)
@@ -247,18 +248,18 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         #region --Misc Methods (Protected)--
         protected override void createTables()
         {
-            dB.CreateTable<IdentityKeyTable>();
-            dB.CreateTable<SignedPreKeyTable>();
-            dB.CreateTable<PreKeyTable>();
-            dB.CreateTable<SessionStoreTable>();
+            dB.CreateTable<OmemoIdentityKeyTable>();
+            dB.CreateTable<OmemoSignedPreKeyTable>();
+            dB.CreateTable<OmemoPreKeyTable>();
+            dB.CreateTable<OmemoSessionStoreTable>();
         }
 
         protected override void dropTables()
         {
-            dB.DropTable<IdentityKeyTable>();
-            dB.DropTable<SignedPreKeyTable>();
-            dB.DropTable<PreKeyTable>();
-            dB.DropTable<SessionStoreTable>();
+            dB.DropTable<OmemoIdentityKeyTable>();
+            dB.DropTable<OmemoSignedPreKeyTable>();
+            dB.DropTable<OmemoPreKeyTable>();
+            dB.DropTable<OmemoSessionStoreTable>();
         }
 
         #endregion

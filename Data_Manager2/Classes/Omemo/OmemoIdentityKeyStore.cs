@@ -1,11 +1,12 @@
-﻿using libsignal;
+﻿using Data_Manager2.Classes.DBManager.Omemo;
+using libsignal;
 using libsignal.state;
 using System.Collections.Generic;
-using XMPP_API.Classes.Network.XML.DBManager;
+using XMPP_API.Classes.Network;
 
-// https://github.com/signalapp/libsignal-protocol-java/blob/master/java/src/main/java/org/whispersystems/libsignal/state/IdentityKeyStore.java
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
+namespace Data_Manager2.Classes.Omemo
 {
+    // https://github.com/signalapp/libsignal-protocol-java/blob/master/java/src/main/java/org/whispersystems/libsignal/state/IdentityKeyStore.java
     public class OmemoIdentityKeyStore : IdentityKeyStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
@@ -20,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 08/08/2018 Created [Fabian Sauter]
+        /// 03/11/2018 Created [Fabian Sauter]
         /// </history>
         public OmemoIdentityKeyStore(XMPPAccount account)
         {
@@ -53,8 +54,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #region --Misc Methods (Public)--
         public bool SaveIdentity(string name, IdentityKey identityKey)
         {
-            bool contains = SignalKeyDBManager.INSTANCE.containsIdentityKey(name, ACCOUNT.getIdAndDomain());
-            SignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, ACCOUNT.getIdAndDomain());
+            bool contains = OmemoSignalKeyDBManager.INSTANCE.containsIdentityKey(name, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, ACCOUNT.getIdAndDomain());
             return contains;
         }
 
