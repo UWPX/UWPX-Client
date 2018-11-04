@@ -42,7 +42,7 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Set-, Get- Methods--
         private ConferenceItem getConferenceItem()
         {
-            return new ConferenceItem()
+            return new ConferenceItem
             {
                 jid = jid_tbx.Text,
                 password = string.IsNullOrEmpty(password_pwbx.Text) ? null : password_pwbx.Text,

@@ -34,7 +34,7 @@ namespace XMPP_API.Classes.Network.XML.DBManager
         #region --Misc Methods (Public)--
         public void addMessage(string accountId, AbstractMessage msg)
         {
-            MessageCacheTable mT = new MessageCacheTable()
+            MessageCacheTable mT = new MessageCacheTable
             {
                 accountId = accountId,
                 messageId = msg.ID,

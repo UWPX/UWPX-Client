@@ -115,7 +115,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
 
         public void setSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey, string accountId)
         {
-            dB.InsertOrReplace(new OmemoSignedPreKeyTable()
+            dB.InsertOrReplace(new OmemoSignedPreKeyTable
             {
                 id = OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId),
                 signedPreKeyId = signedPreKeyId,
@@ -126,7 +126,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
 
         public void setPreKey(uint preKeyId, PreKeyRecord preKey, string accountId)
         {
-            dB.InsertOrReplace(new OmemoPreKeyTable()
+            dB.InsertOrReplace(new OmemoPreKeyTable
             {
                 id = OmemoPreKeyTable.generateId(preKeyId, accountId),
                 preKeyId = preKeyId,
@@ -137,7 +137,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
 
         public void setIdentityKey(string name, IdentityKey identityKey, string accountId)
         {
-            dB.InsertOrReplace(new OmemoIdentityKeyTable()
+            dB.InsertOrReplace(new OmemoIdentityKeyTable
             {
                 id = OmemoIdentityKeyTable.generateId(name, accountId),
                 name = name,
@@ -148,7 +148,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
 
         public void setSession(SignalProtocolAddress address, SessionRecord record, string accountId)
         {
-            dB.InsertOrReplace(new OmemoSessionStoreTable()
+            dB.InsertOrReplace(new OmemoSessionStoreTable
             {
                 id = OmemoSessionStoreTable.generateId(address, accountId),
                 accountId = accountId,

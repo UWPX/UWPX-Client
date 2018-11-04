@@ -211,7 +211,7 @@ namespace Data_Manager2.Classes
 
         private void addChatInfoMessage(string chatId, string fromUser, string message)
         {
-            ChatMessageTable msg = new ChatMessageTable()
+            ChatMessageTable msg = new ChatMessageTable
             {
                 id = ChatMessageTable.generateId(AbstractMessage.getRandomId(), chatId),
                 chatId = chatId,
@@ -248,7 +248,7 @@ namespace Data_Manager2.Classes
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, msg.FROM_NICKNAME);
                 if (member == null)
                 {
-                    member = new MUCOccupantTable()
+                    member = new MUCOccupantTable
                     {
                         id = MUCOccupantTable.generateId(chatId, msg.FROM_NICKNAME),
                         nickname = msg.FROM_NICKNAME,
@@ -272,7 +272,7 @@ namespace Data_Manager2.Classes
                             MUCDBManager.INSTANCE.setMUCInfoNickname(chatId, msg.NICKNAME, true);
 
                             // Add new member:
-                            MUCDBManager.INSTANCE.setMUCOccupant(new MUCOccupantTable()
+                            MUCDBManager.INSTANCE.setMUCOccupant(new MUCOccupantTable
                             {
                                 id = MUCOccupantTable.generateId(chatId, msg.NICKNAME),
                                 nickname = msg.NICKNAME,

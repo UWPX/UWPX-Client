@@ -42,7 +42,7 @@ namespace UWP_XMPP_Client.Classes
             List<StoreProduct> products = new List<StoreProduct>();
 
             string[] productKinds = { UNMANAGED_CONSUMABLE };
-            List<String> filterList = new List<string>(productKinds);
+            List<string> filterList = new List<string>(productKinds);
 
             try
             {

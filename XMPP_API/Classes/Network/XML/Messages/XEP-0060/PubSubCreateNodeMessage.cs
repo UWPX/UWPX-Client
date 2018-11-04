@@ -49,11 +49,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public DataForm getConfigTemplate()
         {
             DataForm config = new DataForm(DataFormType.SUBMIT);
-            config.FIELDS.Add(new Field()
+            config.FIELDS.Add(new Field
             {
                 var = "FORM_TYPE",
                 type = FieldType.HIDDEN,
-                value = "http://jabber.org/protocol/pubsub#node_config"
+                value = Consts.XML_XEP_0060_NAMESPACE_NODE_CONFIG
             });
 
             return config;

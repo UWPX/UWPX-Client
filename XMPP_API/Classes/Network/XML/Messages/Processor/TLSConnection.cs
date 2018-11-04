@@ -108,7 +108,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     Logger.Error(errorMsg);
                     setState(TLSState.ERROR);
                     await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, errorMsg), true);
-                    return;
                 }
             }
         }

@@ -93,7 +93,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     message_tbx.Visibility = Visibility.Collapsed;
                     if (ChatMessage.isDummyMessage)
                     {
-                        Task t = retryImageDownloadAsync();
+                        Task.Run(async () => await retryImageDownloadAsync());
                     }
                     else
                     {
@@ -108,7 +108,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                                     waitForImageDownloadToFinish(img);
                                     break;
                             }
-                            Task t = showImageAsync(img);
+                            Task.Run(async () => await showImageAsync(img));
                             image_img.Visibility = Visibility.Visible;
                         }
                         else

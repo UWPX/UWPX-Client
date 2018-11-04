@@ -289,7 +289,6 @@
     <Compile Include="Classes\Network\XML\Messages\Processor\SASLState.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\TLSState.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\AbstractMessageProcessor.cs" />
-    <Compile Include="Classes\Network\XML\Exceptions\XMPPXMLException.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\StreamFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\TLSStreamFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\AbstractAddressableMessage.cs" />

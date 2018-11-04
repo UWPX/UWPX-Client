@@ -46,7 +46,6 @@ namespace Component_Tests.Classes.XmppMessages
         public void Test_ScramSHA1SASLMechanism_4()
         {
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
-            SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
             string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
             List<AbstractMessage> msgs = parser.parseMessages(ref s);
@@ -60,7 +59,6 @@ namespace Component_Tests.Classes.XmppMessages
         public void Test_ScramSHA1SASLMechanism_5()
         {
             ScramSHA1SASLMechanism mechanism = new ScramSHA1SASLMechanism("user", "pencil", "fyko+d2lbbFgONRv9qkxdawL");
-            SelectSASLMechanismMessage msg = mechanism.getSelectSASLMechanismMessage();
             MessageParser2 parser = new MessageParser2();
             string s = "<challenge xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>cj1meWtvK2QybGJiRmdPTlJ2OXFreGRhd0wzcmZjTkhZSlkxWlZ2V1ZzN2oscz1RU1hDUitRNnNlazhiZjkyLGk9NDA5Ng==</challenge>";
             List<AbstractMessage> msgs = parser.parseMessages(ref s);

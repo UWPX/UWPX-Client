@@ -33,11 +33,11 @@ namespace Data_Manager2.Classes.ToastActivation
 
         public static void showChatTextToast(ChatMessageTable msg, ChatTable chat)
         {
-            var toastContent = new ToastContent()
+            var toastContent = new ToastContent
             {
-                Visual = new ToastVisual()
+                Visual = new ToastVisual
                 {
-                    BindingGeneric = new ToastBindingGeneric()
+                    BindingGeneric = new ToastBindingGeneric
                     {
                         Children =
                         {
@@ -51,7 +51,7 @@ namespace Data_Manager2.Classes.ToastActivation
                                 Text = msg.message
                             }
                         },
-                        AppLogoOverride = new ToastGenericAppLogo()
+                        AppLogoOverride = new ToastGenericAppLogo
                         {
                             Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
                             HintCrop = ToastGenericAppLogoCrop.Default
@@ -68,11 +68,11 @@ namespace Data_Manager2.Classes.ToastActivation
 
         public static void showChatTextEncryptedToast(ChatMessageTable msg, ChatTable chat)
         {
-            var toastContent = new ToastContent()
+            var toastContent = new ToastContent
             {
-                Visual = new ToastVisual()
+                Visual = new ToastVisual
                 {
-                    BindingGeneric = new ToastBindingGeneric()
+                    BindingGeneric = new ToastBindingGeneric
                     {
                         Children =
                         {
@@ -86,7 +86,7 @@ namespace Data_Manager2.Classes.ToastActivation
                                 Text = "You received an encrypted message!"
                             }
                         },
-                        AppLogoOverride = new ToastGenericAppLogo()
+                        AppLogoOverride = new ToastGenericAppLogo
                         {
                             Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
                             HintCrop = ToastGenericAppLogoCrop.Default
@@ -103,29 +103,29 @@ namespace Data_Manager2.Classes.ToastActivation
 
         public static void showChatTextImageToast(ChatMessageTable msg, ChatTable chat)
         {
-            var toastContent = new ToastContent()
+            var toastContent = new ToastContent
             {
-                Visual = new ToastVisual()
+                Visual = new ToastVisual
                 {
-                    BindingGeneric = new ToastBindingGeneric()
+                    BindingGeneric = new ToastBindingGeneric
                     {
                         Children =
                         {
-                            new AdaptiveText()
+                            new AdaptiveText
                             {
                                 Text = chat.chatJabberId,
                                 HintMaxLines = 1
                             },
-                            new AdaptiveText()
+                            new AdaptiveText
                             {
                                 Text = "You received an image!"
                             }
                         },
-                        HeroImage = new ToastGenericHeroImage()
+                        HeroImage = new ToastGenericHeroImage
                         {
                             Source = msg.message
                         },
-                        AppLogoOverride = new ToastGenericAppLogo()
+                        AppLogoOverride = new ToastGenericAppLogo
                         {
                             Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
                             HintCrop = ToastGenericAppLogoCrop.Default
@@ -156,7 +156,7 @@ namespace Data_Manager2.Classes.ToastActivation
 
         private static ToastActionsCustom getActions(ChatMessageTable msg, ChatTable chat)
         {
-            return new ToastActionsCustom()
+            return new ToastActionsCustom
             {
                 /*Inputs =
                 {
