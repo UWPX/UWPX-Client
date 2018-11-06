@@ -407,9 +407,31 @@ namespace UWP_XMPP_Client.Pages
             MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
             MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
 
+            // Subscribe to toast events:
+            ToastHelper.OnChatMessageToast -= ToastHelper_OnChatMessageToast;
+            ToastHelper.OnChatMessageToast += ToastHelper_OnChatMessageToast;
+
             // Load chat filter:
             filterChats_asb.Text = CHAT_FILTER.chatQuery;
             filterQuery_abb.IsChecked = CHAT_FILTER.chatQueryEnabled;
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            // Unsubscribe from chat and MUC info changed events:
+            ChatDBManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+
+            // Unsubscribe from toast events:
+            ToastHelper.OnChatMessageToast -= ToastHelper_OnChatMessageToast;
+        }
+
+        private void ToastHelper_OnChatMessageToast(OnChatMessageToastEventArgs args)
+        {
+            if(args.toasterTypeOverride == ChatMessageToasterType.FULL)
+            {
+                args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
+            }
         }
 
         private void filterChats_asb_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

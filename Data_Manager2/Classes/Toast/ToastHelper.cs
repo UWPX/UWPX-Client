@@ -1,6 +1,9 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
+using Windows.Phone.Devices.Notification;
+using System;
 
 namespace Data_Manager2.Classes.Toast
 {
@@ -12,6 +15,14 @@ namespace Data_Manager2.Classes.Toast
         private const string DEFAULT_USER_IMAGE_PATH = "Assets/Images/default_user_image.png";
         private const string SEND_BUTTON_IMAGE_PATH = "Assets/Images/send.png";
         public const string TEXT_BOX_ID = "msg_tbx";
+
+        private static readonly TimeSpan VIBRATE_TS = TimeSpan.FromMilliseconds(150);
+
+        public delegate void OnChatMessageToastHandler(OnChatMessageToastEventArgs args);
+        /// <summary>
+        /// Called before the toast gets toasted.
+        /// </summary>
+        public static event OnChatMessageToastHandler OnChatMessageToast;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -54,7 +65,7 @@ namespace Data_Manager2.Classes.Toast
                         AppLogoOverride = new ToastGenericAppLogo
                         {
                             Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
-                            HintCrop = ToastGenericAppLogoCrop.Default
+                            HintCrop = ToastGenericAppLogoCrop.Circle
                         }
                     }
                 },
@@ -89,7 +100,7 @@ namespace Data_Manager2.Classes.Toast
                         AppLogoOverride = new ToastGenericAppLogo
                         {
                             Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
-                            HintCrop = ToastGenericAppLogoCrop.Default
+                            HintCrop = ToastGenericAppLogoCrop.Circle
                         }
                     }
                 },
@@ -128,7 +139,7 @@ namespace Data_Manager2.Classes.Toast
                         AppLogoOverride = new ToastGenericAppLogo
                         {
                             Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
-                            HintCrop = ToastGenericAppLogoCrop.Default
+                            HintCrop = ToastGenericAppLogoCrop.Circle
                         }
                     }
                 },
@@ -145,13 +156,35 @@ namespace Data_Manager2.Classes.Toast
         #region --Misc Methods (Private)--
         private static void popToast(ToastContent content, ChatTable chat)
         {
-            var toastNotif = new ToastNotification(content.GetXml())
+            ToastNotification toast = new ToastNotification(content.GetXml())
             {
                 Group = chat.id
             };
 
-            // And send the notification
-            ToastNotificationManager.CreateToastNotifier().Show(toastNotif);
+            OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, chat);
+            OnChatMessageToast?.Invoke(args);
+
+            switch (args.toasterTypeOverride)
+            {
+                case ChatMessageToasterType.FULL:
+                    ToastNotificationManager.CreateToastNotifier().Show(toast);
+                    Logger.Debug("Toast for group: " + toast.Group + " toasted with toaster type: " + args.toasterTypeOverride.ToString());
+                    break;
+
+                case ChatMessageToasterType.REDUCED:
+                    popToastReduced();
+                    Logger.Debug("Toast for group: " + toast.Group + " toasted with toaster type: " + args.toasterTypeOverride.ToString());
+                    break;
+
+                default:
+                    Logger.Debug("Toast for group: " + toast.Group + " canceled.");
+                    break;
+            }
+        }
+
+        private static void popToastReduced()
+        {
+            VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
         }
 
         private static ToastActionsCustom getActions(ChatMessageTable msg, ChatTable chat)
