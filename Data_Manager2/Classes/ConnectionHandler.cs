@@ -16,7 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using Data_Manager2.Classes.ToastActivation;
+using Data_Manager2.Classes.Toast;
 using Data_Manager2.Classes.Omemo;
 using Data_Manager2.Classes.DBManager.Omemo;
 

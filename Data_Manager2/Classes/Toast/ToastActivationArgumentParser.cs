@@ -1,26 +1,17 @@
-﻿namespace Data_Manager2.Classes.ToastActivation
+﻿using System.Linq;
+
+namespace Data_Manager2.Classes.Toast
 {
-    public class MarkMessageAsReadToastActivation : AbstractToastActivation
+    public static class ToastActivationArgumentParser
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const string TYPE = "MARK_MESSAGE_AS_READ";
-        public readonly string CHAT_MESSAGE_ID;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 25/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public MarkMessageAsReadToastActivation(string args, bool received)
-        {
-            this.CHAT_MESSAGE_ID = args;
-            this.IS_VALID = !string.IsNullOrEmpty(args);
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -30,9 +21,33 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string generate()
+        public static AbstractToastActivation parseArguments(string activationString)
         {
-            return TYPE + '=' + CHAT_MESSAGE_ID;
+            if (string.IsNullOrEmpty(activationString) || !activationString.Contains('='))
+            {
+                return null;
+            }
+
+            string type = activationString.Substring(0, activationString.IndexOf('='));
+            string args = activationString.Substring(activationString.IndexOf('=') + 1);
+
+            switch (type)
+            {
+                case ChatToastActivation.TYPE:
+                    return new ChatToastActivation(args, true);
+
+                case MarkChatAsReadToastActivation.TYPE:
+                    return new MarkChatAsReadToastActivation(args, true);
+
+                case MarkMessageAsReadToastActivation.TYPE:
+                    return new MarkMessageAsReadToastActivation(args, true);
+
+                case SendReplyToastActivation.TYPE:
+                    return new SendReplyToastActivation(args, true);
+
+                default:
+                    return null;
+            }
         }
 
         #endregion

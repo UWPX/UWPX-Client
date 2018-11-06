@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI;
 using Windows.UI.Xaml.Controls.Primitives;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using Data_Manager2.Classes.ToastActivation;
+using Data_Manager2.Classes.Toast;
 using UWP_XMPP_Client.Classes.Collections;
 using System.ComponentModel;
 

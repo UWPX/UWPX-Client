@@ -1,11 +1,11 @@
-﻿namespace Data_Manager2.Classes.ToastActivation
+﻿namespace Data_Manager2.Classes.Toast
 {
-    public class ChatToastActivation : AbstractToastActivation
+    public class MarkMessageAsReadToastActivation : AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const string TYPE = "CHAT";
-        public readonly string CHAT_ID;
+        public const string TYPE = "MARK_MESSAGE_AS_READ";
+        public readonly string CHAT_MESSAGE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -14,11 +14,11 @@
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 19/08/2018 Created [Fabian Sauter]
+        /// 25/08/2018 Created [Fabian Sauter]
         /// </history>
-        public ChatToastActivation(string args, bool received)
+        public MarkMessageAsReadToastActivation(string args, bool received)
         {
-            this.CHAT_ID = args;
+            this.CHAT_MESSAGE_ID = args;
             this.IS_VALID = !string.IsNullOrEmpty(args);
         }
 
@@ -32,7 +32,7 @@
         #region --Misc Methods (Public)--
         public override string generate()
         {
-            return TYPE + '=' + CHAT_ID;
+            return TYPE + '=' + CHAT_MESSAGE_ID;
         }
 
         #endregion

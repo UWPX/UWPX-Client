@@ -1,4 +1,4 @@
-﻿namespace Data_Manager2.Classes.ToastActivation
+﻿namespace Data_Manager2.Classes.Toast
 {
     public class MarkChatAsReadToastActivation : AbstractToastActivation
     {

@@ -16,7 +16,7 @@ using Microsoft.HockeyApp;
 using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
-using Data_Manager2.Classes.ToastActivation;
+using Data_Manager2.Classes.Toast;
 using Windows.UI.Notifications;
 using Data_Manager2.Classes.DBTables;
 using System.Text;

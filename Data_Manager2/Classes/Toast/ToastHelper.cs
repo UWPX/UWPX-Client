@@ -2,7 +2,7 @@
 using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 
-namespace Data_Manager2.Classes.ToastActivation
+namespace Data_Manager2.Classes.Toast
 {
     public static class ToastHelper
     {

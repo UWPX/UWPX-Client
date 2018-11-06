@@ -2,7 +2,7 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
-using Data_Manager2.Classes.ToastActivation;
+using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI;
 using Microsoft.Toolkit.Uwp.UI.Controls;

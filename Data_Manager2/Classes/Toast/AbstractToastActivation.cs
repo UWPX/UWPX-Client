@@ -1,11 +1,10 @@
-﻿namespace Data_Manager2.Classes.ToastActivation
+﻿namespace Data_Manager2.Classes.Toast
 {
-    public class SendReplyToastActivation : AbstractToastActivation
+    public abstract class AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const string TYPE = "SEND_REPLY";
-        public readonly string CHAT_ID;
+        public bool IS_VALID { get; protected set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -14,12 +13,10 @@
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 25/08/2018 Created [Fabian Sauter]
+        /// 19/08/2018 Created [Fabian Sauter]
         /// </history>
-        public SendReplyToastActivation(string args, bool received)
+        protected AbstractToastActivation()
         {
-            this.CHAT_ID = args;
-            this.IS_VALID = !string.IsNullOrEmpty(args);
         }
 
         #endregion
@@ -30,10 +27,7 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override string generate()
-        {
-            return TYPE + '=' + CHAT_ID;
-        }
+        public abstract string generate();
 
         #endregion
 
