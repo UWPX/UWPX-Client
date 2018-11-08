@@ -174,6 +174,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Events--
         private void MESSAGE_SENDER_NewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
         {
+            if(disposed)
+            {
+                return;
+            }
+
             if (args.MESSAGE is T)
             {
                 if (matchId && !Equals(sendId, args.MESSAGE.ID))
@@ -184,10 +189,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 try
                 {
                     METHOD_SEMA.Wait();
-                    if (ON_MESSAGE == null || ON_MESSAGE(this, args.MESSAGE as T))
+                    if ((ON_MESSAGE == null || ON_MESSAGE(this, args.MESSAGE as T)) && !disposed)
                     {
                         // Prevent the case that a result is already available although the timer hasn't started yet:
                         TIMER_SEMA.Wait();
+                        if (disposed)
+                        {
+                            return;
+                        }
                         stopTimer();
                         TIMER_SEMA.Release();
                     }
