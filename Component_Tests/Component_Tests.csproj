@@ -96,8 +96,13 @@
     <SDKReference Include="TestPlatform.Universal, Version=$(UnitTestPlatformVersion)" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Crypto\Libsignal\InMemoryIdentityKeyStore.cs" />
+    <Compile Include="Classes\Crypto\Libsignal\InMemoryPreKeyStore.cs" />
+    <Compile Include="Classes\Crypto\Libsignal\InMemorySessionStore.cs" />
+    <Compile Include="Classes\Crypto\Libsignal\InMemorySignedPreKeyStore.cs" />
     <Compile Include="Classes\Crypto\Test_Aes128GcmCpp.cs" />
     <Compile Include="Classes\Crypto\Test_CryptoUtils.cs" />
+    <Compile Include="Classes\Crypto\Libsignal\Test_Libsignal.cs" />
     <Compile Include="Classes\Misc\Test_DateTimeParserHelper.cs" />
     <Compile Include="Classes\XmppMessages\Test_MessageParser2.cs" />
     <Compile Include="Classes\XmppMessages\Test_ScramSHA1SASLMechanism.cs" />
