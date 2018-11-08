@@ -61,7 +61,7 @@ namespace Data_Manager2.Classes.Omemo
             SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
             if (session == null)
             {
-                Logger.Warn("No existing session information found.");
+                Logger.Warn("No existing libsignal session found for: " + address.ToString());
                 session = new SessionRecord();
             }
             return session;

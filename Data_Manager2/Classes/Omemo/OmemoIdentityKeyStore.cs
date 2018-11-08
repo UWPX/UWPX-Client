@@ -1,17 +1,14 @@
 ﻿using Data_Manager2.Classes.DBManager.Omemo;
 using libsignal;
 using libsignal.state;
-using System.Collections.Generic;
 using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.Omemo
 {
-    // https://github.com/signalapp/libsignal-protocol-java/blob/master/java/src/main/java/org/whispersystems/libsignal/state/IdentityKeyStore.java
     public class OmemoIdentityKeyStore : IdentityKeyStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly Dictionary<string, IdentityKey> IDENTITY_KEYS;
         private readonly XMPPAccount ACCOUNT;
 
         #endregion
@@ -26,7 +23,6 @@ namespace Data_Manager2.Classes.Omemo
         public OmemoIdentityKeyStore(XMPPAccount account)
         {
             this.ACCOUNT = account;
-            this.IDENTITY_KEYS = new Dictionary<string, IdentityKey>();
         }
 
         #endregion
