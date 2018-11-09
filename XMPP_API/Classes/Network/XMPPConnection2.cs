@@ -15,7 +15,6 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes.Network
 {
@@ -145,18 +144,14 @@ namespace XMPP_API.Classes.Network
         /// Enables OMEMO encryption for messages for this connection.
         /// Has to be enabled before connecting.
         /// </summary>
-        /// <param name="sessionStore">A persistent store for signal sessions.</param>
-        /// <param name="preKeyStore">A persistent store for pre keys.</param>
-        /// <param name="signedPreKeyStore">A persistent store for signed pre keys.</param>
-        /// <param name="identityKeyStore">A persistent store for identity keys.</param>
-        /// <param name="signalKeyDBManager"></param>
-        public void enableOmemo(SessionStore sessionStore, PreKeyStore preKeyStore, SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore, ISignalKeyDBManager signalKeyDBManager)
+        /// <param name="signalProtocolStore">A persistent store for a signal related data.</param>
+        public void enableOmemo(SignalProtocolStore signalProtocolStore)
         {
             if (state != ConnectionState.DISCONNECTED)
             {
                 throw new InvalidOperationException("[XMPPConnection2]: Unable to enable OMEMO. state != " + ConnectionState.DISCONNECTED.ToString() + " - " + state.ToString());
             }
-            omemoHelper = new OmemoHelper(this, sessionStore, preKeyStore, signedPreKeyStore, identityKeyStore);
+            omemoHelper = new OmemoHelper(this, signalProtocolStore);
         }
 
         public void connectAndHold()

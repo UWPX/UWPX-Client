@@ -36,10 +36,7 @@ namespace XMPP_API.Classes.Network
         // Keep sessions during App runtime:
         private readonly Dictionary<string, OmemoSession> OMEMO_SESSIONS;
         private readonly Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>> MESSAGE_CACHE;
-        private readonly SessionStore SESSION_STORE;
-        private readonly PreKeyStore PRE_KEY_STORE;
-        private readonly SignedPreKeyStore SIGNED_PRE_KEY_STORE;
-        private readonly IdentityKeyStore IDENTITY_STORE;
+        private readonly SignalProtocolStore SIGNAL_PROTOCOL_STORE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -50,16 +47,13 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoHelper(XMPPConnection2 connection, SessionStore sessionStore, PreKeyStore preKeyStore, SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore)
+        public OmemoHelper(XMPPConnection2 connection, SignalProtocolStore signalProtocolStore)
         {
             this.CONNECTION = connection;
+            this.SIGNAL_PROTOCOL_STORE = signalProtocolStore;
 
             this.OMEMO_SESSIONS = new Dictionary<string, OmemoSession>();
             this.MESSAGE_CACHE = new Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>>();
-            this.SESSION_STORE = sessionStore;
-            this.PRE_KEY_STORE = preKeyStore;
-            this.SIGNED_PRE_KEY_STORE = signedPreKeyStore;
-            this.IDENTITY_STORE = identityKeyStore;
 
             reset();
         }
@@ -101,12 +95,12 @@ namespace XMPP_API.Classes.Network
         #region --Misc Methods (Public)--
         public SessionCipher loadCipher(SignalProtocolAddress address)
         {
-            return new SessionCipher(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, address);
+            return new SessionCipher(SIGNAL_PROTOCOL_STORE, address);
         }
 
         public bool containsSession(SignalProtocolAddress address)
         {
-            return SESSION_STORE.ContainsSession(address);
+            return SIGNAL_PROTOCOL_STORE.ContainsSession(address);
         }
 
         public void Dispose()
@@ -165,7 +159,7 @@ namespace XMPP_API.Classes.Network
         public SignalProtocolAddress newSession(string chatJid, uint recipientDeviceId, PreKeyBundle recipientPreKey)
         {
             SignalProtocolAddress address = new SignalProtocolAddress(chatJid, recipientDeviceId);
-            SessionBuilder builder = new SessionBuilder(SESSION_STORE, PRE_KEY_STORE, SIGNED_PRE_KEY_STORE, IDENTITY_STORE, address);
+            SessionBuilder builder = new SessionBuilder(SIGNAL_PROTOCOL_STORE, address);
             builder.process(recipientPreKey);
             return address;
         }

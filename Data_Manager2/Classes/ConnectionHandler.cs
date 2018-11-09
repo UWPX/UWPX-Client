@@ -18,7 +18,6 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using Data_Manager2.Classes.Toast;
 using Data_Manager2.Classes.Omemo;
-using Data_Manager2.Classes.DBManager.Omemo;
 
 namespace Data_Manager2.Classes
 {
@@ -200,11 +199,8 @@ namespace Data_Manager2.Classes
             XMPPClient c = new XMPPClient(acc);
 
             // Enable OMEMO:
-            OmemoSessionStore sessionStore = new OmemoSessionStore(acc);
-            OmemoPreKeyStore preKeyStore = new OmemoPreKeyStore(acc);
-            OmemoSignedPreKeyStore signedPreKeyStore = new OmemoSignedPreKeyStore(acc);
-            OmemoIdentityKeyStore identityKeyStore = new OmemoIdentityKeyStore(acc);
-            c.enableOmemo(sessionStore, preKeyStore, signedPreKeyStore, identityKeyStore, OmemoSignalKeyDBManager.INSTANCE);
+            OmemoSignalProtocolStore signalProtocolStore = new OmemoSignalProtocolStore(acc);
+            c.enableOmemo(signalProtocolStore);
 
             // Ensure no event gets bound multiple times:
             unsubscribeFromEvents(c);

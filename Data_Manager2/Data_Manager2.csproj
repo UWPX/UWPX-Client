@@ -129,10 +129,7 @@
     <Compile Include="Classes\DBTables\MUCDirectInvitationTable.cs" />
     <Compile Include="Classes\DBTables\MUCOccupantTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoIdentityKeyTable.cs" />
-    <Compile Include="Classes\Omemo\OmemoIdentityKeyStore.cs" />
-    <Compile Include="Classes\Omemo\OmemoPreKeyStore.cs" />
-    <Compile Include="Classes\Omemo\OmemoSessionStore.cs" />
-    <Compile Include="Classes\Omemo\OmemoSignedPreKeyStore.cs" />
+    <Compile Include="Classes\Omemo\OmemoSignalProtocolStore.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoPreKeyTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSessionStoreTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSignedPreKeyTable.cs" />

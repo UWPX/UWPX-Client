@@ -10,7 +10,6 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace XMPP_API.Classes
 {
@@ -185,13 +184,10 @@ namespace XMPP_API.Classes
         /// Enables OMEMO encryption for messages for this connection.
         /// Has to be enabled before connecting.
         /// </summary>
-        /// <param name="sessionStore">A persistent store for signal sessions.</param>
-        /// <param name="preKeyStore">A persistent store for pre keys.</param>
-        /// <param name="signedPreKeyStore">A persistent store for signed pre keys.</param>
-        /// <param name="identityKeyStore">A persistent store for identity keys.</param>
-        public void enableOmemo(SessionStore sessionStore, PreKeyStore preKeyStore, SignedPreKeyStore signedPreKeyStore, IdentityKeyStore identityKeyStore, ISignalKeyDBManager signalKeyDBManager)
+        /// <param name="signalProtocolStore">A persistent store for a signal related data.</param>
+        public void enableOmemo(SignalProtocolStore signalProtocolStore)
         {
-            connection.enableOmemo(sessionStore, preKeyStore, signedPreKeyStore, identityKeyStore, signalKeyDBManager);
+            connection.enableOmemo(signalProtocolStore);
         }
         #endregion
 
