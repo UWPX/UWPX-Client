@@ -114,6 +114,7 @@
     <Compile Include="Classes\DBManager\DiscoDBManager.cs" />
     <Compile Include="Classes\DBManager\ImageDBManager.cs" />
     <Compile Include="Classes\DBManager\MUCDBManager.cs" />
+    <Compile Include="Classes\DBManager\Omemo\OmemoDeviceDBManager.cs" />
     <Compile Include="Classes\DBManager\Omemo\OmemoSignalKeyDBManager.cs" />
     <Compile Include="Classes\DBTables\ConnectionOptionsTable.cs" />
     <Compile Include="Classes\DBTables\DBTableConsts.cs" />
@@ -128,8 +129,10 @@
     <Compile Include="Classes\DBTables\MUCChatInfoTable.cs" />
     <Compile Include="Classes\DBTables\MUCDirectInvitationTable.cs" />
     <Compile Include="Classes\DBTables\MUCOccupantTable.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoDeviceListSubscriptionTable.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoDeviceTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoIdentityKeyTable.cs" />
-    <Compile Include="Classes\Omemo\OmemoSignalProtocolStore.cs" />
+    <Compile Include="Classes\Omemo\OmemoStore.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoPreKeyTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSessionStoreTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSignedPreKeyTable.cs" />

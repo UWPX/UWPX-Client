@@ -117,7 +117,7 @@ namespace XMPP_API.Classes.Crypto
                     return id;
                 }
             }
-            throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ".Count = " + usedDeviceIds.Count);
+            throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ". Count = " + usedDeviceIds.Count);
         }
 
         public static Fingerprint generateOmemoFingerprint(string accountId, IdentityKey key)

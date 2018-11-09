@@ -6,7 +6,6 @@ using Windows.Security.Cryptography.Certificates;
 using Logging;
 using System.Threading;
 using Thread_Save_Components.Classes.SQLite;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 using Data_Manager2.Classes.DBManager.Omemo;
 
 namespace Data_Manager2.Classes.DBManager
@@ -49,8 +48,9 @@ namespace Data_Manager2.Classes.DBManager
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
-            account.savePreKeys(OmemoSignalKeyDBManager.INSTANCE);
-            account.saveSignedPreKey(OmemoSignalKeyDBManager.INSTANCE);
+
+            OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.omemoPreKeys, account.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getIdAndDomain());
 
             if (triggerAccountChanged)
             {
@@ -125,12 +125,13 @@ namespace Data_Manager2.Classes.DBManager
             dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
             if (deleteAllKeys)
             {
-                account.deleteOmemoKeysAndDevices(OmemoSignalKeyDBManager.INSTANCE);
+                OmemoDeviceDBManager.INSTANCE.deleteAllForAccount(account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.deleteAllForAccount(account.getIdAndDomain());
             }
             else
             {
-                account.deleteAccountPreKeys(OmemoSignalKeyDBManager.INSTANCE);
-                account.deleteAccountSignedPreKey(OmemoSignalKeyDBManager.INSTANCE);
+                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getIdAndDomain());
             }
             Vault.deletePassword(account);
 
@@ -154,8 +155,6 @@ namespace Data_Manager2.Classes.DBManager
                 XMPPAccount acc = accounts[i].toXMPPAccount();
                 Vault.loadPassword(acc);
                 loadAccountConnectionConfiguration(acc);
-                acc.loadPreKeys(OmemoSignalKeyDBManager.INSTANCE);
-                acc.loadSignedPreKey(OmemoSignalKeyDBManager.INSTANCE);
                 results.Add(acc);
             }
             return results;

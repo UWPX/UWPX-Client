@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.DBTables.Omemo;
 using System;
 using Thread_Save_Components.Classes.SQLite;
 using Windows.ApplicationModel;
@@ -136,6 +137,15 @@ namespace UWP_XMPP_Client.Classes
                             AccountDBManager.INSTANCE.setAccount(account, false);
                         }
                         Logging.Logger.Info("Finished generating OMEMO keys for accounts. Update to version 0.9.0.0 done.");
+                    }
+
+                    // Drop all OMEMO device tables since they have drastically changed in 0.11.0.0:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 11)
+                    {
+                        Logging.Logger.Info("Started dropping OMEMO device tables...");
+                        AbstractDBManager.dB.RecreateTable<OmemoDeviceTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoDeviceListSubscriptionTable>();
+                        Logging.Logger.Info("Finished dropping OMEMO device tables. Update to version 0.11.0.0 done.");
                     }
                 }
             }

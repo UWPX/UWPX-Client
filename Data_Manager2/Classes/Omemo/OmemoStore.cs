@@ -3,12 +3,14 @@ using libsignal;
 using libsignal.protocol;
 using libsignal.state;
 using Logging;
+using System;
 using System.Collections.Generic;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Data_Manager2.Classes.Omemo
 {
-    public class OmemoSignalProtocolStore : SignalProtocolStore
+    public class OmemoStore : IOmemoStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,7 +25,7 @@ namespace Data_Manager2.Classes.Omemo
         /// <history>
         /// 09/11/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoSignalProtocolStore(XMPPAccount account)
+        public OmemoStore(XMPPAccount account)
         {
             this.ACCOUNT = account;
         }
@@ -148,6 +150,41 @@ namespace Data_Manager2.Classes.Omemo
         public void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey)
         {
             OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey, ACCOUNT.getIdAndDomain());
+        }
+
+        public IList<PreKeyRecord> LoadPreKeys()
+        {
+            return OmemoSignalKeyDBManager.INSTANCE.getAllPreKeys(ACCOUNT.getIdAndDomain());
+        }
+
+        public void StorePreKeys(IList<PreKeyRecord> preKeys)
+        {
+            OmemoSignalKeyDBManager.INSTANCE.setPreKeys(preKeys, ACCOUNT.getIdAndDomain());
+        }
+
+        public void StoreDevices(IList<SignalProtocolAddress> devices)
+        {
+            OmemoDeviceDBManager.INSTANCE.setDevices(devices, ACCOUNT.getIdAndDomain());
+        }
+
+        public void StoreDevice(SignalProtocolAddress device)
+        {
+            OmemoDeviceDBManager.INSTANCE.setDevice(device, ACCOUNT.getIdAndDomain());
+        }
+
+        public IList<SignalProtocolAddress> LoadDevices(string name)
+        {
+            return OmemoDeviceDBManager.INSTANCE.getDevices(name, ACCOUNT.getIdAndDomain());
+        }
+
+        public void StoreDeviceListSubscription(string name, Tuple<OmemoDeviceListSubscriptionState, DateTime> lastUpdate)
+        {
+            OmemoDeviceDBManager.INSTANCE.setOmemoDeviceListSubscription(name, lastUpdate, ACCOUNT.getIdAndDomain());
+        }
+
+        public Tuple<OmemoDeviceListSubscriptionState, DateTime> LoadDeviceListSubscription(string name)
+        {
+            return OmemoDeviceDBManager.INSTANCE.getOmemoDeviceListSubscription(name, ACCOUNT.getIdAndDomain());
         }
 
         #endregion

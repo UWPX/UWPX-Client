@@ -199,7 +199,13 @@ namespace Data_Manager2.Classes
             XMPPClient c = new XMPPClient(acc);
 
             // Enable OMEMO:
-            OmemoSignalProtocolStore signalProtocolStore = new OmemoSignalProtocolStore(acc);
+            OmemoStore signalProtocolStore = new OmemoStore(acc);
+            // Generate OMEMO keys if necessary:
+            if (!acc.omemoKeysGenerated)
+            {
+                acc.generateOmemoKeys();
+                AccountDBManager.INSTANCE.setAccount(acc, false);
+            }
             c.enableOmemo(signalProtocolStore);
 
             // Ensure no event gets bound multiple times:

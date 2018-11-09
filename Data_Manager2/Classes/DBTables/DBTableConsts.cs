@@ -19,5 +19,8 @@
         public const string OMEMO_PRE_KEY_TABLE = "OmemoPreKeyTable";
         public const string OMEMO_IDENTITY_KEY_TABLE = "OmemoIdentityKeyTable";
         public const string OMEMO_SESSION_STORE_TABLE = "OmemoSessionStoreTable";
+
+        public const string OMEMO_DEVICE_TABLE = "OmemoDeviceTable";
+        public const string OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE = "OmemoDeviceListSubscriptionTable";
     }
 }

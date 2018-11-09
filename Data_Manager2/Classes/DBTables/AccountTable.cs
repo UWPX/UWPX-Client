@@ -1,6 +1,7 @@
 ﻿using SQLite;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -36,6 +37,8 @@ namespace Data_Manager2.Classes.DBTables
         public Presence presence { get; set; }
         // The current status message for account e.g. 'My status'
         public string status { get; set; }
+        // Whether key for XEP-0384 (OMEMO Encryption) have been generated
+        public bool omemoKeysGenerated;
         // The private key for XEP-0384 (OMEMO Encryption)
         public byte[] omemoIdentityKeyPair { get; set; }
         // The id of the omemoSignedPreKey for XEP-0384 (OMEMO Encryption)
@@ -70,6 +73,7 @@ namespace Data_Manager2.Classes.DBTables
             this.color = account.color;
             this.presence = account.presence;
             this.status = account.status;
+            this.omemoKeysGenerated = account.omemoKeysGenerated;
             this.omemoDeviceId = account.omemoDeviceId;
             this.omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
             this.omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
@@ -85,6 +89,7 @@ namespace Data_Manager2.Classes.DBTables
                 disabled = disabled,
                 presence = presence,
                 status = status,
+                omemoKeysGenerated = omemoKeysGenerated,
                 omemoDeviceId = omemoDeviceId,
                 omemoIdentityKeyPair = omemoIdentityKeyPair == null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
                 omemoBundleInfoAnnounced = omemoBundleInfoAnnounced,

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using libsignal;
+using System;
 using System.Collections.Generic;
 using Windows.Security.Cryptography.Certificates;
 using Windows.UI.Xaml;
@@ -223,7 +224,7 @@ namespace UWP_XMPP_Client.Dialogs
             omemoFingerprint_ofc.MyFingerprint = Client?.getXMPPAccount().getOmemoFingerprint();
             if (Client != null)
             {
-                if (!Client.getXMPPAccount().hasOmemoKeys())
+                if (!Client.getXMPPAccount().checkOmemoKeys())
                 {
                     omemoError_itbx.Text = "OMEMO keys are corrupted. Please remove and add your account again!";
                     omemoError_itbx.Visibility = Visibility.Visible;
@@ -236,12 +237,12 @@ namespace UWP_XMPP_Client.Dialogs
                 OmemoDevices devices = Client.getOmemoHelper().DEVICES;
                 if (devices != null)
                 {
-                    omemoDevices_odc.setDevices(devices.DEVICES);
+                    omemoDevices_odc.setDevices(devices.toSignalProtocolAddressList(Client.getXMPPAccount().getIdAndDomain()));
                     omemoDevicesInfo_tbx.Visibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    omemoDevices_odc.setDevices(new List<uint>());
+                    omemoDevices_odc.setDevices(new List<SignalProtocolAddress>());
                     omemoDevicesInfo_tbx.Visibility = Visibility.Visible;
                 }
 
@@ -328,7 +329,7 @@ namespace UWP_XMPP_Client.Dialogs
             {
                 if (success)
                 {
-                    omemoDevices_odc.setDevices(devices.DEVICES);
+                    omemoDevices_odc.setDevices(devices.toSignalProtocolAddressList(Client.getXMPPAccount().getIdAndDomain()));
                     refreshOmemoDevices_pgr.Visibility = Visibility.Collapsed;
                     refreshOmemoDevices_btn.IsEnabled = true;
                 }

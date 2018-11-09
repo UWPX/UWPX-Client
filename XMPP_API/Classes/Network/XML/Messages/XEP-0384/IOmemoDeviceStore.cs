@@ -1,9 +1,10 @@
-﻿using libsignal.state;
+﻿using libsignal;
+using System;
 using System.Collections.Generic;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public interface ISignalKeyDBManager
+    public interface IOmemoDeviceStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,21 +13,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        List<SignedPreKeyRecord> getAllSignedPreKeys(string accountId);
 
-        List<PreKeyRecord> getAllPreKeys(string accountId);
 
-        SignedPreKeyRecord getSignedPreKey(uint signedPreKeyId, string accountId);
-
-        void setPreKey(uint preKeyId, PreKeyRecord preKey, string accountId);
-
-        void setSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey, string accountId);
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        void deleteSignedPreKey(uint signedPreKeyId, string accountId);
+        void StoreDevices(IList<SignalProtocolAddress> devices);
 
-        void deleteAllForAccount(string accountId);
+        void StoreDevice(SignalProtocolAddress device);
+
+        IList<SignalProtocolAddress> LoadDevices(string name);
+
+        void StoreDeviceListSubscription(string name, Tuple<OmemoDeviceListSubscriptionState, DateTime> lastUpdate);
+
+        Tuple<OmemoDeviceListSubscriptionState, DateTime> LoadDeviceListSubscription(string name);
+
         #endregion
 
         #region --Misc Methods (Private)--

@@ -1,5 +1,4 @@
-﻿using libsignal.state;
-using Logging;
+﻿using Logging;
 using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
@@ -184,10 +183,11 @@ namespace XMPP_API.Classes
         /// Enables OMEMO encryption for messages for this connection.
         /// Has to be enabled before connecting.
         /// </summary>
-        /// <param name="signalProtocolStore">A persistent store for a signal related data.</param>
-        public void enableOmemo(SignalProtocolStore signalProtocolStore)
+        /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
+        /// <returns>Returns true on success.</returns>
+        public bool enableOmemo(IOmemoStore omemoStore)
         {
-            connection.enableOmemo(signalProtocolStore);
+            return connection.enableOmemo(omemoStore);
         }
         #endregion
 

@@ -1,19 +1,22 @@
 ﻿using SQLite;
+using System;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace Data_Manager2.Classes.DBTables.Omemo
 {
-    [Table(DBTableConsts.OMEMO_DEVICE_TABLE)]
-    public class OmemoDeviceTable
+    [Table(DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE)]
+    public class OmemoDeviceListSubscriptionTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
         public string id { get; set; }
         [NotNull]
-        public string chatJid { get; set; }
-        [NotNull]
         public string accountId { get; set; }
-        public uint deviceId { get; set; }
+        [NotNull]
+        public string name { get; set; }
+        public OmemoDeviceListSubscriptionState state { get; set; }
+        public DateTime lastUpdateReceived { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,10 +25,19 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 12/08/2018 Created [Fabian Sauter]
+        /// 09/11/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoDeviceTable()
+        public OmemoDeviceListSubscriptionTable()
         {
+        }
+
+        public OmemoDeviceListSubscriptionTable(string accountId, string name, OmemoDeviceListSubscriptionState state, DateTime lastUpdateReceived)
+        {
+            this.id = generateId(accountId, name);
+            this.accountId = accountId;
+            this.name = name;
+            this.state = state;
+            this.lastUpdateReceived = lastUpdateReceived;
         }
 
         #endregion
@@ -36,9 +48,9 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string chatJid, string accountId, uint deviceId)
+        public static string generateId(string accountId, string name)
         {
-            return chatJid + '_' + accountId + '_' + deviceId;
+            return accountId + '_' + name;
         }
 
         #endregion

@@ -3,11 +3,10 @@ using libsignal;
 using libsignal.state;
 using System.Collections.Generic;
 using Thread_Save_Components.Classes.SQLite;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal;
 
 namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    public class OmemoSignalKeyDBManager : AbstractDBManager, ISignalKeyDBManager
+    public class OmemoSignalKeyDBManager : AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -124,6 +123,23 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             });
         }
 
+        public void setPreKeys(IList<PreKeyRecord> preKeys, string accountId)
+        {
+            dB.BeginTransaction();
+            deletePreKeys(accountId);
+            foreach (PreKeyRecord key in preKeys)
+            {
+                dB.Insert(new OmemoPreKeyTable
+                {
+                    id = OmemoPreKeyTable.generateId(key.getId(), accountId),
+                    preKeyId = key.getId(),
+                    accountId = accountId,
+                    preKey = key.serialize()
+                });
+            }
+            dB.Commit();
+        }
+
         public void setPreKey(uint preKeyId, PreKeyRecord preKey, string accountId)
         {
             dB.InsertOrReplace(new OmemoPreKeyTable
@@ -188,6 +204,11 @@ namespace Data_Manager2.Classes.DBManager.Omemo
         public void deleteSignedPreKey(uint signedPreKeyId, string accountId)
         {
             dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId));
+        }
+
+        public void deletePreKeys(string accountId)
+        {
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_PRE_KEY_TABLE + " WHERE accountId = ?;", accountId);
         }
 
         public void deletePreKey(uint preKeyId, string accountId)

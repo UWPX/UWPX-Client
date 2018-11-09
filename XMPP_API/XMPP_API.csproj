@@ -153,11 +153,7 @@
     <Compile Include="Classes\Network\XML\CarbonCopyType.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageCacheTable.cs" />
-    <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceListSubscriptionState.cs" />
-    <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceListSubscriptionTable.cs" />
-    <Compile Include="Classes\Network\XML\DBEntries\OmemoDeviceTable.cs" />
     <Compile Include="Classes\Network\XML\DBManager\MessageCacheDBManager.cs" />
-    <Compile Include="Classes\Network\XML\DBManager\OmemoDeviceDBManager.cs" />
     <Compile Include="Classes\Network\XML\MessageParserStats.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
@@ -249,9 +245,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKey.cs" />
@@ -261,7 +259,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSubscribeToDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\ISignalKeyDBManager.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSession.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />

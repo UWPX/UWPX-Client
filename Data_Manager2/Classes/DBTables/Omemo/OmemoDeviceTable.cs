@@ -1,21 +1,20 @@
-﻿using SQLite;
-using System;
+﻿using libsignal;
+using SQLite;
 
-namespace XMPP_API.Classes.Network.XML.DBEntries
+namespace Data_Manager2.Classes.DBTables.Omemo
 {
-    [Table(DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE)]
-    class OmemoDeviceListSubscriptionTable
+    [Table(DBTableConsts.OMEMO_DEVICE_TABLE)]
+    public class OmemoDeviceTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         [PrimaryKey]
         public string id { get; set; }
         [NotNull]
-        public string chatJid { get; set; }
-        [NotNull]
         public string accountId { get; set; }
-        public OmemoDeviceListSubscriptionState state { get; set; }
-        public DateTime lastUpdateReceived { get; set; }
+        [NotNull]
+        public string name { get; set; }
+        public uint deviceId { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,19 +23,18 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 18/08/2018 Created [Fabian Sauter]
+        /// 09/11/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoDeviceListSubscriptionTable()
+        public OmemoDeviceTable()
         {
         }
 
-        public OmemoDeviceListSubscriptionTable(string chatJid, string accountId, OmemoDeviceListSubscriptionState state, DateTime lastUpdateReceived)
+        public OmemoDeviceTable(SignalProtocolAddress device, string accountId)
         {
-            this.id = generateId(chatJid, accountId);
-            this.chatJid = chatJid;
+            this.id = generateId(accountId, device.getName(), device.getDeviceId());
             this.accountId = accountId;
-            this.state = state;
-            this.lastUpdateReceived = lastUpdateReceived;
+            this.name = device.getName();
+            this.deviceId = device.getDeviceId();
         }
 
         #endregion
@@ -47,9 +45,14 @@ namespace XMPP_API.Classes.Network.XML.DBEntries
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static string generateId(string chatJid, string accountId)
+        public static string generateId(string accountId, string name, uint deviceId)
         {
-            return chatJid + '_' + accountId;
+            return accountId + "_" + name + '_' + deviceId;
+        }
+
+        public SignalProtocolAddress toSignalProtocolAddress()
+        {
+            return new SignalProtocolAddress(name, deviceId);
         }
 
         #endregion

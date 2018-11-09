@@ -84,6 +84,11 @@ namespace Thread_Save_Components.Classes.SQLite
             return i;
         }
 
+        public int Insert(object obj)
+        {
+            return DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
+        }
+
         public int InsertAll(IEnumerable<object> objects, bool runInTransaction = true)
         {
             return DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects);

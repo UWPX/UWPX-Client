@@ -12,6 +12,7 @@ using XMPP_API.Classes.Network;
 using Data_Manager2.Classes.Events;
 using System.Collections.Generic;
 using UWP_XMPP_Client.Classes.Collections;
+using libsignal;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -86,7 +87,7 @@ namespace UWP_XMPP_Client.Pages
         {
             if (Client != null && Chat != null)
             {
-                IList<uint> devices = Client.getOmemoHelper().getDevicesIdsForChat(Chat.chatJabberId);
+                IList<SignalProtocolAddress> devices = Client.getOmemoHelper().OMEMO_STORE.LoadDevices(Chat.chatJabberId);
                 omemoDevices_odlc.setDevices(devices);
                 omemoNoDevices_tbx.Visibility = devices.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             }

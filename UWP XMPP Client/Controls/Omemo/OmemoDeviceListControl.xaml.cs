@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using libsignal;
+using System.Collections.Generic;
 using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
@@ -42,15 +43,15 @@ namespace UWP_XMPP_Client.Controls.Omemo
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void setDevices(IList<uint> devices)
+        public void setDevices(IList<SignalProtocolAddress> devices)
         {
             DEVICES.Clear();
             List<UintTemplate> dev = new List<UintTemplate>();
-            foreach (uint d in devices)
+            foreach (SignalProtocolAddress d in devices)
             {
                 dev.Add(new UintTemplate
                 {
-                    value = d
+                    value = d.getDeviceId()
                 });
             }
             DEVICES.AddRange(dev);

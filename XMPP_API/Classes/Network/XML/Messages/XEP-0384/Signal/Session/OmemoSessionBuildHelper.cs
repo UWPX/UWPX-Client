@@ -2,8 +2,6 @@
 using Logging;
 using System;
 using System.Collections.Generic;
-using XMPP_API.Classes.Network.XML.DBEntries;
-using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
@@ -20,8 +18,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         private readonly string BARE_ACCOUNT_JID;
         private readonly string FULL_ACCOUNT_JID;
         private readonly OmemoHelper OMEMO_HELPER;
-        private List<uint> toDoDevicesRemote;
-        private List<uint> toDoDevicesOwn;
+        private IList<SignalProtocolAddress> toDoDevicesRemote;
+        private IList<SignalProtocolAddress> toDoDevicesOwn;
         private SignalProtocolAddress curAddress;
         private readonly OmemoSession SESSION;
         private MessageResponseHelper<IQMessage> requestDeviceListHelper;
@@ -72,7 +70,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             {
                 case OmemoDeviceListSubscriptionState.SUBSCRIBED:
                     // Because we are subscribed, the device list should be up to date:
-                    List<uint> devices = OmemoDeviceDBManager.INSTANCE.getDeviceIds(CHAT_JID, BARE_ACCOUNT_JID);
+                    IList<SignalProtocolAddress> devices = OMEMO_HELPER.OMEMO_STORE.LoadDevices(CHAT_JID);
                     createSessionsForDevices(devices);
                     break;
 
@@ -158,18 +156,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
         }
 
-        private void createSessionsForDevices(List<uint> remoteDevices)
+        private void createSessionsForDevices(IList<SignalProtocolAddress> remoteDevices)
         {
             // Add remote devices:
             toDoDevicesRemote = remoteDevices;
 
             // Add own devices:
-            toDoDevicesOwn = new List<uint>();
-            for (int i = 0; i < OMEMO_HELPER.DEVICES.DEVICES.Count; i++)
+            toDoDevicesOwn = new List<SignalProtocolAddress>();
+            foreach (uint i in OMEMO_HELPER.DEVICES.IDS)
             {
-                if (OMEMO_HELPER.DEVICES.DEVICES[i] != CONNECTION.account.omemoDeviceId)
+                if (i != CONNECTION.account.omemoDeviceId)
                 {
-                    toDoDevicesOwn.Add(OMEMO_HELPER.DEVICES.DEVICES[i]);
+                    toDoDevicesOwn.Add(new SignalProtocolAddress(BARE_ACCOUNT_JID, i));
                 }
             }
 
@@ -196,16 +194,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             {
                 if (toDoDevicesRemote == null || toDoDevicesRemote.Count <= 0)
                 {
-                    curAddress = new SignalProtocolAddress(BARE_ACCOUNT_JID, toDoDevicesOwn[0]);
+                    curAddress = toDoDevicesOwn[0];
                     toDoDevicesOwn.RemoveAt(0);
                 }
                 else
                 {
-                    curAddress = new SignalProtocolAddress(CHAT_JID, toDoDevicesRemote[0]);
+                    curAddress = toDoDevicesRemote[0];
                     toDoDevicesRemote.RemoveAt(0);
                 }
 
-                if (OMEMO_HELPER.containsSession(curAddress))
+                if (OMEMO_HELPER.OMEMO_STORE.ContainsSession(curAddress))
                 {
                     SessionCipher cipher = OMEMO_HELPER.loadCipher(curAddress);
                     SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
@@ -229,12 +227,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             {
                 // Update devices in DB:
                 string chatJid = Utils.getBareJidFromFullJid(devMsg.getFrom());
-                OmemoDeviceDBManager.INSTANCE.setDevices(devMsg.DEVICES, chatJid, BARE_ACCOUNT_JID);
+                OMEMO_HELPER.OMEMO_STORE.StoreDevices(devMsg.DEVICES.toSignalProtocolAddressList(CHAT_JID));
 
-                if (devMsg.DEVICES.DEVICES.Count > 0)
+                if (devMsg.DEVICES.IDS.Count > 0)
                 {
                     subscribeToDeviceList();
-                    createSessionsForDevices(devMsg.DEVICES.DEVICES);
+                    createSessionsForDevices(devMsg.DEVICES.toSignalProtocolAddressList(CHAT_JID));
                 }
                 else
                 {
@@ -275,11 +273,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 if (subMsg.SUBSCRIPTION != PubSubSubscription.SUBSCRIBED)
                 {
                     Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + CHAT_JID + " returned: " + subMsg.SUBSCRIPTION);
-                    OmemoDeviceDBManager.INSTANCE.setDeviceListSubscription(new OmemoDeviceListSubscriptionTable(CHAT_JID, BARE_ACCOUNT_JID, OmemoDeviceListSubscriptionState.NONE, DateTime.Now));
+                    OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.NONE, DateTime.Now));
                 }
                 else
                 {
-                    OmemoDeviceDBManager.INSTANCE.setDeviceListSubscription(new OmemoDeviceListSubscriptionTable(CHAT_JID, BARE_ACCOUNT_JID, OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
+                    OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
                 }
                 return true;
             }
@@ -293,7 +291,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 {
                     Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node: " + errMsg.ERROR_OBJ.ToString());
                 }
-                OmemoDeviceDBManager.INSTANCE.setDeviceListSubscription(new OmemoDeviceListSubscriptionTable(CHAT_JID, BARE_ACCOUNT_JID, OmemoDeviceListSubscriptionState.ERROR, DateTime.Now));
+                OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.ERROR, DateTime.Now));
                 return true;
             }
             return false;

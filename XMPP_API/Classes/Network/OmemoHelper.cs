@@ -3,10 +3,9 @@ using libsignal.state;
 using Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Crypto;
-using XMPP_API.Classes.Network.XML.DBEntries;
-using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -36,7 +35,7 @@ namespace XMPP_API.Classes.Network
         // Keep sessions during App runtime:
         private readonly Dictionary<string, OmemoSession> OMEMO_SESSIONS;
         private readonly Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>> MESSAGE_CACHE;
-        private readonly SignalProtocolStore SIGNAL_PROTOCOL_STORE;
+        public readonly IOmemoStore OMEMO_STORE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -47,10 +46,10 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoHelper(XMPPConnection2 connection, SignalProtocolStore signalProtocolStore)
+        public OmemoHelper(XMPPConnection2 connection, IOmemoStore omemoStore)
         {
             this.CONNECTION = connection;
-            this.SIGNAL_PROTOCOL_STORE = signalProtocolStore;
+            this.OMEMO_STORE = omemoStore;
 
             this.OMEMO_SESSIONS = new Dictionary<string, OmemoSession>();
             this.MESSAGE_CACHE = new Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>>();
@@ -85,22 +84,12 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public IList<uint> getDevicesIdsForChat(string chatJid)
-        {
-            return OmemoDeviceDBManager.INSTANCE.getDeviceIds(chatJid, CONNECTION.account.getIdAndDomain());
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public SessionCipher loadCipher(SignalProtocolAddress address)
         {
-            return new SessionCipher(SIGNAL_PROTOCOL_STORE, address);
-        }
-
-        public bool containsSession(SignalProtocolAddress address)
-        {
-            return SIGNAL_PROTOCOL_STORE.ContainsSession(address);
+            return new SessionCipher(OMEMO_STORE, address);
         }
 
         public void Dispose()
@@ -159,7 +148,7 @@ namespace XMPP_API.Classes.Network
         public SignalProtocolAddress newSession(string chatJid, uint recipientDeviceId, PreKeyBundle recipientPreKey)
         {
             SignalProtocolAddress address = new SignalProtocolAddress(chatJid, recipientDeviceId);
-            SessionBuilder builder = new SessionBuilder(SIGNAL_PROTOCOL_STORE, address);
+            SessionBuilder builder = new SessionBuilder(OMEMO_STORE, address);
             builder.process(recipientPreKey);
             return address;
         }
@@ -174,19 +163,19 @@ namespace XMPP_API.Classes.Network
             else
             {
                 // If not start a new session build helper:
-                OmemoDeviceListSubscriptionTable subscriptionTable = OmemoDeviceDBManager.INSTANCE.getDeviceListSubscription(chatJid, accountJid);
                 OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(chatJid, accountJid, CONNECTION.account.getIdDomainAndResource(), onSessionBuilderResult, CONNECTION, this);
                 MESSAGE_CACHE[chatJid] = new Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>(new List<OmemoMessageMessage>(), sessionHelper);
                 MESSAGE_CACHE[chatJid].Item1.Add(msg);
-                sessionHelper.start(subscriptionTable.state);
+                Tuple<OmemoDeviceListSubscriptionState, DateTime> subscription = OMEMO_STORE.LoadDeviceListSubscription(chatJid);
+                sessionHelper.start(subscription.Item1);
             }
         }
 
         public void onOmemoDeviceListEventMessage(OmemoDeviceListEventMessage msg)
         {
-            string chatJid = Utils.getBareJidFromFullJid(msg.getFrom());
-            OmemoDeviceDBManager.INSTANCE.setDevices(msg.DEVICES, chatJid, CONNECTION.account.getIdAndDomain());
-            OmemoDeviceDBManager.INSTANCE.setDeviceListSubscription(new OmemoDeviceListSubscriptionTable(chatJid, CONNECTION.account.getIdAndDomain(), OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
+            string senderBareJid = Utils.getBareJidFromFullJid(msg.getFrom());
+            OMEMO_STORE.StoreDevices(msg.DEVICES.toSignalProtocolAddressList(senderBareJid));
+            OMEMO_STORE.StoreDeviceListSubscription(senderBareJid, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
         }
 
         public void requestDeviceListStateless(Action<bool, OmemoDevices> onResult)
@@ -233,7 +222,7 @@ namespace XMPP_API.Classes.Network
                 resetDeviceListStatelessHelper = null;
             }
             OmemoDevices devices = new OmemoDevices();
-            devices.DEVICES.Add(CONNECTION.account.omemoDeviceId);
+            devices.IDS.Add(CONNECTION.account.omemoDeviceId);
             resetDeviceListStatelessHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onResetDeviceListStatelessMessage, onResetDeviceListStatelessTimeout);
             OmemoSetDeviceListMessage msg = new OmemoSetDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), devices);
             resetDeviceListStatelessHelper.start(msg);
@@ -264,8 +253,8 @@ namespace XMPP_API.Classes.Network
             }
             else if (msg is IQMessage)
             {
-                DEVICES.DEVICES.Clear();
-                DEVICES.DEVICES.Add(CONNECTION.account.omemoDeviceId);
+                DEVICES.IDS.Clear();
+                DEVICES.IDS.Add(CONNECTION.account.omemoDeviceId);
                 resetDeviceListStatelessOnResult?.Invoke(true);
                 resetDeviceListStatelessOnResult = null;
                 return true;
@@ -416,15 +405,15 @@ namespace XMPP_API.Classes.Network
             // Device id hasn't been set. Pick a random, unique one:
             if (CONNECTION.account.omemoDeviceId == 0)
             {
-                tmpDeviceId = CryptoUtils.generateOmemoDeviceIds(devicesRemote.DEVICES);
-                devicesRemote.DEVICES.Add(tmpDeviceId);
+                tmpDeviceId = CryptoUtils.generateOmemoDeviceIds(devicesRemote.IDS.ToList());
+                devicesRemote.IDS.Add(tmpDeviceId);
                 updateDeviceList = true;
             }
             else
             {
-                if (!devicesRemote.DEVICES.Contains(CONNECTION.account.omemoDeviceId))
+                if (!devicesRemote.IDS.Contains(CONNECTION.account.omemoDeviceId))
                 {
-                    devicesRemote.DEVICES.Add(CONNECTION.account.omemoDeviceId);
+                    devicesRemote.IDS.Add(CONNECTION.account.omemoDeviceId);
                     updateDeviceList = true;
                 }
             }
@@ -500,9 +489,9 @@ namespace XMPP_API.Classes.Network
         /// <param name="msg">The received OmemoDeviceListEventMessage.</param>
         private async Task onOmemoDeviceListEventMessageAsync(OmemoDeviceListEventMessage msg)
         {
-            if (!msg.DEVICES.DEVICES.Contains(CONNECTION.account.omemoDeviceId))
+            if (!msg.DEVICES.IDS.Contains(CONNECTION.account.omemoDeviceId))
             {
-                msg.DEVICES.DEVICES.Add(CONNECTION.account.omemoDeviceId);
+                msg.DEVICES.IDS.Add(CONNECTION.account.omemoDeviceId);
                 OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getIdDomainAndResource(), msg.DEVICES);
                 await CONNECTION.sendAsync(setMsg, false, false);
             }
@@ -529,7 +518,7 @@ namespace XMPP_API.Classes.Network
             switch (arg.newState)
             {
                 case ConnectionState.CONNECTED:
-                    if (!CONNECTION.account.hasOmemoKeys())
+                    if (!CONNECTION.account.checkOmemoKeys())
                     {
                         setState(OmemoHelperState.ERROR);
                         Logger.Error("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Failed - no keys!");

@@ -144,14 +144,29 @@ namespace XMPP_API.Classes.Network
         /// Enables OMEMO encryption for messages for this connection.
         /// Has to be enabled before connecting.
         /// </summary>
-        /// <param name="signalProtocolStore">A persistent store for a signal related data.</param>
-        public void enableOmemo(SignalProtocolStore signalProtocolStore)
+        /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
+        /// <returns>Returns true on success.</returns>
+        public bool enableOmemo(IOmemoStore omemoStore)
         {
             if (state != ConnectionState.DISCONNECTED)
             {
                 throw new InvalidOperationException("[XMPPConnection2]: Unable to enable OMEMO. state != " + ConnectionState.DISCONNECTED.ToString() + " - " + state.ToString());
             }
-            omemoHelper = new OmemoHelper(this, signalProtocolStore);
+
+            // Load OMEMO keys for the current account:
+            if (!account.omemoKeysGenerated)
+            {
+                Logger.Error("Failed to enable OMEMO for account: " + account.getIdAndDomain() + " - generate OMEMO keys first!");
+                omemoHelper = null;
+                return false;
+            }
+            else if (!account.loadOmemoKeys(omemoStore))
+            {
+                omemoHelper = null;
+                return false;
+            }
+            omemoHelper = new OmemoHelper(this, omemoStore);
+            return true;
         }
 
         public void connectAndHold()
