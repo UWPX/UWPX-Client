@@ -20,12 +20,11 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         {
             // Generate Alices keys:
             IdentityKeyPair aliceIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
-            uint aliceRegId = CryptoUtils.generateOmemoDeviceId();
             IList<PreKeyRecord> alicePreKeys = CryptoUtils.generateOmemoPreKeys();
             SignedPreKeyRecord aliceSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(aliceIdentKey);
 
             // Create Alices stores:
-            InMemoryIdentityKeyStore aliceIdentStore = new InMemoryIdentityKeyStore(aliceIdentKey, aliceRegId);
+            InMemoryIdentityKeyStore aliceIdentStore = new InMemoryIdentityKeyStore(aliceIdentKey, aliceAddress.getDeviceId());
             InMemoryPreKeyStore alicePreKeyStore = new InMemoryPreKeyStore();
             foreach (PreKeyRecord key in alicePreKeys)
             {
@@ -37,12 +36,11 @@ namespace Component_Tests.Classes.Crypto.Libsignal
 
             // Generate Bobs keys:
             IdentityKeyPair bobIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
-            uint bobRegId = CryptoUtils.generateOmemoDeviceId();
             IList<PreKeyRecord> bobPreKeys = CryptoUtils.generateOmemoPreKeys();
             SignedPreKeyRecord bobSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(bobIdentKey);
 
             // Create Bobs stores:
-            InMemoryIdentityKeyStore bobIdentStore = new InMemoryIdentityKeyStore(bobIdentKey, bobRegId);
+            InMemoryIdentityKeyStore bobIdentStore = new InMemoryIdentityKeyStore(bobIdentKey, bobAddress.getDeviceId());
             InMemoryPreKeyStore bobPreKeyStore = new InMemoryPreKeyStore();
             foreach (PreKeyRecord key in bobPreKeys)
             {
@@ -54,7 +52,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
 
             // Alice builds a session to Bob:
             SessionBuilder sessionBuilder = new SessionBuilder(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, bobAddress);
-            PreKeyBundle bobPreKey = new PreKeyBundle(bobRegId, bobAddress.getDeviceId(), bobPreKeys[0].getId(), bobPreKeys[0].getKeyPair().getPublicKey(), bobSignedPreKey.getId(), bobSignedPreKey.getKeyPair().getPublicKey(), bobSignedPreKey.getSignature(), bobIdentKey.getPublicKey());
+            PreKeyBundle bobPreKey = new PreKeyBundle(bobAddress.getDeviceId(), bobAddress.getDeviceId(), bobPreKeys[0].getId(), bobPreKeys[0].getKeyPair().getPublicKey(), bobSignedPreKey.getId(), bobSignedPreKey.getKeyPair().getPublicKey(), bobSignedPreKey.getSignature(), bobIdentKey.getPublicKey());
             sessionBuilder.process(bobPreKey);
 
             // Check if session exists:
@@ -86,12 +84,11 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         {
             // Generate Alices keys:
             IdentityKeyPair aliceIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
-            uint aliceRegId = CryptoUtils.generateOmemoDeviceId();
             IList<PreKeyRecord> alicePreKeys = CryptoUtils.generateOmemoPreKeys();
             SignedPreKeyRecord aliceSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(aliceIdentKey);
 
             // Create Alices stores:
-            InMemoryIdentityKeyStore aliceIdentStore = new InMemoryIdentityKeyStore(aliceIdentKey, aliceRegId);
+            InMemoryIdentityKeyStore aliceIdentStore = new InMemoryIdentityKeyStore(aliceIdentKey, aliceAddress.getDeviceId());
             InMemoryPreKeyStore alicePreKeyStore = new InMemoryPreKeyStore();
             foreach (PreKeyRecord key in alicePreKeys)
             {
@@ -103,12 +100,11 @@ namespace Component_Tests.Classes.Crypto.Libsignal
 
             // Generate Bobs keys:
             IdentityKeyPair bobIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
-            uint bobRegId = CryptoUtils.generateOmemoDeviceId();
             IList<PreKeyRecord> bobPreKeys = CryptoUtils.generateOmemoPreKeys();
             SignedPreKeyRecord bobSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(bobIdentKey);
 
             // Create Bobs stores:
-            InMemoryIdentityKeyStore bobIdentStore = new InMemoryIdentityKeyStore(bobIdentKey, bobRegId);
+            InMemoryIdentityKeyStore bobIdentStore = new InMemoryIdentityKeyStore(bobIdentKey, bobAddress.getDeviceId());
             InMemoryPreKeyStore bobPreKeyStore = new InMemoryPreKeyStore();
             foreach (PreKeyRecord key in bobPreKeys)
             {
@@ -120,7 +116,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
 
             // Alice builds a session to Bob:
             SessionBuilder sessionBuilder = new SessionBuilder(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, bobAddress);
-            PreKeyBundle bobPreKey = new PreKeyBundle(bobRegId, bobAddress.getDeviceId(), bobPreKeys[0].getId(), bobPreKeys[0].getKeyPair().getPublicKey(), bobSignedPreKey.getId(), bobSignedPreKey.getKeyPair().getPublicKey(), bobSignedPreKey.getSignature(), bobIdentKey.getPublicKey());
+            PreKeyBundle bobPreKey = new PreKeyBundle(bobAddress.getDeviceId(), bobAddress.getDeviceId(), bobPreKeys[0].getId(), bobPreKeys[0].getKeyPair().getPublicKey(), bobSignedPreKey.getId(), bobSignedPreKey.getKeyPair().getPublicKey(), bobSignedPreKey.getSignature(), bobIdentKey.getPublicKey());
             sessionBuilder.process(bobPreKey);
 
             // Check if session exists:
