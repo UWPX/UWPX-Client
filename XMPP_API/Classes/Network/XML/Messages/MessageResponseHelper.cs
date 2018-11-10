@@ -105,6 +105,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                 startTimer();
             }
+            if(disposed)
+            {
+                return;
+            }
             TIMER_SEMA.Release();
         }
 

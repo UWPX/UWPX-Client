@@ -38,7 +38,7 @@ namespace Data_Manager2.Classes.DBTables
         // The current status message for account e.g. 'My status'
         public string status { get; set; }
         // Whether key for XEP-0384 (OMEMO Encryption) have been generated
-        public bool omemoKeysGenerated;
+        public bool omemoKeysGenerated { get; set; }
         // The private key for XEP-0384 (OMEMO Encryption)
         public byte[] omemoIdentityKeyPair { get; set; }
         // The id of the omemoSignedPreKey for XEP-0384 (OMEMO Encryption)
