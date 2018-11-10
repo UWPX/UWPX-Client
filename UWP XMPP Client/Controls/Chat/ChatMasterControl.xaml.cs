@@ -506,7 +506,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (Chat != null && Chat.muted != mute_tmfo.IsChecked)
             {
                 Chat.muted = mute_tmfo.IsChecked;
-                ChatDBManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, true);
             }
         }
 
@@ -515,7 +515,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (Chat != null && Chat.muted != muteMUC_tmfo.IsChecked)
             {
                 Chat.muted = muteMUC_tmfo.IsChecked;
-                ChatDBManager.INSTANCE.setChat(Chat, false, false);
+                ChatDBManager.INSTANCE.setChat(Chat, false, true);
             }
         }
 
