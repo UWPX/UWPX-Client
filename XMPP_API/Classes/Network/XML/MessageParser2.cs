@@ -197,12 +197,13 @@ namespace XMPP_API.Classes.Network.XML
                                 break;
 
                             case IQMessage.RESULT:
-                                // XEP-0030 (disco result #info):
                                 XmlNode qNode = XMLUtils.getChildNode(n, "query");
+                                bool fondNode = false;
                                 if (qNode != null)
                                 {
                                     switch (qNode.NamespaceURI)
                                     {
+                                        // XEP-0030 (disco result #info):
                                         case Consts.XML_XEP_0030_INFO_NAMESPACE:
                                             if (XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE) != null)
                                             {
@@ -226,16 +227,19 @@ namespace XMPP_API.Classes.Network.XML
                                             {
                                                 messages.Add(new DiscoResponseMessage(n));
                                             }
+                                            fondNode = true;
                                             break;
 
                                         // XEP-0030 (disco result #items):
                                         case Consts.XML_XEP_0030_ITEMS_NAMESPACE:
                                             messages.Add(new DiscoResponseMessage(n));
+                                            fondNode = true;
                                             break;
 
                                         // Rooster:
                                         case Consts.XML_ROSTER_NAMESPACE:
                                             messages.Add(new RosterResultMessage(n));
+                                            fondNode = true;
                                             break;
 
                                         default:
@@ -246,6 +250,7 @@ namespace XMPP_API.Classes.Network.XML
                                                 if (x != null)
                                                 {
                                                     messages.Add(new RoomInfoMessage(n));
+                                                    fondNode = true;
                                                     break;
                                                 }
 
@@ -253,6 +258,7 @@ namespace XMPP_API.Classes.Network.XML
                                                 if (Equals(qNode.NamespaceURI, Consts.XML_XEP_0045_NAMESPACE_ADMIN))
                                                 {
                                                     messages.Add(new BanListMessage(n));
+                                                    fondNode = true;
                                                     break;
                                                 }
                                             }
@@ -265,7 +271,6 @@ namespace XMPP_API.Classes.Network.XML
                                     XmlNode pubSubNode = XMLUtils.getChildNode(n, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
                                     if (pubSubNode != null)
                                     {
-                                        bool fondNode = false;
                                         foreach (XmlNode contentNode in pubSubNode)
                                         {
                                             switch (contentNode.Name)
@@ -332,13 +337,17 @@ namespace XMPP_API.Classes.Network.XML
                                         if (slotNode != null)
                                         {
                                             messages.Add(new HTTPUploadResponseSlotMessage(n));
+                                            fondNode = true;
                                             break;
                                         }
                                     }
                                 }
 
-                                // Default to IQMessage:
-                                messages.Add(new IQMessage(n));
+                                if (!fondNode)
+                                {
+                                    // Default to IQMessage:
+                                    messages.Add(new IQMessage(n));
+                                }
                                 break;
 
                             case IQMessage.ERROR:
