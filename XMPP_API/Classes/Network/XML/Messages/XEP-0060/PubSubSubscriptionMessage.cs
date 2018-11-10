@@ -11,7 +11,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public readonly string NODE_NAME;
         public readonly string JID;
         public readonly string SUBID;
-        public readonly PubSubSubscription SUBSCRIPTION;
+        public readonly PubSubSubscriptionState SUBSCRIPTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -32,7 +32,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
                 this.SUBID = subNode.Attributes["subid"]?.Value;
                 if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
                 {
-                    this.SUBSCRIPTION = PubSubSubscription.NONE;
+                    this.SUBSCRIPTION = PubSubSubscriptionState.NONE;
                 }
             }
         }

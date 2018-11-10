@@ -1,16 +1,13 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubSubscription
+    public class PubSubSubscriptionsResultMessage : AbstractPubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE;
-        public readonly string JID;
-        public readonly PubSubSubscriptionState SUBSCRIPTION;
-        public readonly string SUB_ID;
+        public readonly List<PubSubSubscription> SUBSCRIPTIONS = new List<PubSubSubscription>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,15 +18,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 10/11/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubSubscription(XmlNode node)
+        public PubSubSubscriptionsResultMessage(XmlNode node) : base(node)
         {
-            NODE = node.Attributes["node"]?.Value;
-            JID = node.Attributes["jid"]?.Value;
-            if (!Enum.TryParse(node.Attributes[""]?.Value, out SUBSCRIPTION))
-            {
-                SUBSCRIPTION = PubSubSubscriptionState.NONE;
-            }
-            SUB_ID = node.Attributes["subid"]?.Value;
         }
 
         #endregion
@@ -50,7 +40,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void loadContent(XmlNodeList content)
+        {
+            foreach (XmlNode n in content)
+            {
+                if (string.Equals(n.Name, "subscriptions"))
+                {
+                    foreach (XmlNode subNode in n.ChildNodes)
+                    {
+                        SUBSCRIPTIONS.Add(new PubSubSubscription(subNode));
+                    }
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

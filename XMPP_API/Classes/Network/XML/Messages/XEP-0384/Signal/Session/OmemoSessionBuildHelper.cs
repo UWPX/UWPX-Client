@@ -270,7 +270,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 
             if (msg is PubSubSubscriptionMessage subMsg)
             {
-                if (subMsg.SUBSCRIPTION != PubSubSubscription.SUBSCRIBED)
+                if (subMsg.SUBSCRIPTION != PubSubSubscriptionState.SUBSCRIBED)
                 {
                     Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + CHAT_JID + " returned: " + subMsg.SUBSCRIPTION);
                     OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.NONE, DateTime.Now));

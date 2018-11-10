@@ -1,16 +1,12 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubSubscription
+    public class PubSubRequestSubscriptionsMessage : AbstractPubSubRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE;
-        public readonly string JID;
-        public readonly PubSubSubscriptionState SUBSCRIPTION;
-        public readonly string SUB_ID;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,15 +17,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// <history>
         /// 10/11/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubSubscription(XmlNode node)
+        public PubSubRequestSubscriptionsMessage(string from, string to) : base(from, to)
         {
-            NODE = node.Attributes["node"]?.Value;
-            JID = node.Attributes["jid"]?.Value;
-            if (!Enum.TryParse(node.Attributes[""]?.Value, out SUBSCRIPTION))
-            {
-                SUBSCRIPTION = PubSubSubscriptionState.NONE;
-            }
-            SUB_ID = node.Attributes["subid"]?.Value;
         }
 
         #endregion
@@ -50,7 +39,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override XElement getContent(XNamespace ns)
+        {
+            return new XElement(ns + "subscriptions");
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

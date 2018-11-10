@@ -215,8 +215,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRetractMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestSubscriptionsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscription.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0184\DeliveryReceiptMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />

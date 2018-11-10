@@ -311,6 +311,11 @@ namespace XMPP_API.Classes.Network.XML
                                                     fondNode = true;
                                                     break;
 
+                                                case "subscriptions":
+                                                    messages.Add(new PubSubSubscriptionsResultMessage(n));
+                                                    fondNode = true;
+                                                    break;
+
                                                 default:
                                                     break;
                                             }

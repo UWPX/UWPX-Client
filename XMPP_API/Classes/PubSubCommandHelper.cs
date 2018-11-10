@@ -39,7 +39,7 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Sends a RequestBookmarksMessage for requesting all bookmarks from the server.
+        /// Sends a RequestBookmarksMessage to request all bookmarks from the server.
         /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-retrieve
         /// </summary>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
@@ -54,7 +54,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a SetBookmarksMessage for requesting all bookmarks from the server.
+        /// Sends a SetBookmarksMessage to request all bookmarks from the server.
         /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-upload
         /// </summary>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
@@ -69,7 +69,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a RequestBookmarksMessage for requesting all bookmarks from the server.
+        /// Sends a RequestBookmarksMessage to request all bookmarks from the server.
         /// https://xmpp.org/extensions/xep-0402.html#retrieving-bookmarks
         /// </summary>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
@@ -84,7 +84,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a AddBookmarksMessage for storing the given bookmark on the server.
+        /// Sends a AddBookmarksMessage to store the given bookmark on the server.
         /// https://xmpp.org/extensions/xep-0402.html#adding-a-bookmark
         /// </summary>
         /// <param name="conferenceItem">The bookmark that should get stored on the server.</param>
@@ -100,7 +100,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a RemoveBookmarksMessage for removing the given bookmark from the server.
+        /// Sends a RemoveBookmarksMessage to remove the given bookmark from the server.
         /// https://xmpp.org/extensions/xep-0402.html#removing-a-bookmark
         /// </summary>
         /// <param name="conferenceItem">The bookmark that should get removed from the server.</param>
@@ -116,7 +116,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a DiscoverNodeMetadataMessage for discovering the node metadata.
+        /// Sends a DiscoverNodeMetadataMessage to discover the node metadata.
         /// https://xmpp.org/extensions/xep-0060.html#entity-metadata
         /// </summary>
         /// <param name="to">The target pubsub server (can be null).</param>
@@ -133,7 +133,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PubSubSubscribeMessage for subscribing to the given node.
+        /// Sends a PubSubSubscribeMessage to subscribe to the given node.
         /// </summary>
         /// <param name="to">The target pubsub server (can be null).</param>
         /// <param name="nodeName">The name of the node, you want to subscribe to.</param>
@@ -149,7 +149,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PubSubCreateNodeMessage for creating a pubsub node.
+        /// Sends a PubSubCreateNodeMessage to create a pubsub node.
         /// https://xmpp.org/extensions/xep-0060.html#owner-create
         /// </summary>
         /// <param name="to">The target pubsub server (can be null).</param>
@@ -166,7 +166,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PubSubCreateNodeMessage for creating a pubsub node.
+        /// Sends a PubSubCreateNodeMessage to create a pubsub node.
         /// https://xmpp.org/extensions/xep-0060.html#owner-create-and-configure
         /// </summary>
         /// <param name="to">The target pubsub server (can be null).</param>
@@ -184,7 +184,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PubSubDeleteNodeMessage for deleting a pubsub node.
+        /// Sends a PubSubDeleteNodeMessage to delete a pubsub node.
         /// https://xmpp.org/extensions/xep-0060.html#owner-delete
         /// </summary>
         /// <param name="to">The target pubsub server (can be null).</param>
@@ -196,6 +196,22 @@ namespace XMPP_API.Classes
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
             PubSubDeleteNodeMessage msg = new PubSubDeleteNodeMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, nodeName);
+            helper.start(msg);
+            return helper;
+        }
+
+        /// <summary>
+        /// Sends a PubSubRequestSubscriptionsMessage to request all subscriptions from a given server.
+        /// https://xmpp.org/extensions/xep-0060.html#entity-subscriptions
+        /// </summary>
+        /// <param name="to">The target pubsub server.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
+        /// <returns>Returns a MessageResponseHelper listening for PubSubRequestSubscriptionsMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> requestSubscriptions(string to, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            PubSubRequestSubscriptionsMessage msg = new PubSubRequestSubscriptionsMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to);
             helper.start(msg);
             return helper;
         }

@@ -124,8 +124,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             // 4. Encrypt the key/authTag pair with libsignal for each deviceId:
             KEYS = new List<OmemoKey>();
             CiphertextMessage ciphertextMessage;
+            Logger.Debug("Source device id: " + SOURCE_DEVICE_ID);
             foreach (KeyValuePair<uint, SessionCipher> pair in omemoSession.DEVICE_SESSIONS)
             {
+                Logger.Debug("Encrypting for deviceId: " + pair.Key);
                 ciphertextMessage = pair.Value.encrypt(keyAuthTag);
                 // Create a new OmemoKey object with the target device id, whether it's the first time the session got established and the encrypted key:
                 OmemoKey key = new OmemoKey(pair.Key, ciphertextMessage is PreKeySignalMessage, Convert.ToBase64String(ciphertextMessage.serialize()));
