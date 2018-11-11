@@ -14,6 +14,7 @@ using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace Component_Tests.Classes.Crypto.Omemo
 {
@@ -153,6 +154,101 @@ namespace Component_Tests.Classes.Crypto.Omemo
             // Check if successfully send:
             Assert.AreEqual(aliceOrigMsg, bobRecMsg);
             Assert.IsTrue(bobSessionStore.ContainsSession(ALICE_ADDRESS));
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_Omemo_Enc_Dec_2()
+        {
+            // Generate Alices keys:
+            IdentityKeyPair aliceIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
+            IList<PreKeyRecord> alicePreKeys = CryptoUtils.generateOmemoPreKeys();
+            SignedPreKeyRecord aliceSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(aliceIdentKey);
+
+            // Create Alices stores:
+            InMemoryIdentityKeyStore aliceIdentStore = new InMemoryIdentityKeyStore(aliceIdentKey, ALICE_ADDRESS.getDeviceId());
+            InMemoryPreKeyStore alicePreKeyStore = new InMemoryPreKeyStore();
+            foreach (PreKeyRecord key in alicePreKeys)
+            {
+                alicePreKeyStore.StorePreKey(key.getId(), key);
+            }
+            InMemorySignedPreKeyStore aliceSignedPreKeyStore = new InMemorySignedPreKeyStore();
+            aliceSignedPreKeyStore.StoreSignedPreKey(aliceSignedPreKey.getId(), aliceSignedPreKey);
+            InMemorySessionStore aliceSessionStore = new InMemorySessionStore();
+
+            // Generate Bobs keys:
+            IdentityKeyPair bobIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
+            IList<PreKeyRecord> bobPreKeys = CryptoUtils.generateOmemoPreKeys();
+            SignedPreKeyRecord bobSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(bobIdentKey);
+
+            // Create Bobs stores:
+            InMemoryIdentityKeyStore bobIdentStore = new InMemoryIdentityKeyStore(bobIdentKey, BOB_ADDRESS.getDeviceId());
+            InMemoryPreKeyStore bobPreKeyStore = new InMemoryPreKeyStore();
+            foreach (PreKeyRecord key in bobPreKeys)
+            {
+                bobPreKeyStore.StorePreKey(key.getId(), key);
+            }
+            InMemorySignedPreKeyStore bobSignedPreKeyStore = new InMemorySignedPreKeyStore();
+            bobSignedPreKeyStore.StoreSignedPreKey(bobSignedPreKey.getId(), bobSignedPreKey);
+            InMemorySessionStore bobSessionStore = new InMemorySessionStore();
+
+
+            //-----------------OMEOMO Session Building:-----------------
+            MessageParser2 parser = new MessageParser2();
+
+            string deviceListMsg = getDeviceListMsg();
+            List<AbstractMessage> messages = parser.parseMessages(ref deviceListMsg);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
+            OmemoDeviceListResultMessage devList = messages[0] as OmemoDeviceListResultMessage;
+
+            uint selectedBobDeviceId = devList.DEVICES.getRandomDeviceId();
+            Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.getDeviceId());
+
+            // Alice builds a session to Bob:
+            string bundleInfoMsg = getBundleInfoMsg(bobIdentKey, bobSignedPreKey, bobPreKeys);
+            messages = parser.parseMessages(ref bundleInfoMsg);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoBundleInformationResultMessage);
+            OmemoBundleInformationResultMessage bundleInfo = messages[0] as OmemoBundleInformationResultMessage;
+            Assert.IsTrue(bundleInfo.DEVICE_ID == BOB_ADDRESS.getDeviceId());
+
+            SessionBuilder sessionBuilder = new SessionBuilder(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, BOB_ADDRESS);
+            PreKeyBundle bobPreKey = bundleInfo.BUNDLE_INFO.getRandomPreKey(bundleInfo.DEVICE_ID);
+            sessionBuilder.process(bobPreKey);
+
+            // Check if session exists:
+            Assert.IsTrue(aliceSessionStore.ContainsSession(BOB_ADDRESS));
+            Assert.IsTrue(aliceSessionStore.LoadSession(BOB_ADDRESS).getSessionState().getSessionVersion() == 3);
+
+            // Alice sends a message:
+            string aliceOrigMsg = "$(rm -rvf .)";
+            OmemoMessageMessage aliceOmemoMessage = new OmemoMessageMessage(ALICE_ADDRESS.getName() + "/SOME_RESOURCE", BOB_ADDRESS.getName(), aliceOrigMsg, MessageMessage.TYPE_CHAT, true);
+            Assert.IsFalse(aliceOmemoMessage.ENCRYPTED);
+
+            OmemoSession omemoSession = new OmemoSession(BOB_ADDRESS.getName());
+            SessionCipher aliceSessionCipher = new SessionCipher(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, BOB_ADDRESS);
+            omemoSession.DEVICE_SESSIONS.Add(BOB_ADDRESS.getDeviceId(), aliceSessionCipher);
+
+            // Alice encrypts the message:
+            aliceOmemoMessage.encrypt(omemoSession, ALICE_ADDRESS.getDeviceId());
+            Assert.IsTrue(aliceOmemoMessage.ENCRYPTED);
+
+            string aliceOmemoMsgText = aliceOmemoMessage.toXmlString();
+
+            // Bob receives the message from Alice:
+            messages = parser.parseMessages(ref aliceOmemoMsgText);
+            Assert.IsTrue(messages.Count == 1);
+            Assert.IsTrue(messages[0] is OmemoMessageMessage);
+            OmemoMessageMessage bobOmemoMessage = messages[0] as OmemoMessageMessage;
+            Assert.IsTrue(bobOmemoMessage.ENCRYPTED);
+
+            // Bob decrypts the message:
+            SignalProtocolAddress aliceAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(bobOmemoMessage.getFrom()), bobOmemoMessage.SOURCE_DEVICE_ID);
+            SessionCipher bobSessionCipher = new SessionCipher(bobSessionStore, bobPreKeyStore, bobSignedPreKeyStore, bobIdentStore, aliceAddress);
+            bobOmemoMessage.decrypt(bobSessionCipher, aliceAddress, BOB_ADDRESS.getDeviceId());
+            Assert.IsFalse(bobOmemoMessage.ENCRYPTED);
+            Assert.AreEqual(aliceOrigMsg, bobOmemoMessage.MESSAGE);
         }
 
         [TestCategory("Crypto")]
