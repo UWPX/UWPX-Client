@@ -306,10 +306,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 
             if (msg is OmemoBundleInformationResultMessage bundleMsg)
             {
-                Logger.Info("[OmemoSessionBuildHelper] Session with " + curAddress.getName() + ':' + curAddress.getDeviceId() + " established.");
-                SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
-                SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
+                if (bundleMsg.BUNDLE_INFO.PUBLIC_PRE_KEYS.Count < 20)
+                {
+                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " device offered less than 20 pre keys: " + bundleMsg.BUNDLE_INFO.PUBLIC_PRE_KEYS.Count);
+                }
+                else
+                {
+                    Logger.Info("[OmemoSessionBuildHelper] Session with " + curAddress.getName() + ':' + curAddress.getDeviceId() + " established.");
+                    SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
+                    SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
+                    SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
+                }
                 createSessionForNextDevice();
                 return true;
             }
