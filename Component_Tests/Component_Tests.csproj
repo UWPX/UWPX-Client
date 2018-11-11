@@ -100,6 +100,7 @@
     <Compile Include="Classes\Crypto\Libsignal\InMemoryPreKeyStore.cs" />
     <Compile Include="Classes\Crypto\Libsignal\InMemorySessionStore.cs" />
     <Compile Include="Classes\Crypto\Libsignal\InMemorySignedPreKeyStore.cs" />
+    <Compile Include="Classes\Crypto\Omemo\Test_Omemo.cs" />
     <Compile Include="Classes\Crypto\Test_Aes128GcmCpp.cs" />
     <Compile Include="Classes\Crypto\Test_CryptoUtils.cs" />
     <Compile Include="Classes\Crypto\Libsignal\Test_Libsignal.cs" />
