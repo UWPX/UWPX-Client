@@ -4,6 +4,7 @@ using Microsoft.Toolkit.Uwp.Notifications;
 using Windows.UI.Notifications;
 using Windows.Phone.Devices.Notification;
 using System;
+using Windows.Foundation.Metadata;
 
 namespace Data_Manager2.Classes.Toast
 {
@@ -184,7 +185,10 @@ namespace Data_Manager2.Classes.Toast
 
         private static void popToastReduced()
         {
-            VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
+            if(ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+            {
+                VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
+            }
         }
 
         private static ToastActionsCustom getActions(ChatMessageTable msg, ChatTable chat)
