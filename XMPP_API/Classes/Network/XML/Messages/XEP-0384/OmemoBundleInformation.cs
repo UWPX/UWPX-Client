@@ -46,7 +46,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public PreKeyBundle getRandomPreKey(uint deviceId)
+        public PreKeyBundle getRandomPreKey(uint remoteDeviceId)
         {
             if (PUBLIC_PRE_KEYS.Count <= 0)
             {
@@ -55,7 +55,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             Random r = new Random();
             Tuple<uint, ECPublicKey> publicPreKey = PUBLIC_PRE_KEYS[r.Next(0, PUBLIC_PRE_KEYS.Count)];
 
-            return new PreKeyBundle(publicPreKey.Item1, deviceId, publicPreKey.Item1, publicPreKey.Item2, SIGNED_PRE_KEY_ID, PUBLIC_SIGNED_PRE_KEY, SIGNED_PRE_KEY_SIGNATURE, PUBLIC_IDENTITY_KEY);
+            return new PreKeyBundle(remoteDeviceId, remoteDeviceId, publicPreKey.Item1, publicPreKey.Item2, SIGNED_PRE_KEY_ID, PUBLIC_SIGNED_PRE_KEY, SIGNED_PRE_KEY_SIGNATURE, PUBLIC_IDENTITY_KEY);
         }
 
         protected override XElement getContent(XNamespace ns)
@@ -79,11 +79,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 Value = Convert.ToBase64String(PUBLIC_IDENTITY_KEY.serialize())
             };
             bundleNode.Add(identKeyNode);
-
-            if (PUBLIC_PRE_KEYS.Count < 20)
-            {
-                throw new InvalidOperationException("Failed to convert " + nameof(OmemoBundleInformation) + " to an " + nameof(XElement) + "! Less then 20 PreKeys given.");
-            }
 
             XElement preKeysNode = new XElement(ns1 + "prekeys");
             XElement preKeyNode;
