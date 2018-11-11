@@ -73,7 +73,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                     }
                 }
 
-                XmlNode payloadNode = XMLUtils.getChildNode(encryptedNode, "header");
+                XmlNode payloadNode = XMLUtils.getChildNode(encryptedNode, "payload");
                 if (payloadNode != null)
                 {
                     this.BASE_64_PAYLOAD = payloadNode.InnerText;
