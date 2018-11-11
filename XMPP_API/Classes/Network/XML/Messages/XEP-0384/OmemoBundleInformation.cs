@@ -136,7 +136,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                                             case "preKeyPublic":
                                                 if (uint.TryParse(n1.Attributes["preKeyId"]?.Value, out uint preKeyId))
                                                 {
-                                                    byte[] pubPreKey = Convert.FromBase64String(n.InnerText);
+                                                    byte[] pubPreKey = Convert.FromBase64String(n1.InnerText);
                                                     PUBLIC_PRE_KEYS.Add(new Tuple<uint, ECPublicKey>(preKeyId, Curve.decodePoint(pubPreKey, 0)));
                                                 }
                                                 else
