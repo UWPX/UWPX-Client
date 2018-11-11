@@ -37,6 +37,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         {
             this.includeBody = false;
             this.KEYS = new List<OmemoKey>();
+            this.ENCRYPTED = false;
         }
 
         public OmemoMessageMessage(XmlNode node, CarbonCopyType ccType) : base(node, ccType)
@@ -45,12 +46,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             XmlNode encryptedNode = XMLUtils.getChildNode(node, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
             if (encryptedNode != null)
             {
+                this.ENCRYPTED = true;
                 XmlNode headerNode = XMLUtils.getChildNode(encryptedNode, "header");
                 if (headerNode != null)
                 {
                     if (uint.TryParse(headerNode.Attributes["sid"]?.Value, out uint sid))
                     {
-                        SOURCE_DEVICE_ID = sid;
+                        this.SOURCE_DEVICE_ID = sid;
                     }
 
                     foreach (XmlNode n in headerNode.ChildNodes)
@@ -58,7 +60,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         switch (n.Name)
                         {
                             case "key":
-                                KEYS.Add(new OmemoKey(n));
+                                this.KEYS.Add(new OmemoKey(n));
                                 break;
 
                             case "iv":
@@ -137,16 +139,32 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         }
 
         /// <summary>
+        /// Decrypts the content of BASE_64_PAYLOAD. Loads the SessionCipher from the given OmemoHelper object and saves the result in MESSAGE.
+        /// Sets ENCRYPTED to false.
+        /// </summary>
+        /// <param name="helper">The current OmemoHelper object of the current account.</param>
+        /// <param name="localeDeciceId">The local device id.</param>
+        /// <returns>True on success.</returns>
+        public bool decrypt(OmemoHelper helper, uint localeDeciceId)
+        {
+            SignalProtocolAddress remoteAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
+            return decrypt(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId);
+        }
+
+        /// <summary>
         /// Decrypts the content of BASE_64_PAYLOAD with the given SessionCipher and saves the result in MESSAGE.
         /// Sets ENCRYPTED to false.
         /// </summary>
         /// <param name="cipher">The SessionCipher for decrypting the content of BASE_64_PAYLOAD.</param>
-        public bool decrypt(OmemoHelper omemoHelper, uint localOmemoDeviceId)
+        /// <param name="remoteAddress">The SignalProtocolAddress of the sender.</param>
+        /// <param name="localeDeciceId">The local device id.</param>
+        /// <returns>True on success.</returns>
+        public bool decrypt(SessionCipher cipher, SignalProtocolAddress remoteAddress, uint localeDeciceId)
         {
             try
             {
                 // 1. Check if the message contains a key for the local device:
-                OmemoKey key = getOmemoKey(localOmemoDeviceId);
+                OmemoKey key = getOmemoKey(localeDeciceId);
                 if (key == null)
                 {
                     Logger.Info("Discarded received OMEMO message - doesn't contain device id!");
@@ -155,7 +173,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
                 // 2. Load the cipher:
                 SignalProtocolAddress address = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
-                SessionCipher cipher = omemoHelper.loadCipher(address);
                 byte[] encryptedKeyAuthTag = Convert.FromBase64String(key.BASE_64_KEY);
                 byte[] decryptedKeyAuthTag = null;
                 if (key.IS_PRE_KEY)
