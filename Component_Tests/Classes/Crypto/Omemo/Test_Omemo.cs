@@ -242,6 +242,9 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(messages[0] is OmemoMessageMessage);
             OmemoMessageMessage bobOmemoMessage = messages[0] as OmemoMessageMessage;
             Assert.IsTrue(bobOmemoMessage.ENCRYPTED);
+            Assert.AreEqual(bobOmemoMessage.SOURCE_DEVICE_ID, aliceOmemoMessage.SOURCE_DEVICE_ID);
+            Assert.AreEqual(bobOmemoMessage.BASE_64_IV, aliceOmemoMessage.BASE_64_IV);
+            Assert.AreEqual(bobOmemoMessage.BASE_64_PAYLOAD, aliceOmemoMessage.BASE_64_PAYLOAD);
 
             // Bob decrypts the message:
             SignalProtocolAddress aliceAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(bobOmemoMessage.getFrom()), bobOmemoMessage.SOURCE_DEVICE_ID);
