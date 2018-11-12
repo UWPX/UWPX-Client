@@ -49,8 +49,22 @@ namespace Data_Manager2.Classes.DBManager
 
             saveAccountConnectionConfiguration(account);
 
-            OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.omemoPreKeys, account.getIdAndDomain());
-            OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getIdAndDomain());
+            if (account.omemoPreKeys != null)
+            {
+                OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.omemoPreKeys, account.getIdAndDomain());
+            }
+            else
+            {
+                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getIdAndDomain());
+            }
+            if (account.omemoSignedPreKeyPair != null)
+            {
+                OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getIdAndDomain());
+            }
+            else
+            {
+                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getIdAndDomain());
+            }
 
             if (triggerAccountChanged)
             {
