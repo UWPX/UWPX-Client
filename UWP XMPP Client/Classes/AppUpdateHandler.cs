@@ -139,13 +139,26 @@ namespace UWP_XMPP_Client.Classes
                         Logging.Logger.Info("Finished generating OMEMO keys for accounts. Update to version 0.9.0.0 done.");
                     }
 
-                    // Drop all OMEMO device tables since they have drastically changed in 0.11.0.0:
+                    // Drop all OMEMO  tables since they have drastically changed in 0.11.0.0:
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 11)
                     {
-                        Logging.Logger.Info("Started dropping OMEMO device tables...");
+                        Logging.Logger.Info("Started dropping OMEMO tables...");
                         AbstractDBManager.dB.RecreateTable<OmemoDeviceTable>();
                         AbstractDBManager.dB.RecreateTable<OmemoDeviceListSubscriptionTable>();
-                        Logging.Logger.Info("Finished dropping OMEMO device tables. Update to version 0.11.0.0 done.");
+                        AbstractDBManager.dB.RecreateTable<OmemoPreKeyTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoIdentityKeyTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoSignedPreKeyTable>();
+                        foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
+                        {
+                            Logging.Logger.Info("Reseting OMEMO keys for: " + account.getIdAndDomain());
+                            account.omemoBundleInfoAnnounced = false;
+                            account.omemoDeviceId = 0;
+                            account.omemoKeysGenerated = false;
+                            account.omemoSignedPreKeyId = 0;
+                            AccountDBManager.INSTANCE.setAccount(account, false);
+                        }
+                        Logging.Logger.Info("Finished dropping OMEMO tables. Update to version 0.11.0.0 done.");
                     }
                 }
             }

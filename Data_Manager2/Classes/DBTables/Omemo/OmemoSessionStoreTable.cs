@@ -2,10 +2,10 @@
 using libsignal;
 using SQLite;
 
-namespace Data_Manager2.Classes.DBManager.Omemo
+namespace Data_Manager2.Classes.DBTables.Omemo
 {
     [Table(DBTableConsts.OMEMO_SESSION_STORE_TABLE)]
-    class OmemoSessionStoreTable
+    public class OmemoSessionStoreTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

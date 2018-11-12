@@ -1,10 +1,10 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using SQLite;
 
-namespace Data_Manager2.Classes.DBManager.Omemo
+namespace Data_Manager2.Classes.DBTables.Omemo
 {
     [Table(DBTableConsts.OMEMO_IDENTITY_KEY_TABLE)]
-    class OmemoIdentityKeyTable
+    public class OmemoIdentityKeyTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

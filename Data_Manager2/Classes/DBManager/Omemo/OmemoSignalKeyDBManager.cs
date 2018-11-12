@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.DBTables.Omemo;
 using libsignal;
 using libsignal.state;
 using System.Collections.Generic;
