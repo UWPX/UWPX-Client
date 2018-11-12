@@ -69,7 +69,7 @@ namespace Component_Tests.Classes.Crypto
         {
             // Values vectors from: https://tools.ietf.org/html/rfc2202
             byte[] key = CryptoUtils.hexStringToByteArray("0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b0b");
-            byte[] data = Encoding.ASCII.GetBytes("Hi There");
+            byte[] data = Encoding.UTF8.GetBytes("Hi There");
             byte[] digest = CryptoUtils.HmacSha1(data, key);
             byte[] digestRef = CryptoUtils.hexStringToByteArray("b617318655057264e28bc0b6fb378c8ef146be00");
             Assert.IsTrue(digest.SequenceEqual(digestRef));

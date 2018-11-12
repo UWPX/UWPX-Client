@@ -64,7 +64,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
             // Alice sends a message:
             string aliceOrigMsg = "$(rm -rvf .)";
             SessionCipher aliceSessionCipher = new SessionCipher(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, BOB_ADDRESS);
-            CiphertextMessage aliceOutMsg = aliceSessionCipher.encrypt(Encoding.Unicode.GetBytes(aliceOrigMsg));
+            CiphertextMessage aliceOutMsg = aliceSessionCipher.encrypt(Encoding.UTF8.GetBytes(aliceOrigMsg));
 
             // Check if successfully encrypted:
             Assert.IsTrue(aliceOutMsg.getType() == CiphertextMessage.PREKEY_TYPE);
@@ -73,7 +73,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
             PreKeySignalMessage bobInMsg = new PreKeySignalMessage(aliceOutMsg.serialize());
             SessionCipher bobSessionCipher = new SessionCipher(bobSessionStore, bobPreKeyStore, bobSignedPreKeyStore, bobIdentStore, ALICE_ADDRESS);
             byte[] bobData = bobSessionCipher.decrypt(bobInMsg);
-            string bobRecMsg = Encoding.Unicode.GetString(bobData);
+            string bobRecMsg = Encoding.UTF8.GetString(bobData);
 
             // Check if successfully send:
             Assert.AreEqual(aliceOrigMsg, bobRecMsg);
@@ -128,7 +128,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
             // Alice sends a message:
             string aliceOrigMsg = "$(rm -rvf .)";
             SessionCipher aliceSessionCipher = new SessionCipher(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, BOB_ADDRESS);
-            CiphertextMessage aliceOutMsg = aliceSessionCipher.encrypt(Encoding.Unicode.GetBytes(aliceOrigMsg));
+            CiphertextMessage aliceOutMsg = aliceSessionCipher.encrypt(Encoding.UTF8.GetBytes(aliceOrigMsg));
 
             // Check if successfully encrypted:
             Assert.IsTrue(aliceOutMsg.getType() == CiphertextMessage.PREKEY_TYPE);
@@ -137,7 +137,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
             PreKeySignalMessage bobInMsg = new PreKeySignalMessage(aliceOutMsg.serialize());
             SessionCipher bobSessionCipher = new SessionCipher(bobSessionStore, bobPreKeyStore, bobSignedPreKeyStore, bobIdentStore, ALICE_ADDRESS);
             byte[] bobData = bobSessionCipher.decrypt(bobInMsg);
-            string bobRecMsg = Encoding.Unicode.GetString(bobData);
+            string bobRecMsg = Encoding.UTF8.GetString(bobData);
 
             // Check if successfully send:
             Assert.AreEqual(aliceOrigMsg, bobRecMsg);
@@ -149,13 +149,13 @@ namespace Component_Tests.Classes.Crypto.Libsignal
             string bobOrigMsg = ":(){ :|:& };:";
             // Simulate a chat break:
             bobSessionCipher = new SessionCipher(bobSessionStore, bobPreKeyStore, bobSignedPreKeyStore, bobIdentStore, ALICE_ADDRESS);
-            CiphertextMessage bobOutMsg = bobSessionCipher.encrypt(Encoding.Unicode.GetBytes(bobOrigMsg));
+            CiphertextMessage bobOutMsg = bobSessionCipher.encrypt(Encoding.UTF8.GetBytes(bobOrigMsg));
 
             // Alice receives the message:
             aliceSessionCipher = new SessionCipher(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, BOB_ADDRESS);
             SignalMessage aliceInMsg = new SignalMessage(bobOutMsg.serialize());
             byte[] aliceData = aliceSessionCipher.decrypt(aliceInMsg);
-            string aliceRecMsg = Encoding.Unicode.GetString(aliceData);
+            string aliceRecMsg = Encoding.UTF8.GetString(aliceData);
 
             // Check if successfully send:
             Assert.AreEqual(bobOrigMsg, aliceRecMsg);

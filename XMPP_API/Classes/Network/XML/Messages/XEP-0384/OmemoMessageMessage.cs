@@ -114,7 +114,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             aes128Gcm.generateIv();
 
             // 2. Encrypt the message using the Aes128Gcm instance:
-            byte[] encryptedData = aes128Gcm.encrypt(Encoding.Unicode.GetBytes(MESSAGE));
+            byte[] encryptedData = aes128Gcm.encrypt(Encoding.UTF8.GetBytes(MESSAGE));
             BASE_64_PAYLOAD = Convert.ToBase64String(encryptedData);
             BASE_64_IV = Convert.ToBase64String(aes128Gcm.iv);
 
@@ -209,7 +209,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 byte[] decryptedData = aes128Gcm.decrypt(encryptedData);
 
                 // 5. Convert decrypted data to Unicode string:
-                MESSAGE = Encoding.Unicode.GetString(decryptedData);
+                MESSAGE = Encoding.UTF8.GetString(decryptedData);
 
                 ENCRYPTED = false;
                 return true;

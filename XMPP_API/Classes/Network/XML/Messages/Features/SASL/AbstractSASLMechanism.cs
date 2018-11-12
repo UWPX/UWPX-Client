@@ -55,12 +55,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
 
         protected string encodeStringBase64(string s)
         {
-            return Convert.ToBase64String(Encoding.ASCII.GetBytes(s));
+            return Convert.ToBase64String(Encoding.UTF8.GetBytes(s));
         }
 
         protected string decodeStringBase64(string s)
         {
-            return Encoding.ASCII.GetString(Convert.FromBase64String(s));
+            return Encoding.UTF8.GetString(Convert.FromBase64String(s));
         }
 
         #endregion

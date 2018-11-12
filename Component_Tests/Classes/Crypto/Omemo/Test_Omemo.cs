@@ -98,7 +98,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             aes128Gcm.generateIv();
 
             // 2. Encrypt the message using the Aes128Gcm instance:
-            byte[] encryptedData = aes128Gcm.encrypt(Encoding.Unicode.GetBytes(aliceOrigMsg));
+            byte[] encryptedData = aes128Gcm.encrypt(Encoding.UTF8.GetBytes(aliceOrigMsg));
             string base64Payload = Convert.ToBase64String(encryptedData);
             string base64IV = Convert.ToBase64String(aes128Gcm.iv);
 
@@ -149,7 +149,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             byte[] bobData = aes128Gcm.decrypt(encryptedData);
 
             // 5. Convert decrypted data to Unicode string:
-            string bobRecMsg = Encoding.Unicode.GetString(bobData);
+            string bobRecMsg = Encoding.UTF8.GetString(bobData);
 
             // Check if successfully send:
             Assert.AreEqual(aliceOrigMsg, bobRecMsg);

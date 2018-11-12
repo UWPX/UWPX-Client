@@ -48,17 +48,17 @@ namespace XMPP_API.Classes.Crypto
 
         public static byte[] HmacSha1(byte[] data, string key)
         {
-            return HmacSha1(data, Encoding.ASCII.GetBytes(key));
+            return HmacSha1(data, Encoding.UTF8.GetBytes(key));
         }
 
         public static byte[] HmacSha1(string data, string key)
         {
-            return HmacSha1(Encoding.ASCII.GetBytes(data), Encoding.ASCII.GetBytes(key));
+            return HmacSha1(Encoding.UTF8.GetBytes(data), Encoding.UTF8.GetBytes(key));
         }
 
         public static byte[] HmacSha1(string data, byte[] key)
         {
-            return HmacSha1(Encoding.ASCII.GetBytes(data), key);
+            return HmacSha1(Encoding.UTF8.GetBytes(data), key);
         }
 
         public static byte[] HmacSha1(byte[] data, byte[] key)
