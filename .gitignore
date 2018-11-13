@@ -198,6 +198,11 @@ ClientBin/
 *.dbproj.schemaview
 *.jfm
 *.pfx
+
+# Do not ignore the temp keys - needed for release builds:
+!Component_Tests_TemporaryKey.pfx
+!UWP XMPP Client_TemporaryKey.pfx
+
 *.publishsettings
 orleans.codegen.cs
 
