@@ -8,6 +8,7 @@ pool:
 
 variables:
   solution: '**/*.sln'
+  cppvcxproj: 'AES_GCM\AES_GCM.vcxproj'
   buildPlatform: 'x86|x64|ARM'
   buildConfiguration: 'Release'
   appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\'
@@ -19,7 +20,32 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuild@1
+- task: VSBuildClean@1
+  inputs:
+    platform: 'x86'
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
+    msbuildArgs: '/t:Clean'
+
+- task: VSBuildCppX68@1
+  inputs:
+    platform: 'x86'
+    solution: '$(cppvcxproj)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSBuildCppX64@1
+  inputs:
+    platform: 'x64'
+    solution: '$(cppvcxproj)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSBuildCppARM@1
+  inputs:
+    platform: 'ARM'
+    solution: '$(cppvcxproj)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSBuildSolution@1
   inputs:
     platform: 'x86'
     solution: '$(solution)'
