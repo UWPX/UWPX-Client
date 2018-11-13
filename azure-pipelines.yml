@@ -21,6 +21,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - task: VSBuild@1
+  displayName: Clean solution
   inputs:
     platform: 'x86'
     solution: '$(solution)'
@@ -28,26 +29,43 @@ steps:
     msbuildArgs: '/t:Clean'
 
 - task: VSBuild@1
+  displayName: Build AES_GCM for x86
   inputs:
     platform: 'x86'
     solution: '$(cppvcxproj)'
     configuration: '$(buildConfiguration)'
 
 - task: VSBuild@1
+  displayName: Build AES_GCM for x64
   inputs:
     platform: 'x64'
     solution: '$(cppvcxproj)'
     configuration: '$(buildConfiguration)'
 
 - task: VSBuild@1
+  displayName: Build AES_GCM for ARM
   inputs:
     platform: 'ARM'
     solution: '$(cppvcxproj)'
     configuration: '$(buildConfiguration)'
 
 - task: VSBuild@1
+  displayName: Build solution x86
   inputs:
     platform: 'x86'
     solution: '$(solution)'
     configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+
+- task: VSBuild@1
+  displayName: Build solution x64
+  inputs:
+    platform: 'x64'
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
+
+- task: VSBuild@1
+  displayName: Build solution ARM
+  inputs:
+    platform: 'ARM'
+    solution: '$(solution)'
+    configuration: '$(buildConfiguration)'
