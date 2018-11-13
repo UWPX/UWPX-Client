@@ -20,8 +20,11 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- powershell: .\build\Install-WindowsSdkISO.ps1 17763
-    displayName: Install Windows 10_0_17763_0 SDK
+- task: PowerShell@2
+  displayName: Install Windows 10.0.17763.0 SDK
+  inputs:
+    targetType: 'filePath'
+	filePath: '.\build\Install-WindowsSdkISO.ps1 17763'  
 
 - task: VSBuild@1
   displayName: Clean solution
