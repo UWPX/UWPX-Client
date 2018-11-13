@@ -1,0 +1,2 @@
+Error: cannot be loaded because running scripts is disabled on this system. For more information, see about_Execution_Policies at 
+Solution: https://stackoverflow.com/questions/4037939/powershell-says-execution-of-scripts-is-disabled-on-this-system
