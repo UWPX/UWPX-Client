@@ -20,32 +20,32 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
-- task: VSBuildClean@1
+- task: VSBuild@1
   inputs:
     platform: 'x86'
     solution: '$(solution)'
     configuration: '$(buildConfiguration)'
     msbuildArgs: '/t:Clean'
 
-- task: VSBuildCppX68@1
+- task: VSBuild@1
   inputs:
     platform: 'x86'
     solution: '$(cppvcxproj)'
     configuration: '$(buildConfiguration)'
 
-- task: VSBuildCppX64@1
+- task: VSBuild@1
   inputs:
     platform: 'x64'
     solution: '$(cppvcxproj)'
     configuration: '$(buildConfiguration)'
 
-- task: VSBuildCppARM@1
+- task: VSBuild@1
   inputs:
     platform: 'ARM'
     solution: '$(cppvcxproj)'
     configuration: '$(buildConfiguration)'
 
-- task: VSBuildSolution@1
+- task: VSBuild@1
   inputs:
     platform: 'x86'
     solution: '$(solution)'
