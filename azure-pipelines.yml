@@ -21,7 +21,7 @@ steps:
     restoreSolution: '$(solution)'
 
 - powershell: ./'Build/Install-WindowsSdkISO.ps1'
-  arguments: 17763
+    arguments: 17763
 
 - task: VSBuild@1
   displayName: Clean solution
