@@ -24,7 +24,7 @@ steps:
   displayName: Install Windows 10.0.17763.0 SDK
   inputs:
     targetType: 'filePath'
-	filePath: '.\build\Install-WindowsSdkISO.ps1 17763'  
+    filePath: '.\build\Install-WindowsSdkISO.ps1 17763'  
 
 - task: VSBuild@1
   displayName: Clean solution
