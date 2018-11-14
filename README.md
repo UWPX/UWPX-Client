@@ -2,13 +2,13 @@
 [![Donate](https://liberapay.com/assets/widgets/donate.svg)](http://liberapay.uwpx.org)
 [![Donate](https://www.paypalobjects.com/webstatic/de_DE/i/de-pp-logo-100px.png)](http://paypal.uwpx.org)
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/551476163f8f4784bd1017bf2e8f3db1)](https://www.codacy.com/app/COM8/UWPX-Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UWPX/UWPX-Client&amp;utm_campaign=Badge_Grade)
-
 | Platform | Build Status | Latest Version - Store | Latest Version - Sideload |
 | :---: | :---: | :---: | :---: |
 | x64 | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x64%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=5) | [v.0.10.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | ToDo |
 | x86 | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x86%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=6) | [v.0.10.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | ToDo |
 | ARM | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20ARM%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=7) | [v.0.10.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | ToDo |
+
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/551476163f8f4784bd1017bf2e8f3db1)](https://www.codacy.com/app/COM8/UWPX-Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UWPX/UWPX-Client&amp;utm_campaign=Badge_Grade)
 
 # UWP-XMPP-Client - Now with MUC support [read on...](https://github.com/UWPX/UWPX-Client/releases)
 [This app is still in alpha stage!]
