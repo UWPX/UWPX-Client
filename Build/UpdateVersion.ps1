@@ -33,7 +33,7 @@ switch($VersionData.Count)
 {
    0        
       { 
-         Write-Error "Could not find version number data in BUILD_BUILDNUMBER."
+         Write-Error "Could not find version number data in BUILD_BUILDNUMBER: $Env:BUILD_BUILDNUMBER"
          exit 1
       }
    1 {}
