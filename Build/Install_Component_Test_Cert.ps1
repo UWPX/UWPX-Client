@@ -1,0 +1,1 @@
+Import-PfxCertificate -FilePath ..\Component_Tests\Component_Tests_TemporaryKey.pfx -CertStoreLocation Cert:\LocalMachine\My
