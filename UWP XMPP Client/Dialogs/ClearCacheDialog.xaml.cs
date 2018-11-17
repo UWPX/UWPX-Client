@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.DBTables.Omemo;
 using System;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.SQLite;
@@ -26,12 +27,19 @@ namespace UWP_XMPP_Client.Dialogs
         public ClearCacheDialog()
         {
             this.InitializeComponent();
+            setSelectedNodes();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private void setSelectedNodes()
+        {
+            tree_tv.SelectedNodes.Add(general_tvn);
+            tree_tv.SelectedNodes.Add(disco_tvn);
+            tree_tv.SelectedNodes.Add(muc_tvn);
+            tree_tv.SelectedNodes.Add(clients_tvn);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -41,31 +49,43 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
+        private bool isChecked(Microsoft.UI.Xaml.Controls.TreeViewNode node)
+        {
+            return false;
+        }
+
         private void clearCache()
         {
             clear_btn.IsEnabled = false;
             close_btn.IsEnabled = false;
-            main_sclv.IsEnabled = false;
+            tree_tv.IsEnabled = false;
             clear_prgr.Visibility = Visibility.Visible;
 
-            bool chatMessages = (bool)chatMessages_chbx.IsChecked;
-            bool chat = (bool)chats_chbx.IsChecked;
-            bool images = (bool)images_chbx.IsChecked;
+            bool chatMessages = isChecked(chatMessages_tvn);
+            bool chat = isChecked(chats_tvn);
+            bool images = isChecked(images_tvn);
 
-            bool discoFeatures = (bool)discoFeatures_chbx.IsChecked;
-            bool discoIdentities = (bool)discoIdentities_chbx.IsChecked;
-            bool discoItems = (bool)discoItems_chbx.IsChecked;
+            bool discoFeatures = isChecked(discoFeatures_tvn);
+            bool discoIdentities = isChecked(discoIdentities_tvn);
+            bool discoItems = isChecked(discoItems_tvn);
 
-            bool mucChatInfo = (bool)mucChatInfo_chbx.IsChecked;
-            bool mucMembers = (bool)mucMembers_chbx.IsChecked;
-            bool mucDirectInvites = (bool)mucDirectInvites_chbx.IsChecked;
+            bool mucChatInfo = isChecked(mucChatInfo_tvn);
+            bool mucMembers = isChecked(mucMembers_tvn);
+            bool mucDirectInvites = isChecked(mucDirectInvites_tvn);
 
-            bool accounts = (bool)accounts_chbx.IsChecked;
-            bool passwordVault = (bool)passwordVault_chbx.IsChecked;
-            bool ignoredCertificateErrors = (bool)ignoredCertificateErrors_chbx.IsChecked;
-            bool connectionOptions = (bool)connectionOptions_chbx.IsChecked;
+            bool accounts = isChecked(account_tvn);
+            bool passwordVault = isChecked(passwordVault_tvn);
+            bool ignoredCertificateErrors = isChecked(ignoredCertificateErrors_tvn);
+            bool connectionOptions = isChecked(connectionOptions_tvn);
 
-            bool reload = (bool)reload_chbx.IsChecked;
+            bool omemoDeviceListSubscriptions = isChecked(omemoDeviceListSubscriptions_tvn);
+            bool omemoDevices = isChecked(omemoDevices_tvn);
+            bool omemoIdentityKeys = isChecked(omemoIdentityKeys_tvn);
+            bool omemoPreKeys = isChecked(omemoPreKeys_tvn);
+            bool omemoSignedPreKeys = isChecked(omemoSignedPreKeys_tvn);
+            bool omemoSessions = isChecked(omemoSessions_tvn);
+
+            bool reloadClients = isChecked(reloadClients_tvn);
 
             Task.Run(async () =>
             {
@@ -129,8 +149,34 @@ namespace UWP_XMPP_Client.Dialogs
                     AbstractDBManager.dB.RecreateTable<ConnectionOptionsTable>();
                 }
 
+                // OMEMO:
+                if (omemoDeviceListSubscriptions)
+                {
+                    AbstractDBManager.dB.RecreateTable<OmemoDeviceListSubscriptionTable>();
+                }
+                if (omemoDevices)
+                {
+                    AbstractDBManager.dB.RecreateTable<OmemoDeviceTable>();
+                }
+                if (omemoIdentityKeys)
+                {
+                    AbstractDBManager.dB.RecreateTable<OmemoIdentityKeyTable>();
+                }
+                if (omemoPreKeys)
+                {
+                    AbstractDBManager.dB.RecreateTable<OmemoPreKeyTable>();
+                }
+                if (omemoSignedPreKeys)
+                {
+                    AbstractDBManager.dB.RecreateTable<OmemoSignedPreKeyTable>();
+                }
+                if (omemoSessions)
+                {
+                    AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
+                }
+
                 // Clients:
-                if (reload)
+                if (reloadClients)
                 {
                     ConnectionHandler.INSTANCE.reloadClients();
                 }
@@ -139,7 +185,7 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     clear_btn.IsEnabled = true;
                     close_btn.IsEnabled = true;
-                    main_sclv.IsEnabled = true;
+                    tree_tv.IsEnabled = true;
                     clear_prgr.Visibility = Visibility.Collapsed;
 
                     // Show non found in app notification:
