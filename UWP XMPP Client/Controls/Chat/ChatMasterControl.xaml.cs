@@ -338,8 +338,8 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
         {
-            await Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(Chat.chatJabberId, accepted).ConfigureAwait(false);
             Chat.ask = null;
+            await Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(Chat.chatJabberId, accepted).ConfigureAwait(false);
             ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
