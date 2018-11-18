@@ -147,6 +147,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             }
             switch (type)
             {
+                case FieldType.LIST_SINGLE:
                 case FieldType.TEXT_SINGLE:
                 case FieldType.TEXT_MULTI:
                 case FieldType.TEXT_PRIVATE:
@@ -156,7 +157,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     });
                     break;
 
-                case FieldType.LIST_SINGLE:
                 case FieldType.LIST_MULTI:
                     foreach (FieldOption o in selectedOptions)
                     {
