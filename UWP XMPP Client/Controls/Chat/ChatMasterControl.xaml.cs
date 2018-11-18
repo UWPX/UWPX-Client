@@ -112,7 +112,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         private void showPresenceSubscriptionRequest()
         {
             accountAction_grid.Visibility = Visibility.Visible;
-            accountAction_tblck.Text = Chat.status ?? Chat.chatJabberId + "  has requested to subscribe to your presence!";
+            accountAction_tblck.Text = Chat.chatJabberId + "  has requested to subscribe to your presence!";
             accountActionRefuse_btn.Content = "Refuse";
             accountActionAccept_btn.Content = "Accept";
             subscriptionRequest = true;
@@ -158,7 +158,6 @@ namespace UWP_XMPP_Client.Controls.Chat
                     requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
-                    cancelPresenceSubscriptionRequest.Visibility = Visibility.Collapsed;
                     presenceSubscription_mfo.IsEnabled = true;
 
                     switch (chat.subscription)
@@ -169,9 +168,6 @@ namespace UWP_XMPP_Client.Controls.Chat
                         case "both":
                             cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                             rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
-                            break;
-                        case "pending":
-                            cancelPresenceSubscriptionRequest.Visibility = Visibility.Visible;
                             break;
                         case "subscribe":
                             presenceSubscription_mfo.IsEnabled = false;
@@ -201,7 +197,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                 }
 
                 // Subscription pending:
-                if (chat.ask != null && chat.ask.Equals("subscribe"))
+                if (chat.subscriptionRequested)
                 {
                     presence_tblck.Visibility = Visibility.Visible;
                     cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
@@ -339,13 +335,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         private async Task presenceSubscriptionRequestClickedAsync(bool accepted)
         {
             await Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(Chat.chatJabberId, accepted);
-            Chat.ask = null;
-            ChatDBManager.INSTANCE.setChat(Chat, false, true);
-        }
-
-        private void resetAsk()
-        {
-            Chat.ask = null;
+            Chat.subscription = accepted ? "to" : "none";
             ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
@@ -557,25 +547,47 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async void requestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(Chat.chatJabberId).ConfigureAwait(false);
+            await Client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(Chat.chatJabberId);
+            Chat.subscriptionRequested = true;
+            ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private async void cancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(Chat.chatJabberId).ConfigureAwait(false);
-            resetAsk();
+            await Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(Chat.chatJabberId);
+            switch (Chat.subscription)
+            {
+                case "to":
+                    Chat.subscription = "none";
+                    break;
+
+                case "both":
+                    Chat.subscription = "from";
+                    break;
+
+                default:
+                    break;
+            }
+            ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private async void rejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
             await Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(Chat.chatJabberId, false);
-            resetAsk();
-        }
+            switch (Chat.subscription)
+            {
+                case "from":
+                    Chat.subscription = "none";
+                    break;
 
-        private async void cancelPresenceSubscriptionRequest_Click(object sender, RoutedEventArgs e)
-        {
-            await Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(Chat.chatJabberId).ConfigureAwait(false);
-            resetAsk();
+                case "both":
+                    Chat.subscription = "to";
+                    break;
+
+                default:
+                    break;
+            }
+            ChatDBManager.INSTANCE.setChat(Chat, false, true);
         }
 
         private async void ChatMessage_ChatMessageChanged(object sender, EventArgs e)

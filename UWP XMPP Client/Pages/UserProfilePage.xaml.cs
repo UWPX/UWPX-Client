@@ -110,7 +110,7 @@ namespace UWP_XMPP_Client.Pages
             name_tblck.Text = Chat.chatJabberId;
             status_tblck.Text = Chat.status ?? "";
             account_tblck.Text = Chat.userAccountId ?? "";
-            showSubscriptionStatus(Chat.subscription ?? Chat.ask ?? "none");
+            showSubscriptionStatus(Chat.subscription ?? (Chat.subscriptionRequested ? "subscription requested" : "none"));
         }
 
         private void showSubscriptionStatus(string status)

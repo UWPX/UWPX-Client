@@ -52,15 +52,6 @@
                                               Glyph="&#xE738;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="cancelPresenceSubscriptionRequest"
-                                            Click="cancelPresenceSubscriptionRequest_Click"
-                                            Text="Cancel subscription request"
-                                            Visibility="Collapsed">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Red"
-                                              Glyph="&#xE711;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
                             <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
                                             Click="rejectPresenceSubscription_mfo_Click"
                                             Text="Reject subscription"

@@ -339,18 +339,7 @@ namespace Data_Manager2.Classes
                 case "unsubscribed":
                     if (chat == null)
                     {
-                        chat = new ChatTable
-                        {
-                            id = id,
-                            chatJabberId = from,
-                            userAccountId = to,
-                            inRoster = false,
-                            muted = false,
-                            lastActive = DateTime.Now,
-                            ask = null,
-                            status = null,
-                            chatState = null
-                        };
+                        chat = new ChatTable(from, to);
                     }
                     chat.subscription = args.PRESENCE_MESSAGE.TYPE;
                     break;
@@ -395,22 +384,13 @@ namespace Data_Manager2.Classes
                     ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
                     if (chat != null)
                     {
-                        chat.subscription = item.SUBSCRIPTION;
-                        chat.inRoster = !item.SUBSCRIPTION.Equals("remove");
-                        chat.ask = item.ASK;
+                        chat.inRoster = !string.Equals(item.SUBSCRIPTION, "remove");
                     }
-                    else if (!Equals(item.SUBSCRIPTION, "remove"))
+                    else if (!string.Equals(item.SUBSCRIPTION, "remove"))
                     {
-                        chat = new ChatTable()
+                        chat = new ChatTable(from, to)
                         {
-                            id = id,
-                            chatJabberId = from,
-                            userAccountId = to,
-                            subscription = item.SUBSCRIPTION,
-                            lastActive = DateTime.Now,
-                            muted = false,
                             inRoster = true,
-                            ask = item.ASK,
                             chatType = ChatType.CHAT
                         };
                     }
@@ -418,6 +398,13 @@ namespace Data_Manager2.Classes
                     {
                         continue;
                     }
+
+                    // Only update the subscription state, if not set to subscribe:
+                    if(!string.Equals(chat.subscription, "subscribe"))
+                    {
+                        chat.subscription = item.SUBSCRIPTION;
+                    }
+                    chat.subscriptionRequested = string.Equals(item.ASK, "subscribe");
 
                     switch (chat.subscription)
                     {
@@ -478,19 +465,10 @@ namespace Data_Manager2.Classes
             if (chat == null)
             {
                 chatChanged = true;
-                chat = new ChatTable()
+                chat = new ChatTable(from, to)
                 {
-                    id = id,
-                    chatJabberId = from,
-                    userAccountId = to,
-                    ask = null,
-                    inRoster = false,
                     lastActive = msg.getDelay(),
-                    muted = false,
-                    presence = Presence.Unavailable,
-                    status = null,
-                    subscription = null,
-                    chatType = Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT,
+                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
                 };
             }
 
@@ -666,17 +644,7 @@ namespace Data_Manager2.Classes
                 ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
                 if (chat == null)
                 {
-                    chat = new ChatTable()
-                    {
-                        id = id,
-                        chatJabberId = from,
-                        userAccountId = to,
-                        ask = null,
-                        lastActive = DateTime.Now,
-                        muted = false,
-                        status = null,
-                        subscription = null
-                    };
+                    chat = new ChatTable(from, to);
                     newMUC = true;
                 }
                 chat.chatType = ChatType.MUC;

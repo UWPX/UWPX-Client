@@ -126,7 +126,7 @@ namespace XMPP_API.Classes.Network.TCP
 
                             // Update account connection info:
                             ConnectionInformation connectionInfo = account.CONNECTION_INFO;
-                            connectionInfo.socketInfo = socket.Information;
+                            connectionInfo.socketInfo = socket?.Information;
 
                             // Connection successfully established:
                             if (state == ConnectionState.CONNECTING)

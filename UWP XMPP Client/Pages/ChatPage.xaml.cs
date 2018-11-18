@@ -175,17 +175,9 @@ namespace UWP_XMPP_Client.Pages
                 {
                     await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(jID).ConfigureAwait(false);
                 }
-                ChatDBManager.INSTANCE.setChat(new ChatTable
+                ChatDBManager.INSTANCE.setChat(new ChatTable(jID, client.getXMPPAccount().getIdAndDomain())
                 {
-                    id = ChatTable.generateId(jID, client.getXMPPAccount().getIdAndDomain()),
-                    chatJabberId = jID,
-                    userAccountId = client.getXMPPAccount().getIdAndDomain(),
-                    ask = null,
                     inRoster = addToRoster,
-                    lastActive = DateTime.Now,
-                    muted = false,
-                    presence = Presence.Unavailable,
-                    status = null,
                     subscription = requestSubscription ? "pending" : null
                 }, false, true);
             }

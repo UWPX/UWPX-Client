@@ -127,16 +127,10 @@ namespace UWP_XMPP_Client.Dialogs
 
                 string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLowerInvariant();
 
-                ChatTable muc = new ChatTable
+                ChatTable muc = new ChatTable(roomJid, client.getXMPPAccount().getIdAndDomain())
                 {
-                    id = ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain()),
-                    ask = null,
-                    chatJabberId = roomJid,
-                    userAccountId = client.getXMPPAccount().getIdAndDomain(),
                     chatType = ChatType.MUC,
                     inRoster = (bool)bookmark_cbx.IsChecked,
-                    muted = false,
-                    lastActive = DateTime.Now,
                     subscription = "none"
                 };
                 ChatDBManager.INSTANCE.setChat(muc, false, true);

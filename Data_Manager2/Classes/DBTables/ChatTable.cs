@@ -26,8 +26,8 @@ namespace Data_Manager2.Classes.DBTables
         public string subscription { get; set; }
         // A part of your personal roster/rooster-subscription-list
         public bool inRoster { get; set; }
-        // Subscription request status
-        public string ask { get; set; }
+        // A presence subscription request to the targets presence is pending
+        public bool subscriptionRequested { get; set; }
         // Status text
         public string status { get; set; }
         // online, dnd, xa, ...
@@ -52,6 +52,23 @@ namespace Data_Manager2.Classes.DBTables
         /// </history>
         public ChatTable()
         {
+        }
+
+        public ChatTable(string chatJabberId, string userAccountId)
+        {
+            this.id = generateId(chatJabberId, userAccountId);
+            this.chatJabberId = chatJabberId;
+            this.userAccountId = userAccountId;
+            this.chatState = null;
+            this.chatType = ChatType.CHAT;
+            this.inRoster = false;
+            this.muted = false;
+            this.omemoEnabled = false;
+            this.presence = Presence.Unavailable;
+            this.status = null;
+            this.subscription = null;
+            this.subscriptionRequested = false;
+            this.lastActive = DateTime.Now;
         }
 
         #endregion
