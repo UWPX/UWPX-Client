@@ -106,7 +106,19 @@ namespace UWP_XMPP_Client
         {
             try
             {
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes), typeof(Analytics));
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
+                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
+                {
+                    Crashes.Instance.InstanceEnabled = false;
+                    Logger.Info("AppCenter crash reporting is disabled.");
+                }
+
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics));
+                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS))
+                {
+                    Analytics.SetEnabledAsync(false);
+                    Logger.Info("AppCenter analytics are disabled.");
+                }
 #if DEBUG
                 Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push)); // Only enable push for debug builds
 #endif
@@ -205,7 +217,7 @@ namespace UWP_XMPP_Client
                 Window.Current.Content = rootFrame;
             }
 
-            if(args is ProtocolActivatedEventArgs protocolActivationArgs)
+            if (args is ProtocolActivatedEventArgs protocolActivationArgs)
             {
                 Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
 

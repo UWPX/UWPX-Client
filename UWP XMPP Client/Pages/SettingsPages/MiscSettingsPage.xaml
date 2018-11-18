@@ -79,16 +79,23 @@
                         Click="openImagesFolder_btn_Click"
                         Content="Open folder"/>
 
-                <controls:SeperatorControl Text="Crash reporting:"/>
+                <controls:SeperatorControl Text="Analytics and crash reporting:"/>
                 <ToggleSwitch x:Name="disableCrashReporting_tgls"
                               Margin="10,10,0,0"
                               Header="Disable crash reporting"
+                              OffContent="Enabled"
+                              OnContent="Disabled 😥"
                               Toggled="disableCrashReporting_tgls_Toggled"/>
-                <TextBlock x:Name="moreInformation_tblck"
-                           Margin="10,0,0,0"
-                           Foreground="{ThemeResource SystemAccentColor}"
-                           Tapped="moreInformation_tblck_Tapped"
-                           Text="More information"/>
+                <ToggleSwitch x:Name="disableAnalytics_tgls"
+                              Margin="10,10,0,0"
+                              Header="Disable analytics"
+                              OffContent="Enabled"
+                              OnContent="Disabled 😥"
+                              Toggled="DisableAnalytics_tgls_Toggled"/>
+                <HyperlinkButton x:Name="moreInformation_hlb"
+                                 Margin="10,0,0,0"
+                                 Content="More information"
+                                 Tapped="MoreInformation_hlb_Tapped"/>
 
                 <controls:SeperatorControl Text="Misc:"/>
                 <Button x:Name="clearCache_btn"

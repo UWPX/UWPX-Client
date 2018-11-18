@@ -19,6 +19,7 @@
         public const string DISABLE_PUSH = "disable_push";
         public const string DISABLE_DOWNLOAD_IMAGES_TO_LIBARY = "disable_download_images_to_libary";
         public const string DISABLE_CRASH_REPORTING = "disable_crash_reporting";
+        public const string DISABLE_ANALYTICS = "disable_analytics";
         public const string DISABLE_AUTO_JOIN_MUC = "disable_auto_join_muc";
 
         public const string PUSH_CHANNEL_TOKEN_URL = "push_channel_token_url";

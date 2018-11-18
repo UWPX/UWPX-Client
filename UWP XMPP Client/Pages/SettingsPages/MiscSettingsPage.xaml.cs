@@ -1,6 +1,8 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Logging;
+using Microsoft.AppCenter.Analytics;
+using Microsoft.AppCenter.Crashes;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -110,6 +112,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             showInitialStartDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
             showWhatsNewDialog_tgls.IsOn = !Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG);
             disableCrashReporting_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
+            disableAnalytics_tgls.IsOn = Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS);
         }
 
         private void showLogLevels()
@@ -216,14 +219,49 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             Settings.setSetting(SettingsConsts.HIDE_WHATS_NEW_DIALOG, !showWhatsNewDialog_tgls.IsOn);
         }
 
-        private void disableCrashReporting_tgls_Toggled(object sender, RoutedEventArgs e)
+        private async void disableCrashReporting_tgls_Toggled(object sender, RoutedEventArgs e)
         {
+            if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING) == disableCrashReporting_tgls.IsOn)
+            {
+                return;
+            }
+
             Settings.setSetting(SettingsConsts.DISABLE_CRASH_REPORTING, disableCrashReporting_tgls.IsOn);
+            Crashes.Instance.InstanceEnabled = !disableCrashReporting_tgls.IsOn;
+            if (disableCrashReporting_tgls.IsOn)
+            {
+                Logger.Info("AppCenter crash reporting disabled.");
+            }
+            else
+            {
+                Logger.Info("AppCenter crash reporting enabled.");
+            }
+            if (await Analytics.IsEnabledAsync())
+            {
+                Analytics.TrackEvent("crash_reporting", new Dictionary<string, string> { { "disabled", disableCrashReporting_tgls.IsOn.ToString() } });
+            }
         }
 
-        private async void moreInformation_tblck_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private async void DisableAnalytics_tgls_Toggled(object sender, RoutedEventArgs e)
         {
-            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
+            if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS) == disableAnalytics_tgls.IsOn)
+            {
+                return;
+            }
+
+            Settings.setSetting(SettingsConsts.DISABLE_ANALYTICS, disableAnalytics_tgls.IsOn);
+            if (disableAnalytics_tgls.IsOn)
+            {
+                Analytics.TrackEvent("analytics", new Dictionary<string, string> { { "disabled", disableAnalytics_tgls.IsOn.ToString() } });
+                await Analytics.SetEnabledAsync(false);
+                Logger.Info("AppCenter analytics disabled.");
+            }
+            else
+            {
+                await Analytics.SetEnabledAsync(true);
+                Analytics.TrackEvent("analytics", new Dictionary<string, string> { { "disabled", disableAnalytics_tgls.IsOn.ToString() } });
+                Logger.Info("AppCenter analytics enabled.");
+            }
         }
 
         private async void contributeGithub_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -285,6 +323,11 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private async void thanks_stckp_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             await UiUtils.launchUriAsync(new Uri("https://uwpx.org/about/"));
+        }
+
+        private async void MoreInformation_hlb_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await UiUtils.launchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
         }
 
         #endregion
