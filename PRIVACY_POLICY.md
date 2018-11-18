@@ -38,8 +38,9 @@ Since version [`0.11.0.0`](https://github.com/UWPX/UWPX-Client/releases/edit/v.0
 Like Crash Reporting, Analytics can be disabled via `Settings` -> `Misc` -> `Disable analytics`.
 
 ## Accounts:
-XMPP accounts you add, get stored in a local [SQLite database](https://www.sqlite.org/).<br>
-The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault) ([implementation](https://github.com/UWPX/UWPX-Client/blob/master/Data_Manager2/Classes/Vault.cs)).
+XMPP accounts you add, get stored in a local [SQLite-net database](https://github.com/praeclarum/sqlite-net). This database is located in the apps [ApplicationData](https://docs.microsoft.com/en-us/uwp/api/windows.storage.applicationdata) folder, where by design no other applications have access to.<br>
+The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault) ([implementation](https://github.com/UWPX/UWPX-Client/blob/master/Data_Manager2/Classes/Vault.cs)).<br>
+Passwords for [MUC](https://xmpp.org/extensions/xep-0045.html)s and all [OMEMO](https://xmpp.org/extensions/xep-0384.html) keys get stored in plain text in the above mentioned database.
 
 ## Picture library:
 The App accesses your picture library to store downloaded images.<br>
