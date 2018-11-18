@@ -2,11 +2,11 @@
 
 ## General:
 UWPX is an XMPP client, that connects to XMPP servers.
-UWPX doesn't collect data, with one exception: crash reports
+It does not collect any personal data and all ways data is collected can be disabled.
 
 ## Crash reporting:
-After a crash, the App will collect data about what happened and uploads this bundle to [App Center](https://appcenter.ms) or for versions older than [v.0.6.0.0](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.6.0.0) to [HockeyApp](https://hockeyapp.net/features/crashreports/).<br>
-Althoug it's not recommended, it can be disabled via Settings -> Misc -> "Disable crash reporting".
+After a crash, the App will collect data about what happened and uploads this bundle to [App Center](https://appcenter.ms) or for versions lower than [v.0.6.0.0](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.6.0.0) to [HockeyApp](https://hockeyapp.net/features/crashreports/).<br>
+Althoug it's not recommended, it can be disabled via `Settings` -> `Misc` -> `Disable crash reporting`.
 
 <details>
 <summary>Example report:</summary>
@@ -33,11 +33,15 @@ Data_Manager2.Classes.DBManager.ImageManager.<>c__DisplayClass9_0.<<contiuneAllD
 </pre>
 </details>
 
+## Analytics:
+Since version [`0.11.0.0`](https://github.com/UWPX/UWPX-Client/releases/edit/v.0.11.0.0) UWPX uses [AppCenter](https://appcenter.ms) [Analytics](https://docs.microsoft.com/en-us/appcenter/analytics/) to report basic information like session count, duration and which OS version you are running on.
+Like Crash Reporting, Analytics can be disabled via `Settings` -> `Misc` -> `Disable analytics`.
+
 ## Accounts:
 XMPP accounts you add, get stored in a local [SQLite database](https://www.sqlite.org/).<br>
 The password for each account gets stored in a [PasswordVault](https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault) ([implementation](https://github.com/UWPX/UWPX-Client/blob/master/Data_Manager2/Classes/Vault.cs)).
 
 ## Picture library:
 The App accesses your picture library to store downloaded images.<br>
-This can be disabled via Settings -> Chat -> "Store images in library".<br>
+This can be disabled via `Settings` -> `Chat` -> `Store images in library`.<br>
 If disabled, the app will store all newly downloaded images in the local app directory.
