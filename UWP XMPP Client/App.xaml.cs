@@ -106,9 +106,9 @@ namespace UWP_XMPP_Client
         {
             try
             {
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes), typeof(Analytics));
 #if DEBUG
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics), typeof(Push)); // Only enable analytics and push for debug builds
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push)); // Only enable push for debug builds
 #endif
 
                 if (!Microsoft.AppCenter.AppCenter.Configured)
