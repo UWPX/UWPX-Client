@@ -81,7 +81,7 @@ namespace UWP_XMPP_Client.Controls.Chat
         /// <summary>
         /// Updates all controls with the proper content.
         /// </summary>
-        private void showChatMessage()
+        private async void showChatMessage()
         {
             if (ChatMessage != null)
             {
@@ -108,7 +108,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                                     waitForImageDownloadToFinish(img);
                                     break;
                             }
-                            Task.Run(async () => await showImageAsync(img));
+                            await showImageAsync(img);
                             image_img.Visibility = Visibility.Visible;
                         }
                         else
