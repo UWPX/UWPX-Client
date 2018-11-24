@@ -27,6 +27,7 @@ namespace UWP_XMPP_Client.Classes
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
         private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
         private static readonly Random RANDOM = new Random();
+        public static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

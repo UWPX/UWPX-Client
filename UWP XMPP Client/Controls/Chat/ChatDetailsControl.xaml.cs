@@ -89,7 +89,6 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
 
-        private static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
         private int sendDummyMessages;
         private string curChatId;
         #endregion
@@ -368,7 +367,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
                     string messageText = message_tbx.Text;
                     // Remove all tailing whitespaces, tabs and newlines:
-                    messageText = messageText.TrimEnd(TRIM_CHARS).TrimStart(TRIM_CHARS);
+                    messageText = messageText.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS);
 
                     // For MUC messages also pass the nickname:
                     bool toEncrypt = false;

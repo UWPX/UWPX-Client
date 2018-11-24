@@ -800,6 +800,9 @@
     <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
       <Version>1.0.1.2</Version>
     </PackageReference>
+    <PackageReference Include="Unicode.net">
+      <Version>0.1.2</Version>
+    </PackageReference>
     <PackageReference Include="ZXing.Net">
       <Version>0.16.4</Version>
     </PackageReference>
