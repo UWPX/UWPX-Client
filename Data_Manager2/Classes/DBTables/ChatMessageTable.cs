@@ -40,7 +40,7 @@ namespace Data_Manager2.Classes.DBTables
         [Ignore]
         public bool isDummyMessage { get; set; }
 
-        private static readonly Regex IMAGE_URL_REGEX = new Regex(@"http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpe?g|gif|png)$");
+        private static readonly Regex IMAGE_URL_REGEX = new Regex(@"^http[s]?:\/\/(([^\/:\.[:space:]]+(\.[^\/:\.[:space:]]+)*)|([0-9](\.[0-9]{3})))(:[0-9]+)?((\/[^?#[:space:]]+)(\?[^#[:space:]]+)?(\#.+)?)?\.(?:jpe?g|gif|png)$");
 
         public event EventHandler ChatMessageChanged;
 
