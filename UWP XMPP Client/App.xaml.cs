@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using Logging;
 using Microsoft.AppCenter.Push;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.HockeyApp;
 using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -29,7 +28,6 @@ namespace UWP_XMPP_Client
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
-        private readonly string HOCKEY_APP_SECRET = "6e35320f3a4142f28060011b25e36f24";
 
         /// <summary>
         /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
@@ -64,15 +62,8 @@ namespace UWP_XMPP_Client
         {
             this.isRunning = false;
 
-            //Crash reports capturing:
-            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
-            {
-                // Setup Hockey App crashes:
-                HockeyClient.Current.Configure(HOCKEY_APP_SECRET);
-
-                // Setup App Center crashes, push:
-                setupAppCenter();
-            }
+            // Setup App Center crashes, push:
+            setupAppCenter();
 
             // Init buy content helper:
             BuyContentHelper.INSTANCE.init();
@@ -120,7 +111,8 @@ namespace UWP_XMPP_Client
                     Logger.Info("AppCenter analytics are disabled.");
                 }
 #if DEBUG
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push)); // Only enable push for debug builds
+                // Only enable push for debug builds:
+                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push));
 #endif
 
                 if (!Microsoft.AppCenter.AppCenter.Configured)
