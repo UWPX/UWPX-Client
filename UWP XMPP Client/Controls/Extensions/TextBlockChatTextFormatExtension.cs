@@ -26,7 +26,7 @@ namespace UWP_XMPP_Client.Controls.Extensions
         private const string RelativeUriDefaultPrefix = "https://";
         private const string URL_REGEX_PATTERN = @"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'"".,<>?«»“”‘’]))";
         private const string EMAIL_REGEX_PATTERN = @"(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))";
-        private const string PHONE_REGEX_PATTERN = @"\+?\d[\d\-\(\)\. ]{2,}\d";
+        private const string PHONE_REGEX_PATTERN = @"\+?(\d{2,}[\-\(\)\. ]?){2,}\d\b";
         /// <summary>
         /// Based on: https://github.com/mathiasbynens/emoji-regex/blob/master/text.js
         /// regex101: https://regex101.com/r/BIh2pd/3/tests
