@@ -1,6 +1,7 @@
 ﻿using libsignal;
 using libsignal.protocol;
 using Logging;
+using Strilanc.Value;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -126,10 +127,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             // 4. Encrypt the key/authTag pair with libsignal for each deviceId:
             KEYS = new List<OmemoKey>();
             CiphertextMessage ciphertextMessage;
-            Logger.Debug("Source device id: " + SOURCE_DEVICE_ID);
+            Logger.Debug("[OmemoMessageMessage]: Source device id: " + SOURCE_DEVICE_ID);
             foreach (KeyValuePair<uint, SessionCipher> pair in omemoSession.DEVICE_SESSIONS)
             {
-                Logger.Debug("Encrypting for deviceId: " + pair.Key);
+                Logger.Debug("[OmemoMessageMessage]: Encrypting for deviceId: " + pair.Key);
                 ciphertextMessage = pair.Value.encrypt(keyAuthTag);
                 // Create a new OmemoKey object with the target device id, whether it's the first time the session got established and the encrypted key:
                 OmemoKey key = new OmemoKey(pair.Key, ciphertextMessage is PreKeySignalMessage, Convert.ToBase64String(ciphertextMessage.serialize()));
@@ -148,7 +149,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public bool decrypt(OmemoHelper helper, uint localeDeciceId)
         {
             SignalProtocolAddress remoteAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
-            return decrypt(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId);
+            return decrypt(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
         }
 
         /// <summary>
@@ -158,8 +159,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="cipher">The SessionCipher for decrypting the content of BASE_64_PAYLOAD.</param>
         /// <param name="remoteAddress">The SignalProtocolAddress of the sender.</param>
         /// <param name="localeDeciceId">The local device id.</param>
+        /// <param name="helper">The current OmemoHelper object of the current account. If null, won't remove used PreKey.</param>
         /// <returns>True on success.</returns>
-        public bool decrypt(SessionCipher cipher, SignalProtocolAddress remoteAddress, uint localeDeciceId)
+        public bool decrypt(SessionCipher cipher, SignalProtocolAddress remoteAddress, uint localeDeciceId, OmemoHelper helper)
         {
             try
             {
@@ -177,8 +179,21 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 byte[] decryptedKeyAuthTag = null;
                 if (key.IS_PRE_KEY)
                 {
-                    decryptedKeyAuthTag = cipher.decrypt(new PreKeySignalMessage(encryptedKeyAuthTag));
-                    // ToDo republish the bundle info and remove used pre key
+                    PreKeySignalMessage preKeySignalMessage = new PreKeySignalMessage(encryptedKeyAuthTag);
+                    decryptedKeyAuthTag = cipher.decrypt(preKeySignalMessage);
+                    if(!(helper is null))
+                    {
+                        May<uint> preKey = preKeySignalMessage.getPreKeyId();
+                        if(preKey.HasValue)
+                        {
+                            Logger.Info("Removing used PreKey.");
+                            helper.removePreKeyAndRepublish(preKey.ForceGetValue());
+                        }
+                        else
+                        {
+                            Logger.Error("Failed to get value from PreKeySignalMessage.");
+                        }
+                    }
                 }
                 else
                 {

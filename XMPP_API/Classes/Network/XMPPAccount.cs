@@ -1,6 +1,7 @@
 ﻿using libsignal;
 using libsignal.ecc;
 using libsignal.state;
+using libsignal.util;
 using Logging;
 using org.whispersystems.libsignal.fingerprint;
 using System;
@@ -171,6 +172,27 @@ namespace XMPP_API.Classes.Network
             omemoSignedPreKeyPair = CryptoUtils.generateOmemoSignedPreKey(omemoIdentityKeyPair);
             omemoSignedPreKeyId = omemoSignedPreKeyPair.getId();
             omemoKeysGenerated = true;
+        }
+
+        public void replaceOmemoPreKey(uint preKeyId, IOmemoStore omemoStore)
+        {
+            // Remove key:
+            foreach (PreKeyRecord key in omemoPreKeys)
+            {
+                if(key.getId() == preKeyId)
+                {
+                    omemoPreKeys.Remove(key);
+                    omemoStore.RemovePreKey(preKeyId);
+                    break;
+                }
+            }
+
+            // Generate new key:
+            PreKeyRecord newKey = KeyHelper.generatePreKeys(preKeyId, 1)[0];
+            omemoPreKeys.Add(newKey);
+            omemoStore.StorePreKey(newKey.getId(), newKey);
+            omemoBundleInfoAnnounced = false;
+            onPropertyChanged(nameof(omemoBundleInfoAnnounced));
         }
 
         public override bool Equals(object obj)

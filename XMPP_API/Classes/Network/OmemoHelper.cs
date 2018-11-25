@@ -198,6 +198,12 @@ namespace XMPP_API.Classes.Network
             deleteDeviceListNode();
         }
 
+        public void removePreKeyAndRepublish(uint preKeyId)
+        {
+            CONNECTION.account.replaceOmemoPreKey(preKeyId, OMEMO_STORE);
+            announceBundleInfo();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
