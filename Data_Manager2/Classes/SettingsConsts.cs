@@ -21,6 +21,7 @@
         public const string DISABLE_CRASH_REPORTING = "disable_crash_reporting";
         public const string DISABLE_ANALYTICS = "disable_analytics";
         public const string DISABLE_AUTO_JOIN_MUC = "disable_auto_join_muc";
+        public const string DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING = "disable_advanced_chat_message_processing";
 
         public const string PUSH_CHANNEL_TOKEN_URL = "push_channel_token_url";
         public const string PUSH_CHANNEL_SEND_SUCCESS = "push_channel_send_success";

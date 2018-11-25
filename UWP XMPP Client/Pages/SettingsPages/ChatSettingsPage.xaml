@@ -30,6 +30,10 @@
                               Margin="0,10,0,0"
                               Header="Send chat message received markers:"
                               Toggled="sendChatMarkers_tgls_Toggled"/>
+                <ToggleSwitch x:Name="advancedChatMsgProcessing_tgls"
+                              Margin="0,10,0,0"
+                              Header="Advanced chat message processing:"
+                              Toggled="AdvancedChatMsgProcessing_tgls_Toggled"/>
                 <ToggleSwitch x:Name="storeImagesInLibary_tgls"
                               Margin="0,10,0,0"
                               Header="Store images in library:"

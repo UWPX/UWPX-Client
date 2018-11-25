@@ -1,4 +1,5 @@
-﻿using NeoSmart.Unicode;
+﻿using Data_Manager2.Classes;
+using NeoSmart.Unicode;
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -37,16 +38,22 @@ namespace UWP_XMPP_Client.Controls.Extensions
             DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatTextFormatExtension),
             new PropertyMetadata(string.Empty, (sender, e) =>
             {
-                string text = e.NewValue as string;
-                if (sender is TextBlock textBlock && textBlock != null && !string.IsNullOrWhiteSpace(text))
+                if (sender is TextBlock textBlock && e.NewValue is string text && !string.IsNullOrWhiteSpace(text))
                 {
+                    // Check if disabled:
+                    if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
+                    {
+                        textBlock.Inlines.Add(new Run { Text = text });
+                        return;
+                    }
+
                     // Clear all inlines:
                     textBlock.Inlines.Clear();
 
                     Task.Run(async () =>
                     {
                         // Check if single emoji:
-                        if (isSingleEmoji(text))
+                        if (Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS)))
                         {
                             await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => textBlock.Inlines.Add(new Run
                             {
@@ -137,16 +144,6 @@ namespace UWP_XMPP_Client.Controls.Extensions
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Checks if the given text is just a single Unicode Emoji.
-        /// </summary>
-        /// <param name="text">The string that should get tested.</param>
-        /// <returns>True if the given text contains just a single Unicode Emoji.</returns>
-        private static bool isSingleEmoji(string text)
-        {
-            return Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS));
-        }
-
         /// <summary>
         /// This method will extract a fragment of the raw text string, create a Run element with the fragment and
         /// add it to the textblock inlines collection
