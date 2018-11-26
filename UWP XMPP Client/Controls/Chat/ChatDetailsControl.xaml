@@ -116,7 +116,6 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
                     <controls:AccountImageWithPresenceControl x:Name="accImg_aiwp"
                                                               Grid.Column="0"
@@ -219,19 +218,18 @@
                                         <FontIcon Glyph="&#xE72E;"/>
                                     </ToggleMenuFlyoutItem.Icon>
                                 </ToggleMenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="test_mfo"
+                                                Visibility="Collapsed"
+                                                Click="Test_mfo_Click"
+                                                Text="Debug/Test">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Foreground="Gold"
+                                                  Glyph="&#xE81F;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </Button.Flyout>
                     </Button>
-                    <Button x:Name="test_bnt"
-                            Grid.Column="3"
-                            Height="30"
-                            Margin="10,0,10,0"
-                            VerticalAlignment="Center"
-                            Click="test_bnt_Click"
-                            Content="&#xE81F;"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="20"
-                            Visibility="Collapsed"/>
                 </Grid>
                 <controls:SeperatorControl Grid.Row="1"
                                            Margin="0,-2,0,0"/>

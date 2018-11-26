@@ -576,7 +576,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
             // Enable the test button only on debug builds:
 #if DEBUG
-            test_bnt.Visibility = Visibility.Visible;
+            test_mfo.Visibility = Visibility.Visible;
 #endif
         }
 
@@ -635,7 +635,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             }
         }
 
-        private void test_bnt_Click(object sender, RoutedEventArgs e)
+        private void Test_mfo_Click(object sender, RoutedEventArgs e)
         {
             Client.PUB_SUB_COMMAND_HELPER.requestSubscriptions("pubsub.404.city", null, null);
         }
