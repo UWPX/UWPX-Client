@@ -214,7 +214,7 @@
                                                       Click="omemo_tmfo_Click"
                                                       IsEnabled="True"
                                                       IsChecked="False"
-                                                      Text="OMEMO">
+                                                      Text="Encrypted (OMEMO)">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72E;"/>
                                     </ToggleMenuFlyoutItem.Icon>
