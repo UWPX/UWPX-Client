@@ -164,6 +164,9 @@ namespace UWP_XMPP_Client
 
         private async Task onActivatedOrLaunchedAsync(IActivatedEventArgs args)
         {
+            // Prevent window from extending into title bar:
+            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
+
             // Sets the log level:
             initLogLevel();
 
