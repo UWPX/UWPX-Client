@@ -255,10 +255,16 @@ namespace UWP_XMPP_Client.Controls.Chat
                     chatState_tblck.Text = chat.chatState ?? "";
                     join_mfo.Visibility = Visibility.Collapsed;
                     leave_mfo.Visibility = Visibility.Collapsed;
+                    omemo_tmfo.Visibility = Visibility.Visible;
+                    omemoIndicator_tbx.Visibility = chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
+                    omemo_tmfo.IsChecked = chat.omemoEnabled;
                 }
-
-                omemoIndicator_tbx.Visibility = chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
-                omemo_tmfo.IsChecked = chat.omemoEnabled;
+                else
+                {
+                    omemo_tmfo.Visibility = Visibility.Collapsed;
+                    omemoIndicator_tbx.Visibility = Visibility.Collapsed;
+                    omemo_tmfo.IsChecked = false;
+                }
             }
         }
 
