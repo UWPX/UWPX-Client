@@ -256,7 +256,24 @@ namespace UWP_XMPP_Client.Controls.Chat
                     join_mfo.Visibility = Visibility.Collapsed;
                     leave_mfo.Visibility = Visibility.Collapsed;
                     omemo_tmfo.Visibility = Visibility.Visible;
-                    omemoIndicator_tbx.Visibility = chat.omemoEnabled ? Visibility.Visible : Visibility.Collapsed;
+                    if (chat.omemoEnabled)
+                    {
+                        omemo_tmfo.Icon = new FontIcon()
+                        {
+                            Glyph = "\uE72E",
+                            Foreground = new SolidColorBrush(Colors.Green)
+                        };
+                        omemoIndicator_tbx.Visibility = Visibility.Visible;
+                    }
+                    else
+                    {
+                        omemo_tmfo.Icon = new FontIcon()
+                        {
+                            Glyph = "\uE785",
+                            Foreground = new SolidColorBrush(Colors.Red)
+                        };
+                        omemoIndicator_tbx.Visibility = Visibility.Collapsed;
+                    }
                     omemo_tmfo.IsChecked = chat.omemoEnabled;
                 }
                 else
