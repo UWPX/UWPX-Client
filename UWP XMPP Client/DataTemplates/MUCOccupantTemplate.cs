@@ -35,7 +35,7 @@ namespace UWP_XMPP_Client.DataTemplates
 
         public MUCAffiliation affiliation
         {
-            get => occupant == null ? MUCAffiliation.NONE : occupant.affiliation;
+            get => occupant is null ? MUCAffiliation.NONE : occupant.affiliation;
             set
             {
                 if (occupant != null)
@@ -47,7 +47,7 @@ namespace UWP_XMPP_Client.DataTemplates
 
         public MUCRole role
         {
-            get => occupant == null ? MUCRole.VISITOR : occupant.role;
+            get => occupant is null ? MUCRole.VISITOR : occupant.role;
             set
             {
                 if (occupant != null)

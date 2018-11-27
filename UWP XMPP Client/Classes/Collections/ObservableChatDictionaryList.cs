@@ -98,7 +98,7 @@ namespace UWP_XMPP_Client.Classes.Collections
         /// <param name="callCollectionReset">Should we call "collection changed" only once at the end?</param>
         public void AddRange(IList<ChatTemplate> list, bool callCollectionReset)
         {
-            if (list == null)
+            if (list is null)
             {
                 throw new ArgumentNullException(nameof(list));
             }

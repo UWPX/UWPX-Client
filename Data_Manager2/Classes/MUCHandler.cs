@@ -126,7 +126,7 @@ namespace Data_Manager2.Classes
                 foreach (ChatTable muc in ChatDBManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getIdAndDomain()))
                 {
                     MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(muc.id);
-                    if (info == null)
+                    if (info is null)
                     {
                         info = new MUCChatInfoTable()
                         {
@@ -239,14 +239,14 @@ namespace Data_Manager2.Classes
             {
                 MUCMemberPresenceMessage msg = args.mucMemberPresenceMessage;
                 string roomJid = Utils.getBareJidFromFullJid(msg.getFrom());
-                if (roomJid == null)
+                if (roomJid is null)
                 {
                     return;
                 }
                 string chatId = ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain());
 
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, msg.FROM_NICKNAME);
-                if (member == null)
+                if (member is null)
                 {
                     member = new MUCOccupantTable
                     {

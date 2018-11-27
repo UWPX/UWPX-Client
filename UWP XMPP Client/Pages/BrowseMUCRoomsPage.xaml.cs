@@ -110,7 +110,7 @@ namespace UWP_XMPP_Client.Pages
             messageResponseHelper?.Dispose();
             messageResponseHelper = null;
 
-            if (disco == null || disco.ITEMS == null || disco.ITEMS.Count <= 0)
+            if (disco is null || disco.ITEMS is null || disco.ITEMS.Count <= 0)
             {
                 // Show non found in app notification:
                 noneFound_notification.Show("None found. Please retry!");

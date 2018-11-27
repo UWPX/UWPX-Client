@@ -185,7 +185,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (img.state == DownloadState.DONE)
             {
                 image_img.Source = await img.getBitmapImageAsync();
-                if (image_img.Source == null)
+                if (image_img.Source is null)
                 {
                     img.DownloadStateChanged -= Img_DownloadStateChanged;
                     img.DownloadProgressChanged -= Img_DownloadProgressChanged;

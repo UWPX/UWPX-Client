@@ -175,7 +175,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                 case FieldType.NONE:
                     fieldNode.Add(new XElement(ns + "value")
                     {
-                        Value = value == null ? "" : (string)value,
+                        Value = value is null ? "" : (string)value,
                     });
                     break;
             }

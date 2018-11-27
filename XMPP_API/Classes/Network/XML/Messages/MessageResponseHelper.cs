@@ -193,7 +193,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 try
                 {
                     METHOD_SEMA.Wait();
-                    if ((ON_MESSAGE == null || ON_MESSAGE(this, args.MESSAGE as T)) && !disposed)
+                    if ((ON_MESSAGE is null || ON_MESSAGE(this, args.MESSAGE as T)) && !disposed)
                     {
                         // Prevent the case that a result is already available although the timer hasn't started yet:
                         TIMER_SEMA.Wait();

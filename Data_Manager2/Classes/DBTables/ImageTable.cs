@@ -70,7 +70,7 @@ namespace Data_Manager2.Classes.DBTables
         /// <returns>The BitmapImage representation of the current path object.</returns>
         public async Task<BitmapImage> getBitmapImageAsync()
         {
-            if(path == null)
+            if(path is null)
             {
                 return null;
             }
@@ -78,7 +78,7 @@ namespace Data_Manager2.Classes.DBTables
             try
             {
                 StorageFile file = await StorageFile.GetFileFromPathAsync(path);
-                if(file == null)
+                if(file is null)
                 {
                     return null;
                 }

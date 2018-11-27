@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
         public SMAnswerMessage(XmlNode node)
         {
             XmlAttribute att = node.Attributes["h"];
-            if (att == null || !int.TryParse(att.Value, out this.HANDLE))
+            if (att is null || !int.TryParse(att.Value, out this.HANDLE))
             {
                 this.HANDLE = -1;
             }

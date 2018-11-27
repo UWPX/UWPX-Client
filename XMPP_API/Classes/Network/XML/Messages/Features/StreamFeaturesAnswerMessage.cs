@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
 
         public bool isEmpty()
         {
-            return STREAM_FEATURES_NODE == null;
+            return STREAM_FEATURES_NODE is null;
         }
 
         public bool containsFeature(string name)
@@ -79,7 +79,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
         #region --Misc Methods (Private)--
         private void loadFeatures()
         {
-            if (STREAM_FEATURES_NODE == null)
+            if (STREAM_FEATURES_NODE is null)
             {
                 return;
             }

@@ -73,7 +73,7 @@ namespace Data_Manager2.Classes.Omemo
         public PreKeyRecord LoadPreKey(uint preKeyId)
         {
             PreKeyRecord preKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
-            if (preKeyRecord == null)
+            if (preKeyRecord is null)
             {
                 throw new InvalidKeyIdException("No such key: " + preKeyId);
             }
@@ -109,7 +109,7 @@ namespace Data_Manager2.Classes.Omemo
         public SessionRecord LoadSession(SignalProtocolAddress address)
         {
             SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
-            if (session == null)
+            if (session is null)
             {
                 Logger.Warn("No existing libsignal session found for: " + address.ToString());
                 session = new SessionRecord();
@@ -130,7 +130,7 @@ namespace Data_Manager2.Classes.Omemo
         public SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId)
         {
             SignedPreKeyRecord signedPreKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
-            if (signedPreKeyRecord == null)
+            if (signedPreKeyRecord is null)
             {
                 throw new InvalidKeyIdException("No such key: " + signedPreKeyId);
             }

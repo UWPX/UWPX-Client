@@ -72,19 +72,19 @@ namespace UWP_XMPP_Client.Controls.Chat
         private ChatTable Chat
         {
             get { return ChatTemp?.chat; }
-            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.chat - ChatTemp is null in ChatDetailsControl."); } ChatTemp.chat = value; }
+            set { if (ChatTemp is null) { throw new InvalidOperationException("Can't set ChatTemp.chat - ChatTemp is null in ChatDetailsControl."); } ChatTemp.chat = value; }
         }
 
         private XMPPClient Client
         {
             get { return ChatTemp?.client; }
-            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.client - ChatTemp is null in ChatDetailsControl."); } ChatTemp.client = value; }
+            set { if (ChatTemp is null) { throw new InvalidOperationException("Can't set ChatTemp.client - ChatTemp is null in ChatDetailsControl."); } ChatTemp.client = value; }
         }
 
         private MUCChatInfoTable MUCInfo
         {
             get { return ChatTemp?.mucInfo; }
-            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.MUCInfo - ChatTemp is null in ChatDetailsControl."); } ChatTemp.mucInfo = value; }
+            set { if (ChatTemp is null) { throw new InvalidOperationException("Can't set ChatTemp.MUCInfo - ChatTemp is null in ChatDetailsControl."); } ChatTemp.mucInfo = value; }
         }
 
         private readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
@@ -864,7 +864,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void Value_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (ChatTemp == null)
+            if (ChatTemp is null)
             {
                 return;
             }

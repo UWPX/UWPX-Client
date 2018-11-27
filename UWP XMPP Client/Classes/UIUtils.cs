@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Classes
         public static void setBackgroundImage(ImageEx imgControl)
         {
             BackgroundImageTemplate img = BackgroundImageCache.selectedImage;
-            if (img == null || img.imagePath == null)
+            if (img is null || img.imagePath is null)
             {
                 imgControl.Source = null;
                 imgControl.Visibility = Visibility.Collapsed;

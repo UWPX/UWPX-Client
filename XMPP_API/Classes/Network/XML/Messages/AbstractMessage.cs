@@ -101,7 +101,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 switch (hint)
                 {
                     case MessageProcessingHint.STORE:
-                        if (ns == null)
+                        if (ns is null)
                         {
                             node.Add(new XElement(ns + "store"));
                         }
@@ -112,7 +112,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                         break;
 
                     case MessageProcessingHint.NO_PERMANENT_STORE:
-                        if (ns == null)
+                        if (ns is null)
                         {
                             node.Add(new XElement(ns + "no-permanent-store"));
                         }
@@ -123,7 +123,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                         break;
 
                     case MessageProcessingHint.NO_STORE:
-                        if (ns == null)
+                        if (ns is null)
                         {
                             node.Add(new XElement(ns + "no-store"));
                         }
@@ -134,7 +134,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                         break;
 
                     case MessageProcessingHint.NO_COPIES:
-                        if (ns == null)
+                        if (ns is null)
                         {
                             node.Add(new XElement(ns + "no-copy"));
                         }

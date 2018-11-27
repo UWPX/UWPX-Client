@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
                 id = node.Attributes["id"]?.Value;
 
                 XmlNode confNode = XMLUtils.getChildNode(node, "conference");
-                if (confNode == null)
+                if (confNode is null)
                 {
                     return;
                 }

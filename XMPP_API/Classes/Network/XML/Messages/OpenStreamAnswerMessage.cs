@@ -49,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public StreamFeaturesMessage getStreamFeaturesMessage(XmlNode node)
         {
             XmlNode n = XMLUtils.getChildNode(node, "stream:features");
-            return n == null ? null : new StreamFeaturesMessage(n);
+            return n is null ? null : new StreamFeaturesMessage(n);
         }
 
         #endregion

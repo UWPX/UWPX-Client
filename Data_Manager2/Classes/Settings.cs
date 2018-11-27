@@ -51,7 +51,7 @@ namespace Data_Manager2.Classes
         public static bool getSettingBoolean(string token, bool fallBackValue)
         {
             object obj = getSetting(token);
-            return obj == null ? fallBackValue : (bool)obj;
+            return obj is null ? fallBackValue : (bool)obj;
         }
 
         public static string getSettingString(string token)
@@ -62,7 +62,7 @@ namespace Data_Manager2.Classes
         public static string getSettingString(string token, string fallBackValue)
         {
             object obj = getSetting(token);
-            return obj == null ? fallBackValue : (string)obj;
+            return obj is null ? fallBackValue : (string)obj;
         }
 
         public static byte getSettingByte(string token)
@@ -73,7 +73,7 @@ namespace Data_Manager2.Classes
         public static byte getSettingByte(string token, byte fallBackValue)
         {
             object obj = getSetting(token);
-            return obj == null ? fallBackValue : (byte)obj;
+            return obj is null ? fallBackValue : (byte)obj;
         }
 
         public static int getSettingInt(string token)
@@ -84,7 +84,7 @@ namespace Data_Manager2.Classes
         public static int getSettingInt(string token, int fallBackValue)
         {
             object obj = getSetting(token);
-            return obj == null ? fallBackValue : (int)obj;
+            return obj is null ? fallBackValue : (int)obj;
         }
 
         public static ushort getSettingUshort(string token)
@@ -95,7 +95,7 @@ namespace Data_Manager2.Classes
         public static ushort getSettingUshort(string token, ushort fallBackValue)
         {
             object obj = getSetting(token);
-            return obj == null ? fallBackValue : (ushort)obj;
+            return obj is null ? fallBackValue : (ushort)obj;
         }
 
         public static double getSettingDouble(string token)
@@ -106,7 +106,7 @@ namespace Data_Manager2.Classes
         public static double getSettingDouble(string token, double fallBackValue)
         {
             object obj = getSetting(token);
-            return obj == null ? fallBackValue : (double)obj;
+            return obj is null ? fallBackValue : (double)obj;
         }
 
         #endregion

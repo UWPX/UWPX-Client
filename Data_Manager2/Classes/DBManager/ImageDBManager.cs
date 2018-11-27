@@ -65,7 +65,7 @@ namespace Data_Manager2.Classes.DBManager
         public ImageTable getImageForMessage(ChatMessageTable msg)
         {
             ImageTable img = DOWNLOADING.Find(x => string.Equals(x.messageId, msg.id));
-            if (img == null)
+            if (img is null)
             {
                 List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE messageId = ?;", msg.id);
                 if (list.Count > 0)
@@ -89,7 +89,7 @@ namespace Data_Manager2.Classes.DBManager
             {
                 string fileName = createUniqueFileName(url);
                 string path = await getLocalImageAsync(fileName);
-                if (path == null)
+                if (path is null)
                 {
                     path = await downloadImageAsync(img, url, fileName);
                 }
@@ -166,7 +166,7 @@ namespace Data_Manager2.Classes.DBManager
             string path = await getImagePathAsync(img, msg);
 
             img.path = path;
-            if (path == null)
+            if (path is null)
             {
                 updateImageState(img, DownloadState.ERROR);
             }
@@ -189,7 +189,7 @@ namespace Data_Manager2.Classes.DBManager
             if (msg.isImage)
             {
                 ImageTable img = getImageForMessage(msg);
-                if (img == null)
+                if (img is null)
                 {
                     img = new ImageTable()
                     {

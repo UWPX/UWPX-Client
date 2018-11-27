@@ -53,7 +53,7 @@ namespace UWP_XMPP_Client.Dialogs
         private bool checkUserInput()
         {
             client = accountSelection_asc.getSelectedAccount();
-            if (client == null)
+            if (client is null)
             {
                 accountSelection_asc.showErrorMessage("No account selected!");
                 return false;

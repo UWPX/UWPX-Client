@@ -125,22 +125,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             features = msg as StreamFeaturesMessage;
                         }
 
-                        if (features == null)
+                        if (features is null)
                         {
                             return;
                         }
 
                         ArrayList mechanisms = getMechanisms(features);
-                        if (mechanisms == null)
+                        if (mechanisms is null)
                         {
                             return;
                         }
                         setMessageProcessed(args);
                         selectMechanism(mechanisms);
-                        if (selectedMechanism == null)
+                        if (selectedMechanism is null)
                         {
                             state = SASLState.ERROR;
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "selectedMechanism == null"), true);
+                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "selectedMechanism is null"), true);
                             return;
                         }
                         await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), false, true);

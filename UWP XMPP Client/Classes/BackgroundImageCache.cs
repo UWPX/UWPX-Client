@@ -77,7 +77,7 @@ namespace UWP_XMPP_Client.Classes
         public static async Task deleteCustomBackgroundImage()
         {
             string imgName = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME);
-            if (imgName == null)
+            if (imgName is null)
             {
                 return;
             }

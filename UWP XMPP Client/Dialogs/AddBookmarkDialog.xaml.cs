@@ -74,7 +74,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void addBookmark()
         {
             hideError();
-            if (CLIENT == null || !CLIENT.isConnected())
+            if (CLIENT is null || !CLIENT.isConnected())
             {
                 showError("Client not connected!");
             }

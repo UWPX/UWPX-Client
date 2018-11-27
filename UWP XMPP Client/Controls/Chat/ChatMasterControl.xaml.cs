@@ -55,19 +55,19 @@ namespace UWP_XMPP_Client.Controls.Chat
         private ChatTable Chat
         {
             get { return ChatTemp?.chat; }
-            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.chat - ChatTemp is null in ChatMasterControl."); } ChatTemp.chat = value; }
+            set { if (ChatTemp is null) { throw new InvalidOperationException("Can't set ChatTemp.chat - ChatTemp is null in ChatMasterControl."); } ChatTemp.chat = value; }
         }
 
         private XMPPClient Client
         {
             get { return ChatTemp?.client; }
-            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.client - ChatTemp is null in ChatMasterControl."); } ChatTemp.client = value; }
+            set { if (ChatTemp is null) { throw new InvalidOperationException("Can't set ChatTemp.client - ChatTemp is null in ChatMasterControl."); } ChatTemp.client = value; }
         }
 
         private MUCChatInfoTable MUCInfo
         {
             get { return ChatTemp?.mucInfo; }
-            set { if (ChatTemp == null) { throw new InvalidOperationException("Can't set ChatTemp.MUCInfo - ChatTemp is null in ChatMasterControl."); } ChatTemp.mucInfo = value; }
+            set { if (ChatTemp is null) { throw new InvalidOperationException("Can't set ChatTemp.MUCInfo - ChatTemp is null in ChatMasterControl."); } ChatTemp.mucInfo = value; }
         }
 
         private bool subscriptionRequest;
@@ -345,7 +345,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async Task switchChatInRoosterAsync()
         {
-            if (Chat == null)
+            if (Chat is null)
             {
                 return;
             }
@@ -423,7 +423,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async Task deleteChatAsync()
         {
-            if (Chat == null)
+            if (Chat is null)
             {
                 return;
             }
@@ -736,7 +736,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private void Value_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (ChatTemp == null)
+            if (ChatTemp is null)
             {
                 return;
             }

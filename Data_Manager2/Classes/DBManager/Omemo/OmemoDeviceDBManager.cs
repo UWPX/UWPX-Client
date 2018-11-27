@@ -65,7 +65,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
         public Tuple<OmemoDeviceListSubscriptionState, DateTime> getOmemoDeviceListSubscription(string name, string accountId)
         {
             List<OmemoDeviceListSubscriptionTable> subscriptions = dB.Query<OmemoDeviceListSubscriptionTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE + " WHERE id = ?;", OmemoDeviceListSubscriptionTable.generateId(accountId, name));
-            if (subscriptions == null || subscriptions.Count <= 0)
+            if (subscriptions is null || subscriptions.Count <= 0)
             {
                 return new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.NONE, DateTime.MinValue);
             }

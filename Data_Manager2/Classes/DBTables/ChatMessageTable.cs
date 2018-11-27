@@ -81,7 +81,7 @@ namespace Data_Manager2.Classes.DBTables
             this.message = msg.MESSAGE;
             this.date = msg.getDelay();
             this.isDummyMessage = false;
-            if (this.date == null || this.date.Equals(DateTime.MinValue))
+            if (this.date.Equals(DateTime.MinValue))
             {
                 this.date = DateTime.Now;
             }

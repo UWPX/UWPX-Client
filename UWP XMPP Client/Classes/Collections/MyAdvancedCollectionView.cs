@@ -187,7 +187,7 @@ namespace UWP_XMPP_Client.Classes.Collections
         public int Count => _view.Count;
 
         /// <inheritdoc />
-        public bool IsReadOnly => _source == null || _source.IsReadOnly;
+        public bool IsReadOnly => _source is null || _source.IsReadOnly;
 
         /// <inheritdoc />
         public int IndexOf(object item) => _view.IndexOf(item);
@@ -510,7 +510,7 @@ namespace UWP_XMPP_Client.Classes.Collections
 
         private void AttachPropertyChangedHandler(IEnumerable items)
         {
-            if (!_liveShapingEnabled || items == null)
+            if (!_liveShapingEnabled || items is null)
             {
                 return;
             }
@@ -523,7 +523,7 @@ namespace UWP_XMPP_Client.Classes.Collections
 
         private void DetachPropertyChangedHandler(IEnumerable items)
         {
-            if (!_liveShapingEnabled || items == null)
+            if (!_liveShapingEnabled || items is null)
             {
                 return;
             }
@@ -677,7 +677,7 @@ namespace UWP_XMPP_Client.Classes.Collections
             }
             else if (_filter != null)
             {
-                if (_source == null)
+                if (_source is null)
                 {
                     HandleSourceChanged();
                     return false;

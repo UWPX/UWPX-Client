@@ -95,7 +95,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void showClient()
         {
-            if (Client == null)
+            if (Client is null)
             {
                 return;
             }
@@ -103,7 +103,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void showProfile()
         {
-            if (Chat == null)
+            if (Chat is null)
             {
                 return;
             }

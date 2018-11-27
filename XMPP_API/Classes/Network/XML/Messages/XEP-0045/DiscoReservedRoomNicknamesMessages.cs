@@ -35,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         {
             XElement node = base.toXElement();
             XElement qNode = XMLUtils.getNodeFromXElement(node, "query");
-            if (qNode == null)
+            if (qNode is null)
             {
                 throw new InvalidOperationException("Node does not contain a 'query' node!");
             }

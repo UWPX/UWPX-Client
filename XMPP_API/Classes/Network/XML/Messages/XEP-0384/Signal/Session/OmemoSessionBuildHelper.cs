@@ -176,7 +176,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 
         private void createSessionForNextDevice()
         {
-            if ((toDoDevicesRemote == null || toDoDevicesRemote.Count <= 0) && (toDoDevicesOwn == null || toDoDevicesOwn.Count <= 0))
+            if ((toDoDevicesRemote is null || toDoDevicesRemote.Count <= 0) && (toDoDevicesOwn is null || toDoDevicesOwn.Count <= 0))
             {
                 // All sessions created:
                 if (SESSION.DEVICE_SESSIONS.Count <= 0)
@@ -192,7 +192,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
             else
             {
-                if (toDoDevicesRemote == null || toDoDevicesRemote.Count <= 0)
+                if (toDoDevicesRemote is null || toDoDevicesRemote.Count <= 0)
                 {
                     curAddress = toDoDevicesOwn[0];
                     toDoDevicesOwn.RemoveAt(0);

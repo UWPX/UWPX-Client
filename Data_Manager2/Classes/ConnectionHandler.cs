@@ -372,7 +372,7 @@ namespace Data_Manager2.Classes
             {
                 case "subscribe":
                 case "unsubscribed":
-                    if (chat == null)
+                    if (chat is null)
                     {
                         chat = new ChatTable(from, to);
                     }
@@ -502,7 +502,7 @@ namespace Data_Manager2.Classes
 
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             bool chatChanged = false;
-            if (chat == null)
+            if (chat is null)
             {
                 chatChanged = true;
                 chat = new ChatTable(from, to)
@@ -682,7 +682,7 @@ namespace Data_Manager2.Classes
 
                 // Create / update chat:
                 ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
-                if (chat == null)
+                if (chat is null)
                 {
                     chat = new ChatTable(from, to);
                     newMUC = true;
@@ -695,7 +695,7 @@ namespace Data_Manager2.Classes
 
                 // Create / update MUC info:
                 MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
-                if (info == null)
+                if (info is null)
                 {
                     info = new MUCChatInfoTable
                     {

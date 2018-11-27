@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         #region --Misc Methods (Private)--
         private void loadMechanisms(XmlNode mechanismsNode)
         {
-            if (mechanismsNode == null)
+            if (mechanismsNode is null)
             {
                 return;
             }

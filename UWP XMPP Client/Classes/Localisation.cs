@@ -23,7 +23,7 @@ namespace UWP_XMPP_Client.Classes
         /// <returns>a localized string for the given key.</returns>
         public static string getLocalizedString(string key)
         {
-            if (loader == null)
+            if (loader is null)
             {
                 loader = ResourceLoader.GetForCurrentView();
             }

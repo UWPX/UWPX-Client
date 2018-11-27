@@ -44,7 +44,7 @@ namespace UWP_XMPP_Client.Dialogs
         private void savePresence()
         {
             XMPPClient client = accountSelection_asc.getSelectedAccount();
-            if (client == null)
+            if (client is null)
             {
                 accountSelection_asc.showErrorMessage("No account selected!");
                 return;

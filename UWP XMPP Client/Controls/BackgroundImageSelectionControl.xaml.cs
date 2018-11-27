@@ -77,7 +77,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void showImage()
         {
-            if (ImagePath == null)
+            if (ImagePath is null)
             {
                 return;
             }

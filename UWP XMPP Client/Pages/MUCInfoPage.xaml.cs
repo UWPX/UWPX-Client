@@ -122,7 +122,7 @@ namespace UWP_XMPP_Client.Pages
         private void MUCInfoPage_BackRequested(object sender, BackRequestedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (rootFrame is null)
             {
                 return;
             }

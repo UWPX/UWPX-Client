@@ -97,7 +97,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             features = msg as StreamFeaturesMessage;
                         }
 
-                        if (features == null)
+                        if (features is null)
                         {
                             return;
                         }

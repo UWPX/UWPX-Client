@@ -576,9 +576,9 @@ namespace XMPP_API.Classes.Network
                 if (msg is OpenStreamAnswerMessage)
                 {
                     OpenStreamAnswerMessage oA = msg as OpenStreamAnswerMessage;
-                    if (oA.ID == null)
+                    if (oA.ID is null)
                     {
-                        // TODO Handle OpenStreamAnswerMessage id == null
+                        // TODO Handle OpenStreamAnswerMessage id is null
                         //Error throw exception?!
                         return;
                     }

@@ -13,7 +13,7 @@ namespace UWP_XMPP_Client.Controls
             set
             {
                 SetValue(TextProperty, value);
-                if (value == null)
+                if (value is null)
                 {
                     text_tbx.Visibility = Visibility.Collapsed;
                 }

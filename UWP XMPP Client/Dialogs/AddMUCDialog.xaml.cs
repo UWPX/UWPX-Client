@@ -205,7 +205,7 @@ namespace UWP_XMPP_Client.Dialogs
         private bool checkUserInputAndWarn()
         {
             XMPPClient client = accountSelection_asc.getSelectedAccount();
-            if (client == null)
+            if (client is null)
             {
                 accountSelection_asc.showErrorMessage("No account selected!");
                 return false;
@@ -321,7 +321,7 @@ namespace UWP_XMPP_Client.Dialogs
             if (addRoom())
             {
                 cancled = false;
-                if (setBookmarkHelper == null)
+                if (setBookmarkHelper is null)
                 {
                     Hide();
                 }

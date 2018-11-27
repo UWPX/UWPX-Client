@@ -302,7 +302,7 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 return new TCPReadResult(TCPReadState.END_OF_STREAM, null);
             }
-            if (dataReader == null)
+            if (dataReader is null)
             {
                 return new TCPReadResult(TCPReadState.FAILURE, null);
             }

@@ -167,7 +167,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 // 1. Check if the message contains a key for the local device:
                 OmemoKey key = getOmemoKey(localeDeciceId);
-                if (key == null)
+                if (key is null)
                 {
                     Logger.Info("Discarded received OMEMO message - doesn't contain device id!");
                     return false;
@@ -201,7 +201,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
 
                 // 3. Check if the cipher got loaded successfully:
-                if (decryptedKeyAuthTag == null)
+                if (decryptedKeyAuthTag is null)
                 {
                     Logger.Info("Discarded received OMEMO message - failed to decrypt keyAuthTag is null!");
                     return false;

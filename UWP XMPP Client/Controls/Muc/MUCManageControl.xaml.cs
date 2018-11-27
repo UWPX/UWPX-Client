@@ -89,7 +89,7 @@ namespace UWP_XMPP_Client.Controls.Muc
         #region --Misc Methods (Private)--
         private void requestRoomInfo()
         {
-            if (messageResponseHelper != null || Client == null || Chat == null || MUCInfo == null)
+            if (messageResponseHelper != null || Client is null || Chat is null || MUCInfo is null)
             {
                 return;
             }
@@ -190,7 +190,7 @@ namespace UWP_XMPP_Client.Controls.Muc
 
         private void save()
         {
-            if (Client == null || Chat == null)
+            if (Client is null || Chat is null)
             {
                 return;
             }
@@ -210,7 +210,7 @@ namespace UWP_XMPP_Client.Controls.Muc
             Task.Run(async () =>
             {
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, nickname);
-                if (member == null)
+                if (member is null)
                 {
                     await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => notificationBanner_ian.Show("Failed to save!\nSeams like you are no member of the room any more. Please rejoin the room and try again."));
                     return;

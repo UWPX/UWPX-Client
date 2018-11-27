@@ -91,7 +91,7 @@ namespace Data_Manager2.Classes.DBTables
                 status = status,
                 omemoKeysGenerated = omemoKeysGenerated,
                 omemoDeviceId = omemoDeviceId,
-                omemoIdentityKeyPair = omemoIdentityKeyPair == null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
+                omemoIdentityKeyPair = omemoIdentityKeyPair is null ? null : new libsignal.IdentityKeyPair(omemoIdentityKeyPair),
                 omemoBundleInfoAnnounced = omemoBundleInfoAnnounced,
                 omemoSignedPreKeyId = omemoSignedPreKeyId
             };

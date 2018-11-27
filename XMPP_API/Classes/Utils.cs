@@ -57,7 +57,7 @@ namespace XMPP_API.Classes
         /// <returns>Returns the bare JID. e.g. 'coven@chat.shakespeare.lit'.</returns>
         public static string getBareJidFromFullJid(string jid)
         {
-            if (jid == null)
+            if (jid is null)
             {
                 return null;
             }

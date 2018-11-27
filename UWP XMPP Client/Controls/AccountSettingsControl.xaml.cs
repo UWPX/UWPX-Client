@@ -110,7 +110,7 @@ namespace UWP_XMPP_Client.Controls
             if (await account_acc.isAccountVaildAsync())
             {
                 XMPPAccount newAccount = account_acc.getAccount();
-                if (newAccount == null)
+                if (newAccount is null)
                 {
                     await showErrorDialogAsync(Localisation.getLocalizedString("invalid_jabber_id_text"));
                 }

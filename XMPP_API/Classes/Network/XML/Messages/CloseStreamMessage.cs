@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public CloseStreamMessage(XmlNode node)
         {
             this.CLOSE_NODE = node;
-            if(node == null)
+            if(node is null)
             {
                 return;
             }

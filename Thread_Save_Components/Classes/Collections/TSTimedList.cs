@@ -85,7 +85,7 @@ namespace Thread_Save_Components.Classes.Collections
         #region --Misc Methods (Private)--
         private void onItemAdded()
         {
-            if (timer == null)
+            if (timer is null)
             {
                 startTimer();
             }

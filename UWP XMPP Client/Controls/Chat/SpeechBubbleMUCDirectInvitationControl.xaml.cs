@@ -98,7 +98,7 @@ namespace UWP_XMPP_Client.Controls.Chat
             if (Invitation != null)
             {
                 text_tbx.Text = ChatMessage.fromUser + " has send you an invite to join a MUC room.";
-                if (Invitation.roomJid == null)
+                if (Invitation.roomJid is null)
                 {
                     error_tbx.Text = "No JID given!";
                     loading_grid.Visibility = Visibility.Collapsed;

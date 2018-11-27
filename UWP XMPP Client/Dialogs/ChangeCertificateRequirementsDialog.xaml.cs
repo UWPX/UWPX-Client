@@ -93,7 +93,7 @@ namespace UWP_XMPP_Client.Dialogs
 
         private void save()
         {
-            if (account == null)
+            if (account is null)
             {
                 return;
             }

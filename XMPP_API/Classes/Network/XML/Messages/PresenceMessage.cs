@@ -50,12 +50,12 @@ namespace XMPP_API.Classes.Network.XML.Messages
             if (typeAttribute != null)
             {
                 this.TYPE = typeAttribute.Value;
-                if (showNode == null)
+                if (showNode is null)
                 {
                     this.PRESENCE = Utils.parsePresence(typeAttribute.Value);
                 }
             }
-            else if (showNode == null)
+            else if (showNode is null)
             {
                 this.PRESENCE = Presence.Online;
             }

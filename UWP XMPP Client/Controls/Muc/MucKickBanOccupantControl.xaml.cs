@@ -83,7 +83,7 @@ namespace UWP_XMPP_Client.Controls.Muc
                 return;
             }
 
-            if(Occupant.jid == null)
+            if(Occupant.jid is null)
             {
                 error_itbx.Text = "Unable to occupant - JID is null!";
                 error_itbx.Visibility = Visibility.Visible;

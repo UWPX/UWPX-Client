@@ -402,7 +402,7 @@ namespace XMPP_API.Classes.Network
 
         private void updateDevicesIfNeeded(OmemoDevices devicesRemote)
         {
-            if (devicesRemote == null)
+            if (devicesRemote is null)
             {
                 devicesRemote = new OmemoDevices();
             }

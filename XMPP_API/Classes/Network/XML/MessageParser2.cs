@@ -467,7 +467,7 @@ namespace XMPP_API.Classes.Network.XML
                 // XEP-0280 (Message Carbons):
                 bool sendCC = false;
                 XmlNode carbNode = XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0280_NAMESPACE);
-                if (carbNode == null)
+                if (carbNode is null)
                 {
                     sendCC = true;
                     carbNode = XMLUtils.getChildNode(n, "sent", Consts.XML_XMLNS, Consts.XML_XEP_0280_NAMESPACE);

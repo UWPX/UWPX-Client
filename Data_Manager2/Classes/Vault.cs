@@ -67,7 +67,7 @@ namespace Data_Manager2.Classes
         public static void loadPassword(XMPPAccount account)
         {
             PasswordCredential passwordCredential = getPasswordCredentialForAccount(account);
-            if (passwordCredential == null)
+            if (passwordCredential is null)
             {
                 Logger.Warn("No password found for: " + account.user.getIdAndDomain());
                 account.user.userPassword = "";

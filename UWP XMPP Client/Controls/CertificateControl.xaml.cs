@@ -61,7 +61,7 @@ namespace UWP_XMPP_Client.Controls
         private void updateCertDetails()
         {
             CERT_DETAILS.Clear();
-            if (Cert == null)
+            if (Cert is null)
             {
                 validFormShort_run.Text = "-";
                 validToShort_run.Text = "-";

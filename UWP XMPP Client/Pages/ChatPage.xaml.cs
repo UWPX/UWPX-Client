@@ -141,7 +141,7 @@ namespace UWP_XMPP_Client.Pages
                     {
                         CHATS.AddRange(chats, false);
                     }
-                    if (masterDetail_pnl.SelectedItem == null && selectedChat != null)
+                    if (masterDetail_pnl.SelectedItem is null && selectedChat != null)
                     {
                         masterDetail_pnl.SelectedItem = selectedChat;
                     }
@@ -158,9 +158,9 @@ namespace UWP_XMPP_Client.Pages
         /// <param name="requestSubscription">Request a presence subscription?</param>
         private async Task addChatAsync(XMPPClient client, string jID, bool addToRoster, bool requestSubscription)
         {
-            if (client == null || jID == null)
+            if (client is null || jID is null)
             {
-                string errorMessage = "Unable to add chat! client ?= " + (client == null) + " jabberId ?=" + (jID == null);
+                string errorMessage = "Unable to add chat! client ?= " + (client is null) + " jabberId ?=" + (jID is null);
                 Logger.Error(errorMessage);
                 TextDialog dialog = new TextDialog(errorMessage, "Error");
                 await UiUtils.showDialogAsyncQueue(dialog);

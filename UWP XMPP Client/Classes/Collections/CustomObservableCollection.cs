@@ -41,7 +41,7 @@ namespace UWP_XMPP_Client.Classes.Collections
         /// </summary>
         public void AddRange(IEnumerable<T> collection)
         {
-            if (collection == null)
+            if (collection is null)
             {
                 throw new ArgumentNullException(nameof(collection));
             }

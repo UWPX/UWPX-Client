@@ -79,7 +79,7 @@ namespace UWP_XMPP_Client.Controls.Muc
                 Task.Run(() =>
                 {
                     MUCOccupantTable occupant = MUCDBManager.INSTANCE.getMUCOccupant(chatId, nickname);
-                    if (occupant == null)
+                    if (occupant is null)
                     {
                         canBan = false;
                         canKick = false;
@@ -180,7 +180,7 @@ namespace UWP_XMPP_Client.Controls.Muc
         {
             await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
             {
-                if (Chat == null || !Equals(args.MUC_OCCUPANT.chatId, Chat.id))
+                if (Chat is null || !Equals(args.MUC_OCCUPANT.chatId, Chat.id))
                 {
                     return;
                 }

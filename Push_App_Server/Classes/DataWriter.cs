@@ -66,7 +66,7 @@ namespace Push_App_Server.Classes
         public async Task<bool> connectAndSendAsync()
         {
             PushNotificationChannel channel = await requestChannelAsync();
-            if (channel == null)
+            if (channel is null)
             {
                 setChannelSuccess(false);
                 return false;

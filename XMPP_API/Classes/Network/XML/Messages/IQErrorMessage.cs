@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public IQErrorMessage(XmlNode n) : base(n)
         {
             XmlNode eNode = XMLUtils.getChildNode(n, ERROR);
-            if (eNode == null)
+            if (eNode is null)
             {
                 this.ERROR_OBJ = new Error();
             }

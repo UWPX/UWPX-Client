@@ -74,7 +74,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         private void AbstractBackRequestPage_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
         {
             Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame == null)
+            if (rootFrame is null)
             {
                 return;
             }

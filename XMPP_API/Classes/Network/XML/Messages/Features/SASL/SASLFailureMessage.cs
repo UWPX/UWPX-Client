@@ -84,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
                 }
             }
 
-            if(ERROR_MESSAGE == null)
+            if(ERROR_MESSAGE is null)
             {
                 ERROR_MESSAGE = node.InnerXml;
             }
