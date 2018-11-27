@@ -166,6 +166,9 @@
     <Compile Include="Classes\Network\XML\Messages\ErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\IXElementable.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
+    <Compile Include="Classes\Network\XML\Messages\PresenceErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\PresenceErrorType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\PresenceProbeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMConnection.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMState.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterRequestMessage.cs" />

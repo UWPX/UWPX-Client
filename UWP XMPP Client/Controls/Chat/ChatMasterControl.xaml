@@ -61,6 +61,14 @@
                                               Glyph="&#xE711;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="probePresence_mfo"
+                                            Click="ProbePresence_mfo_Click"
+                                            Text="Probe presence"
+                                            Visibility="Collapsed">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xEA62;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                         </MenuFlyoutSubItem>
                         <MenuFlyoutSeparator/>
                         <ToggleMenuFlyoutItem x:Name="mute_tmfo"

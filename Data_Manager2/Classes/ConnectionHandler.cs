@@ -320,7 +320,42 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
+        private async Task answerPresenceProbeAsync(string from, string to, ChatTable chat, XMPPClient client, PresenceMessage msg)
+        {
+            XMPPAccount account = client.getXMPPAccount();
+            PresenceMessage answer = null;
+            if (chat is null)
+            {
+                answer = new PresenceErrorMessage(account.getIdDomainAndResource(), from, PresenceErrorType.FORBIDDEN);
+                Logger.Warn("Received a presence probe message for an unknown chat from: " + from + ", to: " + to);
+                return;
+            }
+            else
+            {
+                switch (chat.subscription)
+                {
+                    case "both":
+                    case "from":
+                        answer = new PresenceMessage(account.getIdAndDomain(), from, account.presence, account.status, account.presencePriorety);
+                        Logger.Debug("Answered presence probe from: " + from);
+                        break;
+
+                    case "none" when chat.inRoster:
+                    case "to" when chat.inRoster:
+                        answer = new PresenceErrorMessage(account.getIdDomainAndResource(), from, PresenceErrorType.FORBIDDEN);
+                        Logger.Warn("Received a presence probe but chat has no subscription: " + from + ", to: " + to + " subscription: " + chat.subscription);
+                        break;
+
+                    default:
+                        answer = new PresenceErrorMessage(account.getIdDomainAndResource(), from, PresenceErrorType.NOT_AUTHORIZED);
+                        Logger.Warn("Received a presence probe but chat has no subscription: " + from + ", to: " + to + " subscription: " + chat.subscription);
+                        break;
+                }
+            }
+            await client.sendAsync(answer);
+        }
+
+        private async void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
         {
             string from = Utils.getBareJidFromFullJid(args.PRESENCE_MESSAGE.getFrom());
 
@@ -343,6 +378,11 @@ namespace Data_Manager2.Classes
                     }
                     chat.subscription = args.PRESENCE_MESSAGE.TYPE;
                     break;
+
+                // Answer presence probes:
+                case "probe":
+                    await answerPresenceProbeAsync(from, to, chat, client, args.PRESENCE_MESSAGE);
+                    return;
 
                 default:
                     break;
@@ -400,7 +440,7 @@ namespace Data_Manager2.Classes
                     }
 
                     // Only update the subscription state, if not set to subscribe:
-                    if(!string.Equals(chat.subscription, "subscribe"))
+                    if (!string.Equals(chat.subscription, "subscribe"))
                     {
                         chat.subscription = item.SUBSCRIPTION;
                     }

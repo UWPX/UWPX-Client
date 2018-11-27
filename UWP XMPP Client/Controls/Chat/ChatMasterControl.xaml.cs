@@ -20,6 +20,7 @@ using Data_Manager2.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using System.Collections.Generic;
 using UWP_XMPP_Client.DataTemplates;
+using Logging;
 
 namespace UWP_XMPP_Client.Controls.Chat
 {
@@ -158,16 +159,19 @@ namespace UWP_XMPP_Client.Controls.Chat
                     requestPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     cancelPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
                     rejectPresenceSubscription_mfo.Visibility = Visibility.Collapsed;
+                    probePresence_mfo.Visibility = Visibility.Collapsed;
                     presenceSubscription_mfo.IsEnabled = true;
 
                     switch (chat.subscription)
                     {
                         case "to":
                             cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            probePresence_mfo.Visibility = Visibility.Visible;
                             break;
                         case "both":
                             cancelPresenceSubscription_mfo.Visibility = Visibility.Visible;
                             rejectPresenceSubscription_mfo.Visibility = Visibility.Visible;
+                            probePresence_mfo.Visibility = Visibility.Visible;
                             break;
                         case "subscribe":
                             presenceSubscription_mfo.IsEnabled = false;
@@ -354,6 +358,18 @@ namespace UWP_XMPP_Client.Controls.Chat
             {
                 await Client.GENERAL_COMMAND_HELPER.addToRosterAsync(Chat.chatJabberId).ConfigureAwait(false);
             }
+        }
+
+        private async Task sendPresenceProbeAsync()
+        {
+            if (Chat is null)
+            {
+                return;
+            }
+
+            PresenceProbeMessage probe = new PresenceProbeMessage(Client.getXMPPAccount().getIdDomainAndResource(), Chat.chatJabberId);
+            await Client.sendAsync(probe);
+            Logger.Info("Send presence probe from " + probe.getFrom() + " to " + probe.getTo());
         }
 
         private void switchMUCBookmarkes()
@@ -743,6 +759,11 @@ namespace UWP_XMPP_Client.Controls.Chat
                 default:
                     break;
             }
+        }
+
+        private async void ProbePresence_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            await sendPresenceProbeAsync().ConfigureAwait(false);
         }
         #endregion
     }
