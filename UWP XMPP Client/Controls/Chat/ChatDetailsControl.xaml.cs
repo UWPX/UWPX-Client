@@ -663,19 +663,19 @@ namespace UWP_XMPP_Client.Controls.Chat
             Client.PUB_SUB_COMMAND_HELPER.requestSubscriptions("pubsub.404.city", null, null);
         }
 
-        private void message_tbx_GotFocus(object sender, RoutedEventArgs e)
+        private async void message_tbx_GotFocus(object sender, RoutedEventArgs e)
         {
             if (shouldSendChatState())
             {
-                Client.GENERAL_COMMAND_HELPER.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING).ConfigureAwait(false);
+                await Client.GENERAL_COMMAND_HELPER.sendChatStateAsync(Chat.chatJabberId, ChatState.COMPOSING).ConfigureAwait(false);
             }
         }
 
-        private void message_tbx_LostFocus(object sender, RoutedEventArgs e)
+        private async void message_tbx_LostFocus(object sender, RoutedEventArgs e)
         {
             if (shouldSendChatState())
             {
-                Client.GENERAL_COMMAND_HELPER.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE).ConfigureAwait(false);
+                await Client.GENERAL_COMMAND_HELPER.sendChatStateAsync(Chat.chatJabberId, ChatState.ACTIVE).ConfigureAwait(false);
             }
         }
 
