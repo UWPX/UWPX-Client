@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Text;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Pages.SettingsPages;
+using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -27,6 +29,7 @@ namespace UWP_XMPP_Client.Pages
             this.InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
             loadSettingsCategories();
+            loadAppVersion();
         }
 
         #endregion
@@ -42,6 +45,21 @@ namespace UWP_XMPP_Client.Pages
         #endregion
 
         #region --Misc Methods (Private)--
+        private void loadAppVersion()
+        {
+            name_run.Text = Package.Current.DisplayName;
+            PackageVersion version = Package.Current.Id.Version;
+            StringBuilder sb = new StringBuilder("v.");
+            sb.Append(version.Major);
+            sb.Append('.');
+            sb.Append(version.Minor);
+            sb.Append('.');
+            sb.Append(version.Build);
+            sb.Append('.');
+            sb.Append(version.Revision);
+            version_run.Text = sb.ToString();
+        }
+
         private void loadSettingsCategories()
         {
             settings = new ObservableCollection<SettingTemplate>()
@@ -72,7 +90,7 @@ namespace UWP_XMPP_Client.Pages
         #region --Events--
         private void AdaptiveGridView_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if(e.ClickedItem != null && e.ClickedItem is SettingTemplate)
+            if (e.ClickedItem != null && e.ClickedItem is SettingTemplate)
             {
                 navigateToPage((e.ClickedItem as SettingTemplate).page);
             }
