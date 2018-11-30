@@ -194,34 +194,36 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.10.0.0 [November 2018] Cleanup, bug fixes and UI improvements
+    <value># v.0.11.0.0 [December 2018] Hi, my name is Nemo🐠, ... OMEMO! 🎉
 
-Because I didn't had that much time during the last two month I've decided to not release an October build.
-Never the less this build focuses mainly on code cleanup, bug fixes and UI improvements.
+**Are we OMEMO yet?**
+**Naah... at least we can encrypt and decrypt.**
 
-For the next couple of month I will focus on getting OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5) up and running.
-
-**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
+Finally I've managed to get a first version of my [OMEMO](https://conversations.im/omemo/) implementation up and running!
+You are now able to send **ENCRYPTED** messages via OMEMO to other people and decrypt their messages. [#5](https://github.com/UWPX/UWPX-Client/issues/5) contains up to date information about the current implementation state for OMEMO.
+To enable message encryption: Click on the `three little dots` and `enable Encryption(OMEMO)`. Now it should show a small lock symbol at the send button.
+**Be aware:** OMEMO is still a work in progess topic and you **WILL** encounter bugs and unexpected behaviour!
 
 ### Known bugs:
 * MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
 * Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34) 
+* OMEMO not sending messages [#49](https://github.com/UWPX/UWPX-Client/issues/49) 
+* Duplicate MUC messages [#46](https://github.com/UWPX/UWPX-Client/issues/46) 
+* Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40) 
 
 ### Changes:
-* Added a color picker for account colors
-* Added a C implementation for AES128 in GCM (OMEMO)
-* Added chat filters - yes, they are persistent
-* Switched to NLog for logging
-* Switched to the PersonPicture control
-* Registered UWPX as default app for `xmpp:` URIs ([#42](https://github.com/UWPX/UWPX-Client/issues/42))
-* Improved message parser performance
-* Improved the phone number detection
-* Improved the chat message formatting performance
-* Showing extended chat view if your phone is in landscape mode
-* Fixed UI freezing if a second content dialog gets opened
-* Fixed not connecting on mobile devices
+* Added OMEMO support
+* Added an option to disable chat message processing
+* Updated message processing regexes =&gt; far better performance
+* Updated toaster to not show toasts if the app is running in foreground mode
+* Fixed some TCPConnection send message crashes
+* Fixed muting chats does not update the UI properly
+* Fixed IQMessage parsing
+* Fixed not logging exceptions
+* Fixed bookmarks
+* Fixed some cases for UI lockups (MORE TO COME...)
 
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.10.0.0)</value>
+[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.11.0.0)</value>
   </data>
 </root>
