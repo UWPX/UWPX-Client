@@ -10,7 +10,7 @@
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/551476163f8f4784bd1017bf2e8f3db1)](https://www.codacy.com/app/COM8/UWPX-Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UWPX/UWPX-Client&amp;utm_campaign=Badge_Grade)
 
-# UWP-XMPP-Client - Now with OMEMO :tropical_fish: support [read on...](https://github.com/UWPX/UWPX-Client/releases)
+# UWP-XMPP-Client - Now with [OMEMO](https://conversations.im/omemo/) :tropical_fish: support [read on...](https://github.com/UWPX/UWPX-Client/releases)
 [This app is still in alpha stage!]
 
 Chat with all your XMPP contacts.
