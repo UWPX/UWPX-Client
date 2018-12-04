@@ -118,6 +118,7 @@
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
+    <Compile Include="Classes\Events\OmemoSessionBuildErrorEventArgs.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
     <Compile Include="Classes\GeneralCommandHelper.cs" />

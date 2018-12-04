@@ -220,6 +220,7 @@ namespace Data_Manager2.Classes
             c.NewBookmarksResultMessage += C_NewBookmarksResultMessage;
             c.NewDeliveryReceipt += C_NewDeliveryReceipt;
             c.getXMPPAccount().PropertyChanged += ConnectionHandler_PropertyChanged;
+            c.OmemoSessionBuildError += C_OmemoSessionBuildError;
             return c;
         }
 
@@ -236,6 +237,7 @@ namespace Data_Manager2.Classes
             c.NewBookmarksResultMessage -= C_NewBookmarksResultMessage;
             c.NewDeliveryReceipt -= C_NewDeliveryReceipt;
             c.getXMPPAccount().PropertyChanged -= ConnectionHandler_PropertyChanged;
+            c.OmemoSessionBuildError -= C_OmemoSessionBuildError;
         }
 
         /// <summary>
@@ -287,6 +289,15 @@ namespace Data_Manager2.Classes
             else
             {
                 await client.reconnectAsync();
+            }
+        }
+
+        private void setOmemoChatMessagesSendFailed(IList<OmemoMessageMessage> messages, ChatTable chat)
+        {
+            foreach (OmemoMessageMessage msg in messages)
+            {
+                string msgId = ChatMessageTable.generateId(msg.ID, chat.id);
+                ChatDBManager.INSTANCE.updateChatMessageState(msgId, MessageState.ENCRYPT_FAILED);
             }
         }
 
@@ -741,6 +752,32 @@ namespace Data_Manager2.Classes
             }
         }
 
+        private void C_OmemoSessionBuildError(XMPPClient client, XMPP_API.Classes.Events.OmemoSessionBuildErrorEventArgs args)
+        {
+            Task.Run(() =>
+            {
+                ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(args.CHAT_JID, client.getXMPPAccount().getIdAndDomain()));
+                if (!(chat is null))
+                {
+                    // Add an error chat message:
+                    ChatMessageTable msg = new ChatMessageTable()
+                    {
+                        id = ChatMessageTable.generateErrorMessageId(AbstractMessage.getRandomId(), chat.id),
+                        chatId = chat.id,
+                        date = DateTime.Now,
+                        fromUser = args.CHAT_JID,
+                        isImage = false,
+                        message = "Failed to encrypt and send " + args.MESSAGES.Count + " OMEMO message(s) with:\n" + args.ERROR,
+                        state = MessageState.UNREAD,
+                        type = MessageMessage.TYPE_ERROR
+                    };
+                    ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
+
+                    // Set chat messages to encrypted failed:
+                    setOmemoChatMessagesSendFailed(args.MESSAGES, chat);
+                }
+            });
+        }
         #endregion
     }
 }

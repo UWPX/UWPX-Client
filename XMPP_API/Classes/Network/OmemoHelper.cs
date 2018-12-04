@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -313,8 +314,10 @@ namespace XMPP_API.Classes.Network
             }
             else
             {
-                Logger.Error("Failed to build OMEMO session for: " + sender.CHAT_JID);
-                // ToDo: Error handling - show message
+                OmemoSessionBuildErrorEventArgs args = new OmemoSessionBuildErrorEventArgs(sender.CHAT_JID, result.ERROR, MESSAGE_CACHE[sender.CHAT_JID]?.Item1 ?? new List<OmemoMessageMessage>());
+                CONNECTION.onOmemoSessionBuildError(args);
+                MESSAGE_CACHE.Remove(sender.CHAT_JID);
+                Logger.Error("Failed to build OMEMO session for: " + sender.CHAT_JID + " with: " + result.ERROR);
             }
         }
 

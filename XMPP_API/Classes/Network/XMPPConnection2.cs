@@ -1,11 +1,11 @@
-﻿using libsignal.state;
-using Logging;
+﻿using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Thread_Save_Components.Classes.Collections;
 using Windows.System.Threading;
+using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
@@ -41,12 +41,14 @@ namespace XMPP_API.Classes.Network
 
         public delegate void MessageSendEventHandler(XMPPConnection2 connection, MessageSendEventArgs args);
         public delegate void NewBookmarksResultMessageEventHandler(XMPPConnection2 connection, NewBookmarksResultMessageEventArgs args);
+        public delegate void OmemoSessionBuildErrorEventHandler(XMPPConnection2 connection, OmemoSessionBuildErrorEventArgs args);
 
         public event NewValidMessageEventHandler NewValidMessage;
         public event NewValidMessageEventHandler NewRoosterMessage;
         public event NewValidMessageEventHandler NewPresenceMessage;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event MessageSendEventHandler MessageSend;
+        public event OmemoSessionBuildErrorEventHandler OmemoSessionBuildError;
 
         /// <summary>
         /// The timer for connecting to a server.
@@ -621,6 +623,14 @@ namespace XMPP_API.Classes.Network
 
         #region --Misc Methods (Protected)--
 
+
+        #endregion
+
+        #region --Misc Methods (Internal)--
+        internal void onOmemoSessionBuildError(OmemoSessionBuildErrorEventArgs args)
+        {
+            OmemoSessionBuildError?.Invoke(this, args);
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

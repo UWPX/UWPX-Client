@@ -165,6 +165,12 @@ namespace UWP_XMPP_Client.Controls.Chat
                         toEncryp_pgb.Visibility = Visibility.Visible;
                         break;
 
+                    case MessageState.ENCRYPT_FAILED:
+                        state_tbx.Text = "\uEA39";
+                        stateCheck_tbx.Visibility = Visibility.Collapsed;
+                        toEncryp_pgb.Visibility = Visibility.Collapsed;
+                        break;
+
                     default:
                         state_tbx.Text = "";
                         stateCheck_tbx.Visibility = Visibility.Collapsed;
