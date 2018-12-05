@@ -158,7 +158,7 @@ namespace XMPP_API.Classes.Network
             // Load OMEMO keys for the current account:
             if (!account.omemoKeysGenerated)
             {
-                Logger.Error("Failed to enable OMEMO for account: " + account.getIdAndDomain() + " - generate OMEMO keys first!");
+                Logger.Error("[XMPPConnection2]: Failed to enable OMEMO for account: " + account.getIdAndDomain() + " - generate OMEMO keys first!");
                 omemoHelper = null;
                 return false;
             }
@@ -245,11 +245,11 @@ namespace XMPP_API.Classes.Network
             {
                 if (Logger.logLevel >= LogLevel.DEBUG)
                 {
-                    Logger.Warn("Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
+                    Logger.Warn("[XMPPConnection2]: Did not send message, due to connection state is " + state + "\n" + msg.toXmlString());
                 }
                 else
                 {
-                    Logger.Warn("Did not send message, due to connection state is " + state);
+                    Logger.Warn("[XMPPConnection2]: Did not send message, due to connection state is " + state);
                 }
 
                 if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
@@ -279,12 +279,12 @@ namespace XMPP_API.Classes.Network
                 }
                 else
                 {
-                    Logger.Error("Error during sending message for account: " + account.getIdAndDomain());
+                    Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getIdAndDomain());
                 }
             }
             catch (Exception e)
             {
-                Logger.Error("Error during sending message for account: " + account.getIdAndDomain(), e);
+                Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getIdAndDomain(), e);
             }
 
             if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
@@ -375,13 +375,14 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task connectAsync()
         {
-            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable && false)
             {
                 connectionErrorCount = 3;
                 lastConnectionError = new ConnectionError(ConnectionErrorCode.NO_INTERNET);
                 setState(ConnectionState.ERROR, lastConnectionError);
                 reconnectRequested = false;
                 holdConnection = false;
+                Logger.Warn("[XMPPConnection2]: Unable to connect to " + account.serverAddress + " - no internet!");
                 return;
             }
 
@@ -440,7 +441,10 @@ namespace XMPP_API.Classes.Network
 
         private async Task onConnectionErrorAsync()
         {
-            Logger.Debug("onConnectionErrorAsync() got triggered - connectionErrorCount: " + connectionErrorCount);
+            // Stop the connection timer:
+            stopConnectionTimer();
+
+            Logger.Debug("[XMPPConnection2]: onConnectionErrorAsync() got triggered - connectionErrorCount: " + connectionErrorCount);
             if (++connectionErrorCount >= 3)
             {
                 // Establishing the connection failed for the third time:
@@ -476,15 +480,15 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task sendStreamCloseMessageAsync()
         {
-            Logger.Debug("Sending stream close...");
+            Logger.Debug("[XMPPConnection2]: Sending stream close...");
             if (TCP_CONNECTION.state == ConnectionState.CONNECTED)
             {
                 await TCP_CONNECTION.sendAsync(Consts.XML_STREAM_CLOSE);
-                Logger.Debug("Stream close send.");
+                Logger.Debug("[XMPPConnection2]: Stream close send.");
             }
             else
             {
-                Logger.Debug("Skipping sending stream close - TCP_CONNECTION.state != ConnectionState.CONNECTED: " + TCP_CONNECTION.state.ToString());
+                Logger.Debug("[XMPPConnection2]: Skipping sending stream close - TCP_CONNECTION.state != ConnectionState.CONNECTED: " + TCP_CONNECTION.state.ToString());
             }
         }
 
@@ -529,20 +533,29 @@ namespace XMPP_API.Classes.Network
             }
             catch (Exception e)
             {
-                Logger.Error("Error during message parsing." + e);
+                Logger.Error("[XMPPConnection2]: Error during message parsing." + e);
                 return;
             }
 
             // Process messages:
             foreach (AbstractMessage msg in messages)
             {
-                // Filter IQ messages which ids are not valid:
-                if (msg is IQMessage)
+                // Stream error messages:
+                if (msg is StreamErrorMessage errorMessage)
                 {
-                    IQMessage iq = msg as IQMessage;
+                    Logger.Warn("[XMPPConnection2]: Received stream error message: " + errorMessage.ToString());
+                    lastConnectionError = new ConnectionError(ConnectionErrorCode.SERVER_ERROR, errorMessage.ToString());
+                    await onConnectionErrorAsync();
+                    await sendStreamCloseMessageAsync();
+                    return;
+                }
+
+                // Filter IQ messages which ids are not valid:
+                if (msg is IQMessage iq)
+                {
                     if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.ID) != null)
                     {
-                        Logger.Warn("Invalid message id received!");
+                        Logger.Warn("[XMPPConnection2]: Invalid message id received!");
                         return;
                     }
                 }
@@ -563,7 +576,7 @@ namespace XMPP_API.Classes.Network
                     }
                     else
                     {
-                        throw new ArgumentException("Invalid restart type: " + msg.getRestartConnection());
+                        throw new ArgumentException("[XMPPConnection2]: Invalid restart type: " + msg.getRestartConnection());
                     }
                 }
 
@@ -575,9 +588,8 @@ namespace XMPP_API.Classes.Network
 
                 // --------------------------------------------------------------------
                 // Open stream:
-                if (msg is OpenStreamAnswerMessage)
+                if (msg is OpenStreamAnswerMessage oA)
                 {
-                    OpenStreamAnswerMessage oA = msg as OpenStreamAnswerMessage;
                     if (oA.ID is null)
                     {
                         // TODO Handle OpenStreamAnswerMessage id is null
@@ -603,14 +615,14 @@ namespace XMPP_API.Classes.Network
                     NewRoosterMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
                 // Presence:
-                else if (msg is PresenceMessage && (msg as PresenceMessage).getFrom() != null)
+                else if (msg is PresenceMessage presenceMessage && !(presenceMessage.getFrom() is null))
                 {
                     NewPresenceMessage?.Invoke(this, new NewValidMessageEventArgs(msg));
                 }
                 // Bookmarks:
-                else if (msg is BookmarksResultMessage)
+                else if (msg is BookmarksResultMessage bookmarksResultMessage)
                 {
-                    NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(msg as BookmarksResultMessage));
+                    NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(bookmarksResultMessage));
                 }
                 else if (msg is OmemoDeviceListEventMessage deviceListEvent)
                 {

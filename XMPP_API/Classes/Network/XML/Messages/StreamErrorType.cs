@@ -1,0 +1,33 @@
+﻿namespace XMPP_API.Classes.Network.XML.Messages
+{
+    public enum StreamErrorType
+    {
+        UNKNOWN,
+        NOT_WELL_FORMED,
+        INVALID_NAMESPACE,
+        HOST_UNKNOWN,
+        DEFINED_CONDITION,
+        BAD_FORMAT,
+        BAD_NAMESPACE_PREFIX,
+        CONFLICT,
+        CONNECTION_TIMEOUT,
+        HOST_GONE,
+        INPROPER_ADDRESSING,
+        INITIAL_SERVER_ERROR,
+        INVALID_FROM,
+        INVALID_XML,
+        NOT_AUTHORIZED,
+        POLICY_VIOLATION,
+        REMOTE_CONNECTION_FAILED,
+        RESET,
+        RESOURCE_CONSTRAINT,
+        RESTRICTED_XML,
+        SEE_OTHER_HOST,
+        SYSTEM_SHUTDOWN,
+        UNDEFINED_CONDITION,
+        UNSUPPORTED_ENCODING,
+        UNSUPPORTED_FEATURE,
+        UNSUPPORTED_STANZA_TYPE,
+        UNSUPPORTED_VERSION
+    }
+}

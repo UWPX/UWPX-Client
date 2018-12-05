@@ -13,5 +13,6 @@
         SASL_FAILED = 8,
         XMPP_CONNECTION_TIMEOUT = 9,
         SENDING_FAILED = 10,
+        SERVER_ERROR = 11,
     }
 }

@@ -1,13 +1,16 @@
-﻿using System.Xml;
+﻿using System;
+using System.Text;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class StreamErrorMessage
+    public class StreamErrorMessage : AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string TYPE;
-        public readonly string CONTENT;
+        public readonly StreamErrorType ERROR_TYPE;
+        public readonly string ERROR_TEXT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,11 +23,25 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public StreamErrorMessage(XmlNode n)
         {
-            if(n != null)
+            this.ERROR_TYPE = StreamErrorType.UNKNOWN;
+            this.ERROR_TEXT = "";
+            if (n.HasChildNodes)
             {
-                TYPE = n.Attributes["type"]?.Value;
-                CONTENT = n.InnerXml;
+                foreach (XmlNode n1 in n.ChildNodes)
+                {
+                    if (string.Equals(n1.NamespaceURI, Consts.XML_STREAM_ERROR_NAMESPACE))
+                    {
+                        this.ERROR_TYPE = parseStreamErrorType(n1.Name);
+                        this.ERROR_TEXT = n1.InnerXml;
+                        return;
+                    }
+                }
             }
+        }
+
+        public override XElement toXElement()
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -35,12 +52,27 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override string toXmlString()
+        {
+            StringBuilder sb = new StringBuilder(ERROR_TYPE.ToString());
+            if (!string.IsNullOrEmpty(ERROR_TEXT))
+            {
+                sb.Append(": ");
+                sb.Append(ERROR_TEXT);
+            }
+            return sb.ToString();
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private StreamErrorType parseStreamErrorType(string s)
+        {
+            s = s.Replace('-', '_').ToUpper();
+            StreamErrorType streamError = StreamErrorType.UNKNOWN;
+            Enum.TryParse(s, out streamError);
+            return streamError;
+        }
 
         #endregion
 

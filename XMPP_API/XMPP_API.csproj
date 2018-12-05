@@ -159,6 +159,8 @@
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
     <Compile Include="Classes\Crypto\CryptoUtils.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StreamErrorType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
@@ -174,7 +176,7 @@
     <Compile Include="Classes\Network\XML\Messages\Processor\SMState.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorNode.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataForm.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataFormType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\Field.cs" />

@@ -18,6 +18,7 @@ namespace XMPP_API.Classes
         // Error:
         public const string XML_FAILURE = "<failure xmlns=\"urn:ietf:params:xml:ns:xmpp-tls\"/>";
         public const string XML_ERROR_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-stanzas";
+        public const string XML_STREAM_ERROR_NAMESPACE = "urn:ietf:params:xml:ns:xmpp-streams";
 
         public const string XML_XMLNS = "xmlns";
 

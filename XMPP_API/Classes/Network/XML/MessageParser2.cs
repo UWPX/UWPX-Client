@@ -416,6 +416,11 @@ namespace XMPP_API.Classes.Network.XML
                         messages.Add(new SMFailedMessage(n));
                         break;
 
+                    // Stream error:
+                    case "stream:error":
+                        messages.Add(new StreamErrorMessage(n));
+                        break;
+
                     default:
                         Logger.Warn("Unknown message received: " + msg);
                         break;
