@@ -375,7 +375,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task connectAsync()
         {
-            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable && false)
+            if (!NetworkHelper.Instance.ConnectionInformation.IsInternetAvailable)
             {
                 connectionErrorCount = 3;
                 lastConnectionError = new ConnectionError(ConnectionErrorCode.NO_INTERNET);
