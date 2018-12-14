@@ -217,16 +217,13 @@ namespace UWP_XMPP_Client
                 Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
 
                 // If we're currently not on a page, navigate to the main page
-                if (rootFrame.Content is null)
+                if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                 {
-                    if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-                    {
-                        rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs"); // ToDo add arguments
-                    }
-                    else
-                    {
-                        rootFrame.Navigate(typeof(ChatPage), "App.xaml.cs"); // ToDo add arguments
-                    }
+                    rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs"); // ToDo add arguments
+                }
+                else
+                {
+                    rootFrame.Navigate(typeof(ChatPage), protocolActivationArgs); // ToDo add arguments
                 }
             }
             else if (args is ToastNotificationActivatedEventArgs toastActivationArgs)

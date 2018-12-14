@@ -13,6 +13,7 @@ using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
+using Windows.ApplicationModel.Activation;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -234,6 +235,13 @@ namespace UWP_XMPP_Client.Pages
             else if (e.Parameter is ChatToastActivation chatToastActivation)
             {
                 toastActivationString = chatToastActivation.CHAT_ID;
+            }
+            else if(e.Parameter is ProtocolActivatedEventArgs protocolActivationArgs)
+            {
+                if(!string.IsNullOrEmpty(protocolActivationArgs.Uri.PathAndQuery))
+                {
+                    // ToDo: Handle Uri activation
+                }
             }
             loadChats(toastActivationString);
 
