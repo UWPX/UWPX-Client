@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.CustomTitleBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid x:Name="titleBar_grid"
+          Background="Transparent">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition x:Name="leftPaddingColumn"
+                              Width="0"/>
+            <ColumnDefinition/>
+            <ColumnDefinition x:Name="rightPaddingColumn"
+                              Width="0"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1"
+              Margin="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Grid.Column="0"
+                   HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Source="ms-appx:///Assets/Square44x44Logo.scale-200.png"
+                   Stretch="Uniform"/>
+            <Viewbox Grid.Column="1"
+                     VerticalAlignment="Center"
+                     Stretch="Uniform">
+                <TextBlock Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource CaptionTextBlockStyle}"
+                           Text="Custom Title Bar"/>
+            </Viewbox>
+        </Grid>
+    </Grid>
+</UserControl>

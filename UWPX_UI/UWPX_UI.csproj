@@ -120,8 +120,22 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
+      <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
+    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
+    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
+    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
+    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
+      <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ChatPage.xaml.cs">
+      <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -138,6 +152,15 @@
     <Content Include="Assets\BadgeLogo.scale-150.png" />
     <Content Include="Assets\BadgeLogo.scale-200.png" />
     <Content Include="Assets\BadgeLogo.scale-400.png" />
+    <Content Include="Assets\Images\default_muc_image.png" />
+    <Content Include="Assets\Images\default_user_image.png" />
+    <Content Include="Assets\Images\github_mark.png" />
+    <Content Include="Assets\Images\license.png" />
+    <Content Include="Assets\Images\lp.png" />
+    <Content Include="Assets\Images\placeholder.png" />
+    <Content Include="Assets\Images\pp.png" />
+    <Content Include="Assets\Images\send.png" />
+    <Content Include="Assets\Images\xmpp_logo.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -191,9 +214,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\CustomTitleBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AppCenterPushDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ChatPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -232,9 +271,21 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Pages\" />
+    <Folder Include="Controls\Chat\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
+      <Project>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</Project>
+      <Name>Data_Manager2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{53BB5463-9646-4F79-BE97-3D73473AAD92}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
+      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
+      <Name>Thread_Save_Components</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UWPX_UI_Context\UWPX_UI_Context.csproj">
       <Project>{e44b7351-2905-4ae7-8b56-5a5854cbbcf3}</Project>
       <Name>UWPX_UI_Context</Name>

@@ -1,10 +1,13 @@
-﻿using System;
-using Windows.UI.Xaml.Data;
-using XMPP_API.Classes;
+﻿using Data_Manager2.Classes;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWPX_UI_Context.Classes
 {
-    public sealed class PresenceBrushValueConverter : IValueConverter
+    public static class AppBackgroundHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,24 +26,22 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public object Convert(object value, Type targetType, object parameter, string language)
+        public static async Task InitAsync()
         {
-            if (value is Presence p)
-            {
-                return UiUtils.GetPresenceBrush(p);
-            }
-            return UiUtils.GetPresenceBrush(Presence.Unavailable);
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
+            TrySetDefaultBackground();
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private static void TrySetDefaultBackground()
+        {
+            // Set default background:
+            if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            {
+                Settings.setSetting(SettingsConsts.CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME, "light_bulb.jpeg");
+            }
+        }
 
         #endregion
 

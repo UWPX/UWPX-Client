@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{E44B7351-2905-4AE7-8B56-5A5854CBBCF3}</ProjectGuid>
-    <OutputType>winmdobj</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UWPX_UI_Context</RootNamespace>
     <AssemblyName>UWPX_UI_Context</AssemblyName>
@@ -121,6 +121,10 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Classes\AppBackgroundHelper.cs" />
+    <Compile Include="Classes\AppUpdateHelper.cs" />
+    <Compile Include="Classes\BackgroundTaskHelper.cs" />
+    <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -129,19 +133,42 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.0.181018003</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Classes\DataContext\" />
     <Folder Include="Classes\DataTemplates\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
+      <Project>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</Project>
+      <Name>Data_Manager2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{53BB5463-9646-4F79-BE97-3D73473AAD92}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
+      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
+      <Name>Thread_Save_Components</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{899FB043-AF8B-4294-95B6-1482C79459AC}</Project>
       <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Windows.Phone.PhoneContract">
+      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.16299.0\Windows.Phone.PhoneContract\1.0.0.0\Windows.Phone.PhoneContract.winmd</HintPath>
+    </Reference>
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -1,19 +1,30 @@
 ﻿using System;
-using Windows.UI.Xaml.Data;
-using XMPP_API.Classes;
+using UWPX_UI_Context.Classes;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWPX_UI.Dialogs
 {
-    public sealed class PresenceBrushValueConverter : IValueConverter
+    public sealed partial class AppCenterPushDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public string MarkdownText
+        {
+            get { return (string)GetValue(MarkdownTextProperty); }
+            set { SetValue(MarkdownTextProperty, value); }
+        }
+        public static readonly DependencyProperty MarkdownTextProperty = DependencyProperty.Register(nameof(MarkdownText), typeof(string), typeof(AppCenterPushDialog), new PropertyMetadata(""));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public AppCenterPushDialog(string title, string markdownText)
+        {
+            this.Title = title;
+            this.MarkdownText = markdownText;
+            this.InitializeComponent();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -23,19 +34,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is Presence p)
-            {
-                return UiUtils.GetPresenceBrush(p);
-            }
-            return UiUtils.GetPresenceBrush(Presence.Unavailable);
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 
@@ -50,7 +49,10 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private async void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
+        {
+            await UiUtils.LaunchUriAsync(new Uri(e.Link));
+        }
 
         #endregion
     }
