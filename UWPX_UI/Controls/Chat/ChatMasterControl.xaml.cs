@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,7 +15,9 @@ namespace UWPX_UI.Controls.Chat
             get { return (ChatDataTemplate)GetValue(ChatProperty); }
             set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatMasterControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatMasterControl), new PropertyMetadata(null, ChatPropertyChanged));
+
+        private readonly ChatMasterControlContext VIEW_MODEL = new ChatMasterControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,7 +35,10 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
+        {
+            VIEW_MODEL.UpdateView(args);
+        }
 
         #endregion
 
@@ -128,9 +135,7 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
-        #endregion
-
-        private void SlideListItem_sli_SwipeStatusChanged(Microsoft.Toolkit.Uwp.UI.Controls.SlidableListItem sender, Microsoft.Toolkit.Uwp.UI.Controls.SwipeStatusChangedEventArgs args)
+        private void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
         {
 
         }
@@ -144,5 +149,15 @@ namespace UWPX_UI.Controls.Chat
         {
 
         }
+
+        private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ChatMasterControl masterControl)
+            {
+                masterControl.UpdateView(e);
+            }
+        }
+
+        #endregion
     }
 }

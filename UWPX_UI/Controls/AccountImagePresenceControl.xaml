@@ -43,7 +43,7 @@
             <Ellipse x:Name="presence_elipse"
                      Width="13"
                      Height="13"
-                     Fill="{x:Bind PresenceProp, Mode=OneWay, Converter={StaticResource presenceBrushValueConverter}}"/>
+                     Fill="{x:Bind PresenceProp, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>
