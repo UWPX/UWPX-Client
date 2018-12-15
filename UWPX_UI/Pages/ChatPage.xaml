@@ -38,7 +38,9 @@
                                              Background="Transparent"
                                              DetailsTemplate="{StaticResource DetailsTemplate}"
                                              ItemTemplate="{StaticResource MasterTemplate}"
-                                             NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}">
+                                             ItemsSource="{x:Bind ViewModel.CHATS_ACV}"
+                                             NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}"
+                                             SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}">
             <!--  Master Command Bar:  -->
             <masterdetailsview:MasterDetailsView.MasterCommandBar>
                 <CommandBar x:Name="master_cmdb"

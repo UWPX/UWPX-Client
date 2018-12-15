@@ -120,6 +120,15 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
+      <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ChatDetailsControl.xaml.cs">
+      <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
+      <DependentUpon>ChatMasterControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
       <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
     </Compile>
@@ -214,6 +223,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\AccountImagePresenceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\ChatDetailsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\ChatMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CustomTitleBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -270,9 +291,7 @@
       <Version>0.1.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\Chat\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
       <Project>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</Project>
@@ -289,6 +308,10 @@
     <ProjectReference Include="..\UWPX_UI_Context\UWPX_UI_Context.csproj">
       <Project>{e44b7351-2905-4ae7-8b56-5a5854cbbcf3}</Project>
       <Name>UWPX_UI_Context</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
+      <Project>{899FB043-AF8B-4294-95B6-1482C79459AC}</Project>
+      <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
