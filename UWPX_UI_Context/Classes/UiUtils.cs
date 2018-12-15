@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
@@ -16,6 +17,7 @@ namespace UWPX_UI_Context.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
+        private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -25,22 +27,22 @@ namespace UWPX_UI_Context.Classes
             switch (presence)
             {
                 case Presence.Online:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceOnline"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceOnlineBrush"];
 
                 case Presence.Chat:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceChat"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceChatBrush"];
 
                 case Presence.Away:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceAway"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceAwayBrush"];
 
                 case Presence.Xa:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceXa"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceXaBrush"];
 
                 case Presence.Dnd:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceDnd"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceDndBrush"];
 
                 default:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceUnavailable"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceUnavailableBrush"];
 
             }
         }
@@ -66,6 +68,11 @@ namespace UWPX_UI_Context.Classes
         public static bool IsStatusBarApiAvailable()
         {
             return ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
+        }
+
+        public static bool IsHexColor(string color)
+        {
+            return color != null && HEX_COLOR_REGEX.Match(color).Success;
         }
 
         #endregion
@@ -139,6 +146,40 @@ namespace UWPX_UI_Context.Classes
                     statusBar.BackgroundOpacity = 1;
                 }
             }
+        }
+
+        /// <summary>
+        /// Converts the given Color to a hex string e.g. #012345.
+        /// </summary>
+        /// <param name="c">The Color that should get converted.</param>
+        /// <returns>A hex string representing the given Color object.</returns>
+        public static string ColorToHexString(Color c)
+        {
+            return "#" + c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
+        }
+
+        /// <summary>
+        /// Converts the given hex string into a Color object.
+        /// </summary>
+        /// <param name="hexString">The hex color string e.g. #012345.</param>
+        /// <returns>Returns the Color object representing the given hex color.</returns>
+        public static Color HexStringToColor(string hexString)
+        {
+            hexString = hexString.Replace("#", string.Empty);
+            byte r = (byte)(Convert.ToUInt32(hexString.Substring(0, 2), 16));
+            byte g = (byte)(Convert.ToUInt32(hexString.Substring(2, 2), 16));
+            byte b = (byte)(Convert.ToUInt32(hexString.Substring(4, 2), 16));
+            return Color.FromArgb(255, r, g, b);
+        }
+
+        /// <summary>
+        /// Converts the given hex string into a SolidColorBrush object.
+        /// </summary>
+        /// <param name="hexString">The hex color string e.g. #012345.</param>
+        /// <returns>Returns the SolidColorBrush object representing the given hex color.</returns>
+        public static SolidColorBrush HexStringToBrush(string hexString)
+        {
+            return new SolidColorBrush(HexStringToColor(hexString));
         }
 
         #endregion

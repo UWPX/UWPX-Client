@@ -33,11 +33,12 @@
                         </MenuFlyoutItem>
                         <MenuFlyoutSeparator/>
                         <MenuFlyoutSubItem x:Name="presenceSubscription_mfo"
+                                           IsEnabled="{x:Bind VIEW_MODEL.PresenceFlyoutEnabled, Mode=OneWay}"
                                            Text="Presence subscription">
                             <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo"
                                             Click="RequestPresenceSubscription_mfo_Click"
                                             Text="Request subscription"
-                                            Visibility="Collapsed">
+                                            Visibility="{x:Bind VIEW_MODEL.RequestPresenceSubscriptionVisability, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Green"
                                               Glyph="&#xE109;"/>
@@ -46,7 +47,7 @@
                             <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo"
                                             Click="CancelPresenceSubscription_mfo_Click"
                                             Text="Cancel subscription"
-                                            Visibility="Collapsed">
+                                            Visibility="{x:Bind VIEW_MODEL.CancelPresenceSubscriptionVisability, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Red"
                                               Glyph="&#xE738;"/>
@@ -55,7 +56,7 @@
                             <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
                                             Click="RejectPresenceSubscription_mfo_Click"
                                             Text="Reject subscription"
-                                            Visibility="Collapsed">
+                                            Visibility="{x:Bind VIEW_MODEL.RejectPresenceSubscriptionVisability, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Red"
                                               Glyph="&#xE711;"/>
@@ -64,7 +65,7 @@
                             <MenuFlyoutItem x:Name="probePresence_mfo"
                                             Click="ProbePresence_mfo_Click"
                                             Text="Probe presence"
-                                            Visibility="Collapsed">
+                                            Visibility="{x:Bind VIEW_MODEL.ProbePresenceVisability, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Glyph="&#xEA62;"/>
                                 </MenuFlyoutItem.Icon>
@@ -165,7 +166,7 @@
                            Grid.Column="0"
                            Width="5"
                            Margin="5,0,0,0"
-                           Fill="Transparent"/>
+                           Fill="{x:Bind VIEW_MODEL.AccountColorBrush, Mode=OneWay}"/>
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"
@@ -174,6 +175,7 @@
                             HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck"
                                Margin="10,0,0,0"
+                               Text="{x:Bind VIEW_MODEL.Name, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <Grid Margin="10,0,10,0">
                         <Grid.ColumnDefinitions>
