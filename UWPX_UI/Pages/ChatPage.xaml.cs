@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using UWPX_UI_Context.Classes.DataContext;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Pages
@@ -7,7 +8,7 @@ namespace UWPX_UI.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private readonly ChatsPageContext ViewModel = new ChatsPageContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -145,6 +146,7 @@ namespace UWPX_UI.Pages
         }
 
         #endregion
+
         #endregion
     }
 }
