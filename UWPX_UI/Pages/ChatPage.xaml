@@ -1,0 +1,221 @@
+﻿<Page x:Class="UWPX_UI.Pages.ChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:masterdetailsview="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <DataTemplate x:Key="MasterTemplate"/>
+
+        <DataTemplate x:Key="DetailsTemplate"/>
+
+        <DataTemplate x:Key="NoSelectionTemplate">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center">
+                <Image Width="100"
+                       Height="100"
+                       Source="ms-appx:///Assets/Images/xmpp_logo.png"/>
+                <TextBlock FontSize="24"
+                           Text="Select a chat to view."/>
+            </StackPanel>
+        </DataTemplate>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:CustomTitleBarControl Grid.Row="0"/>
+
+        <masterdetailsview:MasterDetailsView x:Name="chats_mdv"
+                                             Grid.Row="1"
+                                             Background="Transparent"
+                                             DetailsTemplate="{StaticResource DetailsTemplate}"
+                                             ItemTemplate="{StaticResource MasterTemplate}"
+                                             NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}">
+            <!--  Master Command Bar:  -->
+            <masterdetailsview:MasterDetailsView.MasterCommandBar>
+                <CommandBar x:Name="master_cmdb"
+                            Margin="0,0,0,-1"
+                            Opening="Master_cmdb_Opening">
+                    <AppBarButton x:Name="add_abb"
+                                  Grid.Column="0"
+                                  Label="Add">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE109;"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="addChat_mfoi"
+                                                Click="AddChat_mfoi_Click"
+                                                Text="Add Chat"/>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="addMUC_mfoi"
+                                                Click="AddMUC_mfoi_Click"
+                                                Text="Add Group Chat (MUC)"/>
+                                <MenuFlyoutItem x:Name="addMIX_mfoi"
+                                                Click="AddMIX_mfoi_Click"
+                                                IsEnabled="False"
+                                                Text="Add Group Chat (MIX)"/>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                    </AppBarButton>
+                    <AppBarButton Label="Filter">
+                        <AppBarButton.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutSubItem Text="Chat type">
+                                    <MenuFlyoutSubItem.Icon>
+                                        <FontIcon Glyph="&#xE125;"/>
+                                    </MenuFlyoutSubItem.Icon>
+                                    <ToggleMenuFlyoutItem x:Name="filterChat_tmfo"
+                                                          Click="FilterChat_tmfo_Click"
+                                                          Text="Chat">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE77B;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <ToggleMenuFlyoutItem x:Name="filterMUC_tmfo"
+                                                          Click="FilterMUC_tmfo_Click"
+                                                          Text="MUC">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE125;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSubItem Text="Presence">
+                                    <MenuFlyoutSubItem.Icon>
+                                        <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                                  Glyph="&#xEDAF;"/>
+                                    </MenuFlyoutSubItem.Icon>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceNotUnavailable_tmfo"
+                                                          Click="FilterPresenceNotUnavailable_tmfo_Click"
+                                                          Text="Not unavailable">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceUnavailableBrush}"
+                                                      Glyph="&#xF138;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceNotOnline_tmfo"
+                                                          Click="FilterPresenceNotOnline_tmfo_Click"
+                                                          Text="Not online">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                                      Glyph="&#xF138;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceOnline_tmfo"
+                                                          Click="FilterPresenceOnline_tmfo_Click"
+                                                          Text="Online">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceChat_tmfo"
+                                                          Click="FilterPresenceChat_tmfo_Click"
+                                                          Text="Chat">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceChatBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceAway_tmfo"
+                                                          Click="FilterPresenceAway_tmfo_Click"
+                                                          Text="Away">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceAwayBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceXa_tmfo"
+                                                          Click="FilterPresenceXa_tmfo_Click"
+                                                          Text="Xa">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceXaBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceDnd_tmfo"
+                                                          Click="FilterPresenceDnd_tmfo_Click"
+                                                          Text="Dnd">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceDndBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceUnavailable_tmfo"
+                                                          Click="FilterPresenceUnavailable_tmfo_Click"
+                                                          Text="Unavailable">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceUnavailableBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="filterClear_mfo"
+                                                Click="FilterClear_mfo_Click"
+                                                Text="Clear">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xED62;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </AppBarButton.Flyout>
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE71C;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarToggleButton x:Name="filterQuery_abb"
+                                        Grid.Column="1"
+                                        Checked="FilterQuery_abb_Checked"
+                                        Label="Search"
+                                        Unchecked="FilterQuery_abb_Unchecked">
+                        <AppBarToggleButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE721;"/>
+                        </AppBarToggleButton.Icon>
+                    </AppBarToggleButton>
+                    <AppBarButton x:Name="settings_abb"
+                                  Grid.Column="1"
+                                  Click="Settings_abb_Click"
+                                  Label="Settings">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE713;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton x:Name="changePresence_abb"
+                                      Click="ChangePresence_abb_Click"
+                                      Label="Change presence">
+                            <AppBarButton.Icon>
+                                <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                          Glyph="&#xEDAF;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="manageBookmarks_abb"
+                                      Click="ManageBookmarks_abb_Click"
+                                      Label="Manage bookmarks">
+                            <AppBarButton.Icon>
+                                <FontIcon Foreground="Gold"
+                                          Glyph="&#xE734;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+            </masterdetailsview:MasterDetailsView.MasterCommandBar>
+        </masterdetailsview:MasterDetailsView>
+    </Grid>
+</Page>
