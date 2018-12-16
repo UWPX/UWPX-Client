@@ -5,15 +5,152 @@
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              d:DesignHeight="200"
              d:DesignWidth="800"
              RightTapped="UserControl_RightTapped"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <valueconverter:MessageStateBrushValueConverter x:Key="MessageStateBrushValueConverter"
+                                                        Resources="{x:Bind Resources}"/>
+        <MenuFlyout x:Name="chat_mfo">
+            <MenuFlyout.Items>
+                <MenuFlyoutItem x:Name="showProfile_mfo"
+                                Click="ShowProfile_mfo_Click"
+                                Text="Info">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xEA4A;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutSubItem x:Name="presenceSubscription_mfo"
+                                   IsEnabled="{x:Bind VIEW_MODEL.MODEL.PresenceFlyoutEnabled, Mode=OneWay}"
+                                   Text="Presence subscription">
+                    <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo"
+                                    Click="RequestPresenceSubscription_mfo_Click"
+                                    Text="Request subscription"
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RequestPresenceSubscriptionVisability, Mode=OneWay}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Foreground="Green"
+                                      Glyph="&#xE109;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo"
+                                    Click="CancelPresenceSubscription_mfo_Click"
+                                    Text="Cancel subscription"
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.CancelPresenceSubscriptionVisability, Mode=OneWay}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Foreground="Red"
+                                      Glyph="&#xE738;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
+                                    Click="RejectPresenceSubscription_mfo_Click"
+                                    Text="Reject subscription"
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RejectPresenceSubscriptionVisability, Mode=OneWay}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Foreground="Red"
+                                      Glyph="&#xE711;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                    <MenuFlyoutItem x:Name="probePresence_mfo"
+                                    Click="ProbePresence_mfo_Click"
+                                    Text="Probe presence"
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.ProbePresenceVisability, Mode=OneWay}">
+                        <MenuFlyoutItem.Icon>
+                            <FontIcon Glyph="&#xEA62;"/>
+                        </MenuFlyoutItem.Icon>
+                    </MenuFlyoutItem>
+                </MenuFlyoutSubItem>
+                <MenuFlyoutSeparator/>
+                <ToggleMenuFlyoutItem x:Name="mute_tmfo"
+                                      Click="Mute_tmfo_Click"
+                                      IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
+                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}"/>
+                <MenuFlyoutItem x:Name="block_tmfo"
+                                Text="Block">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8F8;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Name="removeFromRoster_mfo"
+                                Click="RemoveFromRoster_mfo_Click"
+                                Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Foreground="Gold"
+                                  Glyph="&#xE734;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:Name="deleteChat_mfo"
+                                Click="DeleteChat_mfo_Click"
+                                Text="Delete">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Foreground="Red"
+                                  Glyph="&#xE74D;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyout.Items>
+        </MenuFlyout>
+
+        <MenuFlyout x:Name="muc_mfo"
+                    Opening="Muc_mfo_Opening">
+            <MenuFlyout.Items>
+                <MenuFlyoutItem x:Name="showInfo_mfo"
+                                Click="ShowInfo_mfo_Click"
+                                Text="Show info">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xEA4A;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:Name="join_mfo"
+                                Click="Join_mfo_Click"
+                                Text="Join room">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Foreground="Green"
+                                  Glyph="&#xE8BD;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutItem x:Name="leave_mfo"
+                                Click="Leave_mfo_Click"
+                                Text="Leave room">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Foreground="Red"
+                                  Glyph="&#xE89B;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Name="bookmark_tmfo"
+                                Click="Bookmark_tmfo_Click"
+                                Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Foreground="Gold"
+                                  Glyph="&#xE734;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+                <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo"
+                                      Click="MuteMUC_tmfo_Click"
+                                      IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
+                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}"/>
+                <MenuFlyoutSeparator/>
+                <MenuFlyoutItem x:Name="deleteMUC_mfo"
+                                Click="DeleteMUC_mfo_Click"
+                                Text="Delete">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Foreground="Red"
+                                  Glyph="&#xE74D;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
+            </MenuFlyout.Items>
+        </MenuFlyout>
+    </UserControl.Resources>
+
     <controls1:SlidableListItem x:Name="slideListItem_sli"
                                 LeftBackground="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
                                 LeftForeground="Gold"
                                 LeftIcon="OutlineStar"
+                                LeftLabel="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}"
                                 MouseSlidingEnabled="True"
                                 RightBackground="OrangeRed"
                                 RightForeground="White"
@@ -21,135 +158,6 @@
                                 RightLabel="Delete"
                                 SwipeStatusChanged="SlideListItem_sli_SwipeStatusChanged">
         <Grid Margin="0,5,0,5">
-            <Grid.Resources>
-                <MenuFlyout x:Name="chat_mfo">
-                    <MenuFlyout.Items>
-                        <MenuFlyoutItem x:Name="showProfile_mfo"
-                                        Click="ShowProfile_mfo_Click"
-                                        Text="Info">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEA4A;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutSubItem x:Name="presenceSubscription_mfo"
-                                           IsEnabled="{x:Bind VIEW_MODEL.PresenceFlyoutEnabled, Mode=OneWay}"
-                                           Text="Presence subscription">
-                            <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo"
-                                            Click="RequestPresenceSubscription_mfo_Click"
-                                            Text="Request subscription"
-                                            Visibility="{x:Bind VIEW_MODEL.RequestPresenceSubscriptionVisability, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Green"
-                                              Glyph="&#xE109;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo"
-                                            Click="CancelPresenceSubscription_mfo_Click"
-                                            Text="Cancel subscription"
-                                            Visibility="{x:Bind VIEW_MODEL.CancelPresenceSubscriptionVisability, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Red"
-                                              Glyph="&#xE738;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
-                                            Click="RejectPresenceSubscription_mfo_Click"
-                                            Text="Reject subscription"
-                                            Visibility="{x:Bind VIEW_MODEL.RejectPresenceSubscriptionVisability, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Red"
-                                              Glyph="&#xE711;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="probePresence_mfo"
-                                            Click="ProbePresence_mfo_Click"
-                                            Text="Probe presence"
-                                            Visibility="{x:Bind VIEW_MODEL.ProbePresenceVisability, Mode=OneWay}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xEA62;"/>
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyoutSubItem>
-                        <MenuFlyoutSeparator/>
-                        <ToggleMenuFlyoutItem x:Name="mute_tmfo"
-                                              Click="Mute_tmfo_Click"
-                                              Text="Mute"/>
-                        <MenuFlyoutItem x:Name="block_tmfo"
-                                        Text="Block">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xE8F8;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="removeFromRoster_mfo"
-                                        Click="RemoveFromRoster_mfo_Click">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Foreground="Gold"
-                                          Glyph="&#xE734;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Name="deleteChat_mfo"
-                                        Click="DeleteChat_mfo_Click"
-                                        Text="Delete">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Foreground="Red"
-                                          Glyph="&#xE74D;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout.Items>
-                </MenuFlyout>
-
-                <MenuFlyout x:Name="muc_mfo"
-                            Opening="Muc_mfo_Opening">
-                    <MenuFlyout.Items>
-                        <MenuFlyoutItem x:Name="showInfo_mfo"
-                                        Click="ShowInfo_mfo_Click"
-                                        Text="Show info">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Glyph="&#xEA4A;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Name="join_mfo"
-                                        Click="Join_mfo_Click"
-                                        Text="Join room">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Foreground="Green"
-                                          Glyph="&#xE8BD;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutItem x:Name="leave_mfo"
-                                        Click="Leave_mfo_Click"
-                                        Text="Leave room">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Foreground="Red"
-                                          Glyph="&#xE89B;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="bookmark_tmfo"
-                                        Click="Bookmark_tmfo_Click"
-                                        Text="Bookmark">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Foreground="Gold"
-                                          Glyph="&#xE734;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                        <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo"
-                                              Click="MuteMUC_tmfo_Click"
-                                              Text="Mute"/>
-                        <MenuFlyoutSeparator/>
-                        <MenuFlyoutItem x:Name="deleteMUC_mfo"
-                                        Click="DeleteMUC_mfo_Click"
-                                        Text="Delete">
-                            <MenuFlyoutItem.Icon>
-                                <FontIcon Foreground="Red"
-                                          Glyph="&#xE74D;"/>
-                            </MenuFlyoutItem.Icon>
-                        </MenuFlyoutItem>
-                    </MenuFlyout.Items>
-                </MenuFlyout>
-            </Grid.Resources>
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
@@ -166,7 +174,7 @@
                            Grid.Column="0"
                            Width="5"
                            Margin="5,0,0,0"
-                           Fill="{x:Bind VIEW_MODEL.AccountColorBrush, Mode=OneWay}"/>
+                           Fill="{x:Bind VIEW_MODEL.MODEL.AccountColorBrush, Mode=OneWay}"/>
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"
@@ -175,35 +183,38 @@
                             HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck"
                                Margin="10,0,0,0"
-                               Text="{x:Bind VIEW_MODEL.Name, Mode=OneWay}"
+                               Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <Grid Margin="10,0,10,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="lastChatIcon_tblck"
+                        <TextBlock x:Name="lastActionIcon_tblck"
                                    Grid.Column="0"
                                    Margin="0,0,5,0"
                                    VerticalAlignment="Center"
                                    FontFamily="Segoe MDL2 Assets"
                                    FontSize="12"
-                                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"/>
-                        <TextBlock x:Name="lastChat_tblck"
+                                   Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"/>
+                        <TextBlock x:Name="lastAction_tblck"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    FontSize="12"
-                                   Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                                   Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
                                    MaxLines="1"
+                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
                                    TextTrimming="CharacterEllipsis"/>
                     </Grid>
-                    <TextBlock x:Name="presence_tblck"
+                    <TextBlock x:Name="info_tblck"
                                Grid.Column="0"
                                Margin="10,0,0,0"
                                FontSize="10"
                                Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
-                               Text="Subscription pending..."
-                               TextTrimming="CharacterEllipsis"/>
+                               Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisability, Mode=OneWay}"/>
                 </StackPanel>
 
                 <Grid Grid.Column="3"
@@ -214,7 +225,7 @@
                         <RowDefinition Height="16"/>
                         <RowDefinition Height="16"/>
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="inRooster_tbck"
+                    <TextBlock x:Name="inRoster_tbck"
                                Grid.Row="0"
                                Margin="0,0,1,0"
                                HorizontalAlignment="Right"
@@ -222,7 +233,8 @@
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="12"
                                Foreground="Gold"
-                               Text="&#xE734;"/>
+                               Text="&#xE734;"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisability, Mode=OneWay}"/>
                     <TextBlock x:Name="muted_tbck"
                                Grid.Row="1"
                                HorizontalAlignment="Right"
@@ -230,12 +242,14 @@
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="13"
                                Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
-                               Text="&#xE74F;"/>
-                    <TextBlock x:Name="lastAction_tblck"
+                               Text="&#xE74F;"
+                               Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                    <TextBlock x:Name="lastActionDate_tblck"
                                Grid.Row="2"
                                HorizontalAlignment="Right"
                                FontSize="10"
                                Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                               Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
                                TextTrimming="CharacterEllipsis"/>
                 </Grid>
             </Grid>
