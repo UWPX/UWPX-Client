@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -180,6 +182,15 @@ namespace UWPX_UI_Context.Classes
         public static SolidColorBrush HexStringToBrush(string hexString)
         {
             return new SolidColorBrush(HexStringToColor(hexString));
+        }
+
+        /// <summary>
+        /// Calls the UI thread dispatcher and executes the given callback on it.
+        /// </summary>
+        /// <param name="callback">The callback that should be executed in the UI thread.</param>
+        public static async Task CallDispatcherAsync(DispatchedHandler callback)
+        {
+            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
         }
 
         #endregion

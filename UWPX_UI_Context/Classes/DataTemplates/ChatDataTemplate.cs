@@ -1,17 +1,13 @@
 ﻿using Data_Manager2.Classes.DBTables;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class ChatDataTemplate : INotifyPropertyChanged
+    public sealed class ChatDataTemplate : AbstractNotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public event PropertyChangedEventHandler PropertyChanged;
-
         private BitmapImage _image;
         public BitmapImage Image
         {
@@ -89,10 +85,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
-        private void OnPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+
 
         #endregion
 

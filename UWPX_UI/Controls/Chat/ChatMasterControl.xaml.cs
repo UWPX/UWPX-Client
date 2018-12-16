@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Data_Manager2.Classes;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWPX_UI_Context.Classes.DataContext;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
@@ -17,7 +18,7 @@ namespace UWPX_UI.Controls.Chat
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatMasterControl), new PropertyMetadata(null, ChatPropertyChanged));
 
-        private readonly ChatMasterControlContext VIEW_MODEL = new ChatMasterControlContext();
+        private readonly ChatMasterControlContext VIEW_MODEL;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,6 +26,7 @@ namespace UWPX_UI.Controls.Chat
         public ChatMasterControl()
         {
             this.InitializeComponent();
+            this.VIEW_MODEL = new ChatMasterControlContext(Resources);
         }
 
         #endregion
@@ -77,7 +79,21 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         private void UserControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-
+            if (Chat is null || Chat.Chat is null)
+            {
+                return;
+            }
+            switch (Chat.Chat.chatType)
+            {
+                case ChatType.CHAT:
+                    chat_mfo.ShowAt(this, e.GetPosition(this));
+                    break;
+                case ChatType.MUC:
+                    muc_mfo.ShowAt(this, e.GetPosition(this));
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void Mute_tmfo_Click(object sender, RoutedEventArgs e)
@@ -135,7 +151,9 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
+#pragma warning disable CS0618 // Type or member is obsolete
         private void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+#pragma warning restore CS0618 // Type or member is obsolete
         {
 
         }

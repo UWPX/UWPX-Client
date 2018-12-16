@@ -1,76 +1,67 @@
-﻿<Application
-    x:Class="UWPX_UI.App"
-    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
-    xmlns:media="using:Microsoft.UI.Xaml.Media"
-    xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter">
+﻿<Application x:Class="UWPX_UI.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:media="using:Microsoft.UI.Xaml.Media"
+             xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <!--  Windows UI Library:  -->
-                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--  Brushes:  -->
-            <SolidColorBrush
-                x:Key="PresenceOnlineBrush"
-                Opacity="0.9"
-                Color="#54A81B" />
-            <SolidColorBrush
-                x:Key="PresenceChatBrush"
-                Opacity="0.9"
-                Color="White" />
-            <SolidColorBrush
-                x:Key="PresenceAwayBrush"
-                Opacity="0.9"
-                Color="#EB8C10" />
-            <SolidColorBrush
-                x:Key="PresenceXaBrush"
-                Opacity="0.9"
-                Color="#EB4910" />
-            <SolidColorBrush
-                x:Key="PresenceDndBrush"
-                Opacity="0.9"
-                Color="#A21025" />
-            <SolidColorBrush
-                x:Key="PresenceUnavailableBrush"
-                Opacity="0.9"
-                Color="#4C4A4B" />
+            <SolidColorBrush x:Key="PresenceOnlineBrush"
+                             Opacity="0.9"
+                             Color="#54A81B"/>
+            <SolidColorBrush x:Key="PresenceChatBrush"
+                             Opacity="0.9"
+                             Color="White"/>
+            <SolidColorBrush x:Key="PresenceAwayBrush"
+                             Opacity="0.9"
+                             Color="#EB8C10"/>
+            <SolidColorBrush x:Key="PresenceXaBrush"
+                             Opacity="0.9"
+                             Color="#EB4910"/>
+            <SolidColorBrush x:Key="PresenceDndBrush"
+                             Opacity="0.9"
+                             Color="#A21025"/>
+            <SolidColorBrush x:Key="PresenceUnavailableBrush"
+                             Opacity="0.9"
+                             Color="#4C4A4B"/>
 
-            <SolidColorBrush
-                x:Key="SpeechBubbleBackgroundDarkBrush"
-                Opacity="0.9"
-                Color="{ThemeResource SystemAccentColorDark3}" />
-            <SolidColorBrush
-                x:Key="SpeechBubbleBackgroundLightBrush"
-                Opacity="0.9"
-                Color="{ThemeResource SystemAccentColorDark1}" />
-            <SolidColorBrush
-                x:Key="SpeechBubbleBackgroundInfoBrush"
-                Opacity="0.9"
-                Color="#4C4A48" />
+            <SolidColorBrush x:Key="SpeechBubbleBackgroundDarkBrush"
+                             Opacity="0.9"
+                             Color="{ThemeResource SystemAccentColorDark3}"/>
+            <SolidColorBrush x:Key="SpeechBubbleBackgroundLightBrush"
+                             Opacity="0.9"
+                             Color="{ThemeResource SystemAccentColorDark1}"/>
+            <SolidColorBrush x:Key="SpeechBubbleBackgroundInfoBrush"
+                             Opacity="0.9"
+                             Color="#4C4A48"/>
 
-            <media:AcrylicBrush
-                x:Name="AppBackgroundAcrylicWindowBrush"
-                BackgroundSource="HostBackdrop"
-                FallbackColor="{ThemeResource SystemAltHighColor}"
-                TintColor="{ThemeResource SystemAltHighColor}"
-                TintOpacity="0.7" />
+            <media:AcrylicBrush x:Name="AppBackgroundAcrylicWindowBrush"
+                                BackgroundSource="HostBackdrop"
+                                FallbackColor="{ThemeResource SystemAltHighColor}"
+                                TintColor="{ThemeResource SystemAltHighColor}"
+                                TintOpacity="0.7"/>
 
             <!--  Styles:  -->
             <Style TargetType="controls:MasterDetailsView">
-                <Setter Property="CompactModeThresholdWidth" Value="640" />
-                <Setter Property="MasterPaneWidth" Value="321" />
+                <Setter Property="CompactModeThresholdWidth" Value="640"/>
+                <Setter Property="MasterPaneWidth" Value="321"/>
             </Style>
 
             <Style TargetType="Button">
-                <Setter Property="Style" Value="{ThemeResource ButtonRevealStyle}" />
+                <Setter Property="Style" Value="{ThemeResource ButtonRevealStyle}"/>
             </Style>
 
             <!--  Value Converters:  -->
-            <valueConverter:PresenceBrushValueConverter x:Key="PresenceBrushValueConverter" />
+            <valueConverter:PresenceBrushValueConverter x:Key="PresenceBrushValueConverter"/>
+            <valueConverter:ChatDateTimeStringValueConverter x:Key="ChatDateTimeStringValueConverter"/>
+            <valueConverter:BoolVisabilityValueConverter x:Key="BoolVisabilityValueConverter"/>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
