@@ -28,6 +28,11 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
+            if (Resources is null)
+            {
+                return new SolidColorBrush(Colors.Red);
+            }
+
             if (value is MessageState state && state == MessageState.UNREAD)
             {
                 return new SolidColorBrush((Color)Resources["SystemAccentColor"]);
