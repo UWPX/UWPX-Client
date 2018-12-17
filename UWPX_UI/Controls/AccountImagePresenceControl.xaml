@@ -33,7 +33,7 @@
                                     Width="{x:Bind Width, Mode=OneWay}"
                                     Height="{x:Bind Height, Mode=OneWay}"
                                     FontFamily="Segoe MDL2 Assets"
-                                    Initials="&#xE2AF;"
+                                    Initials="{x:Bind Initials, Mode=OneWay}"
                                     ProfilePicture="{x:Bind Image, Mode=OneWay}"/>
 
         <controls:DropShadowPanel Grid.Row="0"
