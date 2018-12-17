@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class ChatDateTimeStringValueConverter : IValueConverter
+    public sealed class OmemoBoolGlyphTextValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,44 +24,11 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is DateTime date && date.CompareTo(DateTime.MinValue) != 0)
+            if (value is bool b && b)
             {
-                if (date.CompareTo(DateTime.MaxValue) == 0)
-                {
-                    return "In the future";
-                }
-
-                // Today:
-                if (date.Date.CompareTo(DateTime.Now.Date.AddDays(-1)) == 0)
-                {
-                    return date.ToString("HH:mm");
-                }
-
-                // Yesterday:
-                if (date.Date.CompareTo(DateTime.Now.Date.AddDays(-1)) == 0)
-                {
-                    return "Yesterday";
-                }
-
-                // Day of the last week:
-                for (int i = -2; i > -7; i--)
-                {
-                    if (date.Date.CompareTo(DateTime.Now.Date.AddDays(i)) == 0)
-                    {
-                        return date.ToString("dddd");
-                    }
-                }
-
-                // Same year:
-                if (date.Year == DateTime.Now.Year)
-                {
-                    return date.ToString("dd. MMMM");
-                }
-
-                // Fallback:
-                return date.ToString("dd.MM.yyyy");
+                return "\uE72E";
             }
-            return "A long time ago";
+            return "\uE785";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

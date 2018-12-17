@@ -16,7 +16,10 @@
             <chat:ChatMasterControl Chat="{x:Bind}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="DetailsTemplate"/>
+        <DataTemplate x:Key="DetailsTemplate"
+                      x:DataType="datatemplates:ChatDataTemplate">
+            <chat:ChatDetailsControl Chat="{x:Bind}"/>
+        </DataTemplate>
 
         <DataTemplate x:Key="NoSelectionTemplate">
             <StackPanel HorizontalAlignment="Center"
