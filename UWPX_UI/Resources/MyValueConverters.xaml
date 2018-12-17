@@ -5,4 +5,5 @@
     <valueConverter:PresenceBrushValueConverter x:Key="PresenceBrushValueConverter"/>
     <valueConverter:ChatDateTimeStringValueConverter x:Key="ChatDateTimeStringValueConverter"/>
     <valueConverter:BoolVisabilityValueConverter x:Key="BoolVisabilityValueConverter"/>
+    <valueConverter:StringEmptyVisabilityValueConverter x:Key="StringEmptyVisabilityValueConverter"/>
 </ResourceDictionary>

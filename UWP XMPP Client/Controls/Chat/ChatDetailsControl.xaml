@@ -211,17 +211,17 @@
                                 </MenuFlyoutItem>
                                 <ToggleMenuFlyoutItem x:Name="omemo_tmfo"
                                                       Click="omemo_tmfo_Click"
-                                                      IsEnabled="True"
                                                       IsChecked="False"
+                                                      IsEnabled="True"
                                                       Text="Encrypted (OMEMO)">
                                     <ToggleMenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE72E;"/>
                                     </ToggleMenuFlyoutItem.Icon>
                                 </ToggleMenuFlyoutItem>
                                 <MenuFlyoutItem x:Name="test_mfo"
-                                                Visibility="Collapsed"
                                                 Click="Test_mfo_Click"
-                                                Text="Debug/Test">
+                                                Text="Debug/Test"
+                                                Visibility="Collapsed">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Foreground="Gold"
                                                   Glyph="&#xE81F;"/>

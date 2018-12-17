@@ -132,6 +132,12 @@
     <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
       <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\LoadingContentControl.xaml.cs">
+      <DependentUpon>LoadingContentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SeperatorControl.xaml.cs">
+      <DependentUpon>SeperatorControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
@@ -236,6 +242,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\CustomTitleBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\LoadingContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SeperatorControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

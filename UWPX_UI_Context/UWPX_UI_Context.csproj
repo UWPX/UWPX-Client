@@ -139,6 +139,8 @@
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateBrushValueConverter.cs" />
     <Compile Include="Classes\UiUtils.cs" />
