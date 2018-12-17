@@ -12,8 +12,11 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <valueconverter:MessageStateBrushValueConverter x:Key="MessageStateBrushValueConverter"
-                                                        Resources="{x:Bind Resources}"/>
+        <valueconverter:MessageStateBrushValueConverter x:Key="MessageStateBrushValueConverter">
+            <valueconverter:MessageStateBrushValueConverter.Resources>
+                <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml"/>
+            </valueconverter:MessageStateBrushValueConverter.Resources>
+        </valueconverter:MessageStateBrushValueConverter>
         <MenuFlyout x:Name="chat_mfo">
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showProfile_mfo"

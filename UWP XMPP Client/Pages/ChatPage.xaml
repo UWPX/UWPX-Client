@@ -8,8 +8,8 @@
       xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Loaded="Page_Loaded"
-      Unloaded="Page_Unloaded"
       SizeChanged="Page_SizeChanged"
+      Unloaded="Page_Unloaded"
       mc:Ignorable="d">
 
     <Page.Resources>
