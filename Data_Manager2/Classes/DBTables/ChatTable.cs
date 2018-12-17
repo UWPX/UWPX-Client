@@ -33,7 +33,7 @@ namespace Data_Manager2.Classes.DBTables
         // online, dnd, xa, ...
         public Presence presence { get; set; }
         [Ignore]
-        // The state of the chat (XEP-0083) - only interesting during runtime
+        // The state of the chat (XEP-0085) - only interesting during runtime
         public string chatState { get; set; }
         [NotNull]
         // The type of the chat e.g. MUC/MIX/...
