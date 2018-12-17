@@ -6,47 +6,47 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--Windows UI Library:-->
-                <XamlControlsResources  xmlns="using:Microsoft.UI.Xaml.Controls"/>
+                <!--  Windows UI Library:  -->
+                <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <!--Brushes:-->
+            <!--  Brushes:  -->
             <SolidColorBrush x:Key="PresenceOnline"
-                         Opacity="0.9"
-                         Color="#54A81B"/>
+                             Opacity="0.9"
+                             Color="#54A81B"/>
             <SolidColorBrush x:Key="PresenceChat"
-                         Opacity="0.9"
-                         Color="White"/>
+                             Opacity="0.9"
+                             Color="White"/>
             <SolidColorBrush x:Key="PresenceAway"
-                         Opacity="0.9"
-                         Color="#EB8C10"/>
+                             Opacity="0.9"
+                             Color="#EB8C10"/>
             <SolidColorBrush x:Key="PresenceXa"
-                         Opacity="0.9"
-                         Color="#EB4910"/>
+                             Opacity="0.9"
+                             Color="#EB4910"/>
             <SolidColorBrush x:Key="PresenceDnd"
-                         Opacity="0.9"
-                         Color="#A21025"/>
+                             Opacity="0.9"
+                             Color="#A21025"/>
             <SolidColorBrush x:Key="PresenceUnavailable"
-                         Opacity="0.9"
-                         Color="#4C4A4B"/>
+                             Opacity="0.9"
+                             Color="#4C4A4B"/>
 
             <SolidColorBrush x:Key="SpeechBubbleBackgroundDarkBrush"
-                         Opacity="0.9"
-                         Color="{ThemeResource SystemAccentColorDark3}"/>
+                             Opacity="0.9"
+                             Color="{ThemeResource SystemAccentColorDark3}"/>
             <SolidColorBrush x:Key="SpeechBubbleBackgroundLightBrush"
-                         Opacity="0.9"
-                         Color="{ThemeResource SystemAccentColorDark1}"/>
+                             Opacity="0.9"
+                             Color="{ThemeResource SystemAccentColorDark1}"/>
             <SolidColorBrush x:Key="SpeechBubbleBackgroundInfoBrush"
-                         Opacity="0.9"
-                         Color="#4C4A48"/>
+                             Opacity="0.9"
+                             Color="#4C4A48"/>
 
-            <!--Styles:-->
+            <!--  Styles:  -->
             <Style TargetType="controls:MasterDetailsView">
                 <Setter Property="CompactModeThresholdWidth" Value="640"/>
                 <Setter Property="MasterPaneWidth" Value="321"/>
             </Style>
 
-            <!--Converters:-->
+            <!--  Converters:  -->
             <datatemplates:PresenceBrushValueConverter x:Key="presenceBrushValueConverter"/>
         </ResourceDictionary>
     </Application.Resources>

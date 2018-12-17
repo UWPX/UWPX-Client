@@ -110,5 +110,50 @@ namespace UWPX_UI.Controls.Chat
         {
 
         }
+
+        private void ClipImgLib_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClipImgCam_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClipDraw_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ClipFile_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+
+        }
+
+        private void Message_tbx_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Message_tbx_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
+        private void Send_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Message_tbx_GotFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

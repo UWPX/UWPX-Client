@@ -2,15 +2,15 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
-             d:DesignHeight="300"
-             d:DesignWidth="400"
              mc:Ignorable="d">
     <UserControl.Resources>
         <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
         <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
+        <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -21,7 +21,9 @@
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
@@ -152,10 +154,165 @@
                     </Button.Flyout>
                 </Button>
             </Grid>
+            <controls:SeperatorControl Grid.Row="1"/>
 
             <!--  Messages:  -->
+            <ListView Grid.Row="2">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel Grid.ColumnSpan="1"
+                                         VerticalAlignment="Bottom"
+                                         ItemsUpdatingScrollMode="KeepLastItemInView"/>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+            </ListView>
+
+            <!--  Messages Loading:  -->
+            <controls1:Loading Grid.Row="2"
+                               Background="{StaticResource SystemControlAcrylicElementBrush}"
+                               IsLoading="True">
+                <controls:LoadingContentControl Text="Loading chat messages..."/>
+            </controls1:Loading>
+            <controls:SeperatorControl Grid.Row="3"/>
 
             <!--  Input:  -->
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="0"
+                        VerticalAlignment="Bottom"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Content="&#xE723;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="27"
+                        Foreground="{ThemeResource SystemAccentColor}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <Button x:Name="clipImgLib_btn"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="ClipImgLib_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xE8F1;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="Image from library"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="clipImgCam_btn"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="ClipImgCam_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xE722;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="Image from camera"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="clipDraw_btn"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="ClipDraw_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xE929;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="Drawing"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="clipFile_btn"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Left"
+                                        Click="ClipFile_btn_Click"
+                                        IsEnabled="False">
+                                    <StackPanel Orientation="Horizontal">
+                                        <TextBlock VerticalAlignment="Center"
+                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontSize="20"
+                                                   Foreground="{ThemeResource SystemAccentColor}"
+                                                   Text="&#xEC50;"/>
+                                        <TextBlock Margin="10,0,0,0"
+                                                   VerticalAlignment="Center"
+                                                   FontSize="20"
+                                                   Text="File"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <TextBox x:Name="message_tbx"
+                         Grid.Column="1"
+                         MaxHeight="200"
+                         HorizontalAlignment="Stretch"
+                         VerticalAlignment="Stretch"
+                         Background="Transparent"
+                         BorderBrush="Transparent"
+                         FontSize="20"
+                         GotFocus="Message_tbx_GotFocus"
+                         InputScope="Chat"
+                         IsFocusEngagementEnabled="True"
+                         IsSpellCheckEnabled="True"
+                         KeyUp="Message_tbx_KeyUp"
+                         LostFocus="Message_tbx_LostFocus"
+                         PlaceholderText="Message..."
+                         TextChanged="Message_tbx_TextChanged"
+                         TextWrapping="Wrap"/>
+                <Button x:Name="send_btn"
+                        Grid.Column="2"
+                        VerticalAlignment="Bottom"
+                        AllowFocusOnInteraction="False"
+                        Background="Transparent"
+                        BorderBrush="Transparent"
+                        Click="Send_btn_Click"
+                        FontSize="27"
+                        Foreground="{ThemeResource SystemAccentColor}"
+                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}">
+                    <Grid>
+                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                                   Foreground="{ThemeResource SystemAccentColor}"
+                                   Text="&#xE122;"/>
+                        <TextBlock x:Name="omemoIndicator_tbx"
+                                   Margin="17,-2,0,0"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   FontSize="10"
+                                   Text="&#xE72E;"
+                                   Visibility="Collapsed"/>
+                    </Grid>
+                </Button>
+            </Grid>
         </Grid>
     </Grid>
 </UserControl>
