@@ -185,6 +185,26 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 OnPropertyChanged();
             }
         }
+        private Presence _AccountPresence;
+        public Presence AccountPresence
+        {
+            get { return _AccountPresence; }
+            set
+            {
+                _AccountPresence = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _AccountInitials;
+        public string AccountInitials
+        {
+            get { return _AccountInitials; }
+            set
+            {
+                _AccountInitials = value;
+                OnPropertyChanged();
+            }
+        }
 
         private readonly ResourceDictionary RESOURCES;
 
@@ -290,6 +310,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
                 // Status icons:
                 InRosterVisability = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
+
+                // Account image:
+                AccountPresence = chat.presence;
+                AccountInitials = "\uE77B";
             }
         }
 
@@ -299,6 +323,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             {
                 NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.chatJabberId : muc.name;
                 RemoveFromRosterText = chat.inRoster ? "Remove bookmark" : "Bookmark";
+
+                // Account image:
+                AccountPresence = muc.getMUCPresence();
+                AccountInitials = "\uE125";
+            }
+            else
+            {
+                AccountPresence = Presence.Unavailable;
             }
         }
 

@@ -23,6 +23,13 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(BitmapImage), typeof(AccountImagePresenceControl), new PropertyMetadata(null));
 
+        public string Initials
+        {
+            get { return (string)GetValue(InitialsProperty); }
+            set { SetValue(InitialsProperty, value); }
+        }
+        public static readonly DependencyProperty InitialsProperty = DependencyProperty.Register(nameof(Initials), typeof(string), typeof(AccountImagePresenceControl), new PropertyMetadata("\uE77B"));
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
