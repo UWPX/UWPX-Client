@@ -1,17 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -19,7 +10,14 @@ namespace UWPX_UI.Controls.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public ChatDataTemplate Chat
+        {
+            get { return (ChatDataTemplate)GetValue(ChatProperty); }
+            set { SetValue(ChatProperty, value); }
+        }
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatDetailsControl), new PropertyMetadata(null, ChatPropertyChanged));
 
+        private readonly ChatDetailsControlContext VIEW_MODEL = new ChatDetailsControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -37,7 +35,10 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
+        {
+            VIEW_MODEL.UpdateView(args);
+        }
 
         #endregion
 
@@ -52,8 +53,62 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ChatDetailsControl detailsControl)
+            {
+                detailsControl.UpdateView(e);
+            }
+        }
 
+        private void HeaderInfo_grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            if (sender is FrameworkElement element)
+            {
+                headerInfo_grid.ContextFlyout.ShowAt(element);
+            }
+        }
+
+        private void CopyNameText_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.SetClipboardText(VIEW_MODEL.MODEL.NameText);
+        }
+
+        private void CopyChatStatus_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.SetClipboardText(VIEW_MODEL.MODEL.StatusText);
+        }
+
+        private void CopyAccountText_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.SetClipboardText(VIEW_MODEL.MODEL.AccountText);
+        }
 
         #endregion
+
+        private void Info_mfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Join_mfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Leave_mfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Omemo_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Test_mfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

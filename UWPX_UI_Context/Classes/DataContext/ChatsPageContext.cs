@@ -32,7 +32,6 @@ namespace UWPX_UI_Context.Classes.DataContext
             set { CHAT_FILTER.setChatQueryEnabled(value); }
         }
 
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

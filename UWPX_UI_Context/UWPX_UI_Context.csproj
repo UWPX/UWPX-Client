@@ -132,15 +132,19 @@
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />
     <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\Toolkit\VectorChangedEventArgs.cs" />
+    <Compile Include="Classes\DataContext\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\ChatMasterControlContext.cs" />
     <Compile Include="Classes\DataContext\ChatsPageContext.cs" />
     <Compile Include="Classes\DataTemplates\AbstractNotifyPropertyChanged.cs" />
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateBrushValueConverter.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Classes\ValueConverter\BoolVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ChatDateTimeStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OmemoBoolBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

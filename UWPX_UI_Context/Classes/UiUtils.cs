@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI;
@@ -75,6 +76,13 @@ namespace UWPX_UI_Context.Classes
         public static bool IsHexColor(string color)
         {
             return color != null && HEX_COLOR_REGEX.Match(color).Success;
+        }
+
+        public static void SetClipboardText(string text)
+        {
+            DataPackage package = new DataPackage();
+            package.SetText(text ?? "");
+            Clipboard.SetContent(package);
         }
 
         #endregion
