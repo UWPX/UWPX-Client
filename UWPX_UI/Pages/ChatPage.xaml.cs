@@ -79,73 +79,15 @@ namespace UWPX_UI.Pages
 
         #endregion
 
-        #region --Filter--
-        private void FilterChat_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterMUC_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceNotUnavailable_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceNotOnline_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceOnline_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceChat_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceAway_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceXa_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceDnd_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void FilterPresenceUnavailable_tmfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private void FilterClear_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            ViewModel.CHAT_FILTER.ClearFilter();
         }
 
-        private void FilterQuery_abb_Checked(object sender, RoutedEventArgs e)
+        private void FilterChats_tabb_Click(object sender, RoutedEventArgs e)
         {
-
+            filterChats_mfo.ShowAt(filterChats_tabb);
         }
-
-        private void FilterQuery_abb_Unchecked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        #endregion
 
         #endregion
     }

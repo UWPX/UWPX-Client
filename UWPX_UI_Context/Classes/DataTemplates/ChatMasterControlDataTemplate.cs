@@ -11,7 +11,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public class ChatMasterControlDataTemplate : AbstractNotifyPropertyChanged
+    public class ChatMasterControlDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

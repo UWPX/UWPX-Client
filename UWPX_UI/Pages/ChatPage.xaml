@@ -58,6 +58,23 @@
                 </Style>
             </masterdetailsview:MasterDetailsView.ItemContainerStyle>
 
+            <!--  Master Header:  -->
+            <masterdetailsview:MasterDetailsView.MasterHeader>
+                <Grid Visibility="{x:Bind ViewModel.CHAT_FILTER.ChatQueryEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <AutoSuggestBox x:Name="filterChats_asbx"
+                                    Grid.Row="0"
+                                    Margin="10"
+                                    PlaceholderText="Filter chats..."
+                                    QueryIcon="Find"
+                                    Text="{x:Bind ViewModel.CHAT_FILTER.ChatQuery, Mode=TwoWay}"/>
+                    <controls:SeperatorControl Grid.Row="1"/>
+                </Grid>
+            </masterdetailsview:MasterDetailsView.MasterHeader>
+
             <!--  Master Command Bar:  -->
             <masterdetailsview:MasterDetailsView.MasterCommandBar>
                 <CommandBar x:Name="master_cmdb"
@@ -86,15 +103,17 @@
                             </MenuFlyout>
                         </AppBarButton.Flyout>
                     </AppBarButton>
-                    <AppBarButton Label="Filter">
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
+                    <AppBarButton x:Name="filterChats_tabb"
+                                  Click="FilterChats_tabb_Click"
+                                  Label="Filter">
+                        <AppBarButton.ContextFlyout>
+                            <MenuFlyout x:Name="filterChats_mfo">
                                 <MenuFlyoutSubItem Text="Chat type">
                                     <MenuFlyoutSubItem.Icon>
                                         <FontIcon Glyph="&#xE125;"/>
                                     </MenuFlyoutSubItem.Icon>
                                     <ToggleMenuFlyoutItem x:Name="filterChat_tmfo"
-                                                          Click="FilterChat_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.ChatsOnly, Mode=TwoWay}"
                                                           Text="Chat">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE77B;"/>
@@ -102,7 +121,7 @@
                                     </ToggleMenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
                                     <ToggleMenuFlyoutItem x:Name="filterMUC_tmfo"
-                                                          Click="FilterMUC_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.MucsOnly, Mode=TwoWay}"
                                                           Text="MUC">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Glyph="&#xE125;"/>
@@ -115,7 +134,7 @@
                                                   Glyph="&#xEDAF;"/>
                                     </MenuFlyoutSubItem.Icon>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceNotUnavailable_tmfo"
-                                                          Click="FilterPresenceNotUnavailable_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.NotUnavailable, Mode=TwoWay}"
                                                           Text="Not unavailable">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceUnavailableBrush}"
@@ -123,7 +142,7 @@
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceNotOnline_tmfo"
-                                                          Click="FilterPresenceNotOnline_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.NotOnline, Mode=TwoWay}"
                                                           Text="Not online">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
@@ -132,7 +151,7 @@
                                     </ToggleMenuFlyoutItem>
                                     <MenuFlyoutSeparator/>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceOnline_tmfo"
-                                                          Click="FilterPresenceOnline_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.PresenceOnline, Mode=TwoWay}"
                                                           Text="Online">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
@@ -140,7 +159,7 @@
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceChat_tmfo"
-                                                          Click="FilterPresenceChat_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.PresenceChat, Mode=TwoWay}"
                                                           Text="Chat">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceChatBrush}"
@@ -148,7 +167,7 @@
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceAway_tmfo"
-                                                          Click="FilterPresenceAway_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.PresenceAway, Mode=TwoWay}"
                                                           Text="Away">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceAwayBrush}"
@@ -156,7 +175,7 @@
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceXa_tmfo"
-                                                          Click="FilterPresenceXa_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.PresenceXa, Mode=TwoWay}"
                                                           Text="Xa">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceXaBrush}"
@@ -164,7 +183,7 @@
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceDnd_tmfo"
-                                                          Click="FilterPresenceDnd_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.PresenceDnd, Mode=TwoWay}"
                                                           Text="Dnd">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceDndBrush}"
@@ -172,7 +191,7 @@
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="filterPresenceUnavailable_tmfo"
-                                                          Click="FilterPresenceUnavailable_tmfo_Click"
+                                                          IsChecked="{x:Bind ViewModel.CHAT_FILTER.PresenceUnavailable, Mode=TwoWay}"
                                                           Text="Unavailable">
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{StaticResource PresenceUnavailableBrush}"
@@ -189,7 +208,7 @@
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>
-                        </AppBarButton.Flyout>
+                        </AppBarButton.ContextFlyout>
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets"
                                       Glyph="&#xE71C;"/>
@@ -197,9 +216,8 @@
                     </AppBarButton>
                     <AppBarToggleButton x:Name="filterQuery_abb"
                                         Grid.Column="1"
-                                        Checked="FilterQuery_abb_Checked"
-                                        Label="Search"
-                                        Unchecked="FilterQuery_abb_Unchecked">
+                                        IsChecked="{x:Bind ViewModel.CHAT_FILTER.ChatQueryEnabled, Mode=TwoWay}"
+                                        Label="Search">
                         <AppBarToggleButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets"
                                       Glyph="&#xE721;"/>

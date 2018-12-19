@@ -16,21 +16,10 @@ namespace UWPX_UI_Context.Classes.DataContext
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly ObservableChatDictionaryList CHATS = new ObservableChatDictionaryList();
-        private readonly ChatFilter CHAT_FILTER;
+        public readonly ChatFilterDataTemplate CHAT_FILTER;
 
         public readonly AdvancedCollectionView CHATS_ACV;
         public ChatDataTemplate SelectedItem;
-
-        public string ChatQuery
-        {
-            get { return CHAT_FILTER.chatQuery; }
-            set { CHAT_FILTER.setChatQuery(value); }
-        }
-        public bool ChatQueryEnabled
-        {
-            get { return CHAT_FILTER.chatQueryEnabled; }
-            set { CHAT_FILTER.setChatQueryEnabled(value); }
-        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -44,9 +33,7 @@ namespace UWPX_UI_Context.Classes.DataContext
 
             this.CHATS_ACV.ObserveFilterProperty(nameof(ChatDataTemplate.Chat));
             this.CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatDataTemplate.Chat), SortDirection.Descending));
-            this.CHAT_FILTER = new ChatFilter(this.CHATS_ACV);
-            this.ChatQuery = CHAT_FILTER.chatQuery;
-            this.ChatQueryEnabled = CHAT_FILTER.chatQueryEnabled;
+            this.CHAT_FILTER = new ChatFilterDataTemplate(this.CHATS_ACV);
 
             LoadChats();
         }
@@ -66,7 +53,7 @@ namespace UWPX_UI_Context.Classes.DataContext
         #region --Misc Methods (Private)--
         private bool AcvFilter(object o)
         {
-            return CHAT_FILTER.filter(o);
+            return CHAT_FILTER.Filter(o);
         }
 
         private void LoadChats()
