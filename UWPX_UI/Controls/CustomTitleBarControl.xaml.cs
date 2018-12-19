@@ -17,6 +17,11 @@ namespace UWPX_UI.Controls
         public CustomTitleBarControl()
         {
             this.InitializeComponent();
+            if (!UiUtils.IsRunningOnDesktopDevice())
+            {
+                this.Visibility = Visibility.Collapsed;
+                return;
+            }
             InitTitleBar();
         }
 
