@@ -6,8 +6,10 @@
         <Setter Property="MasterPaneWidth" Value="321"/>
     </Style>
 
+    <!--
     <Style TargetType="Button">
         <Setter Property="Style" Value="{ThemeResource ButtonRevealStyle}"/>
     </Style>
+    -->
 
 </ResourceDictionary>

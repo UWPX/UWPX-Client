@@ -4,7 +4,7 @@ using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class ChatDataTemplate : AbstractNotifyPropertyChanged
+    public sealed class ChatDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

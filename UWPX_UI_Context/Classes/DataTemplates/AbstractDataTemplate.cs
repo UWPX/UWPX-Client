@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public abstract class AbstractNotifyPropertyChanged : INotifyPropertyChanged
+    public abstract class AbstractDataTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -32,7 +32,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected async void OnPropertyChanged([CallerMemberName] string name = "")
+        protected virtual async void OnPropertyChanged([CallerMemberName] string name = "")
         {
             await UiUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
         }

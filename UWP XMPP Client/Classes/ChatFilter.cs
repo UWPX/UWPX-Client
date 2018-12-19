@@ -44,8 +44,8 @@ namespace UWP_XMPP_Client.Classes
             this.chatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
             this.notOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
             this.notUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
-            this.chat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHAT);
-            this.muc = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUC);
+            this.chat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHATS_ONLY);
+            this.muc = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUCS_ONLY);
         }
 
         #endregion
@@ -280,12 +280,12 @@ namespace UWP_XMPP_Client.Classes
 
         private void saveChat()
         {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_CHAT, chat);
+            Settings.setSetting(SettingsConsts.CHAT_FILTER_CHATS_ONLY, chat);
         }
 
         private void saveMUC()
         {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_MUC, muc);
+            Settings.setSetting(SettingsConsts.CHAT_FILTER_MUCS_ONLY, muc);
         }
         #endregion
 

@@ -125,7 +125,7 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
-    <Compile Include="Classes\Collections\ChatFilter.cs" />
+    <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
@@ -135,10 +135,11 @@
     <Compile Include="Classes\DataContext\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\ChatMasterControlContext.cs" />
     <Compile Include="Classes\DataContext\ChatsPageContext.cs" />
-    <Compile Include="Classes\DataTemplates\AbstractNotifyPropertyChanged.cs" />
+    <Compile Include="Classes\DataTemplates\AbstractDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
