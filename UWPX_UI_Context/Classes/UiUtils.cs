@@ -63,6 +63,14 @@ namespace UWPX_UI_Context.Classes
             return AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile");
         }
 
+        /// <summary>
+        /// Checks whether the current device is a Windows 10 Desktop device.
+        /// </summary>
+        public static bool IsRunningOnDesktopDevice()
+        {
+            return AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop");
+        }
+
         public static bool IsApplicationViewApiAvailable()
         {
             return ApiInformation.IsTypePresent("Windows.UI.ViewManagement.ApplicationView");
@@ -132,7 +140,7 @@ namespace UWPX_UI_Context.Classes
                 ApplicationView appView = ApplicationView.GetForCurrentView();
 
                 // Dye title:
-                appView.TitleBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicWindowBrush"]).TintColor;
+                appView.TitleBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["SystemControlAcrylicWindowBrush"]).TintColor;
 
                 //Dye title bar buttons:
                 bool isDarkTheme = IsDarkThemeActive();
@@ -142,7 +150,7 @@ namespace UWPX_UI_Context.Classes
                 appView.TitleBar.ButtonForegroundColor = (isDarkTheme) ? Colors.White : Colors.Black;
 
                 // Extend window:
-                Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
+                CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
             }
 
             // Mobile:
@@ -152,7 +160,7 @@ namespace UWPX_UI_Context.Classes
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
-                    statusBar.BackgroundColor = ((AcrylicBrush)application.Resources["AppBackgroundAcrylicWindowBrush"]).TintColor;
+                    statusBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["SystemControlAcrylicWindowBrush"]).TintColor;
                     statusBar.BackgroundOpacity = 1;
                 }
             }
