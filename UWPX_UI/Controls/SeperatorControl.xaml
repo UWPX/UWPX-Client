@@ -12,12 +12,12 @@
         </Grid.RowDefinitions>
         <TextBlock x:Name="text_tbx"
                    Margin="10,10,0,2"
-                   Foreground="{ThemeResource CalendarDatePickerTextForeground}"
+                   Foreground="{ThemeResource TextControlBorderBrush}"
                    Text="{x:Bind Text, Mode=OneWay}"
                    Visibility="{x:Bind Text, Converter={StaticResource StringEmptyVisabilityValueConverter}, Mode=OneWay}"/>
         <Rectangle Grid.Row="1"
                    Height="2"
                    HorizontalAlignment="Stretch"
-                   Fill="{StaticResource SystemControlDisabledChromeDisabledLowBrush}"/>
+                   Fill="{StaticResource TextControlBorderBrush}"/>
     </Grid>
 </UserControl>

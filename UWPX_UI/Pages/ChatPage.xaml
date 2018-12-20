@@ -11,26 +11,33 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <DataTemplate x:Key="MasterTemplate"
-                      x:DataType="datatemplates:ChatDataTemplate">
-            <chat:ChatMasterControl Chat="{x:Bind}"/>
-        </DataTemplate>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <!--  Styles:  -->
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatsQueryTextBoxStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <DataTemplate x:Key="DetailsTemplate"
-                      x:DataType="datatemplates:ChatDataTemplate">
-            <chat:ChatDetailsControl Chat="{x:Bind}"/>
-        </DataTemplate>
+            <DataTemplate x:Key="MasterTemplate"
+                          x:DataType="datatemplates:ChatDataTemplate">
+                <chat:ChatMasterControl Chat="{x:Bind}"/>
+            </DataTemplate>
 
-        <DataTemplate x:Key="NoSelectionTemplate">
-            <StackPanel HorizontalAlignment="Center"
-                        VerticalAlignment="Center">
-                <Image Width="100"
-                       Height="100"
-                       Source="ms-appx:///Assets/Images/xmpp_logo.png"/>
-                <TextBlock FontSize="24"
-                           Text="Select a chat to view."/>
-            </StackPanel>
-        </DataTemplate>
+            <DataTemplate x:Key="DetailsTemplate"
+                          x:DataType="datatemplates:ChatDataTemplate">
+                <chat:ChatDetailsControl Chat="{x:Bind}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="NoSelectionTemplate">
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
+                    <Image Width="100"
+                           Height="100"
+                           Source="ms-appx:///Assets/Images/xmpp_logo.png"/>
+                    <TextBlock FontSize="24"
+                               Text="Select a chat to view."/>
+                </StackPanel>
+            </DataTemplate>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
@@ -65,12 +72,12 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <AutoSuggestBox x:Name="filterChats_asbx"
-                                    Grid.Row="0"
-                                    Margin="10"
-                                    PlaceholderText="Filter chats..."
-                                    QueryIcon="Find"
-                                    Text="{x:Bind ViewModel.CHAT_FILTER.ChatQuery, Mode=TwoWay}"/>
+                    <TextBox x:Name="filterChats_tbx"
+                             Grid.Row="0"
+                             Margin="10"
+                             PlaceholderText="Filter chats..."
+                             Style="{StaticResource ChatsQueryTextBoxStyle}"
+                             Text="{x:Bind ViewModel.CHAT_FILTER.ChatQuery, Mode=TwoWay}"/>
                     <controls:SeperatorControl Grid.Row="1"
                                                Margin="0,0,0,10"/>
                 </Grid>
