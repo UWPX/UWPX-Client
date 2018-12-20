@@ -9,13 +9,13 @@
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
 
                 <!--  Brushes:  -->
-                <ResourceDictionary Source="Resources/MyBrushes.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml"/>
 
                 <!--  Styles:  -->
-                <ResourceDictionary Source="Resources/MyStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/GeneralStyles.xaml"/>
 
                 <!--  Value Converters:  -->
-                <ResourceDictionary Source="Resources/MyValueConverters.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/MyValueConverters.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
