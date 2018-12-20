@@ -139,7 +139,6 @@
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
-    <Compile Include="Controls\Toolkit\MasterDetailsView\Design\MetadataRegistrationBase.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
