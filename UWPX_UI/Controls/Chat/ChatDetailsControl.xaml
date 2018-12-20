@@ -8,25 +8,15 @@
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              mc:Ignorable="d">
     <UserControl.Resources>
-        <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
-        <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
-        <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="ChatTextBoxStyle"
-               TargetType="TextBox">
-            <Setter Property="MaxHeight" Value="100"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="IsSpellCheckEnabled" Value="True"/>
-            <Setter Property="IsFocusEngagementEnabled" Value="True"/>
-            <Setter Property="PlaceholderText" Value="Message..."/>
-            <Setter Property="TextWrapping" Value="Wrap"/>
-            <Setter Property="InputScope" Value="Chat"/>
-            <Setter Property="InputScope" Value="Chat"/>
-        </Style>
+            <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
+            <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
+            <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
@@ -295,8 +285,7 @@
                          GotFocus="Message_tbx_GotFocus"
                          KeyUp="Message_tbx_KeyUp"
                          LostFocus="Message_tbx_LostFocus"
-                         SelectionHighlightColor="Transparent"
-                         Style="{StaticResource ChatTextBoxStyle}"
+                         Style="{StaticResource MessageTextBoxStyle}"
                          TextChanged="Message_tbx_TextChanged"/>
                 <Button x:Name="send_btn"
                         Grid.Column="2"
