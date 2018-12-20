@@ -52,12 +52,12 @@ namespace UWPX_UI.Pages
 
         }
 
-        private void AddMUC_mfoi_Click(object sender, RoutedEventArgs e)
+        private void AddMix_mfoi_Click_1(object sender, RoutedEventArgs e)
         {
 
         }
 
-        private void AddMIX_mfoi_Click(object sender, RoutedEventArgs e)
+        private void AddMuc_mfoi_Click_1(object sender, RoutedEventArgs e)
         {
 
         }
@@ -87,6 +87,11 @@ namespace UWPX_UI.Pages
         private void FilterChats_tabb_Click(object sender, RoutedEventArgs e)
         {
             filterChats_mfo.ShowAt(filterChats_tabb);
+        }
+
+        private void AddChat_abb_Click(object sender, RoutedEventArgs e)
+        {
+            addChat_mfo.ShowAt(addChat_abb);
         }
 
         #endregion
