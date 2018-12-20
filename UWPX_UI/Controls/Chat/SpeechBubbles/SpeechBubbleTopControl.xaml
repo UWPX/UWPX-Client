@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.SpeechBubbles.SpeechBubbleTopControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+    <Grid Padding="6"
+          HorizontalAlignment="Left">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Polygon Margin="10,0,0,0"
+                 Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                 Points="0,0 10,10 0,10"
+                 Stroke="Black"/>
+        <Grid Grid.Row="0"
+              Margin="0,10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <speechbubbles:SpeechBubbleContentControl Background="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                                                      ChatMessage="{x:Bind ChatMessage, Mode=TwoWay}"/>
+            <TextBlock Grid.Row="0"
+                       Margin="0,-7.5,-7.5,0"
+                       HorizontalAlignment="Right"
+                       FontFamily="Segoe MDL2 Assets"
+                       FontSize="15"
+                       Foreground="Gold"
+                       Text="&#xE734;"
+                       Visibility="{x:Bind ChatMessage.Message.isFavorite, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+        </Grid>
+        <Polygon Margin="10.4,1,0,0"
+                 Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                 Points="0,0 11,11 0,11"/>
+
+        <controls:DropShadowPanel Grid.Row="0"
+                                  Margin="0,0,-10,-10"
+                                  HorizontalAlignment="Right">
+            <Ellipse x:Name="presence_elipse"
+                     Width="20"
+                     Height="20"
+                     VerticalAlignment="Top"
+                     Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"/>
+        </controls:DropShadowPanel>
+    </Grid>
+</UserControl>

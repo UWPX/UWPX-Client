@@ -84,8 +84,6 @@ namespace UWPX_UI.Controls.Chat
             UiUtils.SetClipboardText(VIEW_MODEL.MODEL.AccountText);
         }
 
-        #endregion
-
         private void Info_mfo_Click(object sender, RoutedEventArgs e)
         {
 
@@ -155,5 +153,7 @@ namespace UWPX_UI.Controls.Chat
         {
 
         }
+
+        #endregion
     }
 }
