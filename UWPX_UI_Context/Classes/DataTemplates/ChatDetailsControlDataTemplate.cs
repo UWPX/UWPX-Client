@@ -1,5 +1,10 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Toast;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.Collections;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 
@@ -89,6 +94,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 OnPropertyChanged();
             }
         }
+        private bool _IsLoadingChatMessages;
+        public bool IsLoadingChatMessages
+        {
+            get { return _IsLoadingChatMessages; }
+            set
+            {
+                _IsLoadingChatMessages = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -115,6 +132,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             if (!(chat is null))
             {
+                LoadChatMessages(chat);
+                MarkChatMessagesAsRead(chat);
+
                 if (chat.chatType == ChatType.MUC)
                 {
                     OmemoVisability = Visibility.Collapsed;
@@ -143,7 +163,40 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
+        /// <summary>
+        /// Starts a new Task and loads all chat messages for the given chat.
+        /// </summary>
+        /// <param name="chat">The chat which all chat messages should get loaded for.</param>
+        private void LoadChatMessages(ChatTable chat)
+        {
+            Task.Run(async () =>
+            {
+                IsLoadingChatMessages = true;
+                await UiUtils.CallDispatcherAsync(() => CHAT_MESSAGES.Clear());
+                List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
+                foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id))
+                {
+                    msgs.Add(new ChatMessageDataTemplate
+                    {
+                        Message = msg,
+                        Chat = chat
+                    });
+                }
+                await UiUtils.CallDispatcherAsync(() => CHAT_MESSAGES.AddRange(msgs));
+                IsLoadingChatMessages = false;
+            });
+        }
 
+        /// <summary>
+        /// Marks all chat messages as read and removes all toasts for the given chat.
+        /// </summary>
+        private void MarkChatMessagesAsRead(ChatTable chat)
+        {
+            // Mark all unread messages as read for this chat:
+            ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.id);
+            // Remove notification group:
+            ToastHelper.removeToastGroup(chat.id);
+        }
 
         #endregion
 

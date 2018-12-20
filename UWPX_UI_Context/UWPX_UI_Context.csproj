@@ -139,6 +139,7 @@
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />

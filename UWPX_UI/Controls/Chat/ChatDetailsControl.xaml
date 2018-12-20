@@ -4,7 +4,9 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              mc:Ignorable="d">
     <UserControl.Resources>
@@ -17,6 +19,11 @@
             <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
             <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
             <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
+
+            <DataTemplate x:Key="SpeechBubbleTemplate"
+                          x:DataType="datatemplates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleTopControl ChatMessage="{x:Bind}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -164,7 +171,9 @@
             <controls:SeperatorControl Grid.Row="1"/>
 
             <!--  Messages:  -->
-            <ListView Grid.Row="2">
+            <ListView Grid.Row="2"
+                      ItemTemplate="{StaticResource SpeechBubbleTemplate}"
+                      ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsStackPanel Grid.ColumnSpan="1"
@@ -182,7 +191,7 @@
             <!--  Messages Loading:  -->
             <controls1:Loading Grid.Row="2"
                                Background="{StaticResource SystemControlAcrylicElementBrush}"
-                               IsLoading="True">
+                               IsLoading="{x:Bind VIEW_MODEL.MODEL.IsLoadingChatMessages, Mode=OneWay}">
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
             <controls:SeperatorControl Grid.Row="3"/>
@@ -302,7 +311,7 @@
                                    FontFamily="Segoe MDL2 Assets"
                                    FontSize="10"
                                    Text="&#xE72E;"
-                                   Visibility="Collapsed"/>
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
                     </Grid>
                 </Button>
             </Grid>

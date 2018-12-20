@@ -24,6 +24,11 @@ namespace UWPX_UI_Context.Classes.DataContext
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
+            if (args.NewValue == args.OldValue)
+            {
+                return;
+            }
+
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {

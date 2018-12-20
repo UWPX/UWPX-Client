@@ -129,6 +129,12 @@
     <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
       <DependentUpon>ChatMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentControl.xaml.cs">
+      <DependentUpon>SpeechBubbleContentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
+      <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
       <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
     </Compile>
@@ -239,6 +245,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\ChatMasterControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
