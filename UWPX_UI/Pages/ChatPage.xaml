@@ -13,7 +13,6 @@
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <!--  Styles:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatsQueryTextBoxStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
