@@ -71,7 +71,8 @@
                                     PlaceholderText="Filter chats..."
                                     QueryIcon="Find"
                                     Text="{x:Bind ViewModel.CHAT_FILTER.ChatQuery, Mode=TwoWay}"/>
-                    <controls:SeperatorControl Grid.Row="1"/>
+                    <controls:SeperatorControl Grid.Row="1"
+                                               Margin="0,0,0,10"/>
                 </Grid>
             </masterdetailsview:MasterDetailsView.MasterHeader>
 
@@ -80,28 +81,41 @@
                 <CommandBar x:Name="master_cmdb"
                             Margin="0,0,0,-1"
                             Opening="Master_cmdb_Opening">
-                    <AppBarButton x:Name="add_abb"
+                    <AppBarButton x:Name="addChat_abb"
                                   Grid.Column="0"
+                                  Click="AddChat_abb_Click"
                                   Label="Add">
                         <AppBarButton.Icon>
                             <FontIcon FontFamily="Segoe MDL2 Assets"
                                       Glyph="&#xE109;"/>
                         </AppBarButton.Icon>
-                        <AppBarButton.Flyout>
-                            <MenuFlyout>
+                        <AppBarButton.ContextFlyout>
+                            <MenuFlyout x:Name="addChat_mfo">
                                 <MenuFlyoutItem x:Name="addChat_mfoi"
                                                 Click="AddChat_mfoi_Click"
-                                                Text="Add Chat"/>
+                                                Text="Add Chat">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE77B;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                                 <MenuFlyoutSeparator/>
-                                <MenuFlyoutItem x:Name="addMUC_mfoi"
-                                                Click="AddMUC_mfoi_Click"
-                                                Text="Add Group Chat (MUC)"/>
-                                <MenuFlyoutItem x:Name="addMIX_mfoi"
-                                                Click="AddMIX_mfoi_Click"
+                                <MenuFlyoutItem x:Name="addMuc_mfoi"
+                                                Click="AddMuc_mfoi_Click_1"
+                                                Text="Add Group Chat (MUC)">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE125;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="addMix_mfoi"
+                                                Click="AddMix_mfoi_Click_1"
                                                 IsEnabled="False"
-                                                Text="Add Group Chat (MIX)"/>
+                                                Text="Add Group Chat (MIX)">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE125;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
-                        </AppBarButton.Flyout>
+                        </AppBarButton.ContextFlyout>
                     </AppBarButton>
                     <AppBarButton x:Name="filterChats_tabb"
                                   Click="FilterChats_tabb_Click"
