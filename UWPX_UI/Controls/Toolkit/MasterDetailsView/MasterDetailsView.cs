@@ -6,8 +6,8 @@
 // See the LICENSE file in the project root for more information.
 
 
-using Microsoft.Toolkit.Uwp.UI.Extensions;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
@@ -181,7 +181,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                     _frame.Navigating -= OnFrameNavigating;
                 }
 
-                _navigationView = VisualTree.FindAscendantByName(this, "Microsoft.UI.Xaml.Controls.NavigationView");
+                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
                 _frame = this.FindAscendant<Frame>();
                 if (_frame != null)
                 {
