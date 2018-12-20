@@ -11,6 +11,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
@@ -195,12 +196,10 @@
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0"
                         VerticalAlignment="Bottom"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
                         Content="&#xE723;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="27"
-                        Foreground="{ThemeResource SystemAccentColor}">
+                        Style="{StaticResource TransparentThemeButtonStyle}">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
@@ -291,15 +290,12 @@
                         Grid.Column="2"
                         VerticalAlignment="Bottom"
                         AllowFocusOnInteraction="False"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
                         Click="Send_btn_Click"
                         FontSize="27"
-                        Foreground="{ThemeResource SystemAccentColor}"
-                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}">
+                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
+                        Style="{StaticResource TransparentThemeButtonStyle}">
                     <Grid>
                         <TextBlock FontFamily="Segoe MDL2 Assets"
-                                   Foreground="{ThemeResource SystemAccentColor}"
                                    Text="&#xE122;"/>
                         <TextBlock x:Name="omemoIndicator_tbx"
                                    Margin="17,-2,0,0"
