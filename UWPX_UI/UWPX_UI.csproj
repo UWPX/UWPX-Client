@@ -153,6 +153,7 @@
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
       <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\TextBlockChatMessageFormatExtension.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

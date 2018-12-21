@@ -21,6 +21,7 @@ namespace UWPX_UI_Context.Classes
         #region --Attributes--
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
         private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
+        public static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

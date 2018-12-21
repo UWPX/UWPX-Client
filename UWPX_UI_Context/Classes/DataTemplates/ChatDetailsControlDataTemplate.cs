@@ -169,10 +169,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         /// <param name="chat">The chat which all chat messages should get loaded for.</param>
         private void LoadChatMessages(ChatTable chat)
         {
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 IsLoadingChatMessages = true;
-                await UiUtils.CallDispatcherAsync(() => CHAT_MESSAGES.Clear());
+                CHAT_MESSAGES.Clear();
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                 foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id))
                 {
@@ -182,7 +182,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                         Chat = chat
                     });
                 }
-                await UiUtils.CallDispatcherAsync(() => CHAT_MESSAGES.AddRange(msgs));
+                CHAT_MESSAGES.AddRange(msgs);
                 IsLoadingChatMessages = false;
             });
         }
