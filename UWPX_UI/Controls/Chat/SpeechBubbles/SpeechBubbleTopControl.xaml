@@ -5,12 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
+             HorizontalAlignment="Left"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
 
-    <Grid Padding="6"
-          HorizontalAlignment="Left">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>

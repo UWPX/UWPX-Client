@@ -117,6 +117,16 @@ namespace UWPX_UI_Context.Classes.Collections
             base.SetItem(index, item);
         }
 
+        protected async override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        {
+            await UiUtils.CallDispatcherAsync(() => base.OnCollectionChanged(e));
+        }
+
+        protected async override void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            await UiUtils.CallDispatcherAsync(() => base.OnPropertyChanged(e));
+        }
+
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
