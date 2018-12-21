@@ -207,7 +207,14 @@ namespace UWPX_UI_Context.Classes
         /// <param name="callback">The callback that should be executed in the UI thread.</param>
         public static async Task CallDispatcherAsync(DispatchedHandler callback)
         {
-            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                callback();
+            }
+            else
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
+            }
         }
 
         #endregion
