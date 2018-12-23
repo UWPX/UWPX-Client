@@ -1,5 +1,9 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Data_Manager2.Classes;
+using Logging;
+using UWPX_UI_Context.Classes.DataTemplates;
+using Windows.System;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI_Context.Classes.DataContext
 {
@@ -42,6 +46,41 @@ namespace UWPX_UI_Context.Classes.DataContext
             }
 
             UpdateView(newChat);
+        }
+
+        public void SendChatMessage(ChatDataTemplate chat)
+        {
+            // Remove tailing and leading whitespaces, tabs and newlines:
+            if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
+            {
+                string trimed = MODEL.MessageText.Trim(UiUtils.TRIM_CHARS);
+                if (MODEL.OmemoEnabled)
+                {
+                    // ToDo: Send encrypted
+                    Logger.Debug("Send encrypted: " + trimed);
+                }
+                else
+                {
+                    // ToDo: Send unencrypted
+                    Logger.Debug("Send unencrypted: " + trimed);
+                }
+                MODEL.MessageText = string.Empty;
+            }
+        }
+
+        public void OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
+        {
+            if (args.Key == VirtualKey.Enter)
+            {
+                if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
+                {
+                    if (!UiUtils.IsVirtualKeyDown(VirtualKey.Shift) && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+                    {
+                        SendChatMessage(chat);
+                        args.Handled = true;
+                    }
+                }
+            }
         }
 
         #endregion

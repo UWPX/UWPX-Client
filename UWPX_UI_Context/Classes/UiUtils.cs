@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
+using Windows.System;
 using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Core;
@@ -92,6 +93,16 @@ namespace UWPX_UI_Context.Classes
             DataPackage package = new DataPackage();
             package.SetText(text ?? "");
             Clipboard.SetContent(package);
+        }
+
+        public static CoreVirtualKeyStates GetVirtualKeyState(VirtualKey key)
+        {
+            return CoreWindow.GetForCurrentThread().GetKeyState(key);
+        }
+
+        public static bool IsVirtualKeyDown(VirtualKey key)
+        {
+            return GetVirtualKeyState(key) != CoreVirtualKeyStates.None;
         }
 
         #endregion

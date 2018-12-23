@@ -172,8 +172,10 @@
 
             <!--  Messages:  -->
             <ListView Grid.Row="2"
+                      Margin="0,0,0,10"
                       ItemTemplate="{StaticResource SpeechBubbleTemplate}"
-                      ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}">
+                      ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
+                      SelectionMode="None">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsStackPanel Grid.ColumnSpan="1"
@@ -289,12 +291,10 @@
                 </Button>
                 <TextBox x:Name="message_tbx"
                          Grid.Column="1"
-                         FocusVisualPrimaryBrush="Transparent"
-                         GotFocus="Message_tbx_GotFocus"
                          KeyUp="Message_tbx_KeyUp"
-                         LostFocus="Message_tbx_LostFocus"
                          Style="{StaticResource MessageTextBoxStyle}"
-                         TextChanged="Message_tbx_TextChanged"/>
+                         Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         TextChanging="Message_tbx_TextChanging"/>
                 <Button x:Name="send_btn"
                         Grid.Column="2"
                         VerticalAlignment="Bottom"

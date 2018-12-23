@@ -104,6 +104,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 OnPropertyChanged();
             }
         }
+        private string _MessageText;
+        public string MessageText
+        {
+            get { return _MessageText; }
+            set
+            {
+                _MessageText = value;
+                OnPropertyChanged();
+                Logging.Logger.Debug("MessageText: " + _MessageText);
+            }
+        }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
 
@@ -196,6 +207,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.id);
             // Remove notification group:
             ToastHelper.removeToastGroup(chat.id);
+        }
+
+        private void OnMessageTextChanged(string oldValue, string newValue)
+        {
+
         }
 
         #endregion
