@@ -134,21 +134,11 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.SendChatMessage(Chat);
         }
 
-        private void Message_tbx_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-
-        }
-
-        private void Message_tbx_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
-        {
-
-        }
-
-        #endregion
-
         private void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
             VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
         }
+
+        #endregion
     }
 }

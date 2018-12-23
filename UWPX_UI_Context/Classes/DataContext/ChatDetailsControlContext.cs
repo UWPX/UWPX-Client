@@ -88,11 +88,7 @@ namespace UWPX_UI_Context.Classes.DataContext
         #region --Misc Methods (Private)--
         private void UpdateView(ChatDataTemplate chatTemplate)
         {
-            if (chatTemplate is null)
-            {
-
-            }
-            else
+            if (!(chatTemplate is null))
             {
                 MODEL.UpdateViewClient(chatTemplate.Client);
                 MODEL.UpdateViewChat(chatTemplate.Chat);

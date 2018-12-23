@@ -112,7 +112,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             {
                 _MessageText = value;
                 OnPropertyChanged();
-                Logging.Logger.Debug("MessageText: " + _MessageText);
             }
         }
 
