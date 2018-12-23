@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,7 +14,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
             get { return (ChatMessageDataTemplate)GetValue(ChatMessageProperty); }
             set { SetValue(ChatMessageProperty, value); }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleContentControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleContentControl), new PropertyMetadata(null, OnChatMessageChanged));
+
+        private readonly SpeechBubbleContentContext VIEW_MODEL = new SpeechBubbleContentContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -36,7 +39,10 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
@@ -46,7 +52,13 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnChatMessageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is SpeechBubbleContentControl speechBubble)
+            {
+                speechBubble.UpdateView(e);
+            }
+        }
 
         #endregion
     }

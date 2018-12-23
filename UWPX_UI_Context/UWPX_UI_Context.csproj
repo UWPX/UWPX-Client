@@ -125,6 +125,7 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\DataContext\SpeechBubbleContentContext.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
+    <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />

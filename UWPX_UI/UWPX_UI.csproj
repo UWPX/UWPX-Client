@@ -132,6 +132,7 @@
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentControl.xaml.cs">
       <DependentUpon>SpeechBubbleContentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleShape.cs" />
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
@@ -345,7 +346,9 @@
       <Version>0.1.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Controls\Chat\SpeechBubbles\Content\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
       <Project>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</Project>

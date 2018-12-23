@@ -13,6 +13,7 @@
         <!--  Content:  -->
         <TextBlock Grid.Row="0"
                    IsTextSelectionEnabled="True"
+                   Text="{x:Bind VIEW_MODEL.MODEL.Text, Mode=OneWay}"
                    TextWrapping="Wrap"/>
 
         <!--  Infos:  -->
