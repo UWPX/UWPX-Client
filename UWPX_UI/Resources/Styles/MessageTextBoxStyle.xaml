@@ -7,6 +7,7 @@
         <Setter Property="HorizontalAlignment" Value="Stretch"/>
         <Setter Property="VerticalAlignment" Value="Stretch"/>
         <Setter Property="IsSpellCheckEnabled" Value="True"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
         <Setter Property="IsFocusEngagementEnabled" Value="True"/>
         <Setter Property="PlaceholderText" Value="Message..."/>
         <Setter Property="FontSize" Value="20"/>
@@ -18,10 +19,10 @@
         <Setter Property="SelectionHighlightColor" Value="{ThemeResource TextControlSelectionHighlightColor}"/>
         <Setter Property="BorderThickness" Value="{ThemeResource TextControlBorderThemeThickness}"/>
         <Setter Property="FontFamily" Value="{ThemeResource ContentControlThemeFontFamily}"/>
-        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Auto"/>
+        <Setter Property="ScrollViewer.HorizontalScrollMode" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollMode" Value="Auto"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden"/>
-        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
         <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="False"/>
         <Setter Property="Padding" Value="{ThemeResource TextControlThemePadding}"/>
         <Setter Property="UseSystemFocusVisuals" Value="{ThemeResource IsApplicationFocusVisualKindReveal}"/>

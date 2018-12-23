@@ -129,31 +129,26 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
-        private void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-
-        }
-
-        private void Message_tbx_LostFocus(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Message_tbx_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
         private void Send_btn_Click(object sender, RoutedEventArgs e)
         {
+            VIEW_MODEL.SendChatMessage(Chat);
+        }
+
+        private void Message_tbx_KeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
 
         }
 
-        private void Message_tbx_GotFocus(object sender, RoutedEventArgs e)
+        private void Message_tbx_TextChanging(TextBox sender, TextBoxTextChangingEventArgs args)
         {
 
         }
 
         #endregion
+
+        private void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
+        }
     }
 }
