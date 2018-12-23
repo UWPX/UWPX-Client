@@ -293,8 +293,7 @@
                          Grid.Column="1"
                          KeyUp="Message_tbx_KeyUp"
                          Style="{StaticResource MessageTextBoxStyle}"
-                         Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         TextChanging="Message_tbx_TextChanging"/>
+                         Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="send_btn"
                         Grid.Column="2"
                         VerticalAlignment="Bottom"
