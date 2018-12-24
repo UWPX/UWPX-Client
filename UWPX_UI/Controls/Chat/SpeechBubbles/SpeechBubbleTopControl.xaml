@@ -5,9 +5,9 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
+             MinWidth="100"
              HorizontalAlignment="Left"
-             d:DesignHeight="300"
-             d:DesignWidth="400"
+             RightTapped="UserControl_RightTapped"
              mc:Ignorable="d">
 
     <Grid>
@@ -15,30 +15,19 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Polygon Margin="0,10,0,0"
+        <Polygon Grid.Row="0"
                  Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
-                 Points="0,0 15,0 15,15"
-                 Stroke="Black"/>
+                 Points="10,0 10,10 20,10"/>
 
-        <Border Margin="14,0,0,0"
-                Padding="6"
-                VerticalAlignment="Top"
-                Background="{StaticResource SpeechBubbleBackgroundLightBrush}"
-                BorderBrush="Black"
-                BorderThickness="0.5"
-                CornerRadius="3">
-            <speechbubbles:SpeechBubbleContentControl Margin="10,20,10,10"
-                                                      Background="{StaticResource SpeechBubbleBackgroundLightBrush}"
-                                                      ChatMessage="{x:Bind ChatMessage, Mode=TwoWay}"
-                                                      SizeChanged="SpeechBubbleContentControl_SizeChanged"/>
+        <Border Grid.Row="0"
+                Margin="0,10,10,0"
+                Background="{StaticResource SpeechBubbleBackgroundLightBrush}">
+            <speechbubbles:SpeechBubbleContentControl x:Name="content_sbc"
+                                                      Margin="10"
+                                                      ChatMessage="{x:Bind ChatMessage, Mode=TwoWay}"/>
         </Border>
 
-        <Polygon Margin="0,10,0,0"
-                 Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
-                 Points="0,0 15,0 15,15"/>
-
         <controls:DropShadowPanel Grid.Row="0"
-                                  Margin="0,0,-10,-10"
                                   HorizontalAlignment="Right">
             <Ellipse x:Name="readStatus_elipse"
                      Width="20"

@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Logging;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext
@@ -33,6 +34,18 @@ namespace UWPX_UI_Context.Classes.DataContext
             {
                 newChatMessage.PropertyChanged += ChatMessage_PropertyChanged;
                 MODEL.UpdateView(newChatMessage.Chat, newChatMessage.Message);
+            }
+        }
+
+        public void ResendMessage(ChatDetailsControlContext chatDetailsContext)
+        {
+            if (chatDetailsContext is null)
+            {
+                Logger.Error("Failed to resend message - chatDetailsContext is null!");
+            }
+            else
+            {
+                chatDetailsContext.MODEL.MessageText = MODEL.Text;
             }
         }
 
