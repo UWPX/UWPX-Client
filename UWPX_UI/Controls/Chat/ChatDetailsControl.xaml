@@ -184,7 +184,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="Padding" Value="0,5,0,5"/>
+                        <Setter Property="Padding" Value="10,5,10,5"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -210,7 +210,8 @@
                         Content="&#xE723;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="27"
-                        Style="{StaticResource TransparentThemeButtonStyle}">
+                        Style="{StaticResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Send images/files">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
@@ -301,7 +302,8 @@
                         Click="Send_btn_Click"
                         FontSize="27"
                         IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
-                        Style="{StaticResource TransparentThemeButtonStyle}">
+                        Style="{StaticResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Send message">
                     <Grid>
                         <TextBlock FontFamily="Segoe MDL2 Assets"
                                    Text="&#xE122;"/>
