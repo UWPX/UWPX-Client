@@ -141,7 +141,7 @@ namespace UWPX_UI_Context.Classes
         /// <returns>Returns true on success.</returns>
         public static async Task<bool> LaunchUriAsync(Uri url)
         {
-            return await Windows.System.Launcher.LaunchUriAsync(url);
+            return await Launcher.LaunchUriAsync(url);
         }
 
         public static void SetupWindow(Application application)
@@ -157,7 +157,7 @@ namespace UWPX_UI_Context.Classes
                 //Dye title bar buttons:
                 bool isDarkTheme = IsDarkThemeActive();
                 appView.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                appView.TitleBar.ButtonInactiveForegroundColor = (isDarkTheme) ? Colors.White : Colors.Black;
+                appView.TitleBar.ButtonInactiveForegroundColor = (isDarkTheme) ? Colors.DimGray : Colors.Black;
                 appView.TitleBar.ButtonBackgroundColor = Colors.Transparent;
                 appView.TitleBar.ButtonForegroundColor = (isDarkTheme) ? Colors.White : Colors.Black;
 

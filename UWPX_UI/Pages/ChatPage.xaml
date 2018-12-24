@@ -7,7 +7,8 @@
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:masterdetailsview="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      Background="{StaticResource SystemControlAcrylicWindowBrush}"
+      Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
+      RequestedTheme="Default"
       mc:Ignorable="d">
 
     <Page.Resources>
@@ -50,9 +51,11 @@
         <masterdetailsview:MasterDetailsView x:Name="chats_mdv"
                                              Grid.Row="1"
                                              Background="Transparent"
+                                             BorderBrush="{ThemeResource TextControlBorderBrush}"
                                              DetailsTemplate="{StaticResource DetailsTemplate}"
                                              ItemTemplate="{StaticResource MasterTemplate}"
                                              ItemsSource="{x:Bind ViewModel.CHATS_ACV}"
+                                             MasterPaneBackground="{StaticResource AppBackgroundAcrylicElementBrush}"
                                              NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}"
                                              SelectedItem="{x:Bind ViewModel.SelectedItem, Mode=TwoWay}">
             <!--  Style  -->
