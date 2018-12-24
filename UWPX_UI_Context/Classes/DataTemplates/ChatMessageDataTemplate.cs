@@ -10,21 +10,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         public ChatTable Chat
         {
             get { return _Chat; }
-            set
-            {
-                _Chat = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _Chat, value); }
         }
         private ChatMessageTable _Message;
         public ChatMessageTable Message
         {
             get { return _Message; }
-            set
-            {
-                _Message = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _Message, value); }
         }
 
         #endregion
