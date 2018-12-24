@@ -187,6 +187,7 @@
                             HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck"
                                Margin="10,0,0,0"
+                               Style="{StaticResource BodyLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <Grid Margin="10,0,10,0">
@@ -199,23 +200,23 @@
                                    Margin="0,0,5,0"
                                    VerticalAlignment="Center"
                                    FontFamily="Segoe MDL2 Assets"
-                                   FontSize="12"
                                    Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
+                                   Style="{StaticResource CaptionLineTextBlockStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"/>
                         <TextBlock x:Name="lastAction_tblck"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
-                                   FontSize="12"
                                    Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
                                    MaxLines="1"
+                                   Style="{StaticResource CaptionLineTextBlockStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
                                    TextTrimming="CharacterEllipsis"/>
                     </Grid>
                     <TextBlock x:Name="info_tblck"
                                Grid.Column="0"
                                Margin="10,0,0,0"
-                               FontSize="10"
                                Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                               Style="{StaticResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisability, Mode=OneWay}"/>
@@ -274,6 +275,7 @@
                            Grid.ColumnSpan="2"
                            Margin="0,0,0,5"
                            Foreground="{ThemeResource SystemAccentColor}"
+                           Style="{StaticResource BodyTextBlockStyle}"
                            TextWrapping="Wrap"/>
                 <Button x:Name="accountActionAccept_btn"
                         Grid.Row="1"

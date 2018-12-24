@@ -92,21 +92,21 @@
                     <!--  Name:  -->
                     <TextBlock Grid.Row="0"
                                HorizontalAlignment="Center"
-                               FontWeight="Bold"
+                               Style="{StaticResource BaseLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <!--  Account:  -->
                     <TextBlock Grid.Row="1"
                                HorizontalAlignment="Center"
-                               FontSize="10"
                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                               Style="{StaticResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <!--  Status:  -->
                     <TextBlock Grid.Row="2"
                                HorizontalAlignment="Center"
-                               FontSize="10"
                                Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                               Style="{StaticResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                 </Grid>

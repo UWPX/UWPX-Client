@@ -15,9 +15,13 @@
                    Foreground="{ThemeResource TextControlBorderBrush}"
                    Text="{x:Bind Text, Mode=OneWay}"
                    Visibility="{x:Bind Text, Converter={StaticResource StringEmptyVisabilityValueConverter}, Mode=OneWay}"/>
-        <Rectangle Grid.Row="1"
-                   Height="2"
-                   HorizontalAlignment="Stretch"
-                   Fill="{StaticResource TextControlBorderBrush}"/>
+        <Line Grid.Row="1"
+              Stretch="UniformToFill"
+              Stroke="{ThemeResource TextControlBorderBrush}"
+              StrokeThickness="1"
+              X1="0"
+              X2="1"
+              Y1="0"
+              Y2="0"/>
     </Grid>
 </UserControl>

@@ -39,7 +39,15 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <Style x:Key="ReplacedContectMenuTextBlock"
+        <Style x:Key="ReplacedContectMenuBodyTextBlock"
+               BasedOn="{StaticResource BodyTextBlockStyle}"
+               TargetType="TextBlock">
+            <Setter Property="ContextFlyout" Value="{StaticResource options_mfo}"/>
+            <Setter Property="IsTextSelectionEnabled" Value="True"/>
+        </Style>
+
+        <Style x:Key="ReplacedContectMenuCaptionTextBlock"
+               BasedOn="{StaticResource CaptionTextBlockStyle}"
                TargetType="TextBlock">
             <Setter Property="ContextFlyout" Value="{StaticResource options_mfo}"/>
             <Setter Property="IsTextSelectionEnabled" Value="True"/>
@@ -54,7 +62,7 @@
         <!--  Content:  -->
         <TextBlock Grid.Row="0"
                    ContextFlyout="{StaticResource options_mfo}"
-                   Style="{StaticResource ReplacedContectMenuTextBlock}"
+                   Style="{StaticResource ReplacedContectMenuBodyTextBlock}"
                    Text="{x:Bind VIEW_MODEL.MODEL.Text, Mode=OneWay}"
                    TextWrapping="Wrap"/>
 
@@ -72,9 +80,8 @@
             <TextBlock Grid.Column="0"
                        Margin="0,0,5,0"
                        VerticalAlignment="Bottom"
-                       FontSize="10"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
-                       Style="{StaticResource ReplacedContectMenuTextBlock}"
+                       Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
                        Text="{x:Bind VIEW_MODEL.MODEL.NicknameText, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"
                        Visibility="{x:Bind VIEW_MODEL.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
@@ -82,33 +89,30 @@
                        Margin="0,0,5,1"
                        VerticalAlignment="Bottom"
                        FontFamily="Segoe MDL2 Assets"
-                       FontSize="10"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                       Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
                        Text="&#xECCC;"
                        Visibility="{x:Bind VIEW_MODEL.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
             <TextBlock Grid.Column="2"
                        Margin="0,0,5,0"
                        VerticalAlignment="Bottom"
-                       FontSize="10"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
-                       Style="{StaticResource ReplacedContectMenuTextBlock}"
+                       Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
                        Text="{x:Bind VIEW_MODEL.MODEL.Date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
             <TextBlock Grid.Column="3"
                        Margin="0,0,5,2"
                        VerticalAlignment="Bottom"
                        FontFamily="Segoe MDL2 Assets"
-                       FontSize="10"
-                       FontWeight="Bold"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                       Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
                        Text="&#xE72E;"
                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsEncrypted, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
             <TextBlock Grid.Column="4"
                        Margin="0,0,5,2"
                        VerticalAlignment="Bottom"
                        FontFamily="Segoe MDL2 Assets"
-                       FontSize="10"
-                       FontWeight="Bold"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                       Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
                        Text="&#xE8C8;"
                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsCarbonCopy, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
             <speechbubbles:SpeechBubbleContentSendStateControl Grid.Column="5"

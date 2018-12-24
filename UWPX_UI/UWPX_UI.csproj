@@ -135,7 +135,6 @@
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentSendStateControl.xaml.cs">
       <DependentUpon>SpeechBubbleContentSendStateControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleShape.cs" />
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
