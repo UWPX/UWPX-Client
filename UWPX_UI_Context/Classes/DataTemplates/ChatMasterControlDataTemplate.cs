@@ -19,191 +19,115 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         public Visibility RequestPresenceSubscriptionVisability
         {
             get { return _RequestPresenceSubscriptionVisability; }
-            set
-            {
-                _RequestPresenceSubscriptionVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _RequestPresenceSubscriptionVisability, value); }
         }
         private Visibility _CancelPresenceSubscriptionVisability;
         public Visibility CancelPresenceSubscriptionVisability
         {
             get { return _CancelPresenceSubscriptionVisability; }
-            set
-            {
-                _CancelPresenceSubscriptionVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _CancelPresenceSubscriptionVisability, value); }
         }
         private Visibility _RejectPresenceSubscriptionVisability;
         public Visibility RejectPresenceSubscriptionVisability
         {
             get { return _RejectPresenceSubscriptionVisability; }
-            set
-            {
-                _RejectPresenceSubscriptionVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _RejectPresenceSubscriptionVisability, value); }
         }
         private Visibility _ProbePresenceVisability;
         public Visibility ProbePresenceVisability
         {
             get { return _ProbePresenceVisability; }
-            set
-            {
-                _ProbePresenceVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _ProbePresenceVisability, value); }
         }
         private Visibility _AccountActionsVisability;
         public Visibility AccountActionsVisability
         {
             get { return _AccountActionsVisability; }
-            set
-            {
-                _AccountActionsVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _AccountActionsVisability, value); }
         }
         private bool _PresenceFlyoutEnabled;
         public bool PresenceFlyoutEnabled
         {
             get { return _PresenceFlyoutEnabled; }
-            set
-            {
-                _PresenceFlyoutEnabled = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _PresenceFlyoutEnabled, value); }
         }
         private SolidColorBrush _AccountColorBrush;
         public SolidColorBrush AccountColorBrush
         {
             get { return _AccountColorBrush; }
-            set
-            {
-                _AccountColorBrush = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _AccountColorBrush, value); }
         }
         private string _NameText;
         public string NameText
         {
             get { return _NameText; }
-            set
-            {
-                _NameText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _NameText, value); }
         }
         private string _MuteText;
         public string MuteText
         {
             get { return _MuteText; }
-            set
-            {
-                _MuteText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _MuteText, value); }
         }
         private string _RemoveFromRosterText;
         public string RemoveFromRosterText
         {
             get { return _RemoveFromRosterText; }
-            set
-            {
-                _RemoveFromRosterText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _RemoveFromRosterText, value); }
         }
         private string _InfoText;
         public string InfoText
         {
             get { return _InfoText; }
-            set
-            {
-                _InfoText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _InfoText, value); }
         }
         private Visibility _InfoTextVisability;
         public Visibility InfoTextVisability
         {
             get { return _InfoTextVisability; }
-            set
-            {
-                _InfoTextVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _InfoTextVisability, value); }
         }
         private Visibility _InRosterVisability;
         public Visibility InRosterVisability
         {
             get { return _InRosterVisability; }
-            set
-            {
-                _InRosterVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _InRosterVisability, value); }
         }
         private string _LastActionText;
         public string LastActionText
         {
             get { return _LastActionText; }
-            set
-            {
-                _LastActionText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _LastActionText, value); }
         }
         private string _LastActionIconText;
         public string LastActionIconText
         {
             get { return _LastActionIconText; }
-            set
-            {
-                _LastActionIconText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _LastActionIconText, value); }
         }
         private Visibility _LastActionIconVisability;
         public Visibility LastActionIconVisability
         {
             get { return _LastActionIconVisability; }
-            set
-            {
-                _LastActionIconVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _LastActionIconVisability, value); }
         }
         private MessageState _LastActionState;
         public MessageState LastActionState
         {
             get { return _LastActionState; }
-            set
-            {
-                _LastActionState = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _LastActionState, value); }
         }
         private Presence _AccountPresence;
         public Presence AccountPresence
         {
             get { return _AccountPresence; }
-            set
-            {
-                _AccountPresence = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _AccountPresence, value); }
         }
         private string _AccountInitials;
         public string AccountInitials
         {
             get { return _AccountInitials; }
-            set
-            {
-                _AccountInitials = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _AccountInitials, value); }
         }
 
         private readonly ResourceDictionary RESOURCES;

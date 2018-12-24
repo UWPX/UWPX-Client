@@ -18,101 +18,61 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         public string NameText
         {
             get { return _NameText; }
-            set
-            {
-                _NameText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _NameText, value); }
         }
         private string _AccountText;
         public string AccountText
         {
             get { return _AccountText; }
-            set
-            {
-                _AccountText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _AccountText, value); }
         }
         private string _StatusText;
         public string StatusText
         {
             get { return _StatusText; }
-            set
-            {
-                _StatusText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _StatusText, value); }
         }
         private Visibility _JoinMucVisability;
         public Visibility JoinMucVisability
         {
             get { return _JoinMucVisability; }
-            set
-            {
-                _JoinMucVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _JoinMucVisability, value); }
         }
         private Visibility _LeaveMucVisability;
         public Visibility LeaveMucVisability
         {
             get { return _LeaveMucVisability; }
-            set
-            {
-                _LeaveMucVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _LeaveMucVisability, value); }
         }
         private Visibility _DebugVisability;
         public Visibility DebugVisability
         {
             get { return _DebugVisability; }
-            set
-            {
-                _DebugVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _DebugVisability, value); }
         }
         private Visibility _OmemoVisability;
         public Visibility OmemoVisability
         {
             get { return _OmemoVisability; }
-            set
-            {
-                _OmemoVisability = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _OmemoVisability, value); }
         }
         private bool _OmemoEnabled;
         public bool OmemoEnabled
         {
             get { return _OmemoEnabled; }
-            set
-            {
-                _OmemoEnabled = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _OmemoEnabled, value); }
         }
         private bool _IsLoadingChatMessages;
         public bool IsLoadingChatMessages
         {
             get { return _IsLoadingChatMessages; }
-            set
-            {
-                _IsLoadingChatMessages = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _IsLoadingChatMessages, value); }
         }
         private string _MessageText;
         public string MessageText
         {
             get { return _MessageText; }
-            set
-            {
-                _MessageText = value;
-                OnPropertyChanged();
-            }
+            set { SetProperty(ref _MessageText, value); }
         }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();

@@ -8,57 +8,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private BitmapImage _image;
+        private BitmapImage _Image;
         public BitmapImage Image
         {
-            get
-            {
-                return _image;
-            }
-            set
-            {
-                _image = value;
-                OnPropertyChanged();
-            }
+            get { return _Image; }
+            set { SetProperty(ref _Image, value); }
         }
-        private ChatTable _chat;
+        private ChatTable _Chat;
         public ChatTable Chat
         {
-            get
-            {
-                return _chat;
-            }
-            set
-            {
-                _chat = value;
-                OnPropertyChanged();
-            }
+            get { return _Chat; }
+            set { SetProperty(ref _Chat, value); }
         }
-        private MUCChatInfoTable _mucInfo;
+        private MUCChatInfoTable _MucInfo;
         public MUCChatInfoTable MucInfo
         {
-            get
-            {
-                return _mucInfo;
-            }
-            set
-            {
-                _mucInfo = value;
-                OnPropertyChanged();
-            }
+            get { return _MucInfo; }
+            set { SetProperty(ref _MucInfo, value); }
         }
-        private XMPPClient _client;
+        private XMPPClient _Client;
         public XMPPClient Client
         {
-            get
-            {
-                return _client;
-            }
-            set
-            {
-                _client = value;
-                OnPropertyChanged();
-            }
+            get { return _Client; }
+            set { SetProperty(ref _Client, value); }
         }
 
         /// <summary>
