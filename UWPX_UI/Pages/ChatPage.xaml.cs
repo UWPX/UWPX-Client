@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext;
+﻿using UWPX_UI.Pages.Settings;
+using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -64,7 +65,7 @@ namespace UWPX_UI.Pages
 
         private void Settings_abb_Click(object sender, RoutedEventArgs e)
         {
-
+            (Window.Current.Content as Frame).Navigate(typeof(SettingsPage));
         }
 
         private void ChangePresence_abb_Click(object sender, RoutedEventArgs e)
