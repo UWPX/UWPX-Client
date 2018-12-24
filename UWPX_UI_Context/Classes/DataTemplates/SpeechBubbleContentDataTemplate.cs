@@ -1,4 +1,6 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBTables;
+using System;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
@@ -7,7 +9,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Text;
-
         public string Text
         {
             get { return _Text; }
@@ -17,7 +18,66 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 OnPropertyChanged();
             }
         }
-
+        private string _NicknameText;
+        public string NicknameText
+        {
+            get { return _NicknameText; }
+            set
+            {
+                _NicknameText = value;
+                OnPropertyChanged();
+            }
+        }
+        private DateTime _Date;
+        public DateTime Date
+        {
+            get { return _Date; }
+            set
+            {
+                _Date = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _IsEncrypted;
+        public bool IsEncrypted
+        {
+            get { return _IsEncrypted; }
+            set
+            {
+                _IsEncrypted = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _IsCarbonCopy;
+        public bool IsCarbonCopy
+        {
+            get { return _IsCarbonCopy; }
+            set
+            {
+                _IsCarbonCopy = value;
+                OnPropertyChanged();
+            }
+        }
+        private string _StateIconText;
+        public string StateIconText
+        {
+            get { return _StateIconText; }
+            set
+            {
+                _StateIconText = value;
+                OnPropertyChanged();
+            }
+        }
+        private bool _IsDelivered;
+        public bool IsDelivered
+        {
+            get { return _IsDelivered; }
+            set
+            {
+                _IsDelivered = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,6 +100,56 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
 
             Text = message.message;
+            IsCarbonCopy = message.isCC;
+            IsEncrypted = message.isEncrypted;
+            Date = message.date;
+            IsDelivered = false;
+
+            switch (message.state)
+            {
+                case MessageState.SENDING:
+                    StateIconText = "\uE724";
+                    break;
+
+                case MessageState.SEND:
+                    StateIconText = "\uE725";
+                    break;
+
+                case MessageState.DELIVERED:
+                    StateIconText = "\uE725";
+                    IsDelivered = true;
+                    break;
+
+                case MessageState.UNREAD:
+                    StateIconText = "\uEA63";
+                    break;
+
+                case MessageState.READ:
+                    StateIconText = "\uEA64";
+                    break;
+
+                case MessageState.TO_ENCRYPT:
+                    StateIconText = "\uE724";
+                    break;
+
+                case MessageState.ENCRYPT_FAILED:
+                    StateIconText = "\uEA39";
+                    break;
+
+                default:
+                    StateIconText = "\uE9CE";
+                    break;
+            }
+
+            if (chat.chatType == ChatType.MUC)
+            {
+                NicknameText = message.fromUser;
+            }
+            else
+            {
+                NicknameText = string.Empty;
+            }
+
         }
 
         #endregion

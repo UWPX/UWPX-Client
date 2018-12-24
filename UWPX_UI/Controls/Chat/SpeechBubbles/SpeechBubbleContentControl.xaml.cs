@@ -1,7 +1,10 @@
-﻿using UWPX_UI_Context.Classes.DataContext;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles
 {
@@ -34,7 +37,13 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void ShowFlyout(FrameworkElement sender)
+        {
+            if (Resources["options_mfo"] is MenuFlyout flyout)
+            {
+                flyout.ShowAt(sender);
+            }
+        }
 
         #endregion
 
@@ -58,6 +67,30 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
             {
                 speechBubble.UpdateView(e);
             }
+        }
+
+        private void CopyMessage_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.SetClipboardText(VIEW_MODEL.MODEL.Text);
+        }
+
+        private void CopyNickname_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.SetClipboardText(VIEW_MODEL.MODEL.NicknameText);
+        }
+
+        private void CopyDate_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.Resources["ChatDateTimeStringValueConverter"] is IValueConverter converter)
+            {
+                UiUtils.SetClipboardText((string)converter.Convert(VIEW_MODEL.MODEL.Date, typeof(string), null, null));
+            }
+        }
+
+        private void ResendMsg_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            ChatDetailsControl chatDetails = VisualTree.FindAscendant<ChatDetailsControl>(this);
+            VIEW_MODEL.ResendMessage(chatDetails?.VIEW_MODEL);
         }
 
         #endregion

@@ -146,7 +146,6 @@
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                             <ToggleMenuFlyoutItem x:Name="omemo_tmfo"
-                                                  Click="Omemo_tmfo_Click"
                                                   IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}"
                                                   Text="Encrypted (OMEMO)"
                                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisability, Mode=OneWay}">
@@ -185,6 +184,7 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
+                        <Setter Property="Padding" Value="0,5,0,5"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </ListView.ItemContainerStyle>

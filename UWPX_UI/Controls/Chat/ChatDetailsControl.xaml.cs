@@ -17,7 +17,7 @@ namespace UWPX_UI.Controls.Chat
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatDetailsControl), new PropertyMetadata(null, ChatPropertyChanged));
 
-        private readonly ChatDetailsControlContext VIEW_MODEL = new ChatDetailsControlContext();
+        public readonly ChatDetailsControlContext VIEW_MODEL = new ChatDetailsControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -95,11 +95,6 @@ namespace UWPX_UI.Controls.Chat
         }
 
         private void Leave_mfo_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void Omemo_tmfo_Click(object sender, RoutedEventArgs e)
         {
 
         }
