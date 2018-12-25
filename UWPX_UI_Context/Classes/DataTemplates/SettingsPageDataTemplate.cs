@@ -24,11 +24,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _Glyph; }
             set { SetProperty(ref _Glyph, value); }
         }
-        private Type _Page;
-        public Type Page
+        private Type _NavTarget;
+        public Type NavTarget
         {
-            get { return _Page; }
-            set { SetProperty(ref _Page, value); }
+            get { return _NavTarget; }
+            set { SetProperty(ref _NavTarget, value); }
         }
 
         #endregion
