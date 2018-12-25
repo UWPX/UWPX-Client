@@ -47,7 +47,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <controls:CustomTitleBarControl Grid.Row="0"/>
+        <controls:CustomTitleBarControl Grid.Row="0"
+                                        Frame="{x:Bind Frame, Mode=OneWay}"/>
 
         <masterdetailsview:MasterDetailsView x:Name="chats_mdv"
                                              Grid.Row="1"

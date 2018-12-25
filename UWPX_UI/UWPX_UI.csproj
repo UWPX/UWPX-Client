@@ -138,6 +138,9 @@
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CustomSettingsTitleBarControl.xaml.cs">
+      <DependentUpon>CustomSettingsTitleBarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
       <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
     </Compile>
@@ -146,9 +149,6 @@
     </Compile>
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SettingsHeaderControl.xaml.cs">
-      <DependentUpon>SettingsHeaderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SettingsSelectionControl.xaml.cs">
       <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
@@ -273,6 +273,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\CustomSettingsTitleBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CustomTitleBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -282,10 +286,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SeperatorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SettingsHeaderControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -314,6 +314,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\MyBrushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\CustomTitleBarButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
