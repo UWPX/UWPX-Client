@@ -144,7 +144,6 @@
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
-    <Compile Include="Classes\ValueConverter\PackageVersionStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
