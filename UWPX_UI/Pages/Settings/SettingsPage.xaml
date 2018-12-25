@@ -15,9 +15,9 @@
                       x:DataType="datatemplates:SettingsPageDataTemplate">
             <composition1:DropShadowPanel PointerEntered="DropShadowPanel_PointerEntered"
                                           PointerExited="DropShadowPanel_PointerExited">
-                <Grid Width="140"
-                      Height="160"
-                      Background="{StaticResource AppBackgroundAcrylicWindowBrush}">
+                <Button Width="140"
+                        Height="160"
+                        Background="{StaticResource AppBackgroundAcrylicWindowBrush}">
                     <Grid Margin="5,10,5,0">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
@@ -42,7 +42,7 @@
                                    TextAlignment="Center"
                                    TextWrapping="Wrap"/>
                     </Grid>
-                </Grid>
+                </Button>
             </composition1:DropShadowPanel>
         </DataTemplate>
     </Page.Resources>
