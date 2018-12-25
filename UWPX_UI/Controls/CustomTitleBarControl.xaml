@@ -22,6 +22,12 @@
                                   Width="0"/>
             </Grid.ColumnDefinitions>
         </Grid>
+        <Button x:Name="backRequest_btn"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                Click="BackRequest_btn_Click"
+                IsEnabled="{x:Bind IsBackRequestButtonEnabled, Mode=OneWay}"
+                Style="{StaticResource NavigationBackButtonNormalStyle}"/>
         <controls:SeperatorControl Grid.Row="1"/>
     </Grid>
 </UserControl>

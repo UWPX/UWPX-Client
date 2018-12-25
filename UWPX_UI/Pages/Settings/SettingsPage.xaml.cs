@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using System;
 using System.Collections.ObjectModel;
 using System.Text;
 using UWPX_UI.Controls;
@@ -36,7 +35,7 @@ namespace UWPX_UI.Pages.Settings
         public SettingsPage()
         {
             this.InitializeComponent();
-            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += UiUtils.DefaultPageBackRequested;
+            LoadAppVersion();
         }
 
         #endregion
@@ -67,11 +66,6 @@ namespace UWPX_UI.Pages.Settings
             version_run.Text = sb.ToString();
         }
 
-        private void NavigateToPage(Type pageType)
-        {
-            (Window.Current.Content as Frame).Navigate(pageType);
-        }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -84,21 +78,7 @@ namespace UWPX_UI.Pages.Settings
         {
             if (e.ClickedItem is SettingsPageDataTemplate page)
             {
-                NavigateToPage(page.NavTarget);
-            }
-        }
-
-        private void AbstractBackRequestPage_BackRequested(object sender, Windows.UI.Core.BackRequestedEventArgs e)
-        {
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame is null)
-            {
-                return;
-            }
-            if (rootFrame.CanGoBack && e.Handled == false)
-            {
-                e.Handled = true;
-                rootFrame.GoBack();
+                UiUtils.NavigateToPage(page.NavTarget);
             }
         }
 
@@ -118,6 +98,7 @@ namespace UWPX_UI.Pages.Settings
             {
                 Canvas.SetZIndex(LastPopUpElement, 0);
                 LastPopUpElement.Scale(centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
+                LastPopUpElement = null;
             }
         }
 

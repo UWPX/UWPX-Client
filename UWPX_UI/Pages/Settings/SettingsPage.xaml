@@ -24,7 +24,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <controls:CustomTitleBarControl Grid.Row="0"/>
+        <controls:CustomTitleBarControl Grid.Row="0"
+                                        Frame="{x:Bind Frame, Mode=OneWay}"/>
 
         <ScrollViewer Grid.Row="1"
                       HorizontalScrollMode="Disabled"
