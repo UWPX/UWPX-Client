@@ -1,5 +1,6 @@
 ﻿using Logging;
 using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -12,6 +13,7 @@ using Windows.UI.Core;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using XMPP_API.Classes;
 
@@ -28,6 +30,25 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static List<KeyboardAccelerator> GetGoBackKeyboardAccelerators()
+        {
+            return new List<KeyboardAccelerator>
+            {
+                new KeyboardAccelerator
+                {
+                    Key = VirtualKey.Back
+                },
+                new KeyboardAccelerator
+                {
+                    Key = VirtualKey.Left
+                },
+                new KeyboardAccelerator
+                {
+                    Key = VirtualKey.GoBack
+                }
+            };
+        }
+
         public static SolidColorBrush GetPresenceBrush(Presence presence)
         {
             switch (presence)
@@ -58,24 +79,18 @@ namespace UWPX_UI_Context.Classes
             return NavigateToPage(pageType, null);
         }
 
-        public static void DefaultPageBackRequested(object sender, BackRequestedEventArgs e)
+        public static void OnGoBackRequested(Frame frame)
         {
-            if (Window.Current.Content is Frame frame)
+            if (frame is null)
             {
-                if (frame.CanGoBack && e.Handled == false)
-                {
-                    e.Handled = true;
-                    frame.GoBack();
-                }
+                Logger.Error("Failed to execute back request - frame is null!");
             }
             else
             {
-                Logger.Error("Failed to execute back request - Window.Current.Content is not of type Frame!");
-            }
-            Frame rootFrame = Window.Current.Content as Frame;
-            if (rootFrame is null)
-            {
-                return;
+                if (frame.CanGoBack)
+                {
+                    frame.GoBack();
+                }
             }
 
         }

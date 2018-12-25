@@ -2,6 +2,7 @@
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI.Controls
 {
@@ -9,7 +10,19 @@ namespace UWPX_UI.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public bool IsBackRequestButtonEnabled
+        {
+            get { return (bool)GetValue(IsBackRequestButtonEnabledProperty); }
+            set { SetValue(IsBackRequestButtonEnabledProperty, value); }
+        }
+        public static readonly DependencyProperty IsBackRequestButtonEnabledProperty = DependencyProperty.Register(nameof(IsBackRequestButtonEnabled), typeof(bool), typeof(CustomTitleBarControl), new PropertyMetadata(true));
 
+        public Frame Frame
+        {
+            get { return (Frame)GetValue(FrameProperty); }
+            set { SetValue(FrameProperty, value); }
+        }
+        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null, OnFrameChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,6 +36,7 @@ namespace UWPX_UI.Controls
                 return;
             }
             InitTitleBar();
+            SetupKeyboardAccelerators();
         }
 
         #endregion
@@ -67,6 +81,24 @@ namespace UWPX_UI.Controls
             titleBar_grid.Height = titleBar.Height;
         }
 
+        private void SetupKeyboardAccelerators()
+        {
+            foreach (KeyboardAccelerator accelerator in UiUtils.GetGoBackKeyboardAccelerators())
+            {
+                accelerator.Invoked += Accelerator_Invoked;
+                KeyboardAccelerators.Add(accelerator);
+            }
+        }
+
+        private void Accelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            if (!args.Handled)
+            {
+                args.Handled = true;
+                UiUtils.OnGoBackRequested(Frame);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -75,7 +107,18 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.OnGoBackRequested(Frame);
+        }
 
+        private static void OnFrameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is CustomTitleBarControl customTitleBar && e.NewValue is Frame frame)
+            {
+                customTitleBar.IsBackRequestButtonEnabled = frame.CanGoBack;
+            }
+        }
 
         #endregion
     }
