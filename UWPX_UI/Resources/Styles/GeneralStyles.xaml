@@ -26,10 +26,12 @@
         <Setter Property="MaxLines" Value="1"/>
     </Style>
 
-    <!--
     <Style TargetType="Button">
-        <Setter Property="Style" Value="{ThemeResource ButtonRevealStyle}"/>
+        <Setter Property="Style" Value="{StaticResource ButtonRevealStyle}"/>
     </Style>
-    -->
+
+    <Style TargetType="AppBarButton">
+        <Setter Property="Style" Value="{StaticResource AppBarButtonRevealStyle}"/>
+    </Style>
 
 </ResourceDictionary>
