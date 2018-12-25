@@ -1,29 +1,34 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.SettingsHeaderControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <Grid Padding="0,10,0,10"
-          HorizontalAlignment="Stretch"
-          Background="{ThemeResource SystemControlBackgroundChromeMediumBrush}">
-        <Grid Grid.Row="0"
-              HorizontalAlignment="Center">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <FontIcon Grid.Row="0"
-                      VerticalAlignment="Center"
-                      FontSize="20"
-                      Foreground="{ThemeResource SystemAccentColor}"
-                      Glyph="{x:Bind Glyph}"/>
-            <TextBlock Grid.Column="1"
-                       Margin="10,0,0,2"
-                       VerticalAlignment="Center"
-                       Style="{StaticResource SubtitleTextBlockStyle}"
-                       Text="{x:Bind Text}"/>
-        </Grid>
-    </Grid>
+    <controls:DropShadowPanel HorizontalContentAlignment="Stretch">
+        <Button HorizontalAlignment="Stretch"
+                VerticalAlignment="Top"
+                Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
+                Click="Button_Click"
+                Style="{StaticResource ButtonRevealStyle}">
+            <Grid Grid.Row="0"
+                  HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <FontIcon Grid.Row="0"
+                          VerticalAlignment="Center"
+                          FontSize="20"
+                          Foreground="{ThemeResource SystemAccentColor}"
+                          Glyph="{x:Bind Path=Glyph}"/>
+                <TextBlock Grid.Column="1"
+                           Margin="10,0,0,2"
+                           VerticalAlignment="Center"
+                           Style="{StaticResource SubtitleTextBlockStyle}"
+                           Text="{x:Bind Path=Text}"/>
+            </Grid>
+        </Button>
+    </controls:DropShadowPanel>
 </UserControl>

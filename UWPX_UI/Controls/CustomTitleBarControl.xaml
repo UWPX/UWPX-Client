@@ -21,26 +21,6 @@
                 <ColumnDefinition x:Name="rightPaddingColumn"
                                   Width="0"/>
             </Grid.ColumnDefinitions>
-            <Grid Grid.Column="1"
-                  Margin="5">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Image Grid.Column="0"
-                       HorizontalAlignment="Left"
-                       VerticalAlignment="Center"
-                       Source="ms-appx:///Assets/Square44x44Logo.scale-200.png"
-                       Stretch="Uniform"/>
-                <Viewbox Grid.Column="1"
-                         VerticalAlignment="Center"
-                         Stretch="Uniform">
-                    <TextBlock Margin="10,0,0,0"
-                               VerticalAlignment="Center"
-                               Style="{StaticResource CaptionTextBlockStyle}"
-                               Text="Custom Title Bar"/>
-                </Viewbox>
-            </Grid>
         </Grid>
         <controls:SeperatorControl Grid.Row="1"/>
     </Grid>

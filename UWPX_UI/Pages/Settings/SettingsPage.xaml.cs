@@ -1,8 +1,9 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Collections.ObjectModel;
 using System.Text;
+using UWPX_UI.Controls;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.ApplicationModel;
 using Windows.UI.Xaml;
@@ -17,14 +18,14 @@ namespace UWPX_UI.Pages.Settings
         #region --Attributes--
         private ObservableCollection<SettingsPageDataTemplate> SETTINGS_PAGES = new ObservableCollection<SettingsPageDataTemplate>()
         {
-            new SettingsPageDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Color", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\uE72E", Name = "Security", Description = "Certificates, Password Vault", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\uEB52", Name = "Donate", Description = "PayPal, Liberapay", Page = typeof(SettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\xE713", Name = "Misc", Description = "Everything Else", Page = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Color", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\uE72E", Name = "Security", Description = "Certificates, Password Vault", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\uEB52", Name = "Donate", Description = "PayPal, Liberapay", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE713", Name = "Misc", Description = "Everything Else", NavTarget = typeof(SettingsPage)},
         };
 
         private FrameworkElement LastPopUpElement = null;
@@ -35,6 +36,7 @@ namespace UWPX_UI.Pages.Settings
         public SettingsPage()
         {
             this.InitializeComponent();
+            Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += UiUtils.DefaultPageBackRequested;
         }
 
         #endregion
@@ -82,7 +84,7 @@ namespace UWPX_UI.Pages.Settings
         {
             if (e.ClickedItem is SettingsPageDataTemplate page)
             {
-                NavigateToPage(page.Page);
+                NavigateToPage(page.NavTarget);
             }
         }
 
@@ -100,21 +102,20 @@ namespace UWPX_UI.Pages.Settings
             }
         }
 
-        private void DropShadowPanel_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (sender is DropShadowPanel dropShadow)
+            if (sender is SettingsSelectionControl settingsSelection)
             {
-                LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(dropShadow) as FrameworkElement) as FrameworkElement;
+                LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(settingsSelection) as FrameworkElement) as FrameworkElement;
                 Canvas.SetZIndex(LastPopUpElement, 10);
                 LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
             }
         }
 
-        private void DropShadowPanel_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        private void SettingsSelectionControl_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (!(LastPopUpElement is null))
             {
-                DropShadowPanel DropShadow = sender as DropShadowPanel;
                 Canvas.SetZIndex(LastPopUpElement, 0);
                 LastPopUpElement.Scale(centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
             }

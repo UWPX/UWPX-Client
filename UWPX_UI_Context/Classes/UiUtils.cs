@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -49,6 +50,59 @@ namespace UWPX_UI_Context.Classes
                 default:
                     return (SolidColorBrush)Application.Current.Resources["PresenceUnavailableBrush"];
 
+            }
+        }
+
+        public static bool NavigateToPage(Type pageType)
+        {
+            return NavigateToPage(pageType, null);
+        }
+
+        public static void DefaultPageBackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (Window.Current.Content is Frame frame)
+            {
+                if (frame.CanGoBack && e.Handled == false)
+                {
+                    e.Handled = true;
+                    frame.GoBack();
+                }
+            }
+            else
+            {
+                Logger.Error("Failed to execute back request - Window.Current.Content is not of type Frame!");
+            }
+            Frame rootFrame = Window.Current.Content as Frame;
+            if (rootFrame is null)
+            {
+                return;
+            }
+
+        }
+
+        public static bool NavigateToPage(Type pageType, object parameter)
+        {
+            if (pageType is null)
+            {
+                Logger.Error("Failed to navigate to given page type - type is null!");
+                return false;
+            }
+            if (Window.Current.Content is Frame frame)
+            {
+                if (frame.Content is null || frame.Content.GetType() != pageType)
+                {
+                    return frame.Navigate(pageType, parameter);
+                }
+                else
+                {
+                    Logger.Warn("No need to navigate to page " + pageType.ToString() + " - already on it.");
+                    return true;
+                }
+            }
+            else
+            {
+                Logger.Error("Failed to navigate to " + pageType.ToString() + " - Window.Current.Content is not of type Frame!");
+                return false;
             }
         }
 

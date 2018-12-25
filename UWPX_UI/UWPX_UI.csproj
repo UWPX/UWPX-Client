@@ -150,6 +150,9 @@
     <Compile Include="Controls\SettingsHeaderControl.xaml.cs">
       <DependentUpon>SettingsHeaderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\SettingsSelectionControl.xaml.cs">
+      <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
@@ -283,6 +286,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SettingsHeaderControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SettingsSelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

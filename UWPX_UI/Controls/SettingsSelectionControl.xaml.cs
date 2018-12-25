@@ -1,32 +1,31 @@
-﻿using UWPX_UI.Pages.Settings;
-using UWPX_UI_Context.Classes;
+﻿using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class SettingsHeaderControl : UserControl
+    public sealed partial class SettingsSelectionControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string Glyph
+        public SettingsPageDataTemplate Model
         {
-            get { return (string)GetValue(GlyphProperty); }
-            set { SetValue(GlyphProperty, value); }
+            get { return (SettingsPageDataTemplate)GetValue(ModelProperty); }
+            set { SetValue(ModelProperty, value); }
         }
-        public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(SettingsHeaderControl), new PropertyMetadata("\uE9CE"));
-
-        public string Text
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageDataTemplate), typeof(SettingsSelectionControl), new PropertyMetadata(new SettingsPageDataTemplate()
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
-        }
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(SettingsHeaderControl), new PropertyMetadata("Text"));
+            Description = "Description",
+            Glyph = "\uE9CE",
+            Name = "Name",
+            NavTarget = null
+        }));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SettingsHeaderControl()
+        public SettingsSelectionControl()
         {
             this.InitializeComponent();
         }
@@ -56,7 +55,7 @@ namespace UWPX_UI.Controls
         #region --Events--
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(typeof(SettingsPage));
+            UiUtils.NavigateToPage(Model?.NavTarget);
         }
 
         #endregion
