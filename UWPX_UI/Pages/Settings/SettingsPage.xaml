@@ -25,6 +25,7 @@
         </Grid.RowDefinitions>
 
         <controls:CustomSettingsTitleBarControl Grid.Row="0"
+                                                Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
                                                 Frame="{x:Bind Frame, Mode=OneWay}"
                                                 Glyph="&#xE713;"
                                                 Text="Settings"/>
