@@ -9,6 +9,7 @@ namespace UWPX_UI_Context.Classes.DataContext
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly SpeechBubbleContentDataTemplate MODEL = new SpeechBubbleContentDataTemplate();
+        public ChatMessageDataTemplate ChatMessageModel = null;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,15 +26,16 @@ namespace UWPX_UI_Context.Classes.DataContext
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (args.OldValue is ChatMessageDataTemplate oldChatMessage)
+            if (!(ChatMessageModel is null))
             {
-                oldChatMessage.PropertyChanged += ChatMessage_PropertyChanged;
+                ChatMessageModel.PropertyChanged -= ChatMessage_PropertyChanged;
             }
 
             if (args.NewValue is ChatMessageDataTemplate newChatMessage)
             {
-                newChatMessage.PropertyChanged += ChatMessage_PropertyChanged;
-                MODEL.UpdateView(newChatMessage.Chat, newChatMessage.Message);
+                ChatMessageModel = newChatMessage;
+                ChatMessageModel.PropertyChanged += ChatMessage_PropertyChanged;
+                MODEL.UpdateView(ChatMessageModel.Chat, ChatMessageModel.Message);
             }
         }
 

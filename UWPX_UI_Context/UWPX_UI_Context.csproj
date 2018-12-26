@@ -126,6 +126,7 @@
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleContentContext.cs" />
+    <Compile Include="Classes\DataContext\SpeechBubbleImageContentControlContext.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
@@ -145,6 +146,10 @@
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
