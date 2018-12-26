@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.CustomSettingsTitleBarControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:UWPX_UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -16,60 +17,66 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <controls:DropShadowPanel BlurRadius="10"
+                              OffsetX="0"
+                              OffsetY="2"
+                              ShadowOpacity="1">
+        <Grid Background="{x:Bind Background}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <Grid x:Name="titleBar_grid"
-              Grid.Row="0"
-              Background="Transparent">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition x:Name="leftPaddingColumn"
-                                  Width="0"/>
-                <ColumnDefinition/>
-                <ColumnDefinition x:Name="rightPaddingColumn"
-                                  Width="0"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid x:Name="titleBar_grid"
+                  Grid.Row="0"
+                  Background="Transparent">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition x:Name="leftPaddingColumn"
+                                      Width="0"/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition x:Name="rightPaddingColumn"
+                                      Width="0"/>
+                </Grid.ColumnDefinitions>
+            </Grid>
 
-            <Button x:Name="backRequest_btn"
-                    Grid.Column="0"
-                    HorizontalAlignment="Left"
-                    Click="BackRequest_btn_Click"
-                    IsEnabled="{x:Bind IsBackRequestButtonEnabled, Mode=OneWay}"
-                    Style="{StaticResource NavigationBackButtonNormalStyle}"
-                    Visibility="{x:Bind BackRequestButtonVisability}"/>
-            <Button x:Name="goToOverview_btn"
-                    Grid.Column="1"
-                    Click="GoToOverview_btn_Click"
-                    Style="{StaticResource CustomTitleBarButtonStyle}"
-                    ToolTipService.ToolTip="Overview">
-                <Grid Grid.Row="0"
-                      HorizontalAlignment="Center">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <FontIcon Grid.Row="0"
-                              VerticalAlignment="Center"
-                              FontSize="16"
-                              Foreground="{ThemeResource SystemAccentColor}"
-                              Glyph="{x:Bind Path=Glyph}"/>
-                    <TextBlock Grid.Column="1"
-                               Margin="10,0,0,2"
-                               VerticalAlignment="Center"
-                               FontSize="16"
-                               Text="{x:Bind Path=Text}"/>
-                </Grid>
-            </Button>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="backRequest_btn"
+                        Grid.Column="0"
+                        HorizontalAlignment="Left"
+                        Click="BackRequest_btn_Click"
+                        IsEnabled="{x:Bind IsBackRequestButtonEnabled, Mode=OneWay}"
+                        Style="{StaticResource NavigationBackButtonNormalStyle}"
+                        Visibility="{x:Bind BackRequestButtonVisability}"/>
+                <Button x:Name="goToOverview_btn"
+                        Grid.Column="1"
+                        Click="GoToOverview_btn_Click"
+                        Style="{StaticResource CustomTitleBarButtonStyle}"
+                        ToolTipService.ToolTip="Overview">
+                    <Grid Grid.Row="0"
+                          HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <FontIcon Grid.Row="0"
+                                  VerticalAlignment="Center"
+                                  FontSize="16"
+                                  Foreground="{ThemeResource SystemAccentColor}"
+                                  Glyph="{x:Bind Path=Glyph}"/>
+                        <TextBlock Grid.Column="1"
+                                   Margin="10,0,0,2"
+                                   VerticalAlignment="Center"
+                                   FontSize="16"
+                                   Text="{x:Bind Path=Text}"/>
+                    </Grid>
+                </Button>
+            </Grid>
+            <local:SeperatorControl Grid.Row="1"/>
         </Grid>
-        <local:SeperatorControl Grid.Row="1"/>
-    </Grid>
+    </controls:DropShadowPanel>
 </UserControl>
