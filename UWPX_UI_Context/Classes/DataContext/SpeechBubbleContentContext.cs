@@ -30,7 +30,7 @@ namespace UWPX_UI_Context.Classes.DataContext
                 oldChatMessage.PropertyChanged += ChatMessage_PropertyChanged;
             }
 
-            if (args.OldValue is ChatMessageDataTemplate newChatMessage)
+            if (args.NewValue is ChatMessageDataTemplate newChatMessage)
             {
                 newChatMessage.PropertyChanged += ChatMessage_PropertyChanged;
                 MODEL.UpdateView(newChatMessage.Chat, newChatMessage.Message);
