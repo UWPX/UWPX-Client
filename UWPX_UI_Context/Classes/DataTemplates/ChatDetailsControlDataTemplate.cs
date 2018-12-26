@@ -3,6 +3,7 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections;
 using Windows.UI.Xaml;
@@ -77,6 +78,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
 
+        private CancellationTokenSource loadChatMessagesCancelToken = null;
+        private Task loadChatMessagesTask = null;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -139,20 +143,41 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         /// <param name="chat">The chat which all chat messages should get loaded for.</param>
         private void LoadChatMessages(ChatTable chat)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
+                if (!(loadChatMessagesCancelToken is null))
+                {
+                    loadChatMessagesCancelToken.Cancel();
+                }
+                loadChatMessagesCancelToken = new CancellationTokenSource();
+
+                if (!(loadChatMessagesTask is null))
+                {
+                    await loadChatMessagesTask;
+                }
+
                 IsLoadingChatMessages = true;
                 CHAT_MESSAGES.Clear();
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id))
+                loadChatMessagesTask = Task.Run(() =>
                 {
-                    msgs.Add(new ChatMessageDataTemplate
+                    foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id))
                     {
-                        Message = msg,
-                        Chat = chat
-                    });
+                        msgs.Add(new ChatMessageDataTemplate
+                        {
+                            Message = msg,
+                            Chat = chat
+                        });
+                    }
+                }, loadChatMessagesCancelToken.Token);
+
+                await loadChatMessagesTask;
+
+                if (!loadChatMessagesCancelToken.IsCancellationRequested)
+                {
+                    CHAT_MESSAGES.AddRange(msgs);
                 }
-                CHAT_MESSAGES.AddRange(msgs);
+
                 IsLoadingChatMessages = false;
             });
         }
