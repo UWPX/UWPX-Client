@@ -11,12 +11,12 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentContext ViewModel
+        public SpeechBubbleContentContext SpeechBubbleContentViewModel
         {
-            get { return (SpeechBubbleContentContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get { return (SpeechBubbleContentContext)GetValue(SpeechBubbleContentViewModelProperty); }
+            set { SetValue(SpeechBubbleContentViewModelProperty, value); }
         }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentContext), typeof(SpeechBubbleTextContentControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty SpeechBubbleContentViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentContext), typeof(SpeechBubbleTextContentControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -47,7 +47,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #region --Misc Methods (Private)--
         private void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            ViewModel.UpdateView(e);
+            SpeechBubbleContentViewModel.UpdateView(e);
         }
 
         #endregion
@@ -71,26 +71,26 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 
         private void CopyMessage_mfi_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.SetClipboardText(ViewModel.MODEL.Text);
+            UiUtils.SetClipboardText(SpeechBubbleContentViewModel.MODEL.Text);
         }
 
         private void CopyNickname_mfi_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.SetClipboardText(ViewModel.MODEL.NicknameText);
+            UiUtils.SetClipboardText(SpeechBubbleContentViewModel.MODEL.NicknameText);
         }
 
         private void CopyDate_mfi_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.Resources["ChatDateTimeStringValueConverter"] is IValueConverter converter)
             {
-                UiUtils.SetClipboardText((string)converter.Convert(ViewModel.MODEL.Date, typeof(string), null, null));
+                UiUtils.SetClipboardText((string)converter.Convert(SpeechBubbleContentViewModel.MODEL.Date, typeof(string), null, null));
             }
         }
 
         private void ResendMsg_mfi_Click(object sender, RoutedEventArgs e)
         {
             ChatDetailsControl chatDetails = VisualTree.FindAscendant<ChatDetailsControl>(this);
-            ViewModel.ResendMessage(chatDetails?.VIEW_MODEL);
+            SpeechBubbleContentViewModel.ResendMessage(chatDetails?.VIEW_MODEL);
         }
     }
 }

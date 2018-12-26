@@ -59,10 +59,12 @@ namespace Data_Manager2.Classes.DBManager
 
         /// <summary>
         /// Returns the image container from a given ChatMessageTable.
+        /// If none exist will create a new one.
+        /// If the download is still outstanding/paused it will continue/start the download.
         /// </summary>
         /// <param name="msg">The ChatMessageTable.</param>
         /// <returns>The corresponding image container.</returns>
-        public ImageTable getImageForMessage(ChatMessageTable msg)
+        public async Task<ImageTable> getImageForMessageAsync(ChatMessageTable msg)
         {
             ImageTable img = DOWNLOADING.Find(x => string.Equals(x.messageId, msg.id));
             if (img is null)
@@ -71,6 +73,17 @@ namespace Data_Manager2.Classes.DBManager
                 if (list.Count > 0)
                 {
                     img = list[0];
+                }
+
+                if (img is null)
+                {
+                    return await downloadImageAsync(msg);
+                }
+
+                // Start the image download if not already downloaded or error:
+                if (img.state == DownloadState.WAITING || img.state == DownloadState.DOWNLOADING)
+                {
+                    await downloadImageAsync(img, msg.message);
                 }
             }
             return img;
@@ -184,37 +197,21 @@ namespace Data_Manager2.Classes.DBManager
         /// </summary>
         /// <param name="msg">The ChatMessageTable containing the image url.</param>
         /// <returns>The image container.</returns>
-        public ImageTable retryImageDownload(ChatMessageTable msg)
+        public async Task<ImageTable> retryImageDownloadAsync(ChatMessageTable msg)
         {
-            if (msg.isImage)
+            ImageTable img = await getImageForMessageAsync(msg);
+
+            img.state = DownloadState.WAITING;
+            img.progress = 0;
+            img.path = null;
+
+            await Task.Run(async () =>
             {
-                ImageTable img = getImageForMessage(msg);
-                if (img is null)
-                {
-                    img = new ImageTable()
-                    {
-                        messageId = msg.id,
-                        path = null,
-                        state = DownloadState.WAITING,
-                        progress = 0
-                    };
-                }
-                else
-                {
-                    img.state = DownloadState.WAITING;
-                    img.progress = 0;
-                    img.path = null;
-                }
+                update(img);
+                await downloadImageAsync(img, msg.message);
+            });
 
-                Task.Run(async () =>
-                {
-                    update(img);
-                    await downloadImageAsync(img, msg.message);
-                });
-
-                return img;
-            }
-            return null;
+            return img;
         }
 
         /// <summary>
@@ -244,28 +241,29 @@ namespace Data_Manager2.Classes.DBManager
         /// Creates a new task, downloads the image from the given message and stores it locally.
         /// </summary>
         /// <param name="msg">The ChatMessageTable containing the image url.</param>
-        public void downloadImage(ChatMessageTable msg)
+        /// <returns>Returns the created Task.</returns>
+        public Task downloadImage(ChatMessageTable msg)
         {
-            if (msg.isImage)
-            {
-                Task.Run(async () =>
-                {
-                    ImageTable img = new ImageTable()
-                    {
-                        messageId = msg.id,
-                        path = null,
-                        state = DownloadState.WAITING,
-                        progress = 0
-                    };
-                    update(img);
-                    await downloadImageAsync(img, msg.message);
-                });
-            }
+            return downloadImageAsync(msg);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private async Task<ImageTable> downloadImageAsync(ChatMessageTable msg)
+        {
+            ImageTable img = new ImageTable()
+            {
+                messageId = msg.id,
+                path = null,
+                state = DownloadState.WAITING,
+                progress = 0
+            };
+            update(img);
+            await downloadImageAsync(img, msg.message);
+            return img;
+        }
+
         /// <summary>
         /// Tries to download the image from the given url.
         /// </summary>
@@ -329,7 +327,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <returns>Returns the last progress update percentage.</returns>
         private double updateProgress(ImageTable img, long totalLengt, long bytesReadTotal, double lastProgressUpdatePercent)
         {
-            img.progress = ((double)bytesReadTotal) / ((double)totalLengt);
+            img.progress = bytesReadTotal / ((double)totalLengt);
             if ((img.progress - lastProgressUpdatePercent) >= DOWNLOAD_PROGRESS_REPORT_INTERVAL)
             {
                 img.onDownloadProgressChanged();

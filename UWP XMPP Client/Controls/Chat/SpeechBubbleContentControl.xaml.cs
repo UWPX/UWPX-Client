@@ -97,7 +97,7 @@ namespace UWP_XMPP_Client.Controls.Chat
                     }
                     else
                     {
-                        ImageTable img = ImageDBManager.INSTANCE.getImageForMessage(ChatMessage);
+                        ImageTable img = await ImageDBManager.INSTANCE.getImageForMessageAsync(ChatMessage);
 
                         if (img != null)
                         {
@@ -249,7 +249,7 @@ namespace UWP_XMPP_Client.Controls.Chat
 
         private async Task retryImageDownloadAsync()
         {
-            ImageTable img = ImageDBManager.INSTANCE.retryImageDownload(ChatMessage);
+            ImageTable img = await ImageDBManager.INSTANCE.retryImageDownloadAsync(ChatMessage);
             if (img != null)
             {
                 waitForImageDownloadToFinish(img);

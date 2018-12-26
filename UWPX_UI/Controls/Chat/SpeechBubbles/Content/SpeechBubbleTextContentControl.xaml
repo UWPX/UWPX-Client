@@ -19,8 +19,8 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem x:Name="copyNickname_mfi"
-                            Click="CopyNickname_mfi_Click"
-                            Text="Copy nickname">
+                            Click="CopyNickname_mfi_Click">
+                Text=&quot;Copy nickname&quot;&gt;
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C8;"/>
                 </MenuFlyoutItem.Icon>
@@ -53,12 +53,12 @@
     <Grid Background="{x:Bind Background, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--  Content:  -->
         <TextBlock Grid.Row="0"
-                   extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind ViewModel.MODEL.Text, Mode=OneWay}"
+                   extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind SpeechBubbleContentViewModel.MODEL.Text, Mode=OneWay}"
                    ContextFlyout="{StaticResource options_mfo}"
                    Style="{StaticResource ReplacedContectMenuBodyTextBlock}"
                    Text="Loading..."
@@ -68,6 +68,6 @@
         <local:SpeechBubbleStatusBarControl Grid.Row="1"
                                             VerticalAlignment="Bottom"
                                             ContextFlyout="{StaticResource options_mfo}"
-                                            ViewModel="{x:Bind ViewModel, Mode=OneWay}"/>
+                                            ViewModel="{x:Bind SpeechBubbleContentViewModel, Mode=OneWay}"/>
     </Grid>
 </UserControl>

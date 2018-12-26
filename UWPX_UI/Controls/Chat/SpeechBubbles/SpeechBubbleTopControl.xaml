@@ -14,12 +14,12 @@
     <UserControl.Resources>
         <DataTemplate x:Key="SpeechBubbleTextContentControlTemplate"
                       x:DataType="datacontext:SpeechBubbleContentContext">
-            <content:SpeechBubbleTextContentControl ViewModel="{x:Bind}"/>
+            <content:SpeechBubbleTextContentControl SpeechBubbleContentViewModel="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="SpeechBubbleImageContentControlTemplate"
                       x:DataType="datacontext:SpeechBubbleContentContext">
-            <content:SpeechBubbleImageContentControl ViewModel="{x:Bind}"/>
+            <content:SpeechBubbleImageContentControl SpeechBubbleContentViewModel="{x:Bind}"/>
         </DataTemplate>
 
         <selectors:SpeechBubbleConentDataTemplateSelector x:Key="SpeechBubbleConentDataTemplateSelector"
