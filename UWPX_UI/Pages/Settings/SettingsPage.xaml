@@ -31,6 +31,7 @@
                                                 Text="Settings"/>
 
         <ScrollViewer Grid.Row="1"
+                      VerticalAlignment="Center"
                       HorizontalScrollMode="Disabled"
                       VerticalScrollBarVisibility="Hidden"
                       VerticalScrollMode="Auto">
@@ -40,13 +41,10 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
-                <!--
-                <controls:SettingsHeaderControl Glyph="&#xE713;"
-                                                Text="Settings"/>
-                -->
+
                 <GridView Grid.Row="1"
                           MaxWidth="750"
-                          Margin="0,10,0,10"
+                          Margin="0,0,0,10"
                           HorizontalAlignment="Center"
                           animations:ReorderGridAnimation.Duration="800"
                           IsItemClickEnabled="True"
@@ -56,7 +54,7 @@
                           SelectionMode="Single">
                     <GridView.ItemContainerStyle>
                         <Style TargetType="FrameworkElement">
-                            <Setter Property="Margin" Value="10"/>
+                            <Setter Property="Margin" Value="10,5,10,15"/>
                         </Style>
                     </GridView.ItemContainerStyle>
                 </GridView>

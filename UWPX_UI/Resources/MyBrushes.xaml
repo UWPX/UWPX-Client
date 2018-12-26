@@ -42,10 +42,6 @@
                         TintColor="{StaticResource SystemChromeAltHighColor}"
                         TintOpacity="0.6"/>
 
-    <media:RevealBackgroundBrush x:Key="AppRevealBackgroundBrush"
-                                 FallbackColor="{StaticResource SystemChromeLowColor}"
-                                 Color="{StaticResource SystemRevealChromeLowColor}"/>
-
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark"/>
         <ResourceDictionary x:Key="Light"/>
