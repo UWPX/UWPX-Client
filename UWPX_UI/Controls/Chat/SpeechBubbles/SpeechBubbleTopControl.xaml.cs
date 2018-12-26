@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using UWPX_UI.Controls.Chat.SpeechBubbles.Content;
+using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -13,7 +15,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
             get { return (ChatMessageDataTemplate)GetValue(ChatMessageProperty); }
             set { SetValue(ChatMessageProperty, value); }
         }
-        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleTopControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleTopControl), new PropertyMetadata(null, OnChatMessageChanged));
+
+        private readonly SpeechBubbleContentContext VIEW_MODEL = new SpeechBubbleContentContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -36,7 +40,10 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
@@ -48,9 +55,20 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #region --Events--
         private void UserControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
         {
-            if (sender is SpeechBubbleTopControl control)
+            if (sender is SpeechBubbleTopControl speechBubble)
             {
-                content_sbc.ShowFlyout(control);
+                if (content_cp.ContentTemplateRoot is IShowFlyoutSpeechBubbleContent flyoutSpeechBubbleContent)
+                {
+                    flyoutSpeechBubbleContent.ShowFlyout(speechBubble);
+                }
+            }
+        }
+
+        private static void OnChatMessageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is SpeechBubbleTopControl speechBubble)
+            {
+                speechBubble.UpdateView(e);
             }
         }
 
