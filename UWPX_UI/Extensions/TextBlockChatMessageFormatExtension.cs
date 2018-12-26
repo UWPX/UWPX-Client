@@ -6,8 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Contacts;
-using Windows.ApplicationModel.Core;
-using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -17,7 +15,7 @@ namespace UWPX_UI.Extensions
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/38208741/auto-detect-url-phone-number-email-in-textblock
     /// </summary>
-    class TextBlockChatMessageFormatExtension
+    public sealed class TextBlockChatMessageFormatExtension
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -34,89 +32,7 @@ namespace UWPX_UI.Extensions
         private static readonly Regex EMAIL_REGEX = new Regex(EMAIL_REGEX_PATTERN, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(500));
         private static readonly Regex PHONE_REGEX = new Regex(PHONE_REGEX_PATTERN, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
 
-        public static readonly DependencyProperty FormattedTextProperty =
-            DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatMessageFormatExtension),
-            new PropertyMetadata(string.Empty, (sender, e) =>
-            {
-                if (sender is TextBlock textBlock && e.NewValue is string text && !string.IsNullOrWhiteSpace(text))
-                {
-                    // Check if disabled:
-                    if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
-                    {
-                        textBlock.Inlines.Add(new Run { Text = text });
-                        return;
-                    }
-
-                    // Clear all inlines:
-                    textBlock.Inlines.Clear();
-
-                    Task.Run(async () =>
-                    {
-                        // Check if single emoji:
-                        if (Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS)))
-                        {
-                            await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => textBlock.Inlines.Add(new Run
-                            {
-                                Text = text,
-                                FontSize = 50
-                            }));
-                        }
-                        else
-                        {
-                            var lastPosition = 0;
-                            var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
-                            do
-                            {
-                                try
-                                {
-                                    matches[0] = URL_REGEX.Match(text, lastPosition);
-                                    matches[1] = EMAIL_REGEX.Match(text, lastPosition);
-                                    matches[2] = PHONE_REGEX.Match(text, lastPosition);
-                                }
-                                catch (RegexMatchTimeoutException)
-                                {
-                                }
-
-                                var firstMatch = matches.Where(x => x != null && x.Success).OrderBy(x => x.Index).FirstOrDefault();
-                                if (firstMatch == matches[0])
-                                {
-                                    // the first match is an URL:
-                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                    {
-                                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                                        lastPosition = createUrlElement(textBlock, firstMatch);
-                                    });
-                                }
-                                else if (firstMatch == matches[1])
-                                {
-                                    // the first match is an email:
-                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                    {
-                                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                                        lastPosition = createContactElement(textBlock, firstMatch, null);
-                                    });
-                                }
-                                else if (firstMatch == matches[2])
-                                {
-                                    // the first match is a phone number:
-                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
-                                    {
-                                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                                        lastPosition = createContactElement(textBlock, null, firstMatch);
-                                    });
-                                }
-                                else
-                                {
-                                    // no match, we add the whole text:
-                                    await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) }));
-                                    lastPosition = text.Length;
-                                }
-                            }
-                            while (lastPosition < text.Length);
-                        }
-                    });
-                }
-            }));
+        public static readonly DependencyProperty FormattedTextProperty = DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatMessageFormatExtension), new PropertyMetadata("", OnFormattedTextChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -235,7 +151,79 @@ namespace UWPX_UI.Extensions
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private static async void OnFormattedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is TextBlock textBlock && e.NewValue is string text && !string.IsNullOrWhiteSpace(text))
+            {
+                // Check if advanced chat message processing is disabled:
+                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
+                {
+                    textBlock.Inlines.Add(new Run { Text = text });
+                    return;
+                }
 
+                // Clear all inlines:
+                textBlock.Inlines.Clear();
+
+                bool isEmoji = await Task.Run(() => Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS)));
+                if (isEmoji)
+                {
+                    textBlock.Inlines.Add(new Run
+                    {
+                        Text = text,
+                        FontSize = 50
+                    });
+                }
+                else
+                {
+                    var lastPosition = 0;
+                    var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
+
+                    do
+                    {
+                        await Task.Run(() =>
+                        {
+                            try
+                            {
+                                matches[0] = URL_REGEX.Match(text, lastPosition);
+                                matches[1] = EMAIL_REGEX.Match(text, lastPosition);
+                                matches[2] = PHONE_REGEX.Match(text, lastPosition);
+                            }
+                            catch (RegexMatchTimeoutException)
+                            {
+                            }
+                        });
+
+                        var firstMatch = matches.Where(x => x != null && x.Success).OrderBy(x => x.Index).FirstOrDefault();
+                        if (firstMatch == matches[0])
+                        {
+                            // the first match is an URL:
+                            createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                            lastPosition = createUrlElement(textBlock, firstMatch);
+                        }
+                        else if (firstMatch == matches[1])
+                        {
+                            // the first match is an email:
+                            createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                            lastPosition = createContactElement(textBlock, firstMatch, null);
+                        }
+                        else if (firstMatch == matches[2])
+                        {
+                            // the first match is a phone number:
+                            createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                            lastPosition = createContactElement(textBlock, null, firstMatch);
+                        }
+                        else
+                        {
+                            // no match, we add the whole text:
+                            textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) });
+                            lastPosition = text.Length;
+                        }
+
+                    } while (lastPosition < text.Length);
+                }
+            }
+        }
 
         #endregion
     }

@@ -129,6 +129,16 @@
     <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
       <DependentUpon>ChatMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\Content\IShowFlyoutSpeechBubbleContent.cs" />
+    <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleImageContentControl.xaml.cs">
+      <DependentUpon>SpeechBubbleImageContentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleStatusBarControl.xaml.cs">
+      <DependentUpon>SpeechBubbleStatusBarControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleTextContentControl.xaml.cs">
+      <DependentUpon>SpeechBubbleTextContentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentControl.xaml.cs">
       <DependentUpon>SpeechBubbleContentControl.xaml</DependentUpon>
     </Compile>
@@ -261,6 +271,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleImageContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleStatusBarControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleTextContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -377,9 +399,7 @@
       <Version>0.1.2</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\Chat\SpeechBubbles\Content\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
       <Project>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</Project>

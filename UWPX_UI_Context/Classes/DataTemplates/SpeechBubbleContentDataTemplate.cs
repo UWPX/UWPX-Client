@@ -50,6 +50,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _IsDelivered; }
             set { SetProperty(ref _IsDelivered, value); }
         }
+        private string _MessageType;
+        public string MessageType
+        {
+            get { return _MessageType; }
+            set { SetProperty(ref _MessageType, value); }
+        }
+        private bool _IsImage;
+        public bool IsImage
+        {
+            get { return _IsImage; }
+            set { SetProperty(ref _IsImage, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -76,6 +88,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             IsEncrypted = message.isEncrypted;
             Date = message.date;
             IsDelivered = false;
+            MessageType = message.type;
+            IsImage = message.isImage;
 
             switch (message.state)
             {
