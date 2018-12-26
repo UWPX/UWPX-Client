@@ -117,6 +117,7 @@
                         Content="&#xE712;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
+                        Style="{StaticResource ButtonRevealStyle}"
                         ToolTipService.ToolTip="More">
                     <Button.Flyout>
                         <MenuFlyout>

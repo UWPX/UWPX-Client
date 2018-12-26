@@ -221,14 +221,13 @@ namespace UWPX_UI_Context.Classes
                 ApplicationView appView = ApplicationView.GetForCurrentView();
 
                 // Dye title:
-                appView.TitleBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["SystemControlAcrylicWindowBrush"]).TintColor;
+                appView.TitleBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicWindowBrush"]).TintColor;
 
                 //Dye title bar buttons:
-                bool isDarkTheme = IsDarkThemeActive();
                 appView.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                appView.TitleBar.ButtonInactiveForegroundColor = (isDarkTheme) ? Colors.DimGray : Colors.Black;
+                appView.TitleBar.ButtonInactiveForegroundColor = (Color)Application.Current.Resources["SystemListLowColor"];
                 appView.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                appView.TitleBar.ButtonForegroundColor = (isDarkTheme) ? Colors.White : Colors.Black;
+                appView.TitleBar.ButtonForegroundColor = (Color)Application.Current.Resources["SystemBaseHighColor"];
 
                 // Extend window:
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
@@ -241,7 +240,7 @@ namespace UWPX_UI_Context.Classes
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
-                    statusBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["SystemControlAcrylicWindowBrush"]).TintColor;
+                    statusBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicWindowBrush"]).TintColor;
                     statusBar.BackgroundOpacity = 1;
                 }
             }
