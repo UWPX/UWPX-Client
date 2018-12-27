@@ -42,7 +42,7 @@
                             Click="StartDownload_mfi_Click"
                             Text="Start download">
                 <MenuFlyoutItem.Icon>
-                    <FontIcon Glyph="&#xEA39;"/>
+                    <FontIcon Glyph="&#xE896;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutItem x:Name="cancelDownload_mfi"
@@ -138,6 +138,7 @@
 
         <!--  Infos:  -->
         <content:SpeechBubbleStatusBarControl Grid.Row="1"
+                                              Margin="0,5,0,0"
                                               VerticalAlignment="Bottom"
                                               ViewModel="{x:Bind SpeechBubbleContentViewModel, Mode=OneWay}"/>
     </Grid>

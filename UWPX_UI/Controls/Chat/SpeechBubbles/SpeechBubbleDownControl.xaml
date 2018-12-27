@@ -36,10 +36,10 @@
 
         <Border Grid.Row="0"
                 MinWidth="100"
-                MinHeight="50"
+                MinHeight="40"
                 Background="{StaticResource SpeechBubbleBackgroundLightBrush}">
             <ContentControl x:Name="content_cp"
-                            Margin="10"
+                            Margin="5"
                             HorizontalContentAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
                             ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
