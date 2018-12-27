@@ -43,7 +43,8 @@
                 Background="{StaticResource SpeechBubbleBackgroundLightBrush}">
             <ContentControl x:Name="content_cp"
                             Margin="10"
-                            Content="{x:Bind VIEW_MODEL}"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
                             ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
         </Border>
 
