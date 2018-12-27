@@ -1,7 +1,11 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Logging;
+using System;
+using System.Text;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
+using Windows.Storage;
 using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext
@@ -37,6 +41,51 @@ namespace UWPX_UI_Context.Classes.DataContext
             {
                 SpeechBubbleViewModel = null;
             }
+        }
+
+        public void OnImageExFailed(Exception e, string errMsg)
+        {
+            StringBuilder sb = new StringBuilder("Failed to open image: ");
+            sb.Append(MODEL.ImagePath);
+            sb.Append('\n');
+            sb.Append(errMsg);
+            MODEL.ErrorText = sb.ToString();
+            MODEL.State = Data_Manager2.Classes.DownloadState.ERROR;
+            Logger.Error(sb.ToString(), e);
+        }
+
+        /// <summary>
+        /// Tries to open the current ImagePath with the default image viewer application.
+        /// </summary>
+        /// <returns>Returns true on success.</returns>
+        public async Task<bool> OpenImageWithDefaultImageViewerAsync()
+        {
+            StorageFile imageFile = await StorageFile.GetFileFromPathAsync(MODEL.ImagePath);
+            return await Windows.System.Launcher.LaunchFileAsync(imageFile);
+        }
+
+        /// <summary>
+        /// Tries to open the current image URL with the default web browser.
+        /// </summary>
+        /// <returns>Returns true on success.</returns>
+        public async Task<bool> OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentContext speechBubbleContentViewModel)
+        {
+            return await UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.ChatMessageModel.Message.message));
+        }
+
+        public async Task RedownloadImageAsync()
+        {
+
+        }
+
+        public async Task CancelImageDownloadAsync()
+        {
+
+        }
+
+        public async Task StartImageDownloadAsync()
+        {
+
         }
 
         #endregion

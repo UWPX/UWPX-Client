@@ -1,6 +1,7 @@
 ﻿using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.DataContext
 {
@@ -49,6 +50,21 @@ namespace UWPX_UI_Context.Classes.DataContext
             {
                 chatDetailsContext.MODEL.MessageText = MODEL.Text;
             }
+        }
+
+        public void SetFromUserAsClipboardText()
+        {
+            UiUtils.SetClipboardText(ChatMessageModel.Message.fromUser);
+        }
+
+        public void SetMessageAsClipboardText()
+        {
+            UiUtils.SetClipboardText(MODEL.Text);
+        }
+
+        public void SetDateAsClipboardText(IValueConverter converter)
+        {
+            UiUtils.SetClipboardText((string)converter.Convert(MODEL.Date, typeof(string), null, null));
         }
 
         #endregion
