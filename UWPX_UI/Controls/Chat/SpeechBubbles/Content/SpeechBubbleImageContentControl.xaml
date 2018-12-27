@@ -72,28 +72,26 @@
 
     <Grid Background="{x:Bind Background, Mode=OneWay}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--  Content:  -->
-        <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <controls:ImageEx x:Name="image_img"
-                              MaxHeight="250"
-                              ImageExFailed="Image_img_ImageExFailed"
-                              IsCacheEnabled="False"
-                              PlaceholderSource="Assets/Images/placeholder.png"
-                              Source="{x:Bind VIEW_MODEL.MODEL.ImagePath, Mode=OneWay}"
-                              Tapped="Image_img_Tapped"
-                              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateImageVisabilityValueConverter}, FallbackValue=Collapsed}"/>
-            <Grid Padding="10"
-                  VerticalAlignment="Center"
-                  Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateErrorVisabilityValueConverter}, FallbackValue=Collapsed}">
+        <controls:ImageEx x:Name="image_img"
+                          Grid.Row="0"
+                          MaxHeight="250"
+                          ImageExFailed="Image_img_ImageExFailed"
+                          IsCacheEnabled="False"
+                          PlaceholderSource="Assets/Images/placeholder.png"
+                          Source="{x:Bind VIEW_MODEL.MODEL.Image, Mode=OneWay}"
+                          Tapped="Image_img_Tapped"
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateImageVisabilityValueConverter}, FallbackValue=Collapsed}"/>
+        <Grid Grid.Row="0"
+              Padding="10"
+              VerticalAlignment="Stretch"
+              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateErrorVisabilityValueConverter}, FallbackValue=Collapsed}">
+            <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -107,10 +105,13 @@
                            HorizontalAlignment="Center"
                            Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"/>
             </Grid>
-            <Grid Padding="10"
-                  VerticalAlignment="Center"
-                  Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateLoadingVisabilityValueConverter}, FallbackValue=Visible}">
+        </Grid>
+        <Grid Grid.Row="0"
+              Padding="10"
+              VerticalAlignment="Stretch"
+              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
+              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateLoadingVisabilityValueConverter}, FallbackValue=Visible}">
+            <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>

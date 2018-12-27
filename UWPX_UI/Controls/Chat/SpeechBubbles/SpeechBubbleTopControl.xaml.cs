@@ -43,6 +43,8 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         private void UpdateView(DependencyPropertyChangedEventArgs e)
         {
             VIEW_MODEL.UpdateView(e);
+            content_cp.Content = null; // Force a reevaluation of the content
+            content_cp.Content = VIEW_MODEL;
         }
 
         #endregion

@@ -52,12 +52,13 @@
 
     <Grid Background="{x:Bind Background, Mode=OneWay}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <!--  Content:  -->
         <TextBlock Grid.Row="0"
+                   HorizontalAlignment="Center"
                    extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind SpeechBubbleContentViewModel.MODEL.Text, Mode=OneWay}"
                    ContextFlyout="{StaticResource options_mfo}"
                    Style="{StaticResource ReplacedContectMenuBodyTextBlock}"
