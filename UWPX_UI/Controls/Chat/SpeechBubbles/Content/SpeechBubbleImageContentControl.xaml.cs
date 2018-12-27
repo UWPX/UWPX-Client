@@ -1,13 +1,12 @@
 ﻿using Logging;
 using System;
-using System.Text;
 using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext;
-using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 {
@@ -56,15 +55,16 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             await VIEW_MODEL.UpdateViewAsync(args);
         }
 
-        /// <summary>
-        /// Tries to open the current imgPath with the default image viewer.
-        /// </summary>
-        private async Task OpenImageAsync()
+        private async Task OpenImageWithDefaultImageViewerAsync()
         {
             try
             {
-                StorageFile imageFile = await StorageFile.GetFileFromPathAsync(VIEW_MODEL.MODEL.ImagePath);
-                await Windows.System.Launcher.LaunchFileAsync(imageFile);
+                if (!await VIEW_MODEL.OpenImageWithDefaultImageViewerAsync())
+                {
+                    Logger.Error("Failed to open image with default application!");
+                    InfoDialog dialog = new InfoDialog("Error", "Ups, something went wrong!\nView the logs for more information.");
+                    await UiUtils.ShowDialogAsync(dialog);
+                }
             }
             catch (Exception ex)
             {
@@ -74,12 +74,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             }
         }
 
-        private async Task OpenImageUrlInBrowserAsync()
+        private async Task OpenImageUrlWithDefaultBrowserAsync()
         {
             try
             {
-                bool success = await UiUtils.LaunchUriAsync(new Uri(SpeechBubbleContentViewModel.ChatMessageModel.Message.message));
-                if (!success)
+                if (!await VIEW_MODEL.OpenImageUrlWithDefaultBrowserAsync(SpeechBubbleContentViewModel))
                 {
                     Logger.Error("Failed to open image URL with default application!");
                     InfoDialog dialog = new InfoDialog("Error", "Ups, something went wrong!\nView the logs for more information.");
@@ -93,6 +92,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
                 await UiUtils.ShowDialogAsync(dialog);
             }
         }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -111,55 +111,57 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 
         private void Image_img_ImageExFailed(object sender, Microsoft.Toolkit.Uwp.UI.Controls.ImageExFailedEventArgs e)
         {
-            StringBuilder sb = new StringBuilder("Failed to open image: ");
-            sb.Append(image_img.Source);
-            sb.Append('\n');
-            sb.Append(e.ErrorMessage);
-            Logger.Warn(sb.ToString());
-            VIEW_MODEL.MODEL.ErrorText = sb.ToString();
-            VIEW_MODEL.MODEL.State = Data_Manager2.Classes.DownloadState.ERROR;
+            VIEW_MODEL.OnImageExFailed(e.ErrorException, e.ErrorMessage);
         }
 
         private async void OpenImage_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await OpenImageAsync();
+            await OpenImageWithDefaultImageViewerAsync();
         }
 
         private async void OpenImageBrowser_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await OpenImageUrlInBrowserAsync();
+            await OpenImageUrlWithDefaultBrowserAsync();
         }
 
         private async void Image_img_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            await OpenImageAsync();
+            await OpenImageWithDefaultImageViewerAsync();
         }
 
         private void CopyImageLink_mfi_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.SetClipboardText(SpeechBubbleContentViewModel.ChatMessageModel.Message.message);
+            SpeechBubbleContentViewModel.SetMessageAsClipboardText();
         }
 
         private void CopyNickname_mfi_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.SetClipboardText(SpeechBubbleContentViewModel.ChatMessageModel.Message.fromUser);
+            SpeechBubbleContentViewModel.SetFromUserAsClipboardText();
         }
 
-        #endregion
+        private async void Redownload_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.RedownloadImageAsync();
+        }
+
+        private async void StartDownload_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.StartImageDownloadAsync();
+        }
+
+        private async void CancelDownload_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.CancelImageDownloadAsync();
+        }
 
         private void CopyDate_mfi_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Application.Current.Resources["ChatDateTimeStringValueConverter"] is IValueConverter converter)
+            {
+                SpeechBubbleContentViewModel.SetDateAsClipboardText(converter);
+            }
         }
 
-        private void Redownload_mfi_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void StopDownload_mfi_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+        #endregion
     }
 }

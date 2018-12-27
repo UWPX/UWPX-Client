@@ -38,9 +38,16 @@
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
-            <MenuFlyoutItem x:Name="stopDownload_mfi"
-                            Click="StopDownload_mfi_Click"
-                            Text="Stop download">
+            <MenuFlyoutItem x:Name="startDownload_mfi"
+                            Click="StartDownload_mfi_Click"
+                            Text="Start download">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xEA39;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="cancelDownload_mfi"
+                            Click="CancelDownload_mfi_Click"
+                            Text="Cancel download">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xEA39;"/>
                 </MenuFlyoutItem.Icon>

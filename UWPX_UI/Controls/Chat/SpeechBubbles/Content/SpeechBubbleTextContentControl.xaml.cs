@@ -1,5 +1,4 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
-using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -71,19 +70,19 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 
         private void CopyMessage_mfi_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.SetClipboardText(SpeechBubbleContentViewModel.MODEL.Text);
+            SpeechBubbleContentViewModel.SetMessageAsClipboardText();
         }
 
         private void CopyNickname_mfi_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.SetClipboardText(SpeechBubbleContentViewModel.MODEL.NicknameText);
+            SpeechBubbleContentViewModel.SetFromUserAsClipboardText();
         }
 
         private void CopyDate_mfi_Click(object sender, RoutedEventArgs e)
         {
             if (Application.Current.Resources["ChatDateTimeStringValueConverter"] is IValueConverter converter)
             {
-                UiUtils.SetClipboardText((string)converter.Convert(SpeechBubbleContentViewModel.MODEL.Date, typeof(string), null, null));
+                SpeechBubbleContentViewModel.SetDateAsClipboardText(converter);
             }
         }
 
