@@ -18,6 +18,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _Message; }
             set { SetProperty(ref _Message, value); }
         }
+        private MUCChatInfoTable _MUC;
+        /// <summary>
+        /// Only populate with valid if data the chat is of type MUC.
+        /// </summary>
+        public MUCChatInfoTable MUC
+        {
+            get { return _MUC; }
+            set { SetProperty(ref _MUC, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -91,7 +91,14 @@ namespace UWPX_UI_Context.Classes.DataContext
             if (!(chatTemplate is null))
             {
                 MODEL.UpdateViewClient(chatTemplate.Client);
-                MODEL.UpdateViewChat(chatTemplate.Chat);
+                if (chatTemplate.Chat.chatType == ChatType.MUC)
+                {
+                    MODEL.UpdateViewChat(chatTemplate.Chat, chatTemplate.MucInfo);
+                }
+                else
+                {
+                    MODEL.UpdateViewChat(chatTemplate.Chat, null);
+                }
                 MODEL.UpdateViewMuc(chatTemplate.Chat, chatTemplate.MucInfo);
             }
         }
