@@ -5,6 +5,7 @@
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
              xmlns:templates="using:UWPX_UI_Context.Classes.DataTemplates"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
@@ -20,10 +21,17 @@
             <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
             <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
 
-            <DataTemplate x:Key="SpeechBubbleTemplate"
+            <DataTemplate x:Key="SpeechBubbleTopTemplate"
                           x:DataType="templates:ChatMessageDataTemplate">
                 <speechbubbles:SpeechBubbleTopControl ChatMessage="{x:Bind}"/>
             </DataTemplate>
+            <DataTemplate x:Key="SpeechBubbleDownTemplate"
+                          x:DataType="templates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleDownControl ChatMessage="{x:Bind}"/>
+            </DataTemplate>
+            <selectors:SpeechBubbleDataTemplateSelector x:Key="SpeechBubbleDataTemplateSelector"
+                                                        SpeechBubbleDownTemplate="{StaticResource SpeechBubbleDownTemplate}"
+                                                        SpeechBubbleTopTemplate="{StaticResource SpeechBubbleTopTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -173,7 +181,7 @@
             <!--  Messages:  -->
             <ListView Grid.Row="2"
                       Margin="0,0,0,10"
-                      ItemTemplate="{StaticResource SpeechBubbleTemplate}"
+                      ItemTemplateSelector="{StaticResource SpeechBubbleDataTemplateSelector}"
                       ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
                       SelectionMode="None">
                 <ListView.ItemsPanel>

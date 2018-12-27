@@ -102,11 +102,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
         }
 
-        public void UpdateViewChat(ChatTable chat)
+        public void UpdateViewChat(ChatTable chat, MUCChatInfoTable muc)
         {
             if (!(chat is null))
             {
-                LoadChatMessages(chat);
+                LoadChatMessages(chat, muc);
                 MarkChatMessagesAsRead(chat);
 
                 if (chat.chatType == ChatType.MUC)
@@ -141,7 +141,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         /// Starts a new Task and loads all chat messages for the given chat.
         /// </summary>
         /// <param name="chat">The chat which all chat messages should get loaded for.</param>
-        private void LoadChatMessages(ChatTable chat)
+        /// <param name="muc">If the chat is of type MUC, than non null value. Else null.</param>
+        private void LoadChatMessages(ChatTable chat, MUCChatInfoTable muc)
         {
             Task.Run(async () =>
             {
@@ -166,7 +167,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                         msgs.Add(new ChatMessageDataTemplate
                         {
                             Message = msg,
-                            Chat = chat
+                            Chat = chat,
+                            MUC = muc
                         });
                     }
                 }, loadChatMessagesCancelToken.Token);
