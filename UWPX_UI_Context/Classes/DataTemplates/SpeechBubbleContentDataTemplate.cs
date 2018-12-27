@@ -62,6 +62,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _IsImage; }
             set { SetProperty(ref _IsImage, value); }
         }
+        private MessageState _State;
+        public MessageState State
+        {
+            get { return _State; }
+            set { SetProperty(ref _State, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -90,6 +96,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             IsDelivered = false;
             MessageType = message.type;
             IsImage = message.isImage;
+            State = message.state;
 
             switch (message.state)
             {

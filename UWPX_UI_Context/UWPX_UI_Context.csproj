@@ -150,6 +150,7 @@
     <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateUnreadVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
