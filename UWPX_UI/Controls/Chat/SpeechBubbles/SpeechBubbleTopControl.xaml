@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:content="using:UWPX_UI.Controls.Chat.SpeechBubbles.Content"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:converter="using:UWPX_UI_Context.Classes.ValueConverter"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:datacontext="using:UWPX_UI_Context.Classes.DataContext"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,6 +26,7 @@
         <selectors:SpeechBubbleConentDataTemplateSelector x:Key="SpeechBubbleConentDataTemplateSelector"
                                                           ImageTemplate="{StaticResource SpeechBubbleImageContentControlTemplate}"
                                                           TextTemplate="{StaticResource SpeechBubbleTextContentControlTemplate}"/>
+        <converter:MessageStateUnreadVisabilityValueConverter x:Key="MessageStateUnreadVisabilityValueConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -54,7 +56,8 @@
                      Width="20"
                      Height="20"
                      VerticalAlignment="Top"
-                     Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"/>
+                     Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                     Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateUnreadVisabilityValueConverter}}"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>
