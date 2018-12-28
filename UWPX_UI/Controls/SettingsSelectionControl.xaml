@@ -31,7 +31,7 @@
                            Text="{x:Bind Model.Name, Mode=OneWay}"/>
                 <TextBlock Grid.Row="2"
                            HorizontalAlignment="Center"
-                           Foreground="{ThemeResource SystemControlBackgroundBaseMediumBrush}"
+                           Foreground="{ThemeResource CaptionTextBrush}"
                            MaxLines="5"
                            Style="{StaticResource CaptionTextBlockStyle}"
                            Text="{x:Bind Model.Description, Mode=OneWay}"

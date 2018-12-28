@@ -13,14 +13,14 @@
         <Style x:Key="ReplacedContectMenuCaptionTextBlock"
                BasedOn="{StaticResource CaptionTextBlockStyle}"
                TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource CaptionTextBrush}"/>
             <Setter Property="IsTextSelectionEnabled" Value="True"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
 
         <Style x:Key="ReplacedContectMenuCaptionFontIcon"
                TargetType="FontIcon">
-            <Setter Property="Foreground" Value="{StaticResource SystemControlBackgroundBaseMediumBrush}"/>
+            <Setter Property="Foreground" Value="{StaticResource CaptionTextBrush}"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>

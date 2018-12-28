@@ -37,7 +37,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
             {
                 return new SolidColorBrush((Color)Resources["SystemAccentColor"]);
             }
-            return (SolidColorBrush)Resources["SystemControlBackgroundBaseMediumBrush"];
+            return (SolidColorBrush)Resources["CaptionTextBrush"];
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
