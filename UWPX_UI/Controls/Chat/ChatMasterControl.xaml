@@ -215,7 +215,7 @@
                     <TextBlock x:Name="info_tblck"
                                Grid.Column="0"
                                Margin="10,0,0,0"
-                               Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                               Foreground="{StaticResource CaptionTextBrush}"
                                Style="{StaticResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
@@ -246,14 +246,14 @@
                                VerticalAlignment="Center"
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="13"
-                               Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                               Foreground="{StaticResource CaptionTextBrush}"
                                Text="&#xE74F;"
                                Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
                     <TextBlock x:Name="lastActionDate_tblck"
                                Grid.Row="2"
                                HorizontalAlignment="Right"
                                FontSize="10"
-                               Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
+                               Foreground="{StaticResource CaptionTextBrush}"
                                Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
                                TextTrimming="CharacterEllipsis"/>
                 </Grid>
