@@ -40,25 +40,25 @@
                                 TintOpacity="0.6"/>
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
                                 BackgroundSource="Backdrop"
-                                FallbackColor="#FFFF0000"
+                                FallbackColor="#FF242424"
                                 TintColor="#FF242424"
                                 TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
-                             Color="#BBBDBDBD"/>
+                             Color="#99FFFFFF"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
-                                FallbackColor="{ThemeResource SystemChromeLowColor}"
-                                TintColor="{ThemeResource SystemChromeLowColor}"
+                                FallbackColor="#FFD6D6D6"
+                                TintColor="#FFD6D6D6"
                                 TintOpacity="0.6"/>
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
                                 BackgroundSource="Backdrop"
-                                FallbackColor="{StaticResource SystemChromeMediumColor}"
-                                TintColor="{StaticResource SystemChromeAltHighColor}"
+                                FallbackColor="#FFD6D6D6"
+                                TintColor="#FFD6D6D6"
                                 TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
-                             Color="#FF757575"/>
+                             Color="#99000000"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
