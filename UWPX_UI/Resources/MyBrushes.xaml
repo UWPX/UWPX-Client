@@ -29,7 +29,13 @@
                      Color="{ThemeResource SystemAccentColorDark1}"/>
     <SolidColorBrush x:Key="SpeechBubbleBackgroundInfoBrush"
                      Opacity="0.9"
-                     Color="#4C4A48"/>
+                     Color="#FF4C4A48"/>
+    <SolidColorBrush x:Key="SpeechBubbleForegroundBrush"
+                     Opacity="0.9"
+                     Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="SpeechBubbleCaptionForegroundBrush"
+                     Opacity="0.9"
+                     Color="#99FFFFFF"/>
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">

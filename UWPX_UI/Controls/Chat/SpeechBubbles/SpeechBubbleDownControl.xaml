@@ -37,7 +37,7 @@
         <Border Grid.Row="0"
                 MinWidth="100"
                 MinHeight="40"
-                Background="{StaticResource SpeechBubbleBackgroundLightBrush}">
+                Background="{StaticResource SpeechBubbleBackgroundDarkBrush}">
             <ContentControl x:Name="content_cp"
                             Margin="5"
                             HorizontalContentAlignment="Stretch"
@@ -47,7 +47,7 @@
         <Polygon Grid.Row="1"
                  Margin="0,0,10,0"
                  HorizontalAlignment="Right"
-                 Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                 Fill="{StaticResource SpeechBubbleBackgroundDarkBrush}"
                  Points="0,0 10,10 10,0"/>
     </Grid>
 </UserControl>
