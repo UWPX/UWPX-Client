@@ -7,9 +7,9 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:masterdetailsview="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:masterdetailsview1="using:UWPX_UI.Controls.Toolkit.MasterDetailsView"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
-      RequestedTheme="Default"
       mc:Ignorable="d">
 
     <Page.Resources>

@@ -4,9 +4,10 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Background="{StaticResource AppBackgroundAcrylicElementBrush}"
              mc:Ignorable="d">
 
-    <Grid>
+    <Grid Background="{x:Bind Background, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -26,7 +27,7 @@
                 Grid.Row="0"
                 HorizontalAlignment="Left"
                 Click="BackRequest_btn_Click"
-                IsEnabled="{x:Bind IsBackRequestButtonEnabled, Mode=OneWay}"
+                IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}"
                 Style="{StaticResource NavigationBackButtonNormalStyle}"/>
         <controls:SeperatorControl Grid.Row="1"/>
     </Grid>

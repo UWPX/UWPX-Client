@@ -7,7 +7,6 @@
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
-      RequestedTheme="Default"
       mc:Ignorable="d">
 
     <Page.Resources>

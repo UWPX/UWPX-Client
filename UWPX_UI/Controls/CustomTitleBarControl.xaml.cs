@@ -10,19 +10,12 @@ namespace UWPX_UI.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool IsBackRequestButtonEnabled
-        {
-            get { return (bool)GetValue(IsBackRequestButtonEnabledProperty); }
-            set { SetValue(IsBackRequestButtonEnabledProperty, value); }
-        }
-        public static readonly DependencyProperty IsBackRequestButtonEnabledProperty = DependencyProperty.Register(nameof(IsBackRequestButtonEnabled), typeof(bool), typeof(CustomTitleBarControl), new PropertyMetadata(true));
-
         public Frame Frame
         {
             get { return (Frame)GetValue(FrameProperty); }
             set { SetValue(FrameProperty, value); }
         }
-        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null, OnFrameChanged));
+        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -110,14 +103,6 @@ namespace UWPX_UI.Controls
         private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
         {
             UiUtils.OnGoBackRequested(Frame);
-        }
-
-        private static void OnFrameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is CustomTitleBarControl customTitleBar && e.NewValue is Frame frame)
-            {
-                customTitleBar.IsBackRequestButtonEnabled = frame.CanGoBack;
-            }
         }
 
         #endregion
