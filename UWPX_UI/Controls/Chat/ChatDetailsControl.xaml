@@ -107,14 +107,14 @@
                     <!--  Account:  -->
                     <TextBlock Grid.Row="1"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                               Foreground="{StaticResource CaptionTextBrush}"
                                Style="{StaticResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <!--  Status:  -->
                     <TextBlock Grid.Row="2"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource SystemControlPageTextBaseMediumBrush}"
+                               Foreground="{StaticResource CaptionTextBrush}"
                                Style="{StaticResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
