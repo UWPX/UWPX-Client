@@ -139,9 +139,6 @@
     <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleTextContentControl.xaml.cs">
       <DependentUpon>SpeechBubbleTextContentControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentSendStateControl.xaml.cs">
-      <DependentUpon>SpeechBubbleContentSendStateControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleDownControl.xaml.cs">
       <DependentUpon>SpeechBubbleDownControl.xaml</DependentUpon>
     </Compile>
@@ -283,10 +280,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleTextContentControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleContentSendStateControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
