@@ -3,12 +3,9 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Push;
 using System;
 using System.Text;
-using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
@@ -27,8 +24,6 @@ namespace UWPX_UI
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
-
         /// <summary>
         /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
         /// </summary>
@@ -62,16 +57,10 @@ namespace UWPX_UI
         {
             this.isRunning = false;
 
-            // Setup App Center crashes, push:
-            SetupAppCenter();
-
             this.InitializeComponent();
             this.Suspending += OnSuspending;
             this.Resuming += App_Resuming;
             this.UnhandledException += App_UnhandledException;
-
-            // Perform App update tasks if necessary:
-            AppUpdateHelper.OnAppStart();
         }
 
         #endregion
@@ -87,61 +76,6 @@ namespace UWPX_UI
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Sets up App Center crash and push support.
-        /// </summary>
-        private void SetupAppCenter()
-        {
-            try
-            {
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
-                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
-                {
-                    Crashes.Instance.InstanceEnabled = false;
-                    Logger.Info("AppCenter crash reporting is disabled.");
-                }
-
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics));
-                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS))
-                {
-                    Analytics.SetEnabledAsync(false);
-                    Logger.Info("AppCenter analytics are disabled.");
-                }
-#if DEBUG
-                // Only enable push for debug builds:
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push));
-#endif
-
-                if (!Microsoft.AppCenter.AppCenter.Configured)
-                {
-                    Push.PushNotificationReceived -= Push_PushNotificationReceived;
-                    Push.PushNotificationReceived += Push_PushNotificationReceived;
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Failed to start APPCenter!", e);
-                throw e;
-            }
-            Logger.Info("App Center crash reporting registered.");
-            Logger.Info("App Center push registered.");
-        }
-
-        /// <summary>
-        /// Inits all DB managers to force event subscriptions.
-        /// </summary>
-        private async Task InitDBManagersAsync()
-        {
-            await Task.Run(() =>
-            {
-                AccountDBManager.INSTANCE.initManager();
-                ChatDBManager.INSTANCE.initManager();
-                DiscoDBManager.INSTANCE.initManager();
-                ImageDBManager.INSTANCE.initManager();
-                MUCDBManager.INSTANCE.initManager();
-            });
-        }
-
         /// <summary>
         /// Sets the log level for the logger class.
         /// </summary>
@@ -159,7 +93,7 @@ namespace UWPX_UI
             }
         }
 
-        private async Task OnActivatedOrLaunchedAsync(IActivatedEventArgs args)
+        private void OnActivatedOrLaunched(IActivatedEventArgs args)
         {
             // Prevent window from extending into title bar:
             CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
@@ -167,26 +101,11 @@ namespace UWPX_UI
             // Sets the log level:
             InitLogger();
 
+            // Set requested theme:
+            RootTheme = UiUtils.LoadRequestedTheme();
+
             // Setup window:
             UiUtils.SetupWindow(Current);
-
-            // Register background tasks:
-            Logger.Info("Registering background tasks...");
-            await BackgroundTaskHelper.RegisterBackgroundTasksAsync();
-            Logger.Info("Finished registering background tasks.");
-
-            // Init all db managers to force event subscriptions:
-            await InitDBManagersAsync();
-
-
-            // Loads all background images into the cache:
-            await AppBackgroundHelper.InitAsync();
-
-            // Setup push server connection:
-            /*if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_PUSH))
-            {
-                Push_App_Server.Classes.PushManager.init();
-            }*/
 
             isRunning = true;
 
@@ -199,76 +118,14 @@ namespace UWPX_UI
 
                 rootFrame.NavigationFailed += OnNavigationFailed;
 
-                if (args.PreviousExecutionState == ApplicationExecutionState.Terminated)
-                {
-                    // TODO: Load state from previously suspended application
-                }
-
                 // Place the frame in the current Window
                 Window.Current.Content = rootFrame;
             }
 
-            if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-            {
-                // rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
-            }
-            else if (args is ProtocolActivatedEventArgs protocolActivationArgs)
-            {
-                Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
-
-                // If we're currently not on a page, navigate to the main page
-                rootFrame.Navigate(typeof(ChatPage), protocolActivationArgs); // ToDo add arguments
-            }
-            else if (args is ToastNotificationActivatedEventArgs toastActivationArgs)
-            {
-                Logger.Info("App activated by toast with: " + toastActivationArgs.Argument);
-                // If empty args, no specific action (just launch the app)
-                if (string.IsNullOrEmpty(toastActivationArgs.Argument))
-                {
-                    Logger.Warn("Toast activation with no argument!");
-                    if (rootFrame.Content is null)
-                    {
-                        rootFrame.Navigate(typeof(ChatPage));
-                    }
-                }
-                else
-                {
-                    rootFrame.Navigate(typeof(ChatPage), ToastActivationArgumentParser.parseArguments(toastActivationArgs.Argument));
-                }
-                if (rootFrame.BackStack.Count == 0)
-                {
-                    rootFrame.BackStack.Add(new PageStackEntry(typeof(ChatPage), null, null));
-                }
-            }
-            else if (args is LaunchActivatedEventArgs launchActivationArgs)
-            {
-                Push.CheckLaunchedFromNotification(launchActivationArgs);
-
-                // If launched with arguments (not a normal primary tile/applist launch)
-                if (launchActivationArgs.Arguments.Length > 0)
-                {
-                    Logger.Debug(launchActivationArgs.Arguments);
-                    // TODO: Handle arguments for cases = launching from secondary Tile, so we navigate to the correct page
-                    //throw new NotImplementedException();
-                }
-
-                // If we're currently not on a page, navigate to the main page
-                rootFrame.Navigate(typeof(ChatPage));
-            }
-
-            // Set requested theme:
-            string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
-            ElementTheme theme = ElementTheme.Dark;
-            if (themeString != null)
-            {
-                Enum.TryParse(themeString, out theme);
-            }
-            RootTheme = theme;
+            ExtendedSplashScreenPage extendedSplashScreen = new ExtendedSplashScreenPage(args, rootFrame, Push_PushNotificationReceived);
+            rootFrame.Content = extendedSplashScreen;
 
             Window.Current.Activate();
-
-            // Connect to all clients:
-            ConnectionHandler.INSTANCE.connectAll();
         }
 
         #endregion
@@ -327,14 +184,14 @@ namespace UWPX_UI
             deferral.Complete();
         }
 
-        protected async override void OnLaunched(LaunchActivatedEventArgs args)
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
-            await OnActivatedOrLaunchedAsync(args);
+            OnActivatedOrLaunched(args);
         }
 
-        protected async override void OnActivated(IActivatedEventArgs args)
+        protected override void OnActivated(IActivatedEventArgs args)
         {
-            await OnActivatedOrLaunchedAsync(args);
+            OnActivatedOrLaunched(args);
         }
 
         #endregion

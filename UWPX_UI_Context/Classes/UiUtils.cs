@@ -1,4 +1,5 @@
-﻿using Logging;
+﻿using Data_Manager2.Classes;
+using Logging;
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -211,6 +212,17 @@ namespace UWPX_UI_Context.Classes
         public static async Task<bool> LaunchUriAsync(Uri url)
         {
             return await Launcher.LaunchUriAsync(url);
+        }
+
+        public static ElementTheme LoadRequestedTheme()
+        {
+            string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
+            ElementTheme theme = ElementTheme.Dark;
+            if (themeString != null)
+            {
+                Enum.TryParse(themeString, out theme);
+            }
+            return theme;
         }
 
         public static void SetupWindow(Application application)

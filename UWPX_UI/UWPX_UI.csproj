@@ -179,6 +179,9 @@
     <Compile Include="Pages\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\ExtendedSplashScreenPage.xaml.cs">
+      <DependentUpon>ExtendedSplashScreenPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -205,6 +208,7 @@
     <Content Include="Assets\Images\placeholder.png" />
     <Content Include="Assets\Images\pp.png" />
     <Content Include="Assets\Images\send.png" />
+    <Content Include="Assets\Images\splash_screen.png" />
     <Content Include="Assets\Images\xmpp_logo.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
@@ -328,6 +332,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\ChatPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\ExtendedSplashScreenPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
