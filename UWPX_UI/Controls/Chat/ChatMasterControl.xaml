@@ -237,7 +237,7 @@
                                VerticalAlignment="Center"
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="12"
-                               Foreground="Gold"
+                               Foreground="{StaticResource GoldBrush}"
                                Text="&#xE734;"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisability, Mode=OneWay}"/>
                     <TextBlock x:Name="muted_tbck"

@@ -45,6 +45,8 @@
                                 TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
                              Color="#99FFFFFF"/>
+            <SolidColorBrush x:Key="GoldBrush"
+                             Color="#FFFFD700"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
@@ -59,6 +61,8 @@
                                 TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
                              Color="#99000000"/>
+            <SolidColorBrush x:Key="GoldBrush"
+                             Color="#FFFFF700"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
