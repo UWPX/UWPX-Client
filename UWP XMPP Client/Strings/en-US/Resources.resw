@@ -194,15 +194,14 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
     <value>Invalid server addresse!</value>
   </data>
   <data name="whats_new_markdown.Text" xml:space="preserve">
-    <value># v.0.11.0.0 [December 2018] Hi, my name is Nemo🐠, ... OMEMO! 🎉
+    <value># Years go bye - UWPX anniversary🎉
 
-**Are we OMEMO yet?**
-**Naah... at least we can encrypt and decrypt.**
+This month's update has only a hand full of changes, fixes and improvements since I'm working on an complete UI overhaul [#50](https://github.com/UWPX/UWPX-Client/issues/50) (more on that later).
+The *plan* is to release the UI overhaul [#50](https://github.com/UWPX/UWPX-Client/issues/50) sometime in march.
+I don't know If there will be any other releases until then.
+Lest see.
 
-Finally I've managed to get a first version of my [OMEMO](https://conversations.im/omemo/) implementation up and running!
-You are now able to send **ENCRYPTED** messages via OMEMO to other people and decrypt their messages. [#5](https://github.com/UWPX/UWPX-Client/issues/5) contains up to date information about the current implementation state for OMEMO.
-To enable message encryption: Click on the `three little dots` and `enable Encryption(OMEMO)`. Now it should show a small lock symbol at the send button.
-**Be aware:** OMEMO is still a work in progess topic and you **WILL** encounter bugs and unexpected behaviour!
+**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
 * MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
@@ -213,17 +212,11 @@ To enable message encryption: Click on the `three little dots` and `enable Encry
 * Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40) 
 
 ### Changes:
-* Added OMEMO support
-* Added an option to disable chat message processing
-* Updated message processing regexes =&gt; far better performance
-* Updated toaster to not show toasts if the app is running in foreground mode
-* Fixed some TCPConnection send message crashes
-* Fixed muting chats does not update the UI properly
-* Fixed IQMessage parsing
-* Fixed not logging exceptions
-* Fixed bookmarks
-* Fixed some cases for UI lockups (MORE TO COME...)
+* Added error messages if sending OMEMO messages fails
+* Added stream error support
+* Fixed app trying to connect if there is no internet available
+* Updated dependencies
 
-[Click to view on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.11.0.0)</value>
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.12.0.0)</value>
   </data>
 </root>
