@@ -27,7 +27,10 @@
     <SolidColorBrush x:Key="SpeechBubbleBackgroundLightBrush"
                      Opacity="0.9"
                      Color="{ThemeResource SystemAccentColorDark1}"/>
-    <SolidColorBrush x:Key="SpeechBubbleBackgroundInfoBrush"
+    <SolidColorBrush x:Key="SpeechBubbleInfoBackgroundBrush"
+                     Opacity="0.9"
+                     Color="#FF4C4A48"/>
+    <SolidColorBrush x:Key="SpeechBubbleErrorBackgroundBrush"
                      Opacity="0.9"
                      Color="#FF4C4A48"/>
     <SolidColorBrush x:Key="SpeechBubbleForegroundBrush"
