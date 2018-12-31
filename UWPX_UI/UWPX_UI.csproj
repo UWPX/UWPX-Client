@@ -133,6 +133,9 @@
     <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleImageContentControl.xaml.cs">
       <DependentUpon>SpeechBubbleImageContentControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml.cs">
+      <DependentUpon>SpeechBubbleErrorStatusBarControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleStatusBarControl.xaml.cs">
       <DependentUpon>SpeechBubbleStatusBarControl.xaml</DependentUpon>
     </Compile>
@@ -141,6 +144,9 @@
     </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleDownControl.xaml.cs">
       <DependentUpon>SpeechBubbleDownControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleErrorControl.xaml.cs">
+      <DependentUpon>SpeechBubbleErrorControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
@@ -279,6 +285,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleStatusBarControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -290,6 +300,10 @@
     <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleDownControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleErrorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml">
       <SubType>Designer</SubType>

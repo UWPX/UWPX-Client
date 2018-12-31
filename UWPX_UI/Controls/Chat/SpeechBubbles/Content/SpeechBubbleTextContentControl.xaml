@@ -42,7 +42,7 @@
             </MenuFlyoutItem>
         </MenuFlyout>
 
-        <Style x:Key="ReplacedContectMenuBodyTextBlock"
+        <Style x:Key="ReplacedContextMenuBodyTextBlock"
                BasedOn="{StaticResource BodyTextBlockStyle}"
                TargetType="TextBlock">
             <Setter Property="ContextFlyout" Value="{StaticResource options_mfo}"/>
@@ -62,7 +62,7 @@
                    extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind SpeechBubbleContentViewModel.MODEL.Text, Mode=OneWay}"
                    ContextFlyout="{StaticResource options_mfo}"
                    Foreground="{StaticResource SpeechBubbleForegroundBrush}"
-                   Style="{StaticResource ReplacedContectMenuBodyTextBlock}"
+                   Style="{StaticResource ReplacedContextMenuBodyTextBlock}"
                    Text="Loading..."
                    TextWrapping="Wrap"/>
 

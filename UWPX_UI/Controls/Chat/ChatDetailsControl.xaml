@@ -29,8 +29,13 @@
                           x:DataType="templates:ChatMessageDataTemplate">
                 <speechbubbles:SpeechBubbleDownControl ChatMessage="{x:Bind}"/>
             </DataTemplate>
+            <DataTemplate x:Key="SpeechBubbleErrorTemplate"
+                          x:DataType="templates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleErrorControl ChatMessage="{x:Bind}"/>
+            </DataTemplate>
             <selectors:SpeechBubbleDataTemplateSelector x:Key="SpeechBubbleDataTemplateSelector"
                                                         SpeechBubbleDownTemplate="{StaticResource SpeechBubbleDownTemplate}"
+                                                        SpeechBubbleErrorTemplate="{StaticResource SpeechBubbleErrorTemplate}"
                                                         SpeechBubbleTopTemplate="{StaticResource SpeechBubbleTopTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>
