@@ -31,11 +31,8 @@
             <DataTemplate x:Key="NoSelectionTemplate">
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center">
-                    <Image Width="100"
-                           Height="100"
-                           Source="ms-appx:///Assets/Images/xmpp_logo.png"/>
-                    <TextBlock FontSize="24"
-                               Text="Select a chat to view."/>
+                    <Image Source="ms-appx:///Assets/Images/splash_screen.png"
+                           Stretch="UniformToFill"/>
                 </StackPanel>
             </DataTemplate>
         </ResourceDictionary>
