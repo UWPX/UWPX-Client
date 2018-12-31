@@ -2,6 +2,8 @@
 using Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
@@ -27,6 +29,7 @@ namespace UWPX_UI_Context.Classes
         private static TaskCompletionSource<ContentDialog> contentDialogShowRequest;
         private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
         public static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
+        private static readonly Random RANDOM = new Random();
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -306,6 +309,33 @@ namespace UWPX_UI_Context.Classes
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
             }
+        }
+
+        /// <summary>
+        /// Generates a random bare JID.
+        /// e.g. 'chat.shakespeare.lit'
+        /// </summary>
+        /// <returns>A random bare JID string.</returns>
+        public static string GenRandomBareJid()
+        {
+            StringBuilder sb = new StringBuilder(GenRandomString(RANDOM.Next(4, 10)));
+            sb.Append('@');
+            sb.Append(GenRandomString(RANDOM.Next(4, 6)));
+            sb.Append('.');
+            sb.Append(GenRandomString(RANDOM.Next(2, 4)));
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// Generates a random string and returns it.
+        /// Based on: https://stackoverflow.com/questions/1344221/how-can-i-generate-random-alphanumeric-strings-in-c
+        /// </summary>
+        /// <param name="length">The length of the string that should be generated.</param>
+        /// <returns>A random string.</returns>
+        private static string GenRandomString(int length)
+        {
+            const string chars = "abcdefghijklmnopqrstuvwxyz";
+            return new string(Enumerable.Repeat(chars, length).Select(s => s[RANDOM.Next(s.Length)]).ToArray());
         }
 
         #endregion
