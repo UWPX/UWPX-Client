@@ -97,7 +97,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             nameof(MasterPaneWidth),
             typeof(double),
             typeof(MasterDetailsView),
-            new PropertyMetadata(320d));
+            new PropertyMetadata(321d));
 
         /// <summary>
         /// Identifies the <see cref="NoSelectionContent"/> dependency property.
@@ -156,7 +156,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             nameof(CompactModeThresholdWidth),
             typeof(double),
             typeof(MasterDetailsView),
-            new PropertyMetadata(720d, OnCompactModeThresholdWidthChanged));
+            new PropertyMetadata(640d, OnCompactModeThresholdWidthChanged));
 
         /// <summary>
         /// Identifies the <see cref="BackButtonBehavior"/> dependency property
