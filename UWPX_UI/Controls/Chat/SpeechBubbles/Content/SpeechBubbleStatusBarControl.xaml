@@ -13,14 +13,14 @@
         <Style x:Key="ReplacedContectMenuCaptionTextBlock"
                BasedOn="{StaticResource CaptionTextBlockStyle}"
                TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource SpeechBubbleCaptionForegroundBrush}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SpeechBubbleCaptionForegroundBrush}"/>
             <Setter Property="IsTextSelectionEnabled" Value="True"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
 
         <Style x:Key="ReplacedContectMenuCaptionFontIcon"
                TargetType="FontIcon">
-            <Setter Property="Foreground" Value="{StaticResource SpeechBubbleCaptionForegroundBrush}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SpeechBubbleCaptionForegroundBrush}"/>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
@@ -32,36 +32,36 @@
                 Orientation="Horizontal">
         <TextBlock Margin="0,0,5,0"
                    ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
-                   Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
+                   Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
                    Text="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay}"
                    TextTrimming="CharacterEllipsis"
                    Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
         <FontIcon Margin="0,0,5,1"
                   Glyph="&#xECCC;"
-                  Style="{StaticResource ReplacedContectMenuCaptionFontIcon}"
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
                   Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
         <TextBlock Margin="0,0,5,0"
                    ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
-                   Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
+                   Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
                    Text="{x:Bind ViewModel.MODEL.Date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
         <FontIcon Margin="0,0,5,2"
                   Glyph="&#xE72E;"
-                  Style="{StaticResource ReplacedContectMenuCaptionFontIcon}"
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
                   Visibility="{x:Bind ViewModel.MODEL.IsEncrypted, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
         <FontIcon Grid.Column="4"
                   Margin="0,0,5,2"
                   Glyph="&#xE8C8;"
-                  Style="{StaticResource ReplacedContectMenuCaptionFontIcon}"
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
                   Visibility="{x:Bind ViewModel.MODEL.IsCarbonCopy, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
         <Grid VerticalAlignment="Bottom">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <FontIcon Glyph="{x:Bind ViewModel.MODEL.StateIconText, Mode=OneWay}"
-                      Style="{StaticResource ReplacedContectMenuCaptionFontIcon}"/>
+                      Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"/>
             <FontIcon Margin="5,0,0,7"
                       Glyph="&#xE73E;"
-                      Style="{StaticResource ReplacedContectMenuCaptionFontIcon}"
+                      Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
                       Visibility="{x:Bind ViewModel.MODEL.IsDelivered, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
         </Grid>
     </StackPanel>

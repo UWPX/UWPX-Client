@@ -61,8 +61,8 @@
                    HorizontalAlignment="Center"
                    extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind SpeechBubbleContentViewModel.MODEL.Text, Mode=OneWay}"
                    ContextFlyout="{StaticResource options_mfo}"
-                   Foreground="{StaticResource SpeechBubbleForegroundBrush}"
-                   Style="{StaticResource ReplacedContextMenuBodyTextBlock}"
+                   Foreground="{ThemeResource SpeechBubbleForegroundBrush}"
+                   Style="{ThemeResource ReplacedContextMenuBodyTextBlock}"
                    Text="Loading..."
                    TextWrapping="Wrap"/>
 

@@ -148,6 +148,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void OnThemeChanged()
+        {
+            OnPropertyChanged(nameof(LastActionState));
+        }
+
         public void UpdateViewClient(XMPPClient client)
         {
             if (!(client is null))

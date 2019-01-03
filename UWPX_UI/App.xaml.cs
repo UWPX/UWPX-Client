@@ -4,6 +4,7 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.AppCenter.Push;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using System;
 using System.Text;
 using UWPX_UI.Dialogs;
@@ -43,12 +44,14 @@ namespace UWPX_UI
                 if (Window.Current.Content is FrameworkElement rootElement)
                 {
                     rootElement.RequestedTheme = value;
+                    UiUtils.SetupWindow(Current);
                 }
                 Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
             }
         }
 
         private bool isRunning;
+        private ThemeListener themeListener;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -107,6 +110,9 @@ namespace UWPX_UI
             // Setup window:
             UiUtils.SetupWindow(Current);
 
+            // Setup listening for theme changes:
+            SetupThemeListener();
+
             isRunning = true;
 
             // Do not repeat app initialization when the Window already has content,
@@ -126,6 +132,20 @@ namespace UWPX_UI
             rootFrame.Content = extendedSplashScreen;
 
             Window.Current.Activate();
+        }
+
+        private void SetupThemeListener()
+        {
+            if (themeListener is null)
+            {
+                themeListener = new ThemeListener();
+                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            }
+        }
+
+        private void ThemeListener_ThemeChanged(ThemeListener sender)
+        {
+            UiUtils.SetupWindow(Current);
         }
 
         #endregion
