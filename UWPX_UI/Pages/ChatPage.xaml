@@ -6,8 +6,7 @@
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
-      xmlns:masterdetailsview="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:masterdetailsview1="using:UWPX_UI.Controls.Toolkit.MasterDetailsView"
+      xmlns:masterdetailsview="using:UWPX_UI.Controls.Toolkit.MasterDetailsView"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
@@ -45,10 +44,12 @@
         </Grid.RowDefinitions>
 
         <controls:CustomTitleBarControl Grid.Row="0"
-                                        Frame="{x:Bind Frame, Mode=OneWay}"/>
+                                        Frame="{x:Bind Frame, Mode=OneWay}"
+                                        MasterDetailsView="{x:Bind chats_mdv}"/>
 
         <masterdetailsview:MasterDetailsView x:Name="chats_mdv"
                                              Grid.Row="1"
+                                             BackButtonBehavior="Manual"
                                              Background="Transparent"
                                              BorderBrush="{ThemeResource TextControlBorderBrush}"
                                              DetailsTemplate="{StaticResource DetailsTemplate}"

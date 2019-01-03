@@ -49,9 +49,8 @@
                             Grid.Column="0"
                             HorizontalAlignment="Left"
                             Click="BackRequest_btn_Click"
-                            IsEnabled="{x:Bind Frame.CanGoBack, Mode=OneWay}"
                             Style="{StaticResource NavigationBackButtonNormalStyle}"
-                            Visibility="{x:Bind BackRequestButtonVisability}"/>
+                            Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}"/>
                     <Button x:Name="goToOverview_btn"
                             Grid.Column="1"
                             Click="GoToOverview_btn_Click"
@@ -67,12 +66,12 @@
                                       VerticalAlignment="Center"
                                       FontSize="16"
                                       Foreground="{ThemeResource SystemAccentColor}"
-                                      Glyph="{x:Bind Path=Glyph}"/>
+                                      Glyph="{x:Bind Path=Glyph, Mode=OneWay}"/>
                             <TextBlock Grid.Column="1"
                                        Margin="10,0,0,2"
                                        VerticalAlignment="Center"
                                        FontSize="16"
-                                       Text="{x:Bind Path=Text}"/>
+                                       Text="{x:Bind Path=Text, Mode=OneWay}"/>
                         </Grid>
                     </Button>
                 </Grid>
