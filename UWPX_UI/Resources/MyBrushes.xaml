@@ -42,6 +42,8 @@
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
+            <Color x:Key="DropShadowColor">#FF000000</Color>
+
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="#FF242424"
@@ -58,6 +60,8 @@
                              Color="#FFFFD700"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
+            <Color x:Key="DropShadowColor">#FF000000</Color>
+
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="#FFD6D6D6"

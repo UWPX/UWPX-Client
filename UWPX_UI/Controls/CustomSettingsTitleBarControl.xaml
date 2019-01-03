@@ -19,7 +19,7 @@
     <controls:DropShadowPanel BlurRadius="10"
                               OffsetX="0"
                               OffsetY="2"
-                              ShadowOpacity="1">
+                              ShadowOpacity="0.4">
         <Grid Background="{StaticResource AppBackgroundAcrylicWindowBrush}">
             <Grid Background="{StaticResource AppBackgroundAcrylicElementBrush}">
                 <Grid.RowDefinitions>
