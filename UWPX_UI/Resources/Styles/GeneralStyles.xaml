@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls">
 
     <Style x:Key="BaseLineTextBlockStyle"
            BasedOn="{StaticResource BaseTextBlockStyle}"
@@ -18,6 +19,10 @@
            TargetType="TextBlock">
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         <Setter Property="MaxLines" Value="1"/>
+    </Style>
+
+    <Style TargetType="controls:DropShadowPanel">
+        <Setter Property="Color" Value="{StaticResource DropShadowColor}"/>
     </Style>
 
     <!--
