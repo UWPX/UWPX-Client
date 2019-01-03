@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes;
+﻿using UWPX_UI.Controls.Toolkit.MasterDetailsView;
+using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -16,6 +17,20 @@ namespace UWPX_UI.Controls
             set { SetValue(FrameProperty, value); }
         }
         public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null));
+
+        public MasterDetailsView MasterDetailsView
+        {
+            get { return (MasterDetailsView)GetValue(MasterDetailsViewProperty); }
+            set { SetValue(MasterDetailsViewProperty, value); }
+        }
+        public static readonly DependencyProperty MasterDetailsViewProperty = DependencyProperty.Register(nameof(MasterDetailsView), typeof(MasterDetailsView), typeof(CustomTitleBarControl), new PropertyMetadata(null));
+
+        public Visibility BackRequestButtonVisability
+        {
+            get { return (Visibility)GetValue(BackRequestButtonVisabilityProperty); }
+            set { SetValue(BackRequestButtonVisabilityProperty, value); }
+        }
+        public static readonly DependencyProperty BackRequestButtonVisabilityProperty = DependencyProperty.Register(nameof(BackRequestButtonVisability), typeof(Visibility), typeof(CustomTitleBarControl), new PropertyMetadata(Visibility.Visible));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -102,7 +117,14 @@ namespace UWPX_UI.Controls
         #region --Events--
         private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.OnGoBackRequested(Frame);
+            if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
+            {
+                MasterDetailsView.SelectedItem = null;
+            }
+            else
+            {
+                UiUtils.OnGoBackRequested(Frame);
+            }
         }
 
         #endregion
