@@ -22,7 +22,7 @@
     </Style>
 
     <Style TargetType="controls:DropShadowPanel">
-        <Setter Property="Color" Value="{StaticResource DropShadowColor}"/>
+        <Setter Property="Color" Value="{ThemeResource DropShadowColor}"/>
     </Style>
 
     <!--

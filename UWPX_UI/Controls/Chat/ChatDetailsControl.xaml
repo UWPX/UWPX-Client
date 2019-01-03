@@ -56,7 +56,7 @@
 
             <!--  Header:  -->
             <Grid Grid.Row="0"
-                  Background="{StaticResource AppBackgroundAcrylicElementBrush}">
+                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -106,21 +106,21 @@
                     <!--  Name:  -->
                     <TextBlock Grid.Row="0"
                                HorizontalAlignment="Center"
-                               Style="{StaticResource BaseLineTextBlockStyle}"
+                               Style="{ThemeResource BaseLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <!--  Account:  -->
                     <TextBlock Grid.Row="1"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource CaptionTextBrush}"
-                               Style="{StaticResource CaptionLineTextBlockStyle}"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Style="{ThemeResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <!--  Status:  -->
                     <TextBlock Grid.Row="2"
                                HorizontalAlignment="Center"
-                               Foreground="{StaticResource CaptionTextBrush}"
-                               Style="{StaticResource CaptionLineTextBlockStyle}"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Style="{ThemeResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                 </Grid>
@@ -131,7 +131,7 @@
                         Content="&#xE712;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
-                        Style="{StaticResource ButtonRevealStyle}"
+                        Style="{ThemeResource ButtonRevealStyle}"
                         ToolTipService.ToolTip="More">
                     <Button.Flyout>
                         <MenuFlyout>
@@ -207,7 +207,7 @@
 
             <!--  Messages Loading:  -->
             <controls1:Loading Grid.Row="2"
-                               Background="{StaticResource SystemControlAcrylicElementBrush}"
+                               Background="{ThemeResource SystemControlAcrylicElementBrush}"
                                IsLoading="{x:Bind VIEW_MODEL.MODEL.IsLoadingChatMessages, Mode=OneWay}">
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
@@ -225,7 +225,7 @@
                         Content="&#xE723;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="27"
-                        Style="{StaticResource TransparentThemeButtonStyle}"
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Send images/files">
                     <Button.Flyout>
                         <Flyout>
@@ -308,7 +308,7 @@
                 <TextBox x:Name="message_tbx"
                          Grid.Column="1"
                          KeyUp="Message_tbx_KeyUp"
-                         Style="{StaticResource MessageTextBoxStyle}"
+                         Style="{ThemeResource MessageTextBoxStyle}"
                          Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="send_btn"
                         Grid.Column="2"
@@ -317,7 +317,7 @@
                         Click="Send_btn_Click"
                         FontSize="27"
                         IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
-                        Style="{StaticResource TransparentThemeButtonStyle}"
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Send message">
                     <Grid>
                         <TextBlock FontFamily="Segoe MDL2 Assets"

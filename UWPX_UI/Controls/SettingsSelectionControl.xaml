@@ -11,9 +11,9 @@
     <composition1:DropShadowPanel>
         <Button Width="140"
                 Height="160"
-                Background="{StaticResource AppBackgroundAcrylicWindowBrush}"
+                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
                 Click="Button_Click"
-                Style="{StaticResource ButtonRevealStyle}">
+                Style="{ThemeResource ButtonRevealStyle}">
             <Grid Margin="5,10,5,0">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -27,13 +27,13 @@
                           Glyph="{x:Bind Model.Glyph, Mode=OneWay}"/>
                 <TextBlock Grid.Row="1"
                            HorizontalAlignment="Center"
-                           Style="{StaticResource BodyTextBlockStyle}"
+                           Style="{ThemeResource BodyTextBlockStyle}"
                            Text="{x:Bind Model.Name, Mode=OneWay}"/>
                 <TextBlock Grid.Row="2"
                            HorizontalAlignment="Center"
                            Foreground="{ThemeResource CaptionTextBrush}"
                            MaxLines="5"
-                           Style="{StaticResource CaptionTextBlockStyle}"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
                            Text="{x:Bind Model.Description, Mode=OneWay}"
                            TextAlignment="Center"
                            TextWrapping="Wrap"/>

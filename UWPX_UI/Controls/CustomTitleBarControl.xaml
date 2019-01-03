@@ -4,7 +4,7 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Background="{StaticResource AppBackgroundAcrylicElementBrush}"
+             Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
              mc:Ignorable="d">
 
     <Grid Background="{x:Bind Background, Mode=OneWay}">
@@ -27,7 +27,7 @@
                 Grid.Row="0"
                 HorizontalAlignment="Left"
                 Click="BackRequest_btn_Click"
-                Style="{StaticResource NavigationBackButtonNormalStyle}"
+                Style="{ThemeResource NavigationBackButtonNormalStyle}"
                 Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}"/>
         <controls:SeperatorControl Grid.Row="1"/>
     </Grid>

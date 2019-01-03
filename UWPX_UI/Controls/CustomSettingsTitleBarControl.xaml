@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:UWPX_UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Background="{StaticResource AppBackgroundAcrylicElementBrush}"
+             Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -20,8 +20,8 @@
                               OffsetX="0"
                               OffsetY="2"
                               ShadowOpacity="0.4">
-        <Grid Background="{StaticResource AppBackgroundAcrylicWindowBrush}">
-            <Grid Background="{StaticResource AppBackgroundAcrylicElementBrush}">
+        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+            <Grid Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -49,7 +49,7 @@
                             Grid.Column="0"
                             HorizontalAlignment="Left"
                             Click="BackRequest_btn_Click"
-                            Style="{StaticResource NavigationBackButtonNormalStyle}"
+                            Style="{ThemeResource NavigationBackButtonNormalStyle}"
                             Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}"/>
                     <Button x:Name="goToOverview_btn"
                             Grid.Column="1"

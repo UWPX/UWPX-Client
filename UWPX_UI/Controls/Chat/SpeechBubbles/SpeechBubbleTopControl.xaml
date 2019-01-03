@@ -36,14 +36,14 @@
         </Grid.RowDefinitions>
 
         <Polygon Grid.Row="0"
-                 Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"
+                 Fill="{ThemeResource SpeechBubbleBackgroundLightBrush}"
                  Points="10,0 10,10 20,10"/>
 
         <Border Grid.Row="1"
                 MinWidth="100"
                 MinHeight="40"
                 Margin="0,0,10,0"
-                Background="{StaticResource SpeechBubbleBackgroundLightBrush}">
+                Background="{ThemeResource SpeechBubbleBackgroundLightBrush}">
             <ContentControl x:Name="content_cp"
                             Margin="5"
                             HorizontalContentAlignment="Stretch"
@@ -58,7 +58,7 @@
                      Width="20"
                      Height="20"
                      VerticalAlignment="Top"
-                     Fill="{StaticResource SpeechBubbleBackgroundLightBrush}"/>
+                     Fill="{ThemeResource SpeechBubbleBackgroundLightBrush}"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>

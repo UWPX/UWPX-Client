@@ -187,7 +187,7 @@
                             HorizontalAlignment="Stretch">
                     <TextBlock x:Name="name_tblck"
                                Margin="10,0,0,0"
-                               Style="{StaticResource BodyLineTextBlockStyle}"
+                               Style="{ThemeResource BodyLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <Grid Margin="10,0,10,0">
@@ -201,22 +201,22 @@
                                    VerticalAlignment="Center"
                                    FontFamily="Segoe MDL2 Assets"
                                    Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
-                                   Style="{StaticResource CaptionLineTextBlockStyle}"
+                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"/>
                         <TextBlock x:Name="lastAction_tblck"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
                                    Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
                                    MaxLines="1"
-                                   Style="{StaticResource CaptionLineTextBlockStyle}"
+                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
                                    TextTrimming="CharacterEllipsis"/>
                     </Grid>
                     <TextBlock x:Name="info_tblck"
                                Grid.Column="0"
                                Margin="10,0,0,0"
-                               Foreground="{StaticResource CaptionTextBrush}"
-                               Style="{StaticResource CaptionLineTextBlockStyle}"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Style="{ThemeResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisability, Mode=OneWay}"/>
@@ -237,7 +237,7 @@
                                VerticalAlignment="Center"
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="12"
-                               Foreground="{StaticResource GoldBrush}"
+                               Foreground="{ThemeResource GoldBrush}"
                                Text="&#xE734;"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisability, Mode=OneWay}"/>
                     <TextBlock x:Name="muted_tbck"
@@ -246,14 +246,14 @@
                                VerticalAlignment="Center"
                                FontFamily="Segoe MDL2 Assets"
                                FontSize="13"
-                               Foreground="{StaticResource CaptionTextBrush}"
+                               Foreground="{ThemeResource CaptionTextBrush}"
                                Text="&#xE74F;"
                                Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
                     <TextBlock x:Name="lastActionDate_tblck"
                                Grid.Row="2"
                                HorizontalAlignment="Right"
                                FontSize="10"
-                               Foreground="{StaticResource CaptionTextBrush}"
+                               Foreground="{ThemeResource CaptionTextBrush}"
                                Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
                                TextTrimming="CharacterEllipsis"/>
                 </Grid>
@@ -275,7 +275,7 @@
                            Grid.ColumnSpan="2"
                            Margin="0,0,0,5"
                            Foreground="{ThemeResource SystemAccentColor}"
-                           Style="{StaticResource BodyTextBlockStyle}"
+                           Style="{ThemeResource BodyTextBlockStyle}"
                            TextWrapping="Wrap"/>
                 <Button x:Name="accountActionAccept_btn"
                         Grid.Row="1"

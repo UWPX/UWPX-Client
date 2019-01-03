@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Microsoft.Toolkit.Uwp.UI.Helpers;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext
@@ -8,13 +9,15 @@ namespace UWPX_UI_Context.Classes.DataContext
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly ChatMasterControlDataTemplate MODEL;
+        private readonly ThemeListener THEME_LISTENER = new ThemeListener();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public ChatMasterControlContext(ResourceDictionary resources)
         {
-            MODEL = new ChatMasterControlDataTemplate(resources);
+            this.MODEL = new ChatMasterControlDataTemplate(resources);
+            this.THEME_LISTENER.ThemeChanged += THEME_LISTENER_ThemeChanged;
         }
 
         #endregion
@@ -73,6 +76,11 @@ namespace UWPX_UI_Context.Classes.DataContext
             {
                 UpdateView(chat);
             }
+        }
+
+        private void THEME_LISTENER_ThemeChanged(ThemeListener sender)
+        {
+            MODEL.OnThemeChanged();
         }
 
         #endregion

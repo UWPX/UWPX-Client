@@ -13,7 +13,7 @@
         <Style x:Key="ReplacedContectMenuCaptionTextBlock"
                BasedOn="{StaticResource CaptionTextBlockStyle}"
                TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource SpeechBubbleCaptionForegroundBrush}"/>
+            <Setter Property="Foreground" Value="{ThemeResource SpeechBubbleCaptionForegroundBrush}"/>
             <Setter Property="IsTextSelectionEnabled" Value="True"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
@@ -32,10 +32,10 @@
                 Orientation="Horizontal">
         <TextBlock Margin="0,0,5,0"
                    ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
-                   Style="{StaticResource ReplacedContectMenuCaptionTextBlock}"
+                   Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
                    Text="{x:Bind ViewModel.MODEL.Date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
         <FontIcon Margin="0,0,0,2"
                   Glyph="&#xE783;"
-                  Style="{StaticResource ReplacedContectMenuCaptionFontIcon}"/>
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"/>
     </StackPanel>
 </UserControl>

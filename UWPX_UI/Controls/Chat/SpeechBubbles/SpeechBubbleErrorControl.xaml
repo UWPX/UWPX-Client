@@ -14,7 +14,7 @@
           MinHeight="40"
           Margin="20,0,20,0"
           Padding="5"
-          Background="{StaticResource SpeechBubbleErrorBackgroundBrush}">
+          Background="{ThemeResource SpeechBubbleErrorBackgroundBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -24,7 +24,7 @@
         <TextBlock Grid.Row="0"
                    HorizontalAlignment="Center"
                    extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind VIEW_MODEL.MODEL.Text, Mode=OneWay}"
-                   Foreground="{StaticResource SpeechBubbleForegroundBrush}"
+                   Foreground="{ThemeResource SpeechBubbleForegroundBrush}"
                    IsTextSelectionEnabled="True"
                    Text="Loading..."
                    TextWrapping="Wrap"/>
