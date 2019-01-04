@@ -34,12 +34,16 @@ namespace UWPX_UI_Context.Classes.DataContext
             if (args.OldValue is ChatDataTemplate oldChat)
             {
                 oldChat.PropertyChanged -= OldChat_PropertyChanged;
+                oldChat.ChatMessageChanged -= OldChat_ChatMessageChanged;
+                oldChat.NewChatMessage -= OldChat_NewChatMessage;
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
                 newChat.PropertyChanged += OldChat_PropertyChanged;
+                newChat.ChatMessageChanged += OldChat_ChatMessageChanged;
+                newChat.NewChatMessage += OldChat_NewChatMessage;
             }
 
             UpdateView(newChat);
@@ -81,6 +85,16 @@ namespace UWPX_UI_Context.Classes.DataContext
         private void THEME_LISTENER_ThemeChanged(ThemeListener sender)
         {
             MODEL.OnThemeChanged();
+        }
+
+        private void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
+        {
+            MODEL.UpdateLastAction(chat.Chat);
+        }
+
+        private void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
+        {
+            MODEL.UpdateLastAction(chat.Chat);
         }
 
         #endregion

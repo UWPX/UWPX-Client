@@ -263,10 +263,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private void UpdateLastAction(ChatTable chat)
+        public void UpdateLastAction(ChatTable chat)
         {
             Task.Run(() =>
             {
@@ -316,6 +313,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 }
             });
         }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+
 
         #endregion
 

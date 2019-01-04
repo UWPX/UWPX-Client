@@ -2,6 +2,7 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
+using Logging;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -134,6 +135,30 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
         }
 
+        public void OnNewChatMessage(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
+        {
+            CHAT_MESSAGES.Add(new ChatMessageDataTemplate
+            {
+                Chat = chat,
+                Message = msg,
+                MUC = muc
+            });
+        }
+
+        public void OnChatMessageChnaged(ChatMessageTable msg)
+        {
+            foreach (ChatMessageDataTemplate chatMsg in CHAT_MESSAGES)
+            {
+                if (string.Equals(chatMsg.Message.id, msg.id))
+                {
+                    chatMsg.Message = null;
+                    chatMsg.Message = msg;
+                    return;
+                }
+            }
+            Logger.Warn("OnChatMessageChnaged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -193,11 +218,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.id);
             // Remove notification group:
             ToastHelper.removeToastGroup(chat.id);
-        }
-
-        private void OnMessageTextChanged(string oldValue, string newValue)
-        {
-
         }
 
         #endregion
