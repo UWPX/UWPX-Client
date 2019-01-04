@@ -1,23 +1,23 @@
-﻿using Data_Manager2.Classes.Events;
-using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
+using Data_Manager2.Classes.Omemo;
+using Data_Manager2.Classes.Toast;
 using Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
-using System.Threading;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
-using XMPP_API.Classes.Network.Events;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using Data_Manager2.Classes.Toast;
-using Data_Manager2.Classes.Omemo;
 
 namespace Data_Manager2.Classes
 {

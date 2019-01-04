@@ -47,7 +47,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            if (item is ChatMessageDataTemplate model)
+            if (item is ChatMessageDataTemplate model && !(model.Message is null))
             {
                 switch (model.Message.type)
                 {

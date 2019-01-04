@@ -78,6 +78,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
+        private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
 
         private CancellationTokenSource loadChatMessagesCancelToken = null;
         private Task loadChatMessagesTask = null;
@@ -137,25 +138,30 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
         public void OnNewChatMessage(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
         {
+            CHAT_MESSAGES_SEMA.Wait();
             CHAT_MESSAGES.Add(new ChatMessageDataTemplate
             {
                 Chat = chat,
                 Message = msg,
                 MUC = muc
             });
+            CHAT_MESSAGES_SEMA.Release();
         }
 
         public void OnChatMessageChnaged(ChatMessageTable msg)
         {
+            CHAT_MESSAGES_SEMA.Wait();
             foreach (ChatMessageDataTemplate chatMsg in CHAT_MESSAGES)
             {
                 if (string.Equals(chatMsg.Message.id, msg.id))
                 {
                     chatMsg.Message = null;
                     chatMsg.Message = msg;
+                    CHAT_MESSAGES_SEMA.Release();
                     return;
                 }
             }
+            CHAT_MESSAGES_SEMA.Release();
             Logger.Warn("OnChatMessageChnaged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
         }
 
@@ -183,7 +189,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 }
 
                 IsLoadingChatMessages = true;
+
+                CHAT_MESSAGES_SEMA.Wait();
                 CHAT_MESSAGES.Clear();
+                CHAT_MESSAGES_SEMA.Release();
+
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                 loadChatMessagesTask = Task.Run(() =>
                 {
@@ -202,7 +212,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
                 if (!loadChatMessagesCancelToken.IsCancellationRequested)
                 {
+                    CHAT_MESSAGES_SEMA.Wait();
                     CHAT_MESSAGES.AddRange(msgs);
+                    CHAT_MESSAGES_SEMA.Release();
                 }
 
                 IsLoadingChatMessages = false;
