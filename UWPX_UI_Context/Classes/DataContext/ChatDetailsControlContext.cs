@@ -43,12 +43,16 @@ namespace UWPX_UI_Context.Classes.DataContext
             if (args.OldValue is ChatDataTemplate oldChat)
             {
                 oldChat.PropertyChanged -= OldChat_PropertyChanged;
+                oldChat.ChatMessageChanged -= OldChat_ChatMessageChanged;
+                oldChat.NewChatMessage -= OldChat_NewChatMessage;
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
                 newChat.PropertyChanged += OldChat_PropertyChanged;
+                newChat.ChatMessageChanged += OldChat_ChatMessageChanged;
+                newChat.NewChatMessage += OldChat_NewChatMessage;
             }
 
             UpdateView(newChat);
@@ -185,6 +189,20 @@ namespace UWPX_UI_Context.Classes.DataContext
             {
                 UpdateView(chat);
             }
+        }
+
+        private async void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
+        {
+            MODEL.OnNewChatMessage(args.MESSAGE, chat.Chat, chat.MucInfo);
+            await Task.Run(() =>
+            {
+                ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
+            });
+        }
+
+        private void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
+        {
+            MODEL.OnChatMessageChnaged(args.MESSAGE);
         }
 
         #endregion

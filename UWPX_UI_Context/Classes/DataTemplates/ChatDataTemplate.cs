@@ -1,10 +1,13 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
+using System;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class ChatDataTemplate : AbstractDataTemplate
+    public sealed class ChatDataTemplate : AbstractDataTemplate, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -38,11 +41,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         /// </summary>
         public int Index { get; set; }
 
+        public delegate void NewChatMessageHandler(ChatDataTemplate chat, NewChatMessageEventArgs args);
+        public delegate void ChatMessageChangedHandler(ChatDataTemplate chat, ChatMessageChangedEventArgs args);
+
+        public event ChatMessageChangedHandler ChatMessageChanged;
+        public event NewChatMessageHandler NewChatMessage;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public ChatDataTemplate()
+        {
+            ChatDBManager.INSTANCE.NewChatMessage += INSTANCE_NewChatMessage;
+            ChatDBManager.INSTANCE.ChatMessageChanged += INSTANCE_ChatMessageChanged;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -52,7 +64,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void Dispose()
+        {
+            ChatDBManager.INSTANCE.NewChatMessage -= INSTANCE_NewChatMessage;
+            ChatDBManager.INSTANCE.ChatMessageChanged -= INSTANCE_ChatMessageChanged;
+        }
 
         #endregion
 
@@ -67,7 +83,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void INSTANCE_ChatMessageChanged(ChatDBManager handler, ChatMessageChangedEventArgs args)
+        {
+            if (string.Equals(Chat?.id, args.MESSAGE.chatId))
+            {
+                ChatMessageChanged?.Invoke(this, args);
+            }
+        }
 
+        private void INSTANCE_NewChatMessage(ChatDBManager handler, NewChatMessageEventArgs args)
+        {
+            if (string.Equals(Chat?.id, args.MESSAGE.chatId))
+            {
+                NewChatMessage?.Invoke(this, args);
+            }
+        }
 
         #endregion
     }
