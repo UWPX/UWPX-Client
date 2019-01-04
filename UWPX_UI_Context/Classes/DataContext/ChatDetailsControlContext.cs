@@ -1,9 +1,15 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
 using Logging;
+using System;
+using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Input;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI_Context.Classes.DataContext
 {
@@ -48,27 +54,89 @@ namespace UWPX_UI_Context.Classes.DataContext
             UpdateView(newChat);
         }
 
-        public void SendChatMessage(ChatDataTemplate chat)
+        public async Task SendChatMessageAsync(ChatDataTemplate chat)
         {
-            // Remove tailing and leading whitespaces, tabs and newlines:
             if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
             {
-                string trimed = MODEL.MessageText.Trim(UiUtils.TRIM_CHARS);
+                // Remove tailing and leading whitespaces, tabs and newlines:
+                string trimedMsg = MODEL.MessageText.Trim(UiUtils.TRIM_CHARS);
+
+                // Send message:
                 if (MODEL.OmemoEnabled)
                 {
-                    // ToDo: Send encrypted
-                    Logger.Debug("Send encrypted: " + trimed);
+                    await SendChatMessageAsync(trimedMsg, chat, true);
+                    Logger.Debug("Send encrypted: " + trimedMsg);
                 }
                 else
                 {
-                    // ToDo: Send unencrypted
-                    Logger.Debug("Send unencrypted: " + trimed);
+                    await SendChatMessageAsync(trimedMsg, chat, false);
+                    Logger.Debug("Send unencrypted: " + trimedMsg);
                 }
                 MODEL.MessageText = string.Empty;
             }
         }
 
-        public void OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
+        private async Task SendChatMessageAsync(string message, ChatDataTemplate chat, bool encrypt)
+        {
+            MessageMessage toSendMsg;
+
+            string from = chat.Client.getXMPPAccount().getIdDomainAndResource();
+            string to = chat.Chat.chatJabberId;
+            string chatType = chat.Chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
+            bool reciptRequested = true;
+
+            if (encrypt)
+            {
+                if (chat.Chat.chatType == ChatType.CHAT)
+                {
+                    toSendMsg = new OmemoMessageMessage(from, to, message, chatType, reciptRequested);
+                }
+                else
+                {
+                    // ToDo: Add MUC OMEMO support
+                    throw new NotImplementedException("Sending encrypted messages for MUC is not supported right now!");
+                }
+            }
+            else
+            {
+                if (chat.Chat.chatType == ChatType.CHAT)
+                {
+                    toSendMsg = new MessageMessage(from, to, message, chatType, reciptRequested);
+                }
+                else
+                {
+                    toSendMsg = new MessageMessage(from, to, message, chatType, chat.MucInfo.nickname, reciptRequested);
+                }
+            }
+
+            // Send the message:
+            if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
+            {
+                chat.Client.sendOmemoMessage(toSendOmemoMsg, from, chat.Client.getXMPPAccount().getIdAndDomain());
+            }
+            else
+            {
+                await chat.Client.sendAsync(toSendMsg).ConfigureAwait(false);
+            }
+
+            // Create a copy for the DB:
+            ChatMessageTable toSendMsgDB = new ChatMessageTable(toSendMsg, chat.Chat)
+            {
+                state = toSendMsg is OmemoMessageMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
+            };
+
+            // Update chat last active:
+            chat.Chat.lastActive = DateTime.Now;
+
+            // Update DB:
+            await Task.Run(() =>
+            {
+                ChatDBManager.INSTANCE.setChatMessage(toSendMsgDB, true, false);
+                ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
+            });
+        }
+
+        public async Task OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
         {
             if (args.Key == VirtualKey.Enter)
             {
@@ -76,7 +144,7 @@ namespace UWPX_UI_Context.Classes.DataContext
                 {
                     if (!UiUtils.IsVirtualKeyDown(VirtualKey.Shift) && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
                     {
-                        SendChatMessage(chat);
+                        await SendChatMessageAsync(chat);
                         args.Handled = true;
                     }
                 }
