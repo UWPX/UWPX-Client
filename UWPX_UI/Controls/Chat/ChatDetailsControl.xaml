@@ -44,8 +44,12 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Image Grid.Row="0"
+               Source="ms-appx:///Assets/Images/splash_screen.png"
+               Stretch="UniformToFill"/>
+
         <!--  Main:  -->
-        <Grid>
+        <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
