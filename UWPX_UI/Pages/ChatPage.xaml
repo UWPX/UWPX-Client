@@ -28,11 +28,23 @@
             </DataTemplate>
 
             <DataTemplate x:Key="NoSelectionTemplate">
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
-                    <Image Source="ms-appx:///Assets/Images/splash_screen.png"
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Grid.Row="0"
+                           Source="ms-appx:///Assets/Images/splash_screen.png"
                            Stretch="UniformToFill"/>
-                </StackPanel>
+                    <StackPanel Grid.Row="0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Image Width="100"
+                               Height="100"
+                               Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="Select a chat to view."/>
+                    </StackPanel>
+                </Grid>
             </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
