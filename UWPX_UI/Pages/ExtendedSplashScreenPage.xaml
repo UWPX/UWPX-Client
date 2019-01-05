@@ -6,9 +6,17 @@
       mc:Ignorable="d">
 
     <Grid Background="{ThemeResource SystemAccentColor}">
-        <Image HorizontalAlignment="Center"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Grid.Row="0"
+               HorizontalAlignment="Center"
                VerticalAlignment="Center"
                Source="ms-appx:///Assets/Images/splash_screen.png"
                Stretch="UniformToFill"/>
+        <Canvas Grid.Row="0">
+            <Image x:Name="logo_img"
+                   Source="ms-appx:///Assets/SplashScreen.scale-200.png"/>
+        </Canvas>
     </Grid>
 </Page>

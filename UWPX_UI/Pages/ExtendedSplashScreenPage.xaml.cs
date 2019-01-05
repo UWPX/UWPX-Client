@@ -51,6 +51,14 @@ namespace UWPX_UI.Pages
         #endregion
 
         #region --Misc Methods (Private)--
+        private void PositionLogoImage()
+        {
+            logo_img.SetValue(Canvas.LeftProperty, ACTIVATION_ARGS.SplashScreen.ImageLocation.X);
+            logo_img.SetValue(Canvas.TopProperty, ACTIVATION_ARGS.SplashScreen.ImageLocation.Y);
+            logo_img.Height = ACTIVATION_ARGS.SplashScreen.ImageLocation.Height;
+            logo_img.Width = ACTIVATION_ARGS.SplashScreen.ImageLocation.Width;
+        }
+
         /// <summary>
         /// Sets up App Center crash and push support.
         /// </summary>
@@ -95,6 +103,7 @@ namespace UWPX_UI.Pages
         {
             if (!(ACTIVATION_ARGS.SplashScreen is null))
             {
+                PositionLogoImage();
                 ACTIVATION_ARGS.SplashScreen.Dismissed += SPLASH_SCREEN_Dismissed;
             }
         }
