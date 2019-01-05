@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
              HorizontalAlignment="Right"
              VerticalAlignment="Bottom"
              d:DesignHeight="60"
@@ -25,6 +26,9 @@
             <Setter Property="FontWeight" Value="Bold"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
+
+        <valueConverter:MessageStateGlyphTextValueConverter x:Key="MessageStateGlyphTextValueConverter"/>
+        <valueConverter:MessageStateIsDeliveredVisabilityValueConverter x:Key="MessageStateIsDeliveredVisabilityValueConverter"/>
     </UserControl.Resources>
 
     <StackPanel HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
@@ -57,12 +61,12 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <FontIcon Glyph="{x:Bind ViewModel.MODEL.StateIconText, Mode=OneWay}"
+            <FontIcon Glyph="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateGlyphTextValueConverter}}"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"/>
             <FontIcon Margin="5,0,0,7"
                       Glyph="&#xE73E;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.IsDelivered, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateIsDeliveredVisabilityValueConverter}}"/>
         </Grid>
     </StackPanel>
 </UserControl>
