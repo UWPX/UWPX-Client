@@ -155,7 +155,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             {
                 if (string.Equals(chatMsg.Message.id, msg.id))
                 {
-                    chatMsg.Message = null;
                     chatMsg.Message = msg;
                     CHAT_MESSAGES_SEMA.Release();
                     return;

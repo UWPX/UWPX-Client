@@ -194,10 +194,13 @@ namespace UWPX_UI_Context.Classes.DataContext
         private async void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
         {
             MODEL.OnNewChatMessage(args.MESSAGE, chat.Chat, chat.MucInfo);
-            await Task.Run(() =>
+            if (args.MESSAGE.state == MessageState.UNREAD)
             {
-                ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
-            });
+                await Task.Run(() =>
+                {
+                    ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
+                });
+            }
         }
 
         private void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)

@@ -38,18 +38,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _IsCarbonCopy; }
             set { SetProperty(ref _IsCarbonCopy, value); }
         }
-        private string _StateIconText;
-        public string StateIconText
-        {
-            get { return _StateIconText; }
-            set { SetProperty(ref _StateIconText, value); }
-        }
-        private bool _IsDelivered;
-        public bool IsDelivered
-        {
-            get { return _IsDelivered; }
-            set { SetProperty(ref _IsDelivered, value); }
-        }
         private string _MessageType;
         public string MessageType
         {
@@ -93,46 +81,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             IsCarbonCopy = message.isCC;
             IsEncrypted = message.isEncrypted;
             Date = message.date;
-            IsDelivered = false;
             MessageType = message.type;
             IsImage = message.isImage;
             State = message.state;
-
-            switch (message.state)
-            {
-                case MessageState.SENDING:
-                    StateIconText = "\uE724";
-                    break;
-
-                case MessageState.SEND:
-                    StateIconText = "\uE725";
-                    break;
-
-                case MessageState.DELIVERED:
-                    StateIconText = "\uE725";
-                    IsDelivered = true;
-                    break;
-
-                case MessageState.UNREAD:
-                    StateIconText = "\uEA63";
-                    break;
-
-                case MessageState.READ:
-                    StateIconText = "\uEA64";
-                    break;
-
-                case MessageState.TO_ENCRYPT:
-                    StateIconText = "\uE724";
-                    break;
-
-                case MessageState.ENCRYPT_FAILED:
-                    StateIconText = "\uEA39";
-                    break;
-
-                default:
-                    StateIconText = "\uE9CE";
-                    break;
-            }
 
             if (chat.chatType == ChatType.MUC)
             {
