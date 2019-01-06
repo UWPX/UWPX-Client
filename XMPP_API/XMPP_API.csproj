@@ -159,6 +159,7 @@
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
     <Compile Include="Classes\Crypto\CryptoUtils.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA256SASLMechanism.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />

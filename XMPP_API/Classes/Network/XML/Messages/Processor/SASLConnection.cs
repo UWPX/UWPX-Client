@@ -18,7 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         private SASLState state;
         private AbstractSASLMechanism selectedMechanism;
         // The offered authentication mechanism in preferred order:
-        private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "scram-sha-1", "plain" };
+        private static readonly ArrayList OFFERED_MECHANISMS = new ArrayList() { "scram-sha-256", "scram-sha-1", "plain" };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -83,6 +83,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             XMPPAccount sCC = XMPP_CONNECTION.account;
             switch (selected)
             {
+                case "scram-sha-256":
+                    selectedMechanism = new ScramSHA256SASLMechanism(sCC.user.userId, sCC.user.userPassword);
+                    break;
+
                 case "scram-sha-1":
                     selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.userId, sCC.user.userPassword);
                     break;
