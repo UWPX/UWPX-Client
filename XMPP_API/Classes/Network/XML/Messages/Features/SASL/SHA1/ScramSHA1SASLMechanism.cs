@@ -84,9 +84,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
                     // Throw wrong order
                 }
                 itersStr = itersStr.Substring(2);
-                if (!int.TryParse(itersStr, out int iters))
+                int iters = -1;
+                if (!int.TryParse(itersStr, out iters))
                 {
                     // Throw could not pars iterations
+                }
+                else if (!isValidIterationsCount(iters))
+                {
+                    // Throw invalid iterations count
                 }
 
                 return new ScramSha1ChallengeSolutionMessage(computeAnswer(iters));
@@ -106,7 +111,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         #endregion
 
         #region --Misc Methods (Private)--
-        private string computeAnswer(int iterations)
+        protected string computeAnswer(int iterations)
         {
             string clientFinalMessageBare = "c=biws,r=" + serverNonce;
             byte[] saltBytes = Convert.FromBase64String(saltBase64);
@@ -121,6 +126,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
             string clientFinalMessage = clientFinalMessageBare + ",p=" + Convert.ToBase64String(clientProof);
 
             return encodeStringBase64(clientFinalMessage);
+        }
+
+        protected virtual bool isValidIterationsCount(int iters)
+        {
+            return iters > 0;
         }
 
         #endregion
