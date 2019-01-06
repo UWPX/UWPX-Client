@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.TCP;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    abstract class AbstractMessageProcessor
+    public abstract class AbstractMessageProcessor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
