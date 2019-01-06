@@ -18,6 +18,7 @@
         public const string DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS = "dont_send_chat_message_received_markers";
         public const string DISABLE_PUSH = "disable_push";
         public const string DISABLE_DOWNLOAD_IMAGES_TO_LIBARY = "disable_download_images_to_libary";
+        public const string DISABLE_IMAGE_AUTO_DOWNLOAD = "disable_image_auto_download";
         public const string DISABLE_CRASH_REPORTING = "disable_crash_reporting";
         public const string DISABLE_ANALYTICS = "disable_analytics";
         public const string DISABLE_AUTO_JOIN_MUC = "disable_auto_join_muc";
