@@ -1,4 +1,5 @@
 ﻿using System;
+using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain
 {
@@ -17,7 +18,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain
         /// <history>
         /// 24/08/2017 Created [Fabian Sauter]
         /// </history>
-        public PlainSASLMechanism(string id, string password) : base(id, password)
+        public PlainSASLMechanism(string id, string password, SASLConnection saslConnection) : base(id, password, saslConnection)
         {
         }
 

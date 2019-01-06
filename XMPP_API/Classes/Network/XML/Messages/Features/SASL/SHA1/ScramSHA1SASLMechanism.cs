@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Security.Cryptography;
 using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
 {
@@ -29,12 +30,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public ScramSHA1SASLMechanism(string id, string password) : this(id, password, CryptographicBuffer.EncodeToBase64String(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH)))
+        public ScramSHA1SASLMechanism(string id, string password, SASLConnection saslConnection) : this(id, password, CryptographicBuffer.EncodeToBase64String(CryptographicBuffer.GenerateRandom(CLIENT_NONCE_LENGTH)), saslConnection)
         {
 
         }
 
-        public ScramSHA1SASLMechanism(string id, string password, string clientNonceBase64) : base(id, password)
+        public ScramSHA1SASLMechanism(string id, string password, string clientNonceBase64, SASLConnection saslConnection) : base(id, password, saslConnection)
         {
             this.PASSWORD_NORMALIZED = password.Normalize();
             this.CLIENT_NONCE_BASE_64 = clientNonceBase64;
@@ -61,42 +62,48 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
                 string[] parts = serverFirstMsg.Split(',');
                 if (parts.Length != 3)
                 {
-                    // Throw not 3 parts
+                    onSaslError("SCRAM-SHA: Invalid server first message received: " + serverFirstMsg);
+                    return null;
                 }
 
                 string sNonce = parts[0];
                 if (!sNonce.StartsWith("r="))
                 {
-                    // Throw wrong order
+                    onSaslError("SCRAM-SHA: Invalid order for server first message received: " + serverFirstMsg);
+                    return null;
                 }
                 serverNonce = sNonce.Substring(2);
 
                 string saltTemp = parts[1];
                 if (!saltTemp.StartsWith("s="))
                 {
-                    // Throw wrong order
+                    onSaslError("SCRAM-SHA: Invalid order for server first message received: " + serverFirstMsg);
+                    return null;
                 }
                 saltBase64 = saltTemp.Substring(2);
 
                 string itersStr = parts[2];
                 if (!itersStr.StartsWith("i="))
                 {
-                    // Throw wrong order
+                    onSaslError("SCRAM-SHA: Invalid order for server first message received: " + serverFirstMsg);
+                    return null;
                 }
                 itersStr = itersStr.Substring(2);
                 int iters = -1;
                 if (!int.TryParse(itersStr, out iters))
                 {
-                    // Throw could not pars iterations
+                    onSaslError("SCRAM-SHA: Could not parse iterations for server first message: " + serverFirstMsg);
+                    return null;
                 }
                 else if (!isValidIterationsCount(iters))
                 {
-                    // Throw invalid iterations count
+                    onSaslError("SCRAM-SHA: Invalid iterations count " + itersStr + " received!");
+                    return null;
                 }
 
                 return new ScramSha1ChallengeSolutionMessage(computeAnswer(iters));
             }
-            // Throw wrong message
+            onSaslError("SCRAM-SHA: Invalid challenge message received!");
             return null;
         }
 

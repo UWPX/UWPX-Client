@@ -2,6 +2,7 @@
 using System.Text;
 using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
+using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
 {
@@ -11,6 +12,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         #region --Attributes--
         protected readonly string ID;
         protected readonly string PASSWORD;
+        private readonly SASLConnection SASL_CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,10 +23,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        protected AbstractSASLMechanism(string id, string password)
+        protected AbstractSASLMechanism(string id, string password, SASLConnection saslConnection)
         {
             this.ID = id;
             this.PASSWORD = password;
+            this.SASL_CONNECTION = saslConnection;
         }
 
         #endregion
@@ -61,6 +64,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         protected string decodeStringBase64(string s)
         {
             return Encoding.UTF8.GetString(Convert.FromBase64String(s));
+        }
+
+        protected void onSaslError(string errMsg)
+        {
+            if (!(SASL_CONNECTION is null))
+            {
+                SASL_CONNECTION.onSaslError(errMsg, SASLState.ERROR);
+            }
         }
 
         #endregion

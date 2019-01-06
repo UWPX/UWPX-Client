@@ -8,10 +8,11 @@ using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
+using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    class SASLConnection : AbstractMessageProcessor
+    public class SASLConnection : AbstractMessageProcessor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -84,23 +85,31 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             switch (selected)
             {
                 case "scram-sha-256":
-                    selectedMechanism = new ScramSHA256SASLMechanism(sCC.user.userId, sCC.user.userPassword);
+                    selectedMechanism = new ScramSHA256SASLMechanism(sCC.user.userId, sCC.user.userPassword, this);
                     break;
 
                 case "scram-sha-1":
-                    selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.userId, sCC.user.userPassword);
+                    selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.userId, sCC.user.userPassword, this);
                     break;
 
                 case "plain":
-                    selectedMechanism = new PlainSASLMechanism(sCC.user.userId, sCC.user.userPassword);
+                    selectedMechanism = new PlainSASLMechanism(sCC.user.userId, sCC.user.userPassword, this);
                     break;
 
                 default:
-                    state = SASLState.NO_VALID_MECHANISM;
-                    Logger.Error("Failed to select authentication mechanism. No supported mechanism available!");
-                    Task t = XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "Failed to select authentication mechanism. No supported mechanism available!"), true);
+                    onSaslError("Failed to select authentication mechanism - \"" + selected + "\" is no supported mechanism!", SASLState.NO_VALID_MECHANISM);
                     break;
             }
+        }
+
+        public void onSaslError(string errMsg, SASLState newState)
+        {
+            Task.Run(async () =>
+            {
+                Logger.Error(errMsg);
+                await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, errMsg), true);
+                state = newState;
+            });
         }
 
         #endregion
@@ -158,7 +167,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     {
                         state = SASLState.CHALLENGING;
                         setMessageProcessed(args);
-                        await XMPP_CONNECTION.sendAsync(selectedMechanism.generateResponse(msg), false, true);
+                        AbstractMessage response = selectedMechanism.generateResponse(msg);
+                        if (!(response is null))
+                        {
+                            await XMPP_CONNECTION.sendAsync(response, false, true);
+                        }
                     }
                     else if (msg is SASLSuccessMessage)
                     {

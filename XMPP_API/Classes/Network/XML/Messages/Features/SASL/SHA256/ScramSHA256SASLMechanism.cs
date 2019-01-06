@@ -1,4 +1,7 @@
-﻿namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
+﻿using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1;
+using XMPP_API.Classes.Network.XML.Messages.Processor;
+
+namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256
 {
     public class ScramSHA256SASLMechanism : ScramSHA1SASLMechanism
     {
@@ -23,11 +26,11 @@
         /// <history>
         /// 06/01/2019 Created [Fabian Sauter]
         /// </history>
-        public ScramSHA256SASLMechanism(string id, string password) : base(id, password)
+        public ScramSHA256SASLMechanism(string id, string password, SASLConnection saslConnection) : base(id, password, saslConnection)
         {
         }
 
-        public ScramSHA256SASLMechanism(string id, string password, string clientNonceBase64) : base(id, password, clientNonceBase64)
+        public ScramSHA256SASLMechanism(string id, string password, string clientNonceBase64, SASLConnection saslConnection) : base(id, password, clientNonceBase64, saslConnection)
         {
         }
 
