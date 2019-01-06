@@ -166,6 +166,9 @@
     <Compile Include="Controls\SettingsSelectionControl.xaml.cs">
       <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\SettingsContentControl.xaml.cs">
+      <DependentUpon>SettingsContentControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
@@ -178,6 +181,7 @@
     <Compile Include="Dialogs\InfoDialog.xaml.cs">
       <DependentUpon>InfoDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Extensions\ScrollViewerExtensions.cs" />
     <Compile Include="Extensions\TextBlockChatMessageFormatExtension.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -187,6 +191,9 @@
     </Compile>
     <Compile Include="Pages\ExtendedSplashScreenPage.xaml.cs">
       <DependentUpon>ExtendedSplashScreenPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\ChatSettingsPage.xaml.cs">
+      <DependentUpon>ChatSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -329,6 +336,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Settings\SettingsContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -350,6 +361,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ExtendedSplashScreenPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\ChatSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -378,6 +393,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\ChatsQueryTextBoxStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\SettingsNavigationViewStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

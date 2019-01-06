@@ -24,12 +24,14 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <!--  Header:  -->
         <controls:CustomSettingsTitleBarControl Grid.Row="0"
                                                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
                                                 Frame="{x:Bind Frame, Mode=OneWay}"
                                                 Glyph="&#xE713;"
                                                 Text="Settings"/>
 
+        <!--  Content:  -->
         <ScrollViewer Grid.Row="1"
                       VerticalAlignment="Center"
                       HorizontalScrollMode="Disabled"
