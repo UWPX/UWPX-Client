@@ -1,19 +1,20 @@
 ﻿using UWPX_UI.Extensions;
-using UWPX_UI_Context.Classes.DataContext;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class ChatSettingsPage : Page
+    public sealed partial class MiscSettingsPage : Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ChatSettingsPageContext VIEW_MODEL = new ChatSettingsPageContext();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatSettingsPage()
+        public MiscSettingsPage()
         {
             this.InitializeComponent();
         }
@@ -41,32 +42,50 @@ namespace UWPX_UI.Pages.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void MoreInformation_hlb_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+
+        }
+
+        private void OpenAppDataFolder_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Main_nview_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItem is Microsoft.UI.Xaml.Controls.NavigationViewItem item)
             {
                 switch (item.Tag)
                 {
-                    case "General":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, general_scp, false);
+                    case "Logs":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, logs_scp, false);
                         break;
 
-                    case "MUC":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, muc_scp, false);
+                    case "Cache":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, cache_scp, false);
                         break;
 
-                    case "Media":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, media_scp, false);
+                    case "Analytics":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, analytics_scp, false);
+                        break;
+
+                    case "Misc":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, misc_scp, false);
+                        break;
+
+                    case "About":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, about_scp, false);
                         break;
                 }
             }
         }
 
-        private void Main_nview_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Main_nview_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (object item in main_nview.MenuItems)
             {
-                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals(navItem.Tag, "General"))
+                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals(navItem.Tag, "Logs"))
                 {
                     main_nview.SelectedItem = item;
                     break;
