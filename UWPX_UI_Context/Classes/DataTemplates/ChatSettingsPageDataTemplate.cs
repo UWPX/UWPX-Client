@@ -13,41 +13,41 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _EnterToSend; }
             set { SetBoolProperty(ref _EnterToSend, value, SettingsConsts.ENTER_TO_SEND_MESSAGES); }
         }
-        private bool _DontSendChatState;
-        public bool DontSendChatState
+        private bool _SendChatState;
+        public bool SendChatState
         {
-            get { return _DontSendChatState; }
-            set { SetBoolProperty(ref _DontSendChatState, value, SettingsConsts.DONT_SEND_CHAT_STATE); }
+            get { return _SendChatState; }
+            set { SetBoolInversedProperty(ref _SendChatState, value, SettingsConsts.DONT_SEND_CHAT_STATE); }
         }
-        private bool _DontSendReceivedMarkers;
-        public bool DontSendReceivedMarkers
+        private bool _SendReceivedMarkers;
+        public bool SendReceivedMarkers
         {
-            get { return _DontSendReceivedMarkers; }
-            set { SetBoolProperty(ref _DontSendReceivedMarkers, value, SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS); }
+            get { return _SendReceivedMarkers; }
+            set { SetBoolInversedProperty(ref _SendReceivedMarkers, value, SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS); }
         }
-        private bool _DisableAdvancedChatMessageProcessing;
-        public bool DisableAdvancedChatMessageProcessing
+        private bool _AdvancedChatMessageProcessing;
+        public bool AdvancedChatMessageProcessing
         {
-            get { return _DisableAdvancedChatMessageProcessing; }
-            set { SetBoolProperty(ref _DisableAdvancedChatMessageProcessing, value, SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING); }
+            get { return _AdvancedChatMessageProcessing; }
+            set { SetBoolInversedProperty(ref _AdvancedChatMessageProcessing, value, SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING); }
         }
-        private bool _DisableAutoJoinMucs;
-        public bool DisableAutoJoinMucs
+        private bool _AutoJoinMucs;
+        public bool AutoJoinMucs
         {
-            get { return _DisableAutoJoinMucs; }
-            set { SetBoolProperty(ref _DisableAutoJoinMucs, value, SettingsConsts.DISABLE_AUTO_JOIN_MUC); }
+            get { return _AutoJoinMucs; }
+            set { SetBoolInversedProperty(ref _AutoJoinMucs, value, SettingsConsts.DISABLE_AUTO_JOIN_MUC); }
         }
-        private bool _DisableImageAutoDownload;
-        public bool DisableImageAutoDownload
+        private bool _ImageAutoDownload;
+        public bool ImageAutoDownload
         {
-            get { return _DisableImageAutoDownload; }
-            set { SetBoolProperty(ref _DisableImageAutoDownload, value, SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD); }
+            get { return _ImageAutoDownload; }
+            set { SetBoolInversedProperty(ref _ImageAutoDownload, value, SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD); }
         }
-        private bool _DisableStoreImagesInLibrary;
-        public bool DisableStoreImagesInLibrary
+        private bool _StoreImagesInLibrary;
+        public bool StoreImagesInLibrary
         {
-            get { return _DisableStoreImagesInLibrary; }
-            set { SetBoolProperty(ref _DisableStoreImagesInLibrary, value, SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY); }
+            get { return _StoreImagesInLibrary; }
+            set { SetBoolInversedProperty(ref _StoreImagesInLibrary, value, SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY); }
         }
 
         #endregion
@@ -73,13 +73,35 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Misc Methods (Private)--
         private void LoadSettings()
         {
+            // General:
+            EnterToSend = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
+            SendChatState = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
+            SendReceivedMarkers = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
+            AdvancedChatMessageProcessing = !Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
 
+            // MUC:
+            AutoJoinMucs = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
+
+            // Media:
+            ImageAutoDownload = !Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD);
+            StoreImagesInLibrary = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
         }
 
-        private bool SetBoolProperty(ref bool storage, bool value, string setting, [CallerMemberName] string propertyName = null)
+        private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
             if (SetProperty(ref storage, value, propertyName))
             {
+                Settings.setSetting(settingsToken, value);
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetBoolInversedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
+        {
+            if (SetProperty(ref storage, value, propertyName))
+            {
+                Settings.setSetting(settingsToken, !value);
                 return true;
             }
             return false;
