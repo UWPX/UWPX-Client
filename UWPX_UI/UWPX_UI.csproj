@@ -166,6 +166,12 @@
     <Compile Include="Controls\SettingsSelectionControl.xaml.cs">
       <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\FolderSizeControl.xaml.cs">
+      <DependentUpon>FolderSizeControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\LogLevelControl.xaml.cs">
+      <DependentUpon>LogLevelControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\SettingsContentControl.xaml.cs">
       <DependentUpon>SettingsContentControl.xaml</DependentUpon>
     </Compile>
@@ -194,6 +200,9 @@
     </Compile>
     <Compile Include="Pages\Settings\ChatSettingsPage.xaml.cs">
       <DependentUpon>ChatSettingsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Settings\MiscSettingsPage.xaml.cs">
+      <DependentUpon>MiscSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\Settings\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
@@ -336,6 +345,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Settings\FolderSizeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\LogLevelControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Settings\SettingsContentControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -365,6 +382,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings\ChatSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\MiscSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

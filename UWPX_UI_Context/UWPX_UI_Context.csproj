@@ -126,6 +126,7 @@
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\DataContext\ChatSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\FolderSizeControlContext.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleContentContext.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleImageContentControlContext.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
@@ -145,6 +146,7 @@
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
+    <Compile Include="Classes\DataTemplates\FolderSizeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />

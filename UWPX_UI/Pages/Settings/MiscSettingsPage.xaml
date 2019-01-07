@@ -1,0 +1,155 @@
+﻿<Page x:Class="UWPX_UI.Pages.Settings.MiscSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:settings="using:UWPX_UI.Controls.Settings"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="ToggleSwitch">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+
+            <Style BasedOn="{StaticResource ButtonRevealStyle}"
+                   TargetType="Button">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--  Content:  -->
+        <controlsComp:NavigationView x:Name="main_nview"
+                                     Grid.Row="1"
+                                     Loaded="Main_nview_Loaded"
+                                     SelectionChanged="Main_nview_SelectionChanged"
+                                     Style="{StaticResource SettingsNavigationViewStyle}">
+            <controlsComp:NavigationView.MenuItems>
+                <controlsComp:NavigationViewItem Content="Logs"
+                                                 Icon="List"
+                                                 Tag="Logs"/>
+                <controlsComp:NavigationViewItem Content="Cache"
+                                                 Icon="Save"
+                                                 Tag="Cache"/>
+                <controlsComp:NavigationViewItem Content="Analytics and crash reporting"
+                                                 Icon="Admin"
+                                                 Tag="Analytics"/>
+                <controlsComp:NavigationViewItem Content="Misc"
+                                                 Icon="Setting"
+                                                 Tag="Misc"/>
+                <controlsComp:NavigationViewItem Content="About and links"
+                                                 Icon="Emoji2"
+                                                 Tag="About"/>
+            </controlsComp:NavigationView.MenuItems>
+            <ScrollViewer x:Name="main_scv"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Auto">
+                <StackPanel>
+                    <!--  Logs:  -->
+                    <settings:SettingsContentControl x:Name="logs_scp"
+                                                     Header="Logs:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <settings:LogLevelControl Margin="0,10,0,0"/>
+                                <Button x:Name="exportLogs_btn"
+                                        Content="Export logs"/>
+                                <StackPanel Margin="0,10,0,0"
+                                            Orientation="Horizontal">
+                                    <Button x:Name="deleteLogs_btn"
+                                            Margin="0"
+                                            Content="Delete logs"/>
+                                    <settings:FolderSizeControl Margin="10,0,0,0"
+                                                                VerticalAlignment="Center"/>
+                                </StackPanel>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Cache:  -->
+                    <settings:SettingsContentControl x:Name="cache_scp"
+                                                     Header="Cache:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <Button x:Name="clearCache_btn"
+                                        Content="Clear cache"/>
+                                <StackPanel Margin="0,10,0,0"
+                                            Orientation="Horizontal">
+                                    <Button x:Name="clearImageCache_btn"
+                                            Margin="0"
+                                            Content="Clear image cache"/>
+                                    <settings:FolderSizeControl Margin="10,0,0,0"
+                                                                VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Button x:Name="openImageCahceFolder_btn"
+                                        Content="Open image cache folder"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Analytics:  -->
+                    <settings:SettingsContentControl x:Name="analytics_scp"
+                                                     Header="Analytics and crash reporting:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch Header="Crash reporting"
+                                              OffContent="Disabled 😥"
+                                              OnContent="Enabled"/>
+                                <ToggleSwitch Header="Analytics"
+                                              OffContent="Disabled 😥"
+                                              OnContent="Enabled"/>
+                                <HyperlinkButton x:Name="moreInformation_hlb"
+                                                 Content="More information"
+                                                 Tapped="MoreInformation_hlb_Tapped"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Misc:  -->
+                    <settings:SettingsContentControl x:Name="misc_scp"
+                                                     Header="Misc:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch Header="Show welcome dialog on startup"/>
+                                <ToggleSwitch Header="Show what's new dialog on startup"/>
+                                <Button x:Name="openAppDataFolder_btn"
+                                        Click="OpenAppDataFolder_btn_Click"
+                                        Content="Open app data folder (PC only)"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  About:  -->
+                    <settings:SettingsContentControl x:Name="about_scp"
+                                                     Header="About and links:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+                </StackPanel>
+            </ScrollViewer>
+        </controlsComp:NavigationView>
+
+        <!--  Header:  -->
+        <!--  Has to be bellow content to correctly draw the drop shadow.  -->
+        <controls:CustomSettingsTitleBarControl Grid.Row="0"
+                                                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                                                Frame="{x:Bind Frame, Mode=OneWay}"
+                                                Glyph="&#xE713;"
+                                                Text="Misc"/>
+    </Grid>
+</Page>
