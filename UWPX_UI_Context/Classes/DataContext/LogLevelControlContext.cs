@@ -1,22 +1,17 @@
-﻿using UWPX_UI_Context.Classes.DataContext;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using UWPX_UI_Context.Classes.DataTemplates;
 
-namespace UWPX_UI.Controls.Settings
+namespace UWPX_UI_Context.Classes.DataContext
 {
-    public sealed partial class LogLevelControl : UserControl
+    public sealed class LogLevelControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly LogLevelControlContext VIEW_MODEL = new LogLevelControlContext();
+        public readonly LogLevelControlDataTemplate MODEL = new LogLevelControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public LogLevelControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -41,10 +36,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void LogLevelDebug_btn_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         #endregion
     }

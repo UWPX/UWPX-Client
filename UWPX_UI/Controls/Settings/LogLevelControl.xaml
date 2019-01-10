@@ -24,7 +24,9 @@
         <ComboBox x:Name="logLevel_cbx"
                   Grid.Row="1"
                   Grid.Column="0"
-                  VerticalAlignment="Center"/>
+                  VerticalAlignment="Center"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.LOG_LEVELS}"
+                  SelectedIndex="{x:Bind VIEW_MODEL.MODEL.LogLevelSelectedIndex, Mode=TwoWay}"/>
         <Button x:Name="logLevelDebug_btn"
                 Grid.Row="1"
                 Grid.Column="1"

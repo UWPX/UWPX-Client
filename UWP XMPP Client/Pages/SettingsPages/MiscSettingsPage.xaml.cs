@@ -188,7 +188,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private async void exportLogs_btn_Click(object sender, RoutedEventArgs e)
         {
-            await Logger.exportLogs();
+            await Logger.exportLogsAsync();
         }
 
         private async void deleteLogs_btn_Click(object sender, RoutedEventArgs e)

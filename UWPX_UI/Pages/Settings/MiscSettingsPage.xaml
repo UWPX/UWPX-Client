@@ -67,11 +67,13 @@
                             <StackPanel>
                                 <settings:LogLevelControl Margin="0,10,0,0"/>
                                 <Button x:Name="exportLogs_btn"
+                                        Click="ExportLogs_btn_Click"
                                         Content="Export logs"/>
                                 <StackPanel Margin="0,10,0,0"
                                             Orientation="Horizontal">
                                     <Button x:Name="deleteLogs_btn"
                                             Margin="0"
+                                            Click="DeleteLogs_btn_Click"
                                             Content="Delete logs"/>
                                     <settings:FolderSizeControl Margin="10,0,0,0"
                                                                 VerticalAlignment="Center"/>
@@ -91,11 +93,13 @@
                                             Orientation="Horizontal">
                                     <Button x:Name="clearImageCache_btn"
                                             Margin="0"
+                                            Click="ClearImageCache_btn_Click"
                                             Content="Clear image cache"/>
                                     <settings:FolderSizeControl Margin="10,0,0,0"
                                                                 VerticalAlignment="Center"/>
                                 </StackPanel>
                                 <Button x:Name="openImageCahceFolder_btn"
+                                        Click="OpenImageCahceFolder_btn_Click"
                                         Content="Open image cache folder"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
@@ -107,9 +111,11 @@
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <ToggleSwitch Header="Crash reporting"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Crashreports, Mode=TwoWay}"
                                               OffContent="Disabled 😥"
                                               OnContent="Enabled"/>
                                 <ToggleSwitch Header="Analytics"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Analytics, Mode=TwoWay}"
                                               OffContent="Disabled 😥"
                                               OnContent="Enabled"/>
                                 <HyperlinkButton x:Name="moreInformation_hlb"
@@ -124,8 +130,10 @@
                                                      Header="Misc:">
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
-                                <ToggleSwitch Header="Show welcome dialog on startup"/>
-                                <ToggleSwitch Header="Show what's new dialog on startup"/>
+                                <ToggleSwitch Header="Show welcome dialog on startup"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.ShowWelcomeDialogOnStartup, Mode=TwoWay}"/>
+                                <ToggleSwitch Header="Show what's new dialog on startup"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.ShowWhatsNewDialogOnStartup, Mode=TwoWay}"/>
                                 <Button x:Name="openAppDataFolder_btn"
                                         Click="OpenAppDataFolder_btn_Click"
                                         Content="Open app data folder (PC only)"/>
