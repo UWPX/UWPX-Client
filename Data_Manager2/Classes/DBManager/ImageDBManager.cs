@@ -137,7 +137,7 @@ namespace Data_Manager2.Classes.DBManager
             return null;
         }
 
-        private async Task<StorageFolder> getCachedImagesFolderAsync()
+        public async Task<StorageFolder> getCachedImagesFolderAsync()
         {
             if (Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
             {

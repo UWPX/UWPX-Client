@@ -2,8 +2,6 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.Toast;
 using Logging;
-using Microsoft.AppCenter.Analytics;
-using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Push;
 using System;
 using System.Threading.Tasks;
@@ -19,8 +17,6 @@ namespace UWPX_UI.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
-
         private readonly IActivatedEventArgs ACTIVATION_ARGS;
         private readonly Frame ROOT_FRAME;
         private readonly EventHandler<PushNotificationReceivedEventArgs> APP_CENTER_PUSH_CALLBACK;
@@ -59,46 +55,6 @@ namespace UWPX_UI.Pages
             logo_img.Width = ACTIVATION_ARGS.SplashScreen.ImageLocation.Width;
         }
 
-        /// <summary>
-        /// Sets up App Center crash and push support.
-        /// </summary>
-        private void SetupAppCenter()
-        {
-            try
-            {
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
-                if (Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
-                {
-                    Crashes.Instance.InstanceEnabled = false;
-                    Logger.Info("AppCenter crash reporting is disabled.");
-                }
-
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics));
-                if (Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS))
-                {
-                    Analytics.SetEnabledAsync(false);
-                    Logger.Info("AppCenter analytics are disabled.");
-                }
-#if DEBUG
-                // Only enable push for debug builds:
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push));
-#endif
-
-                if (!Microsoft.AppCenter.AppCenter.Configured)
-                {
-                    Push.PushNotificationReceived -= APP_CENTER_PUSH_CALLBACK;
-                    Push.PushNotificationReceived += APP_CENTER_PUSH_CALLBACK;
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Failed to start APPCenter!", e);
-                throw e;
-            }
-            Logger.Info("App Center crash reporting registered.");
-            Logger.Info("App Center push registered.");
-        }
-
         private void SetupSplashScreen()
         {
             if (!(ACTIVATION_ARGS.SplashScreen is null))
@@ -111,7 +67,7 @@ namespace UWPX_UI.Pages
         private async Task LoadAppAsync()
         {
             // Setup App Center crashes, push:
-            SetupAppCenter();
+            AppCenterHelper.SetupAppCenter(APP_CENTER_PUSH_CALLBACK);
 
             // Perform App update tasks if necessary:
             AppUpdateHelper.OnAppStart();

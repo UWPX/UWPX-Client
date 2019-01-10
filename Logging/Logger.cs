@@ -204,7 +204,7 @@ namespace Logging
         /// <summary>
         /// Exports all logs as a .zip file to the selected path.
         /// </summary>
-        public static async Task exportLogs()
+        public static async Task exportLogsAsync()
         {
             // Get the target path/file.
             StorageFile targetFile = await getTargetPathAsync().ConfigureAwait(false);

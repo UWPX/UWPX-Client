@@ -1,4 +1,5 @@
 ﻿using UWPX_UI.Extensions;
+using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -9,7 +10,7 @@ namespace UWPX_UI.Pages.Settings
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private readonly MiscSettingsPageContext VIEW_MODEL = new MiscSettingsPageContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -42,14 +43,34 @@ namespace UWPX_UI.Pages.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void MoreInformation_hlb_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void MoreInformation_hlb_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            await VIEW_MODEL.ShowAnalyticsCrashesMoreInformationAsync();
         }
 
-        private void OpenAppDataFolder_btn_Click(object sender, RoutedEventArgs e)
+        private async void OpenAppDataFolder_btn_Click(object sender, RoutedEventArgs e)
         {
+            await VIEW_MODEL.OpenAppDataFolderAsync();
+        }
 
+        private async void DeleteLogs_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.DeleteLogsAsync();
+        }
+
+        private async void ExportLogs_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ExportLogsAsync();
+        }
+
+        private async void ClearImageCache_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ClearImageCacheAsync();
+        }
+
+        private async void OpenImageCahceFolder_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.OpenImageCacheFolderAsync();
         }
 
         private void Main_nview_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
@@ -85,7 +106,7 @@ namespace UWPX_UI.Pages.Settings
         {
             foreach (object item in main_nview.MenuItems)
             {
-                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals(navItem.Tag, "Logs"))
+                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "Logs"))
                 {
                     main_nview.SelectedItem = item;
                     break;
