@@ -73,6 +73,36 @@ namespace UWPX_UI.Pages.Settings
             await VIEW_MODEL.OpenImageCacheFolderAsync();
         }
 
+        private async void SpecialThanks_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ViewSpecialThanksToAsync();
+        }
+
+        private async void PrivacyPolicy_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ShowPrivacyPolicy();
+        }
+
+        private async void License_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ShowLicenceAsync();
+        }
+
+        private async void Feedback_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.GiveFeedbackAsync();
+        }
+
+        private async void ReportBug_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ReportBugAsync();
+        }
+
+        private async void ViewOnGitHub_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ViewOnGithubAsync();
+        }
+
         private void Main_nview_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
             if (args.SelectedItem is Microsoft.UI.Xaml.Controls.NavigationViewItem item)
