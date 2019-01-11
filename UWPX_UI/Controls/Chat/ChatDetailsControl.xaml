@@ -132,6 +132,7 @@
                         Height="30"
                         Margin="10,0,10,0"
                         VerticalAlignment="Center"
+                        Background="Transparent"
                         Content="&#xE712;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
