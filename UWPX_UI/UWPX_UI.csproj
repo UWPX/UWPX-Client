@@ -225,7 +225,6 @@
     <Content Include="Assets\Images\default_muc_image.png" />
     <Content Include="Assets\Images\default_user_image.png" />
     <Content Include="Assets\Images\github_mark.png" />
-    <Content Include="Assets\Images\license.png" />
     <Content Include="Assets\Images\lp.png" />
     <Content Include="Assets\Images\placeholder.png" />
     <Content Include="Assets\Images\pp.png" />

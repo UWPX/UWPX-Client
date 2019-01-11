@@ -145,7 +145,69 @@
                     <settings:SettingsContentControl x:Name="about_scp"
                                                      Header="About and links:">
                         <settings:SettingsContentControl.MainContent>
-                            <StackPanel/>
+                            <StackPanel>
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource ButtonRevealStyle}"
+                                           TargetType="Button">
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Setter Property="Margin" Value="0,0,0,0"/>
+                                    </Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                        <Setter Property="FontSize" Value="20"/>
+                                        <Setter Property="Margin" Value="10,0,0,0"/>
+                                    </Style>
+                                    <Style TargetType="Image">
+                                        <Setter Property="Height" Value="20"/>
+                                    </Style>
+                                    <Style TargetType="FontIcon">
+                                        <Setter Property="FontSize" Value="20"/>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Button x:Name="viewOnGitHub_btn"
+                                        Click="ViewOnGitHub_btn_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Image Source="ms-appx:///Assets/Images/github_mark.png"/>
+                                        <TextBlock Text="View on GitHub"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="reportBug_btn"
+                                        Click="ReportBug_btn_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Glyph="&#xEBE8;"/>
+                                        <TextBlock Text="Report bugs"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="feedback_btn"
+                                        Click="Feedback_btn_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Glyph="&#xE939;"/>
+                                        <TextBlock Text="Give feedback"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="license_btn"
+                                        Click="License_btn_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon FontFamily="Symbol"
+                                                  Glyph="&#xD3;"/>
+                                        <TextBlock Text="View license"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="privacyPolicy_btn"
+                                        Click="PrivacyPolicy_btn_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Glyph="&#xE72E;"/>
+                                        <TextBlock Text="View privacy policy"/>
+                                    </StackPanel>
+                                </Button>
+                                <Button x:Name="specialThanks_btn"
+                                        Click="SpecialThanks_btn_Click">
+                                    <StackPanel Orientation="Horizontal">
+                                        <FontIcon Glyph="&#xE789;"/>
+                                        <TextBlock Text="Special thanks to..."/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
                 </StackPanel>

@@ -28,7 +28,37 @@ namespace UWPX_UI_Context.Classes.DataContext
         #region --Misc Methods (Public)--
         public async Task ShowAnalyticsCrashesMoreInformationAsync()
         {
+            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting"));
+        }
+
+        public async Task ShowLicenceAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/LICENSE"));
+        }
+
+        public async Task ShowPrivacyPolicy()
+        {
             await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md"));
+        }
+
+        public async Task ViewOnGithubAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("http://git.uwpx.org"));
+        }
+
+        public async Task ViewSpecialThanksToAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("https://uwpx.org/about/"));
+        }
+
+        public async Task ReportBugAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
+        }
+
+        public async Task GiveFeedbackAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("https://github.com/UWPX/UWPX-Client/issues"));
         }
 
         public async Task OpenAppDataFolderAsync()
