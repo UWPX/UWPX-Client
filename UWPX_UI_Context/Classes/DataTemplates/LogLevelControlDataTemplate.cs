@@ -9,13 +9,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private int _LogLevelSelectedIndex;
-        public int LogLevelSelectedIndex
+        private LogLevelDataTemplate _LogLevelSelectedItem;
+        public LogLevelDataTemplate LogLevelSelectedItem
         {
-            get { return _LogLevelSelectedIndex; }
+            get { return _LogLevelSelectedItem; }
             set { SetLogLevel(value); }
         }
-        public readonly ObservableCollection<string> LOG_LEVELS = new ObservableCollection<string>();
+        public readonly ObservableCollection<LogLevelDataTemplate> LOG_LEVELS = new ObservableCollection<LogLevelDataTemplate>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,12 +28,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetLogLevel(int value)
+        private void SetLogLevel(LogLevelDataTemplate value)
         {
-            if (SetProperty(ref _LogLevelSelectedIndex, value, nameof(LogLevelSelectedIndex)))
+            if (SetProperty(ref _LogLevelSelectedItem, value, nameof(LogLevelSelectedItem)))
             {
-                Settings.setSetting(SettingsConsts.LOG_LEVEL, value);
-                Logger.logLevel = (LogLevel)value;
+                Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)value.LogLevel);
+                Logger.logLevel = value.LogLevel;
             }
         }
 
@@ -50,29 +50,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             // Logs:
             foreach (LogLevel l in Enum.GetValues(typeof(LogLevel)))
             {
-                switch (l)
+                LogLevelDataTemplate tmp = new LogLevelDataTemplate
                 {
-                    case LogLevel.NONE:
-                        LOG_LEVELS.Add("None");
-                        break;
-                    case LogLevel.ERROR:
-                        LOG_LEVELS.Add("Error");
-                        break;
-                    case LogLevel.WARNING:
-                        LOG_LEVELS.Add("Warning");
-                        break;
-                    case LogLevel.INFO:
-                        LOG_LEVELS.Add("Info");
-                        break;
-                    case LogLevel.DEBUG:
-                        LOG_LEVELS.Add("Debug");
-                        break;
-                    default:
-                        LOG_LEVELS.Add(l.ToString());
-                        break;
+                    LogLevel = l
+                };
+                LOG_LEVELS.Add(tmp);
+
+                if (l == Logger.logLevel)
+                {
+                    LogLevelSelectedItem = tmp;
                 }
             }
-            LogLevelSelectedIndex = (int)Logger.logLevel;
         }
 
         #endregion

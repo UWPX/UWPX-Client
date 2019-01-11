@@ -148,6 +148,7 @@
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\MiscSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
@@ -160,6 +161,8 @@
     <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\LogLevelStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\LogLevelWarningVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateGlyphTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateIsDeliveredVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateUnreadVisabilityValueConverter.cs" />
