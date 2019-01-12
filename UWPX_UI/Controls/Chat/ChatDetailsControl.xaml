@@ -219,7 +219,8 @@
             <controls:SeperatorControl Grid.Row="3"/>
 
             <!--  Input:  -->
-            <Grid Grid.Row="4">
+            <Grid Grid.Row="4"
+                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
