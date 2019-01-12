@@ -1,4 +1,6 @@
-﻿using UWPX_UI.Extensions;
+﻿using UWPX_UI.Dialogs;
+using UWPX_UI.Extensions;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -55,7 +57,9 @@ namespace UWPX_UI.Pages.Settings
 
         private async void DeleteLogs_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.DeleteLogsAsync();
+            ConfirmDialog dialog = new ConfirmDialog("Delete logs:", "Do you really want to **delete** all logs?");
+            await UiUtils.ShowDialogAsync(dialog);
+            await VIEW_MODEL.DeleteLogsAsync(dialog.VIEW_MODEL);
         }
 
         private async void ExportLogs_btn_Click(object sender, RoutedEventArgs e)
@@ -65,7 +69,9 @@ namespace UWPX_UI.Pages.Settings
 
         private async void ClearImageCache_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ClearImageCacheAsync();
+            ConfirmDialog dialog = new ConfirmDialog("Clear image cache:", "Do you really want to **delete** all cached images?");
+            await UiUtils.ShowDialogAsync(dialog);
+            await VIEW_MODEL.ClearImageCacheAsync(dialog.VIEW_MODEL);
         }
 
         private async void OpenImageCahceFolder_btn_Click(object sender, RoutedEventArgs e)

@@ -194,13 +194,13 @@ namespace UWPX_UI_Context.Classes
                 throw new InvalidOperationException("This method can only be invoked from UI thread.");
             }
 
-            while (contentDialogShowRequest != null)
+            while (!(contentDialogShowRequest is null))
             {
                 await contentDialogShowRequest.Task;
             }
 
             contentDialogShowRequest = new TaskCompletionSource<ContentDialog>();
-            var result = await dialog.ShowAsync();
+            ContentDialogResult result = await dialog.ShowAsync();
             contentDialogShowRequest.SetResult(dialog);
             contentDialogShowRequest = null;
 

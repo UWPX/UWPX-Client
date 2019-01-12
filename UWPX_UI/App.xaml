@@ -13,6 +13,8 @@
 
                 <!--  Styles:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/GeneralStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/AcceptRevealButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/DeclineRevealButtonStyle.xaml"/>
 
                 <!--  Value Converters:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/MyValueConverters.xaml"/>

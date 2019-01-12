@@ -126,6 +126,7 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\MiscSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\ChatSettingsPageContext.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\MiscSettingsPageDataTemplate.cs" />
