@@ -37,6 +37,7 @@
                   Grid.Row="1"
                   Grid.Column="0"
                   VerticalAlignment="Center"
+                  BorderBrush="{ThemeResource ButtonRevealBorderBrush}"
                   ItemTemplate="{StaticResource LogLevelTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.LOG_LEVELS}"
                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.LogLevelSelectedItem, Mode=TwoWay}"/>

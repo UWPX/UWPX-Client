@@ -9,35 +9,37 @@
              mc:Ignorable="d">
 
     <composition1:DropShadowPanel>
-        <Button Width="140"
-                Height="160"
-                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
-                Click="Button_Click"
-                Style="{ThemeResource ButtonRevealStyle}">
-            <Grid Margin="5,10,5,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <FontIcon Margin="0,20,0,10"
-                          HorizontalAlignment="Center"
-                          FontSize="50"
-                          Foreground="{ThemeResource SystemAccentColor}"
-                          Glyph="{x:Bind Model.Glyph, Mode=OneWay}"/>
-                <TextBlock Grid.Row="1"
-                           HorizontalAlignment="Center"
-                           Style="{ThemeResource BodyTextBlockStyle}"
-                           Text="{x:Bind Model.Name, Mode=OneWay}"/>
-                <TextBlock Grid.Row="2"
-                           HorizontalAlignment="Center"
-                           Foreground="{ThemeResource CaptionTextBrush}"
-                           MaxLines="5"
-                           Style="{ThemeResource CaptionTextBlockStyle}"
-                           Text="{x:Bind Model.Description, Mode=OneWay}"
-                           TextAlignment="Center"
-                           TextWrapping="Wrap"/>
-            </Grid>
-        </Button>
+        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+            <Button Width="140"
+                    Height="160"
+                    Background="Transparent"
+                    Click="Button_Click"
+                    Style="{ThemeResource ButtonRevealStyle}">
+                <Grid Margin="5,10,5,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <FontIcon Margin="0,20,0,10"
+                              HorizontalAlignment="Center"
+                              FontSize="50"
+                              Foreground="{ThemeResource SystemAccentColor}"
+                              Glyph="{x:Bind Model.Glyph, Mode=OneWay}"/>
+                    <TextBlock Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Text="{x:Bind Model.Name, Mode=OneWay}"/>
+                    <TextBlock Grid.Row="2"
+                               HorizontalAlignment="Center"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               MaxLines="5"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="{x:Bind Model.Description, Mode=OneWay}"
+                               TextAlignment="Center"
+                               TextWrapping="Wrap"/>
+                </Grid>
+            </Button>
+        </Grid>
     </composition1:DropShadowPanel>
 </UserControl>
