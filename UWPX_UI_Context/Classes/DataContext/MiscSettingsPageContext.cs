@@ -78,12 +78,12 @@ namespace UWPX_UI_Context.Classes.DataContext
             await Logger.exportLogsAsync();
         }
 
-        public async Task DeleteLogsAsync()
+        public async Task DeleteLogsAsync(ConfirmDialogContext viewModel)
         {
             await Logger.deleteLogsAsync();
         }
 
-        public async Task ClearImageCacheAsync()
+        public async Task ClearImageCacheAsync(ConfirmDialogContext viewModel)
         {
             await ImageDBManager.INSTANCE.deleteImageCacheAsync();
         }
