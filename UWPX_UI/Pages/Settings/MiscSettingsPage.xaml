@@ -200,11 +200,11 @@
                                         <TextBlock Text="View privacy policy"/>
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="specialThanks_btn"
-                                        Click="SpecialThanks_btn_Click">
+                                <Button x:Name="credits_btn"
+                                        Click="Credits_btn_Click">
                                     <StackPanel Orientation="Horizontal">
                                         <FontIcon Glyph="&#xE789;"/>
-                                        <TextBlock Text="Special thanks to..."/>
+                                        <TextBlock Text="Credits"/>
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
