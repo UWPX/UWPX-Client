@@ -46,7 +46,7 @@ namespace UWPX_UI_Context.Classes.DataContext
             await UiUtils.LaunchUriAsync(new Uri("http://git.uwpx.org"));
         }
 
-        public async Task ViewSpecialThanksToAsync()
+        public async Task ViewCreditsAsync()
         {
             await UiUtils.LaunchUriAsync(new Uri("https://uwpx.org/about/"));
         }
