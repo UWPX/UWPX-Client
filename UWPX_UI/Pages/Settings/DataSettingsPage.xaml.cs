@@ -1,19 +1,18 @@
 ﻿using UWPX_UI.Extensions;
-using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class ChatSettingsPage : Page
+    public sealed partial class DataSettingsPage : Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ChatSettingsPageContext VIEW_MODEL = new ChatSettingsPageContext();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatSettingsPage()
+        public DataSettingsPage()
         {
             this.InitializeComponent();
         }
@@ -47,16 +46,8 @@ namespace UWPX_UI.Pages.Settings
             {
                 switch (item.Tag)
                 {
-                    case "General":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, general_scp, false);
-                        break;
-
-                    case "MUC":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, muc_scp, false);
-                        break;
-
-                    case "Media":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, media_scp, false);
+                    case "Data":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, data_scp, false);
                         break;
                 }
             }
@@ -66,7 +57,7 @@ namespace UWPX_UI.Pages.Settings
         {
             foreach (object item in main_nview.MenuItems)
             {
-                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "General"))
+                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "Data"))
                 {
                     main_nview.SelectedItem = item;
                     break;
