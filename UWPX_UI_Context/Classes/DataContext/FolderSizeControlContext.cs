@@ -24,7 +24,7 @@ namespace UWPX_UI_Context.Classes.DataContext
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (!Equals(e.NewValue, e.NewValue) && e.NewValue is string path)
+            if (!Equals(e.OldValue, e.NewValue) && e.NewValue is string path)
             {
                 MODEL.UpdateView(path);
             }

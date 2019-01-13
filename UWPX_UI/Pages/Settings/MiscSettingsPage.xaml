@@ -76,7 +76,8 @@
                                             Click="DeleteLogs_btn_Click"
                                             Content="Delete logs"/>
                                     <settings:FolderSizeControl Margin="10,0,0,0"
-                                                                VerticalAlignment="Center"/>
+                                                                VerticalAlignment="Center"
+                                                                FolderPath="{x:Bind VIEW_MODEL.MODEL.LogFolderPath, Mode=OneWay}"/>
                                 </StackPanel>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
@@ -88,8 +89,8 @@
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <Button x:Name="clearCache_btn"
-                                        Content="Clear cache"
-                                        Click="ClearCache_btn_Click"/>
+                                        Click="ClearCache_btn_Click"
+                                        Content="Clear cache"/>
                                 <StackPanel Margin="0,10,0,0"
                                             Orientation="Horizontal">
                                     <Button x:Name="clearImageCache_btn"
@@ -97,7 +98,8 @@
                                             Click="ClearImageCache_btn_Click"
                                             Content="Clear image cache"/>
                                     <settings:FolderSizeControl Margin="10,0,0,0"
-                                                                VerticalAlignment="Center"/>
+                                                                VerticalAlignment="Center"
+                                                                FolderPath="{x:Bind VIEW_MODEL.MODEL.ImageCacheFolderPath, Mode=OneWay}"/>
                                 </StackPanel>
                                 <Button x:Name="openImageCahceFolder_btn"
                                         Click="OpenImageCahceFolder_btn_Click"

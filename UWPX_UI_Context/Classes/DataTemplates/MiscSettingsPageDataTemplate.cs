@@ -1,6 +1,9 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
+using Logging;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
@@ -31,6 +34,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             get { return _ShowWhatsNewDialogOnStartup; }
             set { SetBoolInversedProperty(ref _ShowWhatsNewDialogOnStartup, value, SettingsConsts.HIDE_WHATS_NEW_DIALOG); }
+        }
+
+        private string _LogFolderPath;
+        public string LogFolderPath
+        {
+            get { return _LogFolderPath; }
+            set { SetProperty(ref _LogFolderPath, value); }
+        }
+        private string _ImageCacheFolderPath;
+        public string ImageCacheFolderPath
+        {
+            get { return _ImageCacheFolderPath; }
+            set { SetProperty(ref _ImageCacheFolderPath, value); }
         }
 
         #endregion
@@ -96,6 +112,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             Crashreports = !Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
             ShowWelcomeDialogOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
             ShowWhatsNewDialogOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG);
+
+            Task.Run(async () =>
+            {
+                StorageFolder folder = await ImageDBManager.INSTANCE.getCachedImagesFolderAsync();
+                if (!(folder is null))
+                {
+                    ImageCacheFolderPath = folder.Path;
+                }
+                else
+                {
+                    ImageCacheFolderPath = "";
+                }
+
+                folder = await Logger.getLogFolderAsync();
+                if (!(folder is null))
+                {
+                    LogFolderPath = folder.Path;
+                }
+                else
+                {
+                    LogFolderPath = "";
+                }
+            });
         }
 
         #endregion
