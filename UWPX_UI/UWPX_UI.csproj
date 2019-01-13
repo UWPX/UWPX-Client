@@ -207,6 +207,9 @@
     <Compile Include="Pages\Settings\ChatSettingsPage.xaml.cs">
       <DependentUpon>ChatSettingsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Settings\DataSettingsPage.xaml.cs">
+      <DependentUpon>DataSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\MiscSettingsPage.xaml.cs">
       <DependentUpon>MiscSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -395,6 +398,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Settings\ChatSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Settings\DataSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
