@@ -48,6 +48,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _ImageCacheFolderPath; }
             set { SetProperty(ref _ImageCacheFolderPath, value); }
         }
+        private bool _IsRunningOnPc;
+        public bool IsRunningOnPc
+        {
+            get { return _IsRunningOnPc; }
+            set { SetProperty(ref _IsRunningOnPc, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -112,6 +118,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             Crashreports = !Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
             ShowWelcomeDialogOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
             ShowWhatsNewDialogOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG);
+            IsRunningOnPc = UiUtils.IsRunningOnDesktopDevice();
 
             Task.Run(async () =>
             {
