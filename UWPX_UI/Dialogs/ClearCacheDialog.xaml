@@ -1,0 +1,164 @@
+﻿<ContentDialog x:Class="UWPX_UI.Dialogs.ClearCacheDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:controls="using:Microsoft.UI.Xaml.Controls"
+               xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="Clear cache:"
+               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               mc:Ignorable="d">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <controls:TreeView x:Name="tree_tv"
+                               Grid.Row="0"
+                               IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                               Loaded="Tree_tv_Loaded"
+                               ScrollViewer.VerticalScrollMode="Auto"
+                               SelectionMode="Multiple">
+                <controls:TreeView.RootNodes>
+                    <controls:TreeViewNode x:Name="general_tvn"
+                                           Content="General"
+                                           IsExpanded="True">
+                        <controls:TreeViewNode.Children>
+                            <controls:TreeViewNode x:Name="chatMessages_tvn"
+                                                   Content="Chat messages"/>
+                            <controls:TreeViewNode x:Name="chats_tvn"
+                                                   Content="Chats"/>
+                            <controls:TreeViewNode x:Name="images_tvn"
+                                                   Content="Images"/>
+                        </controls:TreeViewNode.Children>
+                    </controls:TreeViewNode>
+
+                    <controls:TreeViewNode x:Name="disco_tvn"
+                                           Content="Disco"
+                                           IsExpanded="True">
+                        <controls:TreeViewNode.Children>
+                            <controls:TreeViewNode x:Name="discoFeatures_tvn"
+                                                   Content="Disco features"/>
+                            <controls:TreeViewNode x:Name="discoIdentities_tvn"
+                                                   Content="Disco identities"/>
+                            <controls:TreeViewNode x:Name="discoItems_tvn"
+                                                   Content="Disco items"/>
+                        </controls:TreeViewNode.Children>
+                    </controls:TreeViewNode>
+
+                    <controls:TreeViewNode x:Name="muc_tvn"
+                                           Content="MUC"
+                                           IsExpanded="True">
+                        <controls:TreeViewNode.Children>
+                            <controls:TreeViewNode x:Name="mucChatInfo_tvn"
+                                                   Content="MUC chat info"/>
+                            <controls:TreeViewNode x:Name="mucMembers_tvn"
+                                                   Content="MUC members"/>
+                            <controls:TreeViewNode x:Name="mucDirectInvites_tvn"
+                                                   Content="MUC direct invites"/>
+                        </controls:TreeViewNode.Children>
+                    </controls:TreeViewNode>
+
+                    <controls:TreeViewNode x:Name="account_tvn"
+                                           Content="Account">
+                        <controls:TreeViewNode.Children>
+                            <controls:TreeViewNode x:Name="accounts_tvn"
+                                                   Content="Accounts"/>
+                            <controls:TreeViewNode x:Name="passwordVault_tvn"
+                                                   Content="Password vault"/>
+                            <controls:TreeViewNode x:Name="ignoredCertificateErrors_tvn"
+                                                   Content="Ignored certificate errors"/>
+                            <controls:TreeViewNode x:Name="connectionOptions_tvn"
+                                                   Content="Connection options"/>
+                            <controls:TreeViewNode x:Name="omemo_tvn"
+                                                   Content="OMEMO">
+                                <controls:TreeViewNode.Children>
+                                    <controls:TreeViewNode x:Name="omemoDeviceListSubscriptions_tvn"
+                                                           Content="OMEMO device list subscriptions"/>
+                                    <controls:TreeViewNode x:Name="omemoDevices_tvn"
+                                                           Content="OMEMO devices"/>
+                                    <controls:TreeViewNode x:Name="omemoIdentityKeys_tvn"
+                                                           Content="OMEMO Identity keys"/>
+                                    <controls:TreeViewNode x:Name="omemoPreKeys_tvn"
+                                                           Content="OMEMO Pre keys"/>
+                                    <controls:TreeViewNode x:Name="omemoSignedPreKeys_tvn"
+                                                           Content="OMEMO Signed Pre keys"/>
+                                    <controls:TreeViewNode x:Name="omemoSessions_tvn"
+                                                           Content="OMEMO Sessions"/>
+                                </controls:TreeViewNode.Children>
+                            </controls:TreeViewNode>
+                        </controls:TreeViewNode.Children>
+                    </controls:TreeViewNode>
+
+                    <controls:TreeViewNode x:Name="clients_tvn"
+                                           Content="Clients"
+                                           IsExpanded="True">
+                        <controls:TreeViewNode.Children>
+                            <controls:TreeViewNode x:Name="reloadClients_tvn"
+                                                   Content="Reload clients"/>
+                        </controls:TreeViewNode.Children>
+                    </controls:TreeViewNode>
+                </controls:TreeView.RootNodes>
+            </controls:TreeView>
+
+            <Grid x:Name="buttons_grid"
+                  Grid.Row="1"
+                  Margin="0,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button x:Name="clear_btn"
+                        Grid.Column="0"
+                        Margin="0,0,1,0"
+                        HorizontalAlignment="Stretch"
+                        Click="Clear_btn_Click"
+                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                        Style="{ThemeResource ButtonRevealStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   Foreground="{ThemeResource SystemAccentColor}"
+                                   Text="&#xED62;"/>
+                        <TextBlock Margin="10,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Clear"/>
+                        <ProgressRing x:Name="clear_prgr"
+                                      Grid.Row="0"
+                                      Margin="10,0,0,0"
+                                      HorizontalAlignment="Center"
+                                      VerticalAlignment="Center"
+                                      IsActive="True"
+                                      Visibility="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                    </StackPanel>
+                </Button>
+                <Button x:Name="cancel_btn"
+                        Grid.Column="1"
+                        Margin="1,0,0,0"
+                        HorizontalAlignment="Stretch"
+                        Click="Cancel_btn_Click"
+                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                        Style="{ThemeResource ButtonRevealStyle}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock VerticalAlignment="Center"
+                                   FontFamily="Segoe MDL2 Assets"
+                                   Foreground="Red"
+                                   Text="&#xE711;"/>
+                        <TextBlock Margin="10,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Text="Cancel"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+        </Grid>
+        <controls1:InAppNotification x:Name="done_notification"
+                                     Grid.Row="0"/>
+    </Grid>
+</ContentDialog>

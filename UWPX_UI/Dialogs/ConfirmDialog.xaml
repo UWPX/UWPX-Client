@@ -6,10 +6,10 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-               PrimaryButtonStyle="{ThemeResource DeclineRevealButtonStyle}"
+               PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
                PrimaryButtonText="{x:Bind NegativeText, Mode=OneWay}"
                SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-               SecondaryButtonStyle="{ThemeResource AcceptRevealButtonStyle}"
+               SecondaryButtonStyle="{ThemeResource AcceptButtonRevealStyle}"
                SecondaryButtonText="{x:Bind PositiveText, Mode=OneWay}"
                mc:Ignorable="d">
 

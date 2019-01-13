@@ -6,4 +6,5 @@
     <valueConverter:ChatDateTimeStringValueConverter x:Key="ChatDateTimeStringValueConverter"/>
     <valueConverter:BoolVisabilityValueConverter x:Key="BoolVisabilityValueConverter"/>
     <valueConverter:StringEmptyVisabilityValueConverter x:Key="StringEmptyVisabilityValueConverter"/>
+    <valueConverter:BoolInverterValueConverter x:Key="BoolInverterValueConverter"/>
 </ResourceDictionary>

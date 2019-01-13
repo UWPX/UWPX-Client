@@ -150,6 +150,12 @@ namespace UWPX_UI.Pages.Settings
             }
         }
 
+        private async void ClearCache_btn_Click(object sender, RoutedEventArgs e)
+        {
+            ClearCacheDialog dialog = new ClearCacheDialog();
+            await UiUtils.ShowDialogAsync(dialog);
+        }
+
         #endregion
     }
 }
