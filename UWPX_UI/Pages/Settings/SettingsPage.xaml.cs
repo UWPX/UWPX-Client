@@ -21,7 +21,7 @@ namespace UWPX_UI.Pages.Settings
             new SettingsPageDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Color", NavTarget = typeof(SettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", NavTarget = typeof(DataSettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability", NavTarget = typeof(ChatSettingsPage)},
-            new SettingsPageDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", NavTarget = typeof(BackgroundTaskSettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\uE72E", Name = "Security", Description = "Certificates, Password Vault", NavTarget = typeof(SettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\uEB52", Name = "Donate", Description = "PayPal, Liberapay", NavTarget = typeof(SettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\xE713", Name = "Misc", Description = "Everything Else", NavTarget = typeof(MiscSettingsPage)},
