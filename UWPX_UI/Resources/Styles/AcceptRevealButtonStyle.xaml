@@ -19,35 +19,37 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Grid x:Name="RootGrid"
-                          Padding="{TemplateBinding Padding}"
                           HorizontalAlignment="Stretch"
                           Background="{TemplateBinding Background}"
                           CornerRadius="{TemplateBinding CornerRadius}">
-                        <ContentPresenter x:Name="ContentPresenter"
-                                          HorizontalAlignment="Center">
-                            <Grid>
+                        <Grid x:Name="SubRootGrid"
+                              Padding="{TemplateBinding Padding}"
+                              HorizontalAlignment="Stretch"
+                              AutomationProperties.AccessibilityView="Raw"
+                              BorderBrush="{TemplateBinding BorderBrush}"
+                              BorderThickness="{TemplateBinding BorderThickness}"
+                              CornerRadius="{TemplateBinding CornerRadius}">
+                            <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <FontIcon Grid.Column="0"
+                                <FontIcon x:Name="Icon"
+                                          Grid.Column="0"
                                           Margin="0,0,10,0"
                                           VerticalAlignment="Center"
                                           FontSize="{TemplateBinding FontSize}"
                                           Foreground="Green"
                                           Glyph="&#xE8FB;"/>
-                                <ContentPresenter Grid.Column="1"
-                                                  HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                  VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                  AutomationProperties.AccessibilityView="Raw"
-                                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                                  BorderThickness="{TemplateBinding BorderThickness}"
+                                <ContentPresenter x:Name="ContentPresenter"
+                                                  Grid.Column="1"
                                                   Content="{TemplateBinding Content}"
                                                   ContentTemplate="{TemplateBinding ContentTemplate}"
-                                                  ContentTransitions="{TemplateBinding ContentTransitions}"
-                                                  CornerRadius="{TemplateBinding CornerRadius}"/>
+                                                  ContentTransitions="{TemplateBinding ContentTransitions}"/>
                             </Grid>
-                        </ContentPresenter>
+                        </Grid>
 
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
@@ -60,9 +62,9 @@
 
                                 <VisualState x:Name="PointerOver">
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="PointerOver"/>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}"/>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
+                                        <Setter Target="SubRootGrid.(RevealBrush.State)" Value="PointerOver"/>
+                                        <Setter Target="SubRootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPointerOver}"/>
+                                        <Setter Target="SubRootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPointerOver}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPointerOver}"/>
                                     </VisualState.Setters>
 
@@ -73,9 +75,9 @@
 
                                 <VisualState x:Name="Pressed">
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.(RevealBrush.State)" Value="Pressed"/>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}"/>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
+                                        <Setter Target="SubRootGrid.(RevealBrush.State)" Value="Pressed"/>
+                                        <Setter Target="SubRootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundPressed}"/>
+                                        <Setter Target="SubRootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushPressed}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundPressed}"/>
                                     </VisualState.Setters>
 
@@ -86,8 +88,8 @@
 
                                 <VisualState x:Name="Disabled">
                                     <VisualState.Setters>
-                                        <Setter Target="RootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
-                                        <Setter Target="ContentPresenter.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
+                                        <Setter Target="SubRootGrid.Background" Value="{ThemeResource ButtonRevealBackgroundDisabled}"/>
+                                        <Setter Target="SubRootGrid.BorderBrush" Value="{ThemeResource ButtonRevealBorderBrushDisabled}"/>
                                         <Setter Target="ContentPresenter.Foreground" Value="{ThemeResource ButtonForegroundDisabled}"/>
                                     </VisualState.Setters>
                                 </VisualState>
