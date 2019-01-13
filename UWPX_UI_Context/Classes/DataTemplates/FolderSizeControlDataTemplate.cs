@@ -100,12 +100,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 if (size >= 1024)
                 {
                     sb.Append(size / 1024);
-                    sb.Append("MB");
+                    sb.Append(" MB");
                 }
                 else
                 {
                     sb.Append(size);
-                    sb.Append("KB");
+                    sb.Append(" KB");
                 }
                 Text = sb.ToString();
             });

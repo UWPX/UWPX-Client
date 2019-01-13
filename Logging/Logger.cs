@@ -70,7 +70,7 @@ namespace Logging
         /// Returns the "Logs" folder and creates it, if it does not exist.
         /// </summary>
         /// <returns>Returns the "Logs" folder.</returns>
-        private static async Task<StorageFolder> getLogFolderAsync()
+        public static async Task<StorageFolder> getLogFolderAsync()
         {
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
         }
