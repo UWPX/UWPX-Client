@@ -1,4 +1,5 @@
 ﻿using UWPX_UI.Extensions;
+using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Pages.Settings
@@ -7,7 +8,7 @@ namespace UWPX_UI.Pages.Settings
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly DataSettingsPageContext VIEW_MODEL = new DataSettingsPageContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

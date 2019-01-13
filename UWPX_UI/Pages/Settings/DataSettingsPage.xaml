@@ -38,7 +38,7 @@
                           VerticalScrollBarVisibility="Hidden"
                           VerticalScrollMode="Auto">
                 <StackPanel>
-                    <!--  General:  -->
+                    <!--  Data:  -->
                     <settings:SettingsContentControl x:Name="data_scp"
                                                      Header="Data:">
                         <settings:SettingsContentControl.MainContent>
