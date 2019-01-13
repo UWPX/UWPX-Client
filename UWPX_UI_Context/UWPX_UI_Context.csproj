@@ -126,6 +126,7 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\DataContext\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\MiscSettingsPageContext.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ClearCacheDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
@@ -160,6 +162,7 @@
     <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />

@@ -88,7 +88,8 @@
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <Button x:Name="clearCache_btn"
-                                        Content="Clear cache"/>
+                                        Content="Clear cache"
+                                        Click="ClearCache_btn_Click"/>
                                 <StackPanel Margin="0,10,0,0"
                                             Orientation="Horizontal">
                                     <Button x:Name="clearImageCache_btn"

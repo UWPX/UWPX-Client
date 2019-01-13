@@ -184,6 +184,9 @@
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
       <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
+      <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
@@ -367,6 +370,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\ClearCacheDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\ConfirmDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -403,7 +410,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Styles\AcceptRevealButtonStyle.xaml">
+    <Page Include="Resources\Styles\AcceptButtonRevealStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -411,7 +418,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Styles\DeclineRevealButtonStyle.xaml">
+    <Page Include="Resources\Styles\DeclineButtonRevealStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

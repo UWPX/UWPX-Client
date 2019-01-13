@@ -25,14 +25,4 @@
         <Setter Property="Color" Value="{ThemeResource DropShadowColor}"/>
     </Style>
 
-    <Style TargetType="ContentDialog">
-        <Setter Property="Background" Value="{ThemeResource AppBackgroundAcrylicElementBrush}"/>
-    </Style>
-
-    <!--
-    <Style TargetType="Button">
-        <Setter Property="Style" Value="{StaticResource ButtonRevealStyle}"/>
-    </Style>
-    -->
-
 </ResourceDictionary>
