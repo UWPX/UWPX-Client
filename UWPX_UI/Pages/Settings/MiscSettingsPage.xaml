@@ -139,7 +139,8 @@
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.ShowWhatsNewDialogOnStartup, Mode=TwoWay}"/>
                                 <Button x:Name="openAppDataFolder_btn"
                                         Click="OpenAppDataFolder_btn_Click"
-                                        Content="Open app data folder (PC only)"/>
+                                        Content="Open app data folder (PC only)"
+                                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsRunningOnPc, Mode=OneWay}"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
