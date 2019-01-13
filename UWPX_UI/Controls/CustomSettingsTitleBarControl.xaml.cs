@@ -45,11 +45,6 @@ namespace UWPX_UI.Controls
         public CustomSettingsTitleBarControl()
         {
             this.InitializeComponent();
-            if (!UiUtils.IsRunningOnDesktopDevice())
-            {
-                this.Visibility = Visibility.Collapsed;
-                return;
-            }
             InitTitleBar();
             SetupKeyboardAccelerators();
         }
@@ -106,10 +101,13 @@ namespace UWPX_UI.Controls
 
         private void SetupKeyboardAccelerators()
         {
-            foreach (KeyboardAccelerator accelerator in UiUtils.GetGoBackKeyboardAccelerators())
+            if (UiUtils.IsKeyboardAcceleratorApiAvailable())
             {
-                accelerator.Invoked += Accelerator_Invoked;
-                KeyboardAccelerators.Add(accelerator);
+                foreach (KeyboardAccelerator accelerator in UiUtils.GetGoBackKeyboardAccelerators())
+                {
+                    accelerator.Invoked += Accelerator_Invoked;
+                    KeyboardAccelerators.Add(accelerator);
+                }
             }
         }
 
