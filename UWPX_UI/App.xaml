@@ -34,15 +34,13 @@
                                 <ControlTemplate TargetType="Button">
                                     <Grid x:Name="RootGrid"
                                           HorizontalAlignment="Stretch"
-                                          Background="{TemplateBinding Background}"
-                                          CornerRadius="{TemplateBinding CornerRadius}">
+                                          Background="{TemplateBinding Background}">
                                         <Grid x:Name="SubRootGrid"
                                               Padding="{TemplateBinding Padding}"
                                               HorizontalAlignment="Stretch"
                                               AutomationProperties.AccessibilityView="Raw"
                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
-                                              CornerRadius="{TemplateBinding CornerRadius}">
+                                              BorderThickness="{TemplateBinding BorderThickness}">
                                             <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
 
@@ -137,15 +135,13 @@
                                 <ControlTemplate TargetType="Button">
                                     <Grid x:Name="RootGrid"
                                           HorizontalAlignment="Stretch"
-                                          Background="{TemplateBinding Background}"
-                                          CornerRadius="{TemplateBinding CornerRadius}">
+                                          Background="{TemplateBinding Background}">
                                         <Grid x:Name="SubRootGrid"
                                               Padding="{TemplateBinding Padding}"
                                               HorizontalAlignment="Stretch"
                                               AutomationProperties.AccessibilityView="Raw"
                                               BorderBrush="{TemplateBinding BorderBrush}"
-                                              BorderThickness="{TemplateBinding BorderThickness}"
-                                              CornerRadius="{TemplateBinding CornerRadius}">
+                                              BorderThickness="{TemplateBinding BorderThickness}">
                                             <Grid HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                                   VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
 

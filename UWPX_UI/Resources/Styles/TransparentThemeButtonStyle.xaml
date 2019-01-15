@@ -28,8 +28,7 @@
                                       BorderThickness="{TemplateBinding BorderThickness}"
                                       Content="{TemplateBinding Content}"
                                       ContentTemplate="{TemplateBinding ContentTemplate}"
-                                      ContentTransitions="{TemplateBinding ContentTransitions}"
-                                      CornerRadius="{TemplateBinding CornerRadius}">
+                                      ContentTransitions="{TemplateBinding ContentTransitions}">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
