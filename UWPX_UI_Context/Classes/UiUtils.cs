@@ -156,6 +156,16 @@ namespace UWPX_UI_Context.Classes
             return ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar");
         }
 
+        /// <summary>
+        /// The KeyboardAccelerator class got introduced with v10.0.16299.0.
+        /// Source: https://docs.microsoft.com/en-us/uwp/api/windows.ui.xaml.input.keyboardaccelerator
+        /// </summary>
+        /// <returns></returns>
+        public static bool IsKeyboardAcceleratorApiAvailable()
+        {
+            return ApiInformation.IsTypePresent("Windows.UI.Xaml.Input.KeyboardAccelerator");
+        }
+
         public static bool IsHexColor(string color)
         {
             return color != null && HEX_COLOR_REGEX.Match(color).Success;

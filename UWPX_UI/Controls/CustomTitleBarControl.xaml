@@ -27,7 +27,7 @@
                 Grid.Row="0"
                 HorizontalAlignment="Left"
                 Click="BackRequest_btn_Click"
-                Style="{ThemeResource NavigationBackButtonNormalStyle}"
+                Style="{ThemeResource NavigationBackButtonSmallStyle}"
                 Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}"/>
         <controls:SeperatorControl Grid.Row="1"/>
     </Grid>
