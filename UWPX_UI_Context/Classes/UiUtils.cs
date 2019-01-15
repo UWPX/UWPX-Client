@@ -240,13 +240,21 @@ namespace UWPX_UI_Context.Classes
 
         public static void SetupWindow(Application application)
         {
-            // PC:
+            // PC, Mobile:
             if (IsApplicationViewApiAvailable())
             {
                 ApplicationView appView = ApplicationView.GetForCurrentView();
 
                 // Dye title:
-                appView.TitleBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicWindowBrush"]).TintColor;
+                Brush windowBrush = (Brush)application.Resources["AppBackgroundAcrylicWindowBrush"];
+                if (windowBrush is Microsoft.UI.Xaml.Media.AcrylicBrush acrylicWindowBrush)
+                {
+                    appView.TitleBar.BackgroundColor = acrylicWindowBrush.TintColor;
+                }
+                else
+                {
+                    appView.TitleBar.BackgroundColor = ((SolidColorBrush)windowBrush).Color;
+                }
 
                 //Dye title bar buttons:
                 appView.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
@@ -265,7 +273,7 @@ namespace UWPX_UI_Context.Classes
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
-                    statusBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicWindowBrush"]).TintColor;
+                    statusBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicElementBrush"]).TintColor;
                     statusBar.BackgroundOpacity = 1;
                 }
             }
@@ -346,6 +354,15 @@ namespace UWPX_UI_Context.Classes
         {
             const string chars = "abcdefghijklmnopqrstuvwxyz";
             return new string(Enumerable.Repeat(chars, length).Select(s => s[RANDOM.Next(s.Length)]).ToArray());
+        }
+
+        /// <summary>
+        /// Overrides the default resources like "ButtonRevealStyle" with more performant versions
+        /// to increase the UI performance on low end devices like phones.
+        /// </summary>
+        public static void OverrideResources()
+        {
+            Application.Current.Resources["ButtonRevealStyle"] = Application.Current.Resources["DefaultButtonStyle"];
         }
 
         #endregion

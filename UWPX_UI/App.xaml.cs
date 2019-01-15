@@ -107,11 +107,17 @@ namespace UWPX_UI
             // Set requested theme:
             RootTheme = UiUtils.LoadRequestedTheme();
 
-            // Setup window:
-            UiUtils.SetupWindow(Current);
-
             // Setup listening for theme changes:
             SetupThemeListener();
+
+            // Override resources to increase the UI performance on mobile devices:
+            if (UiUtils.IsRunningOnMobileDevice())
+            {
+                UiUtils.OverrideResources();
+            }
+
+            // Setup window:
+            UiUtils.SetupWindow(Current);
 
             isRunning = true;
 
