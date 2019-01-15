@@ -5,7 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:UWPX_UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -49,22 +48,21 @@
                             Grid.Column="0"
                             HorizontalAlignment="Left"
                             Click="BackRequest_btn_Click"
-                            Style="{ThemeResource NavigationBackButtonNormalStyle}"
+                            Style="{ThemeResource NavigationBackButtonSmallStyle}"
                             Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}"/>
                     <Button x:Name="goToOverview_btn"
                             Grid.Column="1"
                             Click="GoToOverview_btn_Click"
                             Style="{StaticResource CustomTitleBarButtonStyle}"
                             ToolTipService.ToolTip="Overview">
-                        <Grid Grid.Row="0"
-                              HorizontalAlignment="Center">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <FontIcon Grid.Row="0"
+                            <FontIcon Grid.Column="0"
                                       VerticalAlignment="Center"
-                                      FontSize="16"
+                                      FontSize="{x:Bind goToOverview_btn.FontSize}"
                                       Foreground="{ThemeResource SystemAccentColor}"
                                       Glyph="{x:Bind Path=Glyph, Mode=OneWay}"/>
                             <TextBlock Grid.Column="1"
@@ -72,6 +70,7 @@
                                        VerticalAlignment="Center"
                                        FontSize="16"
                                        Text="{x:Bind Path=Text, Mode=OneWay}"/>
+
                         </Grid>
                     </Button>
                 </Grid>

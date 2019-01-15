@@ -5,6 +5,7 @@ using Logging;
 using Microsoft.AppCenter.Push;
 using System;
 using System.Threading.Tasks;
+using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Activation;
 using Windows.UI.Xaml.Controls;
@@ -105,9 +106,10 @@ namespace UWPX_UI.Pages
         {
             if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                // rootFrame.Navigate(typeof(AddAccountPage), "App.xaml.cs");
+                ROOT_FRAME.Navigate(typeof(SettingsPage));
             }
-            else if (ACTIVATION_ARGS is ProtocolActivatedEventArgs protocolActivationArgs)
+            else
+            if (ACTIVATION_ARGS is ProtocolActivatedEventArgs protocolActivationArgs)
             {
                 Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
 
