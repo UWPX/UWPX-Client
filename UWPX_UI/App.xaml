@@ -13,6 +13,7 @@
 
                 <!--  Styles:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/GeneralStyles.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/DefaultButtonStyle.xaml"/>
                 <!--  Windows UI Library Dependent Styles:  -->
                 <ResourceDictionary>
                     <Style x:Key="AcceptButtonRevealStyle"
