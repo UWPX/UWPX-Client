@@ -3,7 +3,7 @@ using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI.Controls
+namespace UWPX_UI.Controls.Settings
 {
     public sealed partial class SettingsSelectionControl : UserControl
     {

@@ -163,7 +163,7 @@
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\SettingsSelectionControl.xaml.cs">
+    <Compile Include="Controls\Settings\SettingsSelectionControl.xaml.cs">
       <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Settings\FolderSizeControl.xaml.cs">
@@ -352,7 +352,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\SettingsSelectionControl.xaml">
+    <Page Include="Controls\Settings\SettingsSelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

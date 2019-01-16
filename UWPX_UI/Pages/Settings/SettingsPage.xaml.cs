@@ -1,7 +1,7 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
 using System.Collections.ObjectModel;
 using System.Text;
-using UWPX_UI.Controls;
+using UWPX_UI.Controls.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.ApplicationModel;
