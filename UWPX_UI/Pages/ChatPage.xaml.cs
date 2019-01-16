@@ -17,6 +17,7 @@ namespace UWPX_UI.Pages
         public ChatPage()
         {
             this.InitializeComponent();
+            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
         }
 
         #endregion
