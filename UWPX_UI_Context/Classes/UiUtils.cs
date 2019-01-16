@@ -268,7 +268,7 @@ namespace UWPX_UI_Context.Classes
                 if (statusBar != null)
                 {
                     statusBar.BackgroundColor = ((SolidColorBrush)application.Resources["AppBackgroundAcrylicElementBrush"]).Color;
-                    statusBar.BackgroundOpacity = 1;
+                    statusBar.BackgroundOpacity = 1.0d;
                 }
             }
         }
@@ -360,20 +360,40 @@ namespace UWPX_UI_Context.Classes
             Application.Current.Resources["ButtonRevealStyle"] = Application.Current.Resources["DefaultButtonStyle"];
 
             // Brushes:
-            Application.Current.Resources["AppBackgroundAcrylicWindowBrush"] = new SolidColorBrush(new Color()
+            if (IsDarkThemeActive())
             {
-                A = 0xFF,
-                R = 0x24,
-                G = 0x24,
-                B = 0x24,
-            });
-            Application.Current.Resources["AppBackgroundAcrylicElementBrush"] = new SolidColorBrush(new Color()
+                Application.Current.Resources["AppBackgroundAcrylicWindowBrush"] = new SolidColorBrush(new Color()
+                {
+                    A = 0xFF,
+                    R = 0x24,
+                    G = 0x24,
+                    B = 0x24,
+                });
+                Application.Current.Resources["AppBackgroundAcrylicElementBrush"] = new SolidColorBrush(new Color()
+                {
+                    A = 0xFF,
+                    R = 0x2D,
+                    G = 0x2D,
+                    B = 0x2D,
+                });
+            }
+            else
             {
-                A = 0xFF,
-                R = 0x2d,
-                G = 0x2d,
-                B = 0x2d,
-            });
+                Application.Current.Resources["AppBackgroundAcrylicWindowBrush"] = new SolidColorBrush(new Color()
+                {
+                    A = 0xFF,
+                    R = 0xD6,
+                    G = 0xD6,
+                    B = 0xD6,
+                });
+                Application.Current.Resources["AppBackgroundAcrylicElementBrush"] = new SolidColorBrush(new Color()
+                {
+                    A = 0xFF,
+                    R = 0xCD,
+                    G = 0xCD,
+                    B = 0xCD,
+                });
+            }
         }
 
         #endregion
