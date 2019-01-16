@@ -29,12 +29,17 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static bool IsMouseInteractionMode()
+        {
+            return UIViewSettings.GetForCurrentView().UserInteractionMode == UserInteractionMode.Mouse;
+        }
+
         public static DeviceFamilyType GetDeviceFamilyType()
         {
             switch (AnalyticsInfo.VersionInfo.DeviceFamily)
             {
                 case "Windows.Desktop":
-                    return UIViewSettings.GetForCurrentView().UserInteractionMode == UserInteractionMode.Mouse
+                    return IsMouseInteractionMode()
                         ? DeviceFamilyType.Desktop
                         : DeviceFamilyType.Tablet;
 
@@ -64,7 +69,8 @@ namespace UWPX_UI_Context.Classes
         public static bool IsRunningOnDesktopDevice()
         {
             DeviceFamilyType type = GetDeviceFamilyType();
-            return type == DeviceFamilyType.Desktop || type == DeviceFamilyType.Tablet;
+            return type == DeviceFamilyType.Desktop
+                || type == DeviceFamilyType.Tablet;
         }
 
         /// <summary>
@@ -74,7 +80,12 @@ namespace UWPX_UI_Context.Classes
         public static bool ShouldShowBackButton()
         {
             DeviceFamilyType type = GetDeviceFamilyType();
-            return type == DeviceFamilyType.Desktop || type == DeviceFamilyType.Tablet || type == DeviceFamilyType.SurfaceHub || type == DeviceFamilyType.HoloLens || type == DeviceFamilyType.Mobile || type == DeviceFamilyType.IoT;
+            return type == DeviceFamilyType.Desktop
+                || type == DeviceFamilyType.Tablet
+                || type == DeviceFamilyType.SurfaceHub
+                || type == DeviceFamilyType.HoloLens
+                || type == DeviceFamilyType.Mobile
+                || type == DeviceFamilyType.IoT;
         }
 
         #endregion
