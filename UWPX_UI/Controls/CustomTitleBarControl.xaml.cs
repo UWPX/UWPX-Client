@@ -1,6 +1,7 @@
 ﻿using UWPX_UI.Controls.Toolkit.MasterDetailsView;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -38,13 +39,14 @@ namespace UWPX_UI.Controls
         public CustomTitleBarControl()
         {
             this.InitializeComponent();
-            if (!UiUtils.IsRunningOnDesktopDevice())
+            if (!DeviceFamilyHelper.IsRunningOnDesktopDevice())
             {
                 this.Visibility = Visibility.Collapsed;
                 return;
             }
-            InitTitleBar();
+            SetupTitleBar();
             SetupKeyboardAccelerators();
+            SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
         }
 
         #endregion
@@ -60,15 +62,23 @@ namespace UWPX_UI.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void InitTitleBar()
+        private void SetupTitleBar()
         {
-            if (UiUtils.IsApplicationViewApiAvailable() && !UiUtils.IsRunningOnMobileDevice())
+            if (UiUtils.IsApplicationViewApiAvailable())
             {
-                // Set XAML element as a draggable region.
-                CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
-                UpdateTitleBarLayout(titleBar);
-                Window.Current.SetTitleBar(titleBar_grid);
-                titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+                if (!DeviceFamilyHelper.ShouldShowBackButton())
+                {
+                    BackRequestButtonVisability = Visibility.Collapsed;
+                }
+
+                if (UiUtils.IsApplicationViewApiAvailable() && DeviceFamilyHelper.IsRunningOnDesktopDevice())
+                {
+                    // Set XAML element as a draggable region.
+                    CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
+                    UpdateTitleBarLayout(titleBar);
+                    Window.Current.SetTitleBar(titleBar_grid);
+                    titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+                }
             }
         }
 
@@ -110,6 +120,19 @@ namespace UWPX_UI.Controls
             }
         }
 
+        private bool OnBackRequested()
+        {
+            if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
+            {
+                MasterDetailsView.SelectedItem = null;
+                return true;
+            }
+            else
+            {
+                return UiUtils.OnGoBackRequested(Frame);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -120,13 +143,14 @@ namespace UWPX_UI.Controls
         #region --Events--
         private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
         {
-            if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
+            OnBackRequested();
+        }
+
+        private void CustomTitleBarControl_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
             {
-                MasterDetailsView.SelectedItem = null;
-            }
-            else
-            {
-                UiUtils.OnGoBackRequested(Frame);
+                e.Handled = OnBackRequested();
             }
         }
 

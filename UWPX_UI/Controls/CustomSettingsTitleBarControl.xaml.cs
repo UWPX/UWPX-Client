@@ -1,6 +1,7 @@
 ﻿using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -45,8 +46,9 @@ namespace UWPX_UI.Controls
         public CustomSettingsTitleBarControl()
         {
             this.InitializeComponent();
-            InitTitleBar();
+            SetupTitleBar();
             SetupKeyboardAccelerators();
+            SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
         }
 
         #endregion
@@ -62,16 +64,16 @@ namespace UWPX_UI.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void InitTitleBar()
+        private void SetupTitleBar()
         {
             if (UiUtils.IsApplicationViewApiAvailable())
             {
-                // Hide the back button for mobile devices since they have software/hardware back buttons:
-                if (UiUtils.IsRunningOnMobileDevice())
+                if (!DeviceFamilyHelper.ShouldShowBackButton())
                 {
                     BackRequestButtonVisability = Visibility.Collapsed;
                 }
-                else
+
+                if (DeviceFamilyHelper.IsRunningOnDesktopDevice())
                 {
                     // Set XAML element as a draggable region.
                     CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
@@ -131,6 +133,14 @@ namespace UWPX_UI.Controls
         private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
         {
             UiUtils.OnGoBackRequested(Frame);
+        }
+
+        private void CustomTitleBarControl_BackRequested(object sender, BackRequestedEventArgs e)
+        {
+            if (!e.Handled)
+            {
+                e.Handled = UiUtils.OnGoBackRequested(Frame);
+            }
         }
 
         private void GoToOverview_btn_Click(object sender, RoutedEventArgs e)

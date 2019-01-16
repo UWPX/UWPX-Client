@@ -166,6 +166,7 @@
     <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
