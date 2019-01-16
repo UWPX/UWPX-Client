@@ -84,7 +84,7 @@ namespace UWPX_UI.Pages.Settings
 
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (sender is SettingsSelectionControl settingsSelection)
+            if (DeviceFamilyHelper.IsMouseInteractionMode() && sender is SettingsSelectionControl settingsSelection)
             {
                 LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(settingsSelection) as FrameworkElement) as FrameworkElement;
                 Canvas.SetZIndex(LastPopUpElement, 10);

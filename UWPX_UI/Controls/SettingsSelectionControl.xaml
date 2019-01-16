@@ -8,10 +8,11 @@
              Height="160"
              mc:Ignorable="d">
 
-    <composition1:DropShadowPanel>
+    <composition1:DropShadowPanel HorizontalContentAlignment="Stretch"
+                                  VerticalContentAlignment="Stretch">
         <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
-            <Button Width="140"
-                    Height="160"
+            <Button HorizontalAlignment="Stretch"
+                    VerticalAlignment="Stretch"
                     Background="Transparent"
                     Click="Button_Click"
                     Style="{ThemeResource ButtonRevealStyle}">
