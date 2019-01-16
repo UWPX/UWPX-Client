@@ -111,7 +111,7 @@ namespace UWPX_UI
             SetupThemeListener();
 
             // Override resources to increase the UI performance on mobile devices:
-            if (UiUtils.IsRunningOnMobileDevice())
+            if (DeviceFamilyHelper.GetDeviceFamilyType() == DeviceFamilyType.Mobile)
             {
                 UiUtils.OverrideResources();
             }

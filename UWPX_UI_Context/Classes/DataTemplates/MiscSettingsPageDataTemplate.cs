@@ -118,7 +118,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             Crashreports = !Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING);
             ShowWelcomeDialogOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
             ShowWhatsNewDialogOnStartup = !Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG);
-            IsRunningOnPc = UiUtils.IsRunningOnDesktopDevice();
+            IsRunningOnPc = DeviceFamilyHelper.IsRunningOnDesktopDevice();
 
             Task.Run(async () =>
             {

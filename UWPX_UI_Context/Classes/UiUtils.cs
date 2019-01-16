@@ -10,7 +10,6 @@ using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.System;
-using Windows.System.Profile;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.ViewManagement;
@@ -30,6 +29,14 @@ namespace UWPX_UI_Context.Classes
         private static readonly Regex HEX_COLOR_REGEX = new Regex("^#[0-9a-fA-F]{6}$");
         public static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
         private static readonly Random RANDOM = new Random();
+
+        public const string DEVICE_FAMILY_DESKTOP = "";
+        public const string DEVICE_FAMILY_MOBILE = "";
+        public const string DEVICE_FAMILY_XBOX = "";
+        public const string DEVICE_FAMILY_IOT = "";
+        public const string DEVICE_FAMILY_IOT_HEADLESS = "";
+        public const string DEVICE_FAMILY_HOLOLENS = "";
+        public const string DEVICE_FAMILY_TEAM = "";
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -83,18 +90,21 @@ namespace UWPX_UI_Context.Classes
             return NavigateToPage(pageType, null);
         }
 
-        public static void OnGoBackRequested(Frame frame)
+        public static bool OnGoBackRequested(Frame frame)
         {
             if (frame is null)
             {
                 Logger.Error("Failed to execute back request - frame is null!");
+                return false;
             }
             else
             {
                 if (frame.CanGoBack)
                 {
                     frame.GoBack();
+                    return true;
                 }
+                return false;
             }
 
         }
@@ -128,22 +138,6 @@ namespace UWPX_UI_Context.Classes
         public static bool IsDarkThemeActive()
         {
             return Application.Current.RequestedTheme == ApplicationTheme.Dark;
-        }
-
-        /// <summary>
-        /// Checks whether the current device is a Windows Mobile device.
-        /// </summary>
-        public static bool IsRunningOnMobileDevice()
-        {
-            return AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Mobile");
-        }
-
-        /// <summary>
-        /// Checks whether the current device is a Windows 10 Desktop device.
-        /// </summary>
-        public static bool IsRunningOnDesktopDevice()
-        {
-            return AnalyticsInfo.VersionInfo.DeviceFamily.Equals("Windows.Desktop");
         }
 
         public static bool IsApplicationViewApiAvailable()
