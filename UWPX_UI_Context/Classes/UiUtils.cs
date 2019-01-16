@@ -267,7 +267,7 @@ namespace UWPX_UI_Context.Classes
                 var statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
-                    statusBar.BackgroundColor = ((Microsoft.UI.Xaml.Media.AcrylicBrush)application.Resources["AppBackgroundAcrylicElementBrush"]).TintColor;
+                    statusBar.BackgroundColor = ((SolidColorBrush)application.Resources["AppBackgroundAcrylicElementBrush"]).Color;
                     statusBar.BackgroundOpacity = 1;
                 }
             }
@@ -356,7 +356,24 @@ namespace UWPX_UI_Context.Classes
         /// </summary>
         public static void OverrideResources()
         {
+            // Styles:
             Application.Current.Resources["ButtonRevealStyle"] = Application.Current.Resources["DefaultButtonStyle"];
+
+            // Brushes:
+            Application.Current.Resources["AppBackgroundAcrylicWindowBrush"] = new SolidColorBrush(new Color()
+            {
+                A = 0xFF,
+                R = 0x24,
+                G = 0x24,
+                B = 0x24,
+            });
+            Application.Current.Resources["AppBackgroundAcrylicElementBrush"] = new SolidColorBrush(new Color()
+            {
+                A = 0xFF,
+                R = 0x2d,
+                G = 0x2d,
+                B = 0x2d,
+            });
         }
 
         #endregion
