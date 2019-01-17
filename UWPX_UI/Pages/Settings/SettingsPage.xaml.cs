@@ -17,7 +17,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Attributes--
         private ObservableCollection<SettingsPageDataTemplate> SETTINGS_PAGES = new ObservableCollection<SettingsPageDataTemplate>()
         {
-            new SettingsPageDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", NavTarget = typeof(SettingsPage)},
+            new SettingsPageDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", NavTarget = typeof(AccountsSettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Color", NavTarget = typeof(SettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", NavTarget = typeof(DataSettingsPage)},
             new SettingsPageDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability", NavTarget = typeof(ChatSettingsPage)},

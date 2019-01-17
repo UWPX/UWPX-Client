@@ -126,6 +126,7 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\DataContext\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\BackgroundTaskSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
@@ -136,6 +137,7 @@
     <Compile Include="Classes\DataContext\FolderSizeControlContext.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleContentContext.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleImageContentControlContext.cs" />
+    <Compile Include="Classes\DataTemplates\AccountSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
