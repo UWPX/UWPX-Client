@@ -204,6 +204,9 @@
     <Compile Include="Pages\ExtendedSplashScreenPage.xaml.cs">
       <DependentUpon>ExtendedSplashScreenPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Settings\AccountsSettingsPage.xaml.cs">
+      <DependentUpon>AccountsSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\BackgroundTaskSettingsPage.xaml.cs">
       <DependentUpon>BackgroundTaskSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -400,6 +403,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Settings\AccountsSettingsPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\Settings\BackgroundTaskSettingsPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -421,6 +428,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\MyBrushes.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Styles\CircleButtonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
