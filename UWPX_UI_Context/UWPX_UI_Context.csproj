@@ -179,6 +179,7 @@
     <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\HexColorToSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelWarningVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateGlyphTextValueConverter.cs" />

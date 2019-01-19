@@ -98,7 +98,7 @@
                                                      Header="Accounts:">
                         <settings:SettingsContentControl.MainContent>
                             <settings:AccountsListControl x:Name="accounts_alc"
-                                                          Margin="0,10,0,0"
+                                                          Margin="-10,5,-10,0"
                                                           Loaded="AccountsListControl_Loaded"/>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
