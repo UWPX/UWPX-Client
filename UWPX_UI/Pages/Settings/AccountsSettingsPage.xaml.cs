@@ -62,7 +62,7 @@ namespace UWPX_UI.Pages.Settings
         {
             foreach (object item in main_nview.MenuItems)
             {
-                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "Accounts"))
+                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "Manage"))
                 {
                     main_nview.SelectedItem = item;
                     break;
