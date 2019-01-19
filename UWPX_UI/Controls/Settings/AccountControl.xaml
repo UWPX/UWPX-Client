@@ -97,7 +97,6 @@
                               OffContent="Disabled"
                               OnContent="Enabled"/>
             </Grid>
-            <!--<controls:SeperatorControl Grid.Row="1"/>-->
         </Grid>
     </controls1:DropShadowPanel>
 </UserControl>
