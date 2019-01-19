@@ -126,7 +126,9 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\DataContext\AccountSettingsControlContext.cs" />
     <Compile Include="Classes\DataContext\AccountSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\AccountsListControlContext.cs" />
     <Compile Include="Classes\DataContext\BackgroundTaskSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
@@ -137,7 +139,10 @@
     <Compile Include="Classes\DataContext\FolderSizeControlContext.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleContentContext.cs" />
     <Compile Include="Classes\DataContext\SpeechBubbleImageContentControlContext.cs" />
+    <Compile Include="Classes\DataTemplates\AccountDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\AccountSettingsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\AccountSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\AccountsListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
@@ -170,6 +175,7 @@
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\BoolInvertedVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />

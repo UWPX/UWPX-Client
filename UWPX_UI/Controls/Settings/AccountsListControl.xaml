@@ -1,0 +1,51 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountsListControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:settings="using:UWPX_UI.Controls.Settings"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="AccountTemplate"
+                      x:DataType="datatemplates:AccountDataTemplate">
+            <settings:AccountControl Account="{x:Bind}"/>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <ListView ItemTemplate="{StaticResource AccountTemplate}"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.ACCOUNTS}"
+                  SelectionMode="None"
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+        </ListView>
+        <Grid HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ProgressRing Grid.Row="0"
+                          Width="50"
+                          Height="50"
+                          Margin="0,10,0,0"
+                          HorizontalAlignment="Center"
+                          IsActive="True"/>
+            <TextBlock Grid.Row="1"
+                       Margin="0,10,0,0"
+                       HorizontalAlignment="Center"
+                       Text="Loading accounts..."/>
+        </Grid>
+    </Grid>
+</UserControl>
