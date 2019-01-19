@@ -59,8 +59,7 @@
             </Grid.RowDefinitions>
 
             <!--  Header:  -->
-            <Grid Grid.Row="0"
-                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+            <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -74,6 +73,7 @@
                                                       VerticalAlignment="Center"/>
                 <Grid x:Name="headerInfo_grid"
                       Grid.Column="1"
+                      VerticalAlignment="Center"
                       RightTapped="HeaderInfo_grid_RightTapped">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -126,7 +126,8 @@
                                Foreground="{ThemeResource CaptionTextBrush}"
                                Style="{ThemeResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"/>
+                               TextTrimming="CharacterEllipsis"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
                 </Grid>
                 <Button Grid.Column="2"
                         Height="30"
@@ -136,6 +137,7 @@
                         Content="&#xE712;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
+                        FontWeight="Bold"
                         Style="{ThemeResource ButtonRevealStyle}"
                         ToolTipService.ToolTip="More">
                     <Button.Flyout>
