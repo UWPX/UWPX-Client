@@ -9,6 +9,7 @@ namespace UWPX_UI.Pages.Settings
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly AccountSettingsPageContext VIEW_MODEL = new AccountSettingsPageContext();
+        public AccountsListControlContext accountsListViewModel = null;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -68,6 +69,11 @@ namespace UWPX_UI.Pages.Settings
                     break;
                 }
             }
+        }
+
+        private void AccountsListControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            accountsListViewModel = accounts_alc.VIEW_MODEL;
         }
 
         #endregion

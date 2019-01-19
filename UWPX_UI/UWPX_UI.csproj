@@ -163,6 +163,12 @@
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\AccountControl.xaml.cs">
+      <DependentUpon>AccountControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\AccountsListControl.xaml.cs">
+      <DependentUpon>AccountsListControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\SettingsSelectionControl.xaml.cs">
       <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
     </Compile>
@@ -352,6 +358,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SeperatorControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\AccountControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\AccountsListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
