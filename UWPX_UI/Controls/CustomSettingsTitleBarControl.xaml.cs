@@ -73,20 +73,25 @@ namespace UWPX_UI.Controls
                     BackRequestButtonVisability = Visibility.Collapsed;
                 }
 
-                if (DeviceFamilyHelper.IsRunningOnDesktopDevice())
-                {
-                    // Set XAML element as a draggable region.
-                    CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
-                    UpdateTitleBarLayout(titleBar);
-                    Window.Current.SetTitleBar(titleBar_grid);
-                    titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
-                }
+                UpdateTitleBarLayout();
             }
         }
 
         private void TitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             UpdateTitleBarLayout(sender);
+        }
+
+        private void UpdateTitleBarLayout()
+        {
+            if (DeviceFamilyHelper.IsRunningOnDesktopDevice())
+            {
+                // Set XAML element as a draggable region.
+                CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
+                UpdateTitleBarLayout(titleBar);
+                Window.Current.SetTitleBar(titleBar_grid);
+                titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+            }
         }
 
         private void UpdateTitleBarLayout(CoreApplicationViewTitleBar titleBar)
@@ -146,6 +151,11 @@ namespace UWPX_UI.Controls
         private void GoToOverview_btn_Click(object sender, RoutedEventArgs e)
         {
             UiUtils.NavigateToPage(typeof(SettingsPage));
+        }
+
+        private void UserControl_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+        {
+            UpdateTitleBarLayout();
         }
 
         #endregion
