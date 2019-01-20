@@ -251,7 +251,6 @@
     <Content Include="Assets\Images\pp.png" />
     <Content Include="Assets\Images\send.png" />
     <Content Include="Assets\Images\splash_screen.png" />
-    <Content Include="Assets\Images\xmpp_logo.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
