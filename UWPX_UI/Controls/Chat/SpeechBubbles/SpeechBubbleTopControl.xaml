@@ -43,7 +43,8 @@
                 MinWidth="100"
                 MinHeight="40"
                 Margin="0,0,10,0"
-                Background="{ThemeResource SpeechBubbleBackgroundLightBrush}">
+                Background="{ThemeResource SpeechBubbleBackgroundLightBrush}"
+                CornerRadius="5">
             <ContentControl x:Name="content_cp"
                             Margin="5"
                             HorizontalContentAlignment="Stretch"
