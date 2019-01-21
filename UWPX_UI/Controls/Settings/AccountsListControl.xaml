@@ -17,8 +17,11 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ListView ItemTemplate="{StaticResource AccountTemplate}"
+        <ListView Grid.Row="0"
+                  ItemTemplate="{StaticResource AccountTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.ACCOUNTS}"
                   SelectionMode="None"
                   Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}">
@@ -29,7 +32,44 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
-        <Grid HorizontalAlignment="Center"
+        <TextBlock Grid.Row="1"
+                   Margin="10,10,10,0"
+                   HorizontalAlignment="Center"
+                   Foreground="{ThemeResource CaptionTextBrush}"
+                   Style="{ThemeResource BodyTextBlockStyle}">
+            <Run Text="{x:Bind VIEW_MODEL.MODEL.ACCOUNTS.Count, Mode=OneWay}"/>
+            <Run Text="out of"/>
+            <Run Text="15"/>
+            <Run Text="accounts"/>
+        </TextBlock>
+        <HyperlinkButton x:Name="accountLimit_hlbtn"
+                         Grid.Row="2"
+                         Margin="10,0,10,0"
+                         HorizontalAlignment="Center"
+                         Click="AccountLimit_hlbtn_Click"
+                         Content="Why is there a limit?">
+            <HyperlinkButton.ContextFlyout>
+                <Flyout>
+                    <TextBlock MaxWidth="200"
+                               TextWrapping="Wrap">
+                        <Underline>
+                            <Run Text="Why is there a limit?"/>
+                        </Underline>
+                        <LineBreak/>
+                        <Run Text="The UWP password vault is limited to 20 passwords per app and for fail save reasons the account limit is set to 15."/>
+                        <LineBreak/>
+                        <LineBreak/>
+                        <Run Text="Read more:"/>
+                        <LineBreak/>
+                        <Hyperlink NavigateUri="https://docs.microsoft.com/en-us/uwp/api/windows.security.credentials.passwordvault.add#Windows_Security_Credentials_PasswordVault_Add_Windows_Security_Credentials_PasswordCredential">
+                            <Run Text="Microsoft Docs"/>
+                        </Hyperlink>
+                    </TextBlock>
+                </Flyout>
+            </HyperlinkButton.ContextFlyout>
+        </HyperlinkButton>
+        <Grid Grid.Row="0"
+              HorizontalAlignment="Center"
               VerticalAlignment="Center"
               Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
             <Grid.RowDefinitions>

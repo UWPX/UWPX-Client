@@ -40,7 +40,10 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void AccountLimit_hlbtn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            accountLimit_hlbtn.ContextFlyout.ShowAt(accountLimit_hlbtn);
+        }
 
         #endregion
     }
