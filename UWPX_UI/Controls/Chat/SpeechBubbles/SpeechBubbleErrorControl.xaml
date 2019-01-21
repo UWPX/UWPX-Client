@@ -14,7 +14,8 @@
           MinHeight="40"
           Margin="20,0,20,0"
           Padding="5"
-          Background="{ThemeResource SpeechBubbleErrorBackgroundBrush}">
+          Background="{ThemeResource SpeechBubbleErrorBackgroundBrush}"
+          CornerRadius="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
