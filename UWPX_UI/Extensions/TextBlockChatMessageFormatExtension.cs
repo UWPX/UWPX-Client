@@ -9,6 +9,7 @@ using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
+using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Extensions
 {
@@ -85,8 +86,12 @@ namespace UWPX_UI.Extensions
         {
             if (Uri.TryCreate(urlMatch.Value, UriKind.RelativeOrAbsolute, out Uri targetUri))
             {
-                var link = new Hyperlink();
-                link.Inlines.Add(new Run { Text = urlMatch.Value });
+                Hyperlink link = new Hyperlink();
+                link.Inlines.Add(new Run
+                {
+                    Text = urlMatch.Value,
+                    Foreground = (Brush)Application.Current.Resources["SpeechBubbleForegroundBrush"]
+                });
 
                 if (targetUri.IsAbsoluteUri)
                 {
@@ -122,8 +127,12 @@ namespace UWPX_UI.Extensions
         {
             var currentMatch = emailMatch ?? phoneMatch;
 
-            var link = new Hyperlink();
-            link.Inlines.Add(new Run { Text = currentMatch.Value });
+            Hyperlink link = new Hyperlink();
+            link.Inlines.Add(new Run
+            {
+                Text = currentMatch.Value,
+                Foreground = (Brush)Application.Current.Resources["SpeechBubbleForegroundBrush"]
+            });
             link.Click += (s, a) =>
             {
                 var contact = new Contact();
