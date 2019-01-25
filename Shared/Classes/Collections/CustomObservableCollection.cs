@@ -17,12 +17,14 @@ namespace Shared.Classes.Collections
         #region --Attributes--
         private const string CountName = nameof(Count);
         private const string IndexerName = "Item[]";
+        public readonly bool INVOKE_IN_UI_THREAD;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public CustomObservableCollection() : base()
+        public CustomObservableCollection(bool invokeInUiThread) : base()
         {
+            this.INVOKE_IN_UI_THREAD = invokeInUiThread;
         }
 
         #endregion
@@ -119,12 +121,26 @@ namespace Shared.Classes.Collections
 
         protected async override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            await SharedUtils.CallDispatcherAsync(() => base.OnCollectionChanged(e));
+            if (INVOKE_IN_UI_THREAD)
+            {
+                await SharedUtils.CallDispatcherAsync(() => base.OnCollectionChanged(e));
+            }
+            else
+            {
+                base.OnCollectionChanged(e);
+            }
         }
 
         protected async override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            await SharedUtils.CallDispatcherAsync(() => base.OnPropertyChanged(e));
+            if (INVOKE_IN_UI_THREAD)
+            {
+                await SharedUtils.CallDispatcherAsync(() => base.OnPropertyChanged(e));
+            }
+            else
+            {
+                base.OnPropertyChanged(e);
+            }
         }
 
         #endregion

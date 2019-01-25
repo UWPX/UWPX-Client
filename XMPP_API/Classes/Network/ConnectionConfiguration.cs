@@ -41,7 +41,7 @@ namespace XMPP_API.Classes.Network
         public ConnectionConfiguration()
         {
             this.tlsMode = TLSConnectionMode.FORCE;
-            this.IGNORED_CERTIFICATE_ERRORS = new CustomObservableCollection<ChainValidationResult>();
+            this.IGNORED_CERTIFICATE_ERRORS = new CustomObservableCollection<ChainValidationResult>(false);
             this.IGNORED_CERTIFICATE_ERRORS.CollectionChanged += IGNORED_CERTIFICATE_ERRORS_CollectionChanged;
             this.disableStreamManagement = false;
             this.disableMessageCarbons = false;
