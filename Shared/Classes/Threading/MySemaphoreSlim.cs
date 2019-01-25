@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 
-namespace Thread_Save_Components.Classes.Threading
+namespace Shared.Classes.Threading
 {
     public class MySemaphoreSlim : SemaphoreSlim
     {

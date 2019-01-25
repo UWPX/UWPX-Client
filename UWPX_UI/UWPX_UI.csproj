@@ -514,9 +514,9 @@
       <Project>{53BB5463-9646-4F79-BE97-3D73473AAD92}</Project>
       <Name>Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
-      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
-      <Name>Thread_Save_Components</Name>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{045E0B7F-11AB-4014-B576-AD114ECEE90D}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\UWPX_UI_Context\UWPX_UI_Context.csproj">
       <Project>{e44b7351-2905-4ae7-8b56-5a5854cbbcf3}</Project>

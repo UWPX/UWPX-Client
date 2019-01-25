@@ -1,9 +1,9 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
+using Shared.Classes.Collections;
 using System;
 using System.Threading.Tasks;
-using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 

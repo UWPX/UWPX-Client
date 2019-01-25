@@ -1,4 +1,6 @@
-﻿namespace UWPX_UI_Context.Classes.DataTemplates
+﻿using Shared.Classes;
+
+namespace UWPX_UI_Context.Classes.DataTemplates
 {
     public sealed class BackgroundTaskSettingsPageDataTemplate : AbstractDataTemplate
     {

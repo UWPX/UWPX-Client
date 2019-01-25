@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
+using Shared.Classes;
 using System;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;

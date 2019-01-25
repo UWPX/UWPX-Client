@@ -816,10 +816,6 @@
       <Project>{a8da7bd0-dc43-4f30-ab1e-3fcf942274e4}</Project>
       <Name>Push_App_Server</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
-      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
-      <Name>Thread_Save_Components</Name>
-    </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{899fb043-af8b-4294-95b6-1482c79459ac}</Project>
       <Name>XMPP_API</Name>

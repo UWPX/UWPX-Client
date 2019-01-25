@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
 using Logging;
+using Shared.Classes;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
@@ -135,7 +136,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 // Bitmap stuff has to be done in the UI thread,
                 // so make sure we execute it there:
                 Exception ex = null;
-                await UiUtils.CallDispatcherAsync(async () =>
+                await SharedUtils.CallDispatcherAsync(async () =>
                 {
                     try
                     {

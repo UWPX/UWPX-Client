@@ -1,9 +1,9 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
 using libsignal;
+using Shared.Classes.SQLite;
 using System;
 using System.Collections.Generic;
-using Thread_Save_Components.Classes.SQLite;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Data_Manager2.Classes.DBManager.Omemo

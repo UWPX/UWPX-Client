@@ -1,16 +1,15 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using System;
+using System.Threading.Tasks;
+using Windows.ApplicationModel.Core;
+using Windows.UI.Core;
 
-namespace UWPX_UI_Context.Classes.DataTemplates
+namespace Shared.Classes
 {
-    /// <summary>
-    /// Based o: https://github.com/Microsoft/Windows-appsample-trafficapp/blob/master/LocationHelper/BindableBase.cs
-    /// </summary>
-    public abstract class AbstractDataTemplate : INotifyPropertyChanged
+    public static class SharedUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public event PropertyChangedEventHandler PropertyChanged;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,7 +24,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        /// <summary>
+        /// Calls the UI thread dispatcher and executes the given callback on it.
+        /// </summary>
+        /// <param name="callback">The callback that should be executed in the UI thread.</param>
+        public static async Task CallDispatcherAsync(DispatchedHandler callback)
+        {
+            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
+            {
+                callback();
+            }
+            else
+            {
+                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
+            }
+        }
 
         #endregion
 
@@ -35,22 +48,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(storage, value))
-            {
-                return false;
-            }
 
-            storage = value;
-            OnPropertyChanged(propertyName);
-            return true;
-        }
-
-        protected virtual async void OnPropertyChanged([CallerMemberName] string name = "")
-        {
-            await UiUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
-        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

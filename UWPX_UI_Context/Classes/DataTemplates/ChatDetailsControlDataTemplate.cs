@@ -3,6 +3,7 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
+using Shared.Classes;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;

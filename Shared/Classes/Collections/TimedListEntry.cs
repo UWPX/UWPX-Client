@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Thread_Save_Components.Classes.Collections
+namespace Shared.Classes.Collections
 {
     public class TimedListEntry<T> : ITimedEntry
     {
@@ -34,7 +34,7 @@ namespace Thread_Save_Components.Classes.Collections
         #region --Misc Methods (Public)--
         public bool canGetRemoved()
         {
-            if(item is ITimedEntry)
+            if (item is ITimedEntry)
             {
                 return (item as ITimedEntry).canGetRemoved();
             }

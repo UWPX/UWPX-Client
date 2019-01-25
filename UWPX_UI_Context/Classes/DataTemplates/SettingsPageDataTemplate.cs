@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Classes;
+using System;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {

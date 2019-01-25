@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Classes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -119,12 +120,12 @@ namespace UWPX_UI_Context.Classes.Collections
 
         protected async override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
-            await UiUtils.CallDispatcherAsync(() => base.OnCollectionChanged(e));
+            await SharedUtils.CallDispatcherAsync(() => base.OnCollectionChanged(e));
         }
 
         protected async override void OnPropertyChanged(PropertyChangedEventArgs e)
         {
-            await UiUtils.CallDispatcherAsync(() => base.OnPropertyChanged(e));
+            await SharedUtils.CallDispatcherAsync(() => base.OnPropertyChanged(e));
         }
 
         #endregion

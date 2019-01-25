@@ -1,4 +1,5 @@
 ﻿using Logging;
+using Shared.Classes;
 using System;
 using System.IO;
 using System.Linq;

@@ -1,4 +1,4 @@
-﻿namespace Thread_Save_Components.Classes.Collections
+﻿namespace Shared.Classes.Collections
 {
     public interface ITimedEntry
     {

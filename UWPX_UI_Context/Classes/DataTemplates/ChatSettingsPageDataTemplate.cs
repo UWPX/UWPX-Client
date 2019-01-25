@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes;
+using Shared.Classes;
 using System.Runtime.CompilerServices;
 
 namespace UWPX_UI_Context.Classes.DataTemplates

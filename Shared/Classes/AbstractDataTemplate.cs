@@ -1,12 +1,16 @@
-﻿using Shared.Classes;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
-namespace UWPX_UI_Context.Classes.DataTemplates
+namespace Shared.Classes
 {
-    public sealed class DataSettingsPageDataTemplate : AbstractDataTemplate
+    /// <summary>
+    /// Based o: https://github.com/Microsoft/Windows-appsample-trafficapp/blob/master/LocationHelper/BindableBase.cs
+    /// </summary>
+    public abstract class AbstractDataTemplate : INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,7 +35,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Protected)--
+        protected bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return false;
+            }
 
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+
+        protected virtual async void OnPropertyChanged([CallerMemberName] string name = "")
+        {
+            // Make sure we call the PropertyChanged event from the UI thread:
+            await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

@@ -1,9 +1,9 @@
 ﻿using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
+using Shared.Classes.Collections;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Thread_Save_Components.Classes.Collections;
 using Windows.System.Threading;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.Events;

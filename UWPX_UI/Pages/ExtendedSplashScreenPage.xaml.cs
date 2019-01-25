@@ -3,6 +3,7 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.AppCenter.Push;
+using Shared.Classes;
 using System;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes;
@@ -178,7 +179,7 @@ namespace UWPX_UI.Pages
         #region --Events--
         private async void SPLASH_SCREEN_Dismissed(SplashScreen sender, object args)
         {
-            await UiUtils.CallDispatcherAsync(async () => await LoadAppAsync());
+            await SharedUtils.CallDispatcherAsync(async () => await LoadAppAsync());
         }
 
         #endregion

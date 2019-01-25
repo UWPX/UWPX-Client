@@ -11,8 +11,8 @@
     <AssemblyName>XMPP_API</AssemblyName>
     <DefaultLanguage>de-DE</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.16299.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.10586.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -114,7 +114,6 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="mscorlib" />
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
@@ -349,9 +348,9 @@
       <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
       <Name>Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
-      <Project>{60938c69-a2d7-4c27-8b73-84c203bd4787}</Project>
-      <Name>Thread_Save_Components</Name>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{045E0B7F-11AB-4014-B576-AD114ECEE90D}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
