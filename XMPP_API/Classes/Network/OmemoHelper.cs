@@ -397,7 +397,6 @@ namespace XMPP_API.Classes.Network
                 Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getIdAndDomain() + ") Bundle info announced.");
                 setState(OmemoHelperState.ENABLED);
                 CONNECTION.account.omemoBundleInfoAnnounced = true;
-                CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoBundleInfoAnnounced));
                 return true;
             }
             return false;
@@ -464,7 +463,6 @@ namespace XMPP_API.Classes.Network
                 if (CONNECTION.account.omemoDeviceId == 0)
                 {
                     CONNECTION.account.omemoDeviceId = tmpDeviceId;
-                    CONNECTION.account.onPropertyChanged(nameof(CONNECTION.account.omemoDeviceId));
                 }
                 if (!CONNECTION.account.omemoBundleInfoAnnounced)
                 {

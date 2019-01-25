@@ -49,9 +49,9 @@ namespace Data_Manager2.Classes.DBManager
 
             saveAccountConnectionConfiguration(account);
 
-            if (account.omemoPreKeys != null)
+            if (account.OMEMO_PRE_KEYS != null)
             {
-                OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.omemoPreKeys, account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.OMEMO_PRE_KEYS, account.getIdAndDomain());
             }
             else
             {

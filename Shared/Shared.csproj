@@ -121,6 +121,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\AbstractDataTemplate.cs" />
+    <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\ITimedEntry.cs" />
     <Compile Include="Classes\Collections\TimedListEntry.cs" />
     <Compile Include="Classes\Collections\TSTimedList.cs" />

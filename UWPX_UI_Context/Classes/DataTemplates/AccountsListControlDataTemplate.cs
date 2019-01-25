@@ -2,11 +2,11 @@
 using Data_Manager2.Classes.Events;
 using Logging;
 using Shared.Classes;
+using Shared.Classes.Collections;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
