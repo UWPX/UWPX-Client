@@ -4,10 +4,10 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes;
+using Shared.Classes.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.Collections;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 

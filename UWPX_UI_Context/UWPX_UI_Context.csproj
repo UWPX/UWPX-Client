@@ -145,7 +145,6 @@
     <Compile Include="Classes\DataTemplates\AccountsListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
-    <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />

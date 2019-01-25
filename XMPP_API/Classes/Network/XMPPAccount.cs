@@ -4,38 +4,114 @@ using libsignal.state;
 using libsignal.util;
 using Logging;
 using org.whispersystems.libsignal.fingerprint;
+using Shared.Classes;
+using Shared.Classes.Collections;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network
 {
-    public class XMPPAccount : INotifyPropertyChanged
+    public class XMPPAccount : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public int port;
-        public XMPPUser user;
-        public string serverAddress;
-        public int presencePriorety;
-        public bool disabled;
-        public string color;
-        public Presence presence;
-        public string status;
-        public ConnectionConfiguration connectionConfiguration;
-        public readonly ConnectionInformation CONNECTION_INFO;
-        // XEP-0384 (OMEMO Encryption):
-        public bool omemoKeysGenerated;
-        public IdentityKeyPair omemoIdentityKeyPair;
-        public uint omemoSignedPreKeyId;
-        public SignedPreKeyRecord omemoSignedPreKeyPair;
-        public IList<PreKeyRecord> omemoPreKeys;
-        public uint omemoDeviceId;
-        public bool omemoBundleInfoAnnounced;
+        private int _port;
+        public int port
+        {
+            get { return _port; }
+            set { SetProperty(ref _port, value); }
+        }
+        private XMPPUser _user;
+        public XMPPUser user
+        {
+            get { return _user; }
+            set { setXMPPUserProperty(value); }
+        }
+        private string _serverAddress;
+        public string serverAddress
+        {
+            get { return _serverAddress; }
+            set { SetProperty(ref _serverAddress, value); }
+        }
+        private int _presencePriorety;
+        public int presencePriorety
+        {
+            get { return _presencePriorety; }
+            set { SetProperty(ref _presencePriorety, value); }
+        }
+        private bool _disabled;
+        public bool disabled
+        {
+            get { return _disabled; }
+            set { SetProperty(ref _disabled, value); }
+        }
+        private string _color;
+        public string color
+        {
+            get { return _color; }
+            set { SetProperty(ref _color, value); }
+        }
+        private Presence _presence;
+        public Presence presence
+        {
+            get { return _presence; }
+            set { SetProperty(ref _presence, value); }
+        }
+        private string _status;
+        public string status
+        {
+            get { return _status; }
+            set { SetProperty(ref _status, value); }
+        }
+        private ConnectionConfiguration _connectionConfiguration;
+        public ConnectionConfiguration connectionConfiguration
+        {
+            get { return _connectionConfiguration; }
+            set { setConnectionConfigurationProperty(value); }
+        }
 
-        public event PropertyChangedEventHandler PropertyChanged;
+        public readonly ConnectionInformation CONNECTION_INFO;
+
+        // XEP-0384 (OMEMO Encryption):
+        private bool _omemoKeysGenerated;
+        public bool omemoKeysGenerated
+        {
+            get { return _omemoKeysGenerated; }
+            set { SetProperty(ref _omemoKeysGenerated, value); }
+        }
+        private IdentityKeyPair _omemoIdentityKeyPair;
+        public IdentityKeyPair omemoIdentityKeyPair
+        {
+            get { return _omemoIdentityKeyPair; }
+            set { SetProperty(ref _omemoIdentityKeyPair, value); }
+        }
+        private uint _omemoSignedPreKeyId;
+        public uint omemoSignedPreKeyId
+        {
+            get { return _omemoSignedPreKeyId; }
+            set { SetProperty(ref _omemoSignedPreKeyId, value); }
+        }
+        private SignedPreKeyRecord _omemoSignedPreKeyPair;
+        public SignedPreKeyRecord omemoSignedPreKeyPair
+        {
+            get { return _omemoSignedPreKeyPair; }
+            set { SetProperty(ref _omemoSignedPreKeyPair, value); }
+        }
+        private uint _omemoDeviceId;
+        public uint omemoDeviceId
+        {
+            get { return _omemoDeviceId; }
+            set { SetProperty(ref _omemoDeviceId, value); }
+        }
+        private bool _omemoBundleInfoAnnounced;
+        public bool omemoBundleInfoAnnounced
+        {
+            get { return _omemoBundleInfoAnnounced; }
+            set { SetProperty(ref _omemoBundleInfoAnnounced, value); }
+        }
+        public readonly CustomObservableCollection<PreKeyRecord> OMEMO_PRE_KEYS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -62,9 +138,11 @@ namespace XMPP_API.Classes.Network
             this.presence = Presence.Online;
             this.status = null;
             this.CONNECTION_INFO = new ConnectionInformation();
+            this.CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
             this.omemoIdentityKeyPair = null;
             this.omemoSignedPreKeyPair = null;
-            this.omemoPreKeys = null;
+            this.OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyRecord>();
+            this.OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
             this.omemoDeviceId = 0;
             this.omemoBundleInfoAnnounced = false;
         }
@@ -74,7 +152,7 @@ namespace XMPP_API.Classes.Network
         #region --Set-, Get- Methods--
         public bool checkOmemoKeys()
         {
-            return omemoKeysGenerated && omemoIdentityKeyPair != null && omemoPreKeys != null && omemoSignedPreKeyPair != null;
+            return omemoKeysGenerated && !(omemoIdentityKeyPair is null || OMEMO_PRE_KEYS.Count <= 0 || omemoSignedPreKeyPair is null);
         }
 
         public string getIdAndDomain()
@@ -90,7 +168,7 @@ namespace XMPP_API.Classes.Network
         public OmemoBundleInformation getOmemoBundleInformation()
         {
             List<Tuple<uint, ECPublicKey>> pubPreKeys = new List<Tuple<uint, ECPublicKey>>();
-            foreach (PreKeyRecord key in omemoPreKeys)
+            foreach (PreKeyRecord key in OMEMO_PRE_KEYS)
             {
                 pubPreKeys.Add(new Tuple<uint, ECPublicKey>(key.getId(), key.getKeyPair().getPublicKey()));
             }
@@ -104,6 +182,32 @@ namespace XMPP_API.Classes.Network
                 return CryptoUtils.generateOmemoFingerprint(getIdAndDomain(), omemoIdentityKeyPair.getPublicKey());
             }
             return null;
+        }
+
+        private void setXMPPUserProperty(XMPPUser value)
+        {
+            if (!(user is null))
+            {
+                value.PropertyChanged -= XMPPUser_PropertyChanged;
+            }
+            SetProperty(ref _user, value, nameof(user));
+            if (!(user is null))
+            {
+                value.PropertyChanged += XMPPUser_PropertyChanged;
+            }
+        }
+
+        private void setConnectionConfigurationProperty(ConnectionConfiguration value)
+        {
+            if (!(connectionConfiguration is null))
+            {
+                connectionConfiguration.PropertyChanged -= ConnectionConfiguration_PropertyChanged;
+            }
+            SetProperty(ref _connectionConfiguration, value, nameof(connectionConfiguration));
+            if (!(connectionConfiguration is null))
+            {
+                connectionConfiguration.PropertyChanged += ConnectionConfiguration_PropertyChanged; ;
+            }
         }
 
         #endregion
@@ -122,8 +226,9 @@ namespace XMPP_API.Classes.Network
                 return false;
             }
 
-            omemoPreKeys = omemoStore.LoadPreKeys();
-            if (omemoPreKeys is null || omemoPreKeys.Count <= 0)
+            OMEMO_PRE_KEYS.Clear();
+            OMEMO_PRE_KEYS.AddRange(omemoStore.LoadPreKeys());
+            if (OMEMO_PRE_KEYS.Count <= 0)
             {
                 Logger.Error("Failed to load OMEMO prekeys for: " + getIdAndDomain());
                 return false;
@@ -153,7 +258,7 @@ namespace XMPP_API.Classes.Network
                 return false;
             }
             omemoStore.StoreSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair);
-            omemoStore.StorePreKeys(omemoPreKeys);
+            omemoStore.StorePreKeys(OMEMO_PRE_KEYS);
             return true;
         }
 
@@ -168,7 +273,8 @@ namespace XMPP_API.Classes.Network
             omemoDeviceId = 0;
             omemoBundleInfoAnnounced = false;
             omemoIdentityKeyPair = CryptoUtils.generateOmemoIdentityKeyPair();
-            omemoPreKeys = CryptoUtils.generateOmemoPreKeys();
+            OMEMO_PRE_KEYS.Clear();
+            OMEMO_PRE_KEYS.AddRange(CryptoUtils.generateOmemoPreKeys());
             omemoSignedPreKeyPair = CryptoUtils.generateOmemoSignedPreKey(omemoIdentityKeyPair);
             omemoSignedPreKeyId = omemoSignedPreKeyPair.getId();
             omemoKeysGenerated = true;
@@ -177,11 +283,11 @@ namespace XMPP_API.Classes.Network
         public void replaceOmemoPreKey(uint preKeyId, IOmemoStore omemoStore)
         {
             // Remove key:
-            foreach (PreKeyRecord key in omemoPreKeys)
+            foreach (PreKeyRecord key in OMEMO_PRE_KEYS)
             {
-                if(key.getId() == preKeyId)
+                if (key.getId() == preKeyId)
                 {
-                    omemoPreKeys.Remove(key);
+                    OMEMO_PRE_KEYS.Remove(key);
                     omemoStore.RemovePreKey(preKeyId);
                     break;
                 }
@@ -189,10 +295,9 @@ namespace XMPP_API.Classes.Network
 
             // Generate new key:
             PreKeyRecord newKey = KeyHelper.generatePreKeys(preKeyId, 1)[0];
-            omemoPreKeys.Add(newKey);
+            OMEMO_PRE_KEYS.Add(newKey);
             omemoStore.StorePreKey(newKey.getId(), newKey);
             omemoBundleInfoAnnounced = false;
-            onPropertyChanged(nameof(omemoBundleInfoAnnounced));
         }
 
         public override bool Equals(object obj)
@@ -213,7 +318,7 @@ namespace XMPP_API.Classes.Network
                     o.omemoKeysGenerated == omemoKeysGenerated &&
                     Equals(o.omemoIdentityKeyPair.serialize(), omemoIdentityKeyPair.serialize()) &&
                     Equals(o.omemoSignedPreKeyPair.serialize(), omemoSignedPreKeyPair.serialize()) &&
-                    Equals(o.omemoPreKeys, omemoPreKeys) &&
+                    Equals(o.OMEMO_PRE_KEYS, OMEMO_PRE_KEYS) &&
                     o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced;
             }
             return false;
@@ -222,15 +327,6 @@ namespace XMPP_API.Classes.Network
         public override int GetHashCode()
         {
             return base.GetHashCode();
-        }
-
-        /// <summary>
-        /// Called once an important property has changed and the account should get written back to the DB.
-        /// </summary>
-        /// <param name="name">The name of the property that changed.</param>
-        public void onPropertyChanged(string name)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
         #endregion
@@ -246,7 +342,25 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void XMPPUser_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(user));
+        }
 
+        private void OMEMO_PRE_KEYS_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(OMEMO_PRE_KEYS));
+        }
+
+        private void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(CONNECTION_INFO));
+        }
+
+        private void ConnectionConfiguration_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(connectionConfiguration));
+        }
 
         #endregion
     }

@@ -1,5 +1,4 @@
-﻿using Shared.Classes;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,7 +6,7 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 
-namespace UWPX_UI_Context.Classes.Collections
+namespace Shared.Classes.Collections
 {
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074

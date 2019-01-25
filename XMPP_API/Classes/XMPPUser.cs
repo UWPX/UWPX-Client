@@ -1,13 +1,35 @@
-﻿namespace XMPP_API.Classes
+﻿using Shared.Classes;
+
+namespace XMPP_API.Classes
 {
-    public class XMPPUser
+    public class XMPPUser : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string userId;
-        public string userPassword;
-        public string resource;
-        public string domain;
+        private string _userId;
+        public string userId
+        {
+            get { return _userId; }
+            set { SetProperty(ref _userId, value); }
+        }
+        private string _userPassword;
+        public string userPassword
+        {
+            get { return _userPassword; }
+            set { SetProperty(ref _userPassword, value); }
+        }
+        private string _resource;
+        public string resource
+        {
+            get { return _resource; }
+            set { SetProperty(ref _resource, value); }
+        }
+        private string _domain;
+        public string domain
+        {
+            get { return _domain; }
+            set { SetProperty(ref _domain, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -56,7 +78,7 @@
         #region --Misc Methods (Public)--
         public override bool Equals(object obj)
         {
-            if(obj is XMPPUser)
+            if (obj is XMPPUser)
             {
                 XMPPUser u = obj as XMPPUser;
                 return string.Equals(u.domain, domain) && string.Equals(u.resource, resource) && string.Equals(u.userId, userId) && string.Equals(u.userPassword, userPassword);
