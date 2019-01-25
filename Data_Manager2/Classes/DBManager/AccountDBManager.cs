@@ -1,12 +1,12 @@
-﻿using Data_Manager2.Classes.Events;
+﻿using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
-using System.Collections.Generic;
-using XMPP_API.Classes.Network;
-using Windows.Security.Cryptography.Certificates;
+using Data_Manager2.Classes.Events;
 using Logging;
+using Shared.Classes.SQLite;
+using System.Collections.Generic;
 using System.Threading;
-using Thread_Save_Components.Classes.SQLite;
-using Data_Manager2.Classes.DBManager.Omemo;
+using Windows.Security.Cryptography.Certificates;
+using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.DBManager
 {

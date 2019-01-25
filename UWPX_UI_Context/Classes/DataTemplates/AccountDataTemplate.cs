@@ -1,4 +1,5 @@
-﻿using XMPP_API.Classes.Network;
+﻿using Shared.Classes;
+using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {

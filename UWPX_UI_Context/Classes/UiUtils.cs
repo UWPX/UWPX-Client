@@ -308,22 +308,6 @@ namespace UWPX_UI_Context.Classes
         }
 
         /// <summary>
-        /// Calls the UI thread dispatcher and executes the given callback on it.
-        /// </summary>
-        /// <param name="callback">The callback that should be executed in the UI thread.</param>
-        public static async Task CallDispatcherAsync(DispatchedHandler callback)
-        {
-            if (CoreApplication.MainView.CoreWindow.Dispatcher.HasThreadAccess)
-            {
-                callback();
-            }
-            else
-            {
-                await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
-            }
-        }
-
-        /// <summary>
         /// Generates a random bare JID.
         /// e.g. 'chat.shakespeare.lit'
         /// </summary>

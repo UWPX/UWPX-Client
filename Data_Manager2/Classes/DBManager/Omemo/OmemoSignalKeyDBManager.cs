@@ -2,8 +2,8 @@
 using Data_Manager2.Classes.DBTables.Omemo;
 using libsignal;
 using libsignal.state;
+using Shared.Classes.SQLite;
 using System.Collections.Generic;
-using Thread_Save_Components.Classes.SQLite;
 
 namespace Data_Manager2.Classes.DBManager.Omemo
 {

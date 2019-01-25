@@ -154,7 +154,6 @@
     <Compile Include="Classes\DataContext\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\ChatMasterControlContext.cs" />
     <Compile Include="Classes\DataContext\ChatsPageContext.cs" />
-    <Compile Include="Classes\DataTemplates\AbstractDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMasterControlDataTemplate.cs" />
@@ -226,9 +225,9 @@
       <Project>{53BB5463-9646-4F79-BE97-3D73473AAD92}</Project>
       <Name>Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
-      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
-      <Name>Thread_Save_Components</Name>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{045E0B7F-11AB-4014-B576-AD114ECEE90D}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{899FB043-AF8B-4294-95B6-1482C79459AC}</Project>

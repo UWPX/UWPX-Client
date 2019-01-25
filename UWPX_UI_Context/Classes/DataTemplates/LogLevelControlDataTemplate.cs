@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using Logging;
+using Shared.Classes;
 using System;
 using System.Collections.ObjectModel;
 

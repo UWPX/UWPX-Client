@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Thread_Save_Components.Classes.SQLite;
+﻿using Shared.Classes.SQLite;
+using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.DBEntries;
 using XMPP_API.Classes.Network.XML.Messages;
 

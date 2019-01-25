@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.Events;
 using Logging;
+using Shared.Classes;
 using System;
 using System.Collections.Generic;
 using System.Linq;

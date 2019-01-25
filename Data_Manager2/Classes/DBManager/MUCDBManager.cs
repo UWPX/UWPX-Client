@@ -1,8 +1,8 @@
-﻿using Data_Manager2.Classes.Events;
-using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
+using Shared.Classes.SQLite;
 using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
-using Thread_Save_Components.Classes.SQLite;
 
 namespace Data_Manager2.Classes.DBManager
 {

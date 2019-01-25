@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {

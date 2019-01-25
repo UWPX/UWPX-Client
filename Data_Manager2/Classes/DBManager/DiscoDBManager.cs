@@ -1,7 +1,7 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using Shared.Classes.SQLite;
 using System;
 using System.Collections.Generic;
-using Thread_Save_Components.Classes.SQLite;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;

@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Shared.Classes;
 using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;

@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Logging;
+using Shared.Classes;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Windows.Storage;
