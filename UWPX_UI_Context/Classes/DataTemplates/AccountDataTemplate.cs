@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes.DBManager;
 using Shared.Classes;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
@@ -11,11 +10,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        private XMPPClient _Client;
+        public XMPPClient Client
+        {
+            get { return _Client; }
+            set { SetClient(value); }
+        }
         private XMPPAccount _Account;
         public XMPPAccount Account
         {
             get { return _Account; }
-            set { SetAccount(value); }
+            private set { SetAccount(value); }
         }
         private bool _Enabled;
         public bool Enabled
@@ -23,6 +28,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _Enabled; }
             set { SetEnabled(value); }
         }
+        private string _ErrorText;
+        public string ErrorText
+        {
+            get { return _ErrorText; }
+            set { SetProperty(ref _ErrorText, value); }
+        }
+
+        public object lastConnectionError { get; private set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,6 +59,24 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             }
         }
 
+        private void SetClient(XMPPClient value)
+        {
+            if (!(Client is null))
+            {
+                Client.ConnectionStateChanged -= Client_ConnectionStateChanged;
+            }
+
+            if (SetProperty(ref _Client, value, nameof(Client)))
+            {
+                Account = value?.getXMPPAccount();
+            }
+
+            if (!(Client is null))
+            {
+                Client.ConnectionStateChanged += Client_ConnectionStateChanged;
+            }
+        }
+
         private void SetEnabled(bool value)
         {
             if (SetProperty(ref _Enabled, value, nameof(Enabled)))
@@ -64,34 +95,50 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Misc Methods (Private)--
         private void OnEnabledChanged(bool value)
         {
-            if (Account is null)
+            if (Account is null || Client is null || !value == Account.disabled)
             {
                 return;
             }
 
-            if (!value != Account.disabled)
+            Task.Run(async () =>
             {
                 Account.disabled = !value;
                 AccountDBManager.INSTANCE.setAccountDisabled(Account);
-            }
 
-            foreach (XMPPClient client in ConnectionHandler.INSTANCE.getClients())
-            {
-                if (string.Equals(client.getXMPPAccount().getIdAndDomain(), Account.getIdAndDomain()))
+                if (value && !Client.isConnected())
                 {
-                    Task.Run(async () =>
-                    {
-                        if (value && !client.isConnected())
-                        {
-                            await client.disconnectAsync();
-                        }
-                        else if (value && !client.isConnected())
-                        {
-                            client.connect();
-                        }
-                    });
-                    break;
+                    Client.connect();
                 }
+                else if (value && Client.isConnected())
+                {
+                    await Client.disconnectAsync();
+                }
+            });
+        }
+
+        private void ProcessLastConnectionError(object lastConnectionError)
+        {
+            this.lastConnectionError = lastConnectionError;
+            if (lastConnectionError is ConnectionError connectionError)
+            {
+                switch (connectionError.ERROR_CODE)
+                {
+                    case ConnectionErrorCode.UNKNOWN:
+                        ErrorText = connectionError.ERROR_MESSAGE ?? "";
+                        break;
+
+                    case ConnectionErrorCode.SOCKET_ERROR:
+                        ErrorText = connectionError.SOCKET_ERROR.ToString();
+                        break;
+
+                    default:
+                        ErrorText = connectionError.ERROR_CODE.ToString();
+                        break;
+                }
+            }
+            else
+            {
+                ErrorText = "";
             }
         }
 
@@ -111,6 +158,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 {
                     Enabled = !account.disabled;
                 }
+            }
+        }
+
+        private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        {
+            if (args.newState == ConnectionState.ERROR)
+            {
+                ProcessLastConnectionError(client.getLastConnectionError());
+            }
+            else if (args.newState == ConnectionState.CONNECTED)
+            {
+                ProcessLastConnectionError(null);
             }
         }
 

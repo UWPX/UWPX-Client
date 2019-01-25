@@ -78,7 +78,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             set { SetProperty(ref _MessageText, value); }
         }
 
-        public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>();
+        public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
 
         private CancellationTokenSource loadChatMessagesCancelToken = null;

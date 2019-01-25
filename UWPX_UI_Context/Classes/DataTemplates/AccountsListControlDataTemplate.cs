@@ -1,12 +1,11 @@
-﻿using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.Events;
-using Logging;
+﻿using Data_Manager2.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
@@ -21,7 +20,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             set { SetProperty(ref _IsLoading, value); }
         }
 
-        public readonly CustomObservableCollection<AccountDataTemplate> ACCOUNTS = new CustomObservableCollection<AccountDataTemplate>();
+        public readonly CustomObservableCollection<AccountDataTemplate> ACCOUNTS = new CustomObservableCollection<AccountDataTemplate>(true);
 
         private Task loadingAccountsTask = null;
 
@@ -53,27 +52,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                 loadingAccountsTask = Task.Run(() =>
                 {
                     IsLoading = true;
-                    AccountDBManager.INSTANCE.AccountChanged -= INSTANCE_AccountChanged;
-                    AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
+                    ConnectionHandler.INSTANCE.ClientsCollectionChanged -= INSTANCE_ClientsCollectionChanged;
+                    ConnectionHandler.INSTANCE.ClientsCollectionChanged += INSTANCE_ClientsCollectionChanged;
 
                     ACCOUNTS.Clear();
 
-                    try
+                    CustomObservableCollection<XMPPClient> clients = ConnectionHandler.INSTANCE.getClients();
+                    IEnumerable<AccountDataTemplate> accounts = clients.Select((client) =>
                     {
-                        IEnumerable<AccountDataTemplate> accounts = AccountDBManager.INSTANCE.loadAllAccounts().Select((x) =>
+                        return new AccountDataTemplate
                         {
-                            return new AccountDataTemplate
-                            {
-                                Account = x
-                            };
-                        });
+                            Client = client
+                        };
+                    });
 
-                        ACCOUNTS.AddRange(accounts);
-                    }
-                    catch (Exception e)
-                    {
-                        Logger.Error("Failed to load accounts for the accounts settings page.", e);
-                    }
+                    ACCOUNTS.AddRange(accounts);
                 });
 
                 await loadingAccountsTask;
@@ -84,7 +77,37 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
+        private void AddClients(IList list)
+        {
+            foreach (object item in list)
+            {
+                if (item is XMPPClient client)
+                {
+                    ACCOUNTS.Add(new AccountDataTemplate
+                    {
+                        Client = client
+                    });
+                }
+            }
+        }
 
+        private void RemoveClients(IList list)
+        {
+            foreach (object item in list)
+            {
+                if (item is XMPPClient client)
+                {
+                    foreach (AccountDataTemplate account in ACCOUNTS)
+                    {
+                        if (account.Client == client)
+                        {
+                            ACCOUNTS.Remove(account);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
 
         #endregion
 
@@ -94,19 +117,30 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
+        private void INSTANCE_ClientsCollectionChanged(ConnectionHandler handler, System.Collections.Specialized.NotifyCollectionChangedEventArgs args)
         {
-            IEnumerable<AccountDataTemplate> accounts = ACCOUNTS.Where((account) => string.Equals(account.Account.getIdAndDomain(), args.ACCOUNT.getIdAndDomain()));
-            foreach (AccountDataTemplate account in accounts)
+            switch (args.Action)
             {
-                if (args.REMOVED)
-                {
-                    ACCOUNTS.Remove(account);
-                }
-                else
-                {
-                    account.Account = args.ACCOUNT;
-                }
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
+                    AddClients(args.NewItems);
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
+                    RemoveClients(args.OldItems);
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
+                    RemoveClients(args.OldItems);
+                    AddClients(args.NewItems);
+                    break;
+
+                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
+                default:
+                    LoadAccounts();
+                    break;
             }
         }
 

@@ -141,7 +141,7 @@ namespace XMPP_API.Classes.Network
             this.CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
             this.omemoIdentityKeyPair = null;
             this.omemoSignedPreKeyPair = null;
-            this.OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyRecord>();
+            this.OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyRecord>(false);
             this.OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
             this.omemoDeviceId = 0;
             this.omemoBundleInfoAnnounced = false;

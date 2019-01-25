@@ -4,8 +4,10 @@ using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.Omemo;
 using Data_Manager2.Classes.Toast;
 using Logging;
+using Shared.Classes.Collections;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
@@ -28,11 +30,13 @@ namespace Data_Manager2.Classes
         #region --Attributes--
         private static readonly SemaphoreSlim CLIENT_SEMA = new SemaphoreSlim(1);
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
-        private readonly List<XMPPClient> CLIENTS;
+        private readonly CustomObservableCollection<XMPPClient> CLIENTS;
 
         public delegate void ClientConnectedHandler(ConnectionHandler handler, ClientConnectedEventArgs args);
+        public delegate void ClientsCollectionChangedHandler(ConnectionHandler handler, NotifyCollectionChangedEventArgs args);
 
         public event ClientConnectedHandler ClientConnected;
+        public event ClientsCollectionChangedHandler ClientsCollectionChanged;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -44,7 +48,8 @@ namespace Data_Manager2.Classes
         /// </history>
         public ConnectionHandler()
         {
-            this.CLIENTS = new List<XMPPClient>();
+            this.CLIENTS = new CustomObservableCollection<XMPPClient>(false);
+            this.CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
             loadClients();
             AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
         }
@@ -71,7 +76,7 @@ namespace Data_Manager2.Classes
         /// <summary>
         /// Returns all available XMPPClients.
         /// </summary>
-        public List<XMPPClient> getClients()
+        public CustomObservableCollection<XMPPClient> getClients()
         {
             return CLIENTS;
         }
@@ -788,6 +793,11 @@ namespace Data_Manager2.Classes
                     setOmemoChatMessagesSendFailed(args.MESSAGES, chat);
                 }
             });
+        }
+
+        private void CLIENTS_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            ClientsCollectionChanged?.Invoke(this, e);
         }
         #endregion
     }
