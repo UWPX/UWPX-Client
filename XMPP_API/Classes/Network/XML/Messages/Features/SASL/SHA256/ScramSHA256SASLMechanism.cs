@@ -3,29 +3,16 @@ using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256
 {
+    // https://tools.ietf.org/html/rfc7677
     public class ScramSHA256SASLMechanism : ScramSHA1SASLMechanism
     {
-        // https://tools.ietf.org/html/rfc7677
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private const byte CLIENT_NONCE_LENGTH = 32;
 
-        private readonly string CLIENT_NONCE_BASE_64;
-        private readonly string PASSWORD_NORMALIZED;
-        private string serverNonce;
-        private string saltBase64;
-        private string clientFirstMsg;
-        private string serverFirstMsg;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 06/01/2019 Created [Fabian Sauter]
-        /// </history>
         public ScramSHA256SASLMechanism(string id, string password, SASLConnection saslConnection) : base(id, password, saslConnection)
         {
         }
