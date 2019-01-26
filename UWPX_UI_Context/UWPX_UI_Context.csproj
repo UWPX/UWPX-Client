@@ -174,13 +174,19 @@
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TlsConnectedSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TlsConnectedTextValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\UlongDataRateValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInvertedVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ConnectionStatePresenceValueConverter.cs" />
@@ -202,7 +208,7 @@
     <Compile Include="Classes\ValueConverter\ChatDateTimeStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OmemoBoolBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\UintRTTValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TimeValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
