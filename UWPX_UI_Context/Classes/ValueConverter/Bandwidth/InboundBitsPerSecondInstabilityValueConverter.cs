@@ -1,9 +1,10 @@
 ﻿using System;
+using Windows.Networking.Sockets;
 using Windows.UI.Xaml.Data;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWPX_UI_Context.Classes.ValueConverter.Bandwidth
 {
-    public sealed class UlongDataRateValueConverter : IValueConverter
+    public sealed class InboundBitsPerSecondInstabilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,8 +25,18 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is ulong l)
+            if (value is StreamSocketInformation socketInformation)
             {
+                BandwidthStatistics bandwidthStatistics;
+                try
+                {
+                    bandwidthStatistics = socketInformation.BandwidthStatistics;
+                }
+                catch (Exception)
+                {
+                    return "0 bit/s";
+                }
+                ulong l = bandwidthStatistics.InboundBitsPerSecondInstability;
                 if (l < 800)
                 {
                     return l + " bit/s";
