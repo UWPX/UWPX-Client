@@ -18,14 +18,14 @@
                        TextWrapping="Wrap">
                 <Run FontWeight="Bold"
                      Text="Error code: "/>
-                <Run Text="{x:Bind Account.ConnectionError, Mode=OneWay, Converter={StaticResource ConnectionErrorCodeTextValueConverter}}"/>
+                <Run Text="{x:Bind Account.ConnectionError, Mode=OneWay, Converter={StaticResource ConnectionErrorCodeTextValueConverter}, FallbackValue='-'}"/>
             </TextBlock>
             <TextBlock Foreground="Red"
                        IsTextSelectionEnabled="True"
                        TextWrapping="Wrap">
                 <Run FontWeight="Bold"
                      Text="Socket error code: "/>
-                <Run Text="{x:Bind Account.ConnectionError, Mode=OneWay, Converter={StaticResource SocketErrorCodeTextValueConverter}}"/>
+                <Run Text="{x:Bind Account.ConnectionError, Mode=OneWay, Converter={StaticResource SocketErrorCodeTextValueConverter}, FallbackValue='-'}"/>
             </TextBlock>
             <TextBlock Foreground="Red"
                        IsTextSelectionEnabled="True"
