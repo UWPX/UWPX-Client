@@ -166,6 +166,9 @@
     <Compile Include="Controls\Settings\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\AccountErrorsGeneralControl.xaml.cs">
+      <DependentUpon>AccountErrorsGeneralControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\AccountInfoGeneralControl.xaml.cs">
       <DependentUpon>AccountInfoGeneralControl.xaml</DependentUpon>
     </Compile>
@@ -367,6 +370,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Settings\AccountControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\AccountErrorsGeneralControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
