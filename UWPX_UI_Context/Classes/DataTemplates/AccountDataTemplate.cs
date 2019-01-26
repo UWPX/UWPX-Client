@@ -34,6 +34,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _ErrorText; }
             set { SetProperty(ref _ErrorText, value); }
         }
+        private ConnectionState _State;
+        public ConnectionState State
+        {
+            get { return _State; }
+            set { SetProperty(ref _State, value); }
+        }
 
         public object lastConnectionError { get; private set; }
 
@@ -69,6 +75,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             if (SetProperty(ref _Client, value, nameof(Client)))
             {
                 Account = value?.getXMPPAccount();
+                State = value.getConnetionState();
+                ProcessLastConnectionError(value.getLastConnectionError());
             }
 
             if (!(Client is null))
@@ -163,6 +171,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
         private void Client_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
         {
+            State = args.newState;
+
             if (args.newState == ConnectionState.ERROR)
             {
                 ProcessLastConnectionError(client.getLastConnectionError());
