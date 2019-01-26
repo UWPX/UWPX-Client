@@ -49,19 +49,23 @@
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
                         FontWeight="Bold"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"/>
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Edit"/>
                 <controls:AccountImagePresenceControl Grid.Column="2"
                                                       Width="40"
                                                       Height="40"
                                                       PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
-                <Button Grid.Column="3"
+                <Button x:Name="info_btn"
+                        Grid.Column="3"
                         Width="40"
                         VerticalAlignment="Stretch"
+                        Click="Info_btn_Click"
                         Content="&#xE946;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
                         FontWeight="Bold"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"/>
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Info"/>
                 <Grid Grid.Column="4"
                       HorizontalAlignment="Stretch"
                       VerticalAlignment="Center">

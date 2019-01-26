@@ -42,6 +42,7 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPUser(string userId, string userPassword, string domain, string resource)
         {
+            this.invokeInUiThread = false;
             this.userId = userId;
             this.userPassword = userPassword;
             this.resource = resource;

@@ -1,0 +1,95 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountInfoGeneralControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <valueconverter:UlongDataRateValueConverter x:Key="UlongDataRateValueConverter"/>
+        <valueconverter:UintRTTValueConverter x:Key="UintRTTValueConverter"/>
+        <valueconverter:TlsConnectedTextValueConverter x:Key="TlsConnectedTextValueConverter"/>
+        <valueconverter:TlsConnectedSolidColorBrushValueConverter x:Key="TlsConnectedSolidColorBrushValueConverter"/>
+        <valueconverter:MessageCarbonsStateSolidColorBrushValueConverter x:Key="MessageCarbonsStateSolidColorBrushValueConverter"/>
+        <valueconverter:MessageCarbonsStateTextValueConverter x:Key="MessageCarbonsStateTextValueConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <StackPanel>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="TLS:"/>
+                <Run Foreground="{x:Bind Account.Account.CONNECTION_INFO.tlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedSolidColorBrushValueConverter}}"
+                     Text="{x:Bind Account.Account.CONNECTION_INFO.tlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedTextValueConverter}}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Message carbons:"/>
+                <Run Foreground="{x:Bind Account.Account.CONNECTION_INFO.msgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateSolidColorBrushValueConverter}}"
+                     Text="{x:Bind Account.Account.CONNECTION_INFO.msgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateTextValueConverter}}"/>
+            </TextBlock>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Socket statistics:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Inbound:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.BandwidthStatistics.InboundBitsPerSecond, Mode=OneWay, Converter={StaticResource UlongDataRateValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Inbound instability:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.BandwidthStatistics.InboundBitsPerSecondInstability, Mode=OneWay, Converter={StaticResource UlongDataRateValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Outbound:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.BandwidthStatistics.OutboundBitsPerSecond, Mode=OneWay, Converter={StaticResource UlongDataRateValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Outbound instability:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.BandwidthStatistics.OutboundBitsPerSecondInstability, Mode=OneWay, Converter={StaticResource UlongDataRateValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="RTT average:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.RoundTripTimeStatistics.Sum, Mode=OneWay, Converter={StaticResource UintRTTValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="RTT min:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.RoundTripTimeStatistics.Min, Mode=OneWay, Converter={StaticResource UintRTTValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="RTT max:"/>
+                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo.RoundTripTimeStatistics.Max, Mode=OneWay, Converter={StaticResource UintRTTValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Parser statistics:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Parse time min:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.minParseTimeMs, Mode=OneWay, Converter={StaticResource UintRTTValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Parse time max:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.maxParseTimeMs, Mode=OneWay, Converter={StaticResource UintRTTValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Parse time avg:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.avgParseTimeMs, Mode=OneWay, Converter={StaticResource UintRTTValueConverter}, FallbackValue='0'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Parsed messages:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.msgParseCount, Mode=OneWay}"/>
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

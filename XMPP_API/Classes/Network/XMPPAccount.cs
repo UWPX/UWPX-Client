@@ -128,6 +128,7 @@ namespace XMPP_API.Classes.Network
 
         public XMPPAccount(XMPPUser user, string serverAddress, int port, ConnectionConfiguration connectionConfiguration)
         {
+            this.invokeInUiThread = false;
             this.user = user;
             this.serverAddress = serverAddress;
             this.port = port;
