@@ -14,6 +14,8 @@
         </PivotItem>
         <PivotItem Header="Cert."/>
         <PivotItem Header="OMEMO"/>
-        <PivotItem Header="Errors"/>
+        <PivotItem Header="Errors">
+            <settings:AccountErrorsGeneralControl Account="{x:Bind ACCOUNT}"/>
+        </PivotItem>
     </Pivot>
 </ContentDialog>

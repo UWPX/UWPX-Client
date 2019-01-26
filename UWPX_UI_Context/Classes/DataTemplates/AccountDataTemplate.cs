@@ -40,6 +40,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             get { return _State; }
             set { SetProperty(ref _State, value); }
         }
+        private ConnectionError _ConnectionError;
+        public ConnectionError ConnectionError
+        {
+            get { return _ConnectionError; }
+            set { SetProperty(ref _ConnectionError, value); }
+        }
 
         public object lastConnectionError { get; private set; }
 
@@ -129,6 +135,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             this.lastConnectionError = lastConnectionError;
             if (lastConnectionError is ConnectionError connectionError)
             {
+                ConnectionError = connectionError;
                 switch (connectionError.ERROR_CODE)
                 {
                     case ConnectionErrorCode.UNKNOWN:

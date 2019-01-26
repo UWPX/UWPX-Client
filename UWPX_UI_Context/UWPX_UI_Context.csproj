@@ -174,8 +174,10 @@
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
+    <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TlsConnectedSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TlsConnectedTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\UlongDataRateValueConverter.cs" />
