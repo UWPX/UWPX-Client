@@ -166,6 +166,9 @@
     <Compile Include="Controls\Settings\AccountControl.xaml.cs">
       <DependentUpon>AccountControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\AccountInfoGeneralControl.xaml.cs">
+      <DependentUpon>AccountInfoGeneralControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\AccountsListControl.xaml.cs">
       <DependentUpon>AccountsListControl.xaml</DependentUpon>
     </Compile>
@@ -187,6 +190,9 @@
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsViewState.cs" />
     <Compile Include="Controls\Toolkit\VisualTree.cs" />
+    <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
+      <DependentUpon>AccountInfoDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
       <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
     </Compile>
@@ -364,6 +370,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Settings\AccountInfoGeneralControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Settings\AccountsListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -385,6 +395,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AccountInfoDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

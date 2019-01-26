@@ -11,6 +11,11 @@ namespace Shared.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public event PropertyChangedEventHandler PropertyChanged;
+        /// <summary>
+        /// Decides whether the property changed event should be fired in the UI thread.
+        /// Default: true
+        /// </summary>
+        protected bool invokeInUiThread = true;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -49,8 +54,15 @@ namespace Shared.Classes
 
         protected virtual async void OnPropertyChanged([CallerMemberName] string name = "")
         {
-            // Make sure we call the PropertyChanged event from the UI thread:
-            await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
+            if (invokeInUiThread)
+            {
+                // Make sure we call the PropertyChanged event from the UI thread:
+                await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name)));
+            }
+            else
+            {
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+            }
         }
 
         #endregion

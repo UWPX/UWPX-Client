@@ -1,13 +1,11 @@
-﻿using UWPX_UI.Dialogs;
-using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataContext;
+﻿using UWPX_UI_Context.Classes.DataContext;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class AccountControl : UserControl
+    public sealed partial class AccountInfoGeneralControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,14 +14,14 @@ namespace UWPX_UI.Controls.Settings
             get { return (AccountDataTemplate)GetValue(AccountProperty); }
             set { SetValue(AccountProperty, value); }
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountControl), new PropertyMetadata(null, OnAccountChanged));
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountInfoGeneralControl), new PropertyMetadata(null, OnAccountChanged));
 
-        public readonly AccountControlContext VIEW_MODEL = new AccountControlContext();
+        public readonly AccountInfoGeneralControlContext VIEW_MODEL = new AccountInfoGeneralControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AccountControl()
+        public AccountInfoGeneralControl()
         {
             this.InitializeComponent();
         }
@@ -41,9 +39,9 @@ namespace UWPX_UI.Controls.Settings
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        private void UpdateViewModel(DependencyPropertyChangedEventArgs e)
         {
-            VIEW_MODEL.UpdateView((AccountDataTemplate)e.NewValue);
+            VIEW_MODEL.UpdateViewModel(e);
         }
 
         #endregion
@@ -56,16 +54,10 @@ namespace UWPX_UI.Controls.Settings
         #region --Events--
         private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is AccountControl accountSettingsControl)
+            if (d is AccountInfoGeneralControl control)
             {
-                accountSettingsControl.UpdateView(e);
+                control.UpdateViewModel(e);
             }
-        }
-
-        private async void Info_btn_Click(object sender, RoutedEventArgs e)
-        {
-            AccountInfoDialog dialog = new AccountInfoDialog(Account);
-            await UiUtils.ShowDialogAsync(dialog);
         }
 
         #endregion
