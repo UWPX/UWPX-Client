@@ -14,6 +14,7 @@
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+            <valueConverter:ConnectionStatePresenceValueConverter x:Key="ConnectionStatePresenceValueConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -51,7 +52,8 @@
                         Style="{ThemeResource TransparentThemeButtonStyle}"/>
                 <controls:AccountImagePresenceControl Grid.Column="2"
                                                       Width="40"
-                                                      Height="40"/>
+                                                      Height="40"
+                                                      PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
                 <Button Grid.Column="3"
                         Width="40"
                         VerticalAlignment="Stretch"
