@@ -224,6 +224,7 @@
 
                 <!--  Controls:  -->
                 <ResourceDictionary Source="ms-appx:///Controls/Toolkit/MasterDetailsView/MasterDetailsView.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Controls/Toolkit/SlidableListItem/SlidableListItem.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

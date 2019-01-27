@@ -1,5 +1,5 @@
 ﻿using Data_Manager2.Classes;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+using UWPX_UI.Controls.Toolkit.SlidableListItem;
 using UWPX_UI_Context.Classes.DataContext;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
@@ -151,9 +151,7 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
-#pragma warning disable CS0618 // Type or member is obsolete
         private void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
-#pragma warning restore CS0618 // Type or member is obsolete
         {
 
         }
