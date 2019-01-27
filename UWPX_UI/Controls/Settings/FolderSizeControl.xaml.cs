@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext;
+﻿using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -38,9 +39,9 @@ namespace UWPX_UI.Controls.Settings
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        private async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
         {
-            VIEW_MODEL.UpdateView(e);
+            await VIEW_MODEL.UpdateViewAsync(e);
         }
 
         #endregion
@@ -51,11 +52,11 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnFolderPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static async void OnFolderPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is FolderSizeControl folderSizeControl)
             {
-                folderSizeControl.UpdateView(e);
+                await folderSizeControl.UpdateViewAsync(e);
             }
         }
 
