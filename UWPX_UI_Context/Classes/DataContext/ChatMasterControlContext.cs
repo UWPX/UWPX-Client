@@ -1,15 +1,30 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Helpers;
+﻿using Data_Manager2.Classes.DBManager;
+using Logging;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWPX_UI_Context.Classes.DataContext
 {
-    public sealed class ChatMasterControlContext
+    public sealed partial class ChatMasterControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly ChatMasterControlDataTemplate MODEL;
         private readonly ThemeListener THEME_LISTENER = new ThemeListener();
+
+        public delegate void OnErrorEventHandler(ChatMasterControlContext sender, OnErrorEventArgs args);
+
+        public event OnErrorEventHandler OnError;
+
+        private MessageResponseHelper<IQMessage> updateBookmarksHelper;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,7 +38,48 @@ namespace UWPX_UI_Context.Classes.DataContext
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private async Task SetChatInRosterAsync(ChatDataTemplate Chat, bool inRoster)
+        {
+            if (Chat.Chat.inRoster != inRoster)
+            {
+                Chat.Chat.inRoster = inRoster;
+                UpdateView(Chat);
+                ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+            }
 
+            if (inRoster)
+            {
+                await Chat.Client.GENERAL_COMMAND_HELPER.addToRosterAsync(Chat.Chat.chatJabberId);
+            }
+            else
+            {
+                await Chat.Client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(Chat.Chat.chatJabberId);
+            }
+        }
+
+        private void SetChatBookmarked(ChatDataTemplate Chat, bool bookmarked)
+        {
+            if (Chat.Chat.inRoster != bookmarked)
+            {
+                Chat.Chat.inRoster = bookmarked;
+                UpdateView(Chat);
+                ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+            }
+            UpdateBookmarks(Chat.Client);
+        }
+
+        public async Task SetChatMutedAsync(ChatDataTemplate Chat, bool muted)
+        {
+            if (Chat.Chat.muted != muted)
+            {
+                await Task.Run(() =>
+                {
+                    Chat.Chat.muted = muted;
+                    UpdateView(Chat);
+                    ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+                });
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -49,6 +105,46 @@ namespace UWPX_UI_Context.Classes.DataContext
             UpdateView(newChat);
         }
 
+        public async Task SwitchChatInRosterAsync(ChatDataTemplate Chat)
+        {
+            await SetChatInRosterAsync(Chat, !Chat.Chat.inRoster);
+        }
+
+        public void SwitchChatBookmarked(ChatDataTemplate Chat)
+        {
+            SetChatBookmarked(Chat, !Chat.Chat.inRoster);
+        }
+
+        public async Task DeleteChatAsync(DeleteChatConfirmDialogDataTemplate confirmDialogModel, ChatDataTemplate Chat)
+        {
+            if (confirmDialogModel.Confirmed)
+            {
+                await Task.Run(async () =>
+                {
+                    if (Chat.Chat.chatType == Data_Manager2.Classes.ChatType.MUC)
+                    {
+                        SetChatBookmarked(Chat, false);
+
+                        MUCDBManager.INSTANCE.setMUCChatInfo(Chat.MucInfo, true, false);
+                        Logger.Info("Deleted MUC info for: " + Chat.Chat.id);
+                    }
+                    else
+                    {
+                        await SetChatInRosterAsync(Chat, false);
+                    }
+
+                    if (!confirmDialogModel.KeepChatMessages)
+                    {
+                        ChatDBManager.INSTANCE.deleteAllChatMessagesForChat(Chat.Chat.id);
+                        Logger.Info("Deleted chat messages for: " + Chat.Chat.id);
+                    }
+
+                    ChatDBManager.INSTANCE.setChat(Chat.Chat, true, true);
+                    Logger.Info("Deleted chat: " + Chat.Chat.id);
+                });
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -64,6 +160,22 @@ namespace UWPX_UI_Context.Classes.DataContext
                 MODEL.UpdateViewChat(chatTemplate.Chat);
                 MODEL.UpdateViewMuc(chatTemplate.Chat, chatTemplate.MucInfo);
             }
+        }
+
+        private void UpdateBookmarks(XMPPClient client)
+        {
+            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getIdAndDomain());
+            if (updateBookmarksHelper != null)
+            {
+                updateBookmarksHelper.Dispose();
+            }
+            updateBookmarksHelper = client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, OnUpdateBookmarksMessage, OnUpdateBookmarksTimeout);
+        }
+
+        private void InvokeOnError(string titel, string message)
+        {
+            Logger.Error(titel + ": " + message);
+            OnError?.Invoke(this, new OnErrorEventArgs(titel, message));
         }
 
         #endregion
