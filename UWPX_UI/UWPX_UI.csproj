@@ -193,6 +193,9 @@
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsViewState.cs" />
+    <Compile Include="Controls\Toolkit\SlidableListItem\SlidableListItem.cs" />
+    <Compile Include="Controls\Toolkit\SlidableListItem\SwipeStatus.cs" />
+    <Compile Include="Controls\Toolkit\SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="Controls\Toolkit\VisualTree.cs" />
     <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
       <DependentUpon>AccountInfoDialog.xaml</DependentUpon>
@@ -411,6 +414,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Toolkit\SlidableListItem\SlidableListItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Toolkit\SlidableListItem\SlidableListItemSwipeControlTemplate.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

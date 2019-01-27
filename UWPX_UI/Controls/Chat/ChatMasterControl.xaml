@@ -5,6 +5,7 @@
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:slidablelistitem="using:UWPX_UI.Controls.Toolkit.SlidableListItem"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              d:DesignHeight="70"
              d:DesignWidth="500"
@@ -149,17 +150,17 @@
         </MenuFlyout>
     </UserControl.Resources>
 
-    <controls1:SlidableListItem x:Name="slideListItem_sli"
-                                LeftBackground="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
-                                LeftForeground="Gold"
-                                LeftIcon="OutlineStar"
-                                LeftLabel="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}"
-                                MouseSlidingEnabled="True"
-                                RightBackground="OrangeRed"
-                                RightForeground="White"
-                                RightIcon="Delete"
-                                RightLabel="Delete"
-                                SwipeStatusChanged="SlideListItem_sli_SwipeStatusChanged">
+    <slidablelistitem:SlidableListItem x:Name="slideListItem_sli"
+                                       LeftBackground="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
+                                       LeftForeground="Gold"
+                                       LeftIcon="OutlineStar"
+                                       LeftLabel="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}"
+                                       MouseSlidingEnabled="True"
+                                       RightBackground="OrangeRed"
+                                       RightForeground="White"
+                                       RightIcon="Delete"
+                                       RightLabel="Delete"
+                                       SwipeStatusChanged="SlideListItem_sli_SwipeStatusChanged">
         <Grid Margin="0,5,0,5">
 
             <Grid.RowDefinitions>
@@ -295,5 +296,5 @@
                         Foreground="Red"/>
             </Grid>
         </Grid>
-    </controls1:SlidableListItem>
+    </slidablelistitem:SlidableListItem>
 </UserControl>
