@@ -9,14 +9,15 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Grid.Row="0"
+        <Image x:Name="background_img"
+               Grid.Row="0"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               Source="ms-appx:///Assets/Images/splash_screen.png"
+               Source="ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png"
                Stretch="UniformToFill"/>
         <Canvas Grid.Row="0">
             <Image x:Name="logo_img"
-                   Source="ms-appx:///Assets/SplashScreen.scale-200.png"/>
+                   Source="ms-appx:///Assets/SplashScreen.scale-100.png"/>
         </Canvas>
     </Grid>
 </Page>

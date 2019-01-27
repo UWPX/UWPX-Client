@@ -6,9 +6,13 @@ using Microsoft.AppCenter.Push;
 using Shared.Classes;
 using System;
 using System.Threading.Tasks;
+using UWPX_UI.Classes;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Activation;
+using Windows.Graphics.Display;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using BackgroundTaskHelper = UWPX_UI_Context.Classes.BackgroundTaskHelper;
 
@@ -21,6 +25,8 @@ namespace UWPX_UI.Pages
         private readonly IActivatedEventArgs ACTIVATION_ARGS;
         private readonly Frame ROOT_FRAME;
         private readonly EventHandler<PushNotificationReceivedEventArgs> APP_CENTER_PUSH_CALLBACK;
+        private SplashScreenImageScale curImageScale = SplashScreenImageScale.TINY;
+        private double deviceScaleFactor;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -38,7 +44,59 @@ namespace UWPX_UI.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetImageScale()
+        {
+            if (ROOT_FRAME.ActualWidth == 0 || ROOT_FRAME.ActualHeight == 0)
+            {
+                return;
+            }
 
+            if (ROOT_FRAME.ActualWidth >= 3000 || ROOT_FRAME.ActualHeight >= 3000)
+            {
+                if (curImageScale != SplashScreenImageScale.HUGE)
+                {
+                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_4000.png", UriKind.Absolute));
+                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-400.png", UriKind.Absolute));
+                    curImageScale = SplashScreenImageScale.HUGE;
+                }
+            }
+            else if (ROOT_FRAME.ActualWidth >= 2000 || ROOT_FRAME.ActualHeight >= 2000)
+            {
+                if (curImageScale != SplashScreenImageScale.LARGE)
+                {
+                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_3000.png", UriKind.Absolute));
+                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-200.png", UriKind.Absolute));
+                    curImageScale = SplashScreenImageScale.LARGE;
+                }
+            }
+            else if (ROOT_FRAME.ActualWidth >= 1000 || ROOT_FRAME.ActualHeight >= 1000)
+            {
+                if (curImageScale != SplashScreenImageScale.MEDIUM)
+                {
+                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_2000.png", UriKind.Absolute));
+                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-150.png", UriKind.Absolute));
+                    curImageScale = SplashScreenImageScale.MEDIUM;
+                }
+            }
+            else if (ROOT_FRAME.ActualWidth >= 800 || ROOT_FRAME.ActualHeight >= 800)
+            {
+                if (curImageScale != SplashScreenImageScale.SMALL)
+                {
+                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_1000.png", UriKind.Absolute));
+                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-125.png", UriKind.Absolute));
+                    curImageScale = SplashScreenImageScale.SMALL;
+                }
+            }
+            else
+            {
+                if (curImageScale != SplashScreenImageScale.TINY)
+                {
+                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png", UriKind.Absolute));
+                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-100.png", UriKind.Absolute));
+                    curImageScale = SplashScreenImageScale.TINY;
+                }
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -52,12 +110,25 @@ namespace UWPX_UI.Pages
         {
             logo_img.SetValue(Canvas.LeftProperty, ACTIVATION_ARGS.SplashScreen.ImageLocation.X);
             logo_img.SetValue(Canvas.TopProperty, ACTIVATION_ARGS.SplashScreen.ImageLocation.Y);
-            logo_img.Height = ACTIVATION_ARGS.SplashScreen.ImageLocation.Height;
-            logo_img.Width = ACTIVATION_ARGS.SplashScreen.ImageLocation.Width;
+
+            if (Windows.Foundation.Metadata.ApiInformation.IsTypePresent("Windows.Phone.UI.Input.HardwareButtons"))
+            {
+                logo_img.Height = ACTIVATION_ARGS.SplashScreen.ImageLocation.Height / deviceScaleFactor;
+                logo_img.Width = ACTIVATION_ARGS.SplashScreen.ImageLocation.Width / deviceScaleFactor;
+            }
+            else
+            {
+                logo_img.Height = ACTIVATION_ARGS.SplashScreen.ImageLocation.Height;
+                logo_img.Width = ACTIVATION_ARGS.SplashScreen.ImageLocation.Width;
+            }
         }
 
         private void SetupSplashScreen()
         {
+            Window.Current.SizeChanged += Current_SizeChanged;
+            deviceScaleFactor = DisplayInformation.GetForCurrentView().RawPixelsPerViewPixel;
+
+            SetImageScale();
             if (!(ACTIVATION_ARGS.SplashScreen is null))
             {
                 PositionLogoImage();
@@ -180,6 +251,12 @@ namespace UWPX_UI.Pages
         private async void SPLASH_SCREEN_Dismissed(SplashScreen sender, object args)
         {
             await SharedUtils.CallDispatcherAsync(async () => await LoadAppAsync());
+        }
+
+        private void Current_SizeChanged(object sender, Windows.UI.Core.WindowSizeChangedEventArgs e)
+        {
+            SetImageScale();
+            PositionLogoImage();
         }
 
         #endregion

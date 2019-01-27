@@ -120,6 +120,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\SplashScreenImageScale.cs" />
     <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
       <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
     </Compile>
@@ -259,7 +260,11 @@
     <Content Include="Assets\Images\placeholder.png" />
     <Content Include="Assets\Images\pp.png" />
     <Content Include="Assets\Images\send.png" />
-    <Content Include="Assets\Images\splash_screen.png" />
+    <Content Include="Assets\Images\SplashScreen\splash_screen_1000.png" />
+    <Content Include="Assets\Images\SplashScreen\splash_screen_2000.png" />
+    <Content Include="Assets\Images\SplashScreen\splash_screen_3000.png" />
+    <Content Include="Assets\Images\SplashScreen\splash_screen_4000.png" />
+    <Content Include="Assets\Images\SplashScreen\splash_screen_800.png" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
