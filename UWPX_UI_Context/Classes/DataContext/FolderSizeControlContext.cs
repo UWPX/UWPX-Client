@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext
@@ -22,11 +23,11 @@ namespace UWPX_UI_Context.Classes.DataContext
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
         {
             if (!Equals(e.OldValue, e.NewValue) && e.NewValue is string path)
             {
-                MODEL.UpdateView(path);
+                await MODEL.UpdateViewAsync(path);
             }
         }
 
