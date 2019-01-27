@@ -1,0 +1,124 @@
+﻿<Page x:Class="UWPX_UI.Pages.Settings.CreditsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:settings="using:UWPX_UI.Controls.Settings"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="ToggleSwitch">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--  Content:  -->
+        <controlsComp:NavigationView x:Name="main_nview"
+                                     Grid.Row="1"
+                                     Loaded="Main_nview_Loaded"
+                                     SelectionChanged="Main_nview_SelectionChanged"
+                                     Style="{StaticResource SettingsNavigationViewStyle}">
+            <controlsComp:NavigationView.MenuItems>
+                <controlsComp:NavigationViewItem Content="General"
+                                                 Icon="PreviewLink"
+                                                 Tag="General"/>
+                <controlsComp:NavigationViewItem Content="UI"
+                                                 Icon="BrowsePhotos"
+                                                 Tag="UI"/>
+                <controlsComp:NavigationViewItem Content="Code"
+                                                 Icon="Library"
+                                                 Tag="Code"/>
+                <controlsComp:NavigationViewItem Content="Misc"
+                                                 Icon="Paste"
+                                                 Tag="Misc"/>
+                <controlsComp:NavigationViewItem Content="Images"
+                                                 Icon="Pictures"
+                                                 Tag="Images"/>
+            </controlsComp:NavigationView.MenuItems>
+            <ScrollViewer x:Name="main_scv"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Auto">
+                <StackPanel>
+                    <!--  General:  -->
+                    <settings:SettingsContentControl x:Name="general_scp"
+                                                     Header="General:">
+                        <settings:SettingsContentControl.MainContent>
+                            <controls1:MarkdownTextBlock x:Uid="CreditsPage_general_markdown"
+                                                         Margin="0,10,0,0"
+                                                         LinkClicked="MarkdownTextBlock_LinkClicked"
+                                                         Text="General Text"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  UI:  -->
+                    <settings:SettingsContentControl x:Name="ui_scp"
+                                                     Header="UI:">
+                        <settings:SettingsContentControl.MainContent>
+                            <controls1:MarkdownTextBlock x:Uid="CreditsPage_ui_markdown"
+                                                         Margin="0,10,0,0"
+                                                         LinkClicked="MarkdownTextBlock_LinkClicked"
+                                                         Text="Credits Text"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Code:  -->
+                    <settings:SettingsContentControl x:Name="code_scp"
+                                                     Header="Code:">
+                        <settings:SettingsContentControl.MainContent>
+                            <controls1:MarkdownTextBlock x:Uid="CreditsPage_code_markdown"
+                                                         Margin="0,10,0,0"
+                                                         LinkClicked="MarkdownTextBlock_LinkClicked"
+                                                         Text="Code Text"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Misc:  -->
+                    <settings:SettingsContentControl x:Name="misc_scp"
+                                                     Header="Misc:">
+                        <settings:SettingsContentControl.MainContent>
+                            <controls1:MarkdownTextBlock x:Uid="CreditsPage_misc_markdown"
+                                                         Margin="0,10,0,0"
+                                                         LinkClicked="MarkdownTextBlock_LinkClicked"
+                                                         Text="Misc Text"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Images:  -->
+                    <settings:SettingsContentControl x:Name="images_scp"
+                                                     Header="Images:">
+                        <settings:SettingsContentControl.MainContent>
+                            <controls1:MarkdownTextBlock x:Uid="CreditsPage_images_markdown"
+                                                         Margin="0,10,0,0"
+                                                         LinkClicked="MarkdownTextBlock_LinkClicked"
+                                                         Text="Images Text"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+                </StackPanel>
+            </ScrollViewer>
+        </controlsComp:NavigationView>
+
+        <!--  Header:  -->
+        <!--  Has to be bellow content to correctly draw the drop shadow.  -->
+        <controls:CustomSettingsTitleBarControl Grid.Row="0"
+                                                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                                                Frame="{x:Bind Frame, Mode=OneWay}"
+                                                Glyph="&#xE789;"
+                                                Text="Credits"/>
+    </Grid>
+</Page>

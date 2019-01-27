@@ -79,9 +79,9 @@ namespace UWPX_UI.Pages.Settings
             await VIEW_MODEL.OpenImageCacheFolderAsync();
         }
 
-        private async void Credits_btn_Click(object sender, RoutedEventArgs e)
+        private void Credits_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ViewCreditsAsync();
+            UiUtils.NavigateToPage(typeof(CreditsPage));
         }
 
         private async void PrivacyPolicy_btn_Click(object sender, RoutedEventArgs e)
