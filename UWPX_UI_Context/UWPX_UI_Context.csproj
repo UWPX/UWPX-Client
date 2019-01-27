@@ -131,9 +131,11 @@
     <Compile Include="Classes\DataContext\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\AccountsListControlContext.cs" />
     <Compile Include="Classes\DataContext\BackgroundTaskSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\ChatMasterControlContext.Callbacks.cs" />
     <Compile Include="Classes\DataContext\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\DataSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\MiscSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\ChatSettingsPageContext.cs" />
@@ -162,6 +164,7 @@
     <Compile Include="Classes\DataTemplates\ClearCacheDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\DataSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\MiscSettingsPageDataTemplate.cs" />
@@ -174,6 +177,7 @@
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
+    <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />

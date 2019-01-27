@@ -154,20 +154,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             OnPropertyChanged(nameof(LastActionState));
         }
 
-        public void UpdateViewClient(XMPPClient client)
+        public async void UpdateViewClient(XMPPClient client)
         {
             if (!(client is null))
             {
                 // Account color:
-                if (UiUtils.IsHexColor(client.getXMPPAccount().color))
+                await SharedUtils.CallDispatcherAsync(() =>
                 {
-                    AccountColorBrush = UiUtils.HexStringToBrush(client.getXMPPAccount().color);
-                    AccountColorBrush.Opacity = 0.9;
-                }
-                else
-                {
-                    AccountColorBrush = new SolidColorBrush(Colors.Transparent);
-                }
+                    if (UiUtils.IsHexColor(client.getXMPPAccount().color))
+                    {
+                        AccountColorBrush = UiUtils.HexStringToBrush(client.getXMPPAccount().color);
+                        AccountColorBrush.Opacity = 0.9;
+                    }
+                    else
+                    {
+                        AccountColorBrush = new SolidColorBrush(Colors.Transparent);
+                    }
+                });
             }
         }
 
@@ -218,9 +221,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates
                     }
 
                     // Menu flyout:
-                    MuteText = chat.muted ? "Unmute" : "Mute";
                     RemoveFromRosterText = chat.inRoster ? "Remove from roster" : "Add to roster";
                 }
+
+                // Menu flyout:
+                MuteText = chat.muted ? "Unmute" : "Mute";
 
                 // Subscription pending:
                 if (chat.subscriptionRequested)

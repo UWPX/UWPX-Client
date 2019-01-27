@@ -1,9 +1,14 @@
 ﻿using Data_Manager2.Classes;
+using System.Threading.Tasks;
 using UWPX_UI.Controls.Toolkit.SlidableListItem;
+using UWPX_UI.Dialogs;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext;
 using UWPX_UI_Context.Classes.DataTemplates;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -27,6 +32,7 @@ namespace UWPX_UI.Controls.Chat
         {
             this.InitializeComponent();
             this.VIEW_MODEL = new ChatMasterControlContext(Resources);
+            this.VIEW_MODEL.OnError += VIEW_MODEL_OnError;
         }
 
         #endregion
@@ -45,7 +51,12 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private async Task DeleteChatAsync()
+        {
+            DeleteChatConfirmDialog dialog = new DeleteChatConfirmDialog();
+            await UiUtils.ShowDialogAsync(dialog);
+            await VIEW_MODEL.DeleteChatAsync(dialog.VIEW_MODEL.MODEL, Chat);
+        }
 
         #endregion
 
@@ -96,19 +107,19 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void Mute_tmfo_Click(object sender, RoutedEventArgs e)
+        private async void Mute_tmfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.SetChatMutedAsync(Chat, mute_tmfo.IsChecked);
         }
 
-        private void RemoveFromRoster_mfo_Click(object sender, RoutedEventArgs e)
+        private async void RemoveFromRoster_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.SwitchChatInRosterAsync(Chat);
         }
 
-        private void DeleteChat_mfo_Click(object sender, RoutedEventArgs e)
+        private async void DeleteChat_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await DeleteChatAsync();
         }
 
         private void ShowInfo_mfo_Click(object sender, RoutedEventArgs e)
@@ -128,17 +139,17 @@ namespace UWPX_UI.Controls.Chat
 
         private void Bookmark_tmfo_Click(object sender, RoutedEventArgs e)
         {
-
+            VIEW_MODEL.SwitchChatBookmarked(Chat);
         }
 
-        private void MuteMUC_tmfo_Click(object sender, RoutedEventArgs e)
+        private async void MuteMUC_tmfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.SetChatMutedAsync(Chat, muteMUC_tmfo.IsChecked);
         }
 
-        private void DeleteMUC_mfo_Click(object sender, RoutedEventArgs e)
+        private async void DeleteMUC_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await DeleteChatAsync();
         }
 
         private void AccountActionAccept_btn_Click(object sender, RoutedEventArgs e)
@@ -151,9 +162,26 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
-        private void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
+        private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
         {
-
+            if (args.NewValue == SwipeStatus.Idle)
+            {
+                if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
+                {
+                    await DeleteChatAsync();
+                }
+                else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
+                {
+                    if (Chat.Chat.chatType == ChatType.MUC)
+                    {
+                        VIEW_MODEL.SwitchChatBookmarked(Chat);
+                    }
+                    else
+                    {
+                        await VIEW_MODEL.SwitchChatInRosterAsync(Chat);
+                    }
+                }
+            }
         }
 
         private void Muc_mfo_Opening(object sender, object e)
@@ -172,6 +200,14 @@ namespace UWPX_UI.Controls.Chat
             {
                 masterControl.UpdateView(e);
             }
+        }
+
+        private void VIEW_MODEL_OnError(ChatMasterControlContext sender, UWPX_UI_Context.Classes.Events.OnErrorEventArgs args)
+        {
+            InfoDialog dialog = new InfoDialog(args.TITLE, args.MESSAGE)
+            {
+                Foreground = new SolidColorBrush(Colors.Red)
+            };
         }
 
         #endregion
