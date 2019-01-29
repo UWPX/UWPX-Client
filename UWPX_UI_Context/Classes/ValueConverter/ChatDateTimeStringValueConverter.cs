@@ -32,7 +32,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                 }
 
                 // Today:
-                if (date.Date.CompareTo(DateTime.Now.Date.AddDays(-1)) == 0)
+                if (date.Date.CompareTo(DateTime.Now.Date) == 0)
                 {
                     return date.ToString("HH:mm");
                 }
