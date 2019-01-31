@@ -4,7 +4,7 @@ using System.Runtime.CompilerServices;
 namespace Shared.Classes
 {
     /// <summary>
-    /// Based o: https://github.com/Microsoft/Windows-appsample-trafficapp/blob/master/LocationHelper/BindableBase.cs
+    /// Based on: https://github.com/Microsoft/Windows-appsample-trafficapp/blob/master/LocationHelper/BindableBase.cs
     /// </summary>
     public abstract class AbstractDataTemplate : INotifyPropertyChanged
     {
