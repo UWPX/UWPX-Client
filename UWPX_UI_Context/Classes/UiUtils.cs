@@ -106,7 +106,6 @@ namespace UWPX_UI_Context.Classes
                 }
                 return false;
             }
-
         }
 
         public static bool NavigateToPage(Type pageType, object parameter)
