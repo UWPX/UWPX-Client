@@ -116,15 +116,6 @@ namespace UWPX_UI.Controls
             }
         }
 
-        private void Accelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
-        {
-            if (!args.Handled)
-            {
-                args.Handled = true;
-                UiUtils.OnGoBackRequested(Frame);
-            }
-        }
-
         private bool OnBackRequested()
         {
             if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
@@ -162,6 +153,15 @@ namespace UWPX_UI.Controls
         private void UserControl_GettingFocus(UIElement sender, GettingFocusEventArgs args)
         {
             UpdateTitleBarLayout();
+        }
+
+        private void Accelerator_Invoked(KeyboardAccelerator sender, KeyboardAcceleratorInvokedEventArgs args)
+        {
+            if (!args.Handled)
+            {
+                args.Handled = true;
+                UiUtils.OnGoBackRequested(Frame);
+            }
         }
 
         #endregion
