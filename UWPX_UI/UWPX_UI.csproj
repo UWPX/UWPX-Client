@@ -124,6 +124,9 @@
     <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
       <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\ChatBackgroundControl.xaml.cs">
+      <DependentUpon>ChatBackgroundControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\ChatDetailsControl.xaml.cs">
       <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
     </Compile>
@@ -329,6 +332,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Page Include="Controls\AccountImagePresenceControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\ChatBackgroundControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
