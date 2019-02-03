@@ -1,7 +1,6 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Animations;
 using System.Collections.ObjectModel;
 using System.Text;
-using UWPX_UI.Controls.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.ApplicationModel;
@@ -84,7 +83,7 @@ namespace UWPX_UI.Pages.Settings
 
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (DeviceFamilyHelper.IsMouseInteractionMode() && sender is SettingsSelectionControl settingsSelection)
+            if (DeviceFamilyHelper.IsMouseInteractionMode() && sender is FrameworkElement settingsSelection)
             {
                 LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(settingsSelection) as FrameworkElement) as FrameworkElement;
                 Canvas.SetZIndex(LastPopUpElement, 10);

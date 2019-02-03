@@ -179,8 +179,11 @@
     <Compile Include="Controls\Settings\AccountsListControl.xaml.cs">
       <DependentUpon>AccountsListControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Settings\SettingsSelectionControl.xaml.cs">
-      <DependentUpon>SettingsSelectionControl.xaml</DependentUpon>
+    <Compile Include="Controls\Settings\SettingsSelectionSmallControl.xaml.cs">
+      <DependentUpon>SettingsSelectionSmallControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\SettingsSelectionLargeControl.xaml.cs">
+      <DependentUpon>SettingsSelectionLargeControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Settings\FolderSizeControl.xaml.cs">
       <DependentUpon>FolderSizeControl.xaml</DependentUpon>
@@ -407,7 +410,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Settings\SettingsSelectionControl.xaml">
+    <Page Include="Controls\Settings\SettingsSelectionSmallControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Settings\SettingsSelectionLargeControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
