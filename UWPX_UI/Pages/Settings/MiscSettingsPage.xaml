@@ -191,11 +191,8 @@
                                 </Button>
                                 <Button x:Name="license_btn"
                                         Click="License_btn_Click">
-                                    <StackPanel Orientation="Horizontal">
-                                        <FontIcon FontFamily="Symbol"
-                                                  Glyph="&#xD3;"/>
-                                        <TextBlock Text="View license"/>
-                                    </StackPanel>
+                                    <TextBlock Margin="0"
+                                               Text="© View license"/>
                                 </Button>
                                 <Button x:Name="privacyPolicy_btn"
                                         Click="PrivacyPolicy_btn_Click">
