@@ -5,6 +5,7 @@ using UWPX_UI_Context.Classes.DataContext;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
@@ -13,6 +14,7 @@ namespace UWPX_UI.Pages.Settings
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly MiscSettingsPageContext VIEW_MODEL = new MiscSettingsPageContext();
+        private string requestedSection;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -35,7 +37,43 @@ namespace UWPX_UI.Pages.Settings
         #endregion
 
         #region --Misc Methods (Private)--
+        private void ScrollToSection(string section)
+        {
+            switch (section)
+            {
+                case "Logs":
+                    ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, logs_scp, false);
+                    break;
 
+                case "Cache":
+                    ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, cache_scp, false);
+                    break;
+
+                case "Analytics":
+                    ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, analytics_scp, false);
+                    break;
+
+                case "Misc":
+                    ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, misc_scp, false);
+                    break;
+
+                case "About":
+                    ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, about_scp, false);
+                    break;
+            }
+        }
+
+        private void SelectMenuItem(string section)
+        {
+            foreach (object item in main_nview.MenuItems)
+            {
+                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, section))
+                {
+                    main_nview.SelectedItem = item;
+                    break;
+                }
+            }
+        }
 
         #endregion
 
@@ -111,42 +149,9 @@ namespace UWPX_UI.Pages.Settings
 
         private void Main_nview_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            if (args.SelectedItem is Microsoft.UI.Xaml.Controls.NavigationViewItem item)
+            if (args.SelectedItem is Microsoft.UI.Xaml.Controls.NavigationViewItem item && item.Tag is string s)
             {
-                switch (item.Tag)
-                {
-                    case "Logs":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, logs_scp, false);
-                        break;
-
-                    case "Cache":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, cache_scp, false);
-                        break;
-
-                    case "Analytics":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, analytics_scp, false);
-                        break;
-
-                    case "Misc":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, misc_scp, false);
-                        break;
-
-                    case "About":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, about_scp, false);
-                        break;
-                }
-            }
-        }
-
-        private void Main_nview_Loaded(object sender, RoutedEventArgs e)
-        {
-            foreach (object item in main_nview.MenuItems)
-            {
-                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "Logs"))
-                {
-                    main_nview.SelectedItem = item;
-                    break;
-                }
+                ScrollToSection(s);
             }
         }
 
@@ -154,6 +159,26 @@ namespace UWPX_UI.Pages.Settings
         {
             ClearCacheDialog dialog = new ClearCacheDialog();
             await UiUtils.ShowDialogAsync(dialog);
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            if (e.Parameter is string s)
+            {
+                requestedSection = s;
+            }
+        }
+
+        private void Main_nview_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (requestedSection is null)
+            {
+                SelectMenuItem("Logs");
+            }
+            else
+            {
+                SelectMenuItem(requestedSection);
+            }
         }
 
         #endregion
