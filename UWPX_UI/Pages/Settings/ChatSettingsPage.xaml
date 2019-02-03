@@ -94,6 +94,7 @@
                                               Header="Store images in library:"
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.StoreImagesInLibrary, Mode=TwoWay}"/>
                                 <HyperlinkButton x:Name="clearCache_hlb"
+                                                 Click="ClearCache_hlb_Click"
                                                  Content="Clear cache"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
