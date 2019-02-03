@@ -32,10 +32,8 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <Image Grid.Row="0"
-                           Source="ms-appx:///Assets/Images/splash_screen.png"
-                           Stretch="UniformToFill"/>
                     <StackPanel Grid.Row="0"
+                                Padding="10"
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center">
                         <Image Width="100"
@@ -58,6 +56,8 @@
         <controls:CustomTitleBarControl Grid.Row="0"
                                         Frame="{x:Bind Frame, Mode=OneWay}"
                                         MasterDetailsView="{x:Bind chats_mdv}"/>
+
+        <chat:ChatBackgroundControl Grid.Row="1"/>
 
         <masterdetailsview:MasterDetailsView x:Name="chats_mdv"
                                              Grid.Row="1"
