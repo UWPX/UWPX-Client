@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class SettingsSelectionControl : UserControl
+    public sealed partial class SettingsSelectionSmallControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,7 +14,7 @@ namespace UWPX_UI.Controls.Settings
             get { return (SettingsPageDataTemplate)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
         }
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageDataTemplate), typeof(SettingsSelectionControl), new PropertyMetadata(new SettingsPageDataTemplate()
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageDataTemplate), typeof(SettingsSelectionSmallControl), new PropertyMetadata(new SettingsPageDataTemplate()
         {
             Description = "Description",
             Glyph = "\uE9CE",
@@ -25,7 +25,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SettingsSelectionControl()
+        public SettingsSelectionSmallControl()
         {
             this.InitializeComponent();
         }

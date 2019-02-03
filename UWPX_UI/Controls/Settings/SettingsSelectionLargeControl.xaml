@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UWPX_UI.Controls.Settings.SettingsSelectionControl"
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.SettingsSelectionLargeControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:composition1="using:Microsoft.Toolkit.Uwp.UI.Controls"
