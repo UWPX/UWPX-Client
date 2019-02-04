@@ -79,7 +79,7 @@ namespace UWPX_UI.Pages.Settings
 
         private void ClearCache_hlb_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(typeof(MiscSettingsPage), "Misc");
+            UiUtils.NavigateToPage(typeof(MiscSettingsPage), "Cache");
         }
     }
 }
