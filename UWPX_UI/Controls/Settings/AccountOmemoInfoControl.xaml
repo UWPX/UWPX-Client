@@ -1,0 +1,46 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountOmemoInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:omemo="using:UWPX_UI_Context.Classes.ValueConverter.OMEMO"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <omemo:OmemoHelperStateStringValueConverter x:Key="OmemoHelperStateStringValueConverter"/>
+        <omemo:OmemoHelperStateBrushValueConverter x:Key="OmemoHelperStateBrushValueConverter"/>
+        <omemo:OmemoDeviceIdStringValueConverter x:Key="OmemoDeviceIdStringValueConverter"/>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0">
+            <Run FontWeight="Bold"
+                 Text="OMEMO session:"/>
+            <Run Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateBrushValueConverter}}"
+                 Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
+        </TextBlock>
+
+        <controls:IconTextBlockControl Grid.Row="1"
+                                       Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
+                                       Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+
+        <TextBlock Grid.Row="3"
+                   Margin="0,10,0,0">
+            <Run FontWeight="Bold"
+                 Text="Your OMEMO device ID:"/>
+            <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"/>
+        </TextBlock>
+
+        <controls:OmemoDeviceListControl Grid.Row="4"
+                                         Account="{x:Bind Account, Mode=OneWay}"/>
+    </Grid>
+</UserControl>
