@@ -58,6 +58,7 @@
                                 </Grid.ColumnDefinitions>
                                 <Button x:Name="reconnectAll_btn"
                                         Grid.Column="0"
+                                        Click="ReconnectAll_btn_Click"
                                         IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock Margin="0,2,5,0"

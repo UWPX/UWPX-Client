@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using Data_Manager2.Classes;
+using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataTemplates;
 
 namespace UWPX_UI_Context.Classes.DataContext
 {
@@ -21,7 +23,10 @@ namespace UWPX_UI_Context.Classes.DataContext
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public async Task ReconnectAllAsync()
+        {
+            await Task.Run(() => ConnectionHandler.INSTANCE.reconnectAll());
+        }
 
         #endregion
 

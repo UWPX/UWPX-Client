@@ -76,6 +76,11 @@ namespace UWPX_UI.Pages.Settings
             accountsListViewModel = accounts_alc.VIEW_MODEL;
         }
 
+        private async void ReconnectAll_btn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ReconnectAllAsync();
+        }
+
         #endregion
     }
 }
