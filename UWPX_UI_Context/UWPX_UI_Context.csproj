@@ -134,6 +134,8 @@
     <Compile Include="Classes\DataContext\ChatMasterControlContext.Callbacks.cs" />
     <Compile Include="Classes\DataContext\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
     <Compile Include="Classes\DataContext\DataSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\LogLevelControlContext.cs" />
@@ -163,6 +165,8 @@
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ClearCacheDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\DataSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
@@ -176,6 +180,7 @@
     <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleContentDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
@@ -185,6 +190,9 @@
     <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoDeviceIdStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />

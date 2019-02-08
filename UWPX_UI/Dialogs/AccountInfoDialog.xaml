@@ -13,7 +13,9 @@
             <settings:AccountInfoGeneralControl Account="{x:Bind ACCOUNT}"/>
         </PivotItem>
         <PivotItem Header="Cert."/>
-        <PivotItem Header="OMEMO"/>
+        <PivotItem Header="OMEMO">
+            <settings:AccountOmemoInfoControl Account="{x:Bind ACCOUNT}"/>
+        </PivotItem>
         <PivotItem Header="Errors">
             <settings:AccountErrorsGeneralControl Account="{x:Bind ACCOUNT}"/>
         </PivotItem>

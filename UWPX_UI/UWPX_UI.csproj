@@ -161,8 +161,20 @@
     <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
       <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IconProgressButtonControl.xaml.cs">
+      <DependentUpon>IconProgressButtonControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IconButtonControl.xaml.cs">
+      <DependentUpon>IconButtonControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\IconTextBlockControl.xaml.cs">
+      <DependentUpon>IconTextBlockControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OmemoDeviceListControl.xaml.cs">
+      <DependentUpon>OmemoDeviceListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
@@ -175,6 +187,9 @@
     </Compile>
     <Compile Include="Controls\Settings\AccountInfoGeneralControl.xaml.cs">
       <DependentUpon>AccountInfoGeneralControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Settings\AccountOmemoInfoControl.xaml.cs">
+      <DependentUpon>AccountOmemoInfoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Settings\AccountsListControl.xaml.cs">
       <DependentUpon>AccountsListControl.xaml</DependentUpon>
@@ -386,7 +401,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\IconProgressButtonControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\IconButtonControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\IconTextBlockControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\LoadingContentControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OmemoDeviceListControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -403,6 +434,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Settings\AccountInfoGeneralControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\AccountOmemoInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
