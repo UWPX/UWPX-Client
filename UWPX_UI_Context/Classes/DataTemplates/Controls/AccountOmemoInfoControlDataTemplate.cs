@@ -49,7 +49,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
             else
             {
-                OmemoState = account.Client.getOmemoHelper().STATE;
+                OmemoState = account.Client.getOmemoHelper()?.STATE ?? OmemoHelperState.DISABLED;
                 DeviceId = account.Account.omemoDeviceId;
 
                 if (!account.Account.checkOmemoKeys())

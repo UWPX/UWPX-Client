@@ -1,6 +1,7 @@
 ﻿using Shared.Classes;
 using Shared.Classes.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -8,7 +9,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly CustomObservableCollection<uint> DEVICES = new CustomObservableCollection<uint>(true);
+        public readonly CustomObservableCollection<UintDataTemplate> DEVICES = new CustomObservableCollection<UintDataTemplate>(true);
+
+        private bool _RefreshingDevices;
+        public bool RefreshingDevices
+        {
+            get { return _RefreshingDevices; }
+            set { SetProperty(ref _RefreshingDevices, value); }
+        }
+        private bool _ResettingDevices;
+        public bool ResettingDevices
+        {
+            get { return _ResettingDevices; }
+            set { SetProperty(ref _ResettingDevices, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,7 +48,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             IEnumerable<uint> devices = account.Client.getOmemoHelper()?.DEVICES?.IDS;
             if (!(devices is null))
             {
-                DEVICES.AddRange(account.Client.getOmemoHelper().DEVICES.IDS);
+                DEVICES.AddRange(devices.Select(x => new UintDataTemplate { Value = x }));
             }
         }
 
