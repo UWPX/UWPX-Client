@@ -173,8 +173,11 @@
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\OmemoDeviceListControl.xaml.cs">
+    <Compile Include="Controls\OMEMO\OmemoDeviceListControl.xaml.cs">
       <DependentUpon>OmemoDeviceListControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OMEMO\OmemoFingerprintControl.xaml.cs">
+      <DependentUpon>OmemoFingerprintControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
@@ -417,7 +420,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\OmemoDeviceListControl.xaml">
+    <Page Include="Controls\OMEMO\OmemoDeviceListControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OMEMO\OmemoFingerprintControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
