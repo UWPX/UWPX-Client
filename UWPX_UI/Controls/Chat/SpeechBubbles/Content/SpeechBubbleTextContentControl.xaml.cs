@@ -1,5 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
-using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -10,12 +10,12 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentContext SpeechBubbleContentViewModel
+        public SpeechBubbleContentControlContext SpeechBubbleContentViewModel
         {
-            get { return (SpeechBubbleContentContext)GetValue(SpeechBubbleContentViewModelProperty); }
+            get { return (SpeechBubbleContentControlContext)GetValue(SpeechBubbleContentViewModelProperty); }
             set { SetValue(SpeechBubbleContentViewModelProperty, value); }
         }
-        public static readonly DependencyProperty SpeechBubbleContentViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentContext), typeof(SpeechBubbleTextContentControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty SpeechBubbleContentViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleTextContentControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -3,7 +3,7 @@ using System;
 using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -14,12 +14,12 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentContext SpeechBubbleContentViewModel
+        public SpeechBubbleContentControlContext SpeechBubbleContentViewModel
         {
-            get { return (SpeechBubbleContentContext)GetValue(ViewModelProperty); }
+            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
             set { SetValue(ViewModelProperty, value); }
         }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentContext), typeof(SpeechBubbleImageContentControl), new PropertyMetadata(null, OnSpeechBubbleContentViewModelChanged));
+        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleImageContentControl), new PropertyMetadata(null, OnSpeechBubbleContentViewModelChanged));
 
         private readonly SpeechBubbleImageContentControlContext VIEW_MODEL = new SpeechBubbleImageContentControlContext();
 

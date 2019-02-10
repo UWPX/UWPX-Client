@@ -1,27 +1,22 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Shared.Classes;
 
-namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
+namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed partial class SpeechBubbleErrorStatusBarControl : UserControl
+    public sealed class ConfirmDialogDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentControlContext ViewModel
+        private bool _Confirmed;
+        public bool Confirmed
         {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get { return _Confirmed; }
+            set { SetProperty(ref _Confirmed, value); }
         }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleErrorStatusBarControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpeechBubbleErrorStatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

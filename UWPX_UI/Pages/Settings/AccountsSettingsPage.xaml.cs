@@ -1,5 +1,6 @@
 ﻿using UWPX_UI.Extensions;
-using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataContext.Controls;
+using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Pages.Settings
