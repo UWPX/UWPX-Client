@@ -1,27 +1,19 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
+namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public sealed partial class SpeechBubbleErrorStatusBarControl : UserControl
+    public sealed class FolderSizeControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentControlContext ViewModel
-        {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleErrorStatusBarControl), new PropertyMetadata(null));
+        public readonly FolderSizeControlDataTemplate MODEL = new FolderSizeControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpeechBubbleErrorStatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,7 +23,13 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
+        {
+            if (!Equals(e.OldValue, e.NewValue) && e.NewValue is string path)
+            {
+                await MODEL.UpdateViewAsync(path);
+            }
+        }
 
         #endregion
 

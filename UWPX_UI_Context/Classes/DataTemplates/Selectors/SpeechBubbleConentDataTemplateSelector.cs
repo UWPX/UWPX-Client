@@ -1,4 +1,4 @@
-﻿using UWPX_UI_Context.Classes.DataContext;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -41,7 +41,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
 
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            if (item is SpeechBubbleContentContext viewModel)
+            if (item is SpeechBubbleContentControlContext viewModel)
             {
                 if (viewModel.MODEL.IsImage)
                 {

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

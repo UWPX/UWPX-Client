@@ -1,27 +1,17 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using XMPP_API.Classes.Network.XML.Messages;
 
-namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
+namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public sealed partial class SpeechBubbleErrorStatusBarControl : UserControl
+    public sealed partial class ChatMasterControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentControlContext ViewModel
-        {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleErrorStatusBarControl), new PropertyMetadata(null));
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpeechBubbleErrorStatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -36,7 +26,24 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
 
         #region --Misc Methods (Private)--
+        private void OnUpdateBookmarksTimeout(MessageResponseHelper<IQMessage> helper)
+        {
+            InvokeOnError("Error", "Failed to update bookmark!\nServer did not respond in time.");
+        }
 
+        private bool OnUpdateBookmarksMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
+        {
+            if (msg is IQErrorMessage errMsg)
+            {
+                InvokeOnError("Error", "Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME);
+                return true;
+            }
+            if (string.Equals(msg.TYPE, IQMessage.RESULT))
+            {
+                return true;
+            }
+            return false;
+        }
 
         #endregion
 

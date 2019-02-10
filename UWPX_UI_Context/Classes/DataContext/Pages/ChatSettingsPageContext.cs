@@ -1,27 +1,17 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
-namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
+namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
-    public sealed partial class SpeechBubbleErrorStatusBarControl : UserControl
+    public class ChatSettingsPageContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentControlContext ViewModel
-        {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleErrorStatusBarControl), new PropertyMetadata(null));
+        public readonly ChatSettingsPageDataTemplate MODEL = new ChatSettingsPageDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpeechBubbleErrorStatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

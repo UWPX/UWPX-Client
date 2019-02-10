@@ -1,27 +1,17 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
 
-namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
+namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public sealed partial class SpeechBubbleErrorStatusBarControl : UserControl
+    public sealed class AccountsListControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentControlContext ViewModel
-        {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleErrorStatusBarControl), new PropertyMetadata(null));
+        public readonly AccountsListControlDataTemplate MODEL = new AccountsListControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpeechBubbleErrorStatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,7 +21,10 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void ReloadAccounts()
+        {
+            MODEL.LoadAccounts();
+        }
 
         #endregion
 

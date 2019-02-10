@@ -1,7 +1,7 @@
 ﻿using UWPX_UI.Dialogs;
 using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;

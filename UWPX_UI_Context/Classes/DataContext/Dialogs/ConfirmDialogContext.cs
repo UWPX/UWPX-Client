@@ -1,27 +1,19 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
-namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
+namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
-    public sealed partial class SpeechBubbleErrorStatusBarControl : UserControl
+    public sealed class ConfirmDialogContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SpeechBubbleContentControlContext ViewModel
-        {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
-        public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleErrorStatusBarControl), new PropertyMetadata(null));
+        public readonly ConfirmDialogDataTemplate MODEL = new ConfirmDialogDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SpeechBubbleErrorStatusBarControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,7 +23,20 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void OnPositive()
+        {
+            MODEL.Confirmed = true;
+        }
 
+        public void OnNegative()
+        {
+            MODEL.Confirmed = false;
+        }
+
+        public async Task OnLinkClickedAsync(string link)
+        {
+            await UiUtils.LaunchUriAsync(new Uri(link));
+        }
 
         #endregion
 

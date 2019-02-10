@@ -4,7 +4,7 @@
              xmlns:content="using:UWPX_UI.Controls.Chat.SpeechBubbles.Content"
              xmlns:converter="using:UWPX_UI_Context.Classes.ValueConverter"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:datacontext="using:UWPX_UI_Context.Classes.DataContext"
+             xmlns:datacontext="using:UWPX_UI_Context.Classes.DataContext.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
              HorizontalAlignment="Right"
@@ -13,12 +13,12 @@
 
     <UserControl.Resources>
         <DataTemplate x:Key="SpeechBubbleTextContentControlTemplate"
-                      x:DataType="datacontext:SpeechBubbleContentContext">
+                      x:DataType="datacontext:SpeechBubbleContentControlContext">
             <content:SpeechBubbleTextContentControl SpeechBubbleContentViewModel="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="SpeechBubbleImageContentControlTemplate"
-                      x:DataType="datacontext:SpeechBubbleContentContext">
+                      x:DataType="datacontext:SpeechBubbleContentControlContext">
             <content:SpeechBubbleImageContentControl SpeechBubbleContentViewModel="{x:Bind}"/>
         </DataTemplate>
 

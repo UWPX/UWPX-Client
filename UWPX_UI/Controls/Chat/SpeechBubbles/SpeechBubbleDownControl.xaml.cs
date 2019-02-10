@@ -1,5 +1,5 @@
 ﻿using UWPX_UI.Controls.Chat.SpeechBubbles.Content;
-using UWPX_UI_Context.Classes.DataContext;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -17,7 +17,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleDownControl), new PropertyMetadata(null, OnChatMessageChanged));
 
-        private readonly SpeechBubbleContentContext VIEW_MODEL = new SpeechBubbleContentContext();
+        private readonly SpeechBubbleContentControlContext VIEW_MODEL = new SpeechBubbleContentControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
