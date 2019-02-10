@@ -12,6 +12,7 @@ using System.Text.RegularExpressions;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
+using XMPP_API.Classes.Network;
 
 namespace XMPP_API.Classes.Crypto
 {
@@ -151,6 +152,23 @@ namespace XMPP_API.Classes.Crypto
         {
             string fingerprint = byteArrayToHexString(key.serialize());
             return Regex.Replace(fingerprint, ".{8}", "$0 ");
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public static string genOmemoQrCodeFingerprint(IdentityKey key, XMPPAccount account)
+        {
+            StringBuilder sb = new StringBuilder("xmpp:");
+            sb.Append(account.getIdAndDomain());
+            sb.Append("?omemo-sid-");
+            sb.Append(account.omemoDeviceId);
+            sb.Append('=');
+            sb.Append(byteArrayToHexString(key.serialize()));
+            return sb.ToString();
         }
 
         public static void nextBytesSecureRandom(out byte[] b, in uint length)
