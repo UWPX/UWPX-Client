@@ -1,19 +1,13 @@
-﻿using libsignal;
-using Shared.Classes;
-using XMPP_API.Classes.Crypto;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.UI.Xaml;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public sealed class OmemoFingerprintControlDataTemplate : AbstractDataTemplate
+    public sealed class QrCodeControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Fingerprint;
-        public string Fingerprint
-        {
-            get { return _Fingerprint; }
-            set { SetProperty(ref _Fingerprint, value); }
-        }
+        public readonly QrCodeControlDataTemplate MODEL = new QrCodeControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,22 +22,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(AccountDataTemplate account)
+        public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (!(account is null))
+            if (e.NewValue is string s)
             {
-                IdentityKey key = account.Account.omemoIdentityKeyPair?.getPublicKey();
-                if (!(key is null))
-                {
-                    Fingerprint = CryptoUtils.genOmemoFingerprint(key);
-                    return;
-                }
-                else
-                {
-                    Fingerprint = "Failed to load fingerprint!";
-                }
+                MODEL.UpdateView(s);
             }
-            Fingerprint = "";
+            else
+            {
+                MODEL.UpdateView(null);
+            }
         }
 
         #endregion

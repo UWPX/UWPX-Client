@@ -1,24 +1,29 @@
-﻿using libsignal;
-using Shared.Classes;
-using XMPP_API.Classes.Crypto;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI.Controls
 {
-    public sealed class OmemoFingerprintControlDataTemplate : AbstractDataTemplate
+    public sealed partial class QrCodeControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Fingerprint;
-        public string Fingerprint
+        public string QrCodeText
         {
-            get { return _Fingerprint; }
-            set { SetProperty(ref _Fingerprint, value); }
+            get { return (string)GetValue(QrCodeTextProperty); }
+            set { SetValue(QrCodeTextProperty, value); }
         }
+        public static readonly DependencyProperty QrCodeTextProperty = DependencyProperty.Register(nameof(QrCodeText), typeof(string), typeof(QrCodeControl), new PropertyMetadata("", OnQrCodeTextChanged));
+
+        public readonly QrCodeControlContext VIEW_MODEL = new QrCodeControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public QrCodeControl()
+        {
+            this.InitializeComponent();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -28,28 +33,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(AccountDataTemplate account)
-        {
-            if (!(account is null))
-            {
-                IdentityKey key = account.Account.omemoIdentityKeyPair?.getPublicKey();
-                if (!(key is null))
-                {
-                    Fingerprint = CryptoUtils.genOmemoFingerprint(key);
-                    return;
-                }
-                else
-                {
-                    Fingerprint = "Failed to load fingerprint!";
-                }
-            }
-            Fingerprint = "";
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
@@ -59,7 +51,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnQrCodeTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is QrCodeControl qrCodeControl)
+            {
+                qrCodeControl.UpdateView(e);
+            }
+        }
 
         #endregion
     }

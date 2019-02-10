@@ -4,13 +4,14 @@ using libsignal.util;
 using org.whispersystems.libsignal.fingerprint;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Linq;
 
 namespace XMPP_API.Classes.Crypto
 {
@@ -139,6 +140,17 @@ namespace XMPP_API.Classes.Crypto
             foreach (byte b in data)
                 hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
+        }
+
+        /// <summary>
+        /// Generates the display fingerprint for the given OMEMO identity public key.
+        /// </summary>
+        /// <param name="key">The OMEMO identity public key.</param>
+        /// <returns>A hex string representing the given OMEMO identity public key. Split up in blocks of 8 characters separated by a whitespace.</returns>
+        public static string genOmemoFingerprint(IdentityKey key)
+        {
+            string fingerprint = byteArrayToHexString(key.serialize());
+            return Regex.Replace(fingerprint, ".{8}", "$0 ");
         }
 
         public static void nextBytesSecureRandom(out byte[] b, in uint length)

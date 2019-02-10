@@ -14,36 +14,31 @@
         <omemo:OmemoDeviceIdStringValueConverter x:Key="OmemoDeviceIdStringValueConverter"/>
     </UserControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <StackPanel>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Status:"/>
+                <Run Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateBrushValueConverter}}"
+                     Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
+            </TextBlock>
 
-        <TextBlock Grid.Row="0">
-            <Run FontWeight="Bold"
-                 Text="OMEMO session:"/>
-            <Run Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateBrushValueConverter}}"
-                 Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
-        </TextBlock>
+            <controls:IconTextBlockControl Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
+                                           Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Fingerprint:"/>
+            <controlsOmemo:OmemoFingerprintControl Account="{x:Bind Account, Mode=OneWay}"/>
 
-        <controls:IconTextBlockControl Grid.Row="1"
-                                       Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
-                                       Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Devices:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Your OMEMO device ID:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"/>
+            </TextBlock>
 
-        <controlsOmemo:OmemoFingerprintControl Grid.Row="2"/>
-
-        <TextBlock Grid.Row="3"
-                   Margin="0,10,0,0">
-            <Run FontWeight="Bold"
-                 Text="Your OMEMO device ID:"/>
-            <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"/>
-        </TextBlock>
-
-        <controlsOmemo:OmemoDeviceListControl Grid.Row="4"
-                                              Account="{x:Bind Account, Mode=OneWay}"/>
-    </Grid>
+            <controlsOmemo:OmemoDeviceListControl Margin="0,10,0,0"
+                                                  Account="{x:Bind Account, Mode=OneWay}"/>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

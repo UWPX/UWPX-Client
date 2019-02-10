@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using UWPX_UI_Context.Classes.DataTemplates;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    class OmemoFingerprintControlContext
+    public sealed class OmemoFingerprintControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly OmemoFingerprintControlDataTemplate MODEL = new OmemoFingerprintControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -25,7 +23,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is AccountDataTemplate account)
+            {
+                MODEL.UpdateView(account);
+            }
+            else
+            {
+                MODEL.UpdateView(null);
+            }
+        }
 
+        public void CopyFingerprintToClipboard()
+        {
+            UiUtils.SetClipboardText(MODEL.Fingerprint);
+        }
 
         #endregion
 

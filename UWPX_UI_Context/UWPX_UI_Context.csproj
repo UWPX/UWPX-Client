@@ -137,6 +137,7 @@
     <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoFingerprintControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
     <Compile Include="Classes\DataContext\DataSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\LogLevelControlContext.cs" />
@@ -169,6 +170,7 @@
     <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoFingerprintControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\DataSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
@@ -243,6 +245,9 @@
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
       <Version>2.0.181018003.1</Version>
+    </PackageReference>
+    <PackageReference Include="QRCoder">
+      <Version>1.3.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup />
