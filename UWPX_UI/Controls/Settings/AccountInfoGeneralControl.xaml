@@ -29,51 +29,51 @@
             <TextBlock Margin="0,10,0,0">
                 <Run FontWeight="Bold"
                      Text="TLS:"/>
-                <Run Foreground="{x:Bind Account.Account.CONNECTION_INFO.tlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedSolidColorBrushValueConverter}}"
-                     Text="{x:Bind Account.Account.CONNECTION_INFO.tlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedTextValueConverter}}"/>
+                <Run Foreground="{x:Bind VIEW_MODEL.MODEL.TlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedSolidColorBrushValueConverter}}"
+                     Text="{x:Bind VIEW_MODEL.MODEL.TlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedTextValueConverter}}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="Message carbons:"/>
-                <Run Foreground="{x:Bind Account.Account.CONNECTION_INFO.msgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateSolidColorBrushValueConverter}}"
-                     Text="{x:Bind Account.Account.CONNECTION_INFO.msgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateTextValueConverter}}"/>
+                <Run Foreground="{x:Bind VIEW_MODEL.MODEL.MsgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateSolidColorBrushValueConverter}}"
+                     Text="{x:Bind VIEW_MODEL.MODEL.MsgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateTextValueConverter}}"/>
             </TextBlock>
             <controls:SeperatorControl Margin="-10,0,0,0"
                                        Text="Socket statistics:"/>
             <TextBlock Margin="0,10,0,0">
                 <Run FontWeight="Bold"
                      Text="Inbound:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource InboundBitsPerSecondValueConverter}, FallbackValue='0 bit/s'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource InboundBitsPerSecondValueConverter}, FallbackValue='0 bit/s'}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="Inbound instability:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource InboundBitsPerSecondInstabilityValueConverter}, FallbackValue='0 bit/s'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource InboundBitsPerSecondInstabilityValueConverter}, FallbackValue='0 bit/s'}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="Outbound:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource OutboundBitsPerSecondValueConverter}, FallbackValue='0 bit/s'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource OutboundBitsPerSecondValueConverter}, FallbackValue='0 bit/s'}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="Outbound instability:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource OutboundBitsPerSecondInstabilityValueConverter}, FallbackValue='0 bit/s'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource OutboundBitsPerSecondInstabilityValueConverter}, FallbackValue='0 bit/s'}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="RTT average:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource RttMaxValueConverter}, FallbackValue='0 ms'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource RttMaxValueConverter}, FallbackValue='0 ms'}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="RTT min:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource RttMinValueConverter}, FallbackValue='0 ms'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource RttMinValueConverter}, FallbackValue='0 ms'}"/>
             </TextBlock>
             <TextBlock>
                 <Run FontWeight="Bold"
                      Text="RTT max:"/>
-                <Run Text="{x:Bind Account.Account.CONNECTION_INFO.socketInfo, Mode=OneWay, Converter={StaticResource RttMaxValueConverter}, FallbackValue='0 ms'}"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource RttMaxValueConverter}, FallbackValue='0 ms'}"/>
             </TextBlock>
 
             <controls:SeperatorControl Margin="-10,0,0,0"

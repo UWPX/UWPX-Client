@@ -1,5 +1,7 @@
 ﻿using Shared.Classes;
+using Windows.Networking.Sockets;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
@@ -13,6 +15,24 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             get { return _ParserStats; }
             set { SetProperty(ref _ParserStats, value); }
+        }
+        private bool _TlsConnected;
+        public bool TlsConnected
+        {
+            get { return _TlsConnected; }
+            set { SetProperty(ref _TlsConnected, value); }
+        }
+        private MessageCarbonsState _MsgCarbonsState;
+        public MessageCarbonsState MsgCarbonsState
+        {
+            get { return _MsgCarbonsState; }
+            set { SetProperty(ref _MsgCarbonsState, value); }
+        }
+        private StreamSocketInformation _SocketInfo;
+        public StreamSocketInformation SocketInfo
+        {
+            get { return _SocketInfo; }
+            set { SetProperty(ref _SocketInfo, value); }
         }
 
         #endregion
@@ -30,9 +50,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Misc Methods (Public)--
         public void UpdateViewModel(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is AccountDataTemplate account)
+            if (e.OldValue is AccountDataTemplate accountOld)
             {
-                ParserStats = account.Client.getMessageParserStats();
+                Unsubscribe(accountOld);
+            }
+
+            if (e.NewValue is AccountDataTemplate accountNew)
+            {
+                Subscribe(accountNew);
+                ParserStats = accountNew.Client.getMessageParserStats();
+                MsgCarbonsState = accountNew.Account.CONNECTION_INFO.msgCarbonsState;
+                SocketInfo = accountNew.Account.CONNECTION_INFO.socketInfo;
+                TlsConnected = accountNew.Account.CONNECTION_INFO.tlsConnected;
             }
             else
             {
@@ -43,7 +72,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
 
         #region --Misc Methods (Private)--
+        private void Unsubscribe(AccountDataTemplate account)
+        {
+            account.Account.CONNECTION_INFO.PropertyChanged -= CONNECTION_INFO_PropertyChanged;
+        }
 
+        private void Subscribe(AccountDataTemplate account)
+        {
+            account.Account.CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
+        }
 
         #endregion
 
@@ -53,7 +90,25 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ConnectionInformation connectionInfo)
 
+                switch (e.PropertyName)
+                {
+                    case nameof(connectionInfo.msgCarbonsState):
+                        MsgCarbonsState = connectionInfo.msgCarbonsState;
+                        break;
+
+                    case nameof(connectionInfo.tlsConnected):
+                        TlsConnected = connectionInfo.tlsConnected;
+                        break;
+
+                    case nameof(connectionInfo.socketInfo):
+                        SocketInfo = connectionInfo.socketInfo;
+                        break;
+                }
+        }
 
         #endregion
     }
