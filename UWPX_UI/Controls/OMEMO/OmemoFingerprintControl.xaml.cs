@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -14,6 +15,8 @@ namespace UWPX_UI.Controls.OMEMO
             set { SetValue(AccountProperty, value); }
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoFingerprintControl), new PropertyMetadata(null, OnAccountChanged));
+
+        public readonly OmemoFingerprintControlContext VIEW_MODEL = new OmemoFingerprintControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -53,8 +56,13 @@ namespace UWPX_UI.Controls.OMEMO
         {
             if (d is OmemoFingerprintControl omemoFingerprintControl)
             {
-                omemoDeviceListControl.UpdateView(e);
+                omemoFingerprintControl.UpdateView(e);
             }
+        }
+
+        private void CpyFingerprint_btn_Click(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.CopyFingerprintToClipboard();
         }
 
         #endregion
