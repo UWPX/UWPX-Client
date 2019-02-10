@@ -223,19 +223,26 @@ namespace XMPP_API.Classes.Network.TCP
                     bool success = true;
                     await Task.Run(async () =>
                     {
-                        uint l = dataWriter.WriteString(s);
-
-                        // Check if all bytes got actually written to the TCP buffer:
-                        if (l < s.Length)
+                        try
                         {
-                            lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "Send only " + l + " of " + s.Length + "bytes");
-                            Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
-                            success = false;
-                            return;
-                        }
+                            uint l = dataWriter.WriteString(s);
 
-                        await dataWriter.StoreAsync();
-                        await dataWriter.FlushAsync();
+                            // Check if all bytes got actually written to the TCP buffer:
+                            if (l < s.Length)
+                            {
+                                lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "Send only " + l + " of " + s.Length + "bytes");
+                                Logger.Error("[TCPConnection2]: failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
+                                success = false;
+                                return;
+                            }
+
+                            await dataWriter.StoreAsync();
+                            await dataWriter.FlushAsync();
+                        }
+                        catch (Exception)
+                        {
+
+                        }
                     }, sendCTS.Token).ConfigureAwait(false);
 
                     WRITE_SEMA.Release();
