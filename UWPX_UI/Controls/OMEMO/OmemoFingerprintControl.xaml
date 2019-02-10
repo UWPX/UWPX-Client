@@ -29,6 +29,6 @@
         </Grid>
         <controls:QrCodeControl Grid.Row="1"
                                 Margin="0,10,0,0"
-                                QrCodeText="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"/>
+                                QrCodeText="{x:Bind VIEW_MODEL.MODEL.QrCodeFingerprint, Mode=OneWay}"/>
     </Grid>
 </UserControl>
