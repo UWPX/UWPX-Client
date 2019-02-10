@@ -239,10 +239,7 @@ namespace XMPP_API.Classes.Network.TCP
                             await dataWriter.StoreAsync();
                             await dataWriter.FlushAsync();
                         }
-                        catch (Exception)
-                        {
-
-                        }
+                        catch (Exception) { }
                     }, sendCTS.Token).ConfigureAwait(false);
 
                     WRITE_SEMA.Release();
