@@ -136,6 +136,7 @@
     <Compile Include="Classes\DataContext\ConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\DataSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\LogLevelControlContext.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Classes\DataTemplates\ConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OmemoFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\DataSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelControlDataTemplate.cs" />
