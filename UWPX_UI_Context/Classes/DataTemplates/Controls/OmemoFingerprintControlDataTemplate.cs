@@ -14,6 +14,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _Fingerprint; }
             set { SetProperty(ref _Fingerprint, value); }
         }
+        private string _QrCodeFingerprint;
+        public string QrCodeFingerprint
+        {
+            get { return _QrCodeFingerprint; }
+            set { SetProperty(ref _QrCodeFingerprint, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -36,14 +42,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (!(key is null))
                 {
                     Fingerprint = CryptoUtils.genOmemoFingerprint(key);
-                    return;
+                    QrCodeFingerprint = CryptoUtils.genOmemoQrCodeFingerprint(key, account.Account);
                 }
                 else
                 {
                     Fingerprint = "Failed to load fingerprint!";
+                    QrCodeFingerprint = null;
                 }
+                return;
             }
             Fingerprint = "";
+            QrCodeFingerprint = null;
         }
 
         #endregion
