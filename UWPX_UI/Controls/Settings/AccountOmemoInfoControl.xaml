@@ -25,7 +25,9 @@
                      Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
             </TextBlock>
 
-            <controls:IconTextBlockControl Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
+            <controls:IconTextBlockControl Glyph="&#xE783;"
+                                           GlyphForeground="Red"
+                                           Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
                                            Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
             <controls:SeperatorControl Margin="-10,0,0,0"
                                        Text="Fingerprint:"/>
