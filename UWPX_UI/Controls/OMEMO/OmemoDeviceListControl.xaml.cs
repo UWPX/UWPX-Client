@@ -52,7 +52,7 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Reset_ibtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
+        private void Reset_ibtn_Click(object sender, RoutedEventArgs args)
         {
             VIEW_MODEL.ResetOmemoDevices(Account.Client);
         }
