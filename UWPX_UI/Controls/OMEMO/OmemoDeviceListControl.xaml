@@ -9,7 +9,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="deviceTemplate"
+        <DataTemplate x:Key="DeviceTemplate"
                       x:DataType="datatemplates:UintDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -51,7 +51,7 @@
                   extensions:ListViewExtensions.AlternateColor="#33AAAAAA"
                   extensions:ListViewExtensions.StretchItemContainerDirection="Both"
                   Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
-                  ItemTemplate="{StaticResource deviceTemplate}"
+                  ItemTemplate="{StaticResource DeviceTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.DEVICES}"
                   SelectionMode="None"/>
 

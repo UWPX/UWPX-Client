@@ -26,6 +26,6 @@
                    Foreground="{x:Bind Foreground, Mode=OneWay}"
                    Style="{x:Bind TextBlockStyle, Mode=OneWay}"
                    Text="{x:Bind Text, Mode=OneWay}"
-                   TextWrapping="Wrap"/>
+                   TextWrapping="WrapWholeWords"/>
     </Grid>
 </UserControl>
