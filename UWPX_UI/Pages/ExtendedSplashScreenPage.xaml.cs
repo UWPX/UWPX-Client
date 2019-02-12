@@ -259,6 +259,12 @@ namespace UWPX_UI.Pages
             PositionLogoImage();
         }
 
+        private void Grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            SetImageScale();
+            PositionLogoImage();
+        }
+
         #endregion
     }
 }
