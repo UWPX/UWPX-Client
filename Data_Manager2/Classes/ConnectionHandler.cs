@@ -1,23 +1,24 @@
-﻿using Data_Manager2.Classes.Events;
-using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
+using Data_Manager2.Classes.Omemo;
+using Data_Manager2.Classes.Toast;
 using Logging;
 using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
-using System.Threading;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
-using XMPP_API.Classes.Network.Events;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
-using Data_Manager2.Classes.Toast;
-using Data_Manager2.Classes.Omemo;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace Data_Manager2.Classes
 {
@@ -488,17 +489,6 @@ namespace Data_Manager2.Classes
             }
 
             string from = Utils.getBareJidFromFullJid(msg.getFrom());
-
-            // Check if device id is valid and if, decrypt the OMEMO messages:
-            if (msg is OmemoMessageMessage omemoMessage)
-            {
-                // Decryption failed:
-                if (!omemoMessage.decrypt(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
-                {
-                    return;
-                }
-            }
-
             string to = Utils.getBareJidFromFullJid(msg.getTo());
             string id;
             if (msg.CC_TYPE == CarbonCopyType.SENT)
@@ -510,6 +500,27 @@ namespace Data_Manager2.Classes
                 id = ChatTable.generateId(from, to);
             }
 
+            // Check if device id is valid and if, decrypt the OMEMO messages:
+            if (msg is OmemoMessageMessage omemoMessage)
+            {
+                OmemoHelper helper = client.getOmemoHelper();
+                if (helper is null)
+                {
+                    C_OmemoSessionBuildError(client, new XMPP_API.Classes.Events.OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
+                    return;
+                }
+                else if (!client.getXMPPAccount().checkOmemoKeys())
+                {
+                    C_OmemoSessionBuildError(client, new XMPP_API.Classes.Events.OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
+                    return;
+                }
+                else if (!omemoMessage.decrypt(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
+                {
+                    return;
+                }
+            }
 
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             bool chatChanged = false;

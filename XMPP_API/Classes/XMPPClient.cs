@@ -1,5 +1,6 @@
 ﻿using Logging;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network;
@@ -155,7 +156,20 @@ namespace XMPP_API.Classes
 
         public void sendOmemoMessage(OmemoMessageMessage msg, string chatJid, string accountJid)
         {
-            connection.omemoHelper.sendOmemoMessage(msg, chatJid, accountJid);
+            if (connection.omemoHelper is null)
+            {
+                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Signal.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { msg }));
+                Logger.Error("Failed to send OMEMO message - OmemoHelper is null");
+            }
+            else if (!connection.account.checkOmemoKeys())
+            {
+                OmemoSessionBuildError?.Invoke(this, new OmemoSessionBuildErrorEventArgs(chatJid, Network.XML.Messages.XEP_0384.Signal.Session.OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { msg }));
+                Logger.Error("Failed to send OMEMO message - keys are corrupted");
+            }
+            else
+            {
+                connection.omemoHelper.sendOmemoMessage(msg, chatJid, accountJid);
+            }
         }
 
         /// <summary>
