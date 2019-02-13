@@ -65,6 +65,7 @@
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <controls:AccountImagePresenceControl Grid.Column="0"
                                                       Width="30"
@@ -132,6 +133,29 @@
                 </Grid>
                 <Button Grid.Column="2"
                         Height="30"
+                        Background="Transparent"
+                        Content="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
+                        Style="{ThemeResource ButtonRevealStyle}"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisability, Mode=OneWay}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <StackPanel>
+                                <RadioButton Content="Encrypted (OMEMO)"
+                                             GroupName="OMEMO"
+                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}"/>
+                                <RadioButton Content="Unencrypted (OMEMO)"
+                                             GroupName="OMEMO"
+                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"/>
+                            </StackPanel>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
+                <Button Grid.Column="3"
+                        Height="30"
                         Margin="10,0,10,0"
                         VerticalAlignment="Center"
                         Background="Transparent"
@@ -168,15 +192,6 @@
                                               Glyph="&#xE89B;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <ToggleMenuFlyoutItem x:Name="omemo_tmfo"
-                                                  IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}"
-                                                  Text="Encrypted (OMEMO)"
-                                                  Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisability, Mode=OneWay}">
-                                <ToggleMenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
-                                              Glyph="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"/>
-                                </ToggleMenuFlyoutItem.Icon>
-                            </ToggleMenuFlyoutItem>
                             <MenuFlyoutItem x:Name="test_mfo"
                                             Click="Test_mfo_Click"
                                             Text="Debug/Test"
