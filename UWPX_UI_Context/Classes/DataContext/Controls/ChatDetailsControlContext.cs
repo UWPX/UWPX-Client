@@ -156,6 +156,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
+        public async Task OnReadOnOmemoClickedAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

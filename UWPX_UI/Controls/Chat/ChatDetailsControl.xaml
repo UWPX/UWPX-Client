@@ -132,11 +132,12 @@
                                Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
                 </Grid>
                 <Button Grid.Column="2"
-                        Height="30"
+                        Height="35"
+                        Margin="0,0,-10,0"
                         Background="Transparent"
                         Content="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
                         FontFamily="Segoe MDL2 Assets"
-                        FontSize="15"
+                        FontSize="20"
                         FontWeight="Bold"
                         Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
                         Style="{ThemeResource ButtonRevealStyle}"
@@ -144,18 +145,28 @@
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
-                                <RadioButton Content="Encrypted (OMEMO)"
-                                             GroupName="OMEMO"
-                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}"/>
-                                <RadioButton Content="Unencrypted (OMEMO)"
-                                             GroupName="OMEMO"
-                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"/>
+                                <RadioButton GroupName="OMEMO"
+                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}">
+                                    <controls:IconTextBlockControl Glyph="&#xE72E;"
+                                                                   GlyphForeground="DarkGreen"
+                                                                   Text="Encrypted (OMEMO)"/>
+                                </RadioButton>
+                                <RadioButton GroupName="OMEMO"
+                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}">
+                                    <controls:IconTextBlockControl Glyph="&#xE785;"
+                                                                   GlyphForeground="DarkRed"
+                                                                   Text="Unencrypted (OMEMO)"/>
+                                </RadioButton>
+                                <HyperlinkButton x:Name="readOnOmemo_link"
+                                                 Margin="0,10,0,0"
+                                                 Click="ReadOnOmemo_link_Click"
+                                                 Content="What is OMEMO?"/>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
                 <Button Grid.Column="3"
-                        Height="30"
+                        Height="35"
                         Margin="10,0,10,0"
                         VerticalAlignment="Center"
                         Background="Transparent"

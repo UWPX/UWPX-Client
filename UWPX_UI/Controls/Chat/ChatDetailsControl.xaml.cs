@@ -134,6 +134,11 @@ namespace UWPX_UI.Controls.Chat
             await VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
         }
 
+        private async void ReadOnOmemo_link_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.OnReadOnOmemoClickedAsync();
+        }
+
         #endregion
     }
 }

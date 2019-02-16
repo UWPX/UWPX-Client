@@ -28,9 +28,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         {
             if (value is bool b && b)
             {
-                return new SolidColorBrush(Colors.Green);
+                return new SolidColorBrush(Colors.DarkGreen);
             }
-            return new SolidColorBrush(Colors.Red);
+            return new SolidColorBrush(Colors.DarkRed);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
