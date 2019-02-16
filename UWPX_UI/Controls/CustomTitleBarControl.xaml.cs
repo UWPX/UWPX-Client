@@ -120,7 +120,7 @@ namespace UWPX_UI.Controls
         {
             if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
             {
-                MasterDetailsView.SelectedItem = null;
+                MasterDetailsView.ClearSelectedItem();
                 return true;
             }
             else

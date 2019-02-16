@@ -54,6 +54,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         private Button _inlineBackButton;
         private object _navigationView;
         private Frame _frame;
+        private bool ignoreClearSelectedItem;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
@@ -112,7 +113,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             var view = (MasterDetailsView)d;
 
             // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
-            if (!(e.OldValue is null) && e.NewValue is null && view.Items.Contains(e.OldValue))
+            if (!view.ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && view.Items.Contains(e.OldValue))
             {
                 view.SelectedItem = e.OldValue;
                 return;
@@ -203,6 +204,13 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
                 UpdateView(true);
             }
+        }
+
+        public void ClearSelectedItem()
+        {
+            ignoreClearSelectedItem = true;
+            SelectedItem = null;
+            ignoreClearSelectedItem = false;
         }
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
