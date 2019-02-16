@@ -35,11 +35,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _StatusText; }
             set { SetProperty(ref _StatusText, value); }
         }
-        private Visibility _JoinMucVisability;
-        public Visibility JoinMucVisability
+        private Visibility _EnterMucVisability;
+        public Visibility EnterMucVisability
         {
-            get { return _JoinMucVisability; }
-            set { SetProperty(ref _JoinMucVisability, value); }
+            get { return _EnterMucVisability; }
+            set { SetProperty(ref _EnterMucVisability, value); }
         }
         private Visibility _LeaveMucVisability;
         public Visibility LeaveMucVisability
@@ -115,12 +115,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (chat.chatType == ChatType.MUC)
                 {
                     OmemoVisability = Visibility.Collapsed;
+
+                    if (muc.state != MUCState.ENTERD && muc.state != MUCState.ENTERING)
+                    {
+                        EnterMucVisability = Visibility.Visible;
+                        LeaveMucVisability = Visibility.Collapsed;
+                    }
+                    else
+                    {
+                        EnterMucVisability = Visibility.Collapsed;
+                        LeaveMucVisability = Visibility.Visible;
+                    }
                 }
                 else
                 {
                     NameText = chat.chatJabberId ?? "";
                     StatusText = chat.chatState ?? chat.status ?? "";
-                    JoinMucVisability = Visibility.Collapsed;
+                    EnterMucVisability = Visibility.Collapsed;
                     LeaveMucVisability = Visibility.Collapsed;
                     OmemoEnabled = chat.omemoEnabled;
                     OmemoVisability = Visibility.Visible;

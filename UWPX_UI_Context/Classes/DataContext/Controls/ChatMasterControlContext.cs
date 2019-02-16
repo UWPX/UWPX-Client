@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using System.Collections.Generic;
@@ -144,6 +145,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     Logger.Info("Deleted chat: " + Chat.Chat.id);
                 });
             }
+        }
+
+        public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
+        {
+            await MUCHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+        }
+
+        public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
+        {
+            await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
         }
 
         #endregion

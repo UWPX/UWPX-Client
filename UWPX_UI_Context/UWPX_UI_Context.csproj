@@ -197,6 +197,8 @@
     <Compile Include="Classes\ValueConverter\OMEMO\OmemoDeviceIdStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateMucJoinVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateMucLeaveVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />

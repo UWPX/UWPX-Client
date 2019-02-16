@@ -185,10 +185,10 @@
                                     <FontIcon Glyph="&#xEA4A;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="join_mfo"
-                                            Click="Join_mfo_Click"
-                                            Text="Join room"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.JoinMucVisability, Mode=OneWay}">
+                            <MenuFlyoutItem x:Name="enter_mfo"
+                                            Click="Enter_mfo_Click"
+                                            Text="Enter room"
+                                            Visibility="{x:Bind VIEW_MODEL.MODEL.EnterMucVisability, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Green"
                                               Glyph="&#xE8BD;"/>

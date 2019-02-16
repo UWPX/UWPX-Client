@@ -130,6 +130,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _AccountInitials; }
             set { SetProperty(ref _AccountInitials, value); }
         }
+        private MUCState _MucState;
+        public MUCState MucState
+        {
+            get { return _MucState; }
+            set { SetProperty(ref _MucState, value); }
+        }
 
         private readonly ResourceDictionary RESOURCES;
 
@@ -262,6 +268,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 // Account image:
                 AccountPresence = muc.getMUCPresence();
                 AccountInitials = "\uE125";
+
+                MucState = muc.state;
             }
             else
             {

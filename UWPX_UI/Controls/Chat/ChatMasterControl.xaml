@@ -2,7 +2,6 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:UWPX_UI.Controls"
-             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:slidablelistitem="using:UWPX_UI.Controls.Toolkit.SlidableListItem"
@@ -18,6 +17,8 @@
                 <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml"/>
             </valueconverter:MessageStateBrushValueConverter.Resources>
         </valueconverter:MessageStateBrushValueConverter>
+        <valueconverter:MucStateMucJoinVisabilityValueConverter x:Key="MucStateMucJoinVisabilityValueConverter"/>
+        <valueconverter:MucStateMucLeaveVisabilityValueConverter x:Key="MucStateMucLeaveVisabilityValueConverter"/>
         <MenuFlyout x:Name="chat_mfo">
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showProfile_mfo"
@@ -73,7 +74,8 @@
                                       IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
                                       Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}"/>
                 <MenuFlyoutItem x:Name="block_tmfo"
-                                Text="Block">
+                                IsEnabled="False"
+                                Text="Block (WIP)">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xE8F8;"/>
                     </MenuFlyoutItem.Icon>
@@ -108,9 +110,10 @@
                         <FontIcon Glyph="&#xEA4A;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Name="join_mfo"
-                                Click="Join_mfo_Click"
-                                Text="Join room">
+                <MenuFlyoutItem x:Name="enter_mfo"
+                                Click="Enter_mfo_Click"
+                                Text="Enter room"
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisabilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Foreground="Green"
                                   Glyph="&#xE8BD;"/>
@@ -118,7 +121,8 @@
                 </MenuFlyoutItem>
                 <MenuFlyoutItem x:Name="leave_mfo"
                                 Click="Leave_mfo_Click"
-                                Text="Leave room">
+                                Text="Leave room"
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisabilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Foreground="Red"
                                   Glyph="&#xE89B;"/>

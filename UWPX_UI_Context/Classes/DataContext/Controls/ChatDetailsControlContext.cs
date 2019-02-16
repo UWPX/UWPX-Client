@@ -161,6 +161,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             await UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
         }
 
+        public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
+        {
+            await MUCHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+        }
+
+        public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
+        {
+            await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

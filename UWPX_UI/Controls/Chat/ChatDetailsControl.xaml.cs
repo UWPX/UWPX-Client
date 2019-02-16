@@ -89,14 +89,14 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
-        private void Join_mfo_Click(object sender, RoutedEventArgs e)
+        private async void Enter_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.EnterMucAsync(Chat);
         }
 
-        private void Leave_mfo_Click(object sender, RoutedEventArgs e)
+        private async void Leave_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.LeaveMucAsync(Chat);
         }
 
         private void Test_mfo_Click(object sender, RoutedEventArgs e)
