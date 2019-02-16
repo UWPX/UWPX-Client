@@ -111,6 +111,13 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         {
             var view = (MasterDetailsView)d;
 
+            // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
+            if (!(e.OldValue is null) && e.NewValue is null && view.Items.Contains(e.OldValue))
+            {
+                view.SelectedItem = e.OldValue;
+                return;
+            }
+
             view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
             view.UpdateView(true);

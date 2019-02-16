@@ -9,7 +9,7 @@ namespace UWPX_UI.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ChatsPageContext ViewModel = new ChatsPageContext();
+        private readonly ChatsPageContext VIEW_MODEL = new ChatsPageContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -83,7 +83,7 @@ namespace UWPX_UI.Pages
 
         private void FilterClear_mfo_Click(object sender, RoutedEventArgs e)
         {
-            ViewModel.CHAT_FILTER.ClearFilter();
+            VIEW_MODEL.CHAT_FILTER.ClearFilter();
         }
 
         private void FilterChats_tabb_Click(object sender, RoutedEventArgs e)

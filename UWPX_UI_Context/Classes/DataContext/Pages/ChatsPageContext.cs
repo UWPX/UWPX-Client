@@ -2,10 +2,11 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
-using Microsoft.Toolkit.Uwp.UI;
+
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections;
+using UWPX_UI_Context.Classes.Collections.Toolkit;
 using UWPX_UI_Context.Classes.DataTemplates;
 using XMPP_API.Classes;
 
@@ -32,7 +33,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             };
 
             this.CHATS_ACV.ObserveFilterProperty(nameof(ChatDataTemplate.Chat));
-            this.CHATS_ACV.SortDescriptions.Add(new SortDescription(nameof(ChatDataTemplate.Chat), SortDirection.Descending));
+            this.CHATS_ACV.SortDescriptions.Add(new Microsoft.Toolkit.Uwp.UI.SortDescription(nameof(ChatDataTemplate.Chat), Microsoft.Toolkit.Uwp.UI.SortDirection.Descending));
             this.CHAT_FILTER = new ChatFilterDataTemplate(this.CHATS_ACV);
 
             LoadChats();
