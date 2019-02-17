@@ -15,7 +15,8 @@
         <converter:DownloadStateErrorVisabilityValueConverter x:Key="DownloadStateErrorVisabilityValueConverter"/>
         <converter:DownloadStateLoadingVisabilityValueConverter x:Key="DownloadStateLoadingVisabilityValueConverter"/>
 
-        <MenuFlyout x:Key="options_mfo">
+        <MenuFlyout x:Key="options_mfo"
+                    Opening="MenuFlyout_Opening">
             <MenuFlyoutItem x:Name="copyImageLink_mfi"
                             Click="CopyImageLink_mfi_Click"
                             Text="Copy message">
@@ -90,7 +91,7 @@
                           ImageExFailed="Image_img_ImageExFailed"
                           IsCacheEnabled="False"
                           PlaceholderSource="Assets/Images/placeholder.png"
-                          Source="{x:Bind VIEW_MODEL.MODEL.Image, Mode=OneWay}"
+                          Source="{x:Bind VIEW_MODEL.MODEL.ImageBitmap, Mode=OneWay}"
                           Tapped="Image_img_Tapped"
                           Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateImageVisabilityValueConverter}, FallbackValue=Collapsed}"/>
         <Grid Grid.Row="0"
@@ -132,7 +133,7 @@
                            HorizontalAlignment="Center"
                            Text="Loading..."/>
                 <ProgressBar Grid.Row="2"
-                             Value="{x:Bind VIEW_MODEL.MODEL.DownloadProgress, Mode=OneWay}"/>
+                             Value="{x:Bind VIEW_MODEL.MODEL.Image.Progress, Mode=OneWay}"/>
             </Grid>
         </Grid>
 

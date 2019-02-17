@@ -5,6 +5,7 @@ using Data_Manager2.Classes.Omemo;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes.Collections;
+using Shared.Classes.Network;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -31,6 +32,8 @@ namespace Data_Manager2.Classes
         private static readonly SemaphoreSlim CLIENT_SEMA = new SemaphoreSlim(1);
         public static readonly ConnectionHandler INSTANCE = new ConnectionHandler();
         private readonly CustomObservableCollection<XMPPClient> CLIENTS;
+        private readonly DownloadHandler DOWNLOAD_HANDLER = new DownloadHandler();
+        public readonly ImageDownloadHandler IMAGE_DOWNLOAD_HANDLER;
 
         public delegate void ClientConnectedHandler(ConnectionHandler handler, ClientConnectedEventArgs args);
         public delegate void ClientsCollectionChangedHandler(ConnectionHandler handler, NotifyCollectionChangedEventArgs args);
@@ -48,6 +51,8 @@ namespace Data_Manager2.Classes
         /// </history>
         public ConnectionHandler()
         {
+            this.IMAGE_DOWNLOAD_HANDLER = new ImageDownloadHandler(DOWNLOAD_HANDLER);
+            this.IMAGE_DOWNLOAD_HANDLER.ContinueDownloads();
             this.CLIENTS = new CustomObservableCollection<XMPPClient>(false);
             this.CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
             loadClients();

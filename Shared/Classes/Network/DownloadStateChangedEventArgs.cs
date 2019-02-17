@@ -1,25 +1,21 @@
 ﻿using System;
 
-namespace Data_Manager2.Classes.Events
+namespace Shared.Classes.Network
 {
-    public class DownloadProgressChangedEventArgs : EventArgs
+    public class DownloadStateChangedEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly double PROGRESS;
+        public readonly DownloadState OLD_STATE;
+        public readonly DownloadState NEW_STATE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 18/12/2017 Created [Fabian Sauter]
-        /// </history>
-        public DownloadProgressChangedEventArgs(double progress)
+        public DownloadStateChangedEventArgs(DownloadState oldState, DownloadState newState)
         {
-            this.PROGRESS = progress;
+            this.OLD_STATE = oldState;
+            this.NEW_STATE = newState;
         }
 
         #endregion

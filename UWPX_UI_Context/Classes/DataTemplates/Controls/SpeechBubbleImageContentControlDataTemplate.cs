@@ -1,8 +1,9 @@
-﻿using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes;
+using Shared.Classes.Network;
 using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Windows.Storage;
@@ -20,11 +21,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _ImagePath; }
             set { SetImagePathProperty(value); }
         }
-        private BitmapImage _Image;
-        public BitmapImage Image
+        private BitmapImage _ImageBitmap;
+        public BitmapImage ImageBitmap
         {
-            get { return _Image; }
-            set { SetProperty(ref _Image, value); }
+            get { return _ImageBitmap; }
+            set { SetProperty(ref _ImageBitmap, value); }
+        }
+        private bool _IsLoadingImage;
+        public bool IsLoadingImage
+        {
+            get { return _IsLoadingImage; }
+            set { SetProperty(ref _IsLoadingImage, value); }
         }
         private string _ErrorText;
         public string ErrorText
@@ -38,20 +45,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _State; }
             set { SetProperty(ref _State, value); }
         }
-        private double _DownloadProgress;
-        public double DownloadProgress
+        private ImageTable _Image;
+        public ImageTable Image
         {
-            get { return _DownloadProgress; }
-            set { SetProperty(ref _DownloadProgress, value); }
-        }
-        private bool _IsLoadingImage;
-        public bool IsLoadingImage
-        {
-            get { return _IsLoadingImage; }
-            set { SetProperty(ref _IsLoadingImage, value); }
+            get { return _Image; }
+            set { SetImage(value); }
         }
 
-        private ImageTable image = null;
         private CancellationTokenSource loadImageCancellationSource = null;
 
         #endregion
@@ -70,6 +70,25 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
+        private void SetImage(ImageTable value)
+        {
+            ImageTable oldImage = Image;
+            if (SetProperty(ref _Image, value, nameof(Image)))
+            {
+                if (!(oldImage is null))
+                {
+                    oldImage.PropertyChanged -= Image_PropertyChanged;
+                }
+                if (!(Image is null))
+                {
+                    Image.PropertyChanged += Image_PropertyChanged;
+                    State = Image.State;
+                    ErrorText = Image.Error.ToString();
+                    ImagePath = Path.Combine(Image.TargetFolderPath, Image.TargetFileName);
+                }
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -83,29 +102,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
             Task.Run(async () =>
             {
-                Image = await GetBitmapImageAsync(newValue);
+                if (Image is null && Image.State != DownloadState.DONE)
+                {
+                    Image = null;
+                }
+                else
+                {
+                    ImageBitmap = await GetBitmapImageAsync(newValue);
+                }
             }, loadImageCancellationSource.Token);
         }
 
         public void UpdateView(ImageTable image)
         {
-            if (!(this.image is null))
-            {
-                this.image.DownloadProgressChanged -= ImageTable_DownloadProgressChanged;
-                this.image.DownloadStateChanged -= Image_DownloadStateChanged;
-            }
-
-            this.image = image;
-            if (!(this.image is null))
-            {
-                this.image.DownloadProgressChanged += ImageTable_DownloadProgressChanged;
-                this.image.DownloadStateChanged += Image_DownloadStateChanged;
-
-                ImagePath = image.path;
-                ErrorText = image.errorMessage;
-                State = image.state;
-                DownloadProgress = image.progress;
-            }
+            Image = image;
         }
 
         #endregion
@@ -173,19 +183,25 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Image_DownloadStateChanged(ImageTable img, Data_Manager2.Classes.Events.DownloadStateChangedEventArgs args)
+        private void Image_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            State = args.STATE;
-
-            if (State == DownloadState.DONE)
+            if (!(sender is ImageTable image))
             {
-                OnImagePathChanged(image.path);
+                return;
             }
-        }
 
-        private void ImageTable_DownloadProgressChanged(ImageTable img, Data_Manager2.Classes.Events.DownloadProgressChangedEventArgs args)
-        {
-            DownloadProgress = args.PROGRESS * 100;
+            if (string.Equals(e.PropertyName, nameof(ImageTable.State)))
+            {
+                State = image.State;
+                if (image.State == DownloadState.DONE)
+                {
+                    OnImagePathChanged(ImagePath);
+                }
+            }
+            else if (string.Equals(e.PropertyName, nameof(ImageTable.Error)))
+            {
+                ErrorText = image.Error.ToString();
+            }
         }
 
         #endregion

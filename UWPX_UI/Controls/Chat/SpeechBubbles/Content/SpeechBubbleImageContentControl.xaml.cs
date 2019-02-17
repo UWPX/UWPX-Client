@@ -1,4 +1,5 @@
 ﻿using Logging;
+using Shared.Classes.Network;
 using System;
 using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
@@ -50,9 +51,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task UpdateViewAsync(DependencyPropertyChangedEventArgs args)
+        private void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            await VIEW_MODEL.UpdateViewAsync(args);
+            VIEW_MODEL.UpdateView(args);
         }
 
         private async Task OpenImageWithDefaultImageViewerAsync()
@@ -101,11 +102,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static async void OnSpeechBubbleContentViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnSpeechBubbleContentViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SpeechBubbleImageContentControl speechBubbleImageContent)
             {
-                await speechBubbleImageContent.UpdateViewAsync(e);
+                speechBubbleImageContent.UpdateView(e);
             }
         }
 
@@ -139,9 +140,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             SpeechBubbleContentViewModel.SetFromUserAsClipboardText();
         }
 
-        private async void Redownload_mfi_Click(object sender, RoutedEventArgs e)
+        private void Redownload_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.RedownloadImageAsync();
+            VIEW_MODEL.RedownloadImage();
         }
 
         private async void StartDownload_mfi_Click(object sender, RoutedEventArgs e)
@@ -149,9 +150,9 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             await VIEW_MODEL.StartImageDownloadAsync();
         }
 
-        private async void CancelDownload_mfi_Click(object sender, RoutedEventArgs e)
+        private void CancelDownload_mfi_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.CancelImageDownloadAsync();
+            VIEW_MODEL.CancelImageDownload();
         }
 
         private void CopyDate_mfi_Click(object sender, RoutedEventArgs e)
@@ -159,6 +160,33 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             if (Application.Current.Resources["ChatDateTimeStringValueConverter"] is IValueConverter converter)
             {
                 SpeechBubbleContentViewModel.SetDateAsClipboardText(converter);
+            }
+        }
+
+        private void MenuFlyout_Opening(object sender, object e)
+        {
+            openImage_mfi.Visibility = Visibility.Collapsed;
+            redownload_mfi.Visibility = Visibility.Collapsed;
+            startDownload_mfi.Visibility = Visibility.Collapsed;
+            cancelDownload_mfi.Visibility = Visibility.Collapsed;
+
+            switch (VIEW_MODEL.MODEL.State)
+            {
+                case DownloadState.QUEUED:
+                case DownloadState.DOWNLOADING:
+                    cancelDownload_mfi.Visibility = Visibility.Visible;
+                    break;
+
+                case DownloadState.DONE:
+                    redownload_mfi.Visibility = Visibility.Visible;
+                    openImage_mfi.Visibility = Visibility.Visible;
+                    break;
+
+                case DownloadState.NOT_QUEUED:
+                case DownloadState.ERROR:
+                case DownloadState.CANCELED:
+                    startDownload_mfi.Visibility = Visibility.Visible;
+                    break;
             }
         }
 

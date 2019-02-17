@@ -131,14 +131,12 @@
     <Compile Include="Classes\DBTables\Omemo\OmemoDeviceListSubscriptionTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoDeviceTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoIdentityKeyTable.cs" />
+    <Compile Include="Classes\ImageDownloadHandler.cs" />
     <Compile Include="Classes\Omemo\OmemoStore.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoPreKeyTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSessionStoreTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSignedPreKeyTable.cs" />
-    <Compile Include="Classes\DownloadState.cs" />
     <Compile Include="Classes\Events\MUCInfoChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\DownloadProgressChangedEventArgs.cs" />
-    <Compile Include="Classes\Events\DownloadStateChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ClientConnectedEventArgs.cs" />
     <Compile Include="Classes\Events\AccountChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ChatChangedEventArgs.cs" />

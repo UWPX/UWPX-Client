@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes;
+﻿using Shared.Classes.Network;
 using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -26,7 +26,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is DownloadState state && (state == DownloadState.WAITING || state == DownloadState.DOWNLOADING))
+            if (value is DownloadState state && (state == DownloadState.QUEUED || state == DownloadState.DOWNLOADING))
             {
                 return Visibility.Visible;
             }

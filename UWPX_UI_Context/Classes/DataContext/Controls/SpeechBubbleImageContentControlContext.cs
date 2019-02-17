@@ -1,6 +1,8 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
+using Shared.Classes.Network;
 using System;
 using System.Text;
 using System.Threading.Tasks;
@@ -30,12 +32,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs args)
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
             if (args.NewValue is SpeechBubbleContentControlContext newValue)
             {
                 SpeechBubbleViewModel = newValue;
-                await LoadImageAsync(SpeechBubbleViewModel);
+                LoadImage(SpeechBubbleViewModel);
             }
             else
             {
@@ -50,7 +52,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             sb.Append('\n');
             sb.Append(errMsg);
             MODEL.ErrorText = sb.ToString();
-            MODEL.State = Data_Manager2.Classes.DownloadState.ERROR;
+            MODEL.State = DownloadState.ERROR;
             Logger.Error(sb.ToString(), e);
         }
 
@@ -73,31 +75,37 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             return await UiUtils.LaunchUriAsync(new Uri(speechBubbleContentViewModel.ChatMessageModel.Message.message));
         }
 
-        public async Task RedownloadImageAsync()
+        public void RedownloadImage()
         {
-
+            if (!(MODEL.Image is null))
+            {
+                ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadImage(MODEL.Image);
+            }
         }
 
-        public async Task CancelImageDownloadAsync()
+        public void CancelImageDownload()
         {
-
+            if (!(MODEL.Image is null))
+            {
+                ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(MODEL.Image);
+            }
         }
 
         public async Task StartImageDownloadAsync()
         {
-
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task LoadImageAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
+        private void LoadImage(SpeechBubbleContentControlContext speechBubbleContentViewModel)
         {
             if (SpeechBubbleViewModel is null || SpeechBubbleViewModel.ChatMessageModel.Message is null)
             {
                 return;
             }
-            ImageTable image = await ImageDBManager.INSTANCE.getImageForMessageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
+            ImageTable image = ImageDBManager.INSTANCE.getImage(SpeechBubbleViewModel.ChatMessageModel.Message);
             MODEL.UpdateView(image);
         }
 

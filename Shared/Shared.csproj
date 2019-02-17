@@ -125,6 +125,11 @@
     <Compile Include="Classes\Collections\ITimedEntry.cs" />
     <Compile Include="Classes\Collections\TimedListEntry.cs" />
     <Compile Include="Classes\Collections\TSTimedList.cs" />
+    <Compile Include="Classes\Network\AbstractDownloadableObject.cs" />
+    <Compile Include="Classes\Network\DownloadError.cs" />
+    <Compile Include="Classes\Network\DownloadHandler.cs" />
+    <Compile Include="Classes\Network\DownloadState.cs" />
+    <Compile Include="Classes\Network\DownloadStateChangedEventArgs.cs" />
     <Compile Include="Classes\SharedUtils.cs" />
     <Compile Include="Classes\SQLite\AbstractDBManager.cs" />
     <Compile Include="Classes\SQLite\TSSQLiteConnection.cs" />

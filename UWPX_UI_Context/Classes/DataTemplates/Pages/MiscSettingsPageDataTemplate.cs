@@ -1,5 +1,4 @@
 ﻿using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
 using Logging;
 using Shared.Classes;
 using System.Runtime.CompilerServices;
@@ -123,7 +122,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
             Task.Run(async () =>
             {
-                StorageFolder folder = await ImageDBManager.INSTANCE.getCachedImagesFolderAsync();
+                StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetImageCacheFolderAsync();
                 if (!(folder is null))
                 {
                     ImageCacheFolderPath = folder.Path;

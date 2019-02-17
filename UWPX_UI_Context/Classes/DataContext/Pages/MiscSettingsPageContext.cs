@@ -1,4 +1,4 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
 using Logging;
 using System;
 using System.Threading.Tasks;
@@ -70,8 +70,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task OpenImageCacheFolderAsync()
         {
-            StorageFolder folder = await ImageDBManager.INSTANCE.getCachedImagesFolderAsync();
-            await Windows.System.Launcher.LaunchFolderAsync(folder);
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.OpenImageCacheFolderAsync();
         }
 
         public async Task ExportLogsAsync()
@@ -86,7 +85,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task ClearImageCacheAsync(ConfirmDialogContext viewModel)
         {
-            await ImageDBManager.INSTANCE.deleteImageCacheAsync();
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.ClearImageCacheAsync();
         }
 
         #endregion
