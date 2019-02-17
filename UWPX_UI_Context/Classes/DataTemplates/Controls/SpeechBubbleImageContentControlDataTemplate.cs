@@ -186,7 +186,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private void ImageTable_DownloadProgressChanged(ImageTable img, Data_Manager2.Classes.Events.DownloadProgressChangedEventArgs args)
         {
             DownloadProgress = args.PROGRESS * 100;
-            Logger.Debug("Progress: " + DownloadProgress);
         }
 
         #endregion
