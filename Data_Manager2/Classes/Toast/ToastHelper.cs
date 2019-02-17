@@ -185,7 +185,7 @@ namespace Data_Manager2.Classes.Toast
 
         private static void popToastReduced()
         {
-            if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+            if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
                 VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
             }

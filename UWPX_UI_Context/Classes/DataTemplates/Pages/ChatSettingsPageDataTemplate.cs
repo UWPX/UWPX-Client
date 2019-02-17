@@ -56,6 +56,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get { return _EnableOmemoForNewChats; }
             set { SetBoolProperty(ref _EnableOmemoForNewChats, value, SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS); }
         }
+        private bool _VibrateForNewChatMessages;
+        public bool VibrateForNewChatMessages
+        {
+            get { return _VibrateForNewChatMessages; }
+            set { SetBoolInversedProperty(ref _VibrateForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -85,6 +91,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             SendChatState = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_STATE);
             SendReceivedMarkers = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
             AdvancedChatMessageProcessing = !Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
+            VibrateForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
 
             // MUC:
             AutoJoinMucs = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);

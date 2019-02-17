@@ -24,6 +24,7 @@
         public const string DISABLE_AUTO_JOIN_MUC = "disable_auto_join_muc";
         public const string DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING = "disable_advanced_chat_message_processing";
         public const string ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS = "enable_omemo_by_default_for_new_chats";
+        public const string DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES = "disable_vibration_for_new_chat_messages";
 
         public const string PUSH_CHANNEL_TOKEN_URL = "push_channel_token_url";
         public const string PUSH_CHANNEL_SEND_SUCCESS = "push_channel_send_success";
