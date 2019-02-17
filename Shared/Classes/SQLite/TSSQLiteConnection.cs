@@ -1,4 +1,5 @@
-﻿using SQLite;
+﻿using Logging;
+using SQLite;
 using System;
 using System.Collections.Generic;
 using System.Threading;
@@ -66,32 +67,72 @@ namespace Shared.Classes.SQLite
 
         public int DeleteAll<T>()
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>();
+            try
+            {
+                return DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB delete all!", e);
+                return -1;
+            }
         }
 
         public List<T> ExecuteCommand<T>(bool readOnly, SQLiteCommand cmd) where T : new()
         {
-            return cmd.ExecuteQuery<T>();
+            try
+            {
+                return cmd.ExecuteQuery<T>();
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB execute command!", e);
+                return new List<T>();
+            }
         }
 
         public int InsertOrReplace(object obj)
         {
             // Not using DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj); to prevent exceptions (https://github.com/praeclarum/sqlite-net/issues/761):
-            BeginTransaction();
-            DB_CONNECTIONS[DB_PATH].Item3.Delete(obj);
-            int i = DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
-            Commit();
-            return i;
+            try
+            {
+                BeginTransaction();
+                DB_CONNECTIONS[DB_PATH].Item3.Delete(obj);
+                int i = DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
+                Commit();
+                return i;
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB insert or replace!", e);
+                return -1;
+            }
         }
 
         public int Insert(object obj)
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
+            try
+            {
+                return DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB insert!", e);
+                return -1;
+            }
         }
 
         public int InsertAll(IEnumerable<object> objects, bool runInTransaction = true)
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects);
+            try
+            {
+                return DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB insert all!", e);
+                return -1;
+            }
         }
 
         public void Close()
@@ -106,7 +147,15 @@ namespace Shared.Classes.SQLite
 
         public int Execute(string query, params object[] args)
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.Execute(query, args);
+            try
+            {
+                return DB_CONNECTIONS[DB_PATH].Item3.Execute(query, args);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB execute!", e);
+                return -1;
+            }
         }
 
         public void Commit()
@@ -124,7 +173,15 @@ namespace Shared.Classes.SQLite
         /// <param name="readOnly">Unused/placeholder!</param>
         public List<T> Query<T>(bool readOnly, string query, params object[] args) where T : new()
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args);
+            try
+            {
+                return DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB query!", e);
+                return new List<T>();
+            }
         }
 
         public CreateTableResult CreateTable<T>() where T : new()
@@ -145,7 +202,15 @@ namespace Shared.Classes.SQLite
 
         public int Delete(object objectToDelete)
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete);
+            try
+            {
+                return DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete);
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to execute DB delete!", e);
+                return -1;
+            }
         }
 
         public void Dispose()
