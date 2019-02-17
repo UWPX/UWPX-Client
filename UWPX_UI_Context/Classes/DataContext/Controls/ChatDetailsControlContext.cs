@@ -209,7 +209,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private async void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
         {
-            MODEL.OnNewChatMessage(args.MESSAGE, chat.Chat, chat.MucInfo);
+            await MODEL.OnNewChatMessageAsync(args.MESSAGE, chat.Chat, chat.MucInfo);
             if (args.MESSAGE.state == MessageState.UNREAD)
             {
                 await Task.Run(() =>
@@ -219,9 +219,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        private void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
         {
-            MODEL.OnChatMessageChnaged(args.MESSAGE);
+            await MODEL.OnChatMessageChangedAsync(args.MESSAGE);
         }
 
         #endregion

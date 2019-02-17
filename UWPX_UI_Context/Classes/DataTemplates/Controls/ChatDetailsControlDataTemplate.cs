@@ -148,9 +148,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public void OnNewChatMessage(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
+        public async Task OnNewChatMessageAsync(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
         {
-            CHAT_MESSAGES_SEMA.Wait();
+            await CHAT_MESSAGES_SEMA.WaitAsync();
             CHAT_MESSAGES.Add(new ChatMessageDataTemplate
             {
                 Chat = chat,
@@ -160,9 +160,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             CHAT_MESSAGES_SEMA.Release();
         }
 
-        public void OnChatMessageChnaged(ChatMessageTable msg)
+        public async Task OnChatMessageChangedAsync(ChatMessageTable msg)
         {
-            CHAT_MESSAGES_SEMA.Wait();
+            await CHAT_MESSAGES_SEMA.WaitAsync();
             foreach (ChatMessageDataTemplate chatMsg in CHAT_MESSAGES)
             {
                 if (string.Equals(chatMsg.Message.id, msg.id))
@@ -173,7 +173,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 }
             }
             CHAT_MESSAGES_SEMA.Release();
-            Logger.Warn("OnChatMessageChnaged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
+            Logger.Warn("OnChatMessageChanged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
         }
 
         #endregion
@@ -201,7 +201,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 IsLoadingChatMessages = true;
 
-                CHAT_MESSAGES_SEMA.Wait();
+                await CHAT_MESSAGES_SEMA.WaitAsync();
                 CHAT_MESSAGES.Clear();
                 CHAT_MESSAGES_SEMA.Release();
 
@@ -223,7 +223,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 if (!loadChatMessagesCancelToken.IsCancellationRequested)
                 {
-                    CHAT_MESSAGES_SEMA.Wait();
+                    await CHAT_MESSAGES_SEMA.WaitAsync();
                     CHAT_MESSAGES.AddRange(msgs);
                     CHAT_MESSAGES_SEMA.Release();
                 }
