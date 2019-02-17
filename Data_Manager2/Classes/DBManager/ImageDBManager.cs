@@ -151,7 +151,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </summary>
         private void contiuneAllDownloads()
         {
-            List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE state = 0 OR state = 1;");
+            List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE state = ? OR state = ?;", (int)DownloadState.WAITING, (int)DownloadState.DOWNLOADING);
             foreach (ImageTable img in list)
             {
                 Task.Run(async () =>

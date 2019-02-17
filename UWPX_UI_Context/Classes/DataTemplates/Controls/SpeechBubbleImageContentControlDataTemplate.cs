@@ -176,11 +176,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private void Image_DownloadStateChanged(ImageTable img, Data_Manager2.Classes.Events.DownloadStateChangedEventArgs args)
         {
             State = args.STATE;
+
+            if (State == DownloadState.DONE)
+            {
+                OnImagePathChanged(image.path);
+            }
         }
 
         private void ImageTable_DownloadProgressChanged(ImageTable img, Data_Manager2.Classes.Events.DownloadProgressChangedEventArgs args)
         {
-            DownloadProgress = args.PROGRESS;
+            DownloadProgress = args.PROGRESS * 100;
+            Logger.Debug("Progress: " + DownloadProgress);
         }
 
         #endregion

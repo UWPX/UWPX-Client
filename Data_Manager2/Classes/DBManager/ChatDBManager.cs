@@ -242,7 +242,7 @@ namespace Data_Manager2.Classes.DBManager
             if (triggerNewChatMessage)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(message));
-                if (message.isImage)
+                if (message.isImage && !Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
                 {
                     cacheImage(message);
                 }
