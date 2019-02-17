@@ -59,6 +59,10 @@ namespace UWPX_UI.Pages.Settings
                     case "Media":
                         ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, media_scp, false);
                         break;
+
+                    case "OMEMO":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, omemo_scp, false);
+                        break;
                 }
             }
         }
@@ -78,6 +82,11 @@ namespace UWPX_UI.Pages.Settings
         private void ClearCache_hlb_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             UiUtils.NavigateToPage(typeof(MiscSettingsPage), "Cache");
+        }
+
+        private async void OmemoInfo_hlb_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            await VIEW_MODEL.OnWhatIsOmemoClickedAsync();
         }
 
         #endregion

@@ -42,6 +42,9 @@
                 <controlsComp:NavigationViewItem Content="Media"
                                                  Icon="Pictures"
                                                  Tag="Media"/>
+                <controlsComp:NavigationViewItem Content="OMEMO"
+                                                 Icon="Permissions"
+                                                 Tag="OMEMO"/>
             </controlsComp:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
@@ -96,6 +99,21 @@
                                 <HyperlinkButton x:Name="clearCache_hlb"
                                                  Click="ClearCache_hlb_Click"
                                                  Content="Clear cache"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  OMEMO:  -->
+                    <settings:SettingsContentControl x:Name="omemo_scp"
+                                                     Header="OMEMO:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="omemoEnabledNewchats_tgls"
+                                              Header="Enable OMEMO by default for new chats:"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.EnableOmemoForNewChats, Mode=TwoWay}"/>
+                                <HyperlinkButton x:Name="omemoInfo_hlb"
+                                                 Click="OmemoInfo_hlb_Click"
+                                                 Content="What is OMEMO?"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

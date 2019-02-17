@@ -63,7 +63,7 @@ namespace Data_Manager2.Classes.DBTables
             this.chatType = ChatType.CHAT;
             this.inRoster = false;
             this.muted = false;
-            this.omemoEnabled = false;
+            this.omemoEnabled = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
             this.presence = Presence.Unavailable;
             this.status = null;
             this.subscription = null;

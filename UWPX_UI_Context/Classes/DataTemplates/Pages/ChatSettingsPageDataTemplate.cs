@@ -50,6 +50,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get { return _StoreImagesInLibrary; }
             set { SetBoolInversedProperty(ref _StoreImagesInLibrary, value, SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY); }
         }
+        private bool _EnableOmemoForNewChats;
+        public bool EnableOmemoForNewChats
+        {
+            get { return _EnableOmemoForNewChats; }
+            set { SetBoolProperty(ref _EnableOmemoForNewChats, value, SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -86,6 +92,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             // Media:
             ImageAutoDownload = !Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD);
             StoreImagesInLibrary = !Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
+
+            // OMEMO:
+            EnableOmemoForNewChats = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
         }
 
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
