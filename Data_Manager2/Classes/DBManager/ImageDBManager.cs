@@ -2,6 +2,7 @@
 using Shared.Classes.Network;
 using Shared.Classes.SQLite;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -24,9 +25,9 @@ namespace Data_Manager2.Classes.DBManager
         /// </summary>
         /// <param name="msg"></param>
         /// <returns></returns>
-        public ImageTable getImage(ChatMessageTable msg)
+        public async Task<ImageTable> getImageAsync(ChatMessageTable msg)
         {
-            ImageTable img = (ImageTable)ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.Find((x) => { return x is ImageTable imageTable && string.Equals(imageTable.messageId, msg.id); });
+            ImageTable img = (ImageTable)await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.FindAsync((x) => { return x is ImageTable imageTable && string.Equals(imageTable.messageId, msg.id); });
             if (img is null)
             {
                 List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE " + nameof(ImageTable.messageId) + " = ?;", msg.id);

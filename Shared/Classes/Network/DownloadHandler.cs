@@ -13,12 +13,15 @@ namespace Shared.Classes.Network
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const int MAX_CONCURRENT_DOWNLOADS = 5;
+        public const int MAX_CONCURRENT_DOWNLOADS = 2;
+        private readonly Task[] DOWNLOADER = new Task[MAX_CONCURRENT_DOWNLOADS];
+        private readonly CancellationTokenSource[] DOWNLOADER_CANCELLATION_TOKENS = new CancellationTokenSource[MAX_CONCURRENT_DOWNLOADS];
 
         private readonly List<AbstractDownloadableObject> TO_DOWNLOAD = new List<AbstractDownloadableObject>();
         private readonly List<AbstractDownloadableObject> DOWNLOADING = new List<AbstractDownloadableObject>();
         private readonly SemaphoreSlim DOWNLOADING_SEMA = new SemaphoreSlim(1);
         private readonly SemaphoreSlim TO_DOWNLOAD_SEMA = new SemaphoreSlim(1);
+        private readonly SemaphoreSlim TO_DOWNLOAD_COUNT_SEMA = new SemaphoreSlim(0);
 
         public delegate void DownloadStateChangedHandler(AbstractDownloadableObject o, DownloadStateChangedEventArgs args);
 
@@ -29,16 +32,16 @@ namespace Shared.Classes.Network
         #region --Constructors--
         public DownloadHandler()
         {
-
+            StartDownloaderTasks();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public AbstractDownloadableObject Find(Predicate<AbstractDownloadableObject> predicate)
+        public async Task<AbstractDownloadableObject> FindAsync(Predicate<AbstractDownloadableObject> predicate)
         {
             AbstractDownloadableObject result = null;
-            TO_DOWNLOAD_SEMA.Wait();
+            await TO_DOWNLOAD_SEMA.WaitAsync();
             result = TO_DOWNLOAD.Find(predicate);
             TO_DOWNLOAD_SEMA.Release();
             if (!(result is null))
@@ -69,13 +72,13 @@ namespace Shared.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void EnqueueDownload(AbstractDownloadableObject o)
+        public async Task EnqueueDownloadAsync(AbstractDownloadableObject o)
         {
             SetDownloadState(o, DownloadState.QUEUED);
-            TO_DOWNLOAD_SEMA.Wait();
+            await TO_DOWNLOAD_SEMA.WaitAsync();
             TO_DOWNLOAD.Add(o);
             TO_DOWNLOAD_SEMA.Release();
-            TryStartDownload();
+            TO_DOWNLOAD_COUNT_SEMA.Release();
         }
 
         public void CancelDownload(AbstractDownloadableObject o)
@@ -86,42 +89,77 @@ namespace Shared.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private void TryStartDownload()
+        private void StartDownloaderTasks()
         {
-            TO_DOWNLOAD_SEMA.Wait();
-            while (TO_DOWNLOAD.Count > 0 && DOWNLOADING.Count < MAX_CONCURRENT_DOWNLOADS)
+            for (int i = 0; i < DOWNLOADER.Length; i++)
             {
-                AbstractDownloadableObject o = TO_DOWNLOAD[0];
-                TO_DOWNLOAD.RemoveAt(0);
-                if (o.State != DownloadState.CANCELED)
-                {
-                    StartDownload(o);
-                }
+                DOWNLOADER_CANCELLATION_TOKENS[i] = new CancellationTokenSource();
+                DOWNLOADER[i] = StartDownlaoderTask(i);
             }
-            TO_DOWNLOAD_SEMA.Release();
         }
 
-        private void StartDownload(AbstractDownloadableObject o)
+        /// <summary>
+        /// Starts a new downloader Task and returns it.
+        /// </summary>
+        /// <param name="index">The index of the downloader Task.</param>
+        /// <returns>Returns a new downloader Task.</returns>
+        private Task StartDownlaoderTask(int index)
         {
-            Task.Run(async () =>
+            return Task.Run(async () =>
             {
-                SetDownloadState(o, DownloadState.DOWNLOADING);
-                o.Progress = 0;
+                while (!DOWNLOADER_CANCELLATION_TOKENS[index].IsCancellationRequested)
+                {
+                    try
+                    {
+                        // Wait until downloads are available:
+                        await TO_DOWNLOAD_COUNT_SEMA.WaitAsync();
+                        Logger.Debug("Downloader task " + index + " started job.");
 
-                // Download:
-                await DOWNLOADING_SEMA.WaitAsync();
-                DOWNLOADING.Add(o);
-                DOWNLOADING_SEMA.Release();
+                        // Remove one download:
+                        await TO_DOWNLOAD_SEMA.WaitAsync();
+                        AbstractDownloadableObject o = TO_DOWNLOAD[0];
+                        TO_DOWNLOAD.RemoveAt(0);
+                        TO_DOWNLOAD_SEMA.Release();
 
-                await DownloadAsync(o);
+                        if (o.State != DownloadState.CANCELED)
+                        {
+                            SetDownloadState(o, DownloadState.DOWNLOADING);
+                            o.Progress = 0;
 
-                await DOWNLOADING_SEMA.WaitAsync();
-                DOWNLOADING.Remove(o);
-                DOWNLOADING_SEMA.Release();
+                            // Add to currently downloading:
+                            await DOWNLOADING_SEMA.WaitAsync();
+                            DOWNLOADING.Add(o);
+                            DOWNLOADING_SEMA.Release();
 
-                // Start a new download:
-                TryStartDownload();
-            });
+                            // Download:
+                            await DownloadAsync(o);
+
+                            // Remove since the download finished:
+                            await DOWNLOADING_SEMA.WaitAsync();
+                            DOWNLOADING.Remove(o);
+                            DOWNLOADING_SEMA.Release();
+                        }
+                        Logger.Debug("Downloader task " + index + " finished job.");
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Downloader task " + index + " job failed with: ", e);
+                    }
+                }
+
+            }, DOWNLOADER_CANCELLATION_TOKENS[index].Token);
+        }
+
+        private void CancelDownloaderTasks()
+        {
+            for (int i = 0; i < DOWNLOADER.Length; i++)
+            {
+                if (!(DOWNLOADER[i] is null))
+                {
+                    DOWNLOADER_CANCELLATION_TOKENS[i].Cancel();
+                    DOWNLOADER[i] = null;
+                }
+            }
         }
 
         private async Task DownloadAsync(AbstractDownloadableObject o)
@@ -228,6 +266,9 @@ namespace Shared.Classes.Network
 
         public void Dispose()
         {
+            // Cancel all downloader tasks:
+            CancelDownloaderTasks();
+
             // Clear download queue:
             TO_DOWNLOAD_SEMA.Wait();
             foreach (AbstractDownloadableObject o in TO_DOWNLOAD)

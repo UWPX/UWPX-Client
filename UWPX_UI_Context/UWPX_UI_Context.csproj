@@ -192,6 +192,7 @@
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OMEMO\OmemoDeviceIdStringValueConverter.cs" />
@@ -208,9 +209,7 @@
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInvertedVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ConnectionStatePresenceValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\DownloadStateLoadingVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\DownloadStateErrorVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\DownloadStateImageVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateQueuedBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\HexColorToSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelWarningVisabilityValueConverter.cs" />

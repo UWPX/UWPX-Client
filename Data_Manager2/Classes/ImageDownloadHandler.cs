@@ -39,17 +39,17 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void DownloadImage(ImageTable image)
+        public async Task DownloadImageAsync(ImageTable image)
         {
             if (image.State != DownloadState.DOWNLOADING && image.State != DownloadState.QUEUED)
             {
-                DOWNLOAD_HANDLER.EnqueueDownload(image);
+                await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
             }
         }
 
-        public async Task DownloadImageAsync(ChatMessageTable msg)
+        public async Task<ImageTable> DownloadImageAsync(ChatMessageTable msg)
         {
-            ImageTable image = ImageDBManager.INSTANCE.getImage(msg);
+            ImageTable image = await ImageDBManager.INSTANCE.getImageAsync(msg);
             if (image is null)
             {
                 StorageFolder folder = await GetImageCacheFolderAsync();
@@ -64,12 +64,13 @@ namespace Data_Manager2.Classes
                 };
                 ImageDBManager.INSTANCE.setImage(image);
             }
-            DownloadImage(image);
+            await DownloadImageAsync(image);
+            return image;
         }
 
-        public void RedownloadImage(ImageTable image)
+        public async Task RedownloadImageAsync(ImageTable image)
         {
-            DOWNLOAD_HANDLER.EnqueueDownload(image);
+            await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
         }
 
         public void CancelDownload(ImageTable image)
@@ -77,12 +78,12 @@ namespace Data_Manager2.Classes
             DOWNLOAD_HANDLER.CancelDownload(image);
         }
 
-        public AbstractDownloadableObject Find(Predicate<AbstractDownloadableObject> predicate)
+        public async Task<AbstractDownloadableObject> FindAsync(Predicate<AbstractDownloadableObject> predicate)
         {
-            return DOWNLOAD_HANDLER.Find(predicate);
+            return await DOWNLOAD_HANDLER.FindAsync(predicate);
         }
 
-        public void ContinueDownloads()
+        public async Task ContinueDownloadsAsync()
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
@@ -94,7 +95,7 @@ namespace Data_Manager2.Classes
                         image.State = DownloadState.NOT_QUEUED;
                         ImageDBManager.INSTANCE.setImage(image);
                     }
-                    DownloadImage(image);
+                    await DownloadImageAsync(image);
                 }
             }
         }

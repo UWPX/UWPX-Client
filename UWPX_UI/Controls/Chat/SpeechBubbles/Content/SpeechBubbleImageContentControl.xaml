@@ -3,17 +3,52 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:content="using:UWPX_UI.Controls.Chat.SpeechBubbles.Content"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:converter="using:UWPX_UI_Context.Classes.ValueConverter"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:network="using:Shared.Classes.Network"
              d:DesignHeight="300"
              d:DesignWidth="400"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <converter:DownloadStateImageVisabilityValueConverter x:Key="DownloadStateImageVisabilityValueConverter"/>
-        <converter:DownloadStateErrorVisabilityValueConverter x:Key="DownloadStateErrorVisabilityValueConverter"/>
-        <converter:DownloadStateLoadingVisabilityValueConverter x:Key="DownloadStateLoadingVisabilityValueConverter"/>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Error">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    ERROR
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Content">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    DONE
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Download">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    NOT_QUEUED
+                </network:DownloadState>
+                <network:DownloadState>
+                    CANCELED
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Downloading">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    QUEUED
+                </network:DownloadState>
+                <network:DownloadState>
+                    DOWNLOADING
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+
+        <converter:DownloadStateQueuedBoolValueConverter x:Key="DownloadStateQueuedBoolValueConverter"/>
 
         <MenuFlyout x:Key="options_mfo"
                     Opening="MenuFlyout_Opening">
@@ -89,16 +124,17 @@
                           Grid.Row="0"
                           MaxHeight="250"
                           ImageExFailed="Image_img_ImageExFailed"
-                          IsCacheEnabled="False"
+                          ImageExOpened="Image_img_ImageExOpened"
+                          IsCacheEnabled="True"
                           PlaceholderSource="Assets/Images/placeholder.png"
                           Source="{x:Bind VIEW_MODEL.MODEL.ImageBitmap, Mode=OneWay}"
                           Tapped="Image_img_Tapped"
-                          Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateImageVisabilityValueConverter}, FallbackValue=Collapsed}"/>
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Content}, FallbackValue=Collapsed}"/>
+        <!--  Error:  -->
         <Grid Grid.Row="0"
               Padding="10"
               VerticalAlignment="Stretch"
-              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
-              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateErrorVisabilityValueConverter}, FallbackValue=Collapsed}">
+              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Error}, FallbackValue=Collapsed}">
             <Grid VerticalAlignment="Center">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -114,28 +150,48 @@
                            Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"/>
             </Grid>
         </Grid>
+
+        <!--  Download:  -->
+        <Button x:Name="download_btn"
+                Grid.Row="0"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                Click="Download_btn_Click"
+                Content="&#xE896;"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="30"
+                Style="{ThemeResource ButtonRevealStyle}"
+                Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Download}, FallbackValue=Collapsed}"/>
+
+        <!--  Downloading:  -->
         <Grid Grid.Row="0"
-              Padding="10"
-              VerticalAlignment="Stretch"
-              Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
-              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateLoadingVisabilityValueConverter}, FallbackValue=Visible}">
-            <Grid VerticalAlignment="Center">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <ProgressRing Grid.Row="0"
-                              Width="30"
-                              Height="30"
-                              IsActive="True"/>
-                <TextBlock Grid.Row="1"
-                           HorizontalAlignment="Center"
-                           Text="Loading..."/>
-                <ProgressBar Grid.Row="2"
-                             Value="{x:Bind VIEW_MODEL.MODEL.Image.Progress, Mode=OneWay}"/>
-            </Grid>
+              Margin="10"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Center"
+              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Downloading}, FallbackValue=Collapsed}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ProgressRing Grid.Row="0"
+                          Width="30"
+                          Height="30"
+                          IsActive="True"/>
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Text="Downloading..."/>
+            <ProgressBar Grid.Row="2"
+                         IsIndeterminate="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
+                         Value="{x:Bind VIEW_MODEL.MODEL.Image.Progress, Mode=OneWay}"/>
         </Grid>
+
+        <!--  Loading:  -->
+        <controls1:LoadingContentControl Grid.Row="0"
+                                         Margin="10"
+                                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoadingImage, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}, FallbackValue=Visible}"/>
 
         <!--  Infos:  -->
         <content:SpeechBubbleStatusBarControl Grid.Row="1"

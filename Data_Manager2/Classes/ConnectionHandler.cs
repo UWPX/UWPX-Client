@@ -52,7 +52,7 @@ namespace Data_Manager2.Classes
         public ConnectionHandler()
         {
             this.IMAGE_DOWNLOAD_HANDLER = new ImageDownloadHandler(DOWNLOAD_HANDLER);
-            this.IMAGE_DOWNLOAD_HANDLER.ContinueDownloads();
+            Task.Run(async () => await this.IMAGE_DOWNLOAD_HANDLER.ContinueDownloadsAsync());
             this.CLIENTS = new CustomObservableCollection<XMPPClient>(false);
             this.CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
             loadClients();

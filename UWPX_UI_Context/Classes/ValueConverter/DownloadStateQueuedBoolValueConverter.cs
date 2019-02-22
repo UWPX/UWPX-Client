@@ -1,11 +1,10 @@
 ﻿using Shared.Classes.Network;
 using System;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class DownloadStateLoadingVisabilityValueConverter : IValueConverter
+    public sealed class DownloadStateQueuedBoolValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -26,11 +25,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is DownloadState state && (state == DownloadState.QUEUED || state == DownloadState.DOWNLOADING))
-            {
-                return Visibility.Visible;
-            }
-            return Visibility.Collapsed;
+            return value is DownloadState state && state == DownloadState.QUEUED;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

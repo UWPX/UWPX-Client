@@ -57,7 +57,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public SpeechBubbleImageContentControlDataTemplate()
+        {
+            State = DownloadState.NOT_QUEUED;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -102,13 +105,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
             Task.Run(async () =>
             {
-                if (Image is null && Image.State != DownloadState.DONE)
+                if (Image is null || Image.State != DownloadState.DONE)
                 {
                     Image = null;
                 }
                 else
                 {
+                    IsLoadingImage = true;
                     ImageBitmap = await GetBitmapImageAsync(newValue);
+                    if (ImageBitmap is null)
+                    {
+                        IsLoadingImage = false;
+                    }
                 }
             }, loadImageCancellationSource.Token);
         }
