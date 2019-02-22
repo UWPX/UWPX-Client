@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -38,6 +39,85 @@ namespace Shared.Classes
             {
                 await CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, callback);
             }
+        }
+
+        /// <summary>
+        /// Retries the given action once on exception.
+        /// </summary>
+        /// <param name="action">The action that should get executed.</param>
+        public static void RetryOnException(Action action)
+        {
+            RetryOnException(action, 1);
+        }
+
+        /// <summary>
+        /// Retries the given action retryCount times on exception.
+        /// </summary>
+        /// <param name="action">The action that should get executed.</param>
+        /// <param name="retryCount">How many times should we try to execute the given action?</param>
+        public static void RetryOnException(Action action, int retryCount)
+        {
+            int i = 0;
+            do
+            {
+                try
+                {
+                    action();
+                }
+                catch (Exception e)
+                {
+                    if (retryCount <= i)
+                    {
+                        throw e;
+                    }
+                    else
+                    {
+                        Logger.Error("Retry exception: ", e);
+                        i++;
+                    }
+                }
+            } while (true);
+        }
+
+        /// <summary>
+        /// Retries the given function once on exception.
+        /// </summary>
+        /// <param name="funct">The function that should get executed.</param>
+        /// <param name="retryCount">How many times should we try to execute the given action?</param>
+        /// <returns>The return value of the given function.</returns>
+        public static T RetryOnException<T>(Func<T> funct)
+        {
+            return RetryOnException<T>(funct, 1);
+        }
+
+        /// <summary>
+        /// Retries the given function retryCount times on exception.
+        /// </summary>
+        /// <param name="funct">The function that should get executed.</param>
+        /// <param name="retryCount">How many times should we try to execute the given action?</param>
+        /// <returns>The return value of the given function.</returns>
+        public static T RetryOnException<T>(Func<T> funct, int retryCount)
+        {
+            int i = 0;
+            do
+            {
+                try
+                {
+                    return funct();
+                }
+                catch (Exception e)
+                {
+                    if (retryCount <= i)
+                    {
+                        throw e;
+                    }
+                    else
+                    {
+                        Logger.Error("Retry exception: ", e);
+                        i++;
+                    }
+                }
+            } while (true);
         }
 
         #endregion

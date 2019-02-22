@@ -50,7 +50,7 @@ namespace Shared.Classes.SQLite
         #region --Misc Methods (Public)--
         public SQLiteCommand CreateCommand(string cmdText, params object[] args)
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.CreateCommand(cmdText, args);
+            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.CreateCommand(cmdText, args));
         }
 
         public void BeginTransaction()
@@ -59,7 +59,7 @@ namespace Shared.Classes.SQLite
             connection.Item2.WaitOne();
             if (connection.Item1)
             {
-                connection.Item3.BeginTransaction();
+                SharedUtils.RetryOnException(() => connection.Item3.BeginTransaction());
                 DB_CONNECTIONS[DB_PATH] = new Tuple<bool, Mutex, SQLiteConnection>(true, connection.Item2, connection.Item3);
             }
             connection.Item2.ReleaseMutex();
@@ -69,7 +69,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>();
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>());
             }
             catch (Exception e)
             {
@@ -82,7 +82,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return cmd.ExecuteQuery<T>();
+                return SharedUtils.RetryOnException(() => cmd.ExecuteQuery<T>());
             }
             catch (Exception e)
             {
@@ -93,14 +93,9 @@ namespace Shared.Classes.SQLite
 
         public int InsertOrReplace(object obj)
         {
-            // Not using DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj); to prevent exceptions (https://github.com/praeclarum/sqlite-net/issues/761):
             try
             {
-                BeginTransaction();
-                DB_CONNECTIONS[DB_PATH].Item3.Delete(obj);
-                int i = DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
-                Commit();
-                return i;
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj)); ;
             }
             catch (Exception e)
             {
@@ -113,7 +108,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Insert(obj));
             }
             catch (Exception e)
             {
@@ -126,7 +121,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects);
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects));
             }
             catch (Exception e)
             {
@@ -139,7 +134,7 @@ namespace Shared.Classes.SQLite
         {
             DB_CONNECTION_MUTEX.WaitOne();
             Tuple<bool, Mutex, SQLiteConnection> connection = DB_CONNECTIONS[DB_PATH];
-            connection.Item3.Close();
+            SharedUtils.RetryOnException(() => connection.Item3.Close());
             connection.Item2.Dispose();
             DB_CONNECTIONS.Remove(DB_PATH);
             DB_CONNECTION_MUTEX.ReleaseMutex();
@@ -149,7 +144,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return DB_CONNECTIONS[DB_PATH].Item3.Execute(query, args);
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Execute(query, args));
             }
             catch (Exception e)
             {
@@ -164,7 +159,7 @@ namespace Shared.Classes.SQLite
             connection.Item2.WaitOne();
             if (connection.Item1)
             {
-                connection.Item3.Commit();
+                SharedUtils.RetryOnException(() => connection.Item3.Commit());
                 DB_CONNECTIONS[DB_PATH] = new Tuple<bool, Mutex, SQLiteConnection>(false, connection.Item2, connection.Item3);
             }
             connection.Item2.ReleaseMutex();
@@ -175,7 +170,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args);
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args));
             }
             catch (Exception e)
             {
@@ -186,25 +181,25 @@ namespace Shared.Classes.SQLite
 
         public CreateTableResult CreateTable<T>() where T : new()
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>();
+            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>());
         }
 
         public int DropTable<T>() where T : new()
         {
-            return DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>();
+            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>());
         }
 
         public CreateTableResult RecreateTable<T>() where T : new()
         {
-            DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>();
-            return DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>();
+            SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>());
+            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>());
         }
 
         public int Delete(object objectToDelete)
         {
             try
             {
-                return DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete);
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete));
             }
             catch (Exception e)
             {
@@ -217,7 +212,14 @@ namespace Shared.Classes.SQLite
         {
             foreach (var connection in DB_CONNECTIONS)
             {
-                connection.Value.Item3?.Close();
+                try
+                {
+                    connection.Value.Item3?.Close();
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to close DB!", e);
+                }
             }
         }
 
