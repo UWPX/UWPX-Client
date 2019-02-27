@@ -34,7 +34,7 @@ Data_Manager2.Classes.DBManager.ImageManager.<>c__DisplayClass9_0.<<contiuneAllD
 </details>
 
 ## Analytics:
-Since version [`0.11.0.0`](https://github.com/UWPX/UWPX-Client/releases/edit/v.0.11.0.0) UWPX uses [AppCenter](https://appcenter.ms) [Analytics](https://docs.microsoft.com/en-us/appcenter/analytics/) to report basic information like session count, duration and which OS version you are running on.
+Since version [`0.11.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.11.0.0) UWPX uses [AppCenter](https://appcenter.ms) [Analytics](https://docs.microsoft.com/en-us/appcenter/analytics/) to report basic information like session count, duration and which OS version you are running on.
 Like Crash Reporting, Analytics can be disabled via `Settings` -> `Misc` -> `Disable analytics`.
 
 ## Accounts:
