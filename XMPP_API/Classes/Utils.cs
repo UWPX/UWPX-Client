@@ -195,6 +195,40 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
+        /// Checks if the given string is a bare JID.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622).
+        /// e.g. 'coven@chat.shakespeare.lit'
+        /// </summary>
+        /// <param name="s">The string, that should get checked.</param>
+        public static bool isFullJid(string s)
+        {
+            if (!s.Contains("@") || !s.Contains("/"))
+            {
+                return false;
+            }
+
+            string localPart = getJidLocalPart(s);
+            if (!isValidJidLocalPart(localPart))
+            {
+                return false;
+            }
+
+            string domainPart = getJidDomainPart(s);
+            if (!isValidJidDomainPart(domainPart))
+            {
+                return false;
+            }
+
+            string resourcePart = getJidResourcePart(s);
+            if (!isValidJidResourcePart(resourcePart))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// Checks if the given string is a valid server address.
         /// e.g. 'chat.shakespeare.lit' or '192.168.178.42'
         /// </summary>

@@ -104,6 +104,7 @@
     <Compile Include="Classes\Crypto\Test_CryptoUtils.cs" />
     <Compile Include="Classes\Crypto\Libsignal\Test_Libsignal.cs" />
     <Compile Include="Classes\Misc\Test_DateTimeParserHelper.cs" />
+    <Compile Include="Classes\Misc\Test_JidParser.cs" />
     <Compile Include="Classes\XmppMessages\Test_MessageParser2.cs" />
     <Compile Include="Classes\XmppMessages\Test_ScramSHA1SASLMechanism.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
