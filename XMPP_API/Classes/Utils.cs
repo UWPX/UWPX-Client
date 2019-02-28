@@ -66,7 +66,7 @@ namespace XMPP_API.Classes
             int index = jid.IndexOf('@');
             if (index >= 0)
             {
-                return jid.Substring(index);
+                return jid.Substring(0, index);
             }
             return "";
         }
