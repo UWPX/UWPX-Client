@@ -1,13 +1,13 @@
-﻿using System;
+﻿using Logging;
+using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.DataTemplates;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.Storage.Pickers;
-using Windows.Storage;
-using Logging;
-using UWP_XMPP_Client.Classes.Collections;
 
 namespace UWP_XMPP_Client.Pages.SettingsPages
 {
@@ -78,7 +78,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                     BackgroundImageCache.setCustomBackgroundImage();
                     CustomBackgroundImage = null;
                     CustomBackgroundImage = BackgroundImageCache.customBackgroundImage;
-                    chatDetailsDummy_cdc.loadBackgrundImage();
+                    //chatDetailsDummy_cdc.loadBackgrundImage();
                     Logger.Info("Custom background image set to: " + file.Path);
                 }
                 else
@@ -100,7 +100,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void setAppTheme(ElementTheme theme)
         {
-            App.RootTheme = theme;
+            //App.RootTheme = theme;
         }
 
         #endregion
@@ -130,14 +130,14 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             {
                 BackgroundImageTemplate img = e.ClickedItem as BackgroundImageTemplate;
                 BackgroundImageCache.setExampleBackgroundImage(img);
-                chatDetailsDummy_cdc.loadBackgrundImage();
+                //chatDetailsDummy_cdc.loadBackgrundImage();
             }
         }
 
         private void remove_ibtn_Click(object sender, RoutedEventArgs args)
         {
             BackgroundImageCache.removeBackgroundImage();
-            chatDetailsDummy_cdc.loadBackgrundImage();
+            //chatDetailsDummy_cdc.loadBackgrundImage();
         }
 
         private async void deleteCustomImage_btn_Click(object sender, RoutedEventArgs e)
@@ -151,7 +151,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
             if (CustomBackgroundImage != null && !CustomBackgroundImage.selected)
             {
                 BackgroundImageCache.setCustomBackgroundImage();
-                chatDetailsDummy_cdc.loadBackgrundImage();
+                //chatDetailsDummy_cdc.loadBackgrundImage();
             }
         }
 
@@ -162,7 +162,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
 
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
-            switch (App.RootTheme)
+            /*switch (App.RootTheme)
             {
                 case ElementTheme.Default:
                     systemTheme_rbtn.IsChecked = true;
@@ -175,7 +175,7 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
                 case ElementTheme.Dark:
                     darkTheme_rbtn.IsChecked = true;
                     break;
-            }
+            }*/
         }
 
         private void lightTheme_rbtn_Checked(object sender, RoutedEventArgs e)

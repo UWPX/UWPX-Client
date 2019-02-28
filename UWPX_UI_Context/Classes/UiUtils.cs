@@ -379,6 +379,28 @@ namespace UWPX_UI_Context.Classes
             }
         }
 
+        /// <summary>
+        /// Hides the StatusBar on Windows Mobile devices.
+        /// </summary>
+        public static async Task HideStatusBarAsync()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                await StatusBar.GetForCurrentView().HideAsync();
+            }
+        }
+
+        /// <summary>
+        /// Shows the StatusBar on Windows Mobile devices.
+        /// </summary>
+        public static async Task ShowStatusBarAsync()
+        {
+            if (ApiInformation.IsTypePresent("Windows.UI.ViewManagement.StatusBar"))
+            {
+                await StatusBar.GetForCurrentView().ShowAsync();
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

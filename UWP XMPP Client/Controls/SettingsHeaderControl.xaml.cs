@@ -1,5 +1,4 @@
-﻿using UWP_XMPP_Client.Pages;
-using Windows.UI.Xaml;
+﻿using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 
@@ -64,7 +63,7 @@ namespace UWP_XMPP_Client.Controls
         #region --Events--
         private void Grid_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(SettingsPage));
+            //(Window.Current.Content as Frame).Navigate(typeof(SettingsPage));
         }
 
         #endregion

@@ -30,14 +30,14 @@ namespace UWP_XMPP_Client.Controls
             }
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register("Account", typeof(XMPPAccount), typeof(AccountControl), null);
-        
+
         public bool JIDReadOnly
         {
             get { return (bool)GetValue(JIDReadOnlyProperty); }
             set { SetValue(JIDReadOnlyProperty, value); }
         }
         public static readonly DependencyProperty JIDReadOnlyProperty = DependencyProperty.Register("JIDReadOnly", typeof(bool), typeof(AccountControl), new PropertyMetadata(false));
-        
+
         public delegate void AccountAcceptedEventHandler(AccountControl sender, EventArgs args);
         public event AccountAcceptedEventHandler AccountAccepted;
 
@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 Account.user = user;
                 Account.serverAddress = serverAddress_tbx.Text.ToLowerInvariant();
-                int.TryParse(serverPort_tbx.Text, out Account.port);
+                //int.TryParse(serverPort_tbx.Text, out Account.port);
                 Account.presencePriorety = (int)presencePriorety_slider.Value;
                 Account.color = color_tbx.Text;
                 Account.presence = Presence.Online;
@@ -195,7 +195,7 @@ namespace UWP_XMPP_Client.Controls
         {
             ColorPickerDialog dialog = new ColorPickerDialog(color_tbx.Text);
             await UiUtils.showDialogAsyncQueue(dialog);
-            if(!dialog.canceled)
+            if (!dialog.canceled)
             {
                 color_tbx.Text = dialog.getHexColor();
             }
@@ -227,7 +227,7 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Account != null)
             {
-                int.TryParse(serverPort_tbx.Text, out Account.port);
+                //int.TryParse(serverPort_tbx.Text, out Account.port);
             }
         }
 

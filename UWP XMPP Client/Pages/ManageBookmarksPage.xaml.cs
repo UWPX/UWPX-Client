@@ -4,7 +4,6 @@ using System;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Classes.Collections;
 using UWP_XMPP_Client.Dialogs;
-using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -187,7 +186,7 @@ namespace UWP_XMPP_Client.Pages
 
         private void addAccount_hlb_Click(object sender, RoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+            //(Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
         }
 
         private void Page_Unloaded(object sender, RoutedEventArgs e)

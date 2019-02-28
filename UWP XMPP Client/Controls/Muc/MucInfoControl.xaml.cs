@@ -1,15 +1,14 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using System;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.Classes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
-using System;
 using XMPP_API.Classes.Network.XML.Messages;
-using UWP_XMPP_Client.Pages.SettingsPages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace UWP_XMPP_Client.Controls.Muc
 {
@@ -350,7 +349,7 @@ namespace UWP_XMPP_Client.Controls.Muc
 
         private void notConnected_itbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+            //(Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
         }
 
         private void password_spwbx_SaveClick(object sender, RoutedEventArgs e)

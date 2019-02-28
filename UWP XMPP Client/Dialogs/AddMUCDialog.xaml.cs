@@ -1,19 +1,19 @@
-﻿using System;
-using Data_Manager2.Classes;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
+using Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Pages;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.DBManager;
-using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.Pages;
-using System.Threading.Tasks;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages;
-using Windows.UI.Core;
-using Logging;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -60,8 +60,8 @@ namespace UWP_XMPP_Client.Dialogs
 
             if (roomJid != null)
             {
-                requestedServer = Utils.getDomainFromBareJid(roomJid);
-                roomName_tbx.Text = Utils.getUserFromBareJid(roomJid) ?? "";
+                requestedServer = Utils.getJidDomainPart(roomJid);
+                roomName_tbx.Text = Utils.getJidLocalPart(roomJid) ?? "";
             }
         }
 
@@ -256,7 +256,7 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Events--
         private void accountSelection_asc_AddAccountClicked(object sender, object args)
         {
-            if(setBookmarkHelper != null)
+            if (setBookmarkHelper != null)
             {
                 setBookmarkHelper.Dispose();
                 setBookmarkHelper = null;

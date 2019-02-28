@@ -92,7 +92,7 @@ namespace UWP_XMPP_Client.Pages
                 rootFrame.GoBack();
                 return;
             }
-            (Window.Current.Content as Frame).Navigate(typeof(ChatPage), "AddAccountPage.xaml.cs");
+            //(Window.Current.Content as Frame).Navigate(typeof(ChatPage), "AddAccountPage.xaml.cs");
         }
 
         #endregion

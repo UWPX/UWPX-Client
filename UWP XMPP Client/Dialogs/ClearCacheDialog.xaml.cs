@@ -1,9 +1,9 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
+using Shared.Classes.SQLite;
 using System;
 using System.Threading.Tasks;
-using Thread_Save_Components.Classes.SQLite;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 

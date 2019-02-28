@@ -1,19 +1,17 @@
-﻿using System;
+﻿using Logging;
+using Microsoft.Toolkit.Uwp.Helpers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
+using Windows.Media.Capture;
+using Windows.Media.Capture.Frames;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Microsoft.Toolkit.Uwp.Helpers;
-using System.Threading.Tasks;
-using ZXing;
-using System.Linq;
-using Windows.Graphics.Imaging;
-using Logging;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.Generic;
-using Windows.System.Display;
-using Windows.Media.Capture;
-using Windows.Graphics.Display;
-using Windows.UI.Core;
-using Windows.Media.Capture.Frames;
+using ZXing;
 
 namespace UWP_XMPP_Client.Controls.Omemo
 {
