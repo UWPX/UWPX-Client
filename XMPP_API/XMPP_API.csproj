@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{899FB043-AF8B-4294-95B6-1482C79459AC}</ProjectGuid>
+    <ProjectGuid>{64B9A47F-D404-4D0B-A34A-BEC280C5FF6B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XMPP_API</RootNamespace>
     <AssemblyName>XMPP_API</AssemblyName>
-    <DefaultLanguage>de-DE</DefaultLanguage>
+    <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
@@ -45,7 +45,6 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <LangVersion>latest</LangVersion>
@@ -57,7 +56,6 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <LangVersion>latest</LangVersion>
@@ -69,7 +67,6 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <LangVersion>latest</LangVersion>
@@ -81,7 +78,28 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <LangVersion>latest</LangVersion>
@@ -93,7 +111,6 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <LangVersion>latest</LangVersion>
@@ -105,7 +122,6 @@
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
     <LangVersion>latest</LangVersion>
@@ -116,27 +132,30 @@
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\Crypto\Aes128GcmCpp.cs" />
+    <Compile Include="Classes\Crypto\CryptoUtils.cs" />
     <Compile Include="Classes\DateTimeParserHelper.cs" />
-    <Compile Include="Classes\Events\OmemoSessionBuildErrorEventArgs.cs" />
     <Compile Include="Classes\Events\NewPresenceMessageEventArgs.cs" />
+    <Compile Include="Classes\Events\OmemoSessionBuildErrorEventArgs.cs" />
     <Compile Include="Classes\Exceptions\XMPPGeneralException.cs" />
     <Compile Include="Classes\GeneralCommandHelper.cs" />
     <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
     <Compile Include="Classes\Network\AbstractConnection2.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
+    <Compile Include="Classes\Network\ConnectionConfiguration.cs" />
     <Compile Include="Classes\Network\ConnectionError.cs" />
     <Compile Include="Classes\Network\ConnectionErrorCode.cs" />
+    <Compile Include="Classes\Network\ConnectionInformation.cs" />
     <Compile Include="Classes\Network\ConnectionState.cs" />
     <Compile Include="Classes\Network\DiscoFeatureHelper.cs" />
     <Compile Include="Classes\Network\Events\ConnectionStateChangedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\MessageSendEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewBookmarksResultMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDeliveryReceiptEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDiscoResponseMessageEventArgs.cs" />
-    <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
-    <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
-    <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventHandler.cs" />
@@ -144,8 +163,6 @@
     <Compile Include="Classes\Network\OmemoHelper.cs" />
     <Compile Include="Classes\Network\OmemoHelperState.cs" />
     <Compile Include="Classes\Network\StreamManagementHelper.cs" />
-    <Compile Include="Classes\Network\ConnectionConfiguration.cs" />
-    <Compile Include="Classes\Network\ConnectionInformation.cs" />
     <Compile Include="Classes\Network\TCP\TCPConnection2.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadResult.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadState.cs" />
@@ -154,34 +171,66 @@
     <Compile Include="Classes\Network\XML\DBEntries\DBTableConsts.cs" />
     <Compile Include="Classes\Network\XML\DBEntries\MessageCacheTable.cs" />
     <Compile Include="Classes\Network\XML\DBManager\MessageCacheDBManager.cs" />
+    <Compile Include="Classes\Network\XML\MessageParser2.cs" />
     <Compile Include="Classes\Network\XML\MessageParserStats.cs" />
+    <Compile Include="Classes\Network\XML\Messages\AbstractAddressableMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\AbstractMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\CloseStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
-    <Compile Include="Classes\Crypto\CryptoUtils.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA256\ScramSHA256SASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\StreamErrorType.cs" />
-    <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorNode.cs" />
+    <Compile Include="Classes\Network\XML\Messages\ErrorType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\AbstractSASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\Plain\PlainSASLMechanism.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLFailureMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ErrorName.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLStreamFeature.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLSuccessMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1ChallengeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSha1ChallengeSolutionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1SASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA256\ScramSHA256SASLMechanism.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\StreamFeature.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\StreamFeaturesAnswerMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\TLSStreamFeature.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\TLS\ProceedAnswerMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Features\TLS\RequesStartTLSMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\IMessageSender.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQErrorMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ErrorType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\IQMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\IXElementable.cs" />
+    <Compile Include="Classes\Network\XML\Messages\MessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
+    <Compile Include="Classes\Network\XML\Messages\OpenStreamAnswerMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceErrorType.cs" />
+    <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceProbeMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\AbstractMessageProcessor.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingConnection.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\SASLConnection.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\SASLState.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMConnection.cs" />
     <Compile Include="Classes\Network\XML\Messages\Processor\SMState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\TLSConnection.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Processor\TLSState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\RosterResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ErrorNode.cs" />
+    <Compile Include="Classes\Network\XML\Messages\SelectSASLMechanismMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StartSessionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StreamErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\StreamErrorType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataForm.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\DataFormType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\Field.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0004\FieldType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0004\FieldOption.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0004\FieldType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoIdentity.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoItem.cs" />
@@ -190,62 +239,62 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\DiscoType.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0030\IDiscoItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanedUser.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanOccupantMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomConfigurationMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanOccupantMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\KickOccupantMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\LeaveRoomMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCAffiliation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCChangeNicknameMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRole.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRoomSubjectMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\UpdateBanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\BookmarksResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\RequestBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubDiscoverNodeItemsResultMessagePubSubDiscoverNodeItemsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubPublishMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRequestMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRetractMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDeleteNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeItemsMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubDiscoverNodeItemsResultMessagePubSubDiscoverNodeItemsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeMetadataMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubNodeMetadataResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubPublishMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubNodeMetadataResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishOptions.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubPublishResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestNodeMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubResultMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRetractMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestSubscriptionsMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscription.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionsResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0184\DeliveryReceiptMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0249\DirectMUCInvitationMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\LeaveRoomMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\JoinRoomRequestMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\ExtendedDiscoResponseMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCAffiliation.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCErrorMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCMemberPresenceMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCPresenceStatusCode.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomConfigurationMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRole.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\MUCRoomSubjectMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatStateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsDisableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0334\MessageProcessingHint.cs" />
@@ -254,21 +303,21 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDevices.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoDeviceListEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoKey.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoMessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestBundleInformationMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetBundleInformationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSetDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoRequestDeviceListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoSubscribeToDeviceListMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSession.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildError.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />
@@ -279,42 +328,9 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
-    <Compile Include="Classes\Network\XMPPAccount.cs" />
-    <Compile Include="Classes\Network\XML\MessageParser2.cs" />
-    <Compile Include="Classes\Network\XML\Messages\RemoveFromRosterMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\ErrorMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\AbstractSASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\Plain\PlainSASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLStreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SASLSuccessMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1SASLMechanism.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingConnection.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\RecourceBindingState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\SASLConnection.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\TLSConnection.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\SASLState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\TLSState.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Processor\AbstractMessageProcessor.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\StreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\TLSStreamFeature.cs" />
-    <Compile Include="Classes\Network\XML\Messages\AbstractAddressableMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\AbstractMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\CloseStreamMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\TLS\ProceedAnswerMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\IQMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\OpenStreamAnswerMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\PresenceMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSHA1ChallengeMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\SASL\SHA1\ScramSha1ChallengeSolutionMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\SelectSASLMechanismMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\MessageMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\StreamFeaturesAnswerMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\Features\TLS\RequesStartTLSMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\StartSessionMessage.cs" />
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
+    <Compile Include="Classes\Network\XMPPAccount.cs" />
     <Compile Include="Classes\Network\XMPPConnection2.cs" />
     <Compile Include="Classes\OmemoCommandHelper.cs" />
     <Compile Include="Classes\Presence.cs" />
@@ -329,9 +345,6 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
     </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>4.0.0</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.Connectivity">
       <Version>4.0.0</Version>
     </PackageReference>
@@ -345,11 +358,11 @@
       <Name>AES_GCM</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
+      <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{045E0B7F-11AB-4014-B576-AD114ECEE90D}</Project>
+      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>
     </ProjectReference>
   </ItemGroup>

@@ -1,33 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Diese Datei enthält Laufzeitdirektiven, Spezifikationen zu Typen, auf die Ihre Anwendung
-    über die Reflektion und andere dynamische Codemuster zugreift. Laufzeitdirektiven werden dazu verwendet, den
-    .NET Native-Optimierer zu steuern und sicherzustellen, dass dieser keinen Code entfernt, auf den durch Ihre Bibliothek zugegriffen wird. Wenn Ihre
-    Bibliothek keine Reflektion durchführt, müssen Sie diese Datei im Allgemeinen nicht bearbeiten. Wenn Ihre Bibliothek aber
-    eine Reflektion für Typen durchführt – insbesondere für an sie übergebene oder von ihr abgeleitete Typen –,
-    dann sollten Sie Laufzeitdirektiven schreiben.
+    This file contains Runtime Directives, specifications about types your application accesses
+    through reflection and other dynamic code patterns. Runtime Directives are used to control the
+    .NET Native optimizer and ensure that it does not remove code accessed by your library. If your
+    library does not do any reflection, then you generally do not need to edit this file. However,
+    if your library reflects over types, especially types passed to it or derived from its types,
+    then you should write Runtime Directives.
 
-    Die häufigste Verwendung der Reflektion in Bibliotheken ist die Ermittlung von Informationen zu Typen, die
-    an die Bibliothek übergeben werden. Laufzeitdirektiven können Anforderungen für die an Ihre Bibliothek übergebenen Typen
-    auf drei Arten ausdrücken.
+    The most common use of reflection in libraries is to discover information about types passed
+    to the library. Runtime Directives have three ways to express requirements on types passed to
+    your library.
 
     1.  Parameter, GenericParameter, TypeParameter, TypeEnumerableParameter
-        Verwenden Sie diese Direktiven, um eine Reflektion für Typen durchzuführen, die als Parameter übergeben werden.
+        Use these directives to reflect over types passed as a parameter.
 
     2.  SubTypes
-        Verwenden Sie eine SubTypes-Direktive, um eine Reflektion für Typen durchzuführen, die von einem anderen Typ abgeleitet wurden.
+        Use a SubTypes directive to reflect over types derived from another type.
 
     3.  AttributeImplies
-        Verwenden Sie eine AttributeImplies-Direktive, um anzugeben, dass Ihre Bibliothek eine Reflektion für
-        Typen oder Methoden durchführen muss, die mit einem Attribut versehen sind.
+        Use an AttributeImplies directive to indicate that your library needs to reflect over
+        types or methods decorated with an attribute.
 
-    Weitere Informationen zum Schreiben von Laufzeitdirektiven für Bibliotheken finden Sie hier:
+    For more information on writing Runtime Directives for libraries, please visit
     https://go.microsoft.com/fwlink/?LinkID=391919
 -->
 <Directives xmlns="http://schemas.microsoft.com/netfx/2013/01/metadata">
   <Library Name="Push_App_Server">
 
-  	<!-- Fügen Sie hier Direktiven für Ihre Bibliothek ein. -->
+  	<!-- add directives for your library here -->
 
   </Library>
 </Directives>

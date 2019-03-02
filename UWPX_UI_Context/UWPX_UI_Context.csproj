@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E44B7351-2905-4AE7-8B56-5A5854CBBCF3}</ProjectGuid>
+    <ProjectGuid>{B4EB6F7E-CB04-4392-87DA-BFC242483065}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UWPX_UI_Context</RootNamespace>
@@ -16,7 +16,6 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <AllowCrossPlatformRetargeting>false</AllowCrossPlatformRetargeting>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -27,6 +26,7 @@
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -36,6 +36,7 @@
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -46,6 +47,7 @@
     <DebugType>full</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
     <PlatformTarget>x86</PlatformTarget>
@@ -56,6 +58,7 @@
     <DebugType>pdbonly</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
@@ -66,6 +69,7 @@
     <DebugType>full</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
     <PlatformTarget>ARM</PlatformTarget>
@@ -76,6 +80,7 @@
     <DebugType>pdbonly</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
     <PlatformTarget>ARM64</PlatformTarget>
@@ -86,6 +91,7 @@
     <DebugType>full</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
     <PlatformTarget>ARM64</PlatformTarget>
@@ -96,6 +102,7 @@
     <DebugType>pdbonly</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -106,6 +113,7 @@
     <DebugType>full</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
     <PlatformTarget>x64</PlatformTarget>
@@ -116,6 +124,7 @@
     <DebugType>pdbonly</DebugType>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
@@ -126,107 +135,108 @@
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
-    <Compile Include="Classes\DataContext\Controls\AccountInfoGeneralControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\AccountSettingsControlContext.cs" />
-    <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\AccountsListControlContext.cs" />
-    <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
-    <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
-    <Compile Include="Classes\DataContext\Dialogs\ConfirmDialogContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\OmemoFingerprintControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
-    <Compile Include="Classes\DataContext\Pages\DataSettingsPageContext.cs" />
-    <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
-    <Compile Include="Classes\DataContext\Pages\MiscSettingsPageContext.cs" />
-    <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\SpeechBubbleContentControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
-    <Compile Include="Classes\DataTemplates\AccountDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\AccountInfoGeneralControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\AccountSettingsControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\AccountsListControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
+    <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />
-    <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\Toolkit\VectorChangedEventArgs.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountInfoGeneralControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountSettingsControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountsListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoFingerprintControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\SpeechBubbleContentControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\DataSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\MiscSettingsPageContext.cs" />
+    <Compile Include="Classes\DataTemplates\AccountDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountInfoGeneralControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountSettingsControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountsListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Dialogs\ClearCacheDialogDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Dialogs\ConfirmDialogDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Pages\DataSettingsPageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
-    <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
-    <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleContentControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ClearCacheDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
+    <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\DataSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
+    <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
+    <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
-    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
+    <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\DownloadStateVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\OMEMO\OmemoDeviceIdStringValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateBrushValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateStringValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\MucStateMucJoinVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\MucStateMucLeaveVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\TlsConnectedSolidColorBrushValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\TlsConnectedTextValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInvertedVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\BoolVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\ChatDateTimeStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ConnectionStatePresenceValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateQueuedBoolValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\HexColorToSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelWarningVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateGlyphTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateIsDeliveredVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateUnreadVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateMucJoinVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateMucLeaveVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OmemoBoolBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoDeviceIdStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\MessageStateBrushValueConverter.cs" />
-    <Compile Include="Classes\UiUtils.cs" />
-    <Compile Include="Classes\ValueConverter\BoolVisabilityValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\ChatDateTimeStringValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\OmemoBoolBrushValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TimeValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TlsConnectedSolidColorBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TlsConnectedTextValueConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\UWPX_UI_Context.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AppCenter">
@@ -244,42 +254,41 @@
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.3</Version>
     </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>4.0.0</Version>
+    </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.1.190131001-prerelease</Version>
+      <Version>2.1.190218001-prerelease</Version>
     </PackageReference>
     <PackageReference Include="QRCoder">
       <Version>1.3.5</Version>
     </PackageReference>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
-      <Project>{CB58CE53-8E53-49C8-9936-15FE2EA6A7EB}</Project>
+      <Project>{58925bf1-5b7d-48d9-b411-126cbefda98a}</Project>
       <Name>Data_Manager2</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{53BB5463-9646-4F79-BE97-3D73473AAD92}</Project>
+      <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
     </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{045E0B7F-11AB-4014-B576-AD114ECEE90D}</Project>
+      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
-      <Project>{899FB043-AF8B-4294-95B6-1482C79459AC}</Project>
+      <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
       <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="Windows.Phone.PhoneContract">
-      <HintPath>C:\Program Files (x86)\Windows Kits\10\References\10.0.16299.0\Windows.Phone.PhoneContract\1.0.0.0\Windows.Phone.PhoneContract.winmd</HintPath>
-    </Reference>
+    <SDKReference Include="WindowsMobile, Version=10.0.17763.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
-  </PropertyGroup>
-  <PropertyGroup>
-    <StartupObject />
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
