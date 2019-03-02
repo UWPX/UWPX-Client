@@ -42,7 +42,6 @@ namespace UWPX_UI.Controls
             if (!DeviceFamilyHelper.IsRunningOnDesktopDevice())
             {
                 this.Visibility = Visibility.Collapsed;
-                return;
             }
             SetupTitleBar();
             SetupKeyboardAccelerators();
