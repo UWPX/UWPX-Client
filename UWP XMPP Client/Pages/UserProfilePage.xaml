@@ -95,8 +95,6 @@
             <PivotItem Header="OMEMO">
                 <ScrollViewer HorizontalScrollMode="Disabled">
                     <StackPanel>
-                        <controlsOmemo:QRCodeControl x:Name="omemoFingerprintQRCode_qrcc"
-                                                     HorizontalAlignment="Center"/>
                         <controlsOmemo:OmemoDeviceListControl x:Name="omemoDevices_odlc"
                                                               Header="Published devices:"/>
                         <TextBlock x:Name="omemoNoDevices_tbx"
