@@ -43,7 +43,7 @@ namespace XMPP_API.Classes
             index = jid.IndexOf('@');
             if (index >= 0)
             {
-                jid = jid.Substring(index);
+                jid = jid.Substring(index + 1);
             }
 
             // Remove label separator (dot):
@@ -141,6 +141,13 @@ namespace XMPP_API.Classes
             {
                 return false;
             }
+
+            // Check for whitespaces:
+            if(localPart.Any(char.IsWhiteSpace))
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -163,6 +170,13 @@ namespace XMPP_API.Classes
             {
                 return false;
             }
+
+            // Check if starts/ends with whitespaces:
+            if(char.IsWhiteSpace(resourcePart[0]) || char.IsWhiteSpace(resourcePart[resourcePart.Length - 1]))
+            {
+                return false;
+            }
+
             return true;
         }
 
