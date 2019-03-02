@@ -151,8 +151,7 @@
                                                     VerticalContentAlignment="Stretch"
                                                     IsTabStop="False"/>
                                     <controlsComp:NavigationViewItem x:Name="SettingsTopNavPaneItem"
-                                                                     Grid.Column="8"
-                                                                     Style="{ThemeResource NavigationViewSettingsItemStyleWhenOnTopPane}">
+                                                                     Grid.Column="8">
                                         <controlsComp:NavigationViewItem.Icon>
                                             <SymbolIcon Symbol="Setting"/>
                                         </controlsComp:NavigationViewItem.Icon>
