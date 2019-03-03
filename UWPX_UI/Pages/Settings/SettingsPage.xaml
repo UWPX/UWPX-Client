@@ -46,7 +46,8 @@
                       HorizontalScrollMode="Disabled"
                       VerticalScrollBarVisibility="Hidden"
                       VerticalScrollMode="Auto">
-            <Grid HorizontalAlignment="Stretch">
+            <Grid HorizontalAlignment="Stretch"
+                  Margin="0,0,0,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>

@@ -271,10 +271,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 MucState = muc.state;
             }
-            else
-            {
-                AccountPresence = Presence.Unavailable;
-            }
         }
 
         public void UpdateLastAction(ChatTable chat)

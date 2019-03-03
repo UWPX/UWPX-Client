@@ -78,6 +78,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _MessageText; }
             set { SetProperty(ref _MessageText, value); }
         }
+        private Presence _AccountPresence;
+        public Presence AccountPresence
+        {
+            get { return _AccountPresence; }
+            set { SetProperty(ref _AccountPresence, value); }
+        }
+        private string _AccountInitials;
+        public string AccountInitials
+        {
+            get { return _AccountInitials; }
+            set { SetProperty(ref _AccountInitials, value); }
+        }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
@@ -140,6 +152,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     OmemoEnabled = chat.omemoEnabled;
                     OmemoVisability = Visibility.Visible;
                 }
+
+                // Account image:
+                AccountPresence = chat.presence;
+                AccountInitials = "\uE77B";
             }
         }
 
@@ -149,6 +165,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 NameText = string.IsNullOrWhiteSpace(muc.name) ? chat.chatJabberId : muc.name;
                 StatusText = muc.subject ?? "";
+
+                // Account image:
+                AccountPresence = muc.getMUCPresence();
+                AccountInitials = "\uE125";
             }
         }
 

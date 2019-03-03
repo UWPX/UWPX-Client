@@ -71,6 +71,8 @@
                                                       Width="30"
                                                       Height="30"
                                                       Margin="10"
+                                                      Initials="{x:Bind VIEW_MODEL.MODEL.AccountInitials, Mode=OneWay}"
+                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"/>
                 <Grid x:Name="headerInfo_grid"
