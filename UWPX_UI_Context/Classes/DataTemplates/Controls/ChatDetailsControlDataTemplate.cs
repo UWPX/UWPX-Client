@@ -5,6 +5,7 @@ using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes;
 using Shared.Classes.Collections;
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -47,11 +48,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _LeaveMucVisability; }
             set { SetProperty(ref _LeaveMucVisability, value); }
         }
-        private Visibility _DebugVisability;
-        public Visibility DebugVisability
+        private bool _DebugSettingsEnabled;
+        public bool DebugSettingsEnabled
         {
-            get { return _DebugVisability; }
-            set { SetProperty(ref _DebugVisability, value); }
+            get { return _DebugSettingsEnabled; }
+            set { SetProperty(ref _DebugSettingsEnabled, value); }
         }
         private Visibility _OmemoVisability;
         public Visibility OmemoVisability
@@ -87,7 +88,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public ChatDetailsControlDataTemplate()
+        {
+            LoadSettings();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -174,6 +178,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
             CHAT_MESSAGES_SEMA.Release();
             Logger.Warn("OnChatMessageChanged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
+        }
+
+        public void LoadSettings()
+        {
+            DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
         }
 
         #endregion

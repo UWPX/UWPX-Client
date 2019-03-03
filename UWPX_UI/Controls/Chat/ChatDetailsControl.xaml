@@ -206,7 +206,7 @@
                             <MenuFlyoutItem x:Name="test_mfo"
                                             Click="Test_mfo_Click"
                                             Text="Debug/Test"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.DebugVisability, Mode=OneWay}">
+                                            Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Gold"
                                               Glyph="&#xE81F;"/>

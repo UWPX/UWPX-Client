@@ -189,6 +189,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
                 MODEL.UpdateViewMuc(chatTemplate.Chat, chatTemplate.MucInfo);
             }
+            MODEL.LoadSettings();
         }
 
         #endregion
