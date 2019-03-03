@@ -34,6 +34,7 @@
         public const string VERSION_BUILD = "version_build";
         public const string VERSION_REVISION = "version_revision";
         public const string LOG_LEVEL = "log_level";
+        public const string DEBUG_SETTINGS_ENABLED = "debug_settings_enabled";
 
         public const string CHAT_FILTER_PRESENCE_ONLINE = "chat_filter_presence_online";
         public const string CHAT_FILTER_PRESENCE_AWAY = "chat_filter_presence_away";

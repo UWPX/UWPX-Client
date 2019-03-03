@@ -1,44 +1,48 @@
-﻿using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataTemplates;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Data_Manager2.Classes;
+using Shared.Classes;
+using System.Runtime.CompilerServices;
 
-namespace UWPX_UI.Controls.Settings
+namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed partial class SettingsSelectionSmallControl : UserControl
+    public sealed class SettingsPageDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SettingsPageButtonDataTemplate Model
+        private bool _DebugSettingsEnabled;
+        public bool DebugSettingsEnabled
         {
-            get { return (SettingsPageButtonDataTemplate)GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get { return _DebugSettingsEnabled; }
+            set { SetBoolProperty(ref _DebugSettingsEnabled, value, SettingsConsts.DEBUG_SETTINGS_ENABLED); }
         }
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageButtonDataTemplate), typeof(SettingsSelectionSmallControl), new PropertyMetadata(new SettingsPageButtonDataTemplate()
-        {
-            Description = "Description",
-            Glyph = "\uE9CE",
-            Name = "Name",
-            NavTarget = null
-        }));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SettingsSelectionSmallControl()
+        public SettingsPageDataTemplate()
         {
-            this.InitializeComponent();
+            LoadSettings();
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
+        {
+            if (SetProperty(ref storage, value, propertyName))
+            {
+                Settings.setSetting(settingsToken, value);
+                return true;
+            }
+            return false;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void LoadSettings()
+        {
+            DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+        }
 
         #endregion
 
@@ -53,10 +57,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            UiUtils.NavigateToPage(Model?.NavTarget);
-        }
+
 
         #endregion
     }

@@ -1,34 +1,41 @@
-﻿using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataTemplates;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Shared.Classes;
+using System;
 
-namespace UWPX_UI.Controls.Settings
+namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed partial class SettingsSelectionSmallControl : UserControl
+    public sealed class SettingsPageButtonDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SettingsPageButtonDataTemplate Model
+        private string _Name;
+        public string Name
         {
-            get { return (SettingsPageButtonDataTemplate)GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
         }
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageButtonDataTemplate), typeof(SettingsSelectionSmallControl), new PropertyMetadata(new SettingsPageButtonDataTemplate()
+        private string _Description;
+        public string Description
         {
-            Description = "Description",
-            Glyph = "\uE9CE",
-            Name = "Name",
-            NavTarget = null
-        }));
+            get { return _Description; }
+            set { SetProperty(ref _Description, value); }
+        }
+        private string _Glyph;
+        public string Glyph
+        {
+            get { return _Glyph; }
+            set { SetProperty(ref _Glyph, value); }
+        }
+        private Type _NavTarget;
+        public Type NavTarget
+        {
+            get { return _NavTarget; }
+            set { SetProperty(ref _NavTarget, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SettingsSelectionSmallControl()
-        {
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -53,10 +60,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            UiUtils.NavigateToPage(Model?.NavTarget);
-        }
+
 
         #endregion
     }

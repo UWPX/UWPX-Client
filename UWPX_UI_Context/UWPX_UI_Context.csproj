@@ -163,6 +163,7 @@
     <Compile Include="Classes\DataContext\Pages\ChatsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\DataSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\MiscSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\SettingsPageContext.cs" />
     <Compile Include="Classes\DataTemplates\AccountDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
@@ -190,9 +191,10 @@
     <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\DataSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
-    <Compile Include="Classes\DataTemplates\SettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />

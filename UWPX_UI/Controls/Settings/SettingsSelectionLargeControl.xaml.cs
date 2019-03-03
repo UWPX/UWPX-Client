@@ -9,12 +9,12 @@ namespace UWPX_UI.Controls.Settings
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public SettingsPageDataTemplate Model
+        public SettingsPageButtonDataTemplate Model
         {
-            get { return (SettingsPageDataTemplate)GetValue(ModelProperty); }
+            get { return (SettingsPageButtonDataTemplate)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
         }
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageDataTemplate), typeof(SettingsSelectionLargeControl), new PropertyMetadata(new SettingsPageDataTemplate()
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageButtonDataTemplate), typeof(SettingsSelectionLargeControl), new PropertyMetadata(new SettingsPageButtonDataTemplate()
         {
             Description = "Description",
             Glyph = "\uE9CE",

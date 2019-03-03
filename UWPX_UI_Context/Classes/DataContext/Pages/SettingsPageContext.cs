@@ -1,36 +1,18 @@
-﻿using Shared.Classes;
+﻿using Data_Manager2.Classes;
+using Logging;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
-namespace UWPX_UI_Context.Classes.DataTemplates
+namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
-    public sealed class SettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class SettingsPageContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Name;
-        public string Name
-        {
-            get { return _Name; }
-            set { SetProperty(ref _Name, value); }
-        }
-        private string _Description;
-        public string Description
-        {
-            get { return _Description; }
-            set { SetProperty(ref _Description, value); }
-        }
-        private string _Glyph;
-        public string Glyph
-        {
-            get { return _Glyph; }
-            set { SetProperty(ref _Glyph, value); }
-        }
-        private Type _NavTarget;
-        public Type NavTarget
-        {
-            get { return _NavTarget; }
-            set { SetProperty(ref _NavTarget, value); }
-        }
+        public readonly SettingsPageDataTemplate MODEL = new SettingsPageDataTemplate();
+        private int versionTappCount = 0;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -45,7 +27,26 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void OnVersionTextTapped()
+        {
+            versionTappCount++;
+            if(versionTappCount >= 5)
+            {
+                versionTappCount = 0;
 
+                bool debugSettingsEnabled = !Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+                Settings.setSetting(SettingsConsts.DEBUG_SETTINGS_ENABLED, debugSettingsEnabled);
+                MODEL.DebugSettingsEnabled = debugSettingsEnabled;
+                if(debugSettingsEnabled)
+                {
+                    Logger.Info("Debug settings enabled.");
+                }
+                else
+                {
+                    Logger.Info("Debug settings disabled.");
+                }
+            }
+        }
 
         #endregion
 

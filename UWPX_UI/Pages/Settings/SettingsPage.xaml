@@ -7,18 +7,19 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
 
     <Page.Resources>
         <DataTemplate x:Key="SettingsSelectionLargeControl"
-                      x:DataType="datatemplates:SettingsPageDataTemplate">
+                      x:DataType="datatemplates:SettingsPageButtonDataTemplate">
             <controlsSettings:SettingsSelectionLargeControl Model="{x:Bind}"
                                                             PointerEntered="SettingsSelectionControl_PointerEntered"
                                                             PointerExited="SettingsSelectionControl_PointerExited"/>
         </DataTemplate>
         <DataTemplate x:Key="SettingsSelectionSmallControl"
-                      x:DataType="datatemplates:SettingsPageDataTemplate">
+                      x:DataType="datatemplates:SettingsPageButtonDataTemplate">
             <controlsSettings:SettingsSelectionSmallControl Model="{x:Bind}"
                                                             PointerEntered="SettingsSelectionControl_PointerEntered"
                                                             PointerExited="SettingsSelectionControl_PointerExited"/>
@@ -47,6 +48,8 @@
                       VerticalScrollMode="Auto">
             <Grid HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
@@ -89,17 +92,28 @@
                     </ListView.ItemContainerStyle>
                 </ListView>
                 <TextBlock Grid.Row="2"
-                           Margin="10"
+                           Margin="10, 10, 10, 0"
+                           x:Name="version_tbx"
+                           Tapped="Version_tbx_Tapped"
                            HorizontalAlignment="Center">
                     <Run x:Name="name_run"
                          Text="UWPX"/>
                     <Run x:Name="version_run"
                          Text="v.0.0.0.0"/>
-                    <LineBreak/>
-                    <Run Text="Thanks for your support! ❤"/>
                 </TextBlock>
+                <TextBlock Grid.Row="3"
+                           Margin="10, 0, 10, 0"
+                           Text="Thanks for your support! ❤"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Grid.Row="4"
+                           Margin="10, 0, 10, 0"
+                           HorizontalAlignment="Center"
+                           Text="Debug settings enabled."
+                           Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Converter={StaticResource BoolVisabilityValueConverter}, Mode=OneWay}"/>
             </Grid>
         </ScrollViewer>
+
+        <controls1:InAppNotification Grid.Row="1" x:Name="debugSettings_notification"/>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup>
