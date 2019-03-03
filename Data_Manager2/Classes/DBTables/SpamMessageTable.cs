@@ -1,14 +1,18 @@
-﻿using System;
-using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.DataTemplates.Pages;
+﻿using SQLite;
+using System;
 
-namespace UWPX_UI_Context.Classes.DataContext.Pages
+namespace Data_Manager2.Classes.DBTables
 {
-    public class ChatSettingsPageContext
+    [Table(DBTableConsts.SPAM_MESSAGE_TABLE)]
+    public class SpamMessageTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ChatSettingsPageDataTemplate MODEL = new ChatSettingsPageDataTemplate();
+        [AutoIncrement, PrimaryKey]
+        public int id { get; set; }
+        public DateTime lastReceived { get; set; }
+        public int count { get; set; }
+        public string text { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,15 +27,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task OnWhatIsOmemoClickedAsync()
-        {
-            await UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
-        }
 
-        public void ResetSpamRegex()
-        {
-            MODEL.ResetSpamRegex();
-        }
 
         #endregion
 

@@ -534,6 +534,20 @@ namespace Data_Manager2.Classes
 
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             bool chatChanged = false;
+
+            // Spam detection:
+            if(Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
+            {
+                if(Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || chat is null)
+                {
+                    if (SpamDBManager.INSTANCE.isSpam(msg.MESSAGE))
+                    {
+                        Logger.Warn("Received spam message from " + from);
+                        return;
+                    }
+                }
+            }
+
             if (chat is null)
             {
                 chatChanged = true;

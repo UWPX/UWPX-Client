@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Data_Manager2.Classes;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -38,6 +39,18 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             if (Resources["options_mfo"] is MenuFlyout flyout)
             {
                 flyout.ShowAt(sender);
+
+                // Spam detection is currently under development:
+                if (Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED))
+                {
+                    markAsSpam_mfi.Visibility = Visibility.Visible;
+                    markAsSpam_mfs.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    markAsSpam_mfi.Visibility = Visibility.Collapsed;
+                    markAsSpam_mfs.Visibility = Visibility.Collapsed;
+                }
             }
         }
 
@@ -57,9 +70,6 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
-
-        #endregion
         private static void OnChatMessageChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is SpeechBubbleTextContentControl speechBubbleTextContent)
@@ -91,5 +101,12 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             ChatDetailsControl chatDetails = VisualTree.FindAscendant<ChatDetailsControl>(this);
             SpeechBubbleContentViewModel.ResendMessage(chatDetails?.VIEW_MODEL);
         }
+
+        private async void MarkAsSpam_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await SpeechBubbleContentViewModel.MarkAsSpamAsync();
+        }
+
+        #endregion
     }
 }

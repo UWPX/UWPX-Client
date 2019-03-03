@@ -89,6 +89,11 @@ namespace UWPX_UI.Pages.Settings
             await VIEW_MODEL.OnWhatIsOmemoClickedAsync();
         }
 
+        private void ResetSpamRegex_btn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            VIEW_MODEL.ResetSpamRegex();
+        }
+
         #endregion
     }
 }

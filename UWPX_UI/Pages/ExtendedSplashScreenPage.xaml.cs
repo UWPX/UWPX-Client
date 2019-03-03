@@ -237,6 +237,7 @@ namespace UWPX_UI.Pages
                 DiscoDBManager.INSTANCE.initManager();
                 ImageDBManager.INSTANCE.initManager();
                 MUCDBManager.INSTANCE.initManager();
+                SpamDBManager.INSTANCE.initManager();
             });
         }
 

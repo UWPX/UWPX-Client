@@ -1,4 +1,7 @@
-﻿using Logging;
+﻿using Data_Manager2.Classes.DBManager;
+using Logging;
+using System;
+using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
@@ -66,6 +69,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         public void SetDateAsClipboardText(IValueConverter converter)
         {
             UiUtils.SetClipboardText((string)converter.Convert(MODEL.Date, typeof(string), null, null));
+        }
+
+        public async Task MarkAsSpamAsync()
+        {
+            await Task.Run(() => {
+                SpamDBManager.INSTANCE.addSpamMessage(ChatMessageModel.Message.message, DateTime.Now);
+                Logger.Info("Marked message as spam: " + ChatMessageModel.Message.message);
+            });
         }
 
         #endregion

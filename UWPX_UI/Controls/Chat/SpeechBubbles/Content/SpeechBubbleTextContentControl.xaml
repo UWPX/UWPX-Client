@@ -40,6 +40,14 @@
                     <FontIcon Glyph="&#xE72C;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutSeparator x:Name="markAsSpam_mfs"/>
+            <MenuFlyoutItem x:Name="markAsSpam_mfi"
+                            Click="MarkAsSpam_mfi_Click"
+                            Text="Mark as spam">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE7C1;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
         </MenuFlyout>
 
         <Style x:Key="ReplacedContextMenuBodyTextBlock"
