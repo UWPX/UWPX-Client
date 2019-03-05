@@ -67,7 +67,7 @@
                                              DetailsTemplate="{StaticResource DetailsTemplate}"
                                              ItemTemplate="{StaticResource MasterTemplate}"
                                              ItemsSource="{x:Bind VIEW_MODEL.CHATS_ACV}"
-                                             MasterPaneBackground="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                                             MasterPaneBackground="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"
                                              NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}"
                                              SelectedItem="{x:Bind VIEW_MODEL.SelectedItem, Mode=TwoWay}">
             <!--  Style  -->

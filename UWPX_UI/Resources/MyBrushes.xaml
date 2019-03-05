@@ -54,6 +54,12 @@
                                 FallbackColor="#FF242424"
                                 TintColor="#FF242424"
                                 TintOpacity="0.6"/>
+            <media:AcrylicBrush x:Key="MasterPaneBackgroundAcrylicElementBrush"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FF242424"
+                                Opacity="0.8"
+                                TintColor="#FF242424"
+                                TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
                              Color="#99FFFFFF"/>
             <SolidColorBrush x:Key="GoldBrush"
@@ -70,6 +76,12 @@
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
                                 BackgroundSource="Backdrop"
                                 FallbackColor="#FFD6D6D6"
+                                TintColor="#FFD6D6D6"
+                                TintOpacity="0.6"/>
+            <media:AcrylicBrush x:Key="MasterPaneBackgroundAcrylicElementBrush"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FFD6D6D6"
+                                Opacity="0.8"
                                 TintColor="#FFD6D6D6"
                                 TintOpacity="0.6"/>
             <SolidColorBrush x:Key="CaptionTextBrush"
