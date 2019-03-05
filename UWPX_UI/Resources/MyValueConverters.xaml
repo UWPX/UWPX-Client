@@ -8,4 +8,5 @@
     <valueConverter:StringEmptyVisabilityValueConverter x:Key="StringEmptyVisabilityValueConverter"/>
     <valueConverter:BoolInverterValueConverter x:Key="BoolInverterValueConverter"/>
     <valueConverter:BoolInvertedVisabilityValueConverter x:Key="BoolInvertedVisabilityValueConverter"/>
+    <valueConverter:IsNullBoolValueConverter x:Key="IsNullBoolValueConverter"/>
 </ResourceDictionary>
