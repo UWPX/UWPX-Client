@@ -119,10 +119,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateViewChat(ChatTable chat, MUCChatInfoTable muc)
         {
-            this.chat = chat;
             if (!(chat is null))
             {
-                LoadChatMessages(chat, muc);
+                // Do not reload chat messages, if for example only the presence changes:
+                if (this.chat is null || !(string.Equals(chat.id, this.chat.id)))
+                {
+                    LoadChatMessages(chat, muc);
+                }
+                this.chat = chat;
                 MarkChatMessagesAsRead(chat);
 
                 if (chat.chatType == ChatType.MUC)
@@ -149,6 +153,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     OmemoEnabled = chat.omemoEnabled;
                     OmemoVisability = Visibility.Visible;
                 }
+            }
+            else
+            {
+                this.chat = null;
             }
         }
 
