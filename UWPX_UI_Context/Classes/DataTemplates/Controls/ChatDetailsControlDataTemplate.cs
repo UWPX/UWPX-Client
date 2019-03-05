@@ -64,7 +64,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public bool OmemoEnabled
         {
             get { return _OmemoEnabled; }
-            set { SetProperty(ref _OmemoEnabled, value); }
+            set { SetOmemoEnabledProperty(value); }
         }
         private bool _IsLoadingChatMessages;
         public bool IsLoadingChatMessages
@@ -84,6 +84,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private CancellationTokenSource loadChatMessagesCancelToken = null;
         private Task loadChatMessagesTask = null;
+        private ChatTable chat;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -96,7 +97,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public void SetOmemoEnabledProperty(bool value)
+        {
+            if (SetProperty(ref _OmemoEnabled, value, nameof(OmemoEnabled)) && !(chat is null))
+            {
+                chat.omemoEnabled = value;
+                Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -111,6 +119,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateViewChat(ChatTable chat, MUCChatInfoTable muc)
         {
+            this.chat = chat;
             if (!(chat is null))
             {
                 LoadChatMessages(chat, muc);
