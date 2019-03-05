@@ -1,7 +1,7 @@
 ﻿using libsignal;
+using libsignal.ecc;
 using libsignal.state;
 using libsignal.util;
-using org.whispersystems.libsignal.fingerprint;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Crypto
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly NumericFingerprintGenerator FINGERPRINT_GENERATOR = new NumericFingerprintGenerator(5200);
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,7 +30,20 @@ namespace XMPP_API.Classes.Crypto
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Reads the raw key from the given ECPublicKey.
+        /// Based on: https://github.com/langboost/libsignal-protocol-pcl/blob/ef9dece1283948f89c7cc4c5825f944f77ed2c3e/signal-protocol-pcl/ecc/Curve.cs#L37
+        /// </summary>
+        /// <param name="key">The public key you want to retrieve the raw key from.</param>
+        /// <returns>Returns the raw key from the given ECPublicKey.</returns>
+        public static byte[] getRawFromECPublicKey(ECPublicKey key)
+        {
+            byte[] keySerialized = key.serialize();
+            byte[] keyRaw = new byte[32];
+            System.Buffer.BlockCopy(keySerialized, 1, keyRaw, 0, keySerialized.Length - 1);
 
+            return keyRaw;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -122,11 +135,6 @@ namespace XMPP_API.Classes.Crypto
             throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ". Count = " + usedDeviceIds.Count);
         }
 
-        public static Fingerprint generateOmemoFingerprint(string accountId, IdentityKey key)
-        {
-            return FINGERPRINT_GENERATOR.createFor(accountId, key, accountId, key);
-        }
-
         public static byte[] hexStringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
@@ -150,8 +158,9 @@ namespace XMPP_API.Classes.Crypto
         /// <returns>A hex string representing the given OMEMO identity public key. Split up in blocks of 8 characters separated by a whitespace.</returns>
         public static string genOmemoFingerprint(IdentityKey key)
         {
-            string fingerprint = byteArrayToHexString(key.serialize());
-            return Regex.Replace(fingerprint, ".{8}", "$0 ");
+            byte[] keyRaw = getRawFromECPublicKey(key.getPublicKey());
+            string fingerprint = byteArrayToHexString(keyRaw);
+            return Regex.Replace(fingerprint, ".{8}", "$0 ").TrimEnd();
         }
 
         /// <summary>

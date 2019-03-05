@@ -3,7 +3,6 @@ using libsignal.ecc;
 using libsignal.state;
 using libsignal.util;
 using Logging;
-using org.whispersystems.libsignal.fingerprint;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using System;
@@ -174,15 +173,6 @@ namespace XMPP_API.Classes.Network
                 pubPreKeys.Add(new Tuple<uint, ECPublicKey>(key.getId(), key.getKeyPair().getPublicKey()));
             }
             return new OmemoBundleInformation(omemoIdentityKeyPair.getPublicKey(), omemoSignedPreKeyPair.getKeyPair().getPublicKey(), omemoSignedPreKeyId, omemoSignedPreKeyPair.getSignature(), pubPreKeys);
-        }
-
-        public Fingerprint getOmemoFingerprint()
-        {
-            if (omemoIdentityKeyPair != null)
-            {
-                return CryptoUtils.generateOmemoFingerprint(getIdAndDomain(), omemoIdentityKeyPair.getPublicKey());
-            }
-            return null;
         }
 
         private void setXMPPUserProperty(XMPPUser value)
