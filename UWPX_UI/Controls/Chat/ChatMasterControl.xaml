@@ -207,7 +207,8 @@
                                    FontFamily="Segoe MDL2 Assets"
                                    Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
                                    Style="{ThemeResource CaptionLineTextBlockStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"/>
+                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
                         <TextBlock x:Name="lastAction_tblck"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
