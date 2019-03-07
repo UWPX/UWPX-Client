@@ -155,12 +155,18 @@ namespace XMPP_API.Classes.Crypto
         /// Generates the display fingerprint for the given OMEMO identity public key.
         /// </summary>
         /// <param name="key">The OMEMO identity public key.</param>
+        /// <param name="twoLines">Split the fingerprint into two lines.</param>
         /// <returns>A hex string representing the given OMEMO identity public key. Split up in blocks of 8 characters separated by a whitespace.</returns>
-        public static string genOmemoFingerprint(IdentityKey key)
+        public static string generateOmemoFingerprint(IdentityKey key, bool twoLines)
         {
             byte[] keyRaw = getRawFromECPublicKey(key.getPublicKey());
             string fingerprint = byteArrayToHexString(keyRaw);
-            return Regex.Replace(fingerprint, ".{8}", "$0 ").TrimEnd();
+            fingerprint = Regex.Replace(fingerprint, ".{8}", "$0 ").TrimEnd();
+            if (twoLines)
+            {
+                fingerprint = Regex.Replace(fingerprint, ".{36}", "$0\n").TrimEnd();
+            }
+            return fingerprint;
         }
 
         /// <summary>
@@ -169,7 +175,7 @@ namespace XMPP_API.Classes.Crypto
         /// <param name="key"></param>
         /// <param name="account"></param>
         /// <returns></returns>
-        public static string genOmemoQrCodeFingerprint(IdentityKey key, XMPPAccount account)
+        public static string generateOmemoQrCodeFingerprint(IdentityKey key, XMPPAccount account)
         {
             StringBuilder sb = new StringBuilder("xmpp:");
             sb.Append(account.getIdAndDomain());

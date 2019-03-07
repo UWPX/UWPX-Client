@@ -3,13 +3,14 @@ using Shared.Classes;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Windows.Networking.Sockets;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -198,7 +199,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             });
             DETAILS.Add(new CertificateDetailDataTemplate()
             {
-                Value = ByteArryToString(cert.SerialNumber),
+                Value = SerialNumberToString(cert.SerialNumber),
                 Name = "Serial number"
             });
             DETAILS.Add(new CertificateDetailDataTemplate()
@@ -213,15 +214,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             });
         }
 
-        private string ByteArryToString(byte[] data)
+        private string SerialNumberToString(byte[] data)
         {
-            StringBuilder s = new StringBuilder();
-            foreach (byte b in data)
-            {
-                s.Append(b);
-                s.Append(' ');
-            }
-            return s.ToString();
+            string s = CryptoUtils.byteArrayToHexString(data).ToUpperInvariant();
+            s = Regex.Replace(s, ".{2}", "$0:");
+            s = s.Substring(0, s.Length - 1);
+            return s;
         }
 
         #endregion
