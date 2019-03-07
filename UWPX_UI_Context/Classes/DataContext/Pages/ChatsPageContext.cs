@@ -131,19 +131,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager2.Classes.Events.ChatChangedEventArgs args)
         {
-            // Backup selected chat:
-            ChatDataTemplate selectedChat = SelectedItem;
-
             if (args.REMOVED)
             {
                 CHATS.RemoveId(args.CHAT.id);
                 args.Cancel = true;
-
-                // Restore selected chat:
-                if (selectedChat != null && !string.Equals(args.CHAT.id, selectedChat.Chat.id))
-                {
-                    SelectedItem = selectedChat;
-                }
                 return;
             }
             else
@@ -151,11 +142,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 if (CHATS.UpdateChat(args.CHAT))
                 {
                     args.Cancel = true;
-                    // Restore selected chat:
-                    if (selectedChat != null)
-                    {
-                        SelectedItem = selectedChat;
-                    }
                     return;
                 }
             }
@@ -193,7 +179,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             {
                 CHATS.Add(newChat);
             }
-            SelectedItem = selectedChat;
         }
 
         #endregion

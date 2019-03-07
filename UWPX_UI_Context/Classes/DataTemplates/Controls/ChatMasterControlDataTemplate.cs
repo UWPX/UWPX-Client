@@ -184,17 +184,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (!(chat is null))
             {
+                AccountActionsVisability = Visibility.Collapsed;
                 if (chat.chatType != ChatType.MUC)
                 {
                     // Chat jabber id:
                     NameText = chat.chatJabberId;
 
                     // Subscription state:
-                    AccountActionsVisability = Visibility.Collapsed;
+                    ProbePresenceVisability = Visibility.Collapsed;
                     RequestPresenceSubscriptionVisability = Visibility.Collapsed;
                     CancelPresenceSubscriptionVisability = Visibility.Collapsed;
                     RejectPresenceSubscriptionVisability = Visibility.Collapsed;
-                    ProbePresenceVisability = Visibility.Collapsed;
                     PresenceFlyoutEnabled = true;
 
                     switch (chat.subscription)
@@ -210,11 +210,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                             break;
                         case "subscribe":
                             PresenceFlyoutEnabled = false;
-                            // showPresenceSubscriptionRequest();
+                            AccountActionsVisability = Visibility.Visible;
                             break;
                         case "unsubscribe":
                             RequestPresenceSubscriptionVisability = Visibility.Visible;
-                            // showRemovedChat();
                             break;
                         case "from":
                             RequestPresenceSubscriptionVisability = Visibility.Visible;

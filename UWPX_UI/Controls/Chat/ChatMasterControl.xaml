@@ -6,7 +6,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:slidablelistitem="using:UWPX_UI.Controls.Toolkit.SlidableListItem"
              xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
-             d:DesignHeight="70"
+             d:DesignHeight="120"
              d:DesignWidth="500"
              RightTapped="UserControl_RightTapped"
              mc:Ignorable="d">
@@ -267,7 +267,7 @@
             <Grid x:Name="accountAction_grid"
                   Grid.Row="1"
                   Margin="10,0,10,10"
-                  Visibility="Collapsed">
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.AccountActionsVisability, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
@@ -280,25 +280,30 @@
                            Grid.Row="0"
                            Grid.ColumnSpan="2"
                            Margin="0,0,0,5"
-                           Foreground="{ThemeResource SystemAccentColor}"
+                           MaxLines="0"
                            Style="{ThemeResource BodyTextBlockStyle}"
-                           TextWrapping="Wrap"/>
-                <Button x:Name="accountActionAccept_btn"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Margin="0,0,2,0"
-                        HorizontalAlignment="Stretch"
-                        Click="AccountActionAccept_btn_Click"
-                        Content="Accept"
-                        Foreground="Green"/>
-                <Button x:Name="accountActionRefuse_btn"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Margin="2,0,0,0"
-                        HorizontalAlignment="Stretch"
-                        Click="AccountActionRefuse_btn_Click"
-                        Content="Refuse"
-                        Foreground="Red"/>
+                           TextWrapping="Wrap">
+                    <Bold>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"/>
+                    </Bold>
+                    <Run Text="has requested to subscribe to your presence!"/>
+                </TextBlock>
+                <controls:IconButtonControl x:Name="accountActionAccept_ibtn"
+                                            Grid.Row="1"
+                                            Grid.Column="0"
+                                            Margin="0,0,1,0"
+                                            Click="AccountActionAccept_ibtn_Click"
+                                            Glyph="&#xE8FB;"
+                                            GlyphForeground="Green"
+                                            Text="Accept"/>
+                <controls:IconButtonControl x:Name="accountActionRefuse_ibtn"
+                                            Grid.Row="1"
+                                            Grid.Column="1"
+                                            Margin="1,0,0,0"
+                                            Click="AccountActionRefuse_ibtn_Click"
+                                            Glyph="&#xE711;"
+                                            GlyphForeground="Red"
+                                            Text="Refuse"/>
             </Grid>
         </Grid>
     </slidablelistitem:SlidableListItem>

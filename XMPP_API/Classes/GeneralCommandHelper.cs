@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Logging;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
@@ -70,6 +70,18 @@ namespace XMPP_API.Classes
             RosterRequestMessage msg = new RosterRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), CLIENT.getXMPPAccount().getIdAndDomain());
             helper.start(msg);
             return helper;
+        }
+
+        /// <summary>
+        /// Sends a presence probe to the given target.
+        /// </summary>
+        /// <param name="fromFullJid">Who is sending the presence probe (full JID)?</param>
+        /// <param name="toBareJid">Who is the target of the presence probe (bare JID)?</param>
+        public async Task sendPresenceProbeAsync(string fromFullJid, string toBareJid)
+        {
+            PresenceProbeMessage msg = new PresenceProbeMessage(fromFullJid, toBareJid);
+            await CLIENT.sendAsync(msg);
+            Logger.Info("Send presence probe from " + fromFullJid + " to " + toBareJid);
         }
 
         /// <summary>

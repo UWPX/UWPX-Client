@@ -67,24 +67,24 @@ namespace UWPX_UI.Controls.Chat
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
         #region --Presence--
-        private void RequestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        private async void RequestPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.RequestPresenceSubscriptionAsync(Chat);
         }
 
-        private void CancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        private async void CancelPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.CancelPresenceSubscriptionAsync(Chat);
         }
 
-        private void RejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
+        private async void RejectPresenceSubscription_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.RejectPresenceSubscriptionAsync(Chat);
         }
 
-        private void ProbePresence_mfo_Click(object sender, RoutedEventArgs e)
+        private async void ProbePresence_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            await VIEW_MODEL.SendPresenceProbeAsync(Chat);
         }
 
         #endregion
@@ -152,16 +152,6 @@ namespace UWPX_UI.Controls.Chat
             await DeleteChatAsync();
         }
 
-        private void AccountActionAccept_btn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void AccountActionRefuse_btn_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
         private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
         {
             if (args.NewValue == SwipeStatus.Idle)
@@ -208,6 +198,16 @@ namespace UWPX_UI.Controls.Chat
             {
                 Foreground = new SolidColorBrush(Colors.Red)
             };
+        }
+
+        private async void AccountActionAccept_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        {
+            await VIEW_MODEL.AnswerPresenceSubscriptionRequestAsync(Chat, true);
+        }
+
+        private async void AccountActionRefuse_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        {
+            await VIEW_MODEL.AnswerPresenceSubscriptionRequestAsync(Chat, false);
         }
 
         #endregion

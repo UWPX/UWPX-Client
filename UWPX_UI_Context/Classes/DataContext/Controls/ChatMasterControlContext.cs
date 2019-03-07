@@ -123,7 +123,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 await Task.Run(async () =>
                 {
-                    if (Chat.Chat.chatType == Data_Manager2.Classes.ChatType.MUC)
+                    if (Chat.Chat.chatType == ChatType.MUC)
                     {
                         SetChatBookmarked(Chat, false);
 
@@ -155,6 +155,64 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
         {
             await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+        }
+
+        public async Task SendPresenceProbeAsync(ChatDataTemplate chatTemplate)
+        {
+            await chatTemplate.Client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.getXMPPAccount().getIdDomainAndResource(), chatTemplate.Chat.chatJabberId);
+        }
+
+        public async Task RequestPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
+        {
+            await chatTemplate.Client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(chatTemplate.Chat.chatJabberId);
+        }
+
+        public async Task CancelPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
+        {
+            await chatTemplate.Client.GENERAL_COMMAND_HELPER.unsubscribeFromPresenceAsync(chatTemplate.Chat.chatJabberId);
+            await Task.Run(() =>
+            {
+                switch (chatTemplate.Chat.subscription)
+                {
+                    case "to":
+                        chatTemplate.Chat.subscription = "none";
+                        break;
+
+                    case "both":
+                        chatTemplate.Chat.subscription = "from";
+                        break;
+                }
+                ChatDBManager.INSTANCE.setChat(chatTemplate.Chat, false, true);
+            });
+        }
+
+        public async Task RejectPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
+        {
+            await chatTemplate.Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.chatJabberId, false);
+            await Task.Run(() =>
+            {
+                switch (chatTemplate.Chat.subscription)
+                {
+                    case "from":
+                        chatTemplate.Chat.subscription = "none";
+                        break;
+
+                    case "both":
+                        chatTemplate.Chat.subscription = "to";
+                        break;
+                }
+                ChatDBManager.INSTANCE.setChat(chatTemplate.Chat, false, true);
+            });
+        }
+
+        public async Task AnswerPresenceSubscriptionRequestAsync(ChatDataTemplate chatTemplate, bool accepted)
+        {
+            await chatTemplate.Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.chatJabberId, accepted);
+            await Task.Run(() =>
+            {
+                chatTemplate.Chat.subscription = accepted ? "to" : "none";
+                ChatDBManager.INSTANCE.setChat(chatTemplate.Chat, false, true);
+            });
         }
 
         #endregion
