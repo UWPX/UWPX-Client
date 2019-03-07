@@ -64,7 +64,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public bool OmemoEnabled
         {
             get { return _OmemoEnabled; }
-            set { SetProperty(ref _OmemoEnabled, value); }
+            set { SetOmemoEnabledProperty(value); }
         }
         private bool _IsLoadingChatMessages;
         public bool IsLoadingChatMessages
@@ -96,6 +96,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private CancellationTokenSource loadChatMessagesCancelToken = null;
         private Task loadChatMessagesTask = null;
+        private ChatTable chat;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -108,7 +109,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public void SetOmemoEnabledProperty(bool value)
+        {
+            if (SetProperty(ref _OmemoEnabled, value, nameof(OmemoEnabled)) && !(chat is null))
+            {
+                chat.omemoEnabled = value;
+                Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -125,7 +133,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (!(chat is null))
             {
-                LoadChatMessages(chat, muc);
+                // Do not reload chat messages, if for example only the presence changes:
+                if (this.chat is null || !(string.Equals(chat.id, this.chat.id)))
+                {
+                    LoadChatMessages(chat, muc);
+                }
+                this.chat = chat;
                 MarkChatMessagesAsRead(chat);
 
                 if (chat.chatType == ChatType.MUC)
@@ -156,6 +169,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 // Account image:
                 AccountPresence = chat.presence;
                 AccountInitials = "\uE77B";
+            }
+            else
+            {
+                this.chat = null;
             }
         }
 

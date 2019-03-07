@@ -1,14 +1,13 @@
-﻿using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
-using Windows.UI.Xaml;
+﻿using System;
+using Windows.UI.Xaml.Data;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls
+namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class FolderSizeControlContext
+    public sealed class IsNullBoolValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly FolderSizeControlDataTemplate MODEL = new FolderSizeControlDataTemplate();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,17 +22,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (!Equals(e.OldValue, e.NewValue) && e.NewValue is string path)
-            {
-                await MODEL.UpdateViewAsync(path);
-            }
+            return !(value is null);
         }
 
-        public async Task RecalculateFolderSizeAsync(string path)
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            await MODEL.UpdateViewAsync(path);
+            throw new NotImplementedException();
         }
 
         #endregion

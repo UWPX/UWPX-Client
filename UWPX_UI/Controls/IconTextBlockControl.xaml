@@ -6,8 +6,8 @@
              Foreground="{ThemeResource DefaultTextForegroundThemeBrush}"
              mc:Ignorable="d">
 
-    <Grid Margin="{x:Bind Margin, Mode=OneWay}"
-          HorizontalAlignment="{x:Bind HorizontalAlignment}"
+    <Grid Margin="{x:Bind Margin, Mode=TwoWay}"
+          HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=TwoWay}"
           VerticalAlignment="{x:Bind VerticalAlignment, Mode=TwoWay}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
@@ -21,11 +21,11 @@
                   Glyph="{x:Bind Glyph, Mode=OneWay}"/>
         <TextBlock x:Name="text_tbx"
                    Grid.Column="1"
-                   Margin="10,0,0,0"
+                   Margin="5,0,0,3"
                    VerticalAlignment="Center"
                    Foreground="{x:Bind Foreground, Mode=OneWay}"
                    Style="{x:Bind TextBlockStyle, Mode=OneWay}"
                    Text="{x:Bind Text, Mode=OneWay}"
-                   TextWrapping="WrapWholeWords"/>
+                   TextWrapping="Wrap"/>
     </Grid>
 </UserControl>

@@ -1,27 +1,27 @@
-﻿using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class FolderSizeControl : UserControl
+    public sealed partial class AccountInfoCertificateGeneralControl : UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string FolderPath
+        public AccountDataTemplate Account
         {
-            get { return (string)GetValue(FolderPathProperty); }
-            set { SetValue(FolderPathProperty, value); }
+            get { return (AccountDataTemplate)GetValue(AccountProperty); }
+            set { SetValue(AccountProperty, value); }
         }
-        public static readonly DependencyProperty FolderPathProperty = DependencyProperty.Register(nameof(FolderPath), typeof(string), typeof(FolderSizeControl), new PropertyMetadata(null, OnFolderPathChanged));
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountInfoCertificateGeneralControl), new PropertyMetadata(null, OnAccountChanged));
 
-        private readonly FolderSizeControlContext VIEW_MODEL = new FolderSizeControlContext();
+        public readonly AccountInfoCertificateGeneralControlContext VIEW_MODEL = new AccountInfoCertificateGeneralControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public FolderSizeControl()
+        public AccountInfoCertificateGeneralControl()
         {
             this.InitializeComponent();
         }
@@ -34,17 +34,14 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task RecalculateFolderSizeAsync()
-        {
-            await VIEW_MODEL.RecalculateFolderSizeAsync(FolderPath);
-        }
+
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
+        private void UpdateViewModel(DependencyPropertyChangedEventArgs e)
         {
-            await VIEW_MODEL.UpdateViewAsync(e);
+            VIEW_MODEL.UpdateViewModel(e);
         }
 
         #endregion
@@ -55,12 +52,17 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static async void OnFolderPathChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is FolderSizeControl folderSizeControl)
+            if (d is AccountInfoCertificateGeneralControl control)
             {
-                await folderSizeControl.UpdateViewAsync(e);
+                control.UpdateViewModel(e);
             }
+        }
+
+        private async void ExportCert_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.ExportCertificateAsync();
         }
 
         #endregion

@@ -41,8 +41,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 IdentityKey key = account.Account.omemoIdentityKeyPair?.getPublicKey();
                 if (!(key is null))
                 {
-                    Fingerprint = CryptoUtils.genOmemoFingerprint(key);
-                    QrCodeFingerprint = CryptoUtils.genOmemoQrCodeFingerprint(key, account.Account);
+                    Fingerprint = CryptoUtils.generateOmemoFingerprint(key, true);
+                    QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(key, account.Account);
                 }
                 else
                 {

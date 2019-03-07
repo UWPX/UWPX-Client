@@ -63,6 +63,13 @@ namespace UWPX_UI.Pages.Settings
                     case "OMEMO":
                         ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, omemo_scp, false);
                         break;
+
+                    case "Spam":
+                        if (spam_scp.Visibility == Windows.UI.Xaml.Visibility.Visible)
+                        {
+                            ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, spam_scp, false);
+                        }
+                        break;
                 }
             }
         }

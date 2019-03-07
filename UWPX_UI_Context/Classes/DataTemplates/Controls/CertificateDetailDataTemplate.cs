@@ -1,14 +1,23 @@
-﻿using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
-using Windows.UI.Xaml;
+﻿using Shared.Classes;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class FolderSizeControlContext
+    public sealed class CertificateDetailDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly FolderSizeControlDataTemplate MODEL = new FolderSizeControlDataTemplate();
+        private string _Name;
+        public string Name
+        {
+            get { return _Name; }
+            set { SetProperty(ref _Name, value); }
+        }
+        private string _Value;
+        public string Value
+        {
+            get { return _Value; }
+            set { SetProperty(ref _Value, value); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,18 +32,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
-        {
-            if (!Equals(e.OldValue, e.NewValue) && e.NewValue is string path)
-            {
-                await MODEL.UpdateViewAsync(path);
-            }
-        }
 
-        public async Task RecalculateFolderSizeAsync(string path)
-        {
-            await MODEL.UpdateViewAsync(path);
-        }
 
         #endregion
 

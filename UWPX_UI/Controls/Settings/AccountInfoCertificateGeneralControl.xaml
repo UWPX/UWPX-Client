@@ -1,0 +1,97 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountInfoCertificateGeneralControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Grid.Row="0"
+                       Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Issued to:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.IssuedTo, Mode=OneWay}"/>
+            </TextBlock>
+            <TextBlock Grid.Row="1"
+                       Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Issued by:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.IssuedFrom, Mode=OneWay}"/>
+            </TextBlock>
+            <TextBlock Grid.Row="2"
+                       Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Valid from"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ValidFromShort, Mode=OneWay}"/>
+                <Run FontWeight="Bold"
+                     Text="to"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ValidToShort, Mode=OneWay}"/>
+            </TextBlock>
+            <controls:SeperatorControl Grid.Row="3"
+                                       Margin="-10,0,0,0"
+                                       Text="Details:"/>
+            <controls1:DataGrid Grid.Row="4"
+                                Margin="0,10,0,0"
+                                AutoGenerateColumns="False"
+                                CanUserReorderColumns="False"
+                                CanUserResizeColumns="True"
+                                CanUserSortColumns="True"
+                                GridLinesVisibility="All"
+                                HeadersVisibility="None"
+                                HorizontalScrollBarVisibility="Disabled"
+                                ItemsSource="{x:Bind VIEW_MODEL.MODEL.DETAILS}"
+                                VerticalScrollBarVisibility="Disabled">
+                <controls1:DataGrid.Columns>
+                    <controls1:DataGridTextColumn Width="Auto"
+                                                  Binding="{Binding Name}"
+                                                  FontWeight="Bold"
+                                                  IsReadOnly="True">
+                        <controls1:DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                            </Style>
+                        </controls1:DataGridTextColumn.ElementStyle>
+                    </controls1:DataGridTextColumn>
+                    <controls1:DataGridTextColumn Width="*"
+                                                  Binding="{Binding Value}"
+                                                  IsReadOnly="True">
+                        <controls1:DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="TextWrapping" Value="Wrap"/>
+                            </Style>
+                        </controls1:DataGridTextColumn.ElementStyle>
+                    </controls1:DataGridTextColumn>
+                </controls1:DataGrid.Columns>
+            </controls1:DataGrid>
+            <Button x:Name="exportCert_btn"
+                    Grid.Row="5"
+                    Grid.Column="0"
+                    Margin="0,10,0,0"
+                    Click="ExportCert_btn_Click"
+                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource IsNullBoolValueConverter}}"
+                    Style="{ThemeResource ButtonRevealStyle}">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock VerticalAlignment="Center"
+                               FontFamily="Segoe MDL2 Assets"
+                               Foreground="{ThemeResource SystemAccentColor}"
+                               Text="&#xEDE1;"/>
+                    <TextBlock Margin="10,0,0,0"
+                               VerticalAlignment="Center"
+                               Text="Export certificate"/>
+                </StackPanel>
+            </Button>
+        </Grid>
+    </ScrollViewer>
+</UserControl>

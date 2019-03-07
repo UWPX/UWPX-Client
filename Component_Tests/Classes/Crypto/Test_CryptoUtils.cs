@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using libsignal;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Linq;
 using System.Text;
@@ -122,6 +123,20 @@ namespace Component_Tests.Classes.Crypto
 
             string saltStringHex = CryptoUtils.byteArrayToHexString(salt);
             Assert.IsTrue(saltStringHex.Equals(saltStringHexRef));
+        }
+
+        [TestCategory("Crypto")]
+        [TestMethod]
+        public void Test_CryptoUtils_GenOmemoFingerprint()
+        {
+            string identKeyPairSerializedHex = "0a210511dbad7fcece74492f390f0a2a8387c543e802ab7f2176e303e28840559c41521220a082ae07fd8941536457cb2f3e4b560a87991d380f02af460b5204e46ca7b15a";
+            byte[] identKeyPairSerialized = CryptoUtils.hexStringToByteArray(identKeyPairSerializedHex);
+            IdentityKeyPair identKeyPair = new IdentityKeyPair(identKeyPairSerialized);
+
+            string outputRef = "11dbad7f cece7449 2f390f0a 2a8387c5 43e802ab 7f2176e3 03e28840 559c4152";
+            string output = CryptoUtils.generateOmemoFingerprint(identKeyPair.getPublicKey());
+
+            Assert.AreEqual(outputRef, output);
         }
     }
 }

@@ -25,13 +25,15 @@
                      Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
             </TextBlock>
 
-            <controls:IconTextBlockControl Glyph="&#xE783;"
+            <controls:IconTextBlockControl HorizontalAlignment="Left"
+                                           Glyph="&#xE783;"
                                            GlyphForeground="Red"
                                            Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
                                            Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
             <controls:SeperatorControl Margin="-10,0,0,0"
                                        Text="Fingerprint:"/>
-            <controlsOmemo:OmemoFingerprintControl Account="{x:Bind Account, Mode=OneWay}"/>
+            <controlsOmemo:OmemoFingerprintControl Margin="0,10,0,0"
+                                                   Account="{x:Bind Account, Mode=OneWay}"/>
 
             <controls:SeperatorControl Margin="-10,0,0,0"
                                        Text="Devices:"/>

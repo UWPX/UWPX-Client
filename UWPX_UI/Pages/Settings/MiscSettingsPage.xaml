@@ -75,7 +75,8 @@
                                             Margin="0"
                                             Click="DeleteLogs_btn_Click"
                                             Content="Delete logs"/>
-                                    <settings:FolderSizeControl Margin="10,0,0,0"
+                                    <settings:FolderSizeControl x:Name="logsFolder_fsc"
+                                                                Margin="10,0,0,0"
                                                                 VerticalAlignment="Center"
                                                                 FolderPath="{x:Bind VIEW_MODEL.MODEL.LogFolderPath, Mode=OneWay}"/>
                                 </StackPanel>
@@ -97,7 +98,8 @@
                                             Margin="0"
                                             Click="ClearImageCache_btn_Click"
                                             Content="Clear image cache"/>
-                                    <settings:FolderSizeControl Margin="10,0,0,0"
+                                    <settings:FolderSizeControl x:Name="imageCacheFolder_fsc"
+                                                                Margin="10,0,0,0"
                                                                 VerticalAlignment="Center"
                                                                 FolderPath="{x:Bind VIEW_MODEL.MODEL.ImageCacheFolderPath, Mode=OneWay}"/>
                                 </StackPanel>

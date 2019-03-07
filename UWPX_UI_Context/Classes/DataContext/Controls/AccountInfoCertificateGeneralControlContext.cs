@@ -4,11 +4,11 @@ using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public sealed class FolderSizeControlContext
+    public sealed class AccountInfoCertificateGeneralControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly FolderSizeControlDataTemplate MODEL = new FolderSizeControlDataTemplate();
+        public readonly AccountInfoCertificateGeneralControlDataTemplate MODEL = new AccountInfoCertificateGeneralControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,17 +23,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task UpdateViewAsync(DependencyPropertyChangedEventArgs e)
+        public void UpdateViewModel(DependencyPropertyChangedEventArgs e)
         {
-            if (!Equals(e.OldValue, e.NewValue) && e.NewValue is string path)
-            {
-                await MODEL.UpdateViewAsync(path);
-            }
+            MODEL.UpdateViewModel(e);
         }
 
-        public async Task RecalculateFolderSizeAsync(string path)
+        public async Task ExportCertificateAsync()
         {
-            await MODEL.UpdateViewAsync(path);
+            await MODEL.ExportCertificateAsync();
         }
 
         #endregion

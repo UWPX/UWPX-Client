@@ -140,6 +140,7 @@
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />
     <Compile Include="Classes\Collections\Toolkit\VectorChangedEventArgs.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountInfoCertificateGeneralControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountInfoGeneralControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountSettingsControlContext.cs" />
@@ -168,10 +169,12 @@
     <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountInfoCertificateGeneralControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountInfoGeneralControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountSettingsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountsListControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\CertificateDetailDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
@@ -212,6 +215,7 @@
     <Compile Include="Classes\ValueConverter\DownloadStateQueuedBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\DownloadStateVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\HexColorToSolidColorBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\IsNullBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\LogLevelWarningVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />

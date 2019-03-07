@@ -98,6 +98,7 @@ namespace UWPX_UI.Pages.Settings
             ConfirmDialog dialog = new ConfirmDialog("Delete logs:", "Do you really want to **delete** all logs?");
             await UiUtils.ShowDialogAsync(dialog);
             await VIEW_MODEL.DeleteLogsAsync(dialog.VIEW_MODEL);
+            await logsFolder_fsc.RecalculateFolderSizeAsync();
         }
 
         private async void ExportLogs_btn_Click(object sender, RoutedEventArgs e)
@@ -110,6 +111,7 @@ namespace UWPX_UI.Pages.Settings
             ConfirmDialog dialog = new ConfirmDialog("Clear image cache:", "Do you really want to **delete** all cached images?");
             await UiUtils.ShowDialogAsync(dialog);
             await VIEW_MODEL.ClearImageCacheAsync(dialog.VIEW_MODEL);
+            await imageCacheFolder_fsc.RecalculateFolderSizeAsync();
         }
 
         private async void OpenImageCahceFolder_btn_Click(object sender, RoutedEventArgs e)
