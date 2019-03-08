@@ -162,6 +162,7 @@
     <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\DonateSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\DataSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\MiscSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\SettingsPageContext.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\DonateSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\DataSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\SettingsPageDataTemplate.cs" />

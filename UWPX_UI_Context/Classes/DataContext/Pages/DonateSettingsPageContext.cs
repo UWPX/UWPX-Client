@@ -1,29 +1,19 @@
-﻿using UWP_XMPP_Client.Classes;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using System;
+using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
-namespace UWP_XMPP_Client.Dialogs
+namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
-    public sealed partial class WhatsNewDialog : ContentDialog
+    public sealed class DonateSettingsPageContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool showOnStartup { get; private set; }
+        public readonly DonateSettingsPageDataTemplate MODEL = new DonateSettingsPageDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 31/01/2018 Created [Fabian Sauter]
-        /// </history>
-        public WhatsNewDialog()
-        {
-            this.showOnStartup = true;
-            this.InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -33,7 +23,20 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task DonateViaLiberapayAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("http://liberapay.uwpx.org"));
+        }
 
+        public async Task DonateViaPayPalAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("http://paypal.uwpx.org"));
+        }
+
+        public async Task SendBankDetailsMailAsync()
+        {
+            await UiUtils.LaunchUriAsync(new Uri("mailto:support@uwpx.org?subject=[Donation]%20Bank%20details"));
+        }
 
         #endregion
 
@@ -48,22 +51,7 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void close_btn_Click(object sender, RoutedEventArgs e)
-        {
-            showOnStartup = (bool)showOnStartup_cbx.IsChecked;
-            Hide();
-        }
 
-        private void donate_btn_Click(object sender, RoutedEventArgs e)
-        {
-            // (Window.Current.Content as Frame).Navigate(typeof(DonateSettingsPage));
-            Hide();
-        }
-
-        private async void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
-        {
-            await UiUtils.launchUriAsync(new System.Uri(e.Link));
-        }
 
         #endregion
     }

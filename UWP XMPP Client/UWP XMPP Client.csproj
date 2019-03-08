@@ -313,15 +313,6 @@
     <Compile Include="Pages\MUCInfoPage.xaml.cs">
       <DependentUpon>MUCInfoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SettingsPages\BackgroundTasksSettingsPage.xaml.cs">
-      <DependentUpon>BackgroundTasksSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\DataSettingsPage.xaml.cs">
-      <DependentUpon>DataSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\DonateSettingsPage.xaml.cs">
-      <DependentUpon>DonateSettingsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml.cs">
       <DependentUpon>PersonalizeSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -646,18 +637,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MUCInfoPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SettingsPages\BackgroundTasksSettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SettingsPages\DataSettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SettingsPages\DonateSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

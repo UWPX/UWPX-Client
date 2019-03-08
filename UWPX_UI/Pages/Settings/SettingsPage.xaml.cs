@@ -25,7 +25,7 @@ namespace UWPX_UI.Pages.Settings
             new SettingsPageButtonDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability", NavTarget = typeof(ChatSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", NavTarget = typeof(BackgroundTaskSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\uE72E", Name = "Security", Description = "Certificates, Password Vault", NavTarget = typeof(SettingsPage)},
-            new SettingsPageButtonDataTemplate {Glyph = "\uEB52", Name = "Donate", Description = "PayPal, Liberapay", NavTarget = typeof(SettingsPage)},
+            new SettingsPageButtonDataTemplate {Glyph = "\uEB52", Name = "Donate", Description = "Keep The Project Running", NavTarget = typeof(DonateSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE713", Name = "Misc", Description = "Everything Else", NavTarget = typeof(MiscSettingsPage)},
         };
 
@@ -43,12 +43,12 @@ namespace UWPX_UI.Pages.Settings
 
         private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if(sender is SettingsPageDataTemplate settingsPageDataTemplate)
+            if (sender is SettingsPageDataTemplate settingsPageDataTemplate)
             {
                 switch (e.PropertyName)
                 {
                     case nameof(settingsPageDataTemplate.DebugSettingsEnabled):
-                        if(settingsPageDataTemplate.DebugSettingsEnabled)
+                        if (settingsPageDataTemplate.DebugSettingsEnabled)
                         {
                             debugSettings_notification.Show("Debug settings enabled.", 5000);
                         }

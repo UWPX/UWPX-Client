@@ -232,4 +232,14 @@ Also special thanks to all the Alpha (and hopefully soon Beta) testers that repo
 * [**Progress Telerik UI for UWP**](https://github.com/telerik/UI-For-UWP)  An open-source version of Telerik UI for Universal Windows Platform (UWP) by [Progress](https://www.progress.com/).
 * [**Windows Community Toolkit**](https://github.com/Microsoft/WindowsCommunityToolkit) They provide an awesome collection of helper functions, custom controls and app services.</value>
   </data>
+  <data name="DonateSettingsPage_bank_details0.Text" xml:space="preserve">
+    <value>It takes a lot of time and effort to develop and maintain a complex app like UWPX. So, if you like UWPX or simply want to support the development please consider donating to keep the development going.</value>
+  </data>
+  <data name="DonateSettingsPage_bank_details1.Text" xml:space="preserve">
+    <value>Because PayPal has rather questionable business practices and takes a large cut of the donation, direct SEPA bank transfers are possible.
+So if you have the ability to make SEPA bank transfers at a low cost (for example if you live within the EU) feel free to contact me for my bank details:</value>
+  </data>
+  <data name="DonateSettingsPage_bank_details2.Text" xml:space="preserve">
+    <value>Never the less PayPal donations are still very much appreciated!</value>
+  </data>
 </root>
