@@ -44,7 +44,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="account">The account which should get inserted or replaced.</param>
         public void setAccount(XMPPAccount account, bool triggerAccountChanged)
         {
-            update(new AccountTable(account));
+            dB.InsertOrReplace(new AccountTable(account));
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
@@ -236,13 +236,13 @@ namespace Data_Manager2.Classes.DBManager
             {
                 accountId = account.getIdAndDomain()
             };
-            update(optionsTable);
+            dB.InsertOrReplace(optionsTable);
 
             // Save ignored certificate errors:
             dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
             foreach (ChainValidationResult i in account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS)
             {
-                update(new IgnoredCertificateErrorTable()
+                dB.InsertOrReplace(new IgnoredCertificateErrorTable()
                 {
                     accountId = account.getIdAndDomain(),
                     certificateError = i,

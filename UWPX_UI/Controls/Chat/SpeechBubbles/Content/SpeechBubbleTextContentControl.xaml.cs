@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -34,11 +35,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ShowFlyout(FrameworkElement sender)
+        public void ShowFlyout(FrameworkElement sender, Point point)
         {
             if (Resources["options_mfo"] is MenuFlyout flyout)
             {
-                flyout.ShowAt(sender);
+                flyout.ShowAt(sender, point);
 
                 // Spam detection is currently under development:
                 if (Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED))
@@ -83,7 +84,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             SpeechBubbleContentViewModel.SetMessageAsClipboardText();
         }
 
-        private void CopyNickname_mfi_Click(object sender, RoutedEventArgs e)
+        private void CopySender_mfi_Click(object sender, RoutedEventArgs e)
         {
             SpeechBubbleContentViewModel.SetFromUserAsClipboardText();
         }
@@ -105,6 +106,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         private async void MarkAsSpam_mfi_Click(object sender, RoutedEventArgs e)
         {
             await SpeechBubbleContentViewModel.MarkAsSpamAsync();
+        }
+
+        private async void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await SpeechBubbleContentViewModel.DeleteMessageAsync();
         }
 
         #endregion

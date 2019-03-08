@@ -55,7 +55,7 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     if (from != null && i.TYPE != null && i.CATEGORY != null)
                     {
-                        update(new DiscoIdentityTable()
+                        dB.InsertOrReplace(new DiscoIdentityTable()
                         {
                             id = DiscoIdentityTable.generateId(from, i.TYPE),
                             fromServer = from,
@@ -77,7 +77,7 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     if (from != null && f.VAR != null)
                     {
-                        update(new DiscoFeatureTable
+                        dB.InsertOrReplace(new DiscoFeatureTable
                         {
                             id = DiscoFeatureTable.generateId(from, f.VAR),
                             fromServer = from,
@@ -97,7 +97,7 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     if (from != null && i.JID != null)
                     {
-                        update(new DiscoItemTable()
+                        dB.InsertOrReplace(new DiscoItemTable()
                         {
                             id = DiscoItemTable.generateId(from, i.JID),
                             fromServer = from,

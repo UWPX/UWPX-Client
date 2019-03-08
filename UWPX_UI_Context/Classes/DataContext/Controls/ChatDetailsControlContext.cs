@@ -240,7 +240,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!MODEL.isDummy)
             {
-                await MODEL.OnChatMessageChangedAsync(args.MESSAGE);
+                await MODEL.OnChatMessageChangedAsync(args.MESSAGE, args.REMOVED);
             }
         }
 

@@ -82,21 +82,6 @@ namespace Shared.Classes.SQLite
         /// </summary>
         protected abstract void createTables();
 
-        /// <summary>
-        /// Inserts or replaces the given object into the db.
-        /// </summary>
-        protected virtual void update(object obj)
-        {
-            try
-            {
-                dB.InsertOrReplace(obj);
-            }
-            catch (Exception e)
-            {
-                Logger.Error("Error in update", e);
-            }
-        }
-
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--

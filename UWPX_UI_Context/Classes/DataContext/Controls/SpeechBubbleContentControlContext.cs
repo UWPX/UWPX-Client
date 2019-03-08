@@ -73,10 +73,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public async Task MarkAsSpamAsync()
         {
-            await Task.Run(() => {
+            await Task.Run(() =>
+            {
                 SpamDBManager.INSTANCE.addSpamMessage(ChatMessageModel.Message.message, DateTime.Now);
                 Logger.Info("Marked message as spam: " + ChatMessageModel.Message.message);
             });
+        }
+
+        public async Task DeleteMessageAsync()
+        {
+            await Task.Run(() => ChatDBManager.INSTANCE.deleteChatMessageAsync(ChatMessageModel.Message, true));
         }
 
         #endregion

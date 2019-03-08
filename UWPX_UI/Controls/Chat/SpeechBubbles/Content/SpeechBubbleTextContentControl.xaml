@@ -18,9 +18,9 @@
                     <FontIcon Glyph="&#xE8C8;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
-            <MenuFlyoutItem x:Name="copyNickname_mfi"
-                            Click="CopyNickname_mfi_Click"
-                            Text="Copy nickname">
+            <MenuFlyoutItem x:Name="copySender_mfi"
+                            Click="CopySender_mfi_Click"
+                            Text="Copy sender">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE8C8;"/>
                 </MenuFlyoutItem.Icon>
@@ -38,6 +38,13 @@
                             Text="Resend message">
                 <MenuFlyoutItem.Icon>
                     <FontIcon Glyph="&#xE72C;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="deleteMsg_mfi"
+                            Click="DeleteMsg_mfi_Click"
+                            Text="Delete message">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
             <MenuFlyoutSeparator x:Name="markAsSpam_mfs"/>

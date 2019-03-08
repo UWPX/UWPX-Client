@@ -8,6 +8,7 @@ namespace Data_Manager2.Classes.Events
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly ChatMessageTable MESSAGE;
+        public readonly bool REMOVED;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,9 +19,10 @@ namespace Data_Manager2.Classes.Events
         /// <history>
         /// 01/01/2018 Created [Fabian Sauter]
         /// </history>
-        public ChatMessageChangedEventArgs(ChatMessageTable message)
+        public ChatMessageChangedEventArgs(ChatMessageTable message, bool removed)
         {
             this.MESSAGE = message;
+            this.REMOVED = removed;
         }
 
         #endregion

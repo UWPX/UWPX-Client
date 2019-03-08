@@ -74,7 +74,7 @@ namespace Data_Manager2.Classes.DBManager
             }
             else
             {
-                update(occupant);
+                dB.InsertOrReplace(occupant);
 
                 if (triggerMUCOccupantChanged)
                 {
@@ -122,7 +122,7 @@ namespace Data_Manager2.Classes.DBManager
                 }
                 else
                 {
-                    update(info);
+                    dB.InsertOrReplace(info);
                 }
 
                 if (triggerMUCChanged)

@@ -8,7 +8,42 @@
              HorizontalAlignment="Center"
              d:DesignHeight="300"
              d:DesignWidth="400"
+             RightTapped="UserControl_RightTapped"
              mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <MenuFlyout x:Key="options_mfo">
+            <MenuFlyoutItem x:Name="copyMessage_mfi"
+                            Click="CopyMessage_mfi_Click"
+                            Text="Copy message">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="copyDate_mfi"
+                            Click="CopyDate_mfi_Click"
+                            Text="Copy date">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem x:Name="deleteMsg_mfi"
+                            Click="DeleteMsg_mfi_Click"
+                            Text="Delete message">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+
+        <Style x:Key="ReplacedContextMenuBodyTextBlock"
+               BasedOn="{StaticResource BodyTextBlockStyle}"
+               TargetType="TextBlock">
+            <Setter Property="ContextFlyout" Value="{StaticResource options_mfo}"/>
+            <Setter Property="IsTextSelectionEnabled" Value="True"/>
+        </Style>
+    </UserControl.Resources>
 
     <Grid MinWidth="100"
           MinHeight="40"
@@ -25,7 +60,7 @@
                    HorizontalAlignment="Center"
                    extensions:TextBlockChatMessageFormatExtension.FormattedText="{x:Bind VIEW_MODEL.MODEL.Text, Mode=OneWay}"
                    Foreground="{ThemeResource SpeechBubbleForegroundBrush}"
-                   IsTextSelectionEnabled="True"
+                   Style="{StaticResource ReplacedContextMenuBodyTextBlock}"
                    Text="Loading..."
                    TextWrapping="Wrap"/>
 

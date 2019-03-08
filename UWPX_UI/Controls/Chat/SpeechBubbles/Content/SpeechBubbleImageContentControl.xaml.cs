@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Data;
@@ -40,11 +41,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ShowFlyout(FrameworkElement sender)
+        public void ShowFlyout(FrameworkElement sender, Point point)
         {
             if (Resources["options_mfo"] is MenuFlyout flyout)
             {
-                flyout.ShowAt(sender);
+                flyout.ShowAt(sender, point);
             }
         }
 
@@ -200,6 +201,11 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
             }
         }
 
-        #endregion        
+        private async void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await SpeechBubbleContentViewModel.DeleteMessageAsync();
+        }
+
+        #endregion
     }
 }

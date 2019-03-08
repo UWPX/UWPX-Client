@@ -61,7 +61,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
             {
                 if (content_cp.ContentTemplateRoot is IShowFlyoutSpeechBubbleContent flyoutSpeechBubbleContent)
                 {
-                    flyoutSpeechBubbleContent.ShowFlyout(speechBubble);
+                    flyoutSpeechBubbleContent.ShowFlyout(speechBubble, e.GetPosition(speechBubble));
                 }
             }
         }

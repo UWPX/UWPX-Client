@@ -137,7 +137,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
                     if (!confirmDialogModel.KeepChatMessages)
                     {
-                        ChatDBManager.INSTANCE.deleteAllChatMessagesForChat(Chat.Chat.id);
+                        await ChatDBManager.INSTANCE.deleteAllChatMessagesForChatAsync(Chat.Chat.id);
                         Logger.Info("Deleted chat messages for: " + Chat.Chat.id);
                     }
 

@@ -1,7 +1,9 @@
 ﻿using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
+using Windows.Foundation;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles
 {
@@ -34,7 +36,13 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void ShowFlyout(FrameworkElement sender, Point point)
+        {
+            if (Resources["options_mfo"] is MenuFlyout flyout)
+            {
+                flyout.ShowAt(sender, point);
+            }
+        }
 
         #endregion
 
@@ -58,6 +66,29 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
             {
                 speechBubble.UpdateView(e);
             }
+        }
+
+        private void CopyMessage_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.SetMessageAsClipboardText();
+        }
+
+        private void CopyDate_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current.Resources["ChatDateTimeStringValueConverter"] is IValueConverter converter)
+            {
+                VIEW_MODEL.SetDateAsClipboardText(converter);
+            }
+        }
+
+        private async void DeleteMsg_mfi_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.DeleteMessageAsync();
+        }
+
+        private void UserControl_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        {
+            ShowFlyout(this, e.GetPosition(this));
         }
 
         #endregion

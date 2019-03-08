@@ -212,14 +212,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             CHAT_MESSAGES_SEMA.Release();
         }
 
-        public async Task OnChatMessageChangedAsync(ChatMessageTable msg)
+        public async Task OnChatMessageChangedAsync(ChatMessageTable msg, bool removed)
         {
             await CHAT_MESSAGES_SEMA.WaitAsync();
-            foreach (ChatMessageDataTemplate chatMsg in CHAT_MESSAGES)
+            for (int i = 0; i < CHAT_MESSAGES.Count; i++)
             {
-                if (string.Equals(chatMsg.Message.id, msg.id))
+                if (string.Equals(CHAT_MESSAGES[i].Message.id, msg.id))
                 {
-                    chatMsg.Message = msg;
+                    if (removed)
+                    {
+                        CHAT_MESSAGES.RemoveAt(i);
+                    }
+                    else
+                    {
+                        CHAT_MESSAGES[i].Message = msg;
+                    }
                     CHAT_MESSAGES_SEMA.Release();
                     return;
                 }

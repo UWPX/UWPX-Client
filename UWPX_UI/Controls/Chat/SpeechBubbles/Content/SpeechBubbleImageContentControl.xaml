@@ -95,6 +95,13 @@
                     <FontIcon Glyph="&#xE72C;"/>
                 </MenuFlyoutItem.Icon>
             </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="deleteMsg_mfi"
+                            Click="DeleteMsg_mfi_Click"
+                            Text="Delete message">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
             <MenuFlyoutSeparator/>
             <MenuFlyoutItem x:Name="openImage_mfi"
                             Click="OpenImage_mfi_Click"

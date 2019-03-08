@@ -1,8 +1,12 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using Logging;
 using Shared.Classes.Network;
 using Shared.Classes.SQLite;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -47,6 +51,38 @@ namespace Data_Manager2.Classes.DBManager
         public List<ImageTable> getAllUndownloadedImages()
         {
             return dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE " + nameof(ImageTable.State) + " != ? AND " + nameof(ImageTable.State) + " != ?;", (int)DownloadState.DONE, (int)DownloadState.ERROR);
+        }
+
+        public async Task deleteImageAsync(ChatMessageTable msg)
+        {
+            ImageTable image = await getImageAsync(msg);
+            if (!(image is null))
+            {
+                // Cancel download:
+                ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CancelDownload(image);
+
+                // Try to delete local file:
+                try
+                {
+                    if (!string.IsNullOrEmpty(image.TargetFolderPath) && !string.IsNullOrEmpty(image.TargetFileName))
+                    {
+                        string path = Path.Combine(image.TargetFolderPath, image.TargetFileName);
+                        StorageFile file = await StorageFile.GetFileFromPathAsync(path);
+                        if (!(file is null))
+                        {
+                            await file.DeleteAsync();
+                        }
+                    }
+                    Logger.Info("Deleted: " + image.TargetFileName);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to delete image: " + image.TargetFileName, e);
+                }
+
+                // Delete DB entry:
+                dB.Delete(image);
+            }
         }
 
         #endregion
