@@ -331,7 +331,7 @@ namespace XMPP_API.Classes.Network
             }
             cache.Item2.Dispose();
             MESSAGE_CACHE.Remove(omemoSession.CHAT_JID);
-            Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSession.CHAT_JID);
+            Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSession.CHAT_JID + " to " + cache.Item1.Count + " recipient(s).");
         }
 
         private void requestDeviceList()

@@ -118,16 +118,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
             }
 
-            // Send the message:
-            if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
-            {
-                chat.Client.sendOmemoMessage(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getIdAndDomain());
-            }
-            else
-            {
-                await chat.Client.sendAsync(toSendMsg).ConfigureAwait(false);
-            }
-
             // Create a copy for the DB:
             ChatMessageTable toSendMsgDB = new ChatMessageTable(toSendMsg, chat.Chat)
             {
@@ -146,6 +136,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 ChatDBManager.INSTANCE.setChatMessage(toSendMsgDB, true, false);
                 ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
             });
+
+            // Send the message:
+            if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
+            {
+                chat.Client.sendOmemoMessage(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getIdAndDomain());
+            }
+            else
+            {
+                await chat.Client.sendAsync(toSendMsg).ConfigureAwait(false);
+            }
         }
 
         public async Task OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
