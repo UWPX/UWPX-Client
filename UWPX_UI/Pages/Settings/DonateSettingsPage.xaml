@@ -47,10 +47,11 @@
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <TextBlock x:Uid="DonateSettingsPage_bank_details0"
+                                           Margin="0,10,0,0"
                                            TextWrapping="Wrap"/>
                                 <Button x:Name="donatePP_btn"
                                         Height="30"
-                                        Margin="10,10,0,0"
+                                        Margin="0,10,0,0"
                                         Padding="5,3,5,3"
                                         Click="DonatePP_btn_Click"
                                         Style="{ThemeResource ButtonRevealStyle}">
@@ -58,7 +59,7 @@
                                 </Button>
                                 <Button x:Name="donateLP_btn"
                                         Height="35"
-                                        Margin="10,10,0,0"
+                                        Margin="0,10,0,0"
                                         Padding="0"
                                         Background="Transparent"
                                         Click="DonateLP_btn_Click"
@@ -75,6 +76,7 @@
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <TextBlock x:Uid="DonateSettingsPage_bank_details1"
+                                           Margin="0,10,0,0"
                                            TextWrapping="Wrap"/>
                                 <HyperlinkButton x:Name="sendMail_link"
                                                  Click="SendMail_link_Click"
