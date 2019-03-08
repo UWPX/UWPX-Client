@@ -43,17 +43,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= OldChat_PropertyChanged;
-                oldChat.ChatMessageChanged -= OldChat_ChatMessageChanged;
-                oldChat.NewChatMessage -= OldChat_NewChatMessage;
+                oldChat.PropertyChanged -= Chat_PropertyChanged;
+                oldChat.ChatMessageChanged -= Chat_ChatMessageChanged;
+                oldChat.NewChatMessage -= Chat_NewChatMessage;
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
-                newChat.PropertyChanged += OldChat_PropertyChanged;
-                newChat.ChatMessageChanged += OldChat_ChatMessageChanged;
-                newChat.NewChatMessage += OldChat_NewChatMessage;
+                newChat.PropertyChanged += Chat_PropertyChanged;
+                newChat.ChatMessageChanged += Chat_ChatMessageChanged;
+                newChat.NewChatMessage += Chat_NewChatMessage;
             }
 
             UpdateView(newChat);
@@ -134,6 +134,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 state = toSendMsg is OmemoMessageMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
             };
 
+            // Set the chat message id for later identification:
+            toSendMsg.chatMessageId = toSendMsgDB.id;
+
             // Update chat last active:
             chat.Chat.lastActive = DateTime.Now;
 
@@ -210,7 +213,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OldChat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is ChatDataTemplate chat)
             {
@@ -218,7 +221,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        private async void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
+        private async void Chat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
         {
             if (!MODEL.isDummy)
             {
@@ -233,7 +236,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        private async void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void Chat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
         {
             if (!MODEL.isDummy)
             {

@@ -320,7 +320,7 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void C_ConnectionStateChanged(XMPPClient client, XMPP_API.Classes.Network.Events.ConnectionStateChangedEventArgs args)
+        private void C_ConnectionStateChanged(XMPPClient client, ConnectionStateChangedEventArgs args)
         {
             switch (args.newState)
             {
@@ -536,9 +536,9 @@ namespace Data_Manager2.Classes
             bool chatChanged = false;
 
             // Spam detection:
-            if(Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
+            if (Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED))
             {
-                if(Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || chat is null)
+                if (Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES) || chat is null)
                 {
                     if (SpamDBManager.INSTANCE.isSpam(msg.MESSAGE))
                     {

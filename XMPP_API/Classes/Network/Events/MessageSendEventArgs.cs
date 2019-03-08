@@ -6,8 +6,17 @@ namespace XMPP_API.Classes.Network.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        /// <summary>
+        /// The unique ID of the XMPP message.
+        /// </summary>
         public readonly string ID;
+        /// <summary>
+        /// A unique ID for chat messages to identify them in the DB.
+        /// </summary>
         public readonly string CHAT_MESSAGE_ID;
+        /// <summary>
+        /// Did the message got send with a delay?
+        /// </summary>
         public readonly bool DELAYED;
 
         #endregion
