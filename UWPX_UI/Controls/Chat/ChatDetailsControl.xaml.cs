@@ -17,6 +17,13 @@ namespace UWPX_UI.Controls.Chat
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatDetailsControl), new PropertyMetadata(null, ChatPropertyChanged));
 
+        public bool IsDummy
+        {
+            get { return (bool)GetValue(IsDummyProperty); }
+            set { SetValue(IsDummyProperty, value); }
+        }
+        public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register(nameof(IsDummy), typeof(bool), typeof(ChatDetailsControl), new PropertyMetadata(false, OnIsDummyChanged));
+
         public readonly ChatDetailsControlContext VIEW_MODEL = new ChatDetailsControlContext();
 
         #endregion
@@ -43,7 +50,28 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
+        private void LoadDummyContent()
+        {
+            Chat = new ChatDataTemplate
+            {
+                Chat = new Data_Manager2.Classes.DBTables.ChatTable("dave@xmpp.uwpx.org", "alice@xmpp.uwpx.org")
+                {
+                    presence = XMPP_API.Classes.Presence.Away,
+                    status = "ʕノ•ᴥ•ʔノ ︵ ┻━┻",
+                    omemoEnabled = true
+                }
+            };
+            VIEW_MODEL.LoadDummyContent(Chat.Chat);
+        }
 
+        private void UpdateIsDummy()
+        {
+            VIEW_MODEL.OnIsDummyChanged(IsDummy);
+            if (IsDummy)
+            {
+                LoadDummyContent();
+            }
+        }
 
         #endregion
 
@@ -86,7 +114,10 @@ namespace UWPX_UI.Controls.Chat
 
         private void Info_mfo_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsDummy)
+            {
 
+            }
         }
 
         private async void Enter_mfo_Click(object sender, RoutedEventArgs e)
@@ -101,7 +132,10 @@ namespace UWPX_UI.Controls.Chat
 
         private void Test_mfo_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsDummy)
+            {
 
+            }
         }
 
         private void ClipImgLib_btn_Click(object sender, RoutedEventArgs e)
@@ -137,6 +171,14 @@ namespace UWPX_UI.Controls.Chat
         private async void ReadOnOmemo_link_Click(object sender, RoutedEventArgs e)
         {
             await VIEW_MODEL.OnReadOnOmemoClickedAsync();
+        }
+
+        private static void OnIsDummyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ChatDetailsControl chatDetailsControl)
+            {
+                chatDetailsControl.UpdateIsDummy();
+            }
         }
 
         #endregion

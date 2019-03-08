@@ -205,6 +205,7 @@
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
+    <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondValueConverter.cs" />
@@ -296,6 +297,9 @@
     <SDKReference Include="WindowsMobile, Version=10.0.17763.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.Dummy.cs" />
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

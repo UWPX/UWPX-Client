@@ -14,7 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public class ChatDetailsControlContext
+    public sealed partial class ChatDetailsControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -67,7 +67,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 string trimedMsg = MODEL.MessageText.Trim(UiUtils.TRIM_CHARS);
 
                 // Send message:
-                if (MODEL.OmemoEnabled)
+                if (MODEL.isDummy)
+                {
+                    SendDummyMessage(chat.Chat, trimedMsg);
+                }
+                else if (MODEL.OmemoEnabled)
                 {
                     await SendChatMessageAsync(trimedMsg, chat, true);
                     Logger.Debug("Send encrypted: " + trimedMsg);
@@ -163,12 +167,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MUCHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            if (!MODEL.isDummy)
+            {
+                await MUCHandler.INSTANCE.leaveRoomAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            }
         }
 
         public async Task EnterMucAsync(ChatDataTemplate chatTemplate)
         {
-            await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            if (!MODEL.isDummy)
+            {
+                await MUCHandler.INSTANCE.enterMUCAsync(chatTemplate.Client, chatTemplate.Chat, chatTemplate.MucInfo);
+            }
         }
 
         #endregion
@@ -210,19 +220,25 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private async void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
         {
-            await MODEL.OnNewChatMessageAsync(args.MESSAGE, chat.Chat, chat.MucInfo);
-            if (args.MESSAGE.state == MessageState.UNREAD)
+            if (!MODEL.isDummy)
             {
-                await Task.Run(() =>
+                await MODEL.OnNewChatMessageAsync(args.MESSAGE, chat.Chat, chat.MucInfo);
+                if (args.MESSAGE.state == MessageState.UNREAD)
                 {
-                    ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
-                });
+                    await Task.Run(() =>
+                    {
+                        ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
+                    });
+                }
             }
         }
 
         private async void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
         {
-            await MODEL.OnChatMessageChangedAsync(args.MESSAGE);
+            if (!MODEL.isDummy)
+            {
+                await MODEL.OnChatMessageChangedAsync(args.MESSAGE);
+            }
         }
 
         #endregion

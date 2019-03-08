@@ -60,7 +60,7 @@
 
             <!--  Header:  -->
             <Grid Grid.Row="0"
-                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                  Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -71,10 +71,10 @@
                                                       Width="30"
                                                       Height="30"
                                                       Margin="10"
-                                                      Initials="{x:Bind VIEW_MODEL.MODEL.AccountInitials, Mode=OneWay}"
-                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"
                                                       HorizontalAlignment="Left"
-                                                      VerticalAlignment="Center"/>
+                                                      VerticalAlignment="Center"
+                                                      Initials="{x:Bind VIEW_MODEL.MODEL.AccountInitials, Mode=OneWay}"
+                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>
                 <Grid x:Name="headerInfo_grid"
                       Grid.Column="1"
                       VerticalAlignment="Center"

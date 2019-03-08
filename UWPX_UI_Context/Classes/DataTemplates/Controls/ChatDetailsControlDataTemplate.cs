@@ -97,6 +97,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private CancellationTokenSource loadChatMessagesCancelToken = null;
         private Task loadChatMessagesTask = null;
         private ChatTable chat;
+        internal bool isDummy = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -114,7 +115,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (SetProperty(ref _OmemoEnabled, value, nameof(OmemoEnabled)) && !(chat is null))
             {
                 chat.omemoEnabled = value;
-                Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
+                if (!isDummy)
+                {
+                    Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
+                }
             }
         }
 
@@ -134,12 +138,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (!(chat is null))
             {
                 // Do not reload chat messages, if for example only the presence changes:
-                if (this.chat is null || !(string.Equals(chat.id, this.chat.id)))
+                if (!isDummy && (this.chat is null || !string.Equals(chat.id, this.chat.id)))
                 {
                     LoadChatMessages(chat, muc);
                 }
                 this.chat = chat;
-                MarkChatMessagesAsRead(chat);
+                if (isDummy)
+                {
+                    AccountText = chat.userAccountId;
+                }
+                else
+                {
+                    MarkChatMessagesAsRead(chat);
+                }
 
                 if (chat.chatType == ChatType.MUC)
                 {
