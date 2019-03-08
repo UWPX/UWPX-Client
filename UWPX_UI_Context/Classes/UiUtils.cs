@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using Logging;
+using Microsoft.Toolkit.Uwp.UI.Helpers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,6 +38,32 @@ namespace UWPX_UI_Context.Classes
         public const string DEVICE_FAMILY_IOT_HEADLESS = "";
         public const string DEVICE_FAMILY_HOLOLENS = "";
         public const string DEVICE_FAMILY_TEAM = "";
+
+        /// <summary>
+        /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
+        /// </summary>
+        public static ElementTheme RootTheme
+        {
+            get
+            {
+                if (Window.Current.Content is FrameworkElement rootElement)
+                {
+                    return rootElement.RequestedTheme;
+                }
+
+                return ElementTheme.Default;
+            }
+            set
+            {
+                if (Window.Current.Content is FrameworkElement rootElement)
+                {
+                    rootElement.RequestedTheme = value;
+                    SetupWindow(Application.Current);
+                }
+                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
+            }
+        }
+        public static ThemeListener themeListener;
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -222,13 +249,29 @@ namespace UWPX_UI_Context.Classes
 
         public static ElementTheme LoadRequestedTheme()
         {
+            // Set the default theme to dark:
+            if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            {
+                return ElementTheme.Dark;
+            }
+
             string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
             ElementTheme theme = ElementTheme.Dark;
             if (themeString != null)
             {
                 Enum.TryParse(themeString, out theme);
             }
-            return theme;
+            RootTheme = theme;
+            return RootTheme;
+        }
+
+        public static void SetupThemeListener()
+        {
+            if (themeListener is null)
+            {
+                themeListener = new ThemeListener();
+                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
+            }
         }
 
         public static void SetupWindow(Application application)
@@ -414,7 +457,10 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void ThemeListener_ThemeChanged(ThemeListener sender)
+        {
+            SetupWindow(Application.Current);
+        }
 
         #endregion
     }

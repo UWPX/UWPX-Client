@@ -20,7 +20,7 @@ namespace UWPX_UI.Pages.Settings
         private ObservableCollection<SettingsPageButtonDataTemplate> SETTINGS_PAGES = new ObservableCollection<SettingsPageButtonDataTemplate>()
         {
             new SettingsPageButtonDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", NavTarget = typeof(AccountsSettingsPage)},
-            new SettingsPageButtonDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Color", NavTarget = typeof(SettingsPage)},
+            new SettingsPageButtonDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Color", NavTarget = typeof(PersonalizeSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", NavTarget = typeof(DataSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability", NavTarget = typeof(ChatSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", NavTarget = typeof(BackgroundTaskSettingsPage)},

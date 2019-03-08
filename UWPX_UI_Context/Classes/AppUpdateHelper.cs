@@ -119,7 +119,7 @@ namespace UWPX_UI_Context.Classes
                         Logger.Info("Finished generating OMEMO keys for accounts. Update to version 0.9.0.0 done.");
                     }
 
-                    // Drop all OMEMO  tables since they have drastically changed in 0.11.0.0:
+                    // Drop all OMEMO tables since they have drastically changed in 0.11.0.0:
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 11)
                     {
                         Logger.Info("Started dropping OMEMO tables...");
@@ -139,6 +139,14 @@ namespace UWPX_UI_Context.Classes
                             AccountDBManager.INSTANCE.setAccount(account, false);
                         }
                         Logger.Info("Finished dropping OMEMO tables. Update to version 0.11.0.0 done.");
+                    }
+
+                    // Set the default theme to dark in 0.14.0.0:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 14)
+                    {
+                        Logger.Info("Started setting the default theme to dark...");
+                        UiUtils.RootTheme = Windows.UI.Xaml.ElementTheme.Dark;
+                        Logger.Info("Finished setting the default theme to dark. Update to version 0.14.0.0 done.");
                     }
                 }
             }

@@ -273,6 +273,9 @@
     <Compile Include="Pages\Settings\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Settings\PersonalizeSettingsPage.xaml.cs">
+      <DependentUpon>PersonalizeSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\DonateSettingsPage.xaml.cs">
       <DependentUpon>DonateSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -578,6 +581,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Settings\CreditsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Settings\PersonalizeSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

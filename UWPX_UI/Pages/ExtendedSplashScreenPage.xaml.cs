@@ -138,6 +138,15 @@ namespace UWPX_UI.Pages
 
         private async Task LoadAppAsync()
         {
+            // Set requested theme:
+            UiUtils.LoadRequestedTheme();
+
+            // Setup listening for theme changes:
+            UiUtils.SetupThemeListener();
+
+            // Setup window:
+            UiUtils.SetupWindow(Application.Current);
+
             // Setup App Center crashes, push:
             AppCenterHelper.SetupAppCenter(APP_CENTER_PUSH_CALLBACK);
 
@@ -170,7 +179,18 @@ namespace UWPX_UI.Pages
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
 
+            await HandleInitialAppStartAsync();
+
             EvaluateActivationArgs();
+        }
+
+        private async Task HandleInitialAppStartAsync()
+        {
+            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            {
+                Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+                // TODO: Show initial start dialog
+            }
         }
 
         private void EvaluateActivationArgs()

@@ -4,7 +4,6 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.AppCenter.Push;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
 using System;
 using System.Text;
 using UWPX_UI.Dialogs;
@@ -25,33 +24,7 @@ namespace UWPX_UI
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        /// <summary>
-        /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
-        /// </summary>
-        public static ElementTheme RootTheme
-        {
-            get
-            {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    return rootElement.RequestedTheme;
-                }
-
-                return ElementTheme.Default;
-            }
-            set
-            {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = value;
-                    UiUtils.SetupWindow(Current);
-                }
-                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
-            }
-        }
-
         private bool isRunning;
-        private ThemeListener themeListener;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -104,20 +77,11 @@ namespace UWPX_UI
             // Sets the log level:
             InitLogger();
 
-            // Set requested theme:
-            RootTheme = UiUtils.LoadRequestedTheme();
-
-            // Setup listening for theme changes:
-            SetupThemeListener();
-
             // Override resources to increase the UI performance on mobile devices:
             if (DeviceFamilyHelper.GetDeviceFamilyType() == DeviceFamilyType.Mobile)
             {
                 UiUtils.OverrideResources();
             }
-
-            // Setup window:
-            UiUtils.SetupWindow(Current);
 
             isRunning = true;
 
@@ -138,20 +102,6 @@ namespace UWPX_UI
             rootFrame.Content = extendedSplashScreen;
 
             Window.Current.Activate();
-        }
-
-        private void SetupThemeListener()
-        {
-            if (themeListener is null)
-            {
-                themeListener = new ThemeListener();
-                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
-            }
-        }
-
-        private void ThemeListener_ThemeChanged(ThemeListener sender)
-        {
-            UiUtils.SetupWindow(Current);
         }
 
         #endregion
