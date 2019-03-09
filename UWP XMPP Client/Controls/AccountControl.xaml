@@ -32,7 +32,7 @@
                      Margin="0,10,0,0"
                      Header="Password:"
                      KeyUp="password_pwb_KeyUp"
-                     Password="{x:Bind Account.user.userPassword, Mode=TwoWay}"
+                     Password="{x:Bind Account.user.password, Mode=TwoWay}"
                      PlaceholderText="Your super secret password"/>
         <TextBox x:Name="resource_tbx"
                  Grid.Row="2"
@@ -40,12 +40,12 @@
                  Header="Resource:"
                  KeyUp="resource_tbx_KeyUp"
                  PlaceholderText="e.g. device name"
-                 Text="{x:Bind Account.user.resource, Mode=TwoWay}"/>
+                 Text="{x:Bind Account.user.resourcePart, Mode=TwoWay}"/>
 
         <Grid Grid.Row="3"
               Margin="0,10,0,0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
+                <um Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <Grid Grid.Row="0"
@@ -67,7 +67,7 @@
             </Grid>
             <StackPanel x:Name="advancedOptions_stckpnl"
                         Grid.Row="1"
-                        Visibility="Collapsed">
+                        Visibility="Visible">
                 <TextBox x:Name="serverAddress_tbx"
                          Margin="0,10,0,0"
                          Header="Server address:"

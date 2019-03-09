@@ -129,7 +129,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (!(client is null))
             {
-                AccountText = client.getXMPPAccount().getIdAndDomain();
+                AccountText = client.getXMPPAccount().getBareJid();
             }
         }
 

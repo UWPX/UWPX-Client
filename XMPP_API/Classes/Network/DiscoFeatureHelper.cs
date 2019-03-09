@@ -52,7 +52,7 @@ namespace XMPP_API.Classes.Network
                 discoMessageResponseHelper.Dispose();
             }
             discoMessageResponseHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onDiscoMessage, onDiscoTimeout);
-            discoMessageResponseHelper.start(new DiscoRequestMessage(CONNECTION.account.getIdDomainAndResource(), CONNECTION.account.user.domain, DiscoType.INFO));
+            discoMessageResponseHelper.start(new DiscoRequestMessage(CONNECTION.account.getFullJid(), CONNECTION.account.user.domainPart, DiscoType.INFO));
         }
 
         private bool onDiscoMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
@@ -77,9 +77,9 @@ namespace XMPP_API.Classes.Network
                                 }
                                 else if (CONNECTION.account.CONNECTION_INFO.msgCarbonsState != MessageCarbonsState.ENABLED)
                                 {
-                                    Logger.Info("Enabling message carbons for " + CONNECTION.account.getIdAndDomain() + " ...");
+                                    Logger.Info("Enabling message carbons for " + CONNECTION.account.getBareJid() + " ...");
                                     carbonsMessageResponseHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onCarbonsMessage, onCarbonsTimeout);
-                                    carbonsMessageResponseHelper.start(new CarbonsEnableMessage(CONNECTION.account.getIdDomainAndResource()));
+                                    carbonsMessageResponseHelper.start(new CarbonsEnableMessage(CONNECTION.account.getFullJid()));
                                 }
                                 break;
                             }
@@ -87,7 +87,7 @@ namespace XMPP_API.Classes.Network
 
                         if (!foundCarbons)
                         {
-                            Logger.Warn("Unable to enable message carbons for " + CONNECTION.account.getIdAndDomain() + " - not available.");
+                            Logger.Warn("Unable to enable message carbons for " + CONNECTION.account.getBareJid() + " - not available.");
                             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
                         }
                         break;
@@ -100,7 +100,7 @@ namespace XMPP_API.Classes.Network
             else if (msg is IQErrorMessage errMsg)
             {
                 CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
-                Logger.Error("Failed to request initial server disco for " + CONNECTION.account.getIdAndDomain() + ": " + errMsg.ERROR_OBJ.ToString());
+                Logger.Error("Failed to request initial server disco for " + CONNECTION.account.getBareJid() + ": " + errMsg.ERROR_OBJ.ToString());
                 return true;
             }
             return false;
@@ -116,12 +116,12 @@ namespace XMPP_API.Classes.Network
             if (msg is IQErrorMessage errMsg)
             {
                 CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-                Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getIdAndDomain() + ": " + errMsg.ERROR_OBJ.ToString());
+                Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getBareJid() + ": " + errMsg.ERROR_OBJ.ToString());
                 return true;
             }
             else if (string.Equals(msg.TYPE, IQMessage.RESULT))
             {
-                Logger.Info("Message carbons enabled for " + CONNECTION.account.getIdAndDomain());
+                Logger.Info("Message carbons enabled for " + CONNECTION.account.getBareJid());
                 CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ENABLED;
                 return true;
             }
@@ -131,7 +131,7 @@ namespace XMPP_API.Classes.Network
         private void onCarbonsTimeout(MessageResponseHelper<IQMessage> helper)
         {
             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-            Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getIdAndDomain() + " - timeout!");
+            Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getBareJid() + " - timeout!");
         }
 
         #endregion

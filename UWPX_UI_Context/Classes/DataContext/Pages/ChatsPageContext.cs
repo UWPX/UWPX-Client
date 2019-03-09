@@ -88,7 +88,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             List<ChatDataTemplate> list = new List<ChatDataTemplate>();
             foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
             {
-                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getIdAndDomain()))
+                foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getBareJid()))
                 {
                     if (chat.chatType == ChatType.MUC)
                     {
@@ -151,7 +151,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 // Add the new chat to the list of chats:
                 foreach (XMPPClient c in ConnectionHandler.INSTANCE.getClients())
                 {
-                    if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getIdAndDomain()))
+                    if (Equals(args.CHAT.userAccountId, c.getXMPPAccount().getBareJid()))
                     {
                         if (args.CHAT.chatType == ChatType.MUC)
                         {

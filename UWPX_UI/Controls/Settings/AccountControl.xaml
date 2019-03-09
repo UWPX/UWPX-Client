@@ -42,9 +42,11 @@
                            Margin="5,0,0,0"
                            VerticalAlignment="Center"
                            Fill="{x:Bind Account.Account.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
-                <Button Grid.Column="1"
+                <Button x:Name="edit_btn"
+                        Grid.Column="1"
                         Width="40"
                         VerticalAlignment="Stretch"
+                        Click="Edit_btn_Click"
                         Content="&#xE1C2;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="20"
@@ -78,7 +80,7 @@
                                Grid.Row="0"
                                HorizontalAlignment="Center"
                                Style="{ThemeResource BodyTextBlockStyle}"
-                               Text="{x:Bind Account.Account.user.userId, Mode=OneWay}"
+                               Text="{x:Bind Account.Account.user.localPart, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <TextBlock x:Name="secondaryInfo_tblck"
                                Grid.Row="1"
@@ -86,7 +88,7 @@
                                FontSize="10"
                                Foreground="{ThemeResource CaptionTextBrush}"
                                Style="{ThemeResource CaptionTextBlockStyle}"
-                               Text="{x:Bind Account.Account.user.domain, Mode=OneWay}"
+                               Text="{x:Bind Account.Account.user.domainPart, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"/>
                     <TextBlock x:Name="error_tblck"
                                Grid.Row="2"

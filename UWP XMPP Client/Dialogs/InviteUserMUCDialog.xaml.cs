@@ -47,7 +47,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public InviteUserMUCDialog(XMPPClient client, List<string> memberList)
         {
-            this.USER_ACCOUNT_ID = client.getXMPPAccount().getIdAndDomain();
+            this.USER_ACCOUNT_ID = client.getXMPPAccount().getBareJid();
             this.MEMBER_LIST = memberList;
             this.canceled = true;
             this.SUGGESTIONS = new ObservableCollection<string>();

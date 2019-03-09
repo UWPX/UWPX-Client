@@ -1,16 +1,17 @@
 ﻿using Shared.Classes;
+using Windows.UI;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class DeleteChatConfirmDialogDataTemplate : AbstractDataTemplate
+    public sealed class ColorPickerDialogDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _KeepChatMessages;
-        public bool KeepChatMessages
+        private Color _SelectedColor;
+        public Color SelectedColor
         {
-            get { return _KeepChatMessages; }
-            set { SetProperty(ref _KeepChatMessages, value); }
+            get { return _SelectedColor; }
+            set { SetProperty(ref _SelectedColor, value); }
         }
         private bool _Confirmed;
         public bool Confirmed
@@ -22,10 +23,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DeleteChatConfirmDialogDataTemplate()
+        public ColorPickerDialogDataTemplate(Color color)
         {
-            KeepChatMessages = false;
-            Confirmed = false;
+            this.SelectedColor = color;
+            this.Confirmed = false;
         }
 
         #endregion

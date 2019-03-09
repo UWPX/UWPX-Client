@@ -210,6 +210,15 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public async Task deleteAllChatMessagesForAccountAsync(string userAccountId)
+        {
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT m.* FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " m JOIN " + DBTableConsts.CHAT_TABLE + " c ON m.chatId = c.id WHERE c.userAccountId = ?;", userAccountId);
+            foreach (ChatMessageTable msg in list)
+            {
+                await deleteChatMessageAsync(msg, false);
+            }
+        }
+
         public void deleteAllChatsForAccount(string userAccountId)
         {
             dB.Execute("DELETE FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);

@@ -178,7 +178,7 @@ namespace XMPP_API.Classes.Crypto
         public static string generateOmemoQrCodeFingerprint(IdentityKey key, XMPPAccount account)
         {
             StringBuilder sb = new StringBuilder("xmpp:");
-            sb.Append(account.getIdAndDomain());
+            sb.Append(account.getBareJid());
             sb.Append("?omemo-sid-");
             sb.Append(account.omemoDeviceId);
             sb.Append('=');

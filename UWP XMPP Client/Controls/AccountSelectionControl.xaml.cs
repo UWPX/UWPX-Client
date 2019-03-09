@@ -89,8 +89,8 @@ namespace UWP_XMPP_Client.Controls
             int foundConnected = -1;
             for (int i = 0; i < CLIENTS.Count; i++)
             {
-                ACCOUNTS.Add(CLIENTS[i].getXMPPAccount().getIdAndDomain());
-                if (userAccountId != null && string.Equals(userAccountId, CLIENTS[i].getXMPPAccount().getIdAndDomain()))
+                ACCOUNTS.Add(CLIENTS[i].getXMPPAccount().getBareJid());
+                if (userAccountId != null && string.Equals(userAccountId, CLIENTS[i].getXMPPAccount().getBareJid()))
                 {
                     foundConnected = i;
                 }

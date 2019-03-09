@@ -54,7 +54,7 @@ namespace UWP_XMPP_Client.Dialogs
                 accountSelection_asc.showErrorMessage("No account selected!");
                 return false;
             }
-            if (client.getXMPPAccount().getIdAndDomain().Equals(jabberId_tbx.Text))
+            if (client.getXMPPAccount().getBareJid().Equals(jabberId_tbx.Text))
             {
                 accountSelection_asc.showErrorMessage("You can't start a chat with your self!");
                 return false;
@@ -65,7 +65,7 @@ namespace UWP_XMPP_Client.Dialogs
                 return false;
             }
             jabberId = jabberId_tbx.Text;
-            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getIdAndDomain())))
+            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(jabberId, client.getXMPPAccount().getBareJid())))
             {
                 accountSelection_asc.showErrorMessage("Chat does already exist!");
                 return false;

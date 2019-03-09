@@ -84,7 +84,7 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     messageResponseHelper.Dispose();
                 }
-                List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(CLIENT.getXMPPAccount().getIdAndDomain());
+                List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(CLIENT.getXMPPAccount().getBareJid());
                 CLIENT.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferences, onMessage, onTimeout);
             }
         }

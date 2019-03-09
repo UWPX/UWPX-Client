@@ -21,14 +21,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void OnYes()
+        public void Confirm()
         {
-            MODEL.OnYes();
+            MODEL.Confirmed = true;
         }
 
-        public void OnNo()
+        public void Cancel()
         {
-            MODEL.OnNo();
+            MODEL.Confirmed = false;
         }
 
         #endregion

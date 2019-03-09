@@ -76,7 +76,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (features.containsFeature("bind"))
                         {
                             setMessageProcessed(args);
-                            BindResourceMessage bindMsg = new BindResourceMessage(XMPP_CONNECTION.account.user.resource);
+                            BindResourceMessage bindMsg = new BindResourceMessage(XMPP_CONNECTION.account.user.resourcePart);
                             id = bindMsg.ID;
                             await XMPP_CONNECTION.sendAsync(bindMsg, false, true);
                             state = RecourceBindingState.BINDING;

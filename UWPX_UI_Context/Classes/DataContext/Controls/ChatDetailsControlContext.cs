@@ -89,7 +89,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             MessageMessage toSendMsg;
 
-            string from = chat.Client.getXMPPAccount().getIdDomainAndResource();
+            string from = chat.Client.getXMPPAccount().getFullJid();
             string to = chat.Chat.chatJabberId;
             string chatType = chat.Chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
             bool reciptRequested = true;
@@ -140,7 +140,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             // Send the message:
             if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
             {
-                chat.Client.sendOmemoMessage(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getIdAndDomain());
+                chat.Client.sendOmemoMessage(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getBareJid());
             }
             else
             {

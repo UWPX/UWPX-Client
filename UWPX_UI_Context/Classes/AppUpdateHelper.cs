@@ -112,7 +112,7 @@ namespace UWPX_UI_Context.Classes
                         Logger.Info("Started generating OMEMO keys for accounts...");
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
-                            Logger.Info("Generating OMEMO keys for: " + account.getIdAndDomain());
+                            Logger.Info("Generating OMEMO keys for: " + account.getBareJid());
                             account.generateOmemoKeys();
                             AccountDBManager.INSTANCE.setAccount(account, false);
                         }
@@ -131,7 +131,7 @@ namespace UWPX_UI_Context.Classes
                         AbstractDBManager.dB.RecreateTable<OmemoSignedPreKeyTable>();
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
-                            Logger.Info("Reseting OMEMO keys for: " + account.getIdAndDomain());
+                            Logger.Info("Reseting OMEMO keys for: " + account.getBareJid());
                             account.omemoBundleInfoAnnounced = false;
                             account.omemoDeviceId = 0;
                             account.omemoKeysGenerated = false;

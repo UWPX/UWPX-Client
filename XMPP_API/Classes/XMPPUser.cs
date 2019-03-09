@@ -6,29 +6,29 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _userId;
-        public string userId
+        private string _localPart;
+        public string localPart
         {
-            get { return _userId; }
-            set { SetProperty(ref _userId, value); }
+            get { return _localPart; }
+            set { SetProperty(ref _localPart, value); }
         }
         private string _userPassword;
-        public string userPassword
+        public string password
         {
             get { return _userPassword; }
             set { SetProperty(ref _userPassword, value); }
         }
-        private string _resource;
-        public string resource
+        private string _resourcePart;
+        public string resourcePart
         {
-            get { return _resource; }
-            set { SetProperty(ref _resource, value); }
+            get { return _resourcePart; }
+            set { SetProperty(ref _resourcePart, value); }
         }
-        private string _domain;
-        public string domain
+        private string _domainPart;
+        public string domainPart
         {
-            get { return _domain; }
-            set { SetProperty(ref _domain, value); }
+            get { return _domainPart; }
+            set { SetProperty(ref _domainPart, value); }
         }
 
         #endregion
@@ -40,38 +40,38 @@ namespace XMPP_API.Classes
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public XMPPUser(string userId, string userPassword, string domain, string resource)
+        public XMPPUser(string localPart, string domainPart, string resourcePart, string password)
         {
             this.invokeInUiThread = false;
-            this.userId = userId;
-            this.userPassword = userPassword;
-            this.resource = resource;
-            this.domain = domain;
+            this.localPart = localPart;
+            this.password = password;
+            this.resourcePart = resourcePart;
+            this.domainPart = domainPart;
         }
 
-        public XMPPUser(string userIDAndDomain, string recource)
+        public XMPPUser(string bareJid, string recourcePart)
         {
-            this.userId = userIDAndDomain is null ? null : userIDAndDomain.Substring(0, userIDAndDomain.IndexOf('@'));
-            this.domain = userIDAndDomain is null ? null : userIDAndDomain.Substring(userIDAndDomain.IndexOf('@') + 1);
-            this.resource = recource;
-            this.userPassword = null;
+            this.localPart = bareJid is null ? null : Utils.getJidLocalPart(bareJid);
+            this.domainPart = bareJid is null ? null : Utils.getJidDomainPart(bareJid);
+            this.resourcePart = recourcePart;
+            this.password = null;
         }
 
-        public XMPPUser(string userId, string domain, string resource) : this(userId, null, domain, resource)
+        public XMPPUser(string userId, string domain, string resource) : this(userId, domain, resource, null)
         {
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public string getIdAndDomain()
+        public string getBareJid()
         {
-            return userId + '@' + domain;
+            return localPart + '@' + domainPart;
         }
 
-        public string getIdDomainAndResource()
+        public string getFullJid()
         {
-            return userId + '@' + domain + '/' + resource ?? "";
+            return localPart + '@' + domainPart + '/' + resourcePart ?? "";
         }
 
         #endregion
@@ -82,16 +82,16 @@ namespace XMPP_API.Classes
             if (obj is XMPPUser)
             {
                 XMPPUser u = obj as XMPPUser;
-                return string.Equals(u.domain, domain) && string.Equals(u.resource, resource) && string.Equals(u.userId, userId) && string.Equals(u.userPassword, userPassword);
+                return string.Equals(u.domainPart, domainPart) && string.Equals(u.resourcePart, resourcePart) && string.Equals(u.localPart, localPart) && string.Equals(u.password, password);
             }
             return false;
         }
 
         public XMPPUser clone()
         {
-            return new XMPPUser(userId, domain, resource)
+            return new XMPPUser(localPart, domainPart, resourcePart)
             {
-                userPassword = userPassword
+                password = password
             };
         }
 

@@ -14,6 +14,8 @@ namespace XMPP_API.Classes
         /// Source: RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.3)
         /// </summary>
         private static readonly char[] JID_LOCAL_PART_EXCLUDED_CHARS = new char[] { '"', '&', '\'', '/', ':', '<', '>', '@' };
+        private static readonly Random RANDOM = new Random();
+        private const string DEFAULT_RESOURCE_PREFIX = "UWPX_";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -143,7 +145,7 @@ namespace XMPP_API.Classes
             }
 
             // Check for whitespaces:
-            if(localPart.Any(char.IsWhiteSpace))
+            if (localPart.Any(char.IsWhiteSpace))
             {
                 return false;
             }
@@ -172,7 +174,7 @@ namespace XMPP_API.Classes
             }
 
             // Check if starts/ends with whitespaces:
-            if(char.IsWhiteSpace(resourcePart[0]) || char.IsWhiteSpace(resourcePart[resourcePart.Length - 1]))
+            if (char.IsWhiteSpace(resourcePart[0]) || char.IsWhiteSpace(resourcePart[resourcePart.Length - 1]))
             {
                 return false;
             }
@@ -272,6 +274,17 @@ namespace XMPP_API.Classes
                 jid = jid.Substring(0, index);
             }
             return jid;
+        }
+
+        /// <summary>
+        /// Generates a random resource part.
+        /// </summary>
+        /// <returns>A random resource part string.</returns>
+        public static string getRandomResourcePart()
+        {
+            StringBuilder sb = new StringBuilder(DEFAULT_RESOURCE_PREFIX);
+            sb.Append(RANDOM.Next(1000, int.MaxValue));
+            return sb.ToString();
         }
 
         #endregion

@@ -112,11 +112,6 @@ namespace UWPX_UI_Context.Classes
             }
         }
 
-        public static bool NavigateToPage(Type pageType)
-        {
-            return NavigateToPage(pageType, null);
-        }
-
         public static bool OnGoBackRequested(Frame frame)
         {
             if (frame is null)
@@ -133,6 +128,19 @@ namespace UWPX_UI_Context.Classes
                 }
                 return false;
             }
+        }
+
+        public static void RemoveLastBackStackEntry()
+        {
+            if (Window.Current.Content is Frame frame && frame.BackStackDepth > 0)
+            {
+                frame.BackStack.RemoveAt(frame.BackStack.Count);
+            }
+        }
+
+        public static bool NavigateToPage(Type pageType)
+        {
+            return NavigateToPage(pageType, null);
         }
 
         public static bool NavigateToPage(Type pageType, object parameter)
@@ -362,6 +370,15 @@ namespace UWPX_UI_Context.Classes
             sb.Append('.');
             sb.Append(GenRandomString(RANDOM.Next(2, 4)));
             return sb.ToString();
+        }
+
+        /// <summary>
+        /// Returns a random RGB color as hex string in HTML notation.
+        /// e.g. #FFFFFF
+        /// </summary>
+        public static string GenRandomHexColor()
+        {
+            return string.Format("#{0:X6}", RANDOM.Next(0x1000000));
         }
 
         /// <summary>

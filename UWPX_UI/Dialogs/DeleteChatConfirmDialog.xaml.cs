@@ -42,12 +42,12 @@ namespace UWPX_UI.Dialogs
         #region --Events--
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            VIEW_MODEL.OnYes();
+            VIEW_MODEL.Confirm();
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            VIEW_MODEL.OnNo();
+            VIEW_MODEL.Cancel();
         }
 
         #endregion

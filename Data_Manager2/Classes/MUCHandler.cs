@@ -50,11 +50,11 @@ namespace Data_Manager2.Classes
             client.NewValidMessage -= Client_NewValidMessage;
             client.NewValidMessage += Client_NewValidMessage;
 
-            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
+            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getBareJid(), true);
 
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC))
             {
-                Logger.Info("Entering all MUC rooms for '" + client.getXMPPAccount().getIdAndDomain() + '\'');
+                Logger.Info("Entering all MUC rooms for '" + client.getXMPPAccount().getBareJid() + '\'');
                 enterAllMUCs(client);
             }
         }
@@ -68,7 +68,7 @@ namespace Data_Manager2.Classes
         {
             client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
             client.NewValidMessage -= Client_NewValidMessage;
-            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getIdAndDomain(), true);
+            MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getBareJid(), true);
         }
 
         public void onMUCRoomSubjectMessage(MUCRoomSubjectMessage mucRoomSubject)
@@ -113,7 +113,7 @@ namespace Data_Manager2.Classes
 
         private async Task sendMUCLeaveMessageAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
-            string from = client.getXMPPAccount().getIdDomainAndResource();
+            string from = client.getXMPPAccount().getFullJid();
             string to = muc.chatJabberId + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
             await client.sendAsync(msg, false);
@@ -123,7 +123,7 @@ namespace Data_Manager2.Classes
         {
             Task.Run(async () =>
             {
-                foreach (ChatTable muc in ChatDBManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getIdAndDomain()))
+                foreach (ChatTable muc in ChatDBManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getBareJid()))
                 {
                     MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(muc.id);
                     if (info is null)
@@ -150,7 +150,7 @@ namespace Data_Manager2.Classes
             string room = Utils.getBareJidFromFullJid(errorMessage.getFrom());
             if (room != null)
             {
-                string chatId = ChatTable.generateId(room, client.getXMPPAccount().getIdAndDomain());
+                string chatId = ChatTable.generateId(room, client.getXMPPAccount().getBareJid());
                 ChatTable muc = ChatDBManager.INSTANCE.getChat(chatId);
                 if (muc != null)
                 {
@@ -243,7 +243,7 @@ namespace Data_Manager2.Classes
                 {
                     return;
                 }
-                string chatId = ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain());
+                string chatId = ChatTable.generateId(roomJid, client.getXMPPAccount().getBareJid());
 
                 MUCOccupantTable member = MUCDBManager.INSTANCE.getMUCOccupant(chatId, msg.FROM_NICKNAME);
                 if (member is null)

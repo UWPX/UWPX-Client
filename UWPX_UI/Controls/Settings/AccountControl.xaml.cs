@@ -1,4 +1,5 @@
 ﻿using UWPX_UI.Dialogs;
+using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
@@ -66,6 +67,11 @@ namespace UWPX_UI.Controls.Settings
         {
             AccountInfoDialog dialog = new AccountInfoDialog(Account);
             await UiUtils.ShowDialogAsync(dialog);
+        }
+
+        private void Edit_btn_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.NavigateToPage(typeof(AddAccountPage), Account.Account);
         }
 
         #endregion

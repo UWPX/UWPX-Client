@@ -1,5 +1,6 @@
 ﻿using Shared.Classes;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
@@ -7,32 +8,49 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _JidText;
-        public string JidText
+        private string _BareJidText;
+        public string BareJidText
         {
-            get { return _JidText; }
-            set { SetJidText(value); }
+            get { return _BareJidText; }
+            set { SetBareJidText(value); }
         }
-        private bool _IsValidJid;
-        public bool IsValidJid
+        private bool _IsValidBareJid;
+        public bool IsValidBareJid
         {
-            get { return _IsValidJid; }
-            set { SetProperty(ref _IsValidJid, value); }
+            get { return _IsValidBareJid; }
+            set { SetProperty(ref _IsValidBareJid, value); }
+        }
+        private XMPPAccount _Account;
+        public XMPPAccount Account
+        {
+            get { return _Account; }
+            internal set { SetProperty(ref _Account, value); }
         }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public AddAccountPageDataTemplate()
+        {
+            BareJidText = "aaa@aaa.de";
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetJidText(string value)
+        private void SetBareJidText(string value)
         {
-            if (SetProperty(ref _JidText, value, nameof(JidText)))
+            if (SetProperty(ref _BareJidText, value, nameof(BareJidText)))
             {
-                IsValidJid = Utils.isBareJid(value);
+                IsValidBareJid = Utils.isBareJid(value);
+
+                // Update domain and local part if needed:
+                if (IsValidBareJid && !(Account is null))
+                {
+                    Account.user.domainPart = Utils.getJidDomainPart(value);
+                    Account.user.localPart = Utils.getJidLocalPart(value);
+                    Account.serverAddress = Account.user.domainPart;
+                }
             }
         }
 

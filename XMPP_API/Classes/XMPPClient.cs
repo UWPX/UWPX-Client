@@ -131,7 +131,7 @@ namespace XMPP_API.Classes
 
         public void connect()
         {
-            Logger.Info("Connecting account: " + getXMPPAccount().getIdAndDomain());
+            Logger.Info("Connecting account: " + getXMPPAccount().getBareJid());
             try
             {
                 connection.connectAndHold();
@@ -144,13 +144,13 @@ namespace XMPP_API.Classes
 
         public async Task reconnectAsync()
         {
-            Logger.Info("Reconnecting account: " + getXMPPAccount().getIdAndDomain());
+            Logger.Info("Reconnecting account: " + getXMPPAccount().getBareJid());
             await connection.reconnectAsync(true);
         }
 
         public async Task disconnectAsync()
         {
-            Logger.Info("Disconnecting account: " + getXMPPAccount().getIdAndDomain());
+            Logger.Info("Disconnecting account: " + getXMPPAccount().getBareJid());
             await connection.disconnectAsyncs();
         }
 
@@ -239,11 +239,11 @@ namespace XMPP_API.Classes
         {
             if (args.newState == ConnectionState.CONNECTED)
             {
-                Logger.Info("Connected to account: " + getXMPPAccount().getIdAndDomain());
+                Logger.Info("Connected to account: " + getXMPPAccount().getBareJid());
             }
             else if (args.newState == ConnectionState.DISCONNECTED)
             {
-                Logger.Info("Disconnected account: " + getXMPPAccount().getIdAndDomain());
+                Logger.Info("Disconnected account: " + getXMPPAccount().getBareJid());
             }
 
             ConnectionStateChanged?.Invoke(this, args);

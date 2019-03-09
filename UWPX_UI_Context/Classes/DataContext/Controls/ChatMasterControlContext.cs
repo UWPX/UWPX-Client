@@ -159,7 +159,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public async Task SendPresenceProbeAsync(ChatDataTemplate chatTemplate)
         {
-            await chatTemplate.Client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.getXMPPAccount().getIdDomainAndResource(), chatTemplate.Chat.chatJabberId);
+            await chatTemplate.Client.GENERAL_COMMAND_HELPER.sendPresenceProbeAsync(chatTemplate.Client.getXMPPAccount().getFullJid(), chatTemplate.Chat.chatJabberId);
         }
 
         public async Task RequestPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
@@ -234,7 +234,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private void UpdateBookmarks(XMPPClient client)
         {
-            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getIdAndDomain());
+            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
             if (updateBookmarksHelper != null)
             {
                 updateBookmarksHelper.Dispose();

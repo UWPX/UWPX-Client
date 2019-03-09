@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class DeleteChatConfirmDialogDataTemplate : AbstractDataTemplate
+    public sealed class DeleteAccountConfirmDialogDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,6 +11,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         {
             get { return _KeepChatMessages; }
             set { SetProperty(ref _KeepChatMessages, value); }
+        }
+        private bool _KeepChats;
+        public bool KeepChats
+        {
+            get { return _KeepChats; }
+            set { SetProperty(ref _KeepChats, value); }
         }
         private bool _Confirmed;
         public bool Confirmed
@@ -22,9 +28,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DeleteChatConfirmDialogDataTemplate()
+        public DeleteAccountConfirmDialogDataTemplate()
         {
             KeepChatMessages = false;
+            KeepChats = false;
             Confirmed = false;
         }
 

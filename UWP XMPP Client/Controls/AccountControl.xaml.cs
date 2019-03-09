@@ -25,7 +25,7 @@ namespace UWP_XMPP_Client.Controls
                 SetValue(AccountProperty, value);
                 if (value != null && jabberId_tbx != null)
                 {
-                    jabberId_tbx.Text = value.getIdAndDomain();
+                    jabberId_tbx.Text = value.getBareJid();
                 }
             }
         }
@@ -52,7 +52,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public AccountControl()
         {
-            this.Account = new XMPPAccount(new XMPPUser(null, null), null, 5222);
+            this.Account = new XMPPAccount(new XMPPUser(null, null));
             this.InitializeComponent();
         }
 
@@ -84,7 +84,7 @@ namespace UWP_XMPP_Client.Controls
             {
                 string userId = jabberId_tbx.Text.ToLowerInvariant().Substring(0, index);
                 string domain = jabberId_tbx.Text.ToLowerInvariant().Substring(index + 1);
-                return new XMPPUser(userId, password_pwb.Password, domain, resource_tbx.Text);
+                return new XMPPUser(userId, domain, resource_tbx.Text, password_pwb.Password);
             }
             return null;
         }

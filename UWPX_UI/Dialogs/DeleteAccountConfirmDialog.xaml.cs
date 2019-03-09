@@ -1,31 +1,20 @@
-﻿using Shared.Classes;
+﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
+namespace UWPX_UI.Dialogs
 {
-    public sealed class DeleteChatConfirmDialogDataTemplate : AbstractDataTemplate
+    public sealed partial class DeleteAccountConfirmDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _KeepChatMessages;
-        public bool KeepChatMessages
-        {
-            get { return _KeepChatMessages; }
-            set { SetProperty(ref _KeepChatMessages, value); }
-        }
-        private bool _Confirmed;
-        public bool Confirmed
-        {
-            get { return _Confirmed; }
-            set { SetProperty(ref _Confirmed, value); }
-        }
+        public readonly DeleteAccountConfirmDialogContext VIEW_MODEL = new DeleteAccountConfirmDialogContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DeleteChatConfirmDialogDataTemplate()
+        public DeleteAccountConfirmDialog()
         {
-            KeepChatMessages = false;
-            Confirmed = false;
+            this.InitializeComponent();
         }
 
         #endregion
@@ -51,7 +40,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            VIEW_MODEL.Confirm();
+        }
 
+        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        {
+            VIEW_MODEL.Cancel();
+        }
 
         #endregion
     }

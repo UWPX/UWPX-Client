@@ -1,0 +1,32 @@
+﻿<ContentDialog x:Class="UWPX_UI.Dialogs.DeleteAccountConfirmDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="Warning"
+               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+               PrimaryButtonStyle="{ThemeResource AcceptButtonRevealStyle}"
+               PrimaryButtonText="Yes"
+               SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+               SecondaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
+               SecondaryButtonText="No"
+               mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBlock>
+            <Run Text="Do you really want to"/>
+            <Underline>
+                <Run Foreground="Red"
+                     Text="delete"/>
+            </Underline>
+            <Run Text="this account?"/>
+        </TextBlock>
+        <CheckBox Margin="0,10,0,0"
+                  Content="Keep chats"
+                  IsChecked="{x:Bind VIEW_MODEL.MODEL.KeepChats, Mode=TwoWay}"/>
+        <CheckBox Margin="0,10,0,0"
+                  Content="Keep chat messages"
+                  IsChecked="{x:Bind VIEW_MODEL.MODEL.KeepChatMessages, Mode=TwoWay}"/>
+    </StackPanel>
+</ContentDialog>

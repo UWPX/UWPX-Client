@@ -70,7 +70,7 @@ namespace Data_Manager2.Classes
         {
             foreach (XMPPClient c in CLIENTS)
             {
-                if (c.getXMPPAccount().getIdAndDomain().Equals(iDAndDomain))
+                if (c.getXMPPAccount().getBareJid().Equals(iDAndDomain))
                 {
                     return c;
                 }
@@ -155,7 +155,7 @@ namespace Data_Manager2.Classes
             CLIENT_SEMA.Wait();
             for (int i = 0; i < CLIENTS.Count; i++)
             {
-                if (Equals(CLIENTS[i].getXMPPAccount().getIdAndDomain(), accountId))
+                if (Equals(CLIENTS[i].getXMPPAccount().getBareJid(), accountId))
                 {
                     await CLIENTS[i].disconnectAsync();
                     CLIENTS.RemoveAt(i);
@@ -257,7 +257,7 @@ namespace Data_Manager2.Classes
         /// <param name="client">The Client which entered the state.</param>
         private void onClientDisconnectedOrError(XMPPClient client)
         {
-            ChatDBManager.INSTANCE.resetPresence(client.getXMPPAccount().getIdAndDomain());
+            ChatDBManager.INSTANCE.resetPresence(client.getXMPPAccount().getBareJid());
             MUCHandler.INSTANCE.onClientDisconnected(client);
         }
 
@@ -348,7 +348,7 @@ namespace Data_Manager2.Classes
             PresenceMessage answer = null;
             if (chat is null)
             {
-                answer = new PresenceErrorMessage(account.getIdDomainAndResource(), from, PresenceErrorType.FORBIDDEN);
+                answer = new PresenceErrorMessage(account.getFullJid(), from, PresenceErrorType.FORBIDDEN);
                 Logger.Warn("Received a presence probe message for an unknown chat from: " + from + ", to: " + to);
                 return;
             }
@@ -358,18 +358,18 @@ namespace Data_Manager2.Classes
                 {
                     case "both":
                     case "from":
-                        answer = new PresenceMessage(account.getIdAndDomain(), from, account.presence, account.status, account.presencePriorety);
+                        answer = new PresenceMessage(account.getBareJid(), from, account.presence, account.status, account.presencePriorety);
                         Logger.Debug("Answered presence probe from: " + from);
                         break;
 
                     case "none" when chat.inRoster:
                     case "to" when chat.inRoster:
-                        answer = new PresenceErrorMessage(account.getIdDomainAndResource(), from, PresenceErrorType.FORBIDDEN);
+                        answer = new PresenceErrorMessage(account.getFullJid(), from, PresenceErrorType.FORBIDDEN);
                         Logger.Warn("Received a presence probe but chat has no subscription: " + from + ", to: " + to + " subscription: " + chat.subscription);
                         break;
 
                     default:
-                        answer = new PresenceErrorMessage(account.getIdDomainAndResource(), from, PresenceErrorType.NOT_AUTHORIZED);
+                        answer = new PresenceErrorMessage(account.getFullJid(), from, PresenceErrorType.NOT_AUTHORIZED);
                         Logger.Warn("Received a presence probe but chat has no subscription: " + from + ", to: " + to + " subscription: " + chat.subscription);
                         break;
                 }
@@ -382,12 +382,12 @@ namespace Data_Manager2.Classes
             string from = Utils.getBareJidFromFullJid(args.PRESENCE_MESSAGE.getFrom());
 
             // If received a presence message from your own account, ignore it:
-            if (string.Equals(from, client.getXMPPAccount().getIdAndDomain()))
+            if (string.Equals(from, client.getXMPPAccount().getBareJid()))
             {
                 return;
             }
 
-            string to = client.getXMPPAccount().getIdAndDomain();
+            string to = client.getXMPPAccount().getBareJid();
             string id = ChatTable.generateId(from, to);
             ChatTable chat = ChatDBManager.INSTANCE.getChat(id);
             switch (args.PRESENCE_MESSAGE.TYPE)
@@ -426,12 +426,12 @@ namespace Data_Manager2.Classes
         {
             if (args.MESSAGE is RosterResultMessage msg && sender is XMPPClient client)
             {
-                string to = client.getXMPPAccount().getIdAndDomain();
+                string to = client.getXMPPAccount().getBareJid();
                 string type = msg.TYPE;
 
                 if (string.Equals(type, IQMessage.RESULT))
                 {
-                    ChatDBManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getIdAndDomain());
+                    ChatDBManager.INSTANCE.setAllNotInRoster(client.getXMPPAccount().getBareJid());
                 }
                 else if (!string.Equals(type, IQMessage.SET))
                 {
@@ -624,7 +624,7 @@ namespace Data_Manager2.Classes
             {
                 Task.Run(async () =>
                 {
-                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getIdDomainAndResource(), from, msg.ID);
+                    DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
                     await client.sendAsync(receiptMessage, true);
                 });
             }
@@ -676,7 +676,7 @@ namespace Data_Manager2.Classes
             CLIENT_SEMA.Wait();
             for (int i = 0; i < CLIENTS.Count; i++)
             {
-                if (Equals(CLIENTS[i].getXMPPAccount().getIdAndDomain(), args.ACCOUNT.getIdAndDomain()))
+                if (Equals(CLIENTS[i].getXMPPAccount().getBareJid(), args.ACCOUNT.getBareJid()))
                 {
                     // Disconnect first:
                     await CLIENTS[i].disconnectAsync();
@@ -722,7 +722,7 @@ namespace Data_Manager2.Classes
             foreach (ConferenceItem c in args.BOOKMARKS_MESSAGE.STORAGE.CONFERENCES)
             {
                 bool newMUC = false;
-                string to = client.getXMPPAccount().getIdAndDomain();
+                string to = client.getXMPPAccount().getBareJid();
                 string from = c.jid;
                 string id = ChatTable.generateId(from, to);
 
@@ -791,7 +791,7 @@ namespace Data_Manager2.Classes
         {
             Task.Run(() =>
             {
-                ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(args.CHAT_JID, client.getXMPPAccount().getIdAndDomain()));
+                ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(args.CHAT_JID, client.getXMPPAccount().getBareJid()));
                 if (!(chat is null))
                 {
                     // Add an error chat message:

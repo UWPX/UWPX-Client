@@ -121,7 +121,7 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 17/08/2017 Created [Fabian Sauter]
         /// </history>
-        public XMPPAccount(XMPPUser user, string serverAddress, int port) : this(user, serverAddress, port, new ConnectionConfiguration())
+        public XMPPAccount(XMPPUser user) : this(user, user?.domainPart ?? "", 5222, new ConnectionConfiguration())
         {
         }
 
@@ -155,14 +155,14 @@ namespace XMPP_API.Classes.Network
             return omemoKeysGenerated && !(omemoIdentityKeyPair is null || OMEMO_PRE_KEYS.Count <= 0 || omemoSignedPreKeyPair is null);
         }
 
-        public string getIdAndDomain()
+        public string getBareJid()
         {
-            return user.getIdAndDomain();
+            return user.getBareJid();
         }
 
-        public string getIdDomainAndResource()
+        public string getFullJid()
         {
-            return user.getIdDomainAndResource();
+            return user.getFullJid();
         }
 
         public OmemoBundleInformation getOmemoBundleInformation()
@@ -213,7 +213,7 @@ namespace XMPP_API.Classes.Network
         {
             if (!omemoKeysGenerated)
             {
-                Logger.Error("Failed to load OMEMO keys for: " + getIdAndDomain() + " - run generateOmemoKeys() first!");
+                Logger.Error("Failed to load OMEMO keys for: " + getBareJid() + " - run generateOmemoKeys() first!");
                 return false;
             }
 
@@ -221,18 +221,18 @@ namespace XMPP_API.Classes.Network
             OMEMO_PRE_KEYS.AddRange(omemoStore.LoadPreKeys());
             if (OMEMO_PRE_KEYS.Count <= 0)
             {
-                Logger.Error("Failed to load OMEMO prekeys for: " + getIdAndDomain());
+                Logger.Error("Failed to load OMEMO prekeys for: " + getBareJid());
                 return false;
             }
 
             omemoSignedPreKeyPair = omemoStore.LoadSignedPreKey(omemoSignedPreKeyId);
             if (omemoSignedPreKeyPair is null)
             {
-                Logger.Error("Failed to load OMEMO signed prekey pair for: " + getIdAndDomain());
+                Logger.Error("Failed to load OMEMO signed prekey pair for: " + getBareJid());
                 return false;
             }
 
-            Logger.Info("Successfully loaded OMEMO keys for: " + getIdAndDomain());
+            Logger.Info("Successfully loaded OMEMO keys for: " + getBareJid());
             return true;
         }
 
@@ -245,7 +245,7 @@ namespace XMPP_API.Classes.Network
         {
             if (!checkOmemoKeys())
             {
-                Logger.Error("Failed to save OMEMO keys for: " + getIdAndDomain());
+                Logger.Error("Failed to save OMEMO keys for: " + getBareJid());
                 return false;
             }
             omemoStore.StoreSignedPreKey(omemoSignedPreKeyId, omemoSignedPreKeyPair);

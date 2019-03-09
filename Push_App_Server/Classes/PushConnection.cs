@@ -20,7 +20,11 @@ namespace Push_App_Server.Classes
         /// <summary>
         /// A dummy XMPPAccount its only purpose it is to allow using the TCPConnection.
         /// </summary>
-        private static readonly XMPPAccount DUMMY_XMPP_ACCOUNT = new XMPPAccount(null, Consts.PUSH_SERVER_ADDRESS, Consts.PORT);
+        private static readonly XMPPAccount DUMMY_XMPP_ACCOUNT = new XMPPAccount(null)
+        {
+            serverAddress = Consts.PUSH_SERVER_ADDRESS,
+            port = Consts.PORT
+        };
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
