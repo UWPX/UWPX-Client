@@ -134,7 +134,7 @@ namespace UWPX_UI_Context.Classes
         {
             if (Window.Current.Content is Frame frame && frame.BackStackDepth > 0)
             {
-                frame.BackStack.RemoveAt(frame.BackStack.Count);
+                frame.BackStack.RemoveAt(frame.BackStack.Count - 1);
             }
         }
 

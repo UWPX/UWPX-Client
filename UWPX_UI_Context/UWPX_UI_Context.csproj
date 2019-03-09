@@ -249,6 +249,8 @@
     <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TLSConnectionModeIntValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\StringIntValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TimeValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TlsConnectedSolidColorBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TlsConnectedTextValueConverter.cs" />

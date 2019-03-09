@@ -24,22 +24,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public XMPPAccount Account
         {
             get { return _Account; }
-            internal set { SetProperty(ref _Account, value); }
+            internal set { SetAccountProperty(value); }
         }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AddAccountPageDataTemplate()
-        {
-            BareJidText = "aaa@aaa.de";
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         private void SetBareJidText(string value)
         {
+            value = value.ToLowerInvariant();
             if (SetProperty(ref _BareJidText, value, nameof(BareJidText)))
             {
                 IsValidBareJid = Utils.isBareJid(value);
@@ -47,10 +45,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                 // Update domain and local part if needed:
                 if (IsValidBareJid && !(Account is null))
                 {
-                    Account.user.domainPart = Utils.getJidDomainPart(value);
+                    if (string.Equals(Account.serverAddress, Account.user.domainPart))
+                    {
+                        Account.serverAddress = Utils.getJidDomainPart(value);
+                    }
+                    Account.user.domainPart = Account.serverAddress;
                     Account.user.localPart = Utils.getJidLocalPart(value);
-                    Account.serverAddress = Account.user.domainPart;
                 }
+            }
+        }
+
+        private void SetAccountProperty(XMPPAccount value)
+        {
+            if (SetProperty(ref _Account, value, nameof(Account)))
+            {
+                BareJidText = Account.getBareJid();
             }
         }
 

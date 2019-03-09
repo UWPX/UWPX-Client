@@ -179,28 +179,19 @@ namespace UWPX_UI.Pages
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
 
-            await HandleInitialAppStartAsync();
-
             EvaluateActivationArgs();
-        }
-
-        private async Task HandleInitialAppStartAsync()
-        {
-            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-            {
-                Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
-                // TODO: Show initial start dialog
-            }
         }
 
         private void EvaluateActivationArgs()
         {
-            /*if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            // Initially started?
+            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                ROOT_FRAME.Navigate(typeof(SettingsPage));
+                Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+
+                ROOT_FRAME.Navigate(typeof(AddAccountPage), typeof(ChatPage));
             }
-            else*/
-            if (ACTIVATION_ARGS is ProtocolActivatedEventArgs protocolActivationArgs)
+            else if (ACTIVATION_ARGS is ProtocolActivatedEventArgs protocolActivationArgs)
             {
                 Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
 

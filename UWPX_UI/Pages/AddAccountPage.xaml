@@ -23,6 +23,8 @@
         <x:String x:Key="AnimationOpacityMax">1</x:String>
 
         <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+        <valueConverter:StringIntValueConverter x:Key="StringIntValueConverter"/>
+        <valueConverter:TLSConnectionModeIntValueConverter x:Key="TLSConnectionModeIntValueConverter"/>
     </Page.Resources>
 
     <Grid>
@@ -73,6 +75,7 @@
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBox x:Name="jid1_tbx"
                                      Header="Jabber ID:"
+                                     InputScope="EmailNameOrAddress"
                                      KeyUp="Jid1_tbx_KeyUp"
                                      PlaceholderText="alice@example.com"
                                      Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -85,6 +88,7 @@
                                 <controls:IconButtonControl x:Name="cancel1_ibtn"
                                                             Grid.Column="0"
                                                             Margin="0,0,0,1"
+                                                            Click="Cancel2_ibtn_Click"
                                                             Glyph="&#xE711;"
                                                             GlyphForeground="Red"
                                                             Text="Cancel"/>
@@ -130,13 +134,15 @@
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBox x:Name="jid2_tbx"
                                      Header="Jabber ID:"
+                                     InputScope="EmailNameOrAddress"
                                      KeyUp="Jid2_tbx_KeyUp"
                                      PlaceholderText="alice@example.com"
                                      Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <PasswordBox x:Name="password_pwb"
                                          Margin="0,10,0,0"
                                          Header="Password:"
-                                         KeyUp="Password_pwb_KeyUp"/>
+                                         KeyUp="Password_pwb_KeyUp"
+                                         Password="{x:Bind VIEW_MODEL.MODEL.Account.user.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="0,10,0,4"
                                        Style="{ThemeResource BodyTextBlockStyle}"
                                        Text="Color:"/>
@@ -178,6 +184,7 @@
                                 <controls:IconButtonControl x:Name="cancel2_ibtn"
                                                             Grid.Column="0"
                                                             Margin="0,0,1,0"
+                                                            Click="Cancel2_ibtn_Click"
                                                             Glyph="&#xE711;"
                                                             GlyphForeground="Red"
                                                             Text="Cancel"/>
@@ -226,8 +233,46 @@
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
                             Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
-                        <controls1:Expander Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-                                            Header="Advanced"/>
+                        <controls1:Expander HorizontalContentAlignment="Stretch"
+                                            Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                                            Header="Advanced">
+                            <StackPanel Padding="10">
+                                <controls:SeperatorControl Margin="0,-10,0,0"
+                                                           Text="General:"/>
+                                <TextBox Header="Resource (device name):"
+                                         InputScope="ChatWithoutEmoji"
+                                         IsSpellCheckEnabled="False"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.user.resourcePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Slider Margin="0,10,0,0"
+                                        Header="Presence priority:"
+                                        Maximum="128"
+                                        Minimum="-127"
+                                        TickFrequency="127"
+                                        TickPlacement="Outside"
+                                        Value="{x:Bind VIEW_MODEL.MODEL.Account.presencePriorety, Mode=TwoWay}"/>
+                                <controls:SeperatorControl Text="Server:"/>
+                                <TextBox Margin="0,10,0,0"
+                                         Header="Server address:"
+                                         InputScope="Url"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.serverAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <TextBox Margin="0,10,0,0"
+                                         extensions:TextBoxRegex.ValidationMode="Dynamic"
+                                         extensions:TextBoxRegex.ValidationType="Number"
+                                         Header="Port:"
+                                         InputScope="Number"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
+                                <controls:SeperatorControl Text="TLS:"/>
+                                <ComboBox x:Name="tslMode_cmbx"
+                                          Margin="0,10,0,0"
+                                          Header="TLS mode:"
+                                          SelectedIndex="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource TLSConnectionModeIntValueConverter}}">
+                                    <x:String>Enforce</x:String>
+                                    <x:String>Use if available</x:String>
+                                    <x:String>Prohibit</x:String>
+                                </ComboBox>
+                                <controls:SeperatorControl Text="Misc:"/>
+                            </StackPanel>
+                        </controls1:Expander>
                     </Border>
                 </controls1:DropShadowPanel>
             </Grid>

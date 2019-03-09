@@ -1,4 +1,6 @@
 ﻿using Data_Manager2.Classes.DBManager;
+using Logging;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -21,6 +23,21 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public void SetAccount(string fullJid)
+        {
+            IList<XMPPAccount> accounts = AccountDBManager.INSTANCE.loadAllAccounts();
+
+            foreach (XMPPAccount account in accounts)
+            {
+                if (string.Equals(account.getFullJid(), fullJid))
+                {
+                    SetAccount(account);
+                    return;
+                }
+            }
+            Logger.Error("Failed to load account for full JID: " + fullJid);
+        }
+
         public void SetAccount(XMPPAccount account)
         {
             MODEL.Account = account;
@@ -45,7 +62,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task SaveAccountAsync()
         {
-            // await Task.Delay(5000);
             await Task.Run(() => AccountDBManager.INSTANCE.setAccount(MODEL.Account, true));
         }
 

@@ -9,7 +9,6 @@ using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
-using XMPP_API.Classes.Network;
 
 namespace UWPX_UI.Pages
 {
@@ -61,7 +60,8 @@ namespace UWPX_UI.Pages
         {
             UpdateViewState(State_2_Save.Name);
             await VIEW_MODEL.SaveAccountAsync();
-            UpdateViewState(State_1.Name);
+
+            NavigateAway();
         }
 
         private void NavigateAway()
@@ -101,17 +101,15 @@ namespace UWPX_UI.Pages
         private async void Save_ipbtn_Click(IconProgressButtonControl sender, RoutedEventArgs args)
         {
             await Save();
-
-            NavigateAway();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (e.Parameter is XMPPAccount account)
+            if (e.Parameter is string fullJid)
             {
                 UpdateViewState(State_Edit.Name);
                 UpdateViewState(State_2.Name);
-                VIEW_MODEL.SetAccount(account);
+                VIEW_MODEL.SetAccount(fullJid);
             }
             else
             {
@@ -171,6 +169,11 @@ namespace UWPX_UI.Pages
             await UiUtils.ShowDialogAsync(dialog);
             await VIEW_MODEL.DeleteAccountAsync(dialog.VIEW_MODEL.MODEL);
             UpdateViewState(State_2.Name);
+            NavigateAway();
+        }
+
+        private void Cancel2_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        {
             NavigateAway();
         }
 
