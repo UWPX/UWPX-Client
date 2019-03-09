@@ -1,6 +1,8 @@
 ﻿using UWPX_UI.Extensions;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataContext.Pages;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Pages.Settings
@@ -60,7 +62,7 @@ namespace UWPX_UI.Pages.Settings
             }
         }
 
-        private void Main_nview_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void Main_nview_Loaded(object sender, RoutedEventArgs e)
         {
             foreach (object item in main_nview.MenuItems)
             {
@@ -72,14 +74,23 @@ namespace UWPX_UI.Pages.Settings
             }
         }
 
-        private void AccountsListControl_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void AccountsListControl_Loaded(object sender, RoutedEventArgs e)
         {
             accountsListViewModel = accounts_alc.VIEW_MODEL;
         }
 
-        private async void ReconnectAll_btn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private void AddAccount_ibtn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
         {
+            UiUtils.NavigateToPage(typeof(AddAccountPage));
+        }
+
+        private async void ReconnectAll_ibtn_Click(object sender, RoutedEventArgs args)
+        {
+            reconnectAll_ibtn.ProgressRingVisibility = Visibility.Visible;
+            reconnectAll_ibtn.IsEnabled = false;
             await VIEW_MODEL.ReconnectAllAsync();
+            reconnectAll_ibtn.ProgressRingVisibility = Visibility.Collapsed;
+            reconnectAll_ibtn.IsEnabled = true;
         }
 
         #endregion

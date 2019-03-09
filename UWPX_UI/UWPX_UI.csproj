@@ -255,6 +255,9 @@
     </Compile>
     <Compile Include="Extensions\ScrollViewerExtensions.cs" />
     <Compile Include="Extensions\TextBlockChatMessageFormatExtension.cs" />
+    <Compile Include="Pages\AddAccountPage.xaml.cs">
+      <DependentUpon>AddAccountPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
@@ -559,6 +562,10 @@
     <Page Include="Dialogs\InfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\AddAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ChatPage.xaml">
       <Generator>MSBuild:Compile</Generator>

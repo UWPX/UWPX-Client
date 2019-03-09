@@ -51,45 +51,27 @@
                     <settings:SettingsContentControl x:Name="manage_scp"
                                                      Header="Manage:">
                         <settings:SettingsContentControl.MainContent>
-                            <Grid>
+                            <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Button x:Name="reconnectAll_btn"
-                                        Grid.Column="0"
-                                        Click="ReconnectAll_btn_Click"
-                                        IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Margin="0,2,5,0"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="Segoe MDL2 Assets"
-                                                   Foreground="{ThemeResource SystemAccentColor}"
-                                                   Text="&#xE149;"/>
-                                        <TextBlock VerticalAlignment="Center"
-                                                   Text="Reconnect all"/>
-                                        <ProgressRing x:Name="reconnectAll_prgr"
-                                                      Margin="10,0,0,0"
-                                                      VerticalAlignment="Center"
-                                                      IsActive="True"
-                                                      Visibility="Collapsed"/>
-                                    </StackPanel>
-                                </Button>
+                                <controls:IconProgressButtonControl x:Name="reconnectAll_ibtn"
+                                                                    Grid.Column="0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Click="ReconnectAll_ibtn_Click"
+                                                                    Glyph="&#xE149;"
+                                                                    IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                                                    Text="Reconnect all"/>
 
-                                <Button x:Name="add_btn"
-                                        Grid.Column="1"
-                                        HorizontalAlignment="Right"
-                                        IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}">
-                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Margin="0,-1,5,0"
-                                                   VerticalAlignment="Center"
-                                                   FontFamily="Segoe MDL2 Assets"
-                                                   Foreground="Green"
-                                                   Text="&#xE710;"/>
-                                        <TextBlock VerticalAlignment="Center"
-                                                   Text="Add"/>
-                                    </StackPanel>
-                                </Button>
+                                <controls:IconButtonControl x:Name="addAccount_ibtn"
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Right"
+                                                            Click="AddAccount_ibtn_Click"
+                                                            Glyph="&#xE710;"
+                                                            GlyphForeground="Green"
+                                                            IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                                            Text="Add"/>
                             </Grid>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

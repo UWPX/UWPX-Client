@@ -19,6 +19,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <FontIcon Grid.Column="0"
+                      Margin="{x:Bind GlyphMargin, Mode=TwoWay}"
                       VerticalAlignment="Center"
                       FontSize="{x:Bind text_tbx.FontSize, Mode=OneWay}"
                       FontWeight="{x:Bind text_tbx.FontWeight, Mode=OneWay}"

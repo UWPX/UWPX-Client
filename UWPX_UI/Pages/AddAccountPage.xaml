@@ -1,0 +1,206 @@
+﻿<Page x:Class="UWPX_UI.Pages.AddAccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
+        <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
+        <x:String x:Key="AnimationPositionShowSource">-600,0,0</x:String>
+        <x:String x:Key="AnimationPositionShowTarget">0</x:String>
+        <x:String x:Key="AnimationPositionHideSource">0,0,0</x:String>
+        <x:String x:Key="AnimationPositionHideTarget">600,0,0</x:String>
+        <x:String x:Key="AnimationOpacityMin">0</x:String>
+        <x:String x:Key="AnimationOpacityMax">1</x:String>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--  Header:  -->
+        <controls:CustomTitleBarControl Grid.Row="0"
+                                        Frame="{x:Bind Frame, Mode=OneWay}"/>
+
+        <!--  Content:  -->
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled">
+            <Grid Padding="10"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--  Step 1:  -->
+                <controls1:DropShadowPanel x:Name="step1Jid_dsp"
+                                           Grid.Row="0"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="0:0:0.3"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBox Header="Jabber ID:"
+                                     PlaceholderText="alice@example.com"
+                                     Text="{x:Bind VIEW_MODEL.MODEL.JidText, Mode=TwoWay}"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl Grid.Column="0"
+                                                            Margin="0,0,0,1"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                                <controls:IconProgressButtonControl x:Name="next_ipbtn"
+                                                                    Grid.Column="2"
+                                                                    Margin="1,0,0,0"
+                                                                    Click="Next_ipbtn_Click"
+                                                                    Glyph="&#xEBE7;"
+                                                                    GlyphForeground="Green"
+                                                                    Text="Next"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <!--  Step 2:  -->
+                <controls1:DropShadowPanel x:Name="step2Jid_dsp"
+                                           Grid.Row="0"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBox Header="Jabber ID:"
+                                     PlaceholderText="alice@example.com"
+                                     Text="{x:Bind VIEW_MODEL.MODEL.JidText, Mode=TwoWay}"/>
+                            <PasswordBox Margin="0,10,0,0"
+                                         Header="Password:"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl Grid.Column="0"
+                                                            Margin="0,0,1,0"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                                <controls:IconProgressButtonControl x:Name="delete_ipbtn"
+                                                                    Grid.Column="1"
+                                                                    Margin="1,0,1,0"
+                                                                    Glyph="&#xE74D;"
+                                                                    GlyphForeground="Red"
+                                                                    Text="Delete"/>
+                                <controls:IconProgressButtonControl x:Name="save_ipbtn"
+                                                                    Grid.Column="2"
+                                                                    Margin="1,0,0,0"
+                                                                    Click="Save_ipbtn_Click"
+                                                                    Glyph="&#xE74E;"
+                                                                    GlyphForeground="Green"
+                                                                    Text="Save"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <controls1:DropShadowPanel x:Name="step2Advanced_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           Margin="0,10,0,0"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <controls1:Expander Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                                            Header="Advanced"/>
+                    </Border>
+                </controls1:DropShadowPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="States">
+                <VisualState x:Name="State_1">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_2">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

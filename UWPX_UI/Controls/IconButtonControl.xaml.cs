@@ -30,6 +30,13 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty GlyphForegroundProperty = DependencyProperty.Register(nameof(GlyphForeground), typeof(Brush), typeof(IconButtonControl), new PropertyMetadata(new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"])));
 
+        public Thickness GlyphMargin
+        {
+            get { return (Thickness)GetValue(GlyphMarginProperty); }
+            set { SetValue(GlyphMarginProperty, value); }
+        }
+        public static readonly DependencyProperty GlyphMarginProperty = DependencyProperty.Register(nameof(GlyphMargin), typeof(Thickness), typeof(IconButtonControl), new PropertyMetadata(new Thickness(0)));
+
         public delegate void ClickHandler(IconButtonControl sender, RoutedEventArgs args);
         public event ClickHandler Click;
 
