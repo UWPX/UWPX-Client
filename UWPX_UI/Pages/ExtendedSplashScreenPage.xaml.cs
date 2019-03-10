@@ -183,8 +183,8 @@ namespace UWPX_UI.Pages
             // Show initial start dialog:
             if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
             {
-                /*WhatsNewDialog whatsNewDialog = new WhatsNewDialog();
-                await UiUtils.ShowDialogAsync(whatsNewDialog);*/
+                InitialStartDialog initialStartDialog = new InitialStartDialog();
+                await UiUtils.ShowDialogAsync(initialStartDialog);
             }
 
             // Show what's new dialog:
