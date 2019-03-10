@@ -1,27 +1,22 @@
-﻿using UWP_XMPP_Client.Classes;
-using Windows.UI.Xaml;
+﻿using System;
+using UWPX_UI.Pages.Settings;
+using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml.Controls;
 
-namespace UWP_XMPP_Client.Dialogs
+namespace UWPX_UI.Dialogs
 {
     public sealed partial class WhatsNewDialog : ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public bool showOnStartup { get; private set; }
+        public readonly WhatsNewDialogContext VIEW_MODEL = new WhatsNewDialogContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 31/01/2018 Created [Fabian Sauter]
-        /// </history>
         public WhatsNewDialog()
         {
-            this.showOnStartup = true;
             this.InitializeComponent();
         }
 
@@ -48,21 +43,21 @@ namespace UWP_XMPP_Client.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void close_btn_Click(object sender, RoutedEventArgs e)
+        private async void Content_mdc_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
-            showOnStartup = (bool)showOnStartup_cbx.IsChecked;
+            await UiUtils.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void Close_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        {
             Hide();
         }
 
-        private void donate_btn_Click(object sender, RoutedEventArgs e)
+        private void Donate_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
-            // (Window.Current.Content as Frame).Navigate(typeof(DonateSettingsPage));
+            VIEW_MODEL.MODEL.ToDonatePageNavigated = true;
+            UiUtils.NavigateToPage(typeof(DonateSettingsPage));
             Hide();
-        }
-
-        private async void MarkdownTextBlock_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
-        {
-            await UiUtils.launchUriAsync(new System.Uri(e.Link));
         }
 
         #endregion

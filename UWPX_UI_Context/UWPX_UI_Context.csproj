@@ -161,6 +161,7 @@
     <Compile Include="Classes\DataContext\Dialogs\ConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteAccountConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AddAccountPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
@@ -197,6 +198,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\ConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteAccountConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\WhatsNewDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />

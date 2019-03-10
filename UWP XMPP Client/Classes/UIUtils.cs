@@ -1,12 +1,10 @@
-﻿using Data_Manager2.Classes;
-using Microsoft.Toolkit.Uwp.UI.Controls;
+﻿using Microsoft.Toolkit.Uwp.UI.Controls;
 using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
-using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
@@ -226,26 +224,6 @@ namespace UWP_XMPP_Client.Classes
         public static async Task<bool> launchUriAsync(Uri url)
         {
             return await Windows.System.Launcher.LaunchUriAsync(url);
-        }
-
-        public static async Task showInitialStartDialogAsync()
-        {
-            if (!Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
-            {
-                InitialStartDialog dialog = new InitialStartDialog();
-                await showDialogAsyncQueue(dialog);
-                Settings.setSetting(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA, !dialog.showOnStartup);
-            }
-        }
-
-        public static async Task showWhatsNewDialog()
-        {
-            if (!Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG))
-            {
-                WhatsNewDialog dialog = new WhatsNewDialog();
-                await showDialogAsyncQueue(dialog);
-                Settings.setSetting(SettingsConsts.HIDE_WHATS_NEW_DIALOG, !dialog.showOnStartup);
-            }
         }
 
         public static void addTextToClipboard(string text)

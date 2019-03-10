@@ -265,9 +265,6 @@
     <Compile Include="Dialogs\TextDialog.xaml.cs">
       <DependentUpon>TextDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
-      <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\BrowseMUCRoomsPage.xaml.cs">
       <DependentUpon>BrowseMUCRoomsPage.xaml</DependentUpon>
     </Compile>
@@ -537,10 +534,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\TextDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\WhatsNewDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -7,6 +7,7 @@ using Shared.Classes;
 using System;
 using System.Threading.Tasks;
 using UWPX_UI.Classes;
+using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Activation;
 using Windows.Graphics.Display;
@@ -178,6 +179,28 @@ namespace UWPX_UI.Pages
 
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
+
+            // Show initial start dialog:
+            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
+            {
+                /*WhatsNewDialog whatsNewDialog = new WhatsNewDialog();
+                await UiUtils.ShowDialogAsync(whatsNewDialog);*/
+            }
+
+            // Show what's new dialog:
+            if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_WHATS_NEW_DIALOG))
+            {
+                WhatsNewDialog whatsNewDialog = new WhatsNewDialog();
+                await UiUtils.ShowDialogAsync(whatsNewDialog);
+                if (whatsNewDialog.VIEW_MODEL.MODEL.ToDonatePageNavigated)
+                {
+                    if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+                    {
+                        Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+                    }
+                    return;
+                }
+            }
 
             EvaluateActivationArgs();
         }

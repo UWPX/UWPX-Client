@@ -248,4 +248,30 @@ So if you have the ability to make SEPA bank transfers at a low cost (for exampl
   <data name="DonateSettingsPage_bank_details2.Text" xml:space="preserve">
     <value>Never the less PayPal donations are still very much appreciated!</value>
   </data>
+  <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
+    <value># Years go bye - UWPX anniversary🎉
+
+This month's update has only a hand full of changes, fixes and improvements since I'm working on an complete UI overhaul [#50](https://github.com/UWPX/UWPX-Client/issues/50) (more on that later).
+The *plan* is to release the UI overhaul [#50](https://github.com/UWPX/UWPX-Client/issues/50) sometime in march.
+I don't know If there will be any other releases until then.
+Lest see.
+
+**Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
+
+### Known bugs:
+* MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
+* Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
+* MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34) 
+* OMEMO not sending messages [#49](https://github.com/UWPX/UWPX-Client/issues/49) 
+* Duplicate MUC messages [#46](https://github.com/UWPX/UWPX-Client/issues/46) 
+* Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40) 
+
+### Changes:
+* Added error messages if sending OMEMO messages fails
+* Added stream error support
+* Fixed app trying to connect if there is no internet available
+* Updated dependencies
+
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.12.0.0)</value>
+  </data>
 </root>
