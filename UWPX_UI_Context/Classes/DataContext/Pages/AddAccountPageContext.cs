@@ -92,6 +92,21 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             }
         }
 
+        public void ChangeCertRequirements(CertificateRequirementsDialogDataTemplate dataTemplate)
+        {
+            if (dataTemplate.Confirmed)
+            {
+                MODEL.Account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Clear();
+                foreach (CertificateRequirementDataTemplate item in dataTemplate.ITEMS)
+                {
+                    if (!item.Required)
+                    {
+                        MODEL.Account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS.Add(item.CertError);
+                    }
+                }
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

@@ -15,10 +15,10 @@
     <Page.Resources>
         <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
         <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
-        <x:String x:Key="AnimationPositionShowSource">-600,0,0</x:String>
+        <x:String x:Key="AnimationPositionShowSource">600,0,0</x:String>
         <x:String x:Key="AnimationPositionShowTarget">0</x:String>
         <x:String x:Key="AnimationPositionHideSource">0,0,0</x:String>
-        <x:String x:Key="AnimationPositionHideTarget">600,0,0</x:String>
+        <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
         <x:String x:Key="AnimationOpacityMin">0</x:String>
         <x:String x:Key="AnimationOpacityMax">1</x:String>
 
@@ -44,11 +44,19 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
+
+                <!--  Header:  -->
+                <TextBlock x:Name="title_tbx"
+                           Margin="0,0,0,10"
+                           HorizontalAlignment="Center"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Text="Add account:"/>
 
                 <!--  Step 1:  -->
                 <controls1:DropShadowPanel x:Name="step1Jid_dsp"
-                                           Grid.Row="0"
+                                           Grid.Row="1"
                                            MaxWidth="400"
                                            HorizontalContentAlignment="Stretch"
                                            Visibility="Collapsed">
@@ -74,7 +82,7 @@
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBox x:Name="jid1_tbx"
-                                     Header="Jabber ID:"
+                                     Header="Jabber ID"
                                      InputScope="EmailNameOrAddress"
                                      KeyUp="Jid1_tbx_KeyUp"
                                      PlaceholderText="alice@example.com"
@@ -107,7 +115,7 @@
 
                 <!--  Step 2:  -->
                 <controls1:DropShadowPanel x:Name="step2Jid_dsp"
-                                           Grid.Row="0"
+                                           Grid.Row="1"
                                            MaxWidth="400"
                                            HorizontalContentAlignment="Stretch"
                                            Visibility="Visible">
@@ -133,19 +141,19 @@
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBox x:Name="jid2_tbx"
-                                     Header="Jabber ID:"
+                                     Header="Jabber ID"
                                      InputScope="EmailNameOrAddress"
                                      KeyUp="Jid2_tbx_KeyUp"
                                      PlaceholderText="alice@example.com"
                                      Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <PasswordBox x:Name="password_pwb"
                                          Margin="0,10,0,0"
-                                         Header="Password:"
+                                         Header="Password"
                                          KeyUp="Password_pwb_KeyUp"
                                          Password="{x:Bind VIEW_MODEL.MODEL.Account.user.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                             <TextBlock Margin="0,10,0,4"
                                        Style="{ThemeResource BodyTextBlockStyle}"
-                                       Text="Color:"/>
+                                       Text="Color"/>
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
@@ -209,7 +217,7 @@
                 </controls1:DropShadowPanel>
 
                 <controls1:DropShadowPanel x:Name="step2Advanced_dsp"
-                                           Grid.Row="1"
+                                           Grid.Row="2"
                                            MaxWidth="400"
                                            Margin="0,10,0,0"
                                            HorizontalContentAlignment="Stretch"
@@ -235,16 +243,17 @@
                             Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
                         <controls1:Expander HorizontalContentAlignment="Stretch"
                                             Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-                                            Header="Advanced">
+                                            Header="Advanced"
+                                            IsExpanded="True">
                             <StackPanel Padding="10">
                                 <controls:SeperatorControl Margin="0,-10,0,0"
                                                            Text="General:"/>
-                                <TextBox Header="Resource (device name):"
+                                <TextBox Header="Resource (device name)"
                                          InputScope="ChatWithoutEmoji"
                                          IsSpellCheckEnabled="False"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.user.resourcePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <Slider Margin="0,10,0,0"
-                                        Header="Presence priority:"
+                                        Header="Presence priority"
                                         Maximum="128"
                                         Minimum="-127"
                                         TickFrequency="127"
@@ -252,25 +261,40 @@
                                         Value="{x:Bind VIEW_MODEL.MODEL.Account.presencePriorety, Mode=TwoWay}"/>
                                 <controls:SeperatorControl Text="Server:"/>
                                 <TextBox Margin="0,10,0,0"
-                                         Header="Server address:"
+                                         Header="Server address"
                                          InputScope="Url"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.serverAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                                 <TextBox Margin="0,10,0,0"
                                          extensions:TextBoxRegex.ValidationMode="Dynamic"
                                          extensions:TextBoxRegex.ValidationType="Number"
-                                         Header="Port:"
+                                         Header="Port"
                                          InputScope="Number"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
                                 <controls:SeperatorControl Text="TLS:"/>
                                 <ComboBox x:Name="tslMode_cmbx"
                                           Margin="0,10,0,0"
-                                          Header="TLS mode:"
+                                          Header="TLS mode"
                                           SelectedIndex="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource TLSConnectionModeIntValueConverter}}">
                                     <x:String>Enforce</x:String>
                                     <x:String>Use if available</x:String>
                                     <x:String>Prohibit</x:String>
                                 </ComboBox>
+                                <Button x:Name="certRequirements_btn"
+                                        Margin="0,10,0,0"
+                                        Click="CertRequirements_btn_Click"
+                                        Content="Certificate requirements"/>
                                 <controls:SeperatorControl Text="Misc:"/>
+                                <ToggleSwitch Margin="0,10,0,0"
+                                              Header="Message carbons"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableMessageCarbons, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                              OffContent="Disabled"
+                                              OnContent="Enabled"/>
+                                <ToggleSwitch Margin="0,10,0,0"
+                                              Header="Stream management"
+                                              IsEnabled="False"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableStreamManagement, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                              OffContent="Disabled"
+                                              OnContent="Enabled"/>
                             </StackPanel>
                         </controls1:Expander>
                     </Border>
@@ -331,12 +355,14 @@
                     <VisualState.Setters>
                         <Setter Target="delete_ipbtn.Visibility" Value="Collapsed"/>
                         <Setter Target="jid2_tbx.IsReadOnly" Value="False"/>
+                        <Setter Target="title_tbx.Text" Value="Add account:"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_Edit">
                     <VisualState.Setters>
                         <Setter Target="delete_ipbtn.Visibility" Value="Visible"/>
                         <Setter Target="jid2_tbx.IsReadOnly" Value="True"/>
+                        <Setter Target="title_tbx.Text" Value="Edit account:"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

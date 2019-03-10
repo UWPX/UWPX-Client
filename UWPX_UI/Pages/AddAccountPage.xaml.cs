@@ -177,6 +177,13 @@ namespace UWPX_UI.Pages
             NavigateAway();
         }
 
+        private async void CertRequirements_btn_Click(object sender, RoutedEventArgs e)
+        {
+            CertificateRequirementsDialog dialog = new CertificateRequirementsDialog(VIEW_MODEL.MODEL.Account);
+            await UiUtils.ShowDialogAsync(dialog);
+            VIEW_MODEL.ChangeCertRequirements(dialog.VIEW_MODEL.MODEL);
+        }
+
         #endregion
     }
 }

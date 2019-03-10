@@ -241,6 +241,9 @@
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
       <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\CertificateRequirementsDialog.xaml.cs">
+      <DependentUpon>CertificateRequirementsDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
     </Compile>
@@ -552,6 +555,10 @@
     <Page Include="Dialogs\AppCenterPushDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\CertificateRequirementsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ClearCacheDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

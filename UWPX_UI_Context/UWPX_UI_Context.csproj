@@ -155,6 +155,7 @@
     <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleContentControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\CertificateRequirementsDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ColorPickerDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ConfirmDialogContext.cs" />
@@ -189,6 +190,8 @@
     <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleContentControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementsDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ClearCacheDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ColorPickerDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ConfirmDialogDataTemplate.cs" />
