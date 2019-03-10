@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -79,6 +80,20 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             {
                 await Task.Run(async () =>
                 {
+                    Logger.Info("Deleting account: " + MODEL.Account.getBareJid());
+                    try
+                    {
+                        XMPPClient client = ConnectionHandler.INSTANCE.getClient(MODEL.Account.getBareJid());
+                        if (!(client is null) && client.getConnetionState() != ConnectionState.DISCONNECTED)
+                        {
+                            await client.disconnectAsync();
+                        }
+                    }
+                    catch (System.Exception e)
+                    {
+                        Logger.Error("Failed to disconnect account for deletion.", e);
+                    }
+
                     if (!dataTemplate.KeepChatMessages)
                     {
                         await ChatDBManager.INSTANCE.deleteAllChatMessagesForAccountAsync(MODEL.Account.getBareJid());
@@ -88,6 +103,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                         ChatDBManager.INSTANCE.deleteAllChatsForAccount(MODEL.Account.getBareJid());
                     }
                     AccountDBManager.INSTANCE.deleteAccount(MODEL.Account, true, true);
+                    Logger.Info("Finished deleting account: " + MODEL.Account.getBareJid());
                 });
             }
         }
