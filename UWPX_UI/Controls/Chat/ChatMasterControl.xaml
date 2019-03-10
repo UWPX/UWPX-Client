@@ -100,8 +100,7 @@
             </MenuFlyout.Items>
         </MenuFlyout>
 
-        <MenuFlyout x:Name="muc_mfo"
-                    Opening="Muc_mfo_Opening">
+        <MenuFlyout x:Name="muc_mfo">
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showInfo_mfo"
                                 Click="ShowInfo_mfo_Click"

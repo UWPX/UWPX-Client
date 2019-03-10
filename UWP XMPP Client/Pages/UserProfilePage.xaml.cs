@@ -87,7 +87,7 @@ namespace UWP_XMPP_Client.Pages
         {
             if (Client != null && Chat != null)
             {
-                IList<SignalProtocolAddress> devices = Client.getOmemoHelper().OMEMO_STORE.LoadDevices(Chat.chatJabberId);
+                IList<SignalProtocolAddress> devices = Client.getOmemoHelper()?.OMEMO_STORE?.LoadDevices(Chat.chatJabberId);
                 //omemoDevices_odlc.setDevices(devices);
                 omemoNoDevices_tbx.Visibility = devices.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -214,6 +214,11 @@ namespace UWP_XMPP_Client.Pages
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             UiUtils.setBackgroundImage(backgroundImage_img);
+        }
+
+        private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
         }
 
         #endregion

@@ -690,6 +690,10 @@
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UWP XMPP Client\UWP XMPP Client.csproj">
+      <Project>{A89D7282-BA49-4E70-B39E-7DD3DAFAD0BB}</Project>
+      <Name>UWP XMPP Client</Name>
+    </ProjectReference>
     <ProjectReference Include="..\UWPX_UI_Context\UWPX_UI_Context.csproj">
       <Project>{b4eb6f7e-cb04-4392-87da-bfc242483065}</Project>
       <Name>UWPX_UI_Context</Name>

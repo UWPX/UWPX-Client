@@ -1,5 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes.Events;
+using UWP_XMPP_Client.Pages;
 using UWPX_UI.Controls.Toolkit.SlidableListItem;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
@@ -174,14 +176,16 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void Muc_mfo_Opening(object sender, object e)
-        {
-
-        }
-
         private void ShowProfile_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            if (Chat.Chat.chatType == ChatType.MUC)
+            {
+                UiUtils.NavigateToPage(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat.Chat, Chat.Client, Chat.MucInfo));
+            }
+            else
+            {
+                UiUtils.NavigateToPage(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat.Chat, Chat.Client));
+            }
         }
 
         private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

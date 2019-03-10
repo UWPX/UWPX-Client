@@ -4,7 +4,7 @@ using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Classes.Events
 {
-    class NavigatedToUserProfileEventArgs : EventArgs
+    public class NavigatedToUserProfileEventArgs : EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

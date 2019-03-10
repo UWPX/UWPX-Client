@@ -2,7 +2,7 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
-
+using Logging;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections;
@@ -47,7 +47,39 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Adds and starts a new chat.
+        /// </summary>
+        /// <param name="client">Which account/client owns this chat?</param>
+        /// <param name="bareJid">The bare JID of the opponent.</param>
+        /// <param name="addToRoster">Should the chat get added to the users roster?</param>
+        /// <param name="requestSubscription">Request a presence subscription?</param>
+        public async Task AddChatAsync(XMPPClient client, string bareJid, bool addToRoster, bool requestSubscription)
+        {
+            if (client is null || string.IsNullOrEmpty(bareJid))
+            {
+                Logger.Error("Unable to add chat! client ?= " + (client is null) + " bareJid ?=" + (bareJid is null));
+                return;
+            }
 
+            await Task.Run(async () =>
+            {
+                if (addToRoster)
+                {
+                    await client.GENERAL_COMMAND_HELPER.addToRosterAsync(bareJid);
+                }
+                if (requestSubscription)
+                {
+                    await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(bareJid);
+                }
+                ChatDBManager.INSTANCE.setChat(new ChatTable(bareJid, client.getXMPPAccount().getBareJid())
+                {
+                    inRoster = addToRoster,
+                    subscription = requestSubscription ? "pending" : null
+                }, false, true);
+            });
+
+        }
 
         #endregion
 

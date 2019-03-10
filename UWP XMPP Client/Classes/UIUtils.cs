@@ -1,22 +1,22 @@
-﻿using System;
+﻿using Data_Manager2.Classes;
+using Microsoft.Toolkit.Uwp.UI.Controls;
+using System;
+using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.DataTemplates;
 using UWP_XMPP_Client.Dialogs;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
 using Windows.System.Profile;
 using Windows.UI;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
-using Windows.UI.ViewManagement;
-using System.Linq;
-using System.Text;
 
 namespace UWP_XMPP_Client.Classes
 {
@@ -99,22 +99,22 @@ namespace UWP_XMPP_Client.Classes
             switch (presence)
             {
                 case Presence.Online:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceOnline"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceOnlineBrush"];
 
                 case Presence.Chat:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceChat"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceChatBrush"];
 
                 case Presence.Away:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceAway"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceAwayBrush"];
 
                 case Presence.Xa:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceXa"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceXaBrush"];
 
                 case Presence.Dnd:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceDnd"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceDndBrush"];
 
                 default:
-                    return (SolidColorBrush)Application.Current.Resources["PresenceUnavailable"];
+                    return (SolidColorBrush)Application.Current.Resources["PresenceUnavailableBrush"];
 
             }
         }

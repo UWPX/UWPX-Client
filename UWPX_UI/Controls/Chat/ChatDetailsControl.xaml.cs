@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes;
+﻿using UWP_XMPP_Client.Classes.Events;
+using UWP_XMPP_Client.Pages;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
@@ -116,7 +118,14 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-
+                if (Chat.Chat.chatType == Data_Manager2.Classes.ChatType.MUC)
+                {
+                    UiUtils.NavigateToPage(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat.Chat, Chat.Client, Chat.MucInfo));
+                }
+                else
+                {
+                    UiUtils.NavigateToPage(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat.Chat, Chat.Client));
+                }
             }
         }
 
