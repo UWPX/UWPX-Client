@@ -54,7 +54,7 @@
                                 ItemsSource="{x:Bind VIEW_MODEL.MODEL.DETAILS}"
                                 VerticalScrollBarVisibility="Disabled">
                 <controls1:DataGrid.Columns>
-                    <controls1:DataGridTextColumn Width="Auto"
+                    <controls1:DataGridTextColumn Width="*"
                                                   Binding="{Binding Name}"
                                                   FontWeight="Bold"
                                                   IsReadOnly="True">
