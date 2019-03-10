@@ -95,8 +95,8 @@
             <PivotItem Header="OMEMO">
                 <ScrollViewer HorizontalScrollMode="Disabled">
                     <StackPanel>
-                        <controlsOmemo:OmemoDeviceListControl x:Name="omemoDevices_odlc"
-                                                              Header="Published devices:"/>
+                        <!--<controlsOmemo:OmemoDeviceListControl x:Name="omemoDevices_odlc"
+                                                              Header="Published devices:"/>-->
                         <TextBlock x:Name="omemoNoDevices_tbx"
                                    Text="Either you contact doesn't support OMEMO or you've never send him an OMEMO encrypted message."
                                    Visibility="Collapsed"/>

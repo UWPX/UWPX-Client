@@ -24,9 +24,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <controls:SettingsHeaderControl Grid.Row="0"
+            <!--<controls:SettingsHeaderControl Grid.Row="0"
                                             Icon="&#xE72E;"
-                                            Text="Security"/>
+                                            Text="Security"/>-->
             <StackPanel Grid.Row="1"
                         Margin="10,10,10,0">
                 <controls:SeperatorControl Text="Password vault:"/>

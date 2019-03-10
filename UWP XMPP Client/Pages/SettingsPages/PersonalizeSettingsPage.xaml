@@ -24,9 +24,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsHeaderControl Grid.Row="0"
+        <!--<controls:SettingsHeaderControl Grid.Row="0"
                                         Icon="&#xE771;"
-                                        Text="Personalize"/>
+                                        Text="Personalize"/>-->
 
         <Pivot Grid.Row="1">
             <PivotItem Header="Select">

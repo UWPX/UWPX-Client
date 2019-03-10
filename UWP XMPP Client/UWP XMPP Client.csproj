@@ -141,9 +141,6 @@
     <Compile Include="Classes\MUCRoomInfo.cs" />
     <Compile Include="Classes\ShowAddMUCNavigationParameter.cs" />
     <Compile Include="Classes\UIUtils.cs" />
-    <Compile Include="Controls\AccountControl.xaml.cs">
-      <DependentUpon>AccountControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
       <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
@@ -204,9 +201,6 @@
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Omemo\OmemoDeviceListControl.xaml.cs">
-      <DependentUpon>OmemoDeviceListControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Omemo\QRCodeReaderControl.xaml.cs">
       <DependentUpon>QRCodeReaderControl.xaml</DependentUpon>
     </Compile>
@@ -218,9 +212,6 @@
     </Compile>
     <Compile Include="Controls\ServerFeaturesControl.xaml.cs">
       <DependentUpon>ServerFeaturesControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SettingsHeaderControl.xaml.cs">
-      <DependentUpon>SettingsHeaderControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="DataTemplates\BackgroundImageTemplate.cs" />
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
@@ -253,41 +244,17 @@
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
-      <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ChangeAccountPresenceDialog.xaml.cs">
       <DependentUpon>ChangeAccountPresenceDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ChangeCertificateRequirementsDialog.xaml.cs">
-      <DependentUpon>ChangeCertificateRequirementsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
-      <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ColorPickerDialog.xaml.cs">
-      <DependentUpon>ColorPickerDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ConnectionErrorDialog.xaml.cs">
-      <DependentUpon>ConnectionErrorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\DeleteAccountDialog.xaml.cs">
-      <DependentUpon>DeleteAccountDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\DeleteChatDialog.xaml.cs">
-      <DependentUpon>DeleteChatDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
       <DependentUpon>InitialStartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\InviteUserMUCDialog.xaml.cs">
       <DependentUpon>InviteUserMUCDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\MoreAccountOptionsDialog.xaml.cs">
-      <DependentUpon>MoreAccountOptionsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\MUCKickBanOccupantDialog.xaml.cs">
       <DependentUpon>MUCKickBanOccupantDialog.xaml</DependentUpon>
@@ -300,9 +267,6 @@
     </Compile>
     <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
       <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\AddAccountPage.xaml.cs">
-      <DependentUpon>AddAccountPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\BrowseMUCRoomsPage.xaml.cs">
       <DependentUpon>BrowseMUCRoomsPage.xaml</DependentUpon>
@@ -440,10 +404,6 @@
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Controls\AccountControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\AccountImageWithPresenceControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -524,10 +484,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Omemo\OmemoDeviceListControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\Omemo\QRCodeReaderControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -544,10 +500,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\SettingsHeaderControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\AddBookmarkDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -560,39 +512,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\AppCenterPushDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\ChangeAccountPresenceDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\ChangeCertificateRequirementsDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\ClearCacheDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\ColorPickerDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\ConfirmDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\ConnectionErrorDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\DeleteAccountDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\DeleteChatDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -601,10 +525,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\InviteUserMUCDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\MoreAccountOptionsDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -621,10 +541,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\WhatsNewDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\AddAccountPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
