@@ -1,4 +1,6 @@
-﻿using UWPX_UI.Pages.Settings;
+﻿using System;
+using UWPX_UI.Pages;
+using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -39,6 +41,13 @@ namespace UWPX_UI.Controls
             set { SetValue(BackRequestButtonVisabilityProperty, value); }
         }
         public static readonly DependencyProperty BackRequestButtonVisabilityProperty = DependencyProperty.Register(nameof(BackRequestButtonVisability), typeof(Visibility), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(Visibility.Visible));
+
+        public Type NavigationFallbackPage
+        {
+            get { return (Type)GetValue(NavigationFallbackPageProperty); }
+            set { SetValue(NavigationFallbackPageProperty, value); }
+        }
+        public static readonly DependencyProperty NavigationFallbackPageProperty = DependencyProperty.Register(nameof(NavigationFallbackPage), typeof(Type), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(typeof(ChatPage)));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -123,8 +132,19 @@ namespace UWPX_UI.Controls
             if (!args.Handled)
             {
                 args.Handled = true;
-                UiUtils.OnGoBackRequested(Frame);
+                OnGoBackRequested();
             }
+        }
+
+        private bool OnGoBackRequested()
+        {
+            if (!UiUtils.OnGoBackRequested(Frame) && !(NavigationFallbackPage is null))
+            {
+                bool b = UiUtils.NavigateToPage(NavigationFallbackPage);
+                UiUtils.RemoveLastBackStackEntry();
+                return b;
+            }
+            return false;
         }
 
         #endregion
@@ -137,14 +157,14 @@ namespace UWPX_UI.Controls
         #region --Events--
         private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.OnGoBackRequested(Frame);
+            OnGoBackRequested();
         }
 
         private void CustomTitleBarControl_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (!e.Handled)
             {
-                e.Handled = UiUtils.OnGoBackRequested(Frame);
+                e.Handled = OnGoBackRequested();
             }
         }
 

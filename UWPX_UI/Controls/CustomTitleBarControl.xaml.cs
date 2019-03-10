@@ -1,4 +1,6 @@
-﻿using UWPX_UI.Controls.Toolkit.MasterDetailsView;
+﻿using System;
+using UWPX_UI.Controls.Toolkit.MasterDetailsView;
+using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Core;
 using Windows.UI.Core;
@@ -32,6 +34,13 @@ namespace UWPX_UI.Controls
             set { SetValue(BackRequestButtonVisabilityProperty, value); }
         }
         public static readonly DependencyProperty BackRequestButtonVisabilityProperty = DependencyProperty.Register(nameof(BackRequestButtonVisability), typeof(Visibility), typeof(CustomTitleBarControl), new PropertyMetadata(Visibility.Visible));
+
+        public Type NavigationFallbackPage
+        {
+            get { return (Type)GetValue(NavigationFallbackPageProperty); }
+            set { SetValue(NavigationFallbackPageProperty, value); }
+        }
+        public static readonly DependencyProperty NavigationFallbackPageProperty = DependencyProperty.Register(nameof(NavigationFallbackPage), typeof(Type), typeof(CustomTitleBarControl), new PropertyMetadata(typeof(ChatPage)));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -115,7 +124,7 @@ namespace UWPX_UI.Controls
             }
         }
 
-        private bool OnBackRequested()
+        private bool OnGoBackRequested()
         {
             if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
             {
@@ -124,8 +133,14 @@ namespace UWPX_UI.Controls
             }
             else
             {
-                return UiUtils.OnGoBackRequested(Frame);
+                if (!UiUtils.OnGoBackRequested(Frame) && !(NavigationFallbackPage is null))
+                {
+                    bool b = UiUtils.NavigateToPage(NavigationFallbackPage);
+                    UiUtils.RemoveLastBackStackEntry();
+                    return b;
+                }
             }
+            return false;
         }
 
         #endregion
@@ -138,14 +153,14 @@ namespace UWPX_UI.Controls
         #region --Events--
         private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
         {
-            OnBackRequested();
+            OnGoBackRequested();
         }
 
         private void CustomTitleBarControl_BackRequested(object sender, BackRequestedEventArgs e)
         {
             if (!e.Handled)
             {
-                e.Handled = OnBackRequested();
+                e.Handled = OnGoBackRequested();
             }
         }
 
