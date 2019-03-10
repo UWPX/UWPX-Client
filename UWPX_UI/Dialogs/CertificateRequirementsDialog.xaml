@@ -17,7 +17,7 @@
     <ContentDialog.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="CertificateRequirementTemplate"
@@ -28,16 +28,10 @@
                               IsChecked="{x:Bind Required, Mode=TwoWay}"/>
                     <Button HorizontalAlignment="Right"
                             VerticalAlignment="Center"
-                            Background="Transparent"
-                            Content="&#xE946;"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="20"
-                            Foreground="RoyalBlue"
-                            Style="{ThemeResource TransparentThemeButtonStyle}">
+                            Style="{ThemeResource InfoButtonStyle}">
                         <Button.Flyout>
                             <Flyout>
-                                <TextBlock Style="{ThemeResource BaseTextBlockStyle}"
-                                           Text="{x:Bind Description, Mode=OneWay}"/>
+                                <TextBlock Text="{x:Bind Description, Mode=OneWay}"/>
                             </Flyout>
                         </Button.Flyout>
                     </Button>

@@ -13,18 +13,24 @@
       mc:Ignorable="d">
 
     <Page.Resources>
-        <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
-        <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
-        <x:String x:Key="AnimationPositionShowSource">600,0,0</x:String>
-        <x:String x:Key="AnimationPositionShowTarget">0</x:String>
-        <x:String x:Key="AnimationPositionHideSource">0,0,0</x:String>
-        <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
-        <x:String x:Key="AnimationOpacityMin">0</x:String>
-        <x:String x:Key="AnimationOpacityMax">1</x:String>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
-        <valueConverter:StringIntValueConverter x:Key="StringIntValueConverter"/>
-        <valueConverter:TLSConnectionModeIntValueConverter x:Key="TLSConnectionModeIntValueConverter"/>
+            <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
+            <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
+            <x:String x:Key="AnimationPositionShowSource">600,0,0</x:String>
+            <x:String x:Key="AnimationPositionShowTarget">0</x:String>
+            <x:String x:Key="AnimationPositionHideSource">0,0,0</x:String>
+            <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
+            <x:String x:Key="AnimationOpacityMin">0</x:String>
+            <x:String x:Key="AnimationOpacityMax">1</x:String>
+
+            <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+            <valueConverter:StringIntValueConverter x:Key="StringIntValueConverter"/>
+            <valueConverter:TLSConnectionModeIntValueConverter x:Key="TLSConnectionModeIntValueConverter"/>
+        </ResourceDictionary>
     </Page.Resources>
 
     <Grid>
@@ -59,7 +65,7 @@
                                            Grid.Row="1"
                                            MaxWidth="400"
                                            HorizontalContentAlignment="Stretch"
-                                           Visibility="Collapsed">
+                                           Visibility="Visible">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -87,6 +93,10 @@
                                      KeyUp="Jid1_tbx_KeyUp"
                                      PlaceholderText="alice@example.com"
                                      Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <HyperlinkButton x:Name="whatIsAJid_link"
+                                             Margin="0,10,0,0"
+                                             Click="WhatIsAJid_link_Click"
+                                             Content="What's a Jabber ID?"/>
                             <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -118,7 +128,7 @@
                                            Grid.Row="1"
                                            MaxWidth="400"
                                            HorizontalContentAlignment="Stretch"
-                                           Visibility="Visible">
+                                           Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -221,7 +231,7 @@
                                            MaxWidth="400"
                                            Margin="0,10,0,0"
                                            HorizontalContentAlignment="Stretch"
-                                           Visibility="Visible">
+                                           Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -243,35 +253,108 @@
                             Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
                         <controls1:Expander HorizontalContentAlignment="Stretch"
                                             Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-                                            Header="Advanced"
-                                            IsExpanded="True">
-                            <StackPanel Padding="10">
-                                <controls:SeperatorControl Margin="0,-10,0,0"
+                                            Header="Advanced">
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <controls:SeperatorControl Grid.Row="0"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Margin="0,-10,0,0"
                                                            Text="General:"/>
-                                <TextBox Header="Resource (device name)"
+                                <!--  Resource:  -->
+                                <TextBox Grid.Row="1"
+                                         Grid.Column="0"
+                                         Header="Resource (device name)"
                                          InputScope="ChatWithoutEmoji"
                                          IsSpellCheckEnabled="False"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.user.resourcePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <Slider Margin="0,10,0,0"
+                                <Button Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{ThemeResource InfoButtonStyle}">
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock x:Uid="AddAccountPage_resource_tooltip"/>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+
+                                <!--  Presence priority:  -->
+                                <Slider Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="0,10,0,0"
                                         Header="Presence priority"
                                         Maximum="128"
                                         Minimum="-127"
                                         TickFrequency="127"
                                         TickPlacement="Outside"
                                         Value="{x:Bind VIEW_MODEL.MODEL.Account.presencePriorety, Mode=TwoWay}"/>
-                                <controls:SeperatorControl Text="Server:"/>
-                                <TextBox Margin="0,10,0,0"
+                                <Button Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{ThemeResource InfoButtonStyle}">
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock x:Uid="AddAccountPage_presence_priority_tooltip"/>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+
+                                <controls:SeperatorControl Grid.Row="3"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Text="Server:"/>
+
+                                <!--  Server address:  -->
+                                <TextBox Grid.Row="4"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="2"
+                                         Margin="0,10,0,0"
                                          Header="Server address"
                                          InputScope="Url"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.serverAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <TextBox Margin="0,10,0,0"
+
+                                <!--  Port:  -->
+                                <TextBox Grid.Row="5"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="2"
+                                         Margin="0,10,0,0"
                                          extensions:TextBoxRegex.ValidationMode="Dynamic"
                                          extensions:TextBoxRegex.ValidationType="Number"
                                          Header="Port"
                                          InputScope="Number"
                                          Text="{x:Bind VIEW_MODEL.MODEL.Account.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
-                                <controls:SeperatorControl Text="TLS:"/>
+
+                                <controls:SeperatorControl Grid.Row="6"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Text="TLS:"/>
+
+                                <!--  TLS mode:  -->
                                 <ComboBox x:Name="tslMode_cmbx"
+                                          Grid.Row="7"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="2"
                                           Margin="0,10,0,0"
                                           Header="TLS mode"
                                           SelectedIndex="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource TLSConnectionModeIntValueConverter}}">
@@ -279,23 +362,42 @@
                                     <x:String>Use if available</x:String>
                                     <x:String>Prohibit</x:String>
                                 </ComboBox>
+
+                                <!--  Certificate requirements:  -->
                                 <Button x:Name="certRequirements_btn"
+                                        Grid.Row="8"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
                                         Margin="0,10,0,0"
                                         Click="CertRequirements_btn_Click"
                                         Content="Certificate requirements"/>
-                                <controls:SeperatorControl Text="Misc:"/>
-                                <ToggleSwitch Margin="0,10,0,0"
+
+                                <controls:SeperatorControl Grid.Row="9"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Text="Misc:"/>
+
+                                <!--  Message carbons:  -->
+                                <ToggleSwitch Grid.Row="10"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,10,0,0"
                                               Header="Message carbons"
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableMessageCarbons, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
                                               OffContent="Disabled"
                                               OnContent="Enabled"/>
-                                <ToggleSwitch Margin="0,10,0,0"
+
+                                <!--  Stream management:  -->
+                                <ToggleSwitch Grid.Row="11"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,10,0,0"
                                               Header="Stream management"
                                               IsEnabled="False"
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableStreamManagement, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
                                               OffContent="Disabled"
                                               OnContent="Enabled"/>
-                            </StackPanel>
+                            </Grid>
                         </controls1:Expander>
                     </Border>
                 </controls1:DropShadowPanel>

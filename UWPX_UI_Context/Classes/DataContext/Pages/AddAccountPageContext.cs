@@ -107,6 +107,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             }
         }
 
+        public async Task OnWhatIsAJidAsync()
+        {
+            await UiUtils.LaunchUriAsync(new System.Uri("https://uwpx.org/support/"));
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

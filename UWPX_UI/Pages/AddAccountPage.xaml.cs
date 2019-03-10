@@ -184,6 +184,11 @@ namespace UWPX_UI.Pages
             VIEW_MODEL.ChangeCertRequirements(dialog.VIEW_MODEL.MODEL);
         }
 
+        private async void WhatIsAJid_link_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.OnWhatIsAJidAsync();
+        }
+
         #endregion
     }
 }
