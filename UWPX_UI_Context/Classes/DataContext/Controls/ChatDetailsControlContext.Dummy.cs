@@ -33,9 +33,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void LoadDummyContent(ChatTable chat)
         {
-            AddDummyMessage(chat, "Hi", chat.userAccountId, MessageState.READ);
-            AddDummyMessage(chat, "Hey, what's up?", chat.chatJabberId, MessageState.SEND);
-            AddDummyMessage(chat, "That's a great app.", chat.userAccountId, MessageState.READ);
+            AddDummyMessage(chat, "Hi", chat.chatJabberId, MessageState.READ);
+            AddDummyMessage(chat, "Hey, what's up?", chat.userAccountId, MessageState.SEND);
+            AddDummyMessage(chat, "That's a great app.", chat.chatJabberId, MessageState.READ);
             MODEL.MessageText = "Yes, its awesome :D !";
         }
 
