@@ -262,29 +262,46 @@ For more up to date information visit:
 * [Twitter](https://twitter.com/uwpx_app)</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># Years go bye - UWPX anniversary🎉
+    <value># UI Overhaul Part 1
 
-This month's update has only a hand full of changes, fixes and improvements since I'm working on an complete UI overhaul [#50](https://github.com/UWPX/UWPX-Client/issues/50) (more on that later).
-The *plan* is to release the UI overhaul [#50](https://github.com/UWPX/UWPX-Client/issues/50) sometime in march.
-I don't know If there will be any other releases until then.
-Lest see.
+It has been three months since the last official release of UWPX and a lot has changed since then.
+I started working on the UI Overhaule ([#52](https://github.com/UWPX/UWPX-Client/issues/52)) and now I'm at a point, where I can say: "Yes, it is usable again"  
+So here we go!  
+Please remember: It's only the first iteration and I'm by far not done with overhauling all pages, dialogs and controls!  
+If you have any suggestions/feedback please head over to [#50](https://github.com/UWPX/UWPX-Client/issues/50) and let me know about it!
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
 ### Known bugs:
-* MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29) 
-* Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27) 
-* MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34) 
-* OMEMO not sending messages [#49](https://github.com/UWPX/UWPX-Client/issues/49) 
-* Duplicate MUC messages [#46](https://github.com/UWPX/UWPX-Client/issues/46) 
-* Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40) 
+* Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27)
+* MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29)
+* MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
+* Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40)
+* Duplicate MUC messages [#46](https://github.com/UWPX/UWPX-Client/issues/46)
+* OMEMO not sending messages [#49](https://github.com/UWPX/UWPX-Client/issues/49)
+* Support for gtalk [#54](https://github.com/UWPX/UWPX-Client/issues/54)
+* OMEMO not sending "long" messages [#56](https://github.com/UWPX/UWPX-Client/issues/56)
+* In general OMEMO is a bit wonky at the moment
 
 ### Changes:
-* Added error messages if sending OMEMO messages fails
-* Added stream error support
-* Fixed app trying to connect if there is no internet available
-* Updated dependencies
+* Added a custom splash screen image. Thanks to [inloreap](https://www.instagram.com/inloreap/) for that
+* Added debug options (click 5 times on the version text on the settings overview page to enable/disable)
+* Added a simple anti spam mechanism (requires debug settings to be enabled, than enable it via chat settings)
+* Overhauled the UWPX logo
+* Overhauled the chats page
+* Overhauled the settings overview page
+* Overhauled the account settings page
+* Overhauled the chat settings page
+* Overhauled the data settings page
+* Overhauled the background tasks settings page
+* Overhauled the donate page
+* Overhauled the misc settings page
+* Overhauled the add account settings page
+* Started overhauling the personalize settings page
+* Fixed the OMEMO device fingerprint generation
+* A bunch of small OMEMO fixes
 
-[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.12.0.0)</value>
+
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.14.0.0)</value>
   </data>
 </root>
