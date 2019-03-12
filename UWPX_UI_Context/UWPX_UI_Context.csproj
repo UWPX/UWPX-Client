@@ -1,0 +1,330 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{B4EB6F7E-CB04-4392-87DA-BFC242483065}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UWPX_UI_Context</RootNamespace>
+    <AssemblyName>UWPX_UI_Context</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x86\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
+    <OutputPath>bin\x86\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
+    <OutputPath>bin\ARM\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Classes\AppBackgroundHelper.cs" />
+    <Compile Include="Classes\AppCenterHelper.cs" />
+    <Compile Include="Classes\AppUpdateHelper.cs" />
+    <Compile Include="Classes\BackgroundTaskHelper.cs" />
+    <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
+    <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
+    <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
+    <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />
+    <Compile Include="Classes\Collections\Toolkit\VectorChangedEventArgs.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountInfoCertificateGeneralControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountInfoGeneralControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountSettingsControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\AccountsListControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
+    <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoFingerprintControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\SpeechBubbleContentControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\CertificateRequirementsDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ColorPickerDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\DeleteAccountConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\InitialStartDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\AddAccountPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\ChatsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\PersonalizeSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\DonateSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\DataSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\MiscSettingsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\SettingsPageContext.cs" />
+    <Compile Include="Classes\DataTemplates\AccountDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatFilterDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountInfoCertificateGeneralControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountInfoGeneralControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountSettingsControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\AccountsListControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\CertificateDetailDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OmemoFingerprintControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementsDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ClearCacheDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ColorPickerDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\DeleteAccountConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\InitialStartDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\WhatsNewDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
+    <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\AddAccountPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\PersonalizeSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\DonateSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\DataSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\SettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
+    <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
+    <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
+    <Compile Include="Classes\DeviceFamilyHelper.cs" />
+    <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
+    <Compile Include="Classes\Localisation.cs" />
+    <Compile Include="Classes\UiUtils.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\BoolInvertedVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\BoolVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\ChatDateTimeStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\ConnectionErrorCodeTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\ConnectionStatePresenceValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateQueuedBoolValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DownloadStateVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\HexColorToSolidColorBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\IsNullBoolValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\LogLevelStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\LogLevelWarningVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageCarbonsStateSolidColorBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageCarbonsStateTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateGlyphTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateIsDeliveredVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateUnreadVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateMucJoinVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateMucLeaveVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OmemoBoolBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OmemoBoolGlyphTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoDeviceIdStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\StringEmptyVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TLSConnectionModeIntValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\StringIntValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TimeValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TlsConnectedSolidColorBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\TlsConnectedTextValueConverter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\UWPX_UI_Context.rd.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AppCenter">
+      <Version>1.13.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Analytics">
+      <Version>1.13.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Crashes">
+      <Version>1.13.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.AppCenter.Push">
+      <Version>1.13.2</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.1.190218001-prerelease</Version>
+    </PackageReference>
+    <PackageReference Include="QRCoder">
+      <Version>1.3.5</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
+      <Project>{58925bf1-5b7d-48d9-b411-126cbefda98a}</Project>
+      <Name>Data_Manager2</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
+      <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
+      <Name>XMPP_API</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SDKReference Include="WindowsMobile, Version=10.0.17763.0">
+      <Name>Windows Mobile Extensions for the UWP</Name>
+    </SDKReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.Dummy.cs" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
+    <VisualStudioVersion>14.0</VisualStudioVersion>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\WindowsXaml\v$(VisualStudioVersion)\Microsoft.Windows.UI.Xaml.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

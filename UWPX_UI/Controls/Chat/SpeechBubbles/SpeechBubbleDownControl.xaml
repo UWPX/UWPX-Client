@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.SpeechBubbles.SpeechBubbleDownControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:content="using:UWPX_UI.Controls.Chat.SpeechBubbles.Content"
+             xmlns:converter="using:UWPX_UI_Context.Classes.ValueConverter"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datacontext="using:UWPX_UI_Context.Classes.DataContext.Controls"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
+             HorizontalAlignment="Right"
+             RightTapped="UserControl_RightTapped"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="SpeechBubbleTextContentControlTemplate"
+                      x:DataType="datacontext:SpeechBubbleContentControlContext">
+            <content:SpeechBubbleTextContentControl SpeechBubbleContentViewModel="{x:Bind}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SpeechBubbleImageContentControlTemplate"
+                      x:DataType="datacontext:SpeechBubbleContentControlContext">
+            <content:SpeechBubbleImageContentControl SpeechBubbleContentViewModel="{x:Bind}"/>
+        </DataTemplate>
+
+        <selectors:SpeechBubbleConentDataTemplateSelector x:Key="SpeechBubbleConentDataTemplateSelector"
+                                                          ImageTemplate="{StaticResource SpeechBubbleImageContentControlTemplate}"
+                                                          TextTemplate="{StaticResource SpeechBubbleTextContentControlTemplate}"/>
+        <converter:MessageStateUnreadVisabilityValueConverter x:Key="MessageStateUnreadVisabilityValueConverter"/>
+    </UserControl.Resources>
+
+    <Grid Margin="50,0,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Grid.Row="0"
+                MinWidth="100"
+                MinHeight="40"
+                Background="{ThemeResource SpeechBubbleBackgroundDarkBrush}">
+            <ContentControl x:Name="content_cp"
+                            Margin="5"
+                            HorizontalContentAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
+        </Border>
+        <Polygon Grid.Row="1"
+                 Margin="0,0,10,0"
+                 HorizontalAlignment="Right"
+                 Fill="{ThemeResource SpeechBubbleBackgroundDarkBrush}"
+                 Points="0,0 10,10 10,0"/>
+    </Grid>
+</UserControl>

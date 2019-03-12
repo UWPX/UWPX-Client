@@ -37,22 +37,22 @@ namespace Push_App_Server.Classes
         #region --Set-, Get- Methods--
         private bool getChannelSuccess()
         {
-            return Settings.getSettingBoolean(SettingsConsts.PUSH_CHANNEL_SEND_SUCCESS + client.getXMPPAccount().getIdAndDomain());
+            return Settings.getSettingBoolean(SettingsConsts.PUSH_CHANNEL_SEND_SUCCESS + client.getXMPPAccount().getBareJid());
         }
 
         private void setChannelSuccess(bool success)
         {
-            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_SEND_SUCCESS + client.getXMPPAccount().getIdAndDomain(), success);
+            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_SEND_SUCCESS + client.getXMPPAccount().getBareJid(), success);
         }
 
         private string getOldChannelTokenUrl()
         {
-            return Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_TOKEN_URL + client.getXMPPAccount().getIdAndDomain());
+            return Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_TOKEN_URL + client.getXMPPAccount().getBareJid());
         }
 
         private void setChannelTokenUrl(string url)
         {
-            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_TOKEN_URL + client.getXMPPAccount().getIdAndDomain(), url);
+            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_TOKEN_URL + client.getXMPPAccount().getBareJid(), url);
         }
 
         #endregion
@@ -162,7 +162,7 @@ namespace Push_App_Server.Classes
         private string getMessage(string url)
         {
             XElement n = new XElement("push");
-            n.Add(new XAttribute("clientId", client.getXMPPAccount().getIdAndDomain()));
+            n.Add(new XAttribute("clientId", client.getXMPPAccount().getBareJid()));
             n.Add(new XAttribute("pushChannel", url));
             return n.ToString();
         }

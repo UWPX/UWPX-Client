@@ -42,7 +42,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> requestBundleInformation(string to, uint deviceId, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to, deviceId);
+            OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(CLIENT.getXMPPAccount().getFullJid(), to, deviceId);
             helper.start(msg);
             return helper;
         }
@@ -57,7 +57,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> requestDeviceList(string to, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), to);
+            OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CLIENT.getXMPPAccount().getFullJid(), to);
             helper.start(msg);
             return helper;
         }

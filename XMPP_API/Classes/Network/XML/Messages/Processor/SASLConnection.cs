@@ -85,15 +85,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             switch (selected)
             {
                 case "scram-sha-256":
-                    selectedMechanism = new ScramSHA256SASLMechanism(sCC.user.userId, sCC.user.userPassword, this);
+                    selectedMechanism = new ScramSHA256SASLMechanism(sCC.user.localPart, sCC.user.password, this);
                     break;
 
                 case "scram-sha-1":
-                    selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.userId, sCC.user.userPassword, this);
+                    selectedMechanism = new ScramSHA1SASLMechanism(sCC.user.localPart, sCC.user.password, this);
                     break;
 
                 case "plain":
-                    selectedMechanism = new PlainSASLMechanism(sCC.user.userId, sCC.user.userPassword, this);
+                    selectedMechanism = new PlainSASLMechanism(sCC.user.localPart, sCC.user.password, this);
                     break;
 
                 default:

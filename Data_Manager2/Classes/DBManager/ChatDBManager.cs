@@ -1,10 +1,11 @@
-﻿using Data_Manager2.Classes.Events;
-using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
+using Shared.Classes.SQLite;
 using SQLite;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
-using Thread_Save_Components.Classes.SQLite;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -47,7 +48,7 @@ namespace Data_Manager2.Classes.DBManager
                 ChatMessageTable msg = getChatMessageById(id);
                 if (msg != null)
                 {
-                    ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
+                    ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg, false));
                 }
             }
         }
@@ -82,7 +83,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public void setMUCDirectInvitation(MUCDirectInvitationTable invite)
         {
-            update(invite);
+            dB.InsertOrReplace(invite);
         }
 
         public void setMUCDirectInvitationState(string chatMessageId, MUCDirectInvitationState state)
@@ -130,7 +131,7 @@ namespace Data_Manager2.Classes.DBManager
             }
             else
             {
-                update(chat);
+                dB.InsertOrReplace(chat);
             }
 
             if (triggerChatChanged)
@@ -154,7 +155,7 @@ namespace Data_Manager2.Classes.DBManager
             Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>
             {
                 c.inRoster = false;
-                update(c);
+                dB.InsertOrReplace(c);
                 onChatChanged(c, false);
             });
         }
@@ -196,13 +197,26 @@ namespace Data_Manager2.Classes.DBManager
             List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE id = ?;", msgId);
             Parallel.ForEach(list, (msg) =>
             {
-                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
+                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg, false));
             });
         }
 
-        public void deleteAllChatMessagesForChat(string chatId)
+        public async Task deleteAllChatMessagesForChatAsync(string chatId)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chatId);
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ?;", chatId);
+            foreach (ChatMessageTable msg in list)
+            {
+                await deleteChatMessageAsync(msg, false);
+            }
+        }
+
+        public async Task deleteAllChatMessagesForAccountAsync(string userAccountId)
+        {
+            List<ChatMessageTable> list = dB.Query<ChatMessageTable>(true, "SELECT m.* FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " m JOIN " + DBTableConsts.CHAT_TABLE + " c ON m.chatId = c.id WHERE c.userAccountId = ?;", userAccountId);
+            foreach (ChatMessageTable msg in list)
+            {
+                await deleteChatMessageAsync(msg, false);
+            }
         }
 
         public void deleteAllChatsForAccount(string userAccountId)
@@ -231,26 +245,50 @@ namespace Data_Manager2.Classes.DBManager
         public void markMessageAsRead(ChatMessageTable msg)
         {
             msg.state = MessageState.READ;
-            update(msg);
+            dB.InsertOrReplace(msg);
             msg.onChanged();
-            ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg));
+            ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg, false));
         }
 
         public void setChatMessage(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
         {
-            update(message);
+            dB.InsertOrReplace(message);
             if (triggerNewChatMessage)
             {
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(message));
-                if (message.isImage)
+                if (message.isImage && !Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
                 {
                     cacheImage(message);
                 }
             }
             if (triggerMessageChanged)
             {
-                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(message));
+                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(message, false));
             }
+        }
+
+        public async Task deleteChatMessageAsync(ChatMessageTable message, bool triggerMessageChanged)
+        {
+            if (message.isImage)
+            {
+                await ImageDBManager.INSTANCE.deleteImageAsync(message);
+            }
+
+            if (string.Equals(message.type, DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION))
+            {
+                deleteMucDirectInvite(message);
+            }
+
+            dB.Delete(message);
+            if (triggerMessageChanged)
+            {
+                ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(message, true));
+            }
+        }
+
+        public void deleteMucDirectInvite(ChatMessageTable message)
+        {
+            dB.Execute("DELETE FROM " + DBTableConsts.MUC_DIRECT_INVITATION_TABLE + " WHERE chatMessageId = ?;", message.id);
         }
 
         public void resetPresence(string userAccountId)
@@ -260,7 +298,7 @@ namespace Data_Manager2.Classes.DBManager
                 if (c.chatType == ChatType.CHAT)
                 {
                     c.presence = Presence.Unavailable;
-                    update(c);
+                    dB.InsertOrReplace(c);
                     onChatChanged(c, false);
                 }
             }
@@ -284,7 +322,10 @@ namespace Data_Manager2.Classes.DBManager
 
         private void cacheImage(ChatMessageTable msg)
         {
-            ImageDBManager.INSTANCE.downloadImage(msg);
+            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
+            {
+                Task.Run(async () => await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(msg));
+            }
         }
 
         private void resetPresences()

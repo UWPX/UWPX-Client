@@ -1,16 +1,18 @@
 ﻿using libsignal;
+using libsignal.ecc;
 using libsignal.state;
 using libsignal.util;
-using org.whispersystems.libsignal.fingerprint;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.RegularExpressions;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Linq;
+using XMPP_API.Classes.Network;
 
 namespace XMPP_API.Classes.Crypto
 {
@@ -18,7 +20,7 @@ namespace XMPP_API.Classes.Crypto
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private static readonly NumericFingerprintGenerator FINGERPRINT_GENERATOR = new NumericFingerprintGenerator(5200);
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,7 +30,20 @@ namespace XMPP_API.Classes.Crypto
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Reads the raw key from the given ECPublicKey.
+        /// Based on: https://github.com/langboost/libsignal-protocol-pcl/blob/ef9dece1283948f89c7cc4c5825f944f77ed2c3e/signal-protocol-pcl/ecc/Curve.cs#L37
+        /// </summary>
+        /// <param name="key">The public key you want to retrieve the raw key from.</param>
+        /// <returns>Returns the raw key from the given ECPublicKey.</returns>
+        public static byte[] getRawFromECPublicKey(ECPublicKey key)
+        {
+            byte[] keySerialized = key.serialize();
+            byte[] keyRaw = new byte[32];
+            System.Buffer.BlockCopy(keySerialized, 1, keyRaw, 0, keySerialized.Length - 1);
 
+            return keyRaw;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -120,11 +135,6 @@ namespace XMPP_API.Classes.Crypto
             throw new InvalidOperationException("Failed to generate unique device id! " + nameof(usedDeviceIds) + ". Count = " + usedDeviceIds.Count);
         }
 
-        public static Fingerprint generateOmemoFingerprint(string accountId, IdentityKey key)
-        {
-            return FINGERPRINT_GENERATOR.createFor(accountId, key, accountId, key);
-        }
-
         public static byte[] hexStringToByteArray(string hex)
         {
             return Enumerable.Range(0, hex.Length)
@@ -139,6 +149,41 @@ namespace XMPP_API.Classes.Crypto
             foreach (byte b in data)
                 hex.AppendFormat("{0:x2}", b);
             return hex.ToString();
+        }
+
+        /// <summary>
+        /// Generates the display fingerprint for the given OMEMO identity public key.
+        /// </summary>
+        /// <param name="key">The OMEMO identity public key.</param>
+        /// <param name="twoLines">Split the fingerprint into two lines.</param>
+        /// <returns>A hex string representing the given OMEMO identity public key. Split up in blocks of 8 characters separated by a whitespace.</returns>
+        public static string generateOmemoFingerprint(IdentityKey key, bool twoLines)
+        {
+            byte[] keyRaw = getRawFromECPublicKey(key.getPublicKey());
+            string fingerprint = byteArrayToHexString(keyRaw);
+            fingerprint = Regex.Replace(fingerprint, ".{8}", "$0 ").TrimEnd();
+            if (twoLines)
+            {
+                fingerprint = Regex.Replace(fingerprint, ".{36}", "$0\n").TrimEnd();
+            }
+            return fingerprint;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="account"></param>
+        /// <returns></returns>
+        public static string generateOmemoQrCodeFingerprint(IdentityKey key, XMPPAccount account)
+        {
+            StringBuilder sb = new StringBuilder("xmpp:");
+            sb.Append(account.getBareJid());
+            sb.Append("?omemo-sid-");
+            sb.Append(account.omemoDeviceId);
+            sb.Append('=');
+            sb.Append(byteArrayToHexString(key.serialize()));
+            return sb.ToString();
         }
 
         public static void nextBytesSecureRandom(out byte[] b, in uint length)

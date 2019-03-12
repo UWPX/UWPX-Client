@@ -57,7 +57,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<ExtendedDiscoResponseMessage> requestRoomInfo(string roomJid, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnMessageHandler onMessage, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<ExtendedDiscoResponseMessage> helper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(CLIENT, onMessage, onTimeout);
-            DiscoRequestMessage disco = new DiscoRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, DiscoType.INFO);
+            DiscoRequestMessage disco = new DiscoRequestMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, DiscoType.INFO);
             helper.start(disco);
             return helper;
         }
@@ -90,7 +90,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, DataForm roomConfiguration, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            RoomInfoMessage msg = new RoomInfoMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, roomConfiguration, configLevel);
+            RoomInfoMessage msg = new RoomInfoMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, roomConfiguration, configLevel);
             helper.start(msg);
             return helper;
         }
@@ -109,7 +109,7 @@ namespace XMPP_API.Classes
             {
                 matchId = false
             };
-            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, newNickname);
+            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, newNickname);
             helper.start(msg);
             return helper;
         }
@@ -126,7 +126,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> kickOccupant(string roomJid, string nickname, string reason, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            KickOccupantMessage msg = new KickOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, nickname, reason);
+            KickOccupantMessage msg = new KickOccupantMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, nickname, reason);
             helper.start(msg);
             return helper;
         }
@@ -143,7 +143,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> banOccupant(string roomJid, string jid, string reason, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            BanOccupantMessage msg = new BanOccupantMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, jid, reason);
+            BanOccupantMessage msg = new BanOccupantMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, jid, reason);
             helper.start(msg);
             return helper;
         }
@@ -159,7 +159,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> requestBanList(string roomJid, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            BanListMessage msg = new BanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid);
+            BanListMessage msg = new BanListMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid);
             helper.start(msg);
             return helper;
         }
@@ -175,7 +175,7 @@ namespace XMPP_API.Classes
         public MessageResponseHelper<IQMessage> updateBanList(string roomJid, List<BanedUser> changedUsers, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            UpdateBanListMessage msg = new UpdateBanListMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), roomJid, changedUsers);
+            UpdateBanListMessage msg = new UpdateBanListMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, changedUsers);
             helper.start(msg);
             return helper;
         }

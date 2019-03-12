@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountOmemoInfoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:controlsOmemo="using:UWPX_UI.Controls.OMEMO"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:omemo="using:UWPX_UI_Context.Classes.ValueConverter.OMEMO"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <omemo:OmemoHelperStateStringValueConverter x:Key="OmemoHelperStateStringValueConverter"/>
+        <omemo:OmemoHelperStateBrushValueConverter x:Key="OmemoHelperStateBrushValueConverter"/>
+        <omemo:OmemoDeviceIdStringValueConverter x:Key="OmemoDeviceIdStringValueConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer Margin="0,0,-10,0"
+                  Padding="0,0,10,0"
+                  HorizontalScrollMode="Disabled">
+        <StackPanel>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Status:"/>
+                <Run Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateBrushValueConverter}}"
+                     Text="{x:Bind VIEW_MODEL.MODEL.OmemoState, Mode=OneWay, Converter={StaticResource OmemoHelperStateStringValueConverter}}"/>
+            </TextBlock>
+
+            <controls:IconTextBlockControl HorizontalAlignment="Left"
+                                           Glyph="&#xE783;"
+                                           GlyphForeground="Red"
+                                           Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
+                                           Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Fingerprint:"/>
+            <controlsOmemo:OmemoFingerprintControl Margin="0,10,0,0"
+                                                   Account="{x:Bind Account, Mode=OneWay}"/>
+
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Devices:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Your OMEMO device ID:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceId, Mode=OneWay, Converter={StaticResource OmemoDeviceIdStringValueConverter}}"/>
+            </TextBlock>
+
+            <controlsOmemo:OmemoDeviceListControl Margin="0,10,0,0"
+                                                  Account="{x:Bind Account, Mode=OneWay}"/>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

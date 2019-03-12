@@ -1,0 +1,176 @@
+﻿<Page x:Class="UWPX_UI.Pages.Settings.ChatSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:settings="using:UWPX_UI.Controls.Settings"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="ToggleSwitch">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--  Content:  -->
+        <controlsComp:NavigationView x:Name="main_nview"
+                                     Grid.Row="1"
+                                     Loaded="Main_nview_Loaded"
+                                     SelectionChanged="Main_nview_SelectionChanged"
+                                     Style="{StaticResource SettingsNavigationViewStyle}">
+            <controlsComp:NavigationView.MenuItems>
+                <controlsComp:NavigationViewItem Content="General"
+                                                 Icon="Message"
+                                                 Tag="General"/>
+                <controlsComp:NavigationViewItem Content="Groupchat (MUC)"
+                                                 Icon="People"
+                                                 Tag="MUC"/>
+                <controlsComp:NavigationViewItem Content="Media"
+                                                 Icon="Pictures"
+                                                 Tag="Media"/>
+                <controlsComp:NavigationViewItem Content="OMEMO"
+                                                 Icon="Permissions"
+                                                 Tag="OMEMO"/>
+                <controlsComp:NavigationViewItem Content="Spam"
+                                                 Icon="Flag"
+                                                 Tag="Spam"
+                                                 Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+            </controlsComp:NavigationView.MenuItems>
+            <ScrollViewer x:Name="main_scv"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Auto">
+                <StackPanel>
+                    <!--  General:  -->
+                    <settings:SettingsContentControl x:Name="general_scp"
+                                                     Header="General:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="enterToSend_tgls"
+                                              Header="Enter to send"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.EnterToSend, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="sendChatState_tgls"
+                                              Header="Send chat state"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.SendChatState, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="sendChatMessageReceivedMarkers_tgls"
+                                              Header="Send message received markers"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.SendReceivedMarkers, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="advancedChatMsgProcessing_tgls"
+                                              Header="Advanced chat message processing"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.AdvancedChatMessageProcessing, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="enableVibrateOnNewMessage_tgls"
+                                              Header="Vibrate device for new messages"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.VibrateForNewChatMessages, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Groupchat:  -->
+                    <settings:SettingsContentControl x:Name="muc_scp"
+                                                     Header="Groupchat (MUC):">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="autoJoinMUC_tgls"
+                                              Margin="0,10,0,0"
+                                              Header="Auto join MUC"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.AutoJoinMucs, Mode=TwoWay}"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Media:  -->
+                    <settings:SettingsContentControl x:Name="media_scp"
+                                                     Header="Media:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="imageAutoDownload_tgls"
+                                              Header="Image auto download"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.ImageAutoDownload, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="storeImagesInLibary_tgls"
+                                              Header="Store images in library"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.StoreImagesInLibrary, Mode=TwoWay}"/>
+                                <HyperlinkButton x:Name="clearCache_hlb"
+                                                 Click="ClearCache_hlb_Click"
+                                                 Content="Clear cache"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  OMEMO:  -->
+                    <settings:SettingsContentControl x:Name="omemo_scp"
+                                                     Header="OMEMO:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="omemoEnabledNewchats_tgls"
+                                              Header="Enable OMEMO by default for new chats"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.EnableOmemoForNewChats, Mode=TwoWay}"/>
+                                <HyperlinkButton x:Name="omemoInfo_hlb"
+                                                 Click="OmemoInfo_hlb_Click"
+                                                 Content="What is OMEMO?"/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Spam:  -->
+                    <settings:SettingsContentControl x:Name="spam_scp"
+                                                     Header="Spam:"
+                                                     Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch x:Name="spamDetectionEnabled_tgls"
+                                              Header="Enable spam detection"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="spamDetectionNewChatsOnly_tgls"
+                                              Header="Only for new chats"
+                                              IsEnabled="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=OneWay}"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.SpamDetectionNewChatsOnly, Mode=TwoWay}"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBox x:Name="spamRegex_tbx"
+                                             Grid.Column="0"
+                                             Margin="0,10,0,10"
+                                             Header="Spam regex"
+                                             IsEnabled="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=OneWay}"
+                                             IsSpellCheckEnabled="False"
+                                             Text="{x:Bind VIEW_MODEL.MODEL.SpamRegex, Mode=TwoWay}"/>
+                                    <Button x:Name="resetSpamRegex_btn"
+                                            Grid.Column="1"
+                                            Height="32"
+                                            Margin="0,22,0,0"
+                                            Click="ResetSpamRegex_btn_Click"
+                                            Content="&#xE777;"
+                                            FontFamily="Segoe MDL2 Assets"/>
+                                </Grid>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+                </StackPanel>
+            </ScrollViewer>
+        </controlsComp:NavigationView>
+
+        <!--  Header:  -->
+        <!--  Has to be bellow content to correctly draw the drop shadow.  -->
+        <controls:CustomSettingsTitleBarControl Grid.Row="0"
+                                                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                                                Frame="{x:Bind Frame, Mode=OneWay}"
+                                                Glyph="&#xE15F;"
+                                                Text="Chat"/>
+    </Grid>
+</Page>

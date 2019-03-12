@@ -76,10 +76,16 @@
               Visibility="Visible">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <!--  Taskbar:  -->
-            <Grid Grid.Row="0"
+            <Button x:Name="backRequest_btn"
+                    Grid.Row="0"
+                    HorizontalAlignment="Left"
+                    Click="BackRequest_btn_Click"
+                    Style="{ThemeResource NavigationBackButtonSmallStyle}"/>
+            <Grid Grid.Row="1"
                   Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
@@ -93,7 +99,7 @@
             </Grid>
 
             <controls:MasterDetailsView x:Name="masterDetail_pnl"
-                                        Grid.Row="1"
+                                        Grid.Row="2"
                                         Background="Transparent"
                                         DetailsTemplate="{StaticResource detailsTemplate}"
                                         ItemTemplate="{StaticResource masterTemplate}"

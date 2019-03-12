@@ -90,7 +90,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                         return;
 
                     case TYPE_GROUPCHAT:
-                        FROM_NICK = Utils.getResourceFromFullJid(FROM);
+                        FROM_NICK = Utils.getJidResourcePart(FROM);
                         break;
                 }
             }

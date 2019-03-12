@@ -64,7 +64,7 @@
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"
                                            FontWeight="Bold"
-                                           Foreground="{StaticResource PresenceUnavailable}"
+                                           Foreground="{StaticResource PresenceUnavailableBrush}"
                                            Text="disconnected"
                                            TextWrapping="Wrap"/>
                             </controls1:DropShadowPanel>

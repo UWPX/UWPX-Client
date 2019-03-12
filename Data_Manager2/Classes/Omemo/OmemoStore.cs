@@ -52,7 +52,7 @@ namespace Data_Manager2.Classes.Omemo
 
         public List<uint> GetSubDeviceSessions(string name)
         {
-            return OmemoSignalKeyDBManager.INSTANCE.getDeviceIds(name, ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.getDeviceIds(name, ACCOUNT.getBareJid());
         }
 
         #endregion
@@ -60,19 +60,19 @@ namespace Data_Manager2.Classes.Omemo
         #region --Misc Methods (Public)--
         public bool SaveIdentity(string name, IdentityKey identityKey)
         {
-            bool contains = OmemoSignalKeyDBManager.INSTANCE.containsIdentityKey(name, ACCOUNT.getIdAndDomain());
-            OmemoSignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, ACCOUNT.getIdAndDomain());
+            bool contains = OmemoSignalKeyDBManager.INSTANCE.containsIdentityKey(name, ACCOUNT.getBareJid());
+            OmemoSignalKeyDBManager.INSTANCE.setIdentityKey(name, identityKey, ACCOUNT.getBareJid());
             return contains;
         }
 
         public bool ContainsPreKey(uint preKeyId)
         {
-            return OmemoSignalKeyDBManager.INSTANCE.containsPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.containsPreKeyRecord(preKeyId, ACCOUNT.getBareJid());
         }
 
         public PreKeyRecord LoadPreKey(uint preKeyId)
         {
-            PreKeyRecord preKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId, ACCOUNT.getIdAndDomain());
+            PreKeyRecord preKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getPreKeyRecord(preKeyId, ACCOUNT.getBareJid());
             if (preKeyRecord is null)
             {
                 throw new InvalidKeyIdException("No such key: " + preKeyId);
@@ -82,17 +82,17 @@ namespace Data_Manager2.Classes.Omemo
 
         public void RemovePreKey(uint preKeyId)
         {
-            OmemoSignalKeyDBManager.INSTANCE.deletePreKey(preKeyId, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.deletePreKey(preKeyId, ACCOUNT.getBareJid());
         }
 
         public void StorePreKey(uint preKeyId, PreKeyRecord preKey)
         {
-            OmemoSignalKeyDBManager.INSTANCE.setPreKey(preKeyId, preKey, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setPreKey(preKeyId, preKey, ACCOUNT.getBareJid());
         }
 
         public bool ContainsSession(SignalProtocolAddress address)
         {
-            SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
+            SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getBareJid());
             return session != null && session.getSessionState().hasSenderChain() && session.getSessionState().getSessionVersion() == CiphertextMessage.CURRENT_VERSION;
         }
 
@@ -103,12 +103,12 @@ namespace Data_Manager2.Classes.Omemo
 
         public void DeleteSession(SignalProtocolAddress address)
         {
-            OmemoSignalKeyDBManager.INSTANCE.deleteSession(address, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.deleteSession(address, ACCOUNT.getBareJid());
         }
 
         public SessionRecord LoadSession(SignalProtocolAddress address)
         {
-            SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getIdAndDomain());
+            SessionRecord session = OmemoSignalKeyDBManager.INSTANCE.getSession(address, ACCOUNT.getBareJid());
             if (session is null)
             {
                 Logger.Warn("No existing libsignal session found for: " + address.ToString());
@@ -119,17 +119,17 @@ namespace Data_Manager2.Classes.Omemo
 
         public void StoreSession(SignalProtocolAddress address, SessionRecord record)
         {
-            OmemoSignalKeyDBManager.INSTANCE.setSession(address, record, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setSession(address, record, ACCOUNT.getBareJid());
         }
 
         public bool ContainsSignedPreKey(uint signedPreKeyId)
         {
-            return OmemoSignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.containsSignedPreKey(signedPreKeyId, ACCOUNT.getBareJid());
         }
 
         public SignedPreKeyRecord LoadSignedPreKey(uint signedPreKeyId)
         {
-            SignedPreKeyRecord signedPreKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
+            SignedPreKeyRecord signedPreKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getBareJid());
             if (signedPreKeyRecord is null)
             {
                 throw new InvalidKeyIdException("No such key: " + signedPreKeyId);
@@ -139,52 +139,52 @@ namespace Data_Manager2.Classes.Omemo
 
         public List<SignedPreKeyRecord> LoadSignedPreKeys()
         {
-            return OmemoSignalKeyDBManager.INSTANCE.getAllSignedPreKeys(ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.getAllSignedPreKeys(ACCOUNT.getBareJid());
         }
 
         public void RemoveSignedPreKey(uint signedPreKeyId)
         {
-            OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(signedPreKeyId, ACCOUNT.getBareJid());
         }
 
         public void StoreSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey)
         {
-            OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(signedPreKeyId, signedPreKey, ACCOUNT.getBareJid());
         }
 
         public IList<PreKeyRecord> LoadPreKeys()
         {
-            return OmemoSignalKeyDBManager.INSTANCE.getAllPreKeys(ACCOUNT.getIdAndDomain());
+            return OmemoSignalKeyDBManager.INSTANCE.getAllPreKeys(ACCOUNT.getBareJid());
         }
 
         public void StorePreKeys(IList<PreKeyRecord> preKeys)
         {
-            OmemoSignalKeyDBManager.INSTANCE.setPreKeys(preKeys, ACCOUNT.getIdAndDomain());
+            OmemoSignalKeyDBManager.INSTANCE.setPreKeys(preKeys, ACCOUNT.getBareJid());
         }
 
         public void StoreDevices(IList<SignalProtocolAddress> devices)
         {
-            OmemoDeviceDBManager.INSTANCE.setDevices(devices, ACCOUNT.getIdAndDomain());
+            OmemoDeviceDBManager.INSTANCE.setDevices(devices, ACCOUNT.getBareJid());
         }
 
         public void StoreDevice(SignalProtocolAddress device)
         {
-            OmemoDeviceDBManager.INSTANCE.setDevice(device, ACCOUNT.getIdAndDomain());
+            OmemoDeviceDBManager.INSTANCE.setDevice(device, ACCOUNT.getBareJid());
         }
 
         public IList<SignalProtocolAddress> LoadDevices(string name)
         {
-            return OmemoDeviceDBManager.INSTANCE.getDevices(name, ACCOUNT.getIdAndDomain());
+            return OmemoDeviceDBManager.INSTANCE.getDevices(name, ACCOUNT.getBareJid());
         }
 
         public void StoreDeviceListSubscription(string name, Tuple<OmemoDeviceListSubscriptionState, DateTime> lastUpdate)
         {
-            OmemoDeviceDBManager.INSTANCE.setOmemoDeviceListSubscription(name, lastUpdate, ACCOUNT.getIdAndDomain());
+            OmemoDeviceDBManager.INSTANCE.setOmemoDeviceListSubscription(name, lastUpdate, ACCOUNT.getBareJid());
         }
 
         public Tuple<OmemoDeviceListSubscriptionState, DateTime> LoadDeviceListSubscription(string name)
         {
-            return OmemoDeviceDBManager.INSTANCE.getOmemoDeviceListSubscription(name, ACCOUNT.getIdAndDomain());
+            return OmemoDeviceDBManager.INSTANCE.getOmemoDeviceListSubscription(name, ACCOUNT.getBareJid());
         }
 
         #endregion

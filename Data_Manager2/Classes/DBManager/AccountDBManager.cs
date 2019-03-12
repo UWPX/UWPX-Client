@@ -1,12 +1,12 @@
-﻿using Data_Manager2.Classes.Events;
+﻿using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
-using System.Collections.Generic;
-using XMPP_API.Classes.Network;
-using Windows.Security.Cryptography.Certificates;
+using Data_Manager2.Classes.Events;
 using Logging;
+using Shared.Classes.SQLite;
+using System.Collections.Generic;
 using System.Threading;
-using Thread_Save_Components.Classes.SQLite;
-using Data_Manager2.Classes.DBManager.Omemo;
+using Windows.Security.Cryptography.Certificates;
+using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.DBManager
 {
@@ -44,26 +44,26 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="account">The account which should get inserted or replaced.</param>
         public void setAccount(XMPPAccount account, bool triggerAccountChanged)
         {
-            update(new AccountTable(account));
+            dB.InsertOrReplace(new AccountTable(account));
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
 
-            if (account.omemoPreKeys != null)
+            if (account.OMEMO_PRE_KEYS != null)
             {
-                OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.omemoPreKeys, account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.OMEMO_PRE_KEYS, account.getBareJid());
             }
             else
             {
-                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getBareJid());
             }
             if (account.omemoSignedPreKeyPair != null)
             {
-                OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getBareJid());
             }
             else
             {
-                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getBareJid());
             }
 
             if (triggerAccountChanged)
@@ -78,7 +78,7 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="account">The XMPPAccount with updated disabled property.</param>
         public void setAccountDisabled(XMPPAccount account)
         {
-            dB.Execute("UPDATE " + DBTableConsts.ACCOUNT_TABLE + " SET disabled = ? WHERE id = ?;", account.disabled, account.getIdAndDomain());
+            dB.Execute("UPDATE " + DBTableConsts.ACCOUNT_TABLE + " SET disabled = ? WHERE id = ?;", account.disabled, account.getBareJid());
             AccountChanged?.Invoke(this, new AccountChangedEventArgs(account, false));
         }
 
@@ -134,18 +134,18 @@ namespace Data_Manager2.Classes.DBManager
         /// <param name="deleteAllKeys">Whether to delete all OMEMO keys.</param>
         public void deleteAccount(XMPPAccount account, bool triggerAccountChanged, bool deleteAllKeys)
         {
-            dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_TABLE + " WHERE id = ?;", account.getIdAndDomain());
-            dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
-            dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
+            dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_TABLE + " WHERE id = ?;", account.getBareJid());
+            dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getBareJid());
+            dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getBareJid());
             if (deleteAllKeys)
             {
-                OmemoDeviceDBManager.INSTANCE.deleteAllForAccount(account.getIdAndDomain());
-                OmemoSignalKeyDBManager.INSTANCE.deleteAllForAccount(account.getIdAndDomain());
+                OmemoDeviceDBManager.INSTANCE.deleteAllForAccount(account.getBareJid());
+                OmemoSignalKeyDBManager.INSTANCE.deleteAllForAccount(account.getBareJid());
             }
             else
             {
-                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getIdAndDomain());
-                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getIdAndDomain());
+                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getBareJid());
+                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getBareJid());
             }
             Vault.deletePassword(account);
 
@@ -208,14 +208,14 @@ namespace Data_Manager2.Classes.DBManager
         public void loadAccountConnectionConfiguration(XMPPAccount account)
         {
             // Load general options:
-            ConnectionOptionsTable optionsTable = getConnectionOptionsTable(account.getIdAndDomain());
+            ConnectionOptionsTable optionsTable = getConnectionOptionsTable(account.getBareJid());
             if (optionsTable != null)
             {
                 optionsTable.toConnectionConfiguration(account.connectionConfiguration);
             }
 
             // Load ignored certificate errors:
-            IList<IgnoredCertificateErrorTable> ignoredCertificates = getIgnoredCertificateErrorTables(account.getIdAndDomain());
+            IList<IgnoredCertificateErrorTable> ignoredCertificates = getIgnoredCertificateErrorTables(account.getBareJid());
             if (ignoredCertificates != null)
             {
                 foreach (IgnoredCertificateErrorTable i in ignoredCertificates)
@@ -234,19 +234,19 @@ namespace Data_Manager2.Classes.DBManager
             // Save general options:
             ConnectionOptionsTable optionsTable = new ConnectionOptionsTable(account.connectionConfiguration)
             {
-                accountId = account.getIdAndDomain()
+                accountId = account.getBareJid()
             };
-            update(optionsTable);
+            dB.InsertOrReplace(optionsTable);
 
             // Save ignored certificate errors:
-            dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getIdAndDomain());
+            dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getBareJid());
             foreach (ChainValidationResult i in account.connectionConfiguration.IGNORED_CERTIFICATE_ERRORS)
             {
-                update(new IgnoredCertificateErrorTable()
+                dB.InsertOrReplace(new IgnoredCertificateErrorTable()
                 {
-                    accountId = account.getIdAndDomain(),
+                    accountId = account.getBareJid(),
                     certificateError = i,
-                    id = IgnoredCertificateErrorTable.generateId(account.getIdAndDomain(), i)
+                    id = IgnoredCertificateErrorTable.generateId(account.getBareJid(), i)
                 });
             }
         }

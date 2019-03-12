@@ -1,10 +1,10 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
-using Windows.UI.Notifications;
-using Windows.Phone.Devices.Notification;
 using System;
 using Windows.Foundation.Metadata;
+using Windows.Phone.Devices.Notification;
+using Windows.UI.Notifications;
 
 namespace Data_Manager2.Classes.Toast
 {
@@ -185,7 +185,7 @@ namespace Data_Manager2.Classes.Toast
 
         private static void popToastReduced()
         {
-            if(ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice"))
+            if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
                 VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
             }

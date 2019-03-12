@@ -1,0 +1,100 @@
+﻿<Page x:Class="UWPX_UI.Pages.Settings.AccountsSettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:settings="using:UWPX_UI.Controls.Settings"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/CircleButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style BasedOn="{StaticResource ButtonRevealStyle}"
+                   TargetType="Button">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--  Content:  -->
+        <controlsComp:NavigationView x:Name="main_nview"
+                                     Grid.Row="1"
+                                     Loaded="Main_nview_Loaded"
+                                     SelectionChanged="Main_nview_SelectionChanged"
+                                     Style="{StaticResource SettingsNavigationViewStyle}">
+            <controlsComp:NavigationView.MenuItems>
+                <controlsComp:NavigationViewItem Content="Manage"
+                                                 Icon="Manage"
+                                                 Tag="Manage"/>
+                <controlsComp:NavigationViewItem Content="Accounts"
+                                                 Icon="Contact"
+                                                 Tag="Accounts"/>
+            </controlsComp:NavigationView.MenuItems>
+            <ScrollViewer x:Name="main_scv"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Auto">
+                <StackPanel>
+                    <!--  Manage:  -->
+                    <settings:SettingsContentControl x:Name="manage_scp"
+                                                     Header="Manage:">
+                        <settings:SettingsContentControl.MainContent>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconProgressButtonControl x:Name="reconnectAll_ibtn"
+                                                                    Grid.Column="0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Click="ReconnectAll_ibtn_Click"
+                                                                    Glyph="&#xE149;"
+                                                                    IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                                                    Text="Reconnect all"/>
+
+                                <controls:IconButtonControl x:Name="addAccount_ibtn"
+                                                            Grid.Column="1"
+                                                            HorizontalAlignment="Right"
+                                                            Click="AddAccount_ibtn_Click"
+                                                            Glyph="&#xE710;"
+                                                            GlyphForeground="Green"
+                                                            IsEnabled="{x:Bind accountsListViewModel.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                                            Text="Add"/>
+                            </Grid>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Accounts:  -->
+                    <settings:SettingsContentControl x:Name="accounts_scp"
+                                                     Header="Accounts:">
+                        <settings:SettingsContentControl.MainContent>
+                            <settings:AccountsListControl x:Name="accounts_alc"
+                                                          Margin="-10,5,-10,0"
+                                                          Loaded="AccountsListControl_Loaded"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+                </StackPanel>
+            </ScrollViewer>
+        </controlsComp:NavigationView>
+
+        <!--  Header:  -->
+        <!--  Has to be bellow content to correctly draw the drop shadow.  -->
+        <controls:CustomSettingsTitleBarControl Grid.Row="0"
+                                                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                                                Frame="{x:Bind Frame, Mode=OneWay}"
+                                                Glyph="&#xE13D;"
+                                                Text="Accounts"/>
+    </Grid>
+</Page>

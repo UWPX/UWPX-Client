@@ -3,9 +3,9 @@
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{5E365F20-1835-4E4D-8A8B-9F805CD06DE7}</ProjectGuid>
-    <OutputType>AppContainerExe</OutputType>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{A89D7282-BA49-4E70-B39E-7DD3DAFAD0BB}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>UWP_XMPP_Client</RootNamespace>
     <AssemblyName>UWP XMPP Client</AssemblyName>
@@ -16,128 +16,139 @@
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>UWP XMPP Client_StoreKey.pfx</PackageCertificateKeyFile>
-    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundle>Always</AppxBundle>
-    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <PackageCertificateThumbprint>5A79DAA0779BE03863D69413EE6E87B990B25073</PackageCertificateThumbprint>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
-    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
+    <PlatformTarget>x86</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x86\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x86'">
+    <PlatformTarget>x86</PlatformTarget>
     <OutputPath>bin\x86\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x86</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\ARM\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM'">
+    <PlatformTarget>ARM</PlatformTarget>
     <OutputPath>bin\ARM\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\ARM64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>full</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
+    <PlatformTarget>ARM64</PlatformTarget>
+    <OutputPath>bin\ARM64\Release\</OutputPath>
+    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
+    <Optimize>true</Optimize>
+    <NoWarn>;2008</NoWarn>
+    <DebugType>pdbonly</DebugType>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ErrorReport>prompt</ErrorReport>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <NoWarn>;2008</NoWarn>
     <DebugType>full</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <PlatformTarget>x64</PlatformTarget>
     <OutputPath>bin\x64\Release\</OutputPath>
     <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
     <Optimize>true</Optimize>
     <NoWarn>;2008</NoWarn>
     <DebugType>pdbonly</DebugType>
-    <PlatformTarget>x64</PlatformTarget>
     <UseVSHostingProcess>false</UseVSHostingProcess>
     <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
   <PropertyGroup>
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="App.xaml.cs">
-      <DependentUpon>App.xaml</DependentUpon>
-    </Compile>
-    <Reference Include="mscorlib" />
     <Compile Include="Classes\AppUpdateHandler.cs" />
     <Compile Include="Classes\BackgroundImageCache.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\ChatFilter.cs" />
+    <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.Events.cs" />
+    <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\VectorChangedEventArgs.cs" />
-    <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
-    <Compile Include="Classes\Events\AddAccountClickedEventArgs.cs" />
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
+    <Compile Include="Classes\Events\AddAccountClickedEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMUCInfoEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToUserProfileEventArgs.cs" />
     <Compile Include="Classes\Events\SelectionChangedMultiEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\MUCRoomInfo.cs" />
-    <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\ShowAddMUCNavigationParameter.cs" />
-    <Compile Include="Classes\UiUtils.cs" />
-    <Compile Include="Controls\AccountControl.xaml.cs">
-      <DependentUpon>AccountControl.xaml</DependentUpon>
+    <Compile Include="Classes\UIUtils.cs" />
+    <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
+      <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\AccountSelectionControl.xaml.cs">
       <DependentUpon>AccountSelectionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\AccountSettingsControl.xaml.cs">
-      <DependentUpon>AccountSettingsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\AccountImageWithPresenceControl.xaml.cs">
-      <DependentUpon>AccountImageWithPresenceControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Muc\MucBanListControl.xaml.cs">
-      <DependentUpon>MucBanListControl.xaml</DependentUpon>
+    <Compile Include="Controls\BackgroundImageSelectionControl.xaml.cs">
+      <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\BrowseMUCRoomsDetailsControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsDetailsControl.xaml</DependentUpon>
@@ -145,21 +156,14 @@
     <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
       <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\CertificateControl.xaml.cs">
-      <DependentUpon>CertificateControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\DonateControl.xaml.cs">
       <DependentUpon>DonateControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Extensions\TextBlockChatTextFormatExtension.cs" />
     <Compile Include="Controls\IconButtonControl.xaml.cs">
       <DependentUpon>IconButtonControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\IconTextBlockControl.xaml.cs">
       <DependentUpon>IconTextBlockControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Muc\MucKickBanOccupantControl.xaml.cs">
-      <DependentUpon>MucKickBanOccupantControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
@@ -170,35 +174,23 @@
     <Compile Include="Controls\ManageBookmarksMasterControl.xaml.cs">
       <DependentUpon>ManageBookmarksMasterControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Muc\MucInfoControl.xaml.cs">
-      <DependentUpon>MucInfoControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Muc\MucManageControl.xaml.cs">
-      <DependentUpon>MucManageControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucBanListControl.xaml.cs">
+      <DependentUpon>MucBanListControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Muc\MucFieldControl.xaml.cs">
       <DependentUpon>MucFieldControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Muc\MucOccupantsControl.xaml.cs">
-      <DependentUpon>MucOccupantsControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucInfoControl.xaml.cs">
+      <DependentUpon>MucInfoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\MultiSelectControl.xaml.cs">
-      <DependentUpon>MultiSelectControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MucKickBanOccupantControl.xaml.cs">
+      <DependentUpon>MucKickBanOccupantControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Omemo\OmemoDeviceListControl.xaml.cs">
-      <DependentUpon>OmemoDeviceListControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MUCManageControl.xaml.cs">
+      <DependentUpon>MUCManageControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Omemo\OmemoFingerprintControl.xaml.cs">
-      <DependentUpon>OmemoFingerprintControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PasswordCredentialControl.xaml.cs">
-      <DependentUpon>PasswordCredentialControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Omemo\QRCodeControl.xaml.cs">
-      <DependentUpon>QRCodeControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Omemo\QRCodeReaderControl.xaml.cs">
-      <DependentUpon>QRCodeReaderControl.xaml</DependentUpon>
+    <Compile Include="Controls\Muc\MUCOccupantsControl.xaml.cs">
+      <DependentUpon>MUCOccupantsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Muc\SaveablePasswordBox.xaml.cs">
       <DependentUpon>SaveablePasswordBox.xaml</DependentUpon>
@@ -206,78 +198,63 @@
     <Compile Include="Controls\Muc\SaveableTextBox.xaml.cs">
       <DependentUpon>SaveableTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbleMUCDirectInvitationControl.xaml.cs">
-      <DependentUpon>SpeechBubbleMUCDirectInvitationControl.xaml</DependentUpon>
+    <Compile Include="Controls\MultiSelectControl.xaml.cs">
+      <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbleInfoControl.xaml.cs">
-      <DependentUpon>SpeechBubbleInfoControl.xaml</DependentUpon>
+    <Compile Include="Controls\Omemo\QRCodeReaderControl.xaml.cs">
+      <DependentUpon>QRCodeReaderControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="DataTemplates\PresenceBrushValueConverter.cs" />
+    <Compile Include="Controls\PasswordCredentialControl.xaml.cs">
+      <DependentUpon>PasswordCredentialControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\SeperatorControl.xaml.cs">
+      <DependentUpon>SeperatorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ServerFeaturesControl.xaml.cs">
+      <DependentUpon>ServerFeaturesControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="DataTemplates\BackgroundImageTemplate.cs" />
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
-    <Compile Include="DataTemplates\MessageUnreadVisabilityValueConverter.cs" />
-    <Compile Include="DataTemplates\StringEmptyVisabilityValueConverter.cs" />
-    <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
-    <Compile Include="DataTemplates\ChatMessageDataTemplateSelector.cs" />
-    <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
+    <Compile Include="DataTemplates\BoolVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\CertificateDetailsTemplate.cs" />
-    <Compile Include="DataTemplates\MUCInfoFieldTemplate.cs" />
+    <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
+    <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
+    <Compile Include="DataTemplates\ChatTemplate.cs" />
+    <Compile Include="DataTemplates\MessageUnreadVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
+    <Compile Include="DataTemplates\MUCInfoFieldTemplate.cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
     <Compile Include="DataTemplates\PasswordCredentialTemplate.cs" />
+    <Compile Include="DataTemplates\PresenceBrushValueConverter.cs" />
     <Compile Include="DataTemplates\PresenceTemplate.cs" />
     <Compile Include="DataTemplates\RTTValueConverter.cs" />
-    <Compile Include="DataTemplates\BoolVisabilityValueConverter.cs" />
+    <Compile Include="DataTemplates\ServerFeaturesTemplate.cs" />
+    <Compile Include="DataTemplates\SettingTemplate.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
+    <Compile Include="DataTemplates\StringEmptyVisabilityValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
     <Compile Include="DataTemplates\UintTemplate.cs" />
     <Compile Include="Dialogs\AddBookmarkDialog.xaml.cs">
       <DependentUpon>AddBookmarkDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
-      <DependentUpon>AddMUCDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\AddChatDialog.xaml.cs">
       <DependentUpon>AddChatDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BackgroundImageSelectionControl.xaml.cs">
-      <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Chat\ChatDetailsControl.xaml.cs">
-      <DependentUpon>ChatDetailsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
-      <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
+      <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ChangeAccountPresenceDialog.xaml.cs">
       <DependentUpon>ChangeAccountPresenceDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ChangeCertificateRequirementsDialog.xaml.cs">
-      <DependentUpon>ChangeCertificateRequirementsDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
-      <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ColorPickerDialog.xaml.cs">
-      <DependentUpon>ColorPickerDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ConfirmDialog.xaml.cs">
       <DependentUpon>ConfirmDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ConnectionErrorDialog.xaml.cs">
-      <DependentUpon>ConnectionErrorDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ConnectionInfoDialog.xaml.cs">
-      <DependentUpon>ConnectionInfoDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\DeleteAccountDialog.xaml.cs">
-      <DependentUpon>DeleteAccountDialog.xaml</DependentUpon>
+    <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
+      <DependentUpon>InitialStartDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\InviteUserMUCDialog.xaml.cs">
       <DependentUpon>InviteUserMUCDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\MoreAccountOptionsDialog.xaml.cs">
-      <DependentUpon>MoreAccountOptionsDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\MUCKickBanOccupantDialog.xaml.cs">
       <DependentUpon>MUCKickBanOccupantDialog.xaml</DependentUpon>
@@ -288,51 +265,8 @@
     <Compile Include="Dialogs\TextDialog.xaml.cs">
       <DependentUpon>TextDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
-      <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
-      <DependentUpon>InitialStartDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\DeleteChatDialog.xaml.cs">
-      <DependentUpon>DeleteChatDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SeperatorControl.xaml.cs">
-      <DependentUpon>SeperatorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\ServerFeaturesControl.xaml.cs">
-      <DependentUpon>ServerFeaturesControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\SettingsHeaderControl.xaml.cs">
-      <DependentUpon>SettingsHeaderControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbleContentControl.xaml.cs">
-      <DependentUpon>SpeechBubbleContentControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbleDownControl.xaml.cs">
-      <DependentUpon>SpeechBubbleDownControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbleErrorControl.xaml.cs">
-      <DependentUpon>SpeechBubbleErrorControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\Chat\SpeechBubbleTopControl.xaml.cs">
-      <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="DataTemplates\BackgroundImageTemplate.cs" />
-    <Compile Include="DataTemplates\ServerFeaturesTemplate.cs" />
-    <Compile Include="DataTemplates\SettingTemplate.cs" />
-    <Compile Include="DataTemplates\ChatTemplate.cs" />
-    <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
-      <DependentUpon>ChatMasterControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\AddAccountPage.xaml.cs">
-      <DependentUpon>AddAccountPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\BrowseMUCRoomsPage.xaml.cs">
       <DependentUpon>BrowseMUCRoomsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ChatPage.xaml.cs">
-      <DependentUpon>ChatPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ManageBookmarksPage.xaml.cs">
       <DependentUpon>ManageBookmarksPage.xaml</DependentUpon>
@@ -340,29 +274,8 @@
     <Compile Include="Pages\MUCInfoPage.xaml.cs">
       <DependentUpon>MUCInfoPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\AccountSettingsPage.xaml.cs">
-      <DependentUpon>AccountSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\BackgroundTasksSettingsPage.xaml.cs">
-      <DependentUpon>BackgroundTasksSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\ChatSettingsPage.xaml.cs">
-      <DependentUpon>ChatSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\DataSettingsPage.xaml.cs">
-      <DependentUpon>DataSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\MiscSettingsPage.xaml.cs">
-      <DependentUpon>MiscSettingsPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml.cs">
       <DependentUpon>PersonalizeSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\DonateSettingsPage.xaml.cs">
-      <DependentUpon>DonateSettingsPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\SettingsPages\SecuritySettingsPage.xaml.cs">
       <DependentUpon>SecuritySettingsPage.xaml</DependentUpon>
@@ -371,22 +284,47 @@
       <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Properties\UWP_XMPP_Client.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AppxManifest Include="Package.appxmanifest">
-      <SubType>Designer</SubType>
-    </AppxManifest>
+    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
+      <Version>6.2.3</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
+      <Version>4.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.UI.Xaml">
+      <Version>2.1.190218001-prerelease</Version>
+    </PackageReference>
+    <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
+      <Version>1.0.1.4</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net">
+      <Version>0.16.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
     <PRIResource Include="Strings\en-US\Resources.resw" />
-    <None Include="UWP XMPP Client_StoreKey.pfx" />
-    <None Include="UWP XMPP Client_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BackgroundImages\cat.jpeg" />
-    <Content Include="Assets\BackgroundImages\light_bulb.jpeg" />
     <Content Include="Assets\BackgroundImages\elephant.jpeg" />
     <Content Include="Assets\BackgroundImages\hedge.jpeg" />
     <Content Include="Assets\BackgroundImages\leather.jpeg" />
     <Content Include="Assets\BackgroundImages\light.jpeg" />
+    <Content Include="Assets\BackgroundImages\light_bulb.jpeg" />
     <Content Include="Assets\BackgroundImages\log.jpeg" />
     <Content Include="Assets\BackgroundImages\mountains.jpeg" />
     <Content Include="Assets\BackgroundImages\rain.jpeg" />
@@ -449,6 +387,7 @@
     <Content Include="Assets\Square44x44Logo.targetsize-256.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-32.png" />
     <Content Include="Assets\Square44x44Logo.targetsize-48.png" />
+    <Content Include="Assets\StoreLogo.backup.png" />
     <Content Include="Assets\StoreLogo.scale-100.png" />
     <Content Include="Assets\StoreLogo.scale-125.png" />
     <Content Include="Assets\StoreLogo.scale-150.png" />
@@ -460,208 +399,121 @@
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <None Include="Package.StoreAssociation.xml" />
-    <None Include="Package.xml" />
-    <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ApplicationDefinition Include="App.xaml">
+    <Page Include="Controls\AccountImageWithPresenceControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </ApplicationDefinition>
-    <Page Include="Controls\AccountControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\AccountSelectionControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\AccountSettingsControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\BackgroundImageSelectionControl.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\AccountImageWithPresenceControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Muc\MucBanListControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BrowseMUCRoomsDetailsControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\BrowseMUCRoomsMasterControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\CertificateControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DonateControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\IconButtonControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\IconTextBlockControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Muc\MucKickBanOccupantControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\LoadingContentControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ManageBookmarksDetailsControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\ManageBookmarksMasterControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Muc\MucInfoControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Muc\MucBanListControl.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Muc\MucManageControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Muc\MucFieldControl.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Muc\MucOccupantsControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Muc\MucInfoControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\MultiSelectControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Muc\MucKickBanOccupantControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Omemo\OmemoDeviceListControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Muc\MUCManageControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Omemo\OmemoFingerprintControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Muc\MUCOccupantsControl.xaml">
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\PasswordCredentialControl.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Omemo\QRCodeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Omemo\QRCodeReaderControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Muc\SaveablePasswordBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Muc\SaveableTextBox.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Chat\SpeechBubbleMUCDirectInvitationControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\MultiSelectControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Chat\SpeechBubbleInfoControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Controls\Omemo\QRCodeReaderControl.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\PasswordCredentialControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\SeperatorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\ServerFeaturesControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\AddBookmarkDialog.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\AddChatDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\AddMUCDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\AddChatDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\BackgroundImageSelectionControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Chat\ChatDetailsControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\AppCenterPushDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Dialogs\ChangeAccountPresenceDialog.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ChangeCertificateRequirementsDialog.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ClearCacheDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ColorPickerDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\ConfirmDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ConnectionErrorDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ConnectionInfoDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\DeleteAccountDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\InviteUserMUCDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\MoreAccountOptionsDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\MUCKickBanOccupantDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\ReadQRCodeDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\TextDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Dialogs\WhatsNewDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -669,172 +521,70 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\DeleteChatDialog.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SeperatorControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Chat\ChatMasterControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\ServerFeaturesControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\SettingsHeaderControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Chat\SpeechBubbleContentControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\Chat\SpeechBubbleDownControl.xaml">
+    <Page Include="Dialogs\InviteUserMUCDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Chat\SpeechBubbleErrorControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Dialogs\MUCKickBanOccupantDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Chat\SpeechBubbleTopControl.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Dialogs\ReadQRCodeDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Pages\AddAccountPage.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Dialogs\TextDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\BrowseMUCRoomsPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\ChatPage.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ManageBookmarksPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MUCInfoPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPage.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\AccountSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\BackgroundTasksSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\ChatSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\DataSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\MiscSettingsPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\SettingsPages\DonateSettingsPage.xaml">
       <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\SettingsPages\SecuritySettingsPage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\UserProfilePage.xaml">
-      <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AppCenter.Analytics">
-      <Version>1.11.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AppCenter.Crashes">
-      <Version>1.11.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.AppCenter.Push">
-      <Version>1.11.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.2</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>4.0.0</Version>
-    </PackageReference>
-    <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.0.181018003</Version>
-    </PackageReference>
-    <PackageReference Include="QRCoder">
-      <Version>1.3.5</Version>
-    </PackageReference>
-    <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
-      <Version>1.0.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="Unicode.net">
-      <Version>0.1.2</Version>
-    </PackageReference>
-    <PackageReference Include="ZXing.Net">
-      <Version>0.16.4</Version>
-    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data_Manager2\Data_Manager2.csproj">
-      <Project>{cb58ce53-8e53-49c8-9936-15fe2ea6a7eb}</Project>
+      <Project>{58925bf1-5b7d-48d9-b411-126cbefda98a}</Project>
       <Name>Data_Manager2</Name>
     </ProjectReference>
     <ProjectReference Include="..\Logging\Logging.csproj">
-      <Project>{53bb5463-9646-4f79-be97-3d73473aad92}</Project>
+      <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Push_App_Server\Push_App_Server.csproj">
-      <Project>{a8da7bd0-dc43-4f30-ab1e-3fcf942274e4}</Project>
-      <Name>Push_App_Server</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Thread_Save_Components\Thread_Save_Components.csproj">
-      <Project>{60938C69-A2D7-4C27-8B73-84C203BD4787}</Project>
-      <Name>Thread_Save_Components</Name>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
+      <Name>Shared</Name>
     </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
-      <Project>{899fb043-af8b-4294-95b6-1482c79459ac}</Project>
+      <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
       <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <SDKReference Include="Microsoft.VCLibs, Version=14.0">
-      <Name>Visual C++ 2015 Runtime for Universal Windows Platform Apps</Name>
-    </SDKReference>
     <SDKReference Include="WindowsMobile, Version=10.0.17763.0">
       <Name>Windows Mobile Extensions for the UWP</Name>
     </SDKReference>
   </ItemGroup>
-  <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>

@@ -2,8 +2,8 @@
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
+using Shared.Classes.SQLite;
 using System;
-using Thread_Save_Components.Classes.SQLite;
 using Windows.ApplicationModel;
 using XMPP_API.Classes.Network;
 
@@ -132,7 +132,7 @@ namespace UWP_XMPP_Client.Classes
                         Logging.Logger.Info("Started generating OMEMO keys for accounts...");
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
-                            Logging.Logger.Info("Generating OMEMO keys for: " + account.getIdAndDomain());
+                            Logging.Logger.Info("Generating OMEMO keys for: " + account.getBareJid());
                             account.generateOmemoKeys();
                             AccountDBManager.INSTANCE.setAccount(account, false);
                         }
@@ -151,7 +151,7 @@ namespace UWP_XMPP_Client.Classes
                         AbstractDBManager.dB.RecreateTable<OmemoSignedPreKeyTable>();
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
-                            Logging.Logger.Info("Reseting OMEMO keys for: " + account.getIdAndDomain());
+                            Logging.Logger.Info("Reseting OMEMO keys for: " + account.getBareJid());
                             account.omemoBundleInfoAnnounced = false;
                             account.omemoDeviceId = 0;
                             account.omemoKeysGenerated = false;

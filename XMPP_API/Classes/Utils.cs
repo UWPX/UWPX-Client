@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Text.RegularExpressions;
+using System.Linq;
+using System.Text;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace XMPP_API.Classes
@@ -9,17 +10,12 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         /// <summary>
-        /// The regex for a valid jabber id.
-        /// Source: https://www.codesd.com/item/what-is-the-regular-expression-for-the-validation-of-jabber-id.html [09.02.2018]
+        /// Defines the excluded characters for JID local parts.
+        /// Source: RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.3)
         /// </summary>
-        private const string JID_REGEX_PATTERN = @"^\A([a-z0-9\.\-_\+]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z$";
-        private static readonly Regex JID_REGEX = new Regex(JID_REGEX_PATTERN);
-
-        /// <summary>
-        /// The regex for a valid server address.
-        /// </summary>
-        private const string SERVER_ADDRESS_REGEX_PATTERN = @"((?:[-a-z0-9]+\.)+[a-z]{2,})\Z$";
-        private static readonly Regex SERVER_ADDRESS_REGEX = new Regex(SERVER_ADDRESS_REGEX_PATTERN);
+        private static readonly char[] JID_LOCAL_PART_EXCLUDED_CHARS = new char[] { '"', '&', '\'', '/', ':', '<', '>', '@' };
+        private static readonly Random RANDOM = new Random();
+        private const string DEFAULT_RESOURCE_PREFIX = "UWPX_";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,23 +26,232 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
-        /// Checks if the given string is a valid server address.
-        /// e.g. 'chat.shakespeare.lit'
+        /// Returns the domain part from the given bare/full JID.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.2).
+        /// e.g. 'coven@chat.shakespeare.lit' => 'chat.shakespeare.lit'
         /// </summary>
-        /// <param name="s">The string, that should get checked.</param>
-        public static bool isValidServerAddress(string s)
+        /// <param name="jid">The JID you want to retrieve the domain part from.</param>
+        /// <returns>The domain part of the given bare/full JID.</returns>
+        public static string getJidDomainPart(string jid)
         {
-            return SERVER_ADDRESS_REGEX.IsMatch(s);
+            // Remove JID resource part:
+            int index = jid.IndexOf('/');
+            if (index >= 0)
+            {
+                jid = jid.Substring(0, index);
+            }
+
+            // Remove JID local part:
+            index = jid.IndexOf('@');
+            if (index >= 0)
+            {
+                jid = jid.Substring(index + 1);
+            }
+
+            // Remove label separator (dot):
+            if (jid.EndsWith("."))
+            {
+                jid = jid.Substring(0, jid.Length - 1);
+            }
+            return jid;
         }
 
         /// <summary>
-        /// Checks if the given JID is a bare JID.
+        /// Returns the local part from the given bare/full JID.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.3).
+        /// e.g. 'coven@chat.shakespeare.lit' => 'coven'
+        /// </summary>
+        /// <param name="jid">The JID you want to retrieve the local part from.</param>
+        /// <returns>The local part of the given bare/full JID.</returns>
+        public static string getJidLocalPart(string jid)
+        {
+            int index = jid.IndexOf('@');
+            if (index >= 0)
+            {
+                return jid.Substring(0, index);
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Returns the resource part from the given bare/full JID.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.4).
+        /// e.g. 'coven@chat.shakespeare.lit/thirdwitch' => 'thirdwitch'
+        /// </summary>
+        /// <param name="jid">The JID you want to retrieve the resource part from.</param>
+        /// <returns>The resource part of the given bare/full JID.</returns>
+        public static string getJidResourcePart(string jid)
+        {
+            int index = jid.IndexOf('/');
+            if (index >= 0)
+            {
+                return jid.Substring(index + 1);
+            }
+            return "";
+        }
+
+        /// <summary>
+        /// Checks whether the given JID domain part fulfills the RFC 7622 rules.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.2).
+        /// </summary>
+        /// <param name="domainPart">The domain part string to check.</param>
+        /// <returns>True if fulfills the RFC 7622 rules.</returns>
+        public static bool isValidJidDomainPart(string domainPart)
+        {
+            if (domainPart is null)
+            {
+                return false;
+            }
+
+            // Check valid length:
+            int byteCount = Encoding.UTF8.GetByteCount(domainPart);
+            if (byteCount <= 0 || byteCount > 1024)
+            {
+                return false;
+            }
+
+            // Check if valid FQDN, IPv4 address or IPv6 address:
+            if (Uri.CheckHostName(domainPart) == UriHostNameType.Unknown)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Checks whether the given JID local part fulfills the RFC 7622 rules.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.3).
+        /// </summary>
+        /// <param name="localPart">The local part string to check.</param>
+        /// <returns>True if fulfills the RFC 7622 rules.</returns>
+        public static bool isValidJidLocalPart(string localPart)
+        {
+            if (localPart is null)
+            {
+                return false;
+            }
+
+            // Check valid length:
+            int byteCount = Encoding.UTF8.GetByteCount(localPart);
+            if (byteCount <= 0 || byteCount > 1024)
+            {
+                return false;
+            }
+
+            // Check if contains excluded characters:
+            if (JID_LOCAL_PART_EXCLUDED_CHARS.Any(localPart.Contains))
+            {
+                return false;
+            }
+
+            // Check for whitespaces:
+            if (localPart.Any(char.IsWhiteSpace))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks whether the given JID resource part fulfills the RFC 7622 rules.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622#section-3.4).
+        /// </summary>
+        /// <param name="resourcePart">The resource part string to check.</param>
+        /// <returns>True if fulfills the RFC 7622 rules.</returns>
+        public static bool isValidJidResourcePart(string resourcePart)
+        {
+            if (resourcePart is null)
+            {
+                return false;
+            }
+
+            // Check valid length:
+            int byteCount = Encoding.UTF8.GetByteCount(resourcePart);
+            if (byteCount <= 0 || byteCount > 1024)
+            {
+                return false;
+            }
+
+            // Check if starts/ends with whitespaces:
+            if (char.IsWhiteSpace(resourcePart[0]) || char.IsWhiteSpace(resourcePart[resourcePart.Length - 1]))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the given string is a bare JID.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622).
         /// e.g. 'coven@chat.shakespeare.lit'
         /// </summary>
         /// <param name="s">The string, that should get checked.</param>
         public static bool isBareJid(string s)
         {
-            return JID_REGEX.IsMatch(s);
+            if (!s.Contains("@"))
+            {
+                return false;
+            }
+
+            string localPart = getJidLocalPart(s);
+            if (!isValidJidLocalPart(localPart))
+            {
+                return false;
+            }
+
+            string domainPart = getJidDomainPart(s);
+            if (!isValidJidDomainPart(domainPart))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the given string is a bare JID.
+        /// Based on RFC 7622 (https://tools.ietf.org/html/rfc7622).
+        /// e.g. 'coven@chat.shakespeare.lit'
+        /// </summary>
+        /// <param name="s">The string, that should get checked.</param>
+        public static bool isFullJid(string s)
+        {
+            if (!s.Contains("@") || !s.Contains("/"))
+            {
+                return false;
+            }
+
+            string localPart = getJidLocalPart(s);
+            if (!isValidJidLocalPart(localPart))
+            {
+                return false;
+            }
+
+            string domainPart = getJidDomainPart(s);
+            if (!isValidJidDomainPart(domainPart))
+            {
+                return false;
+            }
+
+            string resourcePart = getJidResourcePart(s);
+            if (!isValidJidResourcePart(resourcePart))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// Checks if the given string is a valid server address.
+        /// e.g. 'chat.shakespeare.lit' or '192.168.178.42'
+        /// </summary>
+        /// <param name="s">The string, that should get checked.</param>
+        public static bool isValidServerAddress(string s)
+        {
+            return Uri.CheckHostName(s) != UriHostNameType.Unknown;
         }
 
         /// <summary>
@@ -61,62 +266,30 @@ namespace XMPP_API.Classes
             {
                 return null;
             }
-            if (jid.Contains("/"))
+
+            // Remove JID resource part:
+            int index = jid.IndexOf('/');
+            if (index >= 0)
             {
-                jid = jid.Substring(0, jid.IndexOf("/"));
+                jid = jid.Substring(0, index);
             }
             return jid;
         }
 
         /// <summary>
-        /// Returns the domain from the bare JID.
-        /// e.g. 'coven@chat.shakespeare.lit' => 'chat.shakespeare.lit'
+        /// Generates a random resource part.
         /// </summary>
-        /// <param name="jid">The bare JID. e.g. 'coven@chat.shakespeare.lit'</param>
-        /// <returns>Returns the domain part of the bare JID. e.g. 'chat.shakespeare.lit'</returns>
-        public static string getDomainFromBareJid(string jid)
+        /// <returns>A random resource part string.</returns>
+        public static string getRandomResourcePart()
         {
-            if (jid != null && jid.Contains("@"))
-            {
-                return jid.Substring(jid.LastIndexOf('@') + 1);
-            }
-            return null;
+            StringBuilder sb = new StringBuilder(DEFAULT_RESOURCE_PREFIX);
+            sb.Append(RANDOM.Next(1000, int.MaxValue));
+            return sb.ToString();
         }
 
-        /// <summary>
-        /// Returns the user part from the bare JID.
-        /// e.g. 'coven@chat.shakespeare.lit' => 'coven'
-        /// </summary>
-        /// <param name="jid">The bare JID. e.g. 'coven@chat.shakespeare.lit'</param>
-        /// <returns>Returns the user part of the bare JID. e.g. 'coven'</returns>
-        public static string getUserFromBareJid(string jid)
-        {
-            if (jid != null && jid.Contains("@"))
-            {
-                return jid.Substring(0, jid.LastIndexOf('@'));
-            }
-            return null;
-        }
-
-        /// <summary>
-        /// Returns the resource part of the given full JID.
-        /// e.g. 'coven@chat.shakespeare.lit/thirdwitch' => 'thirdwitch'
-        /// </summary>
-        /// <param name="jid">The full JID. e.g. 'coven@chat.shakespeare.lit/thirdwitch'.</param>
-        /// <returns>Returns the resource part of the given full JID. e.g. 'thirdwitch'</returns>
-        public static string getResourceFromFullJid(string jid)
-        {
-            if(jid != null)
-            {
-                int index = jid.IndexOf('/');
-                if(index >= 0)
-                {
-                    return jid.Substring(index + 1);
-                }
-            }
-            return null;
-        }
-
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
         /// <summary>
         /// Tries to parse the given string to a MUCRole.
         /// Returns MUCRole.VISITOR as a default value if it fails.
@@ -226,11 +399,6 @@ namespace XMPP_API.Classes
                     return presence.ToString().ToLower();
             }
         }
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
-
 
         #endregion
 

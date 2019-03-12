@@ -1,9 +1,9 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
+using Shared.Classes.Collections;
 using System;
 using System.Threading.Tasks;
-using Thread_Save_Components.Classes.Collections;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
@@ -47,7 +47,7 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Public)--
         public async Task requestReservedNicksAsync()
         {
-            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId);
+            DiscoReservedRoomNicknamesMessages msg = new DiscoReservedRoomNicknamesMessages(CLIENT.getXMPPAccount().getFullJid(), MUC.chatJabberId);
             await CLIENT.sendAsync(msg, false);
         }
 
@@ -61,7 +61,7 @@ namespace Data_Manager2.Classes
             MUCDBManager.INSTANCE.deleteAllOccupantsforChat(MUC.id);
 
             // Create message:
-            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getIdDomainAndResource(), MUC.chatJabberId, INFO.nickname, INFO.password);
+            JoinRoomRequestMessage msg = new JoinRoomRequestMessage(CLIENT.getXMPPAccount().getFullJid(), MUC.chatJabberId, INFO.nickname, INFO.password);
 
             // Subscribe to events for receiving answers:
             CLIENT.NewMUCMemberPresenceMessage -= CLIENT_NewMUCMemberPresenceMessage;

@@ -1,17 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using Shared.Classes;
+using Shared.Classes.Collections;
 using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network.TCP;
 
 namespace XMPP_API.Classes.Network
 {
-    public class ConnectionConfiguration
+    public class ConnectionConfiguration : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public TLSConnectionMode tlsMode;
-        public readonly List<ChainValidationResult> IGNORED_CERTIFICATE_ERRORS;
-        public bool disableStreamManagement;
-        public bool disableMessageCarbons;
+        private TLSConnectionMode _tlsMode;
+        public TLSConnectionMode tlsMode
+        {
+            get { return _tlsMode; }
+            set { SetProperty(ref _tlsMode, value); }
+        }
+        private bool _disableStreamManagement;
+        public bool disableStreamManagement
+        {
+            get { return _disableStreamManagement; }
+            set { SetProperty(ref _disableStreamManagement, value); }
+        }
+        private bool _disableMessageCarbons;
+        public bool disableMessageCarbons
+        {
+            get { return _disableMessageCarbons; }
+            set { SetProperty(ref _disableMessageCarbons, value); }
+        }
+        public readonly CustomObservableCollection<ChainValidationResult> IGNORED_CERTIFICATE_ERRORS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,8 +40,10 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public ConnectionConfiguration()
         {
+            this.invokeInUiThread = false;
             this.tlsMode = TLSConnectionMode.FORCE;
-            this.IGNORED_CERTIFICATE_ERRORS = new List<ChainValidationResult>();
+            this.IGNORED_CERTIFICATE_ERRORS = new CustomObservableCollection<ChainValidationResult>(false);
+            this.IGNORED_CERTIFICATE_ERRORS.CollectionChanged += IGNORED_CERTIFICATE_ERRORS_CollectionChanged;
             this.disableStreamManagement = false;
             this.disableMessageCarbons = false;
         }
@@ -65,7 +83,10 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void IGNORED_CERTIFICATE_ERRORS_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(IGNORED_CERTIFICATE_ERRORS));
+        }
 
         #endregion
     }

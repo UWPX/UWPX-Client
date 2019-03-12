@@ -1,0 +1,12 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter">
+
+    <valueConverter:PresenceBrushValueConverter x:Key="PresenceBrushValueConverter"/>
+    <valueConverter:ChatDateTimeStringValueConverter x:Key="ChatDateTimeStringValueConverter"/>
+    <valueConverter:BoolVisabilityValueConverter x:Key="BoolVisabilityValueConverter"/>
+    <valueConverter:StringEmptyVisabilityValueConverter x:Key="StringEmptyVisabilityValueConverter"/>
+    <valueConverter:BoolInverterValueConverter x:Key="BoolInverterValueConverter"/>
+    <valueConverter:BoolInvertedVisabilityValueConverter x:Key="BoolInvertedVisabilityValueConverter"/>
+    <valueConverter:IsNullBoolValueConverter x:Key="IsNullBoolValueConverter"/>
+</ResourceDictionary>

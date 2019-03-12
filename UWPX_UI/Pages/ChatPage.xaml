@@ -1,0 +1,314 @@
+﻿<Page x:Class="UWPX_UI.Pages.ChatPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:chat="using:UWPX_UI.Controls.Chat"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
+      xmlns:masterdetailsview="using:UWPX_UI.Controls.Toolkit.MasterDetailsView"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatsQueryTextBoxStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Key="MasterTemplate"
+                          x:DataType="datatemplates:ChatDataTemplate">
+                <chat:ChatMasterControl Chat="{x:Bind}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DetailsTemplate"
+                          x:DataType="datatemplates:ChatDataTemplate">
+                <chat:ChatDetailsControl Chat="{x:Bind}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="NoSelectionTemplate">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="0"
+                                Padding="10"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center">
+                        <Image Width="100"
+                               Height="100"
+                               Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
+                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="Select a chat to view."/>
+                    </StackPanel>
+                </Grid>
+            </DataTemplate>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <controls:CustomTitleBarControl Grid.Row="0"
+                                        Frame="{x:Bind Frame, Mode=OneWay}"
+                                        MasterDetailsView="{x:Bind chats_mdv}"/>
+
+        <chat:ChatBackgroundControl Grid.Row="1"/>
+
+        <masterdetailsview:MasterDetailsView x:Name="chats_mdv"
+                                             Grid.Row="1"
+                                             BackButtonBehavior="Manual"
+                                             Background="Transparent"
+                                             BorderBrush="{ThemeResource TextControlBorderBrush}"
+                                             DetailsTemplate="{StaticResource DetailsTemplate}"
+                                             ItemTemplate="{StaticResource MasterTemplate}"
+                                             ItemsSource="{x:Bind VIEW_MODEL.CHATS_ACV}"
+                                             MasterPaneBackground="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"
+                                             NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}"
+                                             SelectedItem="{x:Bind VIEW_MODEL.SelectedItem, Mode=TwoWay}">
+            <!--  Style  -->
+            <masterdetailsview:MasterDetailsView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    <Setter Property="Padding" Value="0"/>
+                    <Setter Property="BorderThickness" Value="0"/>
+                </Style>
+            </masterdetailsview:MasterDetailsView.ItemContainerStyle>
+
+            <!--  Master Header:  -->
+            <masterdetailsview:MasterDetailsView.MasterHeader>
+                <Grid Visibility="{x:Bind VIEW_MODEL.CHAT_FILTER.ChatQueryEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="0"
+                                                     To="1"
+                                                     Duration="0:0:0.3"/>
+                        <animations:TranslationAnimation From="0, -200, 0"
+                                                         To="0,0,0"
+                                                         Duration="0:0:0.3"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="1"
+                                                     To="0"
+                                                     Duration="0:0:0.3"/>
+                        <animations:TranslationAnimation To="0, -200, 0"
+                                                         Duration="0:0:0.3"/>
+                    </animations:Implicit.HideAnimations>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBox x:Name="filterChats_tbx"
+                             Grid.Row="0"
+                             Margin="10"
+                             PlaceholderText="Filter chats..."
+                             Style="{StaticResource ChatsQueryTextBoxStyle}"
+                             Text="{x:Bind VIEW_MODEL.CHAT_FILTER.ChatQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    <controls:SeperatorControl Grid.Row="1"
+                                               Margin="0,0,0,10"/>
+                </Grid>
+            </masterdetailsview:MasterDetailsView.MasterHeader>
+
+            <!--  Master Command Bar:  -->
+            <masterdetailsview:MasterDetailsView.MasterCommandBar>
+                <CommandBar x:Name="master_cmdb"
+                            Margin="0,0,0,-1"
+                            Opening="Master_cmdb_Opening">
+                    <AppBarButton x:Name="addChat_abb"
+                                  Grid.Column="0"
+                                  Click="AddChat_abb_Click"
+                                  Label="Add"
+                                  ToolTipService.ToolTip="Add/Join chat">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE109;"/>
+                        </AppBarButton.Icon>
+                        <AppBarButton.ContextFlyout>
+                            <MenuFlyout x:Name="addChat_mfo">
+                                <MenuFlyoutItem x:Name="addChat_mfoi"
+                                                Click="AddChat_mfoi_Click"
+                                                Text="Add Chat">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE77B;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="addMuc_mfoi"
+                                                Click="AddMuc_mfoi_Click_1"
+                                                Text="Add Group Chat (MUC)">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE125;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="addMix_mfoi"
+                                                Click="AddMix_mfoi_Click_1"
+                                                IsEnabled="False"
+                                                Text="Add Group Chat (MIX)">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE125;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </AppBarButton.ContextFlyout>
+                    </AppBarButton>
+                    <AppBarButton x:Name="filterChats_tabb"
+                                  Click="FilterChats_tabb_Click"
+                                  Label="Filter"
+                                  ToolTipService.ToolTip="Filter chats">
+                        <AppBarButton.ContextFlyout>
+                            <MenuFlyout x:Name="filterChats_mfo">
+                                <MenuFlyoutSubItem Text="Chat type">
+                                    <MenuFlyoutSubItem.Icon>
+                                        <FontIcon Glyph="&#xE125;"/>
+                                    </MenuFlyoutSubItem.Icon>
+                                    <ToggleMenuFlyoutItem x:Name="filterChat_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.ChatsOnly, Mode=TwoWay}"
+                                                          Text="Chat">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE77B;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <ToggleMenuFlyoutItem x:Name="filterMUC_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.MucsOnly, Mode=TwoWay}"
+                                                          Text="MUC">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE125;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSubItem Text="Presence">
+                                    <MenuFlyoutSubItem.Icon>
+                                        <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                                  Glyph="&#xEDAF;"/>
+                                    </MenuFlyoutSubItem.Icon>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceNotUnavailable_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.NotUnavailable, Mode=TwoWay}"
+                                                          Text="Not unavailable">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceUnavailableBrush}"
+                                                      Glyph="&#xF138;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceNotOnline_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.NotOnline, Mode=TwoWay}"
+                                                          Text="Not online">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                                      Glyph="&#xF138;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <MenuFlyoutSeparator/>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceOnline_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.PresenceOnline, Mode=TwoWay}"
+                                                          Text="Online">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceChat_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.PresenceChat, Mode=TwoWay}"
+                                                          Text="Chat">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceChatBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceAway_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.PresenceAway, Mode=TwoWay}"
+                                                          Text="Away">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceAwayBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceXa_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.PresenceXa, Mode=TwoWay}"
+                                                          Text="Xa">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceXaBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceDnd_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.PresenceDnd, Mode=TwoWay}"
+                                                          Text="Dnd">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceDndBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                    <ToggleMenuFlyoutItem x:Name="filterPresenceUnavailable_tmfo"
+                                                          IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.PresenceUnavailable, Mode=TwoWay}"
+                                                          Text="Unavailable">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{StaticResource PresenceUnavailableBrush}"
+                                                      Glyph="&#xEDAF;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </ToggleMenuFlyoutItem>
+                                </MenuFlyoutSubItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="filterClear_mfo"
+                                                Click="FilterClear_mfo_Click"
+                                                Text="Clear">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xED62;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </AppBarButton.ContextFlyout>
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE71C;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                    <AppBarToggleButton x:Name="filterQuery_abb"
+                                        Grid.Column="1"
+                                        IsChecked="{x:Bind VIEW_MODEL.CHAT_FILTER.ChatQueryEnabled, Mode=TwoWay}"
+                                        Label="Search"
+                                        ToolTipService.ToolTip="Search chat">
+                        <AppBarToggleButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE721;"/>
+                        </AppBarToggleButton.Icon>
+                    </AppBarToggleButton>
+                    <AppBarButton x:Name="settings_abb"
+                                  Grid.Column="1"
+                                  Click="Settings_abb_Click"
+                                  Label="Settings"
+                                  ToolTipService.ToolTip="Settings">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                                      Glyph="&#xE713;"/>
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+
+                    <CommandBar.SecondaryCommands>
+                        <AppBarButton x:Name="changePresence_abb"
+                                      Click="ChangePresence_abb_Click"
+                                      Label="Change presence">
+                            <AppBarButton.Icon>
+                                <FontIcon Foreground="{StaticResource PresenceOnlineBrush}"
+                                          Glyph="&#xEDAF;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton x:Name="manageBookmarks_abb"
+                                      Click="ManageBookmarks_abb_Click"
+                                      Label="Manage bookmarks">
+                            <AppBarButton.Icon>
+                                <FontIcon Foreground="Gold"
+                                          Glyph="&#xE734;"/>
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar.SecondaryCommands>
+                </CommandBar>
+            </masterdetailsview:MasterDetailsView.MasterCommandBar>
+        </masterdetailsview:MasterDetailsView>
+    </Grid>
+</Page>

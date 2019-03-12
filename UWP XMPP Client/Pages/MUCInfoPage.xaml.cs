@@ -1,5 +1,7 @@
 ﻿using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
+using System;
 using UWP_XMPP_Client.Classes;
 using UWP_XMPP_Client.Classes.Events;
 using Windows.UI.Core;
@@ -7,8 +9,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes;
-using System;
-using Data_Manager2.Classes.Events;
 
 namespace UWP_XMPP_Client.Pages
 {
@@ -131,6 +131,11 @@ namespace UWP_XMPP_Client.Pages
                 e.Handled = true;
                 rootFrame.GoBack();
             }
+        }
+
+        private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.GoBack();
         }
 
         #endregion

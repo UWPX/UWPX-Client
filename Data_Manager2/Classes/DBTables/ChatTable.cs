@@ -33,7 +33,7 @@ namespace Data_Manager2.Classes.DBTables
         // online, dnd, xa, ...
         public Presence presence { get; set; }
         [Ignore]
-        // The state of the chat (XEP-0083) - only interesting during runtime
+        // The state of the chat (XEP-0085) - only interesting during runtime
         public string chatState { get; set; }
         [NotNull]
         // The type of the chat e.g. MUC/MIX/...
@@ -63,7 +63,7 @@ namespace Data_Manager2.Classes.DBTables
             this.chatType = ChatType.CHAT;
             this.inRoster = false;
             this.muted = false;
-            this.omemoEnabled = false;
+            this.omemoEnabled = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
             this.presence = Presence.Unavailable;
             this.status = null;
             this.subscription = null;

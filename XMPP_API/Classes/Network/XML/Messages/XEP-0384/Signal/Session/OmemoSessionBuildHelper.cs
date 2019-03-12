@@ -163,11 +163,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 
             // Add own devices:
             toDoDevicesOwn = new List<SignalProtocolAddress>();
-            foreach (uint i in OMEMO_HELPER.DEVICES.IDS)
+            if (!(OMEMO_HELPER.DEVICES is null))
             {
-                if (i != CONNECTION.account.omemoDeviceId)
+                foreach (uint i in OMEMO_HELPER.DEVICES.IDS)
                 {
-                    toDoDevicesOwn.Add(new SignalProtocolAddress(BARE_ACCOUNT_JID, i));
+                    if (i != CONNECTION.account.omemoDeviceId)
+                    {
+                        toDoDevicesOwn.Add(new SignalProtocolAddress(BARE_ACCOUNT_JID, i));
+                    }
                 }
             }
 

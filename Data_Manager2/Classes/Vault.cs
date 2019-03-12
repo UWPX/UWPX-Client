@@ -28,10 +28,10 @@ namespace Data_Manager2.Classes
         /// <param name="account">The XMPPAccount you want to retrieve the PasswordCredential for.</param>
         private static PasswordCredential getPasswordCredentialForAccount(XMPPAccount account)
         {
-            string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
+            string vaultName = VAULT_NAME_PREFIX + account.getBareJid();
             try
             {
-                return PASSWORD_VAULT.Retrieve(vaultName, account.user.userId);
+                return PASSWORD_VAULT.Retrieve(vaultName, account.user.localPart);
             }
             catch (Exception)
             {
@@ -69,12 +69,12 @@ namespace Data_Manager2.Classes
             PasswordCredential passwordCredential = getPasswordCredentialForAccount(account);
             if (passwordCredential is null)
             {
-                Logger.Warn("No password found for: " + account.user.getIdAndDomain());
-                account.user.userPassword = "";
+                Logger.Warn("No password found for: " + account.user.getBareJid());
+                account.user.password = "";
                 return;
             }
             passwordCredential.RetrievePassword();
-            account.user.userPassword = passwordCredential.Password;
+            account.user.password = passwordCredential.Password;
         }
 
         /// <summary>
@@ -89,10 +89,10 @@ namespace Data_Manager2.Classes
             //removeAll();
 
             // Store the new password:
-            if(!string.IsNullOrEmpty(account.user.userPassword))
+            if (!string.IsNullOrEmpty(account.user.password))
             {
-                string vaultName = VAULT_NAME_PREFIX + account.getIdAndDomain();
-                PASSWORD_VAULT.Add(new PasswordCredential(vaultName, account.user.userId, account.user.userPassword));
+                string vaultName = VAULT_NAME_PREFIX + account.getBareJid();
+                PASSWORD_VAULT.Add(new PasswordCredential(vaultName, account.user.localPart, account.user.password));
             }
         }
 

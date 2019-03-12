@@ -1,19 +1,19 @@
-﻿using System;
-using Data_Manager2.Classes;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
+using Logging;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using UWP_XMPP_Client.Classes;
+using UWP_XMPP_Client.Pages;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
-using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.DBManager;
-using UWP_XMPP_Client.Classes;
-using UWP_XMPP_Client.Pages;
-using System.Threading.Tasks;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages;
-using Windows.UI.Core;
-using Logging;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace UWP_XMPP_Client.Dialogs
 {
@@ -60,8 +60,8 @@ namespace UWP_XMPP_Client.Dialogs
 
             if (roomJid != null)
             {
-                requestedServer = Utils.getDomainFromBareJid(roomJid);
-                roomName_tbx.Text = Utils.getUserFromBareJid(roomJid) ?? "";
+                requestedServer = Utils.getJidDomainPart(roomJid);
+                roomName_tbx.Text = Utils.getJidLocalPart(roomJid) ?? "";
             }
         }
 
@@ -127,7 +127,7 @@ namespace UWP_XMPP_Client.Dialogs
 
                 string roomJid = roomName_tbx.Text + '@' + server_asbx.Text.ToLowerInvariant();
 
-                ChatTable muc = new ChatTable(roomJid, client.getXMPPAccount().getIdAndDomain())
+                ChatTable muc = new ChatTable(roomJid, client.getXMPPAccount().getBareJid())
                 {
                     chatType = ChatType.MUC,
                     inRoster = (bool)bookmark_cbx.IsChecked,
@@ -158,7 +158,7 @@ namespace UWP_XMPP_Client.Dialogs
 
                 if ((bool)bookmark_cbx.IsChecked)
                 {
-                    List<ConferenceItem> conferenceItems = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getIdAndDomain());
+                    List<ConferenceItem> conferenceItems = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
                     setBookmarkHelper = client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048(conferenceItems, onMessage, onTimeout);
                 }
 
@@ -236,7 +236,7 @@ namespace UWP_XMPP_Client.Dialogs
             }
 
             string roomJid = roomName_tbx.Text + '@' + server_asbx.Text;
-            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, client.getXMPPAccount().getIdAndDomain())))
+            if (ChatDBManager.INSTANCE.doesChatExist(ChatTable.generateId(roomJid, client.getXMPPAccount().getBareJid())))
             {
                 accountSelection_asc.showErrorMessage("Chat already exists!");
                 return false;
@@ -256,7 +256,7 @@ namespace UWP_XMPP_Client.Dialogs
         #region --Events--
         private void accountSelection_asc_AddAccountClicked(object sender, object args)
         {
-            if(setBookmarkHelper != null)
+            if (setBookmarkHelper != null)
             {
                 setBookmarkHelper.Dispose();
                 setBookmarkHelper = null;
@@ -343,7 +343,7 @@ namespace UWP_XMPP_Client.Dialogs
         {
             if (args.CLIENT != null)
             {
-                nick_tbx.Text = args.CLIENT.getXMPPAccount().user.userId;
+                nick_tbx.Text = args.CLIENT.getXMPPAccount().user.localPart;
             }
             else
             {

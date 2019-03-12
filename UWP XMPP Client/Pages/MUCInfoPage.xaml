@@ -10,15 +10,21 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls1:ImageEx x:Name="backgroundImage_img"
-                           Grid.Row="0"
+                           Grid.Row="1"
                            HorizontalAlignment="Center"
                            VerticalAlignment="Center"
                            Stretch="UniformToFill"/>
 
-        <Pivot Grid.Row="0"
+        <Button x:Name="backRequest_btn"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                Click="BackRequest_btn_Click"
+                Style="{ThemeResource NavigationBackButtonSmallStyle}"/>
+        <Pivot Grid.Row="1"
                Background="{ThemeResource SystemControlBackgroundAltMediumBrush}">
             <PivotItem Header="Info">
                 <controlsMuc:MucInfoControl Chat="{x:Bind Chat, Mode=OneWay}"
@@ -34,9 +40,9 @@
                                                          Client="{x:Bind Client}"
                                                          MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
                         <controlsMuc:MucBanListControl Margin="10,10,10,0"
-                                                    Chat="{x:Bind Chat, Mode=OneWay}"
-                                                    Client="{x:Bind Client}"
-                                                    MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
+                                                       Chat="{x:Bind Chat, Mode=OneWay}"
+                                                       Client="{x:Bind Client}"
+                                                       MUCInfo="{x:Bind MUCInfo, Mode=OneWay}"/>
                     </StackPanel>
                 </ScrollViewer>
             </PivotItem>

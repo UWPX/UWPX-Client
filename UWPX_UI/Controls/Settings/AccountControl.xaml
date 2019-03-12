@@ -1,0 +1,112 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+            <valueConverter:ConnectionStatePresenceValueConverter x:Key="ConnectionStatePresenceValueConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <controls1:DropShadowPanel Height="60"
+                               HorizontalContentAlignment="Stretch">
+        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0"
+                  VerticalAlignment="Stretch"
+                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle x:Name="color_rcta"
+                           Grid.Column="0"
+                           Width="5"
+                           Height="40"
+                           Margin="5,0,0,0"
+                           VerticalAlignment="Center"
+                           Fill="{x:Bind Account.Account.color, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
+                <Button x:Name="edit_btn"
+                        Grid.Column="1"
+                        Width="40"
+                        VerticalAlignment="Stretch"
+                        Click="Edit_btn_Click"
+                        Content="&#xE1C2;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Edit"/>
+                <controls:AccountImagePresenceControl Grid.Column="2"
+                                                      Width="40"
+                                                      Height="40"
+                                                      PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
+                <Button x:Name="info_btn"
+                        Grid.Column="3"
+                        Width="40"
+                        VerticalAlignment="Stretch"
+                        Click="Info_btn_Click"
+                        Content="&#xE946;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="20"
+                        FontWeight="Bold"
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Info"/>
+                <Grid Grid.Column="4"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock x:Name="primaryInfo_tblck"
+                               Grid.Row="0"
+                               HorizontalAlignment="Center"
+                               Style="{ThemeResource BodyTextBlockStyle}"
+                               Text="{x:Bind Account.Account.user.localPart, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="secondaryInfo_tblck"
+                               Grid.Row="1"
+                               HorizontalAlignment="Center"
+                               FontSize="10"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Style="{ThemeResource CaptionTextBlockStyle}"
+                               Text="{x:Bind Account.Account.user.domainPart, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock x:Name="error_tblck"
+                               Grid.Row="2"
+                               HorizontalAlignment="Center"
+                               FontSize="10"
+                               Foreground="Red"
+                               MaxLines="1"
+                               Text="{x:Bind Account.ErrorText, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"
+                               Visibility="{x:Bind Account.ErrorText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                </Grid>
+                <ToggleSwitch Grid.Column="5"
+                              Height="40"
+                              Margin="10,0,-30,-5"
+                              IsOn="{x:Bind Account.Enabled, Mode=TwoWay}"
+                              OffContent="Disabled"
+                              OnContent="Enabled"/>
+            </Grid>
+        </Grid>
+    </controls1:DropShadowPanel>
+</UserControl>

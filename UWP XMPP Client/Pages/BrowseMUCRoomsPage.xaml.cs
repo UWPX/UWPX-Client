@@ -189,6 +189,18 @@ namespace UWP_XMPP_Client.Pages
             base.OnNavigatedFrom(e);
             await UiUtils.onPageNavigatedFromAsync();
         }
+
+        private void BackRequest_btn_Click(object sender, RoutedEventArgs e)
+        {
+            if (masterDetail_pnl.ViewState == MasterDetailsViewState.Details)
+            {
+                masterDetail_pnl.SelectedItem = null;
+            }
+            else
+            {
+                Frame.GoBack();
+            }
+        }
         #endregion
     }
 }

@@ -53,7 +53,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             if (XMPP_CONNECTION.account.connectionConfiguration.disableStreamManagement)
             {
                 state = SMState.PROHIBIT;
-                Logger.Info("Stream management is disabled for account: " + XMPP_CONNECTION.account.getIdAndDomain());
+                Logger.Info("Stream management is disabled for account: " + XMPP_CONNECTION.account.getBareJid());
             }
             else
             {

@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.AccountInfoGeneralControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             xmlns:valueconverterBandwidth="using:UWPX_UI_Context.Classes.ValueConverter.Bandwidth"
+             xmlns:valueconverterRtt="using:UWPX_UI_Context.Classes.ValueConverter.RTT"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <valueconverter:TimeValueConverter x:Key="TimeValueConverter"/>
+        <valueconverter:TlsConnectedTextValueConverter x:Key="TlsConnectedTextValueConverter"/>
+        <valueconverter:TlsConnectedSolidColorBrushValueConverter x:Key="TlsConnectedSolidColorBrushValueConverter"/>
+        <valueconverter:MessageCarbonsStateSolidColorBrushValueConverter x:Key="MessageCarbonsStateSolidColorBrushValueConverter"/>
+        <valueconverter:MessageCarbonsStateTextValueConverter x:Key="MessageCarbonsStateTextValueConverter"/>
+        <valueconverterRtt:RttSumValueConverter x:Key="RttSumValueConverter"/>
+        <valueconverterRtt:RttMinValueConverter x:Key="RttMinValueConverter"/>
+        <valueconverterRtt:RttMaxValueConverter x:Key="RttMaxValueConverter"/>
+        <valueconverterBandwidth:InboundBitsPerSecondValueConverter x:Key="InboundBitsPerSecondValueConverter"/>
+        <valueconverterBandwidth:InboundBitsPerSecondInstabilityValueConverter x:Key="InboundBitsPerSecondInstabilityValueConverter"/>
+        <valueconverterBandwidth:OutboundBitsPerSecondValueConverter x:Key="OutboundBitsPerSecondValueConverter"/>
+        <valueconverterBandwidth:OutboundBitsPerSecondInstabilityValueConverter x:Key="OutboundBitsPerSecondInstabilityValueConverter"/>
+    </UserControl.Resources>
+
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <StackPanel>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="TLS:"/>
+                <Run Foreground="{x:Bind VIEW_MODEL.MODEL.TlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedSolidColorBrushValueConverter}}"
+                     Text="{x:Bind VIEW_MODEL.MODEL.TlsConnected, Mode=OneWay, Converter={StaticResource TlsConnectedTextValueConverter}}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Message carbons:"/>
+                <Run Foreground="{x:Bind VIEW_MODEL.MODEL.MsgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateSolidColorBrushValueConverter}}"
+                     Text="{x:Bind VIEW_MODEL.MODEL.MsgCarbonsState, Mode=OneWay, Converter={StaticResource MessageCarbonsStateTextValueConverter}}"/>
+            </TextBlock>
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Socket statistics:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Inbound:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource InboundBitsPerSecondValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Inbound instability:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource InboundBitsPerSecondInstabilityValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Outbound:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource OutboundBitsPerSecondValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Outbound instability:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource OutboundBitsPerSecondInstabilityValueConverter}, FallbackValue='0 bit/s'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="RTT average:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource RttMaxValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="RTT min:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource RttMinValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="RTT max:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.SocketInfo, Mode=OneWay, Converter={StaticResource RttMaxValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+
+            <controls:SeperatorControl Margin="-10,0,0,0"
+                                       Text="Parser statistics:"/>
+            <TextBlock Margin="0,10,0,0">
+                <Run FontWeight="Bold"
+                     Text="Parse time min:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.minParseTimeMs, Mode=OneWay, Converter={StaticResource TimeValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Parse time max:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.maxParseTimeMs, Mode=OneWay, Converter={StaticResource TimeValueConverter}, FallbackValue='0 ms'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Parse time avg:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.avgParseTimeMs, Mode=OneWay, Converter={StaticResource TimeValueConverter}, FallbackValue='0'}"/>
+            </TextBlock>
+            <TextBlock>
+                <Run FontWeight="Bold"
+                     Text="Parsed messages:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.ParserStats.msgParseCount, Mode=OneWay}"/>
+            </TextBlock>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>

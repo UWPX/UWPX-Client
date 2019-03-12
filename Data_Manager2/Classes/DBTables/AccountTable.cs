@@ -1,7 +1,6 @@
 ﻿using SQLite;
-using XMPP_API.Classes.Network;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.DBTables
 {
@@ -63,10 +62,10 @@ namespace Data_Manager2.Classes.DBTables
 
         public AccountTable(XMPPAccount account)
         {
-            this.id = account.getIdAndDomain();
-            this.userId = account.user.userId;
-            this.domain = account.user.domain;
-            this.resource = account.user.resource;
+            this.id = account.getBareJid();
+            this.userId = account.user.localPart;
+            this.domain = account.user.domainPart;
+            this.resource = account.user.resourcePart;
             this.serverAddress = account.serverAddress;
             this.port = account.port;
             this.disabled = account.disabled;
@@ -82,8 +81,10 @@ namespace Data_Manager2.Classes.DBTables
 
         internal XMPPAccount toXMPPAccount()
         {
-            return new XMPPAccount(new XMPPUser(userId, domain, resource), serverAddress, port)
+            return new XMPPAccount(new XMPPUser(userId, domain, resource))
             {
+                serverAddress = serverAddress,
+                port = port,
                 color = color,
                 presencePriorety = presencePriorety,
                 disabled = disabled,

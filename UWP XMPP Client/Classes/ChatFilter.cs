@@ -37,15 +37,15 @@ namespace UWP_XMPP_Client.Classes
         public ChatFilter(MyAdvancedCollectionView chatsACV)
         {
             this.CHATS_ACV = chatsACV;
-            this.PRESENCES = Settings.LOCAL_OBJECT_STORAGE_HELPER.Read(SettingsConsts.CHAT_FILTER_PRESENCES, new HashSet<Presence>());
+            //this.PRESENCES = Settings.LOCAL_OBJECT_STORAGE_HELPER.Read(SettingsConsts.CHAT_FILTER_PRESENCES, new HashSet<Presence>());
 
             this.chatQuery = Settings.getSettingString(SettingsConsts.CHAT_FILTER_QUERY, string.Empty);
             this.chatQueryLow = this.chatQuery.ToLowerInvariant();
             this.chatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
             this.notOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
             this.notUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
-            this.chat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHAT);
-            this.muc = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUC);
+            this.chat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHATS_ONLY);
+            this.muc = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUCS_ONLY);
         }
 
         #endregion
@@ -227,7 +227,7 @@ namespace UWP_XMPP_Client.Classes
             }
             else if (notUnavailable)
             {
-                if(chat.chat.chatType == ChatType.CHAT)
+                if (chat.chat.chatType == ChatType.CHAT)
                 {
                     return chat.chat.presence != Presence.Unavailable;
                 }
@@ -255,7 +255,7 @@ namespace UWP_XMPP_Client.Classes
 
         private void savePresences()
         {
-            Settings.LOCAL_OBJECT_STORAGE_HELPER.Save(SettingsConsts.CHAT_FILTER_PRESENCES, PRESENCES);
+            //Settings.LOCAL_OBJECT_STORAGE_HELPER.Save(SettingsConsts.CHAT_FILTER_PRESENCES, PRESENCES);
         }
 
         private void saveNotOnline()
@@ -280,12 +280,12 @@ namespace UWP_XMPP_Client.Classes
 
         private void saveChat()
         {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_CHAT, chat);
+            Settings.setSetting(SettingsConsts.CHAT_FILTER_CHATS_ONLY, chat);
         }
 
         private void saveMUC()
         {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_MUC, muc);
+            Settings.setSetting(SettingsConsts.CHAT_FILTER_MUCS_ONLY, muc);
         }
         #endregion
 

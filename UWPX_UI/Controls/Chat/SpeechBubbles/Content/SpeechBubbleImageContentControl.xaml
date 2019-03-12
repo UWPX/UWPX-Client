@@ -1,0 +1,209 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.SpeechBubbles.Content.SpeechBubbleImageContentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:content="using:UWPX_UI.Controls.Chat.SpeechBubbles.Content"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controls1="using:UWPX_UI.Controls"
+             xmlns:converter="using:UWPX_UI_Context.Classes.ValueConverter"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:network="using:Shared.Classes.Network"
+             d:DesignHeight="300"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Error">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    ERROR
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Content">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    DONE
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Download">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    NOT_QUEUED
+                </network:DownloadState>
+                <network:DownloadState>
+                    CANCELED
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+        <converter:DownloadStateVisabilityValueConverter x:Key="DownloadStateVisabilityValueConverter_Downloading">
+            <converter:DownloadStateVisabilityValueConverter.statesVisible>
+                <network:DownloadState>
+                    QUEUED
+                </network:DownloadState>
+                <network:DownloadState>
+                    DOWNLOADING
+                </network:DownloadState>
+            </converter:DownloadStateVisabilityValueConverter.statesVisible>
+        </converter:DownloadStateVisabilityValueConverter>
+
+        <converter:DownloadStateQueuedBoolValueConverter x:Key="DownloadStateQueuedBoolValueConverter"/>
+
+        <MenuFlyout x:Key="options_mfo"
+                    Opening="MenuFlyout_Opening">
+            <MenuFlyoutItem x:Name="copyImageLink_mfi"
+                            Click="CopyImageLink_mfi_Click"
+                            Text="Copy message">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="copyNickname_mfi"
+                            Click="CopyNickname_mfi_Click"
+                            Text="Copy nickname">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="copyDate_mfi"
+                            Click="CopyDate_mfi_Click"
+                            Text="Copy date">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE8C8;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem x:Name="startDownload_mfi"
+                            Click="StartDownload_mfi_Click"
+                            Text="Start download">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE896;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="cancelDownload_mfi"
+                            Click="CancelDownload_mfi_Click"
+                            Text="Cancel download">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xEA39;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="redownload_mfi"
+                            Click="Redownload_mfi_Click"
+                            Text="Redownload">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE72C;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="deleteMsg_mfi"
+                            Click="DeleteMsg_mfi_Click"
+                            Text="Delete message">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE74D;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutSeparator/>
+            <MenuFlyoutItem x:Name="openImage_mfi"
+                            Click="OpenImage_mfi_Click"
+                            Text="Open image">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xEB9F;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+            <MenuFlyoutItem x:Name="openImageBrowser_mfi"
+                            Click="OpenImageBrowser_mfi_Click"
+                            Text="Open in browser">
+                <MenuFlyoutItem.Icon>
+                    <FontIcon Glyph="&#xE774;"/>
+                </MenuFlyoutItem.Icon>
+            </MenuFlyoutItem>
+        </MenuFlyout>
+    </UserControl.Resources>
+
+    <Grid Background="{x:Bind Background, Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--  Content:  -->
+        <controls:ImageEx x:Name="image_img"
+                          Grid.Row="0"
+                          MaxHeight="250"
+                          ImageExFailed="Image_img_ImageExFailed"
+                          ImageExOpened="Image_img_ImageExOpened"
+                          IsCacheEnabled="True"
+                          PlaceholderSource="Assets/Images/placeholder.png"
+                          Source="{x:Bind VIEW_MODEL.MODEL.ImageBitmap, Mode=OneWay}"
+                          Tapped="Image_img_Tapped"
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Content}, FallbackValue=Collapsed}"/>
+        <!--  Error:  -->
+        <Grid Grid.Row="0"
+              Padding="10"
+              VerticalAlignment="Stretch"
+              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Error}, FallbackValue=Collapsed}">
+            <Grid VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0"
+                           HorizontalAlignment="Center"
+                           FontFamily="Segoe MDL2 Assets"
+                           FontSize="30"
+                           Text="&#xE783;"/>
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Center"
+                           Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"/>
+            </Grid>
+        </Grid>
+
+        <!--  Download:  -->
+        <Button x:Name="download_btn"
+                Grid.Row="0"
+                Margin="10"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Background="Transparent"
+                Click="Download_btn_Click"
+                Content="&#xE896;"
+                FontFamily="Segoe MDL2 Assets"
+                FontSize="30"
+                Style="{ThemeResource ButtonRevealStyle}"
+                Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Download}, FallbackValue=Collapsed}"/>
+
+        <!--  Downloading:  -->
+        <Grid Grid.Row="0"
+              Margin="10"
+              HorizontalAlignment="Stretch"
+              VerticalAlignment="Center"
+              Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Downloading}, FallbackValue=Collapsed}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <ProgressRing Grid.Row="0"
+                          Width="30"
+                          Height="30"
+                          IsActive="True"/>
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Text="Downloading..."/>
+            <ProgressBar Grid.Row="2"
+                         IsIndeterminate="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateQueuedBoolValueConverter}, FallbackValue=True}"
+                         Value="{x:Bind VIEW_MODEL.MODEL.Image.Progress, Mode=OneWay}"/>
+        </Grid>
+
+        <!--  Loading:  -->
+        <controls1:LoadingContentControl Grid.Row="0"
+                                         Margin="10"
+                                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoadingImage, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}, FallbackValue=Visible}"/>
+
+        <!--  Infos:  -->
+        <content:SpeechBubbleStatusBarControl Grid.Row="1"
+                                              Margin="0,5,0,0"
+                                              VerticalAlignment="Bottom"
+                                              ViewModel="{x:Bind SpeechBubbleContentViewModel, Mode=OneWay}"/>
+    </Grid>
+</UserControl>

@@ -3,7 +3,6 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:UWP_XMPP_Client.Controls"
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-      xmlns:controlsChat="using:UWP_XMPP_Client.Controls.Chat"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:UWP_XMPP_Client.DataTemplates"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -25,9 +24,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <controls:SettingsHeaderControl Grid.Row="0"
+        <!--<controls:SettingsHeaderControl Grid.Row="0"
                                         Icon="&#xE771;"
-                                        Text="Personalize"/>
+                                        Text="Personalize"/>-->
 
         <Pivot Grid.Row="1">
             <PivotItem Header="Select">
@@ -132,9 +131,11 @@
                 </ScrollViewer>
             </PivotItem>
             <PivotItem Header="Preview">
-                <controlsChat:ChatDetailsControl x:Name="chatDetailsDummy_cdc"
+                <!--
+                    <controlsChat:ChatDetailsControl x:Name="chatDetailsDummy_cdc"
                                                  Margin="-12,0,-12,0"
                                                  IsDummy="True"/>
+                -->
             </PivotItem>
         </Pivot>
         <controls1:InAppNotification x:Name="info_ian"

@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.OMEMO.OmemoFingerprintControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch"
+          Visibility="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock HorizontalAlignment="Left"
+                       IsTextSelectionEnabled="True"
+                       Text="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"
+                       TextWrapping="WrapWholeWords"/>
+            <Button x:Name="cpyFingerprint_btn"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    Click="CpyFingerprint_btn_Click"
+                    Content="&#xE8C8;"
+                    FontFamily="Segoe MDL2 Assets"/>
+        </Grid>
+        <controls:QrCodeControl Grid.Row="1"
+                                Margin="0,10,0,0"
+                                QrCodeText="{x:Bind VIEW_MODEL.MODEL.QrCodeFingerprint, Mode=OneWay}"/>
+    </Grid>
+</UserControl>

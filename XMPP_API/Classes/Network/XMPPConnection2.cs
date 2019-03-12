@@ -1,9 +1,9 @@
 ﻿using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
+using Shared.Classes.Collections;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Thread_Save_Components.Classes.Collections;
 using Windows.System.Threading;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.Events;
@@ -158,7 +158,7 @@ namespace XMPP_API.Classes.Network
             // Load OMEMO keys for the current account:
             if (!account.omemoKeysGenerated)
             {
-                Logger.Error("[XMPPConnection2]: Failed to enable OMEMO for account: " + account.getIdAndDomain() + " - generate OMEMO keys first!");
+                Logger.Error("[XMPPConnection2]: Failed to enable OMEMO for account: " + account.getBareJid() + " - generate OMEMO keys first!");
                 omemoHelper = null;
                 return false;
             }
@@ -254,7 +254,7 @@ namespace XMPP_API.Classes.Network
 
                 if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
                 {
-                    MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                    MessageCacheDBManager.INSTANCE.addMessage(account.getBareJid(), msg);
                 }
                 if (!sendIfNotConnected)
                 {
@@ -279,17 +279,17 @@ namespace XMPP_API.Classes.Network
                 }
                 else
                 {
-                    Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getIdAndDomain());
+                    Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getBareJid());
                 }
             }
             catch (Exception e)
             {
-                Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getIdAndDomain(), e);
+                Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getBareJid(), e);
             }
 
             if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
             {
-                MessageCacheDBManager.INSTANCE.addMessage(account.getIdAndDomain(), msg);
+                MessageCacheDBManager.INSTANCE.addMessage(account.getBareJid(), msg);
             }
             return false;
         }
@@ -340,7 +340,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task sendAllOutstandingMessagesAsync()
         {
-            List<MessageCacheTable> list = MessageCacheDBManager.INSTANCE.getAllForAccount(account.getIdAndDomain());
+            List<MessageCacheTable> list = MessageCacheDBManager.INSTANCE.getAllForAccount(account.getBareJid());
             foreach (MessageCacheTable entry in list)
             {
                 if (state != ConnectionState.CONNECTED)
@@ -432,7 +432,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task onConnetionTimerTimeoutAsync()
         {
-            string errorMessage = "Connection timeout got triggered for account: " + account.getIdAndDomain();
+            string errorMessage = "Connection timeout got triggered for account: " + account.getBareJid();
             Logger.Warn(errorMessage);
             lastConnectionError = new ConnectionError(ConnectionErrorCode.XMPP_CONNECTION_TIMEOUT, errorMessage);
 
@@ -506,7 +506,7 @@ namespace XMPP_API.Classes.Network
         /// <returns></returns>
         private async Task softRestartAsync()
         {
-            OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getIdAndDomain(), account.user.domain);
+            OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getBareJid(), account.user.domainPart);
             await sendAsync(openStreamMessage, false, true);
         }
 

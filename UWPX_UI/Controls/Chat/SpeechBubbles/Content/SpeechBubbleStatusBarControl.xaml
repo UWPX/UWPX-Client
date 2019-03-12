@@ -1,0 +1,78 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.SpeechBubbles.Content.SpeechBubbleStatusBarControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             HorizontalAlignment="Right"
+             VerticalAlignment="Bottom"
+             d:DesignHeight="60"
+             d:DesignWidth="400"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <Style x:Key="ReplacedContectMenuCaptionTextBlock"
+               BasedOn="{StaticResource CaptionTextBlockStyle}"
+               TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{ThemeResource SpeechBubbleCaptionForegroundBrush}"/>
+            <Setter Property="IsTextSelectionEnabled" Value="True"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <Style x:Key="ReplacedContectMenuCaptionFontIcon"
+               TargetType="FontIcon">
+            <Setter Property="Foreground" Value="{ThemeResource SpeechBubbleCaptionForegroundBrush}"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="VerticalAlignment" Value="Bottom"/>
+        </Style>
+
+        <valueConverter:MessageStateGlyphTextValueConverter x:Key="MessageStateGlyphTextValueConverter"/>
+        <valueConverter:MessageStateIsDeliveredVisabilityValueConverter x:Key="MessageStateIsDeliveredVisabilityValueConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
+                VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}"
+                Orientation="Horizontal">
+        <TextBlock x:Name="nick_tbx"
+                   Margin="0,0,5,0"
+                   ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
+                   Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
+                   Text="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay}"
+                   TextTrimming="CharacterEllipsis"
+                   Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+        <FontIcon Margin="0,0,5,1"
+                  FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
+                  Glyph="&#xECCC;"
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
+                  Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+        <TextBlock Margin="0,0,5,0"
+                   ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
+                   Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
+                   Text="{x:Bind ViewModel.MODEL.Date, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"/>
+        <FontIcon Margin="0,0,5,2"
+                  FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
+                  Glyph="&#xE72E;"
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
+                  Visibility="{x:Bind ViewModel.MODEL.IsEncrypted, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+        <FontIcon Grid.Column="4"
+                  Margin="0,0,5,2"
+                  FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
+                  Glyph="&#xE8C8;"
+                  Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
+                  Visibility="{x:Bind ViewModel.MODEL.IsCarbonCopy, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+        <Grid VerticalAlignment="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <FontIcon FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
+                      Glyph="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateGlyphTextValueConverter}}"
+                      Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"/>
+            <FontIcon Margin="5,0,0,7"
+                      FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
+                      Glyph="&#xE73E;"
+                      Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
+                      Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateIsDeliveredVisabilityValueConverter}}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

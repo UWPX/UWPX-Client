@@ -1,0 +1,25 @@
+﻿<ContentDialog x:Class="UWPX_UI.Dialogs.AccountInfoDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:settings="using:UWPX_UI.Controls.Settings"
+               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               SecondaryButtonText="Close"
+               mc:Ignorable="d">
+
+    <Pivot>
+        <PivotItem Header="General">
+            <settings:AccountInfoGeneralControl Account="{x:Bind ACCOUNT}"/>
+        </PivotItem>
+        <PivotItem Header="Cert.">
+            <settings:AccountInfoCertificateGeneralControl Account="{x:Bind ACCOUNT}"/>
+        </PivotItem>
+        <PivotItem Header="OMEMO">
+            <settings:AccountOmemoInfoControl Account="{x:Bind ACCOUNT}"/>
+        </PivotItem>
+        <PivotItem Header="Errors">
+            <settings:AccountErrorsGeneralControl Account="{x:Bind ACCOUNT}"/>
+        </PivotItem>
+    </Pivot>
+</ContentDialog>

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using UWP_XMPP_Client.Classes.Events;
-using UWP_XMPP_Client.Pages.SettingsPages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
@@ -90,8 +89,8 @@ namespace UWP_XMPP_Client.Controls
             int foundConnected = -1;
             for (int i = 0; i < CLIENTS.Count; i++)
             {
-                ACCOUNTS.Add(CLIENTS[i].getXMPPAccount().getIdAndDomain());
-                if (userAccountId != null && string.Equals(userAccountId, CLIENTS[i].getXMPPAccount().getIdAndDomain()))
+                ACCOUNTS.Add(CLIENTS[i].getXMPPAccount().getBareJid());
+                if (userAccountId != null && string.Equals(userAccountId, CLIENTS[i].getXMPPAccount().getBareJid()))
                 {
                     foundConnected = i;
                 }
@@ -140,7 +139,7 @@ namespace UWP_XMPP_Client.Controls
 
         private void addAccount_link_Click(object sender, RoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
+            //(Window.Current.Content as Frame).Navigate(typeof(AccountSettingsPage));
             AddAccountClicked?.Invoke(this, new AddAccountClickedEventArgs());
         }
 

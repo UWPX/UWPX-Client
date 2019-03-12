@@ -1,0 +1,94 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:media="using:Microsoft.UI.Xaml.Media">
+
+    <SolidColorBrush x:Key="PresenceOnlineBrush"
+                     Opacity="0.9"
+                     Color="#54A81B"/>
+    <SolidColorBrush x:Key="PresenceChatBrush"
+                     Opacity="0.9"
+                     Color="White"/>
+    <SolidColorBrush x:Key="PresenceAwayBrush"
+                     Opacity="0.9"
+                     Color="#EB8C10"/>
+    <SolidColorBrush x:Key="PresenceXaBrush"
+                     Opacity="0.9"
+                     Color="#EB4910"/>
+    <SolidColorBrush x:Key="PresenceDndBrush"
+                     Opacity="0.9"
+                     Color="#A21025"/>
+    <SolidColorBrush x:Key="PresenceUnavailableBrush"
+                     Opacity="0.9"
+                     Color="#4C4A4B"/>
+
+    <SolidColorBrush x:Key="SpeechBubbleBackgroundDarkBrush"
+                     Opacity="0.9"
+                     Color="{ThemeResource SystemAccentColorDark3}"/>
+    <SolidColorBrush x:Key="SpeechBubbleBackgroundLightBrush"
+                     Opacity="0.9"
+                     Color="{ThemeResource SystemAccentColorDark1}"/>
+    <SolidColorBrush x:Key="SpeechBubbleInfoBackgroundBrush"
+                     Opacity="0.9"
+                     Color="#FF4C4A48"/>
+    <SolidColorBrush x:Key="SpeechBubbleErrorBackgroundBrush"
+                     Opacity="0.9"
+                     Color="#FF4C4A48"/>
+    <SolidColorBrush x:Key="SpeechBubbleForegroundBrush"
+                     Opacity="0.9"
+                     Color="#FFFFFFFF"/>
+    <SolidColorBrush x:Key="SpeechBubbleCaptionForegroundBrush"
+                     Opacity="0.9"
+                     Color="#99FFFFFF"/>
+
+    <ResourceDictionary.ThemeDictionaries>
+        <ResourceDictionary x:Key="Dark">
+            <Color x:Key="DropShadowColor">#FF000000</Color>
+
+            <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
+                                BackgroundSource="HostBackdrop"
+                                FallbackColor="#FF242424"
+                                TintColor="#FF242424"
+                                TintOpacity="0.6"/>
+            <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FF242424"
+                                TintColor="#FF242424"
+                                TintOpacity="0.6"/>
+            <media:AcrylicBrush x:Key="MasterPaneBackgroundAcrylicElementBrush"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FF242424"
+                                Opacity="0.8"
+                                TintColor="#FF242424"
+                                TintOpacity="0.6"/>
+            <SolidColorBrush x:Key="CaptionTextBrush"
+                             Color="#99FFFFFF"/>
+            <SolidColorBrush x:Key="GoldBrush"
+                             Color="#FFFFD700"/>
+        </ResourceDictionary>
+        <ResourceDictionary x:Key="Light">
+            <Color x:Key="DropShadowColor">#FF000000</Color>
+
+            <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
+                                BackgroundSource="HostBackdrop"
+                                FallbackColor="#FFD6D6D6"
+                                TintColor="#FFD6D6D6"
+                                TintOpacity="0.6"/>
+            <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FFD6D6D6"
+                                TintColor="#FFD6D6D6"
+                                TintOpacity="0.6"/>
+            <media:AcrylicBrush x:Key="MasterPaneBackgroundAcrylicElementBrush"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FFD6D6D6"
+                                Opacity="0.8"
+                                TintColor="#FFD6D6D6"
+                                TintOpacity="0.6"/>
+            <SolidColorBrush x:Key="CaptionTextBrush"
+                             Color="#99000000"/>
+            <SolidColorBrush x:Key="GoldBrush"
+                             Color="#FFFFF700"/>
+        </ResourceDictionary>
+    </ResourceDictionary.ThemeDictionaries>
+
+</ResourceDictionary>

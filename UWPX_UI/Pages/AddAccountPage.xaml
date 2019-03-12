@@ -1,0 +1,477 @@
+﻿<Page x:Class="UWPX_UI.Pages.AddAccountPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
+      x:Name="main"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
+            <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
+            <x:String x:Key="AnimationPositionShowSource">600,0,0</x:String>
+            <x:String x:Key="AnimationPositionShowTarget">0</x:String>
+            <x:String x:Key="AnimationPositionHideSource">0,0,0</x:String>
+            <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
+            <x:String x:Key="AnimationOpacityMin">0</x:String>
+            <x:String x:Key="AnimationOpacityMax">1</x:String>
+
+            <valueConverter:HexColorToSolidColorBrushValueConverter x:Key="HexColorToSolidColorBrushValueConverter"/>
+            <valueConverter:StringIntValueConverter x:Key="StringIntValueConverter"/>
+            <valueConverter:TLSConnectionModeIntValueConverter x:Key="TLSConnectionModeIntValueConverter"/>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--  Header:  -->
+        <controls:CustomTitleBarControl Grid.Row="0"
+                                        Frame="{x:Bind Frame, Mode=OneWay}"/>
+
+        <!--  Content:  -->
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled">
+            <Grid Padding="10"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--  Header:  -->
+                <TextBlock x:Name="title_tbx"
+                           Margin="0,0,0,10"
+                           HorizontalAlignment="Center"
+                           Style="{ThemeResource TitleTextBlockStyle}"
+                           Text="Add account:"/>
+
+                <!--  Step 1:  -->
+                <controls1:DropShadowPanel x:Name="step1Jid_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Visible">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBox x:Name="jid1_tbx"
+                                     Header="Jabber ID"
+                                     InputScope="EmailNameOrAddress"
+                                     KeyUp="Jid1_tbx_KeyUp"
+                                     PlaceholderText="alice@example.com"
+                                     Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <HyperlinkButton x:Name="whatIsAJid_link"
+                                             Margin="0,10,0,0"
+                                             Click="WhatIsAJid_link_Click"
+                                             Content="What's a Jabber ID?"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl x:Name="cancel1_ibtn"
+                                                            Grid.Column="0"
+                                                            Margin="0,0,0,1"
+                                                            Click="Cancel2_ibtn_Click"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                                <controls:IconProgressButtonControl x:Name="next_ipbtn"
+                                                                    Grid.Column="2"
+                                                                    Margin="1,0,0,0"
+                                                                    Click="Next_ipbtn_Click"
+                                                                    Glyph="&#xEBE7;"
+                                                                    GlyphForeground="Green"
+                                                                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsValidBareJid, Mode=OneWay}"
+                                                                    Text="Next"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <!--  Step 2:  -->
+                <controls1:DropShadowPanel x:Name="step2Jid_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBox x:Name="jid2_tbx"
+                                     Header="Jabber ID"
+                                     InputScope="EmailNameOrAddress"
+                                     KeyUp="Jid2_tbx_KeyUp"
+                                     PlaceholderText="alice@example.com"
+                                     Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <PasswordBox x:Name="password_pwb"
+                                         Margin="0,10,0,0"
+                                         Header="Password"
+                                         KeyUp="Password_pwb_KeyUp"
+                                         Password="{x:Bind VIEW_MODEL.MODEL.Account.user.password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock Margin="0,10,0,4"
+                                       Style="{ThemeResource BodyTextBlockStyle}"
+                                       Text="Color"/>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle x:Name="color_rcta"
+                                           Grid.Column="0"
+                                           Width="5"
+                                           Height="32"
+                                           VerticalAlignment="Center"
+                                           Fill="{x:Bind color_tbx.Text, Mode=OneWay, Converter={StaticResource HexColorToSolidColorBrushValueConverter}, TargetNullValue='Transparent'}"/>
+                                <TextBox x:Name="color_tbx"
+                                         Grid.Column="1"
+                                         Margin="5,0,0,0"
+                                         extensions:TextBoxMask.CustomMask="h:[0-9a-fA-F]"
+                                         extensions:TextBoxMask.Mask="#hhhhhh"
+                                         extensions:TextBoxMask.PlaceHolder="0"
+                                         PlaceholderText="#D50000"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button x:Name="pickColor_btn"
+                                        Grid.Column="2"
+                                        Height="32"
+                                        VerticalAlignment="Bottom"
+                                        Click="PickColor_btn_Click"
+                                        Content="&#xE790;"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        Style="{ThemeResource ButtonRevealStyle}"/>
+                            </Grid>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl x:Name="cancel2_ibtn"
+                                                            Grid.Column="0"
+                                                            Margin="0,0,1,0"
+                                                            Click="Cancel2_ibtn_Click"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                                <controls:IconProgressButtonControl x:Name="delete_ipbtn"
+                                                                    Grid.Column="1"
+                                                                    Margin="1,0,1,0"
+                                                                    Click="Delete_ipbtn_Click"
+                                                                    Glyph="&#xE74D;"
+                                                                    GlyphForeground="Red"
+                                                                    Text="Delete"/>
+                                <controls:IconProgressButtonControl x:Name="save_ipbtn"
+                                                                    Grid.Column="2"
+                                                                    Margin="1,0,0,0"
+                                                                    Click="Save_ipbtn_Click"
+                                                                    Glyph="&#xE74E;"
+                                                                    GlyphForeground="Green"
+                                                                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsValidBareJid, Mode=OneWay}"
+                                                                    Text="Save"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <controls1:DropShadowPanel x:Name="step2Advanced_dsp"
+                                           Grid.Row="2"
+                                           MaxWidth="400"
+                                           Margin="0,10,0,0"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <controls1:Expander HorizontalContentAlignment="Stretch"
+                                            Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                                            Header="Advanced">
+                            <Grid Padding="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <controls:SeperatorControl Grid.Row="0"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Margin="0,-10,0,0"
+                                                           Text="General:"/>
+                                <!--  Resource:  -->
+                                <TextBox Grid.Row="1"
+                                         Grid.Column="0"
+                                         Header="Resource (device name)"
+                                         InputScope="ChatWithoutEmoji"
+                                         IsSpellCheckEnabled="False"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.user.resourcePart, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Button Grid.Row="1"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{ThemeResource InfoButtonStyle}">
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock x:Uid="AddAccountPage_resource_tooltip"
+                                                       MaxWidth="200"
+                                                       TextWrapping="WrapWholeWords"/>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+
+                                <!--  Presence priority:  -->
+                                <Slider Grid.Row="2"
+                                        Grid.Column="0"
+                                        Margin="0,10,0,0"
+                                        Header="Presence priority"
+                                        Maximum="128"
+                                        Minimum="-127"
+                                        TickFrequency="127"
+                                        TickPlacement="Outside"
+                                        Value="{x:Bind VIEW_MODEL.MODEL.Account.presencePriorety, Mode=TwoWay}"/>
+                                <Button Grid.Row="2"
+                                        Grid.Column="1"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Style="{ThemeResource InfoButtonStyle}">
+                                    <Button.Flyout>
+                                        <Flyout>
+                                            <TextBlock x:Uid="AddAccountPage_presence_priority_tooltip"
+                                                       MaxWidth="200"
+                                                       TextWrapping="WrapWholeWords"/>
+                                        </Flyout>
+                                    </Button.Flyout>
+                                </Button>
+
+                                <controls:SeperatorControl Grid.Row="3"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Text="Server:"/>
+
+                                <!--  Server address:  -->
+                                <TextBox Grid.Row="4"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="2"
+                                         Margin="0,10,0,0"
+                                         Header="Server address"
+                                         InputScope="Url"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.serverAddress, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                                <!--  Port:  -->
+                                <TextBox Grid.Row="5"
+                                         Grid.Column="0"
+                                         Grid.ColumnSpan="2"
+                                         Margin="0,10,0,0"
+                                         extensions:TextBoxRegex.ValidationMode="Dynamic"
+                                         extensions:TextBoxRegex.ValidationType="Number"
+                                         Header="Port"
+                                         InputScope="Number"
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.port, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource StringIntValueConverter}}"/>
+
+                                <controls:SeperatorControl Grid.Row="6"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Text="TLS:"/>
+
+                                <!--  TLS mode:  -->
+                                <ComboBox x:Name="tslMode_cmbx"
+                                          Grid.Row="7"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="2"
+                                          Margin="0,10,0,0"
+                                          Header="TLS mode"
+                                          SelectedIndex="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.tlsMode, Mode=TwoWay, FallbackValue=0, Converter={StaticResource TLSConnectionModeIntValueConverter}}">
+                                    <x:String>Enforce</x:String>
+                                    <x:String>Use if available</x:String>
+                                    <x:String>Prohibit</x:String>
+                                </ComboBox>
+
+                                <!--  Certificate requirements:  -->
+                                <Button x:Name="certRequirements_btn"
+                                        Grid.Row="8"
+                                        Grid.Column="0"
+                                        Grid.ColumnSpan="2"
+                                        Margin="0,10,0,0"
+                                        Click="CertRequirements_btn_Click"
+                                        Content="Certificate requirements"/>
+
+                                <controls:SeperatorControl Grid.Row="9"
+                                                           Grid.Column="0"
+                                                           Grid.ColumnSpan="2"
+                                                           Text="Misc:"/>
+
+                                <!--  Message carbons:  -->
+                                <ToggleSwitch Grid.Row="10"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,10,0,0"
+                                              Header="Message carbons"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableMessageCarbons, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                              OffContent="Disabled"
+                                              OnContent="Enabled"/>
+
+                                <!--  Stream management:  -->
+                                <ToggleSwitch Grid.Row="11"
+                                              Grid.Column="0"
+                                              Grid.ColumnSpan="2"
+                                              Margin="0,10,0,0"
+                                              Header="Stream management"
+                                              IsEnabled="False"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.Account.connectionConfiguration.disableStreamManagement, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                              OffContent="Disabled"
+                                              OnContent="Enabled"/>
+                            </Grid>
+                        </controls1:Expander>
+                    </Border>
+                </controls1:DropShadowPanel>
+            </Grid>
+        </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="States">
+                <VisualState x:Name="State_1">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="main.IsEnabled" Value="True"/>
+                        <Setter Target="next_ipbtn.ProgressRingVisibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_1_Next">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="main.IsEnabled" Value="False"/>
+                        <Setter Target="next_ipbtn.ProgressRingVisibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_2">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="main.IsEnabled" Value="True"/>
+                        <Setter Target="save_ipbtn.ProgressRingVisibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_2_Save">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="main.IsEnabled" Value="False"/>
+                        <Setter Target="save_ipbtn.ProgressRingVisibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_2_Delete">
+                    <VisualState.Setters>
+                        <Setter Target="step1Jid_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Jid_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Advanced_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="main.IsEnabled" Value="False"/>
+                        <Setter Target="delete_ipbtn.ProgressRingVisibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="AddEditStates">
+                <VisualState x:Name="State_Add">
+                    <VisualState.Setters>
+                        <Setter Target="delete_ipbtn.Visibility" Value="Collapsed"/>
+                        <Setter Target="jid2_tbx.IsReadOnly" Value="False"/>
+                        <Setter Target="title_tbx.Text" Value="Add account:"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_Edit">
+                    <VisualState.Setters>
+                        <Setter Target="delete_ipbtn.Visibility" Value="Visible"/>
+                        <Setter Target="jid2_tbx.IsReadOnly" Value="True"/>
+                        <Setter Target="title_tbx.Text" Value="Edit account:"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</Page>

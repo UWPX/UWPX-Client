@@ -1,66 +1,31 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
+﻿using Shared.Classes;
 using System.Text;
 using Windows.Networking.Sockets;
 
 namespace XMPP_API.Classes.Network
 {
-    public class ConnectionInformation
+    public class ConnectionInformation : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _tlsConnected;
         public bool tlsConnected
         {
-            get
-            {
-                return _tlsConnected;
-            }
-            set
-            {
-                if (value != _tlsConnected)
-                {
-                    _tlsConnected = value;
-                    onPropertyChanged(nameof(tlsConnected));
-                }
-            }
+            get { return _tlsConnected; }
+            set { SetProperty(ref _tlsConnected, value); }
         }
-
         private StreamSocketInformation _socketInfo;
         public StreamSocketInformation socketInfo
         {
-            get
-            {
-                return _socketInfo;
-            }
-            set
-            {
-                if (value != _socketInfo)
-                {
-                    _socketInfo = value;
-                    onPropertyChanged(nameof(socketInfo));
-                }
-            }
+            get { return _socketInfo; }
+            set { SetProperty(ref _socketInfo, value); }
         }
-
         private MessageCarbonsState _msgCarbonsState;
         public MessageCarbonsState msgCarbonsState
         {
-            get
-            {
-                return _msgCarbonsState;
-            }
-            set
-            {
-                if (value != _msgCarbonsState)
-                {
-                    _msgCarbonsState = value;
-                    onPropertyChanged(nameof(msgCarbonsState));
-                }
-            }
+            get { return _msgCarbonsState; }
+            set { SetProperty(ref _msgCarbonsState, value); }
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -73,6 +38,7 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public ConnectionInformation()
         {
+            this.invokeInUiThread = false;
             this.msgCarbonsState = MessageCarbonsState.DISABLED;
             this.tlsConnected = false;
             this.socketInfo = null;
@@ -124,10 +90,7 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private void onPropertyChanged([CallerMemberName] string name = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-        }
+
 
         #endregion
 

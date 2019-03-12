@@ -12,14 +12,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
         // https://wiki.xmpp.org/web/SASLandSCRAM-SHA-1
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private const byte CLIENT_NONCE_LENGTH = 32;
+        protected const byte CLIENT_NONCE_LENGTH = 32;
 
-        private readonly string CLIENT_NONCE_BASE_64;
-        private readonly string PASSWORD_NORMALIZED;
-        private string serverNonce;
-        private string saltBase64;
-        private string clientFirstMsg;
-        private string serverFirstMsg;
+        protected readonly string CLIENT_NONCE_BASE_64;
+        protected readonly string PASSWORD_NORMALIZED;
+        protected string serverNonce;
+        protected string saltBase64;
+        protected string clientFirstMsg;
+        protected string serverFirstMsg;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
