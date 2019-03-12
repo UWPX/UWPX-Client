@@ -197,6 +197,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 // Account image:
                 AccountPresence = muc.getMUCPresence();
                 AccountInitials = "\uE125";
+
+                OmemoEnabled = false;
             }
         }
 
