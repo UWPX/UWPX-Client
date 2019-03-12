@@ -293,7 +293,9 @@
                                         Style="{ThemeResource InfoButtonStyle}">
                                     <Button.Flyout>
                                         <Flyout>
-                                            <TextBlock x:Uid="AddAccountPage_resource_tooltip"/>
+                                            <TextBlock x:Uid="AddAccountPage_resource_tooltip"
+                                                       MaxWidth="200"
+                                                       TextWrapping="WrapWholeWords"/>
                                         </Flyout>
                                     </Button.Flyout>
                                 </Button>
@@ -315,7 +317,9 @@
                                         Style="{ThemeResource InfoButtonStyle}">
                                     <Button.Flyout>
                                         <Flyout>
-                                            <TextBlock x:Uid="AddAccountPage_presence_priority_tooltip"/>
+                                            <TextBlock x:Uid="AddAccountPage_presence_priority_tooltip"
+                                                       MaxWidth="200"
+                                                       TextWrapping="WrapWholeWords"/>
                                         </Flyout>
                                     </Button.Flyout>
                                 </Button>
