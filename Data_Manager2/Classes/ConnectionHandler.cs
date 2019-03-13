@@ -276,9 +276,9 @@ namespace Data_Manager2.Classes
         /// <param name="client">The Client which entered the state.</param>
         private void onClientConnected(XMPPClient client)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
-                client.GENERAL_COMMAND_HELPER.requestRoster(null, null);
+                await client.GENERAL_COMMAND_HELPER.sendRequestRosterMessageAsync();
                 client.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(null, null);
                 MUCHandler.INSTANCE.onClientConnected(client);
                 ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));

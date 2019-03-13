@@ -176,6 +176,7 @@
     <Compile Include="Classes\Network\XML\Messages\AbstractAddressableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\AbstractMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\AddToRosterMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Helper\AsyncMessageResponseHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\BindResourceMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\CloseStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Error.cs" />
@@ -198,12 +199,14 @@
     <Compile Include="Classes\Network\XML\Messages\Features\TLSStreamFeature.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\TLS\ProceedAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\Features\TLS\RequesStartTLSMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Helper\MessageResponseHelperResult.cs" />
     <Compile Include="Classes\Network\XML\Messages\IMessageSender.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\IQMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\IXElementable.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\MessageResponseHelper.cs" />
+    <Compile Include="Classes\Network\XML\Messages\Helper\MessageResponseHelperResultState.cs" />
     <Compile Include="Classes\Network\XML\Messages\OpenStreamAnswerMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\OpenStreamMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\PresenceErrorMessage.cs" />

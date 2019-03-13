@@ -1,6 +1,8 @@
 ﻿using Logging;
+using System;
 using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
@@ -61,15 +63,23 @@ namespace XMPP_API.Classes
         /// <summary>
         /// Sends a RosterRequestMessage to the server and requests the current roster.
         /// </summary>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for RosterRequestMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestRoster(MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <returns>The result of the request.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestRosterAsync()
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CLIENT, predicate);
             RosterRequestMessage msg = new RosterRequestMessage(CLIENT.getXMPPAccount().getFullJid(), CLIENT.getXMPPAccount().getBareJid());
-            helper.start(msg);
-            return helper;
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a RosterRequestMessage to the server and requests the current roster.
+        /// </summary>
+        /// <returns>True if sending the message succeeded.</returns>
+        public async Task<bool> sendRequestRosterMessageAsync()
+        {
+            RosterRequestMessage msg = new RosterRequestMessage(CLIENT.getXMPPAccount().getFullJid(), CLIENT.getXMPPAccount().getBareJid());
+            return await CLIENT.sendAsync(msg);
         }
 
         /// <summary>
