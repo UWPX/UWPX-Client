@@ -162,7 +162,7 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void INSTANCE_ClientConnected(ConnectionHandler handler, Events.ClientConnectedEventArgs args)
+        private void INSTANCE_ClientConnected(ConnectionHandler handler, Events.ClientConnectedEventArgs args)
         {
             //messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.ITEMS));
             //messageIdCache.addTimed(await args.CLIENT.createDiscoAsync(args.CLIENT.getXMPPAccount().user.domain, DiscoType.INFO));

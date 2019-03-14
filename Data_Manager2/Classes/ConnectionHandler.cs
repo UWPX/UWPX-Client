@@ -487,7 +487,7 @@ namespace Data_Manager2.Classes
             }
         }
 
-        private void C_NewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
+        private async void C_NewChatMessage(XMPPClient client, XMPP_API.Classes.Network.Events.NewChatMessageEventArgs args)
         {
             MessageMessage msg = args.getMessage();
 
@@ -526,7 +526,7 @@ namespace Data_Manager2.Classes
                     Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
                     return;
                 }
-                else if (!omemoMessage.decrypt(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
+                else if (!await omemoMessage.decryptAsync(client.getOmemoHelper(), client.getXMPPAccount().omemoDeviceId))
                 {
                     return;
                 }
@@ -622,7 +622,7 @@ namespace Data_Manager2.Classes
             // Send XEP-0184 (Message Delivery Receipts) reply:
             if (msg.RECIPT_REQUESTED && id != null && !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS))
             {
-                Task.Run(async () =>
+                await Task.Run(async () =>
                 {
                     DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
                     await client.sendAsync(receiptMessage, true);
@@ -634,7 +634,7 @@ namespace Data_Manager2.Classes
             // Show toast:
             if (!doesMessageExist && !chat.muted)
             {
-                Task.Run(() =>
+                await Task.Run(() =>
                 {
                     try
                     {

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
@@ -11,7 +14,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPClient CLIENT;
+        private readonly XMPPConnection2 CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,9 +25,9 @@ namespace XMPP_API.Classes
         /// <history>
         /// 16/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubCommandHelper(XMPPClient client)
+        public PubSubCommandHelper(XMPPConnection2 connection)
         {
-            this.CLIENT = client;
+            this.CONNECTION = connection;
         }
 
         #endregion
@@ -47,8 +50,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for RequestBookmarksMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestBookmars_xep_0048(MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            Network.XML.Messages.XEP_0048.RequestBookmarksMessage msg = new Network.XML.Messages.XEP_0048.RequestBookmarksMessage(CLIENT.getXMPPAccount().getFullJid());
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            Network.XML.Messages.XEP_0048.RequestBookmarksMessage msg = new Network.XML.Messages.XEP_0048.RequestBookmarksMessage(CONNECTION.account.getFullJid());
             helper.start(msg);
             return helper;
         }
@@ -62,8 +65,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for SetBookmarksMessage answers.</returns>
         public MessageResponseHelper<IQMessage> setBookmars_xep_0048(IList<Network.XML.Messages.XEP_0048.ConferenceItem> conferences, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            Network.XML.Messages.XEP_0048.SetBookmarksMessage msg = new Network.XML.Messages.XEP_0048.SetBookmarksMessage(CLIENT.getXMPPAccount().getFullJid(), conferences);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            Network.XML.Messages.XEP_0048.SetBookmarksMessage msg = new Network.XML.Messages.XEP_0048.SetBookmarksMessage(CONNECTION.account.getFullJid(), conferences);
             helper.start(msg);
             return helper;
         }
@@ -77,8 +80,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for RequestBookmarksMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestBookmars_xep_0402(MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            RequestBookmarksMessage msg = new RequestBookmarksMessage(CLIENT.getXMPPAccount().getFullJid());
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            RequestBookmarksMessage msg = new RequestBookmarksMessage(CONNECTION.account.getFullJid());
             helper.start(msg);
             return helper;
         }
@@ -93,8 +96,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for AddBookmarksMessage answers.</returns>
         public MessageResponseHelper<IQMessage> addBookmark_xep_0402(ConferenceItem conferenceItem, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            AddBookmarkMessage msg = new AddBookmarkMessage(CLIENT.getXMPPAccount().getFullJid(), conferenceItem);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            AddBookmarkMessage msg = new AddBookmarkMessage(CONNECTION.account.getFullJid(), conferenceItem);
             helper.start(msg);
             return helper;
         }
@@ -109,8 +112,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for RemoveBookmarksMessage answers.</returns>
         public MessageResponseHelper<IQMessage> removeBookmark_xep_0402(ConferenceItem conferenceItem, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            RemoveBookmarkMessage msg = new RemoveBookmarkMessage(CLIENT.getXMPPAccount().getFullJid(), conferenceItem);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            RemoveBookmarkMessage msg = new RemoveBookmarkMessage(CONNECTION.account.getFullJid(), conferenceItem);
             helper.start(msg);
             return helper;
         }
@@ -126,8 +129,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for DiscoverNodeMetadataMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestNodeMetadata(string to, string nodeName, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubDiscoverNodeMetadataMessage msg = new PubSubDiscoverNodeMetadataMessage(CLIENT.getXMPPAccount().getFullJid(), to, nodeName);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            PubSubDiscoverNodeMetadataMessage msg = new PubSubDiscoverNodeMetadataMessage(CONNECTION.account.getFullJid(), to, nodeName);
             helper.start(msg);
             return helper;
         }
@@ -142,8 +145,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for PubSubSubscribeMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestNodeSubscription(string to, string nodeName, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CLIENT.getXMPPAccount().getFullJid(), CLIENT.getXMPPAccount().getBareJid(), to, nodeName);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid(), to, nodeName);
             helper.start(msg);
             return helper;
         }
@@ -159,8 +162,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for PubSubCreateNodeMessage answers.</returns>
         public MessageResponseHelper<IQMessage> createNode(string to, string nodeName, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubCreateNodeMessage msg = new PubSubCreateNodeMessage(CLIENT.getXMPPAccount().getFullJid(), to, nodeName);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            PubSubCreateNodeMessage msg = new PubSubCreateNodeMessage(CONNECTION.account.getFullJid(), to, nodeName);
             helper.start(msg);
             return helper;
         }
@@ -177,8 +180,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for PubSubCreateNodeMessage answers.</returns>
         public MessageResponseHelper<IQMessage> createNode(string to, string nodeName, DataForm config, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubCreateNodeMessage msg = new PubSubCreateNodeMessage(CLIENT.getXMPPAccount().getFullJid(), to, nodeName, config);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            PubSubCreateNodeMessage msg = new PubSubCreateNodeMessage(CONNECTION.account.getFullJid(), to, nodeName, config);
             helper.start(msg);
             return helper;
         }
@@ -187,17 +190,15 @@ namespace XMPP_API.Classes
         /// Sends a PubSubDeleteNodeMessage to delete a pubsub node.
         /// https://xmpp.org/extensions/xep-0060.html#owner-delete
         /// </summary>
-        /// <param name="to">The target pubsub server (can be null).</param>
+        /// <param name="toBareJid">The target pubsub server (can be null).</param>
         /// <param name="nodeName">The name of the node, you want to delete.</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
-        /// <returns>Returns a MessageResponseHelper listening for PubSubDeleteNodeMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> deleteNode(string to, string nodeName, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <returns>The result of the PubSubDeleteNodeMessage.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> deleteNodeAsync(string toBareJid, string nodeName)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubDeleteNodeMessage msg = new PubSubDeleteNodeMessage(CLIENT.getXMPPAccount().getFullJid(), to, nodeName);
-            helper.start(msg);
-            return helper;
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            PubSubDeleteNodeMessage msg = new PubSubDeleteNodeMessage(CONNECTION.account.getFullJid(), toBareJid, nodeName);
+            return await helper.startAsync(msg);
         }
 
         /// <summary>
@@ -210,8 +211,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for PubSubRequestSubscriptionsMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestSubscriptions(string to, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            PubSubRequestSubscriptionsMessage msg = new PubSubRequestSubscriptionsMessage(CLIENT.getXMPPAccount().getFullJid(), to);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            PubSubRequestSubscriptionsMessage msg = new PubSubRequestSubscriptionsMessage(CONNECTION.account.getFullJid(), to);
             helper.start(msg);
             return helper;
         }

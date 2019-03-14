@@ -1,8 +1,4 @@
 ﻿using Data_Manager2.Classes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace UWPX_UI_Context.Classes
@@ -26,7 +22,9 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public static async Task InitAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             TrySetDefaultBackground();
         }

@@ -64,6 +64,11 @@ namespace XMPP_API.Classes.Network
         private bool reconnectRequested;
         private TimeSpan timeout;
 
+        public readonly GeneralCommandHelper GENERAL_COMMAND_HELPER;
+        public readonly MUCCommandHelper MUC_COMMAND_HELPER;
+        public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
+        public readonly OmemoCommandHelper OMEMO_COMMAND_HELPER;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -90,6 +95,11 @@ namespace XMPP_API.Classes.Network
             this.connectionTimer = null;
             this.reconnectRequested = false;
             this.timeout = TimeSpan.FromMilliseconds(CONNECTION_TIMEOUT);
+
+            this.GENERAL_COMMAND_HELPER = new GeneralCommandHelper(this);
+            this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
+            this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
+            this.OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
 
             // The order in which new messages should get processed (TLS -- SASL -- Stream Management -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html

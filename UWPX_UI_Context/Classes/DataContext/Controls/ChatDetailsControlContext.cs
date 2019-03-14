@@ -140,7 +140,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             // Send the message:
             if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
             {
-                chat.Client.sendOmemoMessage(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getBareJid());
+                await chat.Client.sendOmemoMessageAsync(toSendOmemoMsg, chat.Chat.chatJabberId, chat.Client.getXMPPAccount().getBareJid());
             }
             else
             {

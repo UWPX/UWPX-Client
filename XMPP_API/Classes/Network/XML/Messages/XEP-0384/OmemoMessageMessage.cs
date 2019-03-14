@@ -5,6 +5,7 @@ using Strilanc.Value;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Crypto;
@@ -146,10 +147,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="helper">The current OmemoHelper object of the current account.</param>
         /// <param name="localeDeciceId">The local device id.</param>
         /// <returns>True on success.</returns>
-        public bool decrypt(OmemoHelper helper, uint localeDeciceId)
+        public Task<bool> decryptAsync(OmemoHelper helper, uint localeDeciceId)
         {
             SignalProtocolAddress remoteAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
-            return decrypt(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
+            return decryptAsync(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
         }
 
         /// <summary>
@@ -161,7 +162,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="localeDeciceId">The local device id.</param>
         /// <param name="helper">The current OmemoHelper object of the current account. If null, won't remove used PreKey.</param>
         /// <returns>True on success.</returns>
-        public bool decrypt(SessionCipher cipher, SignalProtocolAddress remoteAddress, uint localeDeciceId, OmemoHelper helper)
+        public async Task<bool> decryptAsync(SessionCipher cipher, SignalProtocolAddress remoteAddress, uint localeDeciceId, OmemoHelper helper)
         {
             try
             {
@@ -181,13 +182,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 {
                     PreKeySignalMessage preKeySignalMessage = new PreKeySignalMessage(encryptedKeyAuthTag);
                     decryptedKeyAuthTag = cipher.decrypt(preKeySignalMessage);
-                    if(!(helper is null))
+                    if (!(helper is null))
                     {
                         May<uint> preKey = preKeySignalMessage.getPreKeyId();
-                        if(preKey.HasValue)
+                        if (preKey.HasValue)
                         {
                             Logger.Info("Removing used PreKey.");
-                            helper.removePreKeyAndRepublish(preKey.ForceGetValue());
+                            await helper.removePreKeyAndRepublishAsync(preKey.ForceGetValue());
                         }
                         else
                         {

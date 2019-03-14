@@ -1,4 +1,9 @@
-﻿using XMPP_API.Classes.Network.XML.Messages;
+﻿using System;
+using System.Threading.Tasks;
+using XMPP_API.Classes.Network;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
@@ -7,7 +12,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPClient CLIENT;
+        private readonly XMPPConnection2 CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -18,48 +23,92 @@ namespace XMPP_API.Classes
         /// <history>
         /// 17/03/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoCommandHelper(XMPPClient client)
+        public OmemoCommandHelper(XMPPConnection2 connection)
         {
-            this.CLIENT = client;
+            this.CONNECTION = connection;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Sends an OmemoSetBundleInformationMessage for updating the given bundle information and device id.
+        /// </summary>
+        /// <param name="bundleInfo">The bundle information you want to update.</param>
+        /// <param name="deviceId">The device id for the given bundle information.</param>
+        /// <returns>The OmemoSetBundleInformationMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> setBundleInfoAsync(OmemoBundleInformation bundleInfo, uint deviceId)
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            OmemoSetBundleInformationMessage msg = new OmemoSetBundleInformationMessage(CONNECTION.account.getFullJid(), bundleInfo, deviceId);
+            return await helper.startAsync(msg);
+        }
 
+        /// <summary>
+        /// Sends an OmemoSetDeviceListMessage to update your OMEMO device list with the given devices.
+        /// </summary>
+        /// <param name="devices">The new OMEMO device list.</param>
+        /// <returns>The OmemoSetDeviceListMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> setDeviceListAsync(OmemoDevices devices)
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            OmemoSetDeviceListMessage msg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), devices);
+            return await helper.startAsync(msg);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Sends a OmemoRequestBundleInformationMessage to requests the OMEMO bundle information of the given target and deviceId.
+        /// Sends an OmemoRequestBundleInformationMessage to requests the OMEMO bundle information of the given target and deviceId.
         /// </summary>
-        /// <param name="to">The bare JID of the target you want to request the OMEMO bundle information from. e.g. 'conference.jabber.org'</param>
+        /// <param name="toBareJid">The bare JID of the target you want to request the OMEMO bundle information from. e.g. 'conference.jabber.org'</param>
         /// <param name="deviceId">The device id you want to request the OMEMO bundle information for.</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for OmemoRequestBundleInformationMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestBundleInformation(string to, uint deviceId, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <returns>The OmemoRequestBundleInformationMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestBundleInformationAsync(string toBareJid, uint deviceId)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(CLIENT.getXMPPAccount().getFullJid(), to, deviceId);
-            helper.start(msg);
-            return helper;
+            Predicate<IQMessage> predicate = (x) => { return x is OmemoBundleInformationResultMessage || x is IQErrorMessage; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            OmemoRequestBundleInformationMessage msg = new OmemoRequestBundleInformationMessage(CONNECTION.account.getFullJid(), toBareJid, deviceId);
+            return await helper.startAsync(msg);
         }
 
         /// <summary>
-        /// Sends a OmemoRequestDeviceListMessage to requests the OMEMO device list of the given target.
+        /// Sends an OmemoRequestDeviceListMessage to requests the OMEMO device list of the given target.
         /// </summary>
-        /// <param name="to">The bare JID of the target you want to request the OMEMO device list from. e.g. 'conference.jabber.org'</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for OmemoRequestDeviceListMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestDeviceList(string to, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <param name="toBareJid">The bare JID of the target you want to request the OMEMO bundle information from. e.g. 'conference.jabber.org'</param>
+        /// <param name="deviceId">The device id you want to request the OMEMO device list for.</param>
+        /// <returns>The OmemoRequestDeviceListMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestDeviceListAsync(string toBareJid)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CLIENT.getXMPPAccount().getFullJid(), to);
-            helper.start(msg);
-            return helper;
+            Predicate<IQMessage> predicate = (x) => { return x is OmemoDeviceListResultMessage || x is IQErrorMessage; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            OmemoRequestDeviceListMessage msg = new OmemoRequestDeviceListMessage(CONNECTION.account.getFullJid(), toBareJid);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends an OmemoSubscribeToDeviceListMessage to subscribe to targets device list.
+        /// </summary>
+        /// <param name="toBareJid">The bare JID of the target you want to subscribe to. e.g. 'conference.jabber.org'</param>
+        /// <returns>The OmemoSubscribeToDeviceListMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> subscribeToDeviceListAsync(string toBareJid)
+        {
+            Predicate<IQMessage> predicate = (x) => { return x is PubSubSubscriptionMessage || x is IQErrorMessage; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            OmemoSubscribeToDeviceListMessage msg = new OmemoSubscribeToDeviceListMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid(), toBareJid);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a PubSubDeleteNodeMessage to delete the device list node.
+        /// </summary>
+        /// <returns>The PubSubDeleteNodeMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> deleteDeviceListNodeAsync()
+        {
+            return await CONNECTION.PUB_SUB_COMMAND_HELPER.deleteNodeAsync(null, Consts.XML_XEP_0384_DEVICE_LIST_NODE);
         }
 
         #endregion

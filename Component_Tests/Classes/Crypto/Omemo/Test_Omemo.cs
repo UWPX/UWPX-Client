@@ -158,7 +158,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
         [TestCategory("Crypto")]
         [TestMethod]
-        public void Test_Omemo_Enc_Dec_2()
+        public async void Test_Omemo_Enc_Dec_2()
         {
             // Generate Alices keys:
             IdentityKeyPair aliceIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
@@ -249,7 +249,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             // Bob decrypts the message:
             SignalProtocolAddress aliceAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(bobOmemoMessage.getFrom()), bobOmemoMessage.SOURCE_DEVICE_ID);
             SessionCipher bobSessionCipher = new SessionCipher(bobSessionStore, bobPreKeyStore, bobSignedPreKeyStore, bobIdentStore, aliceAddress);
-            bobOmemoMessage.decrypt(bobSessionCipher, aliceAddress, BOB_ADDRESS.getDeviceId(), null);
+            await bobOmemoMessage.decryptAsync(bobSessionCipher, aliceAddress, BOB_ADDRESS.getDeviceId(), null);
             Assert.IsFalse(bobOmemoMessage.ENCRYPTED);
             Assert.AreEqual(aliceOrigMsg, bobOmemoMessage.MESSAGE);
         }

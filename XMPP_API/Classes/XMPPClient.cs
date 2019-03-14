@@ -42,10 +42,10 @@ namespace XMPP_API.Classes
         public event NewDeliveryReceiptHandler NewDeliveryReceipt;
         public event OmemoSessionBuildErrorEventHandler OmemoSessionBuildError;
 
-        public readonly GeneralCommandHelper GENERAL_COMMAND_HELPER;
-        public readonly MUCCommandHelper MUC_COMMAND_HELPER;
-        public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
-        public readonly OmemoCommandHelper OMEMO_COMMAND_HELPER;
+        public GeneralCommandHelper GENERAL_COMMAND_HELPER => connection.GENERAL_COMMAND_HELPER;
+        public MUCCommandHelper MUC_COMMAND_HELPER => connection.MUC_COMMAND_HELPER;
+        public PubSubCommandHelper PUB_SUB_COMMAND_HELPER => connection.PUB_SUB_COMMAND_HELPER;
+        public OmemoCommandHelper OMEMO_COMMAND_HELPER => connection.OMEMO_COMMAND_HELPER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -58,10 +58,6 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPClient(XMPPAccount account)
         {
-            this.GENERAL_COMMAND_HELPER = new GeneralCommandHelper(this);
-            this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
-            this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
-            this.OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
             init(account);
         }
 
@@ -124,7 +120,9 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task transferSocketOwnershipAsync()
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
             //await connection?.transferSocketOwnershipAsync();
         }
@@ -154,7 +152,7 @@ namespace XMPP_API.Classes
             await connection.disconnectAsyncs();
         }
 
-        public void sendOmemoMessage(OmemoMessageMessage msg, string chatJid, string accountJid)
+        public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
         {
             if (connection.omemoHelper is null)
             {
@@ -168,7 +166,7 @@ namespace XMPP_API.Classes
             }
             else
             {
-                connection.omemoHelper.sendOmemoMessage(msg, chatJid, accountJid);
+                await connection.omemoHelper.sendOmemoMessageAsync(msg, chatJid, accountJid);
             }
         }
 

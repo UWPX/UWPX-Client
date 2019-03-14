@@ -1,6 +1,7 @@
 ﻿using Logging;
 using System;
 using System.Threading.Tasks;
+using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
@@ -12,7 +13,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPClient CLIENT;
+        private readonly XMPPConnection2 CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,9 +24,9 @@ namespace XMPP_API.Classes
         /// <history>
         /// 02/11/2018 Created [Fabian Sauter]
         /// </history>
-        public GeneralCommandHelper(XMPPClient client)
+        public GeneralCommandHelper(XMPPConnection2 connection)
         {
-            this.CLIENT = client;
+            this.CONNECTION = connection;
         }
 
         #endregion
@@ -53,7 +54,7 @@ namespace XMPP_API.Classes
         public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
         {
             PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);
-            await CLIENT.sendAsync(presenceMessage);
+            await CONNECTION.sendAsync(presenceMessage);
             return presenceMessage.ID;
         }
 
@@ -67,8 +68,8 @@ namespace XMPP_API.Classes
         public async Task<MessageResponseHelperResult<IQMessage>> requestRosterAsync()
         {
             Predicate<IQMessage> predicate = (x) => { return true; };
-            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CLIENT, predicate);
-            RosterRequestMessage msg = new RosterRequestMessage(CLIENT.getXMPPAccount().getFullJid(), CLIENT.getXMPPAccount().getBareJid());
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            RosterRequestMessage msg = new RosterRequestMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid());
             return await helper.startAsync(msg);
         }
 
@@ -78,8 +79,8 @@ namespace XMPP_API.Classes
         /// <returns>True if sending the message succeeded.</returns>
         public async Task<bool> sendRequestRosterMessageAsync()
         {
-            RosterRequestMessage msg = new RosterRequestMessage(CLIENT.getXMPPAccount().getFullJid(), CLIENT.getXMPPAccount().getBareJid());
-            return await CLIENT.sendAsync(msg);
+            RosterRequestMessage msg = new RosterRequestMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid());
+            return await CONNECTION.sendAsync(msg);
         }
 
         /// <summary>
@@ -90,7 +91,7 @@ namespace XMPP_API.Classes
         public async Task sendPresenceProbeAsync(string fromFullJid, string toBareJid)
         {
             PresenceProbeMessage msg = new PresenceProbeMessage(fromFullJid, toBareJid);
-            await CLIENT.sendAsync(msg);
+            await CONNECTION.sendAsync(msg);
             Logger.Info("Send presence probe from " + fromFullJid + " to " + toBareJid);
         }
 
@@ -102,8 +103,8 @@ namespace XMPP_API.Classes
         /// <returns>The id of the send AddToRosterMessage.</returns>
         public async Task<string> addToRosterAsync(string bareJid)
         {
-            AddToRosterMessage msg = new AddToRosterMessage(CLIENT.getXMPPAccount().getFullJid(), bareJid);
-            await CLIENT.sendAsync(msg, true);
+            AddToRosterMessage msg = new AddToRosterMessage(CONNECTION.account.getFullJid(), bareJid);
+            await CONNECTION.sendAsync(msg, true);
             return msg.ID;
         }
 
@@ -115,8 +116,8 @@ namespace XMPP_API.Classes
         /// <returns>The id of the send RemoveFromRosterMessage.</returns>
         public async Task<string> removeFromRosterAsync(string bareJid)
         {
-            RemoveFromRosterMessage msg = new RemoveFromRosterMessage(CLIENT.getXMPPAccount().getFullJid(), bareJid);
-            await CLIENT.sendAsync(msg, true);
+            RemoveFromRosterMessage msg = new RemoveFromRosterMessage(CONNECTION.account.getFullJid(), bareJid);
+            await CONNECTION.sendAsync(msg, true);
             return msg.ID;
         }
 
@@ -127,8 +128,8 @@ namespace XMPP_API.Classes
         /// <param name="state">The chat state.</param>
         public async Task sendChatStateAsync(string target, ChatState state)
         {
-            ChatStateMessage chatStateMessage = new ChatStateMessage(target, CLIENT.getXMPPAccount().getFullJid(), state);
-            await CLIENT.sendAsync(chatStateMessage);
+            ChatStateMessage chatStateMessage = new ChatStateMessage(target, CONNECTION.account.getFullJid(), state);
+            await CONNECTION.sendAsync(chatStateMessage);
         }
 
         /// <summary>
@@ -141,8 +142,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
         public MessageResponseHelper<IQMessage> createDisco(string target, DiscoType type, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            DiscoRequestMessage disco = new DiscoRequestMessage(CLIENT.getXMPPAccount().getFullJid(), target, type);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            DiscoRequestMessage disco = new DiscoRequestMessage(CONNECTION.account.getFullJid(), target, type);
             helper.start(disco);
             return helper;
         }
@@ -153,8 +154,8 @@ namespace XMPP_API.Classes
         /// <param name="bareJid">The bare JID of the target e.g. 'witches@conference.jabber.org'.</param>
         public async Task requestPresenceSubscriptionAsync(string bareJid)
         {
-            PresenceMessage msg = new PresenceMessage(CLIENT.getXMPPAccount().getBareJid(), bareJid, "subscribe");
-            await CLIENT.sendAsync(msg, true);
+            PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, "subscribe");
+            await CONNECTION.sendAsync(msg, true);
         }
 
         /// <summary>
@@ -163,8 +164,8 @@ namespace XMPP_API.Classes
         /// <param name="bareJid">The bare JID of the target e.g. 'witches@conference.jabber.org'.</param>
         public async Task unsubscribeFromPresenceAsync(string bareJid)
         {
-            PresenceMessage msg = new PresenceMessage(CLIENT.getXMPPAccount().getBareJid(), bareJid, "unsubscribe");
-            await CLIENT.sendAsync(msg, true);
+            PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, "unsubscribe");
+            await CONNECTION.sendAsync(msg, true);
         }
 
         /// <summary>
@@ -174,8 +175,8 @@ namespace XMPP_API.Classes
         /// <param name="accept">Whether the request was accepted or not.</param>
         public async Task answerPresenceSubscriptionRequestAsync(string bareJid, bool accept)
         {
-            PresenceMessage msg = new PresenceMessage(CLIENT.getXMPPAccount().getBareJid(), bareJid, accept ? "subscribed" : "unsubscribed");
-            await CLIENT.sendAsync(msg, true);
+            PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, accept ? "subscribed" : "unsubscribed");
+            await CONNECTION.sendAsync(msg, true);
         }
 
         #endregion

@@ -52,14 +52,14 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Reset_ibtn_Click(object sender, RoutedEventArgs args)
+        private async void Reset_ibtn_Click(object sender, RoutedEventArgs args)
         {
-            VIEW_MODEL.ResetOmemoDevices(Account.Client);
+            await VIEW_MODEL.ResetOmemoDevicesAsync(Account.Client);
         }
 
-        private void Refresh_ibtn_Click(object sender, RoutedEventArgs args)
+        private async void Refresh_ibtn_Click(object sender, RoutedEventArgs args)
         {
-            VIEW_MODEL.RefreshOmemoDevices(Account.Client);
+            await VIEW_MODEL.RefreshOmemoDevicesAsync(Account.Client);
         }
 
         private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

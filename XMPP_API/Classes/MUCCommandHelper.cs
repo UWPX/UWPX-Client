@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
@@ -11,7 +12,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPClient CLIENT;
+        private readonly XMPPConnection2 CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,9 +23,9 @@ namespace XMPP_API.Classes
         /// <history>
         /// 08/03/2018 Created [Fabian Sauter]
         /// </history>
-        public MUCCommandHelper(XMPPClient client)
+        public MUCCommandHelper(XMPPConnection2 connection)
         {
-            this.CLIENT = client;
+            this.CONNECTION = connection;
         }
 
         #endregion
@@ -44,7 +45,7 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestRooms(string server, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            return CLIENT.GENERAL_COMMAND_HELPER.createDisco(server, DiscoType.ITEMS, onMessage, onTimeout);
+            return CONNECTION.GENERAL_COMMAND_HELPER.createDisco(server, DiscoType.ITEMS, onMessage, onTimeout);
         }
 
         /// <summary>
@@ -56,8 +57,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
         public MessageResponseHelper<ExtendedDiscoResponseMessage> requestRoomInfo(string roomJid, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnMessageHandler onMessage, MessageResponseHelper<ExtendedDiscoResponseMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<ExtendedDiscoResponseMessage> helper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(CLIENT, onMessage, onTimeout);
-            DiscoRequestMessage disco = new DiscoRequestMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, DiscoType.INFO);
+            MessageResponseHelper<ExtendedDiscoResponseMessage> helper = new MessageResponseHelper<ExtendedDiscoResponseMessage>(CONNECTION, onMessage, onTimeout);
+            DiscoRequestMessage disco = new DiscoRequestMessage(CONNECTION.account.getFullJid(), roomJid, DiscoType.INFO);
             helper.start(disco);
             return helper;
         }
@@ -72,7 +73,7 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for RequestRoomConfigurationMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestRoomConfiguration(string roomJid, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
             RequestRoomConfigurationMessage msg = new RequestRoomConfigurationMessage(roomJid, configLevel);
             helper.start(msg);
             return helper;
@@ -89,8 +90,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for RoomInfoMessage answers.</returns>
         public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, DataForm roomConfiguration, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            RoomInfoMessage msg = new RoomInfoMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, roomConfiguration, configLevel);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            RoomInfoMessage msg = new RoomInfoMessage(CONNECTION.account.getFullJid(), roomJid, roomConfiguration, configLevel);
             helper.start(msg);
             return helper;
         }
@@ -105,11 +106,11 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for MUCChangeNicknameMessage answers.</returns>
         public MessageResponseHelper<PresenceMessage> changeNickname(string roomJid, string newNickname, MessageResponseHelper<PresenceMessage>.OnMessageHandler onMessage, MessageResponseHelper<PresenceMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<PresenceMessage> helper = new MessageResponseHelper<PresenceMessage>(CLIENT, onMessage, onTimeout)
+            MessageResponseHelper<PresenceMessage> helper = new MessageResponseHelper<PresenceMessage>(CONNECTION, onMessage, onTimeout)
             {
                 matchId = false
             };
-            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, newNickname);
+            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CONNECTION.account.getFullJid(), roomJid, newNickname);
             helper.start(msg);
             return helper;
         }
@@ -125,8 +126,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for KickOccupantMessage answers.</returns>
         public MessageResponseHelper<IQMessage> kickOccupant(string roomJid, string nickname, string reason, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            KickOccupantMessage msg = new KickOccupantMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, nickname, reason);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            KickOccupantMessage msg = new KickOccupantMessage(CONNECTION.account.getFullJid(), roomJid, nickname, reason);
             helper.start(msg);
             return helper;
         }
@@ -142,8 +143,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for BanOccupantMessage answers.</returns>
         public MessageResponseHelper<IQMessage> banOccupant(string roomJid, string jid, string reason, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            BanOccupantMessage msg = new BanOccupantMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, jid, reason);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            BanOccupantMessage msg = new BanOccupantMessage(CONNECTION.account.getFullJid(), roomJid, jid, reason);
             helper.start(msg);
             return helper;
         }
@@ -158,8 +159,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for BanListMessage answers.</returns>
         public MessageResponseHelper<IQMessage> requestBanList(string roomJid, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            BanListMessage msg = new BanListMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            BanListMessage msg = new BanListMessage(CONNECTION.account.getFullJid(), roomJid);
             helper.start(msg);
             return helper;
         }
@@ -174,8 +175,8 @@ namespace XMPP_API.Classes
         /// <returns>Returns a MessageResponseHelper listening for UpdateBanListMessage answers.</returns>
         public MessageResponseHelper<IQMessage> updateBanList(string roomJid, List<BanedUser> changedUsers, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CLIENT, onMessage, onTimeout);
-            UpdateBanListMessage msg = new UpdateBanListMessage(CLIENT.getXMPPAccount().getFullJid(), roomJid, changedUsers);
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            UpdateBanListMessage msg = new UpdateBanListMessage(CONNECTION.account.getFullJid(), roomJid, changedUsers);
             helper.start(msg);
             return helper;
         }

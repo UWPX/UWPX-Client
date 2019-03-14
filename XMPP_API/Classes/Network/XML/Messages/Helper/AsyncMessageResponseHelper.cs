@@ -56,6 +56,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         public async Task<MessageResponseHelperResult<T>> startAsync(AbstractMessage msg)
         {
             done = false;
+            sendId = msg.ID;
+            completionSource = new TaskCompletionSource<MessageResponseHelperResult<T>>();
+
             MESSAGE_SENDER.NewValidMessage += MESSAGE_SENDER_NewValidMessage;
 
             bool success = await MESSAGE_SENDER.sendAsync(msg, CACHE_IF_NOT_CONNECTED);
@@ -98,8 +101,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         #region --Misc Methods (Private)--
         private async Task<MessageResponseHelperResult<T>> waitForCompletionAsync()
         {
-            // Create all tasks:
-            completionSource = new TaskCompletionSource<MessageResponseHelperResult<T>>();
             timeoutTask = Task.Delay(TIMEOUT);
 
             // Wait for completion:
@@ -140,6 +141,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
             await METHOD_SEMA.WaitAsync();
             if (disposed || done)
             {
+                METHOD_SEMA.Release();
                 return;
             }
 
@@ -147,6 +149,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
             {
                 if (matchId && !string.Equals(sendId, msg.ID))
                 {
+                    METHOD_SEMA.Release();
                     return;
                 }
 

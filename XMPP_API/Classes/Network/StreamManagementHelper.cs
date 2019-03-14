@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 
@@ -12,7 +8,7 @@ namespace XMPP_API.Classes.Network
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -35,15 +31,19 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task onMessageReceivedAsync(AbstractMessage msg)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
-            if(msg is SMRequestMessage reqMsg)
+            if (msg is SMRequestMessage reqMsg)
             {
 
             }
         }
 
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         public async Task onMessageSend(AbstractMessage msg)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
 
         }
