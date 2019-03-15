@@ -147,10 +147,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     AccountText = chat.userAccountId;
                 }
-                else
-                {
-                    MarkChatMessagesAsRead(chat);
-                }
 
                 if (chat.chatType == ChatType.MUC)
                 {
@@ -293,8 +289,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     CHAT_MESSAGES.AddRange(msgs);
                     CHAT_MESSAGES_SEMA.Release();
                 }
-
                 IsLoadingChatMessages = false;
+
+                MarkChatMessagesAsRead(chat);
             });
         }
 

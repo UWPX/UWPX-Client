@@ -52,6 +52,7 @@
         </Border>
 
         <controls:DropShadowPanel Grid.Row="1"
+                                  Margin="0,-10,0,0"
                                   HorizontalAlignment="Right"
                                   Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateUnreadVisabilityValueConverter}}">
             <Ellipse x:Name="readStatus_elipse"
