@@ -335,6 +335,7 @@
     <Content Include="Assets\Images\placeholder.png" />
     <Content Include="Assets\Images\pp.png" />
     <Content Include="Assets\Images\send.png" />
+    <Content Include="Assets\Images\send_encrypted.png" />
     <Content Include="Assets\Images\SplashScreen\splash_screen_1000.png" />
     <Content Include="Assets\Images\SplashScreen\splash_screen_2000.png" />
     <Content Include="Assets\Images\SplashScreen\splash_screen_3000.png" />

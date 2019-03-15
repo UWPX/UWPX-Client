@@ -72,6 +72,19 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        public AccountTable getAccount(string id)
+        {
+            IList<AccountTable> list = dB.Query<AccountTable>(true, "SELECT * FROM " + DBTableConsts.ACCOUNT_TABLE + " WHERE id = ?;", id);
+            if (list.Count < 1)
+            {
+                return null;
+            }
+            else
+            {
+                return list[0];
+            }
+        }
+
         /// <summary>
         /// Sets the disabled property of account and triggers the AccountChanged event.
         /// </summary>

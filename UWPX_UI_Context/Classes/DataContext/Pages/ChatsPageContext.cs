@@ -154,6 +154,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #region --Events--
         private void ToastHelper_OnChatMessageToast(OnChatMessageToastEventArgs args)
         {
+            if (!args.Cancel && args.toasterTypeOverride == ChatMessageToasterType.FULL)
+            {
+                args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
+            }
         }
 
         private void INSTANCE_MUCInfoChanged(MUCDBManager handler, Data_Manager2.Classes.Events.MUCInfoChangedEventArgs args)

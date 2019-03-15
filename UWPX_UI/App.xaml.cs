@@ -6,6 +6,7 @@ using Logging;
 using Microsoft.AppCenter.Push;
 using System;
 using System.Text;
+using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
@@ -17,6 +18,9 @@ using Windows.UI.Notifications;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI
 {
@@ -104,10 +108,95 @@ namespace UWPX_UI
             Window.Current.Activate();
         }
 
+        private async Task SendChatMessageAsync(ChatTable chat, string message)
+        {
+            AccountTable account = AccountDBManager.INSTANCE.getAccount(chat.userAccountId);
+            if (account is null)
+            {
+                Logger.Warn("Unable to send message - no such account: " + chat.userAccountId);
+                return;
+            }
+
+            string fromBareJid = account.userId + '@' + account.domain;
+            string fromFullJid = fromBareJid + '/' + account.resource;
+            string to = chat.chatJabberId;
+            string chatType = chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
+            bool reciptRequested = true;
+
+            MessageMessage toSendMsg;
+            if (chat.omemoEnabled)
+            {
+                if (chat.chatType == ChatType.CHAT)
+                {
+                    toSendMsg = new OmemoMessageMessage(fromFullJid, to, message, chatType, reciptRequested);
+                }
+                else
+                {
+                    // ToDo: Add MUC OMEMO support
+                    throw new NotImplementedException("Sending encrypted messages for MUC is not supported right now!");
+                }
+            }
+            else
+            {
+                if (chat.chatType == ChatType.CHAT)
+                {
+                    toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, reciptRequested);
+                }
+                else
+                {
+                    MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
+                    toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, mucInfo.nickname, reciptRequested);
+                }
+            }
+
+            // Create a copy for the DB:
+            ChatMessageTable toSendMsgDB = new ChatMessageTable(toSendMsg, chat)
+            {
+                state = toSendMsg is OmemoMessageMessage ? MessageState.TO_ENCRYPT : MessageState.SENDING
+            };
+
+            // Set the chat message id for later identification:
+            toSendMsg.chatMessageId = toSendMsgDB.id;
+
+            // Update chat last active:
+            chat.lastActive = DateTime.Now;
+
+            // Update DB:
+            ChatDBManager.INSTANCE.setChatMessage(toSendMsgDB, true, false);
+            ChatDBManager.INSTANCE.setChat(chat, false, true);
+
+            Logger.Info("Added to send message in background");
+
+            if (isRunning)
+            {
+                XMPPClient client = ConnectionHandler.INSTANCE.getClient(fromBareJid);
+                if (client is null)
+                {
+                    Logger.Error("Unable to send message in background - no such client: " + fromBareJid);
+                }
+                else
+                {
+                    // Send the message:
+                    if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
+                    {
+                        await client.sendOmemoMessageAsync(toSendOmemoMsg, chat.chatJabberId, client.getXMPPAccount().getBareJid());
+                    }
+                    else
+                    {
+                        await client.sendAsync(toSendMsg);
+                    }
+                }
+            }
+            else
+            {
+                ToastHelper.showWillBeSendLaterToast(chat);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void OnBackgroundActivated(BackgroundActivatedEventArgs args)
+        protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
             var deferral = args.TaskInstance.GetDeferral();
 
@@ -137,17 +226,10 @@ namespace UWPX_UI
                         else if (abstractToastActivation is SendReplyToastActivation sendReply)
                         {
                             ChatTable chat = ChatDBManager.INSTANCE.getChat(sendReply.CHAT_ID);
-                            if (chat != null && userInput[ToastHelper.TEXT_BOX_ID] != null)
+                            if (!(chat is null) && userInput[ToastHelper.TEXT_BOX_ID] is string text)
                             {
-                                // ToDo: Send reply
-                                if (isRunning)
-                                {
-
-                                }
-                                else
-                                {
-
-                                }
+                                string trimedText = text.Trim(UiUtils.TRIM_CHARS);
+                                await SendChatMessageAsync(chat, trimedText);
                             }
                         }
                     }

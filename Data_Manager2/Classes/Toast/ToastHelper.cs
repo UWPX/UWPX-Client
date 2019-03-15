@@ -15,7 +15,9 @@ namespace Data_Manager2.Classes.Toast
         private const string DEFAULT_MUC_IMAGE_PATH = "Assets/Images/default_muc_image.png";
         private const string DEFAULT_USER_IMAGE_PATH = "Assets/Images/default_user_image.png";
         private const string SEND_BUTTON_IMAGE_PATH = "Assets/Images/send.png";
+        private const string SEND_BUTTON_ENCRYPTED_IMAGE_PATH = "Assets/Images/send_encrypted.png";
         public const string TEXT_BOX_ID = "msg_tbx";
+        public const string WILL_BE_SEND_LATER_TOAST_GROUP = "will_be_send_later";
 
         private static readonly TimeSpan VIBRATE_TS = TimeSpan.FromMilliseconds(150);
 
@@ -41,6 +43,31 @@ namespace Data_Manager2.Classes.Toast
         public static void removeToastGroup(string group)
         {
             ToastNotificationManager.History.RemoveGroup(group);
+        }
+
+        public static void showWillBeSendLaterToast(ChatTable chat)
+        {
+            var toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText()
+                            {
+                                Text = "Your message will be send when the app is started again.",
+                                HintMaxLines = 1
+                            }
+                        }
+                    }
+                },
+                DisplayTimestamp = DateTime.Now,
+            };
+
+            removeToastGroup(WILL_BE_SEND_LATER_TOAST_GROUP);
+            popToast(toastContent, chat, WILL_BE_SEND_LATER_TOAST_GROUP);
         }
 
         public static void showChatTextToast(ChatMessageTable msg, ChatTable chat)
@@ -122,14 +149,24 @@ namespace Data_Manager2.Classes.Toast
         #region --Misc Methods (Private)--
         private static void popToast(ToastContent content, ChatTable chat)
         {
+            popToast(content, chat, chat.id);
+        }
+
+        private static void popToast(ToastContent content, ChatTable chat, string group)
+        {
             ToastNotification toast = new ToastNotification(content.GetXml())
             {
-                Group = chat.id
+                Group = group
             };
 
             OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, chat);
             OnChatMessageToast?.Invoke(args);
 
+            popToast(toast, args);
+        }
+
+        private static void popToast(ToastNotification toast, OnChatMessageToastEventArgs args)
+        {
             switch (args.toasterTypeOverride)
             {
                 case ChatMessageToasterType.FULL:
@@ -160,21 +197,21 @@ namespace Data_Manager2.Classes.Toast
         {
             return new ToastActionsCustom
             {
-                /*Inputs =
+                Inputs =
                 {
                     new ToastTextBox(TEXT_BOX_ID)
                     {
                         PlaceholderContent = "Reply"
                     }
-                },*/
+                },
                 Buttons =
                 {
-                    /*new ToastButton("Send", new SendReplyToastActivation(chat.id, false).generate())
+                    new ToastButton("Send", new SendReplyToastActivation(chat.id, false).generate())
                     {
                         ActivationType = ToastActivationType.Background,
-                        ImageUri = SEND_BUTTON_IMAGE_PATH,
+                        ImageUri = chat.omemoEnabled ? SEND_BUTTON_ENCRYPTED_IMAGE_PATH : SEND_BUTTON_IMAGE_PATH,
                         TextBoxId = TEXT_BOX_ID,
-                    },*/
+                    },
                     new ToastButton("Mark chat as read", new MarkChatAsReadToastActivation(chat.id, false).generate())
                     {
                         ActivationType = ToastActivationType.Background

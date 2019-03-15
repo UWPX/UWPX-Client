@@ -170,16 +170,6 @@ namespace XMPP_API.Classes
             }
         }
 
-        /// <summary>
-        /// Starts a new Task and calls sendAsync(...)
-        /// </summary>
-        /// <param name="msg">The MessageMessage object that should get send.</param>
-        /// <returns>The created Task object.</returns>
-        public Task sendMessage(MessageMessage msg)
-        {
-            return Task.Run(async () => await connection.sendAsync(msg, true, false));
-        }
-
         public async Task<bool> sendAsync(AbstractMessage msg)
         {
             return await sendAsync(msg, false);
