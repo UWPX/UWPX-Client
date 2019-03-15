@@ -24,15 +24,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubSubscriptionMessage(XmlNode n) : base(n)
         {
-            XmlNode subNode = XMLUtils.getChildNode(n, "subscription");
-            if (subNode != null)
+            XmlNode pubSub = getPubSubNode(n);
+            if (!(pubSub is null))
             {
-                this.NODE_NAME = subNode.Attributes["node"]?.Value;
-                this.JID = subNode.Attributes["jid"]?.Value;
-                this.SUBID = subNode.Attributes["subid"]?.Value;
-                if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
+                XmlNode subNode = XMLUtils.getChildNode(pubSub, "subscription");
+                if (!(subNode is null))
                 {
-                    this.SUBSCRIPTION = PubSubSubscriptionState.NONE;
+                    this.NODE_NAME = subNode.Attributes["node"]?.Value;
+                    this.JID = subNode.Attributes["jid"]?.Value;
+                    this.SUBID = subNode.Attributes["subid"]?.Value;
+                    if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
+                    {
+                        this.SUBSCRIPTION = PubSubSubscriptionState.NONE;
+                    }
                 }
             }
         }

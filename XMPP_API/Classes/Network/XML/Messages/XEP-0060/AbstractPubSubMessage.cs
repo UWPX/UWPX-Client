@@ -46,6 +46,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
             return Consts.XML_XEP_0060_NAMESPACE;
         }
 
+        protected XmlNode getPubSubNode(XmlNode node)
+        {
+            return XMLUtils.getChildNode(node, "pubsub", Consts.XML_XMLNS, Consts.XML_XEP_0060_NAMESPACE);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
