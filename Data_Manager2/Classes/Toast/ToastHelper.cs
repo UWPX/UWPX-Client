@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
+using Shared.Classes;
 using System;
 using Windows.Foundation.Metadata;
 using Windows.Phone.Devices.Notification;
@@ -191,6 +192,7 @@ namespace Data_Manager2.Classes.Toast
             {
                 VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
             }
+            SharedUtils.PlaySoundFromUri("ms-winsoundevent:Notification.Default");
         }
 
         private static ToastActionsCustom getActions(ChatMessageTable msg, ChatTable chat)

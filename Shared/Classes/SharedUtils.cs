@@ -2,6 +2,8 @@
 using System;
 using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
+using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Core;
 
 namespace Shared.Classes
@@ -118,6 +120,21 @@ namespace Shared.Classes
                     }
                 }
             } while (true);
+        }
+
+        /// <summary>
+        /// Creates a MediaPlayer object and plays the given sound.
+        /// </summary>
+        /// <param name="s">The URI sound path.</param>
+        /// <returns>The created MediaPlayer object, that plays the requested sound.</returns>
+        public static MediaPlayer PlaySoundFromUri(string uri)
+        {
+            MediaPlayer player = new MediaPlayer()
+            {
+                Source = MediaSource.CreateFromUri(new Uri("ms-winsoundevent:Notification.Default"))
+            };
+            player.Play();
+            return player;
         }
 
         #endregion
