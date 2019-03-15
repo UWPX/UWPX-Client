@@ -270,16 +270,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                 loadChatMessagesTask = Task.Run(() =>
                 {
-                    foreach (ChatMessageTable msg in ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id))
+                    IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id);
+                    for (int i = 0; i < list.Count && !loadChatMessagesCancelToken.IsCancellationRequested; i++)
                     {
                         msgs.Add(new ChatMessageDataTemplate
                         {
-                            Message = msg,
+                            Message = list[i],
                             Chat = chat,
                             MUC = muc
                         });
                     }
-                }, loadChatMessagesCancelToken.Token);
+                });
 
                 await loadChatMessagesTask;
 
@@ -291,7 +292,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 }
                 IsLoadingChatMessages = false;
 
-                MarkChatMessagesAsRead(chat);
+                if (!loadChatMessagesCancelToken.IsCancellationRequested)
+                {
+                    MarkChatMessagesAsRead(chat);
+                }
             });
         }
 
