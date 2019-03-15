@@ -228,7 +228,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
 
             OmemoSession omemoSession = new OmemoSession(BOB_ADDRESS.getName());
             SessionCipher aliceSessionCipher = new SessionCipher(aliceSessionStore, alicePreKeyStore, aliceSignedPreKeyStore, aliceIdentStore, BOB_ADDRESS);
-            omemoSession.DEVICE_SESSIONS.Add(BOB_ADDRESS.getDeviceId(), aliceSessionCipher);
+            omemoSession.DEVICE_SESSIONS_REMOTE.Add(BOB_ADDRESS.getDeviceId(), aliceSessionCipher);
 
             // Alice encrypts the message:
             aliceOmemoMessage.encrypt(omemoSession, ALICE_ADDRESS.getDeviceId());
