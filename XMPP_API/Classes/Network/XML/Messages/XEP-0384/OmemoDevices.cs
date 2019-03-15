@@ -1,10 +1,10 @@
-﻿using System;
+﻿using libsignal;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
-using System.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
-using libsignal;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -78,7 +78,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         {
                             if (string.Equals(device.Name, "device") && device.Attributes["id"] != null)
                             {
-                                if (uint.TryParse(device.Attributes["id"].Value, out uint d))
+                                if (uint.TryParse(device.Attributes["id"].Value, out uint d) && d != 0)
                                 {
                                     IDS.Add(d);
                                 }
