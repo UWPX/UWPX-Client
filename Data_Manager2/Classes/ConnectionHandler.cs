@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML;
@@ -516,13 +517,13 @@ namespace Data_Manager2.Classes
                 OmemoHelper helper = client.getOmemoHelper();
                 if (helper is null)
                 {
-                    C_OmemoSessionBuildError(client, new XMPP_API.Classes.Events.OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    C_OmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
                     Logger.Error("Failed to decrypt OMEMO message - OmemoHelper is null");
                     return;
                 }
                 else if (!client.getXMPPAccount().checkOmemoKeys())
                 {
-                    C_OmemoSessionBuildError(client, new XMPP_API.Classes.Events.OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
+                    C_OmemoSessionBuildError(client, new OmemoSessionBuildErrorEventArgs(id, OmemoSessionBuildError.KEY_ERROR, new List<OmemoMessageMessage> { omemoMessage }));
                     Logger.Error("Failed to decrypt OMEMO message - keys are corrupted");
                     return;
                 }
@@ -644,11 +645,7 @@ namespace Data_Manager2.Classes
                             case MessageMessage.TYPE_CHAT:
                                 if (!message.isCC)
                                 {
-                                    if (message.isEncrypted)
-                                    {
-                                        ToastHelper.showChatTextEncryptedToast(message, chat);
-                                    }
-                                    else if (message.isImage)
+                                    if (message.isImage)
                                     {
                                         ToastHelper.showChatTextImageToast(message, chat);
                                     }

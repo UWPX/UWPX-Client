@@ -78,41 +78,6 @@ namespace Data_Manager2.Classes.Toast
             popToast(toastContent, chat);
         }
 
-        public static void showChatTextEncryptedToast(ChatMessageTable msg, ChatTable chat)
-        {
-            var toastContent = new ToastContent
-            {
-                Visual = new ToastVisual
-                {
-                    BindingGeneric = new ToastBindingGeneric
-                    {
-                        Children =
-                        {
-                            new AdaptiveText()
-                            {
-                                Text = chat.chatJabberId,
-                                HintMaxLines = 1
-                            },
-                            new AdaptiveText()
-                            {
-                                Text = "You received an encrypted message!"
-                            }
-                        },
-                        AppLogoOverride = new ToastGenericAppLogo
-                        {
-                            Source = chat.chatType == ChatType.CHAT ? DEFAULT_USER_IMAGE_PATH : DEFAULT_MUC_IMAGE_PATH,
-                            HintCrop = ToastGenericAppLogoCrop.Circle
-                        }
-                    }
-                },
-                Actions = getActions(msg, chat),
-                DisplayTimestamp = msg.date,
-                Launch = new ChatToastActivation(chat.id, false).generate()
-            };
-
-            popToast(toastContent, chat);
-        }
-
         public static void showChatTextImageToast(ChatMessageTable msg, ChatTable chat)
         {
             var toastContent = new ToastContent

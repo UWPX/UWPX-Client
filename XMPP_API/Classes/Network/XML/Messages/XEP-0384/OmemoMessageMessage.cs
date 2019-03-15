@@ -143,10 +143,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <param name="helper">The current OmemoHelper object of the current account.</param>
         /// <param name="localeDeciceId">The local device id.</param>
         /// <returns>True on success.</returns>
-        public Task<bool> decryptAsync(OmemoHelper helper, uint localeDeciceId)
+        public async Task<bool> decryptAsync(OmemoHelper helper, uint localeDeciceId)
         {
             SignalProtocolAddress remoteAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
-            return decryptAsync(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
+            return await decryptAsync(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
         }
 
         /// <summary>
