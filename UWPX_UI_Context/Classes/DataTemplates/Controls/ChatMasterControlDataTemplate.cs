@@ -281,10 +281,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     LastActionIconText = "";
                     LastActionIconVisability = Visibility.Collapsed;
+                    LastActionState = MessageState.READ;
                 }
                 else
                 {
                     // Text and icon:
+                    LastActionState = lastMsg.state;
                     if (lastMsg.isImage)
                     {
                         LastActionIconText = "\uE722";
