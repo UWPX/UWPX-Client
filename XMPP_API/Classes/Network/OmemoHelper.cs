@@ -127,11 +127,25 @@ namespace XMPP_API.Classes.Network
             else
             {
                 // If not start a new session build helper:
-                OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(chatJid, accountJid, CONNECTION.account.getFullJid(), onSessionBuilderResult, CONNECTION, this);
+                OmemoSessionBuildHelper sessionHelper = new OmemoSessionBuildHelper(chatJid, accountJid, CONNECTION.account.getFullJid(), CONNECTION, this);
                 MESSAGE_CACHE[chatJid] = new Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>(new List<OmemoMessageMessage>(), sessionHelper);
                 MESSAGE_CACHE[chatJid].Item1.Add(msg);
                 Tuple<OmemoDeviceListSubscriptionState, DateTime> subscription = OMEMO_STORE.LoadDeviceListSubscription(chatJid);
-                await sessionHelper.startAsync(subscription.Item1);
+
+                OmemoSessionBuildResult result = await sessionHelper.buildSessionAsync(subscription.Item1);
+
+                if (result.SUCCESS)
+                {
+                    OMEMO_SESSIONS[result.SESSION.CHAT_JID] = result.SESSION;
+                    await sendAllOutstandingMessagesAsync(result.SESSION);
+                }
+                else
+                {
+                    OmemoSessionBuildErrorEventArgs args = new OmemoSessionBuildErrorEventArgs(chatJid, result.ERROR, MESSAGE_CACHE[chatJid]?.Item1 ?? new List<OmemoMessageMessage>());
+                    MESSAGE_CACHE.Remove(chatJid);
+                    CONNECTION.onOmemoSessionBuildError(args);
+                    Logger.Error("Failed to build OMEMO session for: " + chatJid + " with: " + result.ERROR);
+                }
             }
         }
 
@@ -151,22 +165,6 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private void onSessionBuilderResult(OmemoSessionBuildHelper sender, OmemoSessionBuildResult result)
-        {
-            if (result.SUCCESS)
-            {
-                OMEMO_SESSIONS[result.SESSION.CHAT_JID] = result.SESSION;
-                Task.Run(() => sendAllOutstandingMessagesAsync(result.SESSION));
-            }
-            else
-            {
-                OmemoSessionBuildErrorEventArgs args = new OmemoSessionBuildErrorEventArgs(sender.CHAT_JID, result.ERROR, MESSAGE_CACHE[sender.CHAT_JID]?.Item1 ?? new List<OmemoMessageMessage>());
-                CONNECTION.onOmemoSessionBuildError(args);
-                MESSAGE_CACHE.Remove(sender.CHAT_JID);
-                Logger.Error("Failed to build OMEMO session for: " + sender.CHAT_JID + " with: " + result.ERROR);
-            }
-        }
-
         private async Task sendAllOutstandingMessagesAsync(OmemoSession omemoSession)
         {
             Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper> cache = MESSAGE_CACHE[omemoSession.CHAT_JID];

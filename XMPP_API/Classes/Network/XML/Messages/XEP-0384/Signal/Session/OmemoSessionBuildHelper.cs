@@ -14,16 +14,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         #region --Attributes--
         public OmemoSessionBuildHelperState STATE { get; private set; }
 
-        private readonly Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> ON_SESSION_RESULT;
         private readonly XMPPConnection2 CONNECTION;
         public readonly string CHAT_JID;
         private readonly string BARE_ACCOUNT_JID;
         private readonly string FULL_ACCOUNT_JID;
         private readonly OmemoHelper OMEMO_HELPER;
-        private IList<SignalProtocolAddress> toDoDevicesRemote;
-        private IList<SignalProtocolAddress> toDoDevicesOwn;
-        private SignalProtocolAddress curAddress;
-        private readonly OmemoSession SESSION;
+        private OmemoSessionBuildResult sessionBuildResult;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,17 +30,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         /// <history>
         /// 10/08/2018 Created [Fabian Sauter]
         /// </history>
-        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, Action<OmemoSessionBuildHelper, OmemoSessionBuildResult> onSessionResult, XMPPConnection2 connection, OmemoHelper omemoHelper)
+        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, XMPPConnection2 connection, OmemoHelper omemoHelper)
         {
             this.CONNECTION = connection;
-            this.ON_SESSION_RESULT = onSessionResult;
             this.CHAT_JID = chatJid;
             this.BARE_ACCOUNT_JID = bareAccountJid;
             this.FULL_ACCOUNT_JID = fullAccountJid;
             this.OMEMO_HELPER = omemoHelper;
             this.STATE = OmemoSessionBuildHelperState.NOT_STARTED;
-            this.SESSION = new OmemoSession(chatJid);
-            this.curAddress = null;
         }
 
         #endregion
@@ -58,29 +51,116 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
         }
 
+        /// <summary>
+        /// Returns all own OMEMO devices except the current device:
+        /// </summary>
+        private IList<SignalProtocolAddress> getOwnOmemoDevices()
+        {
+            List<SignalProtocolAddress> ownDevices = new List<SignalProtocolAddress>();
+            if (!(OMEMO_HELPER.DEVICES is null))
+            {
+                foreach (uint i in OMEMO_HELPER.DEVICES.IDS)
+                {
+                    if (i != CONNECTION.account.omemoDeviceId)
+                    {
+                        ownDevices.Add(new SignalProtocolAddress(BARE_ACCOUNT_JID, i));
+                    }
+                }
+            }
+
+            return ownDevices;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task startAsync(OmemoDeviceListSubscriptionState subscriptionState)
+        public async Task<OmemoSessionBuildResult> buildSessionAsync(OmemoDeviceListSubscriptionState subscriptionState)
         {
-            switch (subscriptionState)
-            {
-                case OmemoDeviceListSubscriptionState.SUBSCRIBED:
-                    // Because we are subscribed, the device list should be up to date:
-                    IList<SignalProtocolAddress> devices = OMEMO_HELPER.OMEMO_STORE.LoadDevices(CHAT_JID);
-                    await createSessionsForDevicesAsync(devices);
-                    break;
+            sessionBuildResult = null;
+            IList<SignalProtocolAddress> devicesOwn = getOwnOmemoDevices();
+            IList<SignalProtocolAddress> devicesRemote;
 
-                default:
-                    await requestDeviceListAsync();
-                    break;
+            if (subscriptionState == OmemoDeviceListSubscriptionState.SUBSCRIBED)
+            {
+                // Because we are subscribed, the device list should be up to date:
+                devicesRemote = OMEMO_HELPER.OMEMO_STORE.LoadDevices(CHAT_JID);
             }
+            else
+            {
+                // Request devices and try to subscribe to list:
+                devicesRemote = await requestDeviceListAsync();
+
+                if (devicesRemote is null)
+                {
+                    return sessionBuildResult;
+                }
+
+                // Does not have to be successful:
+                await subscribeToDeviceListAsync();
+            }
+
+            // Build sessions for all devices:
+            OmemoSession session = new OmemoSession(CHAT_JID);
+            await buildSessionForDevicesAsync(session.DEVICE_SESSIONS_REMOTE, devicesRemote);
+
+            if (session.DEVICE_SESSIONS_REMOTE.Count > 0)
+            {
+                await buildSessionForDevicesAsync(session.DEVICE_SESSIONS_OWN, devicesOwn);
+                sessionBuildResult = new OmemoSessionBuildResult(session);
+            }
+            else
+            {
+                Logger.Error("Failed to establish OMEMO session with: " + CHAT_JID + ". Target does not support OMEMO - not enough OMEMO sessions!");
+                sessionBuildResult = new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO);
+            }
+
+            return sessionBuildResult;
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task requestDeviceListAsync()
+        private async Task buildSessionForDevicesAsync(Dictionary<uint, SessionCipher> sessions, IList<SignalProtocolAddress> devices)
+        {
+            if (devices.Count <= 0)
+            {
+                return;
+            }
+            SignalProtocolAddress device = devices[0];
+            devices.RemoveAt(0);
+
+            // Check if there exists already a session for this device:
+            if (OMEMO_HELPER.OMEMO_STORE.ContainsSession(device))
+            {
+                // If yes, the load it:
+                SessionCipher cipher = OMEMO_HELPER.loadCipher(device);
+                sessions.Add(device.getDeviceId(), cipher);
+
+                Logger.Info("[OmemoSessionBuildHelper] Session for " + device.ToString() + " loaded from cache.");
+            }
+            else
+            {
+                // Else try to build a new one by requesting the devices bundle information:
+                OmemoBundleInformationResultMessage bundleMsg = await requestBundleInformationAsync(device);
+
+                if (!(bundleMsg is null))
+                {
+                    SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
+                    SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
+                    sessions.Add(device.getDeviceId(), cipher);
+
+                    Logger.Info("[OmemoSessionBuildHelper] Session with " + device.ToString() + " established.");
+                }
+                else
+                {
+                    Logger.Info("[OmemoSessionBuildHelper] Unable to establish session with: " + device.ToString());
+                }
+            }
+
+            await buildSessionForDevicesAsync(sessions, devices);
+        }
+
+        private async Task<IList<SignalProtocolAddress>> requestDeviceListAsync()
         {
             setState(OmemoSessionBuildHelperState.REQUESTING_DEVICE_LIST);
 
@@ -96,14 +176,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 
                     if (devMsg.DEVICES.IDS.Count > 0)
                     {
-                        await subscribeToDeviceListAsync();
-                        await createSessionsForDevicesAsync(devMsg.DEVICES.toSignalProtocolAddressList(CHAT_JID));
+                        // On success return the device list:
+                        return devMsg.DEVICES.toSignalProtocolAddressList(CHAT_JID);
                     }
                     else
                     {
                         Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " doesn't support OMEMO: No devices");
-                        setState(OmemoSessionBuildHelperState.ERROR);
-                        ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
+                        sessionBuildResult = new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO);
                     }
                 }
                 else if (result.RESULT is IQErrorMessage errMsg)
@@ -111,24 +190,25 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                     if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
                     {
                         Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
-                        setState(OmemoSessionBuildHelperState.ERROR);
-                        ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
+                        sessionBuildResult = new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO);
                     }
                     else
                     {
                         Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request device list failed: " + errMsg.ERROR_OBJ.ToString());
-                        setState(OmemoSessionBuildHelperState.ERROR);
-                        ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_IQ_ERROR));
+                        sessionBuildResult = new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_IQ_ERROR);
                     }
                 }
             }
             else
             {
-                onRequestError(result);
+                Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
+                sessionBuildResult = new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_TIMEOUT);
             }
+            setState(OmemoSessionBuildHelperState.ERROR);
+            return null;
         }
 
-        private async Task subscribeToDeviceListAsync()
+        private async Task<bool> subscribeToDeviceListAsync()
         {
             setState(OmemoSessionBuildHelperState.SUBSCRIBING_TO_DEVICE_LIST);
 
@@ -140,38 +220,41 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 {
                     if (subMsg.SUBSCRIPTION != PubSubSubscriptionState.SUBSCRIBED)
                     {
-                        Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + CHAT_JID + " returned: " + subMsg.SUBSCRIPTION);
+                        Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + subMsg.getFrom() + " returned: " + subMsg.SUBSCRIPTION);
                         OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.NONE, DateTime.Now));
                     }
                     else
                     {
+                        Logger.Info("[OmemoSessionBuildHelper] Subscribed to device list node for: " + CHAT_JID);
                         OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
+                        return true;
                     }
                 }
                 else if (result.RESULT is IQErrorMessage errMsg)
                 {
                     if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
                     {
-                        Logger.Error("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + CHAT_JID + " returned node does not exist: " + errMsg.ERROR_OBJ.ToString());
+                        Logger.Error("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + errMsg.getFrom() + " returned node does not exist: " + errMsg.ERROR_OBJ.ToString());
                     }
                     else
                     {
-                        Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node: " + errMsg.ERROR_OBJ.ToString());
+                        Logger.Warn("[OmemoSessionBuildHelper] Failed to subscribe to device list node - " + errMsg.getFrom() + " returned: " + errMsg.ERROR_OBJ.ToString());
                     }
                     OMEMO_HELPER.OMEMO_STORE.StoreDeviceListSubscription(CHAT_JID, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.ERROR, DateTime.Now));
                 }
             }
             else
             {
-                onRequestError(result);
+                Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
             }
+            return false;
         }
 
-        private async Task requestBundleInformationAsync()
+        private async Task<OmemoBundleInformationResultMessage> requestBundleInformationAsync(SignalProtocolAddress device)
         {
             setState(OmemoSessionBuildHelperState.REQUESTING_BUNDLE_INFORMATION);
 
-            MessageResponseHelperResult<IQMessage> result = await CONNECTION.OMEMO_COMMAND_HELPER.requestBundleInformationAsync(curAddress.getName(), curAddress.getDeviceId());
+            MessageResponseHelperResult<IQMessage> result = await CONNECTION.OMEMO_COMMAND_HELPER.requestBundleInformationAsync(device.getName(), device.getDeviceId());
 
             if (result.STATE == MessageResponseHelperResultState.SUCCESS)
             {
@@ -179,121 +262,30 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 {
                     if (bundleMsg.BUNDLE_INFO.PUBLIC_PRE_KEYS.Count < 20)
                     {
-                        Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " device offered less than 20 pre keys: " + bundleMsg.BUNDLE_INFO.PUBLIC_PRE_KEYS.Count);
+                        Logger.Error("[OmemoSessionBuildHelper] Failed to request bundle information - " + device.ToString() + " device offered less than 20 pre keys: " + bundleMsg.BUNDLE_INFO.PUBLIC_PRE_KEYS.Count);
                     }
                     else
                     {
-                        Logger.Info("[OmemoSessionBuildHelper] Session with " + curAddress.getName() + ':' + curAddress.getDeviceId() + " established.");
-                        SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
-                        SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                        SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
+                        return bundleMsg;
                     }
-                    await createSessionForNextDeviceAsync();
                 }
                 else if (result.RESULT is IQErrorMessage errMsg)
                 {
                     if (errMsg.ERROR_OBJ.ERROR_NAME == ErrorName.ITEM_NOT_FOUND)
                     {
-                        Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
+                        Logger.Error("[OmemoSessionBuildHelper] Failed to request bundle information - " + device.ToString() + " doesn't support OMEMO: " + errMsg.ERROR_OBJ.ToString());
                     }
                     else
                     {
-                        Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - request bundle info failed (" + curAddress.getName() + ':' + curAddress.getDeviceId() + "): " + errMsg.ERROR_OBJ.ToString());
+                        Logger.Error("[OmemoSessionBuildHelper] Failed to request bundle information - " + device.ToString() + ": " + errMsg.ERROR_OBJ.ToString());
                     }
-                    await createSessionForNextDeviceAsync();
                 }
             }
             else
             {
-                onRequestError(result);
+                Logger.Error("[OmemoSessionBuildHelper] Failed to request bundle information - " + device.ToString() + " TIMEOUT!");
             }
-        }
-
-        private void onRequestError(MessageResponseHelperResult<IQMessage> result)
-        {
-            switch (STATE)
-            {
-                case OmemoSessionBuildHelperState.REQUESTING_DEVICE_LIST:
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
-                    setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_DEVICE_LIST_TIMEOUT));
-                    break;
-
-                case OmemoSessionBuildHelperState.SUBSCRIBING_TO_DEVICE_LIST:
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + CHAT_JID + " didn't respond in time!");
-                    setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.SUBSCRIBE_TO_DEVICE_LIST_TIMEOUT));
-                    break;
-
-                case OmemoSessionBuildHelperState.REQUESTING_BUNDLE_INFORMATION:
-                    Logger.Error("[OmemoSessionBuildHelper] Failed to establish session - " + curAddress.getName() + ':' + curAddress.getDeviceId() + " didn't respond in time!");
-                    setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.REQUEST_BUNDLE_INFORMATION_TIMEOUT));
-                    break;
-            }
-        }
-
-        private async Task createSessionsForDevicesAsync(IList<SignalProtocolAddress> remoteDevices)
-        {
-            // Add remote devices:
-            toDoDevicesRemote = remoteDevices;
-
-            // Add own devices:
-            toDoDevicesOwn = new List<SignalProtocolAddress>();
-            if (!(OMEMO_HELPER.DEVICES is null))
-            {
-                foreach (uint i in OMEMO_HELPER.DEVICES.IDS)
-                {
-                    if (i != CONNECTION.account.omemoDeviceId)
-                    {
-                        toDoDevicesOwn.Add(new SignalProtocolAddress(BARE_ACCOUNT_JID, i));
-                    }
-                }
-            }
-
-            await createSessionForNextDeviceAsync();
-        }
-
-        private async Task createSessionForNextDeviceAsync()
-        {
-            if ((toDoDevicesRemote is null || toDoDevicesRemote.Count <= 0) && (toDoDevicesOwn is null || toDoDevicesOwn.Count <= 0))
-            {
-                // All sessions created:
-                if (SESSION.DEVICE_SESSIONS.Count <= 0)
-                {
-                    setState(OmemoSessionBuildHelperState.ERROR);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(OmemoSessionBuildError.TARGET_DOES_NOT_SUPPORT_OMEMO));
-                }
-                else
-                {
-                    setState(OmemoSessionBuildHelperState.ESTABLISHED);
-                    ON_SESSION_RESULT(this, new OmemoSessionBuildResult(SESSION));
-                }
-            }
-            else
-            {
-                if (toDoDevicesRemote is null || toDoDevicesRemote.Count <= 0)
-                {
-                    curAddress = toDoDevicesOwn[0];
-                    toDoDevicesOwn.RemoveAt(0);
-                }
-                else
-                {
-                    curAddress = toDoDevicesRemote[0];
-                    toDoDevicesRemote.RemoveAt(0);
-                }
-
-                if (OMEMO_HELPER.OMEMO_STORE.ContainsSession(curAddress))
-                {
-                    SessionCipher cipher = OMEMO_HELPER.loadCipher(curAddress);
-                    SESSION.DEVICE_SESSIONS.Add(curAddress.getDeviceId(), cipher);
-                    await createSessionForNextDeviceAsync();
-                }
-                else
-                {
-                    await requestBundleInformationAsync();
-                }
-            }
+            return null;
         }
 
         #endregion

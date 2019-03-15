@@ -59,7 +59,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             UpdateView(newChat);
         }
 
-        public async Task SendChatMessageAsync(ChatDataTemplate chat)
+        public void SendChatMessage(ChatDataTemplate chat)
         {
             if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
             {
@@ -71,15 +71,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     SendDummyMessage(chat.Chat, trimedMsg);
                 }
-                else if (MODEL.OmemoEnabled)
-                {
-                    await SendChatMessageAsync(trimedMsg, chat, true);
-                    Logger.Debug("Send encrypted: " + trimedMsg);
-                }
                 else
                 {
-                    await SendChatMessageAsync(trimedMsg, chat, false);
-                    Logger.Debug("Send unencrypted: " + trimedMsg);
+                    Task.Run(async () => await SendChatMessageAsync(trimedMsg, chat, true));
+                    Logger.Debug("Sending message (encrypted=" + MODEL.OmemoEnabled + "): " + trimedMsg);
                 }
                 MODEL.MessageText = string.Empty;
             }
@@ -144,11 +139,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
             else
             {
-                await chat.Client.sendAsync(toSendMsg).ConfigureAwait(false);
+                await chat.Client.sendAsync(toSendMsg);
             }
         }
 
-        public async Task OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
+        public void OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
         {
             if (args.Key == VirtualKey.Enter)
             {
@@ -156,7 +151,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 {
                     if (!UiUtils.IsVirtualKeyDown(VirtualKey.Shift) && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
                     {
-                        await SendChatMessageAsync(chat);
+                        SendChatMessage(chat);
                         args.Handled = true;
                     }
                 }

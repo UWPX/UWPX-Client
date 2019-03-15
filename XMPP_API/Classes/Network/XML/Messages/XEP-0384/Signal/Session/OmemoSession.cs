@@ -7,7 +7,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly Dictionary<uint, SessionCipher> DEVICE_SESSIONS;
+        public readonly Dictionary<uint, SessionCipher> DEVICE_SESSIONS_OWN;
+        public readonly Dictionary<uint, SessionCipher> DEVICE_SESSIONS_REMOTE;
         public readonly string CHAT_JID;
 
         #endregion
@@ -22,7 +23,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         public OmemoSession(string chatJid)
         {
             this.CHAT_JID = chatJid;
-            this.DEVICE_SESSIONS = new Dictionary<uint, SessionCipher>();
+            this.DEVICE_SESSIONS_OWN = new Dictionary<uint, SessionCipher>();
+            this.DEVICE_SESSIONS_REMOTE = new Dictionary<uint, SessionCipher>();
         }
 
         #endregion

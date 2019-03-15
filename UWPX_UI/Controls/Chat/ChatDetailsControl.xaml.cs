@@ -167,14 +167,14 @@ namespace UWPX_UI.Controls.Chat
 
         }
 
-        private async void Send_btn_Click(object sender, RoutedEventArgs e)
+        private void Send_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SendChatMessageAsync(Chat);
+            VIEW_MODEL.SendChatMessage(Chat);
         }
 
-        private async void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
         {
-            await VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
+            VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
         }
 
         private async void ReadOnOmemo_link_Click(object sender, RoutedEventArgs e)

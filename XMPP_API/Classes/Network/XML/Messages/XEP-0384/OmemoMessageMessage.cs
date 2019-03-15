@@ -127,16 +127,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
             // 4. Encrypt the key/authTag pair with libsignal for each deviceId:
             KEYS = new List<OmemoKey>();
-            CiphertextMessage ciphertextMessage;
             Logger.Debug("[OmemoMessageMessage]: Source device id: " + SOURCE_DEVICE_ID);
-            foreach (KeyValuePair<uint, SessionCipher> pair in omemoSession.DEVICE_SESSIONS)
-            {
-                Logger.Debug("[OmemoMessageMessage]: Encrypting for deviceId: " + pair.Key);
-                ciphertextMessage = pair.Value.encrypt(keyAuthTag);
-                // Create a new OmemoKey object with the target device id, whether it's the first time the session got established and the encrypted key:
-                OmemoKey key = new OmemoKey(pair.Key, ciphertextMessage is PreKeySignalMessage, Convert.ToBase64String(ciphertextMessage.serialize()));
-                KEYS.Add(key);
-            }
+            Logger.Debug("[OmemoMessageMessage]: Encrypting for remote devices.");
+            encryptForDevices(omemoSession.DEVICE_SESSIONS_REMOTE, keyAuthTag);
+            Logger.Debug("[OmemoMessageMessage]: Encrypting for own devices.");
+            encryptForDevices(omemoSession.DEVICE_SESSIONS_OWN, keyAuthTag);
+
             ENCRYPTED = true;
         }
 
@@ -276,7 +272,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void encryptForDevices(Dictionary<uint, SessionCipher> devices, byte[] keyAuthTag)
+        {
+            CiphertextMessage ciphertextMessage;
+            foreach (KeyValuePair<uint, SessionCipher> pair in devices)
+            {
+                Logger.Debug("[OmemoMessageMessage]: Encrypting for deviceId: " + pair.Key);
+                ciphertextMessage = pair.Value.encrypt(keyAuthTag);
+                // Create a new OmemoKey object with the target device id, whether it's the first time the session got established and the encrypted key:
+                OmemoKey key = new OmemoKey(pair.Key, ciphertextMessage is PreKeySignalMessage, Convert.ToBase64String(ciphertextMessage.serialize()));
+                KEYS.Add(key);
+            }
+        }
 
         #endregion
 
