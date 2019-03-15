@@ -84,7 +84,9 @@
         <!--  Infos:  -->
         <local:SpeechBubbleStatusBarControl Grid.Row="1"
                                             Margin="0,5,0,0"
+                                            HorizontalAlignment="Stretch"
                                             VerticalAlignment="Bottom"
+                                            HorizontalContentAlignment="Right"
                                             ContextFlyout="{StaticResource options_mfo}"
                                             ViewModel="{x:Bind SpeechBubbleContentViewModel, Mode=OneWay}"/>
     </Grid>

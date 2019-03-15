@@ -241,6 +241,7 @@
     <Compile Include="Classes\ValueConverter\MessageStateBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateGlyphTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateIsDeliveredVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MessageStateEncryptingVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MessageStateUnreadVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MucStateMucJoinVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\MucStateMucLeaveVisabilityValueConverter.cs" />
