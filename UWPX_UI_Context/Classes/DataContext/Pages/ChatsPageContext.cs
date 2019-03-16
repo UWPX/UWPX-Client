@@ -156,7 +156,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             if (!args.Cancel && args.toasterTypeOverride == ChatMessageToasterType.FULL)
             {
-                args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
+                // args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
             }
         }
 

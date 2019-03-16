@@ -68,11 +68,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
             return Guid.NewGuid().ToString();
         }
 
-        public bool shouldSaveUntilSend()
-        {
-            return cacheUntilSend;
-        }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

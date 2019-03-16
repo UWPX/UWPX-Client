@@ -145,6 +145,32 @@ namespace Data_Manager2.Classes.DBTables
             return msgId + '_' + chatId + "_error";
         }
 
+        public MessageMessage toXmppMessage(string fromFullJid, ChatTable chat)
+        {
+            MessageMessage msg;
+            switch (type)
+            {
+                case MessageMessage.TYPE_GROUPCHAT:
+                    msg = new MessageMessage(fromFullJid, chat.chatJabberId, message, type, fromUser, true);
+                    break;
+
+                default:
+                    if (isEncrypted)
+                    {
+                        msg = new OmemoMessageMessage(fromFullJid, chat.chatJabberId, message, type, true);
+                    }
+                    else
+                    {
+                        msg = new MessageMessage(fromFullJid, chat.chatJabberId, message, type, true);
+                    }
+                    break;
+            }
+
+            msg.addDelay(date);
+            msg.chatMessageId = id;
+            return msg;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

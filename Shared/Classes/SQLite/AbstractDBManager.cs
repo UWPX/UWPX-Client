@@ -27,7 +27,9 @@ namespace Shared.Classes.SQLite
         {
             if (RESET_DB_ON_STARTUP)
             {
+#pragma warning disable CS0162 // Unreachable code detected
                 dropTables();
+#pragma warning restore CS0162 // Unreachable code detected
             }
             createTables();
         }

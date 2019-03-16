@@ -190,6 +190,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             delay = DateTime.Now;
         }
 
+        public void addDelay(DateTime date)
+        {
+            delay = date;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

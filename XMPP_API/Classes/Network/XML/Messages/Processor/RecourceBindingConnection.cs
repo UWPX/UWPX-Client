@@ -78,7 +78,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             setMessageProcessed(args);
                             BindResourceMessage bindMsg = new BindResourceMessage(XMPP_CONNECTION.account.user.resourcePart);
                             id = bindMsg.ID;
-                            await XMPP_CONNECTION.sendAsync(bindMsg, false, true);
+                            await XMPP_CONNECTION.sendAsync(bindMsg, true);
                             state = RecourceBindingState.BINDING;
                         }
                     }
@@ -91,7 +91,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             stopListeningForMessages();
                             setMessageProcessed(args);
-                            XMPP_CONNECTION.sendAsync(new StartSessionMessage(), false, true).Wait();
+                            XMPP_CONNECTION.sendAsync(new StartSessionMessage(), true).Wait();
                             state = RecourceBindingState.BOUND;
                             ResourceBound?.Invoke(this, new EventArgs());
                         }

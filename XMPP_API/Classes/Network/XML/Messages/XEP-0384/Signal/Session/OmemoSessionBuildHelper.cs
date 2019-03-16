@@ -78,14 +78,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         {
             sessionBuildResult = null;
             IList<SignalProtocolAddress> devicesOwn = getOwnOmemoDevices();
-            IList<SignalProtocolAddress> devicesRemote;
+            IList<SignalProtocolAddress> devicesRemote = null;
 
             if (subscriptionState == OmemoDeviceListSubscriptionState.SUBSCRIBED)
             {
                 // Because we are subscribed, the device list should be up to date:
                 devicesRemote = OMEMO_HELPER.OMEMO_STORE.LoadDevices(CHAT_JID);
             }
-            else
+
+            if(devicesRemote is null || devicesRemote.Count <= 0)
             {
                 // Request devices and try to subscribe to list:
                 devicesRemote = await requestDeviceListAsync();

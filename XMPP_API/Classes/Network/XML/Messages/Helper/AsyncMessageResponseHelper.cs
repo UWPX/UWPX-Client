@@ -11,7 +11,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         private readonly Predicate<T> IS_VALID_ANSWER;
 
         private readonly IMessageSender MESSAGE_SENDER;
-        private readonly bool CACHE_IF_NOT_CONNECTED;
         private readonly SemaphoreSlim METHOD_SEMA = new SemaphoreSlim(1, 1);
 
         /// <summary>
@@ -30,13 +29,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public AsyncMessageResponseHelper(IMessageSender messageSender, Predicate<T> isValidAnswer) : this(messageSender, isValidAnswer, false) { }
-
-        public AsyncMessageResponseHelper(IMessageSender messageSender, Predicate<T> isValidAnswer, bool cacheIfNotConnected)
+        public AsyncMessageResponseHelper(IMessageSender messageSender, Predicate<T> isValidAnswer)
         {
             this.MESSAGE_SENDER = messageSender;
             this.IS_VALID_ANSWER = isValidAnswer;
-            this.CACHE_IF_NOT_CONNECTED = cacheIfNotConnected;
         }
 
         #endregion
@@ -61,13 +57,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
 
             MESSAGE_SENDER.NewValidMessage += MESSAGE_SENDER_NewValidMessage;
 
-            bool success = await MESSAGE_SENDER.sendAsync(msg, CACHE_IF_NOT_CONNECTED);
+            bool success = await MESSAGE_SENDER.sendAsync(msg);
             if (!success)
             {
-                if (CACHE_IF_NOT_CONNECTED)
-                {
-                    return new MessageResponseHelperResult<T>(MessageResponseHelperResultState.WILL_SEND_LATER);
-                }
                 return new MessageResponseHelperResult<T>(MessageResponseHelperResultState.SEND_FAILED);
             }
 

@@ -105,7 +105,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             setMessageProcessed(args);
                             SMEnableMessage enableMsg = new SMEnableMessage();
-                            await XMPP_CONNECTION.sendAsync(enableMsg, false, true);
+                            await XMPP_CONNECTION.sendAsync(enableMsg, true);
                             serverSMEnabled = true;
                             state = SMState.REQUESTED;
                         }

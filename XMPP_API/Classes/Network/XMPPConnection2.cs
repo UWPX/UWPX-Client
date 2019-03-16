@@ -9,8 +9,6 @@ using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
-using XMPP_API.Classes.Network.XML.DBEntries;
-using XMPP_API.Classes.Network.XML.DBManager;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
@@ -228,23 +226,12 @@ namespace XMPP_API.Classes.Network
         }
 
         /// <summary>
-        /// Sends the given message to the server if connected.
-        /// </summary>
-        /// <param name="msg">The message to send.</param>
-        /// <returns>True if the message got send and didn't got cached.</returns>
-        public async Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
-        {
-            return await sendAsync(msg, cacheIfNotConnected, false);
-        }
-
-        /// <summary>
         /// Sends the given message to the server or stores it until there is a connection to the server.
         /// </summary>
         /// <param name="msg">The message to send.</param>
-        /// <param name="cacheIfNotConnected">Cache the message if the connection state does not equals 'CONNECTED', to ensure the message doesn't get lost.</param>
         /// <param name="sendIfNotConnected">Sends the message if the underlaying TCP connection is connected to the server and ignores the connection state of the XMPPConnection.</param>
         /// <returns>True if the message got send and didn't got cached.</returns>
-        public async Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected, bool sendIfNotConnected)
+        public async Task<bool> sendAsync(AbstractMessage msg, bool sendIfNotConnected)
         {
             if (state == ConnectionState.CONNECTING)
             {
@@ -262,10 +249,6 @@ namespace XMPP_API.Classes.Network
                     Logger.Warn("[XMPPConnection2]: Did not send message, due to connection state is " + state);
                 }
 
-                if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
-                {
-                    MessageCacheDBManager.INSTANCE.addMessage(account.getBareJid(), msg);
-                }
                 if (!sendIfNotConnected)
                 {
                     return false;
@@ -295,11 +278,6 @@ namespace XMPP_API.Classes.Network
             catch (Exception e)
             {
                 Logger.Error("[XMPPConnection2]: Error during sending message for account: " + account.getBareJid(), e);
-            }
-
-            if ((cacheIfNotConnected || msg.shouldSaveUntilSend()))
-            {
-                MessageCacheDBManager.INSTANCE.addMessage(account.getBareJid(), msg);
             }
             return false;
         }
@@ -343,41 +321,6 @@ namespace XMPP_API.Classes.Network
             TCP_CONNECTION.disconnect();
 
             setState(ConnectionState.DISCONNECTED);
-        }
-
-        /// <summary>
-        /// Sends all outstanding messages to the server.
-        /// </summary>
-        private async Task sendAllOutstandingMessagesAsync()
-        {
-            List<MessageCacheTable> list = MessageCacheDBManager.INSTANCE.getAllForAccount(account.getBareJid());
-            foreach (MessageCacheTable entry in list)
-            {
-                if (state != ConnectionState.CONNECTED)
-                {
-                    return;
-                }
-                try
-                {
-                    if (entry.messageId != null)
-                    {
-                        messageIdCache.addTimed(entry.messageId);
-                    }
-                    if (await TCP_CONNECTION.sendAsync(entry.message))
-                    {
-                        MessageCacheDBManager.INSTANCE.removeEntry(entry);
-
-                        // Only trigger onMessageSend(...) for chat messages:
-                        if (entry.isChatMessage)
-                        {
-                            onMessageSend(entry.messageId, entry.chatMessageId, true);
-                        }
-                    }
-                }
-                catch
-                {
-                }
-            }
         }
 
         /// <summary>
@@ -517,7 +460,7 @@ namespace XMPP_API.Classes.Network
         private async Task softRestartAsync()
         {
             OpenStreamMessage openStreamMessage = new OpenStreamMessage(account.getBareJid(), account.user.domainPart);
-            await sendAsync(openStreamMessage, false, true);
+            await sendAsync(openStreamMessage, true);
         }
 
         /// <summary>
@@ -677,11 +620,9 @@ namespace XMPP_API.Classes.Network
             stopConnectionTimer();
 
             // Send the initial presence message:
-            await sendAsync(new PresenceMessage(account.presencePriorety, account.presence, account.status), false, true);
+            await sendAsync(new PresenceMessage(account.presencePriorety, account.presence, account.status), true);
 
             setState(ConnectionState.CONNECTED);
-
-            await sendAllOutstandingMessagesAsync();
         }
 
         private async void TCPConnection_NewDataReceived(TCPConnection2 connection, NewDataReceivedEventArgs args)

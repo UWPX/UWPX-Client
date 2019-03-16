@@ -283,7 +283,50 @@ namespace Data_Manager2.Classes
                 client.PUB_SUB_COMMAND_HELPER.requestBookmars_xep_0048(null, null);
                 MUCHandler.INSTANCE.onClientConnected(client);
                 ClientConnected?.Invoke(this, new ClientConnectedEventArgs(client));
+                await sendOutsandingChatMessagesAsync(client);
             });
+        }
+
+        private async Task sendOutsandingChatMessagesAsync(XMPPClient client)
+        {
+            IList<ChatMessageTable> toSend = ChatDBManager.INSTANCE.getChatMessages(client.getXMPPAccount().getBareJid(), MessageState.SENDING);
+            await sendOutsandingChatMessagesAsync(client, toSend);
+
+            IList<ChatMessageTable> toEncrypt = ChatDBManager.INSTANCE.getChatMessages(client.getXMPPAccount().getBareJid(), MessageState.TO_ENCRYPT);
+            await sendOutsandingChatMessagesAsync(client, toEncrypt);
+        }
+
+        /// <summary>
+        /// Sends all chat messages passed to it.
+        /// </summary>
+        /// <param name="client">The XMPPClient that should be used to send the messages.</param>
+        /// <param name="messages">A list of chat messages to send. They SHOULD be sorted by their chatId for optimal performance.</param>
+        private async Task sendOutsandingChatMessagesAsync(XMPPClient client, IList<ChatMessageTable> messages)
+        {
+            ChatTable chat = null;
+            foreach (ChatMessageTable msgDb in messages)
+            {
+                if (chat is null || !string.Equals(chat.id, msgDb.chatId))
+                {
+                    chat = ChatDBManager.INSTANCE.getChat(msgDb.chatId);
+
+                    if (chat is null)
+                    {
+                        Logger.Warn("Unable to send outstanding chat message for: " + msgDb.chatId + " - no such chat.");
+                        continue;
+                    }
+                }
+                MessageMessage msg = msgDb.toXmppMessage(client.getXMPPAccount().getFullJid(), chat);
+
+                if (msg is OmemoMessageMessage omemoMsg)
+                {
+                    await client.sendOmemoMessageAsync(omemoMsg, chat.chatJabberId, client.getXMPPAccount().getBareJid());
+                }
+                else
+                {
+                    await client.sendAsync(msg);
+                }
+            }
         }
 
         /// <summary>
@@ -626,7 +669,7 @@ namespace Data_Manager2.Classes
                 await Task.Run(async () =>
                 {
                     DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
-                    await client.sendAsync(receiptMessage, true);
+                    await client.sendAsync(receiptMessage);
                 });
             }
 

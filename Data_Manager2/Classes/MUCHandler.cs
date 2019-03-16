@@ -116,7 +116,7 @@ namespace Data_Manager2.Classes
             string from = client.getXMPPAccount().getFullJid();
             string to = muc.chatJabberId + '/' + info.nickname;
             LeaveRoomMessage msg = new LeaveRoomMessage(from, to);
-            await client.sendAsync(msg, false);
+            await client.sendAsync(msg);
         }
 
         private void enterAllMUCs(XMPPClient client)

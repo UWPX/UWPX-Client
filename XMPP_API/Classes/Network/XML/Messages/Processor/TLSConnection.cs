@@ -96,7 +96,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 // Starting the TSL process:
                 setMessageProcessed(args);
                 setState(TLSState.CONNECTING);
-                await XMPP_CONNECTION.sendAsync(new RequesStartTLSMessage(), false, true);
+                await XMPP_CONNECTION.sendAsync(new RequesStartTLSMessage(), true);
                 setState(TLSState.REQUESTED);
             }
             else

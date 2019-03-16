@@ -172,12 +172,7 @@ namespace XMPP_API.Classes
 
         public async Task<bool> sendAsync(AbstractMessage msg)
         {
-            return await sendAsync(msg, false);
-        }
-
-        public async Task<bool> sendAsync(AbstractMessage msg, bool cacheIfNotConnected)
-        {
-            return await connection.sendAsync(msg, cacheIfNotConnected, false);
+            return await connection.sendAsync(msg);
         }
 
         public XMPPAccount getXMPPAccount()

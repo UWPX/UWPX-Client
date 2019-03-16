@@ -10,7 +10,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly IMessageSender MESSAGE_SENDER;
-        private bool cacheIfNotConnected;
 
         private readonly OnMessageHandler ON_MESSAGE;
         private readonly OnTimeoutHandler ON_TIMEOUT;
@@ -37,20 +36,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 09/01/2018 Created [Fabian Sauter]
-        /// </history>
-        public MessageResponseHelper(IMessageSender messageSender, OnMessageHandler onMessage, OnTimeoutHandler onTimeout) : this(messageSender, onMessage, onTimeout, false) { }
-
-        public MessageResponseHelper(IMessageSender messageSender, OnMessageHandler onMessage, OnTimeoutHandler onTimeout, bool cacheIfNotConnected)
+        public MessageResponseHelper(IMessageSender messageSender, OnMessageHandler onMessage, OnTimeoutHandler onTimeout)
         {
             this.MESSAGE_SENDER = messageSender;
             this.ON_MESSAGE = onMessage;
             this.ON_TIMEOUT = onTimeout;
-            this.cacheIfNotConnected = cacheIfNotConnected;
             this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
             this.matchId = true;
             this.sendId = null;
@@ -94,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
 
             TIMER_SEMA.Wait();
-            bool success = await MESSAGE_SENDER.sendAsync(msg, cacheIfNotConnected).ConfigureAwait(false);
+            bool success = await MESSAGE_SENDER.sendAsync(msg).ConfigureAwait(false);
 
             if (ON_TIMEOUT != null)
             {

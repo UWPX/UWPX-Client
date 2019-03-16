@@ -180,6 +180,17 @@ namespace Data_Manager2.Classes.DBManager
             return list[list.Count - 1];
         }
 
+        /// <summary>
+        /// Returns all chat messages for the given userAccountId and state ordered by their chatId.
+        /// </summary>
+        public IList<ChatMessageTable> getChatMessages(string userAccountId, MessageState state)
+        {
+            return dB.Query<ChatMessageTable>(true, "SELECT m.* "
+                + "FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " m JOIN " + DBTableConsts.CHAT_TABLE + " c ON m.chatId = c.id "
+                + "WHERE c.userAccountId = ? AND m.state = ?"
+                + "ORDER BY m.chatId ASC;", userAccountId, state);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--

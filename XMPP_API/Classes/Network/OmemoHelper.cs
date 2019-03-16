@@ -171,7 +171,7 @@ namespace XMPP_API.Classes.Network
             foreach (OmemoMessageMessage msg in cache.Item1)
             {
                 msg.encrypt(omemoSession, CONNECTION.account.omemoDeviceId);
-                await CONNECTION.sendAsync(msg, true, false);
+                await CONNECTION.sendAsync(msg, false);
             }
             MESSAGE_CACHE.Remove(omemoSession.CHAT_JID);
             Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSession.CHAT_JID + " to " + cache.Item1.Count + " recipient(s).");
@@ -336,7 +336,7 @@ namespace XMPP_API.Classes.Network
             {
                 msg.DEVICES.IDS.Add(CONNECTION.account.omemoDeviceId);
                 OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), msg.DEVICES);
-                await CONNECTION.sendAsync(setMsg, false, false);
+                await CONNECTION.sendAsync(setMsg, false);
             }
         }
 

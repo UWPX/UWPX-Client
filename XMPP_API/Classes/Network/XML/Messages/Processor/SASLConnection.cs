@@ -156,7 +156,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "selectedMechanism is null"), true);
                             return;
                         }
-                        await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), false, true);
+                        await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), true);
                         state = SASLState.REQUESTED;
                     }
                     break;
@@ -170,7 +170,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         AbstractMessage response = selectedMechanism.generateResponse(msg);
                         if (!(response is null))
                         {
-                            await XMPP_CONNECTION.sendAsync(response, false, true);
+                            await XMPP_CONNECTION.sendAsync(response, true);
                         }
                     }
                     else if (msg is SASLSuccessMessage)

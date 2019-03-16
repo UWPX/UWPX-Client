@@ -21,10 +21,6 @@
         /// <summary>
         /// A general error occurred.
         /// </summary>
-        ERROR,
-        /// <summary>
-        /// Sending the message failed, but the message has been cached and will be send later.
-        /// </summary>
-        WILL_SEND_LATER
+        ERROR
     }
 }
