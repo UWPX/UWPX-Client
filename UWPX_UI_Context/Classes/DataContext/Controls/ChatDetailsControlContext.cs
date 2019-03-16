@@ -73,14 +73,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 }
                 else
                 {
-                    Task.Run(async () => await SendChatMessageAsync(trimedMsg, chat, true));
+                    Task.Run(async () => await SendChatMessageAsync(chat, trimedMsg));
                     Logger.Debug("Sending message (encrypted=" + MODEL.OmemoEnabled + "): " + trimedMsg);
                 }
                 MODEL.MessageText = string.Empty;
             }
         }
 
-        private async Task SendChatMessageAsync(string message, ChatDataTemplate chat, bool encrypt)
+        private async Task SendChatMessageAsync(ChatDataTemplate chat, string message)
         {
             MessageMessage toSendMsg;
 
@@ -89,7 +89,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             string chatType = chat.Chat.chatType == ChatType.CHAT ? MessageMessage.TYPE_CHAT : MessageMessage.TYPE_GROUPCHAT;
             bool reciptRequested = true;
 
-            if (encrypt)
+            if (chat.Chat.omemoEnabled)
             {
                 if (chat.Chat.chatType == ChatType.CHAT)
                 {
