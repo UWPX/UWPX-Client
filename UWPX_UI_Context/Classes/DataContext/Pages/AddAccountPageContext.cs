@@ -83,11 +83,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                     Logger.Info("Deleting account: " + MODEL.Account.getBareJid());
                     try
                     {
-                        XMPPClient client = ConnectionHandler.INSTANCE.getClient(MODEL.Account.getBareJid());
-                        if (!(client is null) && client.getConnetionState() != ConnectionState.DISCONNECTED)
-                        {
-                            await client.disconnectAsync();
-                        }
+                        await ConnectionHandler.INSTANCE.removeAccountAsync(MODEL.Account.getBareJid());
                     }
                     catch (System.Exception e)
                     {
