@@ -81,6 +81,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         }
 
+        public void OnNavigatedTo()
+        {
+            // Subscribe to toast events:
+            ToastHelper.OnChatMessageToast -= ToastHelper_OnChatMessageToast;
+            ToastHelper.OnChatMessageToast += ToastHelper_OnChatMessageToast;
+        }
+
+        public void OnNavigatedFrom()
+        {
+            // Subscribe to toast events:
+            ToastHelper.OnChatMessageToast -= ToastHelper_OnChatMessageToast;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -94,9 +107,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             // Subscribe to chat and MUC info changed events:
             ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
             MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
-
-            // Subscribe to toast events:
-            ToastHelper.OnChatMessageToast += ToastHelper_OnChatMessageToast;
 
             ChatDataTemplate selectedChat = null;
             List<ChatDataTemplate> chats = LoadChatsFromDB();
@@ -156,7 +166,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             if (!args.Cancel && args.toasterTypeOverride == ChatMessageToasterType.FULL)
             {
-                // args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
+                args.toasterTypeOverride = ChatMessageToasterType.REDUCED;
             }
         }
 

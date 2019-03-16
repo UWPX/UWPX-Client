@@ -6,6 +6,7 @@ using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages
 {
@@ -105,6 +106,15 @@ namespace UWPX_UI.Pages
         private void AddChat_abb_Click(object sender, RoutedEventArgs e)
         {
             addChat_mfo.ShowAt(addChat_abb);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            VIEW_MODEL.OnNavigatedFrom();
+        }
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            VIEW_MODEL.OnNavigatedTo();
         }
 
         #endregion
