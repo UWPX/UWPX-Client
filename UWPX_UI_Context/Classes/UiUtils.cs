@@ -159,7 +159,7 @@ namespace UWPX_UI_Context.Classes
                 else
                 {
                     Logger.Warn("No need to navigate to page " + pageType.ToString() + " - already on it.");
-                    return true;
+                    return false;
                 }
             }
             else

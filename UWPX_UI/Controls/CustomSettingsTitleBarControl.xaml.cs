@@ -131,8 +131,7 @@ namespace UWPX_UI.Controls
         {
             if (!args.Handled)
             {
-                args.Handled = true;
-                OnGoBackRequested();
+                args.Handled = OnGoBackRequested();
             }
         }
 
