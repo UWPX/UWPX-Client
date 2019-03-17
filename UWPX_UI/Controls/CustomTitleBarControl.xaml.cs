@@ -202,6 +202,11 @@ namespace UWPX_UI.Controls
             IsActive = false;
         }
 
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            IsActive = true;
+        }
+
         private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is CustomTitleBarControl titleBarControl)
