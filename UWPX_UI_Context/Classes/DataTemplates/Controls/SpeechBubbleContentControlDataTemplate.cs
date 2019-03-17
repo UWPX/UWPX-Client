@@ -1,7 +1,9 @@
 ﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
 using System;
+using System.Threading.Tasks;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -85,6 +87,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             MessageType = message.type;
             IsImage = message.isImage;
             State = message.state;
+
+            if(State == MessageState.UNREAD)
+            {
+                Task.Run(() => ChatDBManager.INSTANCE.markMessageAsRead(message));
+            }
 
             if (chat.chatType == ChatType.MUC)
             {

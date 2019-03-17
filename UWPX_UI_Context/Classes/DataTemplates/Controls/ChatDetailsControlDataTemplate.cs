@@ -294,20 +294,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 if (!loadChatMessagesCancelToken.IsCancellationRequested)
                 {
-                    MarkChatMessagesAsRead(chat);
+                    ToastHelper.removeToastGroup(chat.id);
                 }
             });
-        }
-
-        /// <summary>
-        /// Marks all chat messages as read and removes all toasts for the given chat.
-        /// </summary>
-        private void MarkChatMessagesAsRead(ChatTable chat)
-        {
-            // Mark all unread messages as read for this chat:
-            ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.id);
-            // Remove notification group:
-            ToastHelper.removeToastGroup(chat.id);
         }
 
         #endregion
