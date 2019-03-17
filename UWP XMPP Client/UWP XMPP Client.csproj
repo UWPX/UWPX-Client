@@ -120,12 +120,9 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\AppUpdateHandler.cs" />
     <Compile Include="Classes\BackgroundImageCache.cs" />
-    <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BrowseMUCNavigationParameter.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
-    <Compile Include="Classes\ChatFilter.cs" />
     <Compile Include="Classes\Collections\CustomObservableCollection.cs" />
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\MyAdvancedCollectionView.Defer.cs" />
