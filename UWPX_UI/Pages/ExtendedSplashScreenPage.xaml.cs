@@ -152,7 +152,7 @@ namespace UWPX_UI.Pages
             AppCenterHelper.SetupAppCenter(APP_CENTER_PUSH_CALLBACK);
 
             // Perform App update tasks if necessary:
-            AppUpdateHelper.OnAppStart();
+            await AppUpdateHelper.OnAppStartAsync();
 
             // Register background tasks:
             Logger.Info("Registering background tasks...");
@@ -179,6 +179,9 @@ namespace UWPX_UI.Pages
 
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
+
+            // Remove the messages will be send later toast:
+            ToastHelper.removeToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
 
             // Show initial start dialog:
             if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
@@ -229,6 +232,10 @@ namespace UWPX_UI.Pages
                 {
                     Logger.Warn("Toast activation with no argument!");
                     if (ROOT_FRAME.Content is null)
+                    {
+                        ROOT_FRAME.Navigate(typeof(ChatPage));
+                    }
+                    else
                     {
                         ROOT_FRAME.Navigate(typeof(ChatPage));
                     }

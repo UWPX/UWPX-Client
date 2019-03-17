@@ -5,6 +5,8 @@ using Data_Manager2.Classes.DBTables.Omemo;
 using Logging;
 using Shared.Classes.SQLite;
 using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using XMPP_API.Classes.Network;
 
@@ -67,7 +69,7 @@ namespace UWPX_UI_Context.Classes
         /// <summary>
         /// Gets called on App start and performs update task e.g. migrate the DB to a new format.
         /// </summary>
-        public static void OnAppStart()
+        public static async Task OnAppStartAsync()
         {
             PackageVersion versionLastStart = GetLastStartedVersion();
 
@@ -147,6 +149,30 @@ namespace UWPX_UI_Context.Classes
                         Logger.Info("Started setting the default theme to dark...");
                         UiUtils.RootTheme = Windows.UI.Xaml.ElementTheme.Dark;
                         Logger.Info("Finished setting the default theme to dark. Update to version 0.14.0.0 done.");
+                    }
+
+                    // Reset all OMEMO sessions, OMEMO subscriptions and delete all SENDING/TO_ENCRYPT messages for 0.15.0.0:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 15)
+                    {
+                        Logger.Info("Started the 0.15.0.0 update...");
+                        AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoDeviceListSubscriptionTable>();
+
+                        foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
+                        {
+                            IList<ChatMessageTable> msgs = ChatDBManager.INSTANCE.getChatMessages(account.getBareJid(), MessageState.TO_ENCRYPT);
+                            foreach (ChatMessageTable msg in msgs)
+                            {
+                                await ChatDBManager.INSTANCE.deleteChatMessageAsync(msg, false);
+                            }
+
+                            msgs = ChatDBManager.INSTANCE.getChatMessages(account.getBareJid(), MessageState.SENDING);
+                            foreach (ChatMessageTable msg in msgs)
+                            {
+                                await ChatDBManager.INSTANCE.deleteChatMessageAsync(msg, false);
+                            }
+                        }
+                        Logger.Info("Update to version 0.15.0.0 done.");
                     }
                 }
             }

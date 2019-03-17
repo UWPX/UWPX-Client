@@ -290,10 +290,14 @@ namespace Data_Manager2.Classes
         private async Task sendOutsandingChatMessagesAsync(XMPPClient client)
         {
             IList<ChatMessageTable> toSend = ChatDBManager.INSTANCE.getChatMessages(client.getXMPPAccount().getBareJid(), MessageState.SENDING);
+            Logger.Info("Sending " + toSend.Count + " outstanding chat messages for: " + client.getXMPPAccount().getBareJid());
             await sendOutsandingChatMessagesAsync(client, toSend);
+            Logger.Info("Finished sending outstanding chat messages for: " + client.getXMPPAccount().getBareJid());
 
             IList<ChatMessageTable> toEncrypt = ChatDBManager.INSTANCE.getChatMessages(client.getXMPPAccount().getBareJid(), MessageState.TO_ENCRYPT);
+            Logger.Info("Sending " + toSend.Count + " outstanding OMEMO chat messages for: " + client.getXMPPAccount().getBareJid());
             await sendOutsandingChatMessagesAsync(client, toEncrypt);
+            Logger.Info("Finished sending outstanding OMEMO chat messages for: " + client.getXMPPAccount().getBareJid());
         }
 
         /// <summary>
