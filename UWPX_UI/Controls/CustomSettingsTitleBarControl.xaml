@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="using:UWPX_UI.Controls"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             GettingFocus="UserControl_GettingFocus"
+             Loaded="UserControl_Loaded"
+             Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
     <UserControl.Resources>

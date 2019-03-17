@@ -48,6 +48,13 @@ namespace UWPX_UI.Controls
             set { SetValue(NavigationFallbackPageProperty, value); }
         }
         public static readonly DependencyProperty NavigationFallbackPageProperty = DependencyProperty.Register(nameof(NavigationFallbackPage), typeof(Type), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(typeof(ChatPage)));
+        
+        public bool IsActive
+        {
+            get { return (bool)GetValue(IsActiveProperty); }
+            set { SetValue(IsActiveProperty, value); }
+        }
+        public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(false, OnIsActiveChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -57,7 +64,6 @@ namespace UWPX_UI.Controls
             this.InitializeComponent();
             SetupTitleBar();
             SetupKeyboardAccelerators();
-            SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
         }
 
         #endregion
@@ -137,13 +143,32 @@ namespace UWPX_UI.Controls
 
         private bool OnGoBackRequested()
         {
-            if (!UiUtils.OnGoBackRequested(Frame) && !(NavigationFallbackPage is null))
+            if (IsActive && UiUtils.OnGoBackRequested(Frame))
+            {
+                return true;
+            }
+
+            if (!(NavigationFallbackPage is null))
             {
                 bool b = UiUtils.NavigateToPage(NavigationFallbackPage);
                 UiUtils.RemoveLastBackStackEntry();
                 return b;
             }
+                
             return false;
+        }
+
+        private void OnIsActiveChanged(bool newValue)
+        {
+            if (newValue)
+            {
+                UpdateTitleBarLayout();
+                SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
+            }
+            else
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested -= CustomTitleBarControl_BackRequested;
+            }
         }
 
         #endregion
@@ -172,9 +197,22 @@ namespace UWPX_UI.Controls
             UiUtils.NavigateToPage(typeof(SettingsPage));
         }
 
-        private void UserControl_GettingFocus(UIElement sender, GettingFocusEventArgs args)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            UpdateTitleBarLayout();
+            IsActive = true;
+        }
+
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            IsActive = false;
+        }
+
+        private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if(d is CustomSettingsTitleBarControl titleBarControl)
+            {
+                titleBarControl.OnIsActiveChanged(e.NewValue is bool b && b);
+            }
         }
 
         #endregion
