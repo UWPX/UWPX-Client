@@ -43,7 +43,6 @@
                                MaxLines="5"
                                Style="{ThemeResource CaptionTextBlockStyle}"
                                Text="{x:Bind Model.Description, Mode=OneWay}"
-                               TextAlignment="Center"
                                TextWrapping="Wrap"/>
                 </Grid>
             </Button>
