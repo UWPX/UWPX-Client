@@ -72,9 +72,12 @@
                                 <ToggleSwitch x:Name="advancedChatMsgProcessing_tgls"
                                               Header="Advanced chat message processing"
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.AdvancedChatMessageProcessing, Mode=TwoWay}"/>
-                                <ToggleSwitch x:Name="enableVibrateOnNewMessage_tgls"
+                                <ToggleSwitch x:Name="enableVibrateForNewMessage_tgls"
                                               Header="Vibrate device for new messages"
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.VibrateForNewChatMessages, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="enablePlaySoundForNewMessage_tgls"
+                                              Header="Play sound for new messages"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.PlaySoundForNewChatMessages, Mode=TwoWay}"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

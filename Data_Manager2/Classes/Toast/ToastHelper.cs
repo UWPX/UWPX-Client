@@ -188,11 +188,17 @@ namespace Data_Manager2.Classes.Toast
 
         private static void popToastReduced()
         {
+            // Vibrate:
             if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
                 VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
             }
-            SharedUtils.PlaySoundFromUri("ms-winsoundevent:Notification.Default");
+
+            // Play sound:
+            if(!Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES))
+            {
+                SharedUtils.PlaySoundFromUri("ms-winsoundevent:Notification.Default");
+            }
         }
 
         private static ToastActionsCustom getActions(ChatMessageTable msg, ChatTable chat)

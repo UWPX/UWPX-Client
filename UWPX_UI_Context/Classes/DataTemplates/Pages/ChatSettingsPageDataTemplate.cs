@@ -64,6 +64,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get { return _VibrateForNewChatMessages; }
             set { SetBoolInversedProperty(ref _VibrateForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES); }
         }
+        private bool _PlaySoundForNewChatMessages;
+        public bool PlaySoundForNewChatMessages
+        {
+            get { return _PlaySoundForNewChatMessages; }
+            set { SetBoolInversedProperty(ref _PlaySoundForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES); }
+        }
         private bool _DebugSettingsEnabled;
         public bool DebugSettingsEnabled
         {
@@ -121,6 +127,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             SendReceivedMarkers = !Settings.getSettingBoolean(SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
             AdvancedChatMessageProcessing = !Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
             VibrateForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
+            PlaySoundForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
 
             // MUC:
             AutoJoinMucs = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
