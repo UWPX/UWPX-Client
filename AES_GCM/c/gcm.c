@@ -19,7 +19,7 @@
 #include "gcm.h"
 #include "aes.h"
 
-#define DEBUG (1)
+#define DEBUG (0)
 
 void *gcm_init() {
     return malloc(sizeof(gcm_context));
