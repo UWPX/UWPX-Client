@@ -189,7 +189,7 @@ static void incr (uint8_t *iv) {
 static int countY = 0;
 
 static void printf_output(uint8_t *p, size_t length) {
-	uint8_t i = 0, j = 0;
+	size_t i = 0, j = 0;
 	if ( length > GCM_BLOCK_SIZE) {
 		// first block
 		for ( i = 0; i < GCM_BLOCK_SIZE; i++ ) {
