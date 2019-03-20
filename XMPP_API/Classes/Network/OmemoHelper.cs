@@ -149,13 +149,6 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        public void onOmemoDeviceListEventMessage(OmemoDeviceListEventMessage msg)
-        {
-            string senderBareJid = Utils.getBareJidFromFullJid(msg.getFrom());
-            OMEMO_STORE.StoreDevices(msg.DEVICES.toSignalProtocolAddressList(senderBareJid));
-            OMEMO_STORE.StoreDeviceListSubscription(senderBareJid, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
-        }
-
         public async Task removePreKeyAndRepublishAsync(uint preKeyId)
         {
             CONNECTION.account.replaceOmemoPreKey(preKeyId, OMEMO_STORE);
@@ -332,12 +325,20 @@ namespace XMPP_API.Classes.Network
         /// <param name="msg">The received OmemoDeviceListEventMessage.</param>
         private async Task onOmemoDeviceListEventMessageAsync(OmemoDeviceListEventMessage msg)
         {
-            if (!msg.DEVICES.IDS.Contains(CONNECTION.account.omemoDeviceId))
+            string senderBareJid = Utils.getBareJidFromFullJid(msg.getFrom());
+            if(string.Equals(senderBareJid, CONNECTION.account.getBareJid()))
             {
-                msg.DEVICES.IDS.Add(CONNECTION.account.omemoDeviceId);
-                OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), msg.DEVICES);
-                await CONNECTION.sendAsync(setMsg, false);
+                if (!msg.DEVICES.IDS.Contains(CONNECTION.account.omemoDeviceId))
+                {
+                    msg.DEVICES.IDS.Add(CONNECTION.account.omemoDeviceId);
+                    OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), msg.DEVICES);
+                    await CONNECTION.sendAsync(setMsg, false);
+                }
+                DEVICES = msg.DEVICES;
             }
+
+            OMEMO_STORE.StoreDevices(msg.DEVICES.toSignalProtocolAddressList(senderBareJid));
+            OMEMO_STORE.StoreDeviceListSubscription(senderBareJid, new Tuple<OmemoDeviceListSubscriptionState, DateTime>(OmemoDeviceListSubscriptionState.SUBSCRIBED, DateTime.Now));
         }
 
         #endregion

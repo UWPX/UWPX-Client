@@ -577,10 +577,6 @@ namespace XMPP_API.Classes.Network
                 {
                     NewBookmarksResultMessage?.Invoke(this, new NewBookmarksResultMessageEventArgs(bookmarksResultMessage));
                 }
-                else if (msg is OmemoDeviceListEventMessage deviceListEvent)
-                {
-                    omemoHelper?.onOmemoDeviceListEventMessage(deviceListEvent);
-                }
             }
         }
 
