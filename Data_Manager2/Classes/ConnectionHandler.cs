@@ -12,6 +12,7 @@ using System.Collections.Specialized;
 using System.Threading;
 using System.Threading.Tasks;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
@@ -219,6 +220,17 @@ namespace Data_Manager2.Classes
                 AccountDBManager.INSTANCE.setAccount(acc, false);
             }
             c.enableOmemo(signalProtocolStore);
+
+            // Sometimes the DB fails and only stores less than 100 OMEMO pre keys.
+            // So if we detect an issue with that generate a new batch of OMEMO pre keys and announce the new ones.
+            if (acc.OMEMO_PRE_KEYS.Count < 100)
+            {
+                Logger.Warn("Only " + acc.OMEMO_PRE_KEYS.Count + " found. Generating a new set.");
+                acc.OMEMO_PRE_KEYS.Clear();
+                acc.OMEMO_PRE_KEYS.AddRange(CryptoUtils.generateOmemoPreKeys());
+                acc.omemoBundleInfoAnnounced = false;
+                AccountDBManager.INSTANCE.setAccount(acc, false);
+            }
 
             // Ensure no event gets bound multiple times:
             unsubscribeFromEvents(c);
