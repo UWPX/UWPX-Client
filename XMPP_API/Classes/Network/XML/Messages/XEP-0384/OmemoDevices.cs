@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public OmemoDevices()
         {
             this.IDS = new HashSet<uint>();
-            this.id = null;
+            this.id = "current";
         }
 
         public OmemoDevices(string id)
