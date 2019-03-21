@@ -162,9 +162,8 @@ namespace UWPX_UI.Pages
             // Init all db managers to force event subscriptions:
             await InitDBManagersAsync();
 
-
-            // Loads all background images into the cache:
-            await AppBackgroundHelper.InitAsync();
+            // Init the chat background helper:
+            ChatBackgroundHelper.INSTANCE.Init();
 
             // Setup push server connection:
             /*if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_PUSH))

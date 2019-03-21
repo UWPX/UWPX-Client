@@ -1,5 +1,6 @@
 ﻿using System;
 using UWPX_UI.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
@@ -10,6 +11,7 @@ namespace UWPX_UI.Controls.Chat
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly ChatBackgroundControlContext VIEW_MODEL = new ChatBackgroundControlContext();
         private SplashScreenImageScale curImageScale = SplashScreenImageScale.TINY;
 
         #endregion
@@ -44,7 +46,7 @@ namespace UWPX_UI.Controls.Chat
             {
                 if (curImageScale != SplashScreenImageScale.HUGE)
                 {
-                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_4000.png", UriKind.Absolute));
+                    fallbackBackground_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_4000.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.HUGE;
                 }
             }
@@ -52,7 +54,7 @@ namespace UWPX_UI.Controls.Chat
             {
                 if (curImageScale != SplashScreenImageScale.LARGE)
                 {
-                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_3000.png", UriKind.Absolute));
+                    fallbackBackground_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_3000.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.LARGE;
                 }
             }
@@ -60,7 +62,7 @@ namespace UWPX_UI.Controls.Chat
             {
                 if (curImageScale != SplashScreenImageScale.MEDIUM)
                 {
-                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_2000.png", UriKind.Absolute));
+                    fallbackBackground_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_2000.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.MEDIUM;
                 }
             }
@@ -68,13 +70,13 @@ namespace UWPX_UI.Controls.Chat
             {
                 if (curImageScale != SplashScreenImageScale.SMALL)
                 {
-                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_1000.png", UriKind.Absolute));
+                    fallbackBackground_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_1000.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.SMALL;
                 }
             }
             else if (curImageScale != SplashScreenImageScale.TINY)
             {
-                background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png", UriKind.Absolute));
+                fallbackBackground_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png", UriKind.Absolute));
                 curImageScale = SplashScreenImageScale.TINY;
             }
         }

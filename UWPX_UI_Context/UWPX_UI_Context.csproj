@@ -130,11 +130,11 @@
     <RestoreProjectStyle>PackageReference</RestoreProjectStyle>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Classes\AppBackgroundHelper.cs" />
     <Compile Include="Classes\AppCenterHelper.cs" />
     <Compile Include="Classes\AppUpdateHelper.cs" />
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
+    <Compile Include="Classes\ChatBackgroundHelper.cs" />
     <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
@@ -145,6 +145,8 @@
     <Compile Include="Classes\DataContext\Controls\AccountOmemoInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountSettingsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountsListControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\BackgroundImageSelectionControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ChatBackgroundControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.cs" />
@@ -183,7 +185,10 @@
     <Compile Include="Classes\DataTemplates\Controls\AccountOmemoInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountSettingsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\AccountsListControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\BackgroundImageSelectionControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\BackgroundImageSelectionControlItemDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CertificateDetailDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ChatBackgroundControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />

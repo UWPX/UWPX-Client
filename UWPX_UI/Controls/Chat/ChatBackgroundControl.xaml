@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatBackgroundControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              HorizontalAlignment="Stretch"
@@ -9,9 +10,20 @@
              Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
-    <Image x:Name="background_img"
-           HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
-           VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}"
-           Source="ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png"
-           Stretch="UniformToFill"/>
+    <Grid HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
+          VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <controls:ImageEx x:Name="fallbackBackground_img"
+                          Grid.Row="0"
+                          IsCacheEnabled="True"
+                          Source="ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png"
+                          Stretch="UniformToFill"
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.ImagePath, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+        <controls:ImageEx Grid.Row="0"
+                          IsCacheEnabled="True"
+                          Source="{x:Bind VIEW_MODEL.MODEL.ImagePath, Mode=OneWay}"
+                          Stretch="UniformToFill"/>
+    </Grid>
 </UserControl>

@@ -217,6 +217,9 @@
     <Compile Include="Controls\Settings\AccountsListControl.xaml.cs">
       <DependentUpon>AccountsListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\BackgroundImageSelectionControl.xaml.cs">
+      <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\FolderSizeControl.xaml.cs">
       <DependentUpon>FolderSizeControl.xaml</DependentUpon>
     </Compile>
@@ -326,6 +329,25 @@
     <None Include="UWPX_UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\BackgroundImages\cat.jpeg" />
+    <Content Include="Assets\BackgroundImages\elephant.jpeg" />
+    <Content Include="Assets\BackgroundImages\hedge.jpeg" />
+    <Content Include="Assets\BackgroundImages\leather.jpeg" />
+    <Content Include="Assets\BackgroundImages\light.jpeg" />
+    <Content Include="Assets\BackgroundImages\light_bulb.jpeg" />
+    <Content Include="Assets\BackgroundImages\log.jpeg" />
+    <Content Include="Assets\BackgroundImages\mountains.jpeg" />
+    <Content Include="Assets\BackgroundImages\rain.jpeg" />
+    <Content Include="Assets\BackgroundImages\rain2.jpeg" />
+    <Content Include="Assets\BackgroundImages\red.jpeg" />
+    <Content Include="Assets\BackgroundImages\space.jpeg" />
+    <Content Include="Assets\BackgroundImages\squirrl.jpeg" />
+    <Content Include="Assets\BackgroundImages\sunrise.jpeg" />
+    <Content Include="Assets\BackgroundImages\tiger.jpeg" />
+    <Content Include="Assets\BackgroundImages\tulips.jpeg" />
+    <Content Include="Assets\BackgroundImages\walls.jpeg" />
+    <Content Include="Assets\BackgroundImages\wood.jpeg" />
+    <Content Include="Assets\BackgroundImages\wood_moos.jpeg" />
     <Content Include="Assets\BadgeLogo.scale-100.png" />
     <Content Include="Assets\BadgeLogo.scale-125.png" />
     <Content Include="Assets\BadgeLogo.scale-150.png" />
@@ -531,6 +553,10 @@
     <Page Include="Controls\Settings\AccountsListControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Settings\BackgroundImageSelectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Settings\FolderSizeControl.xaml">
       <Generator>MSBuild:Compile</Generator>

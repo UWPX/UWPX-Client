@@ -51,6 +51,10 @@ namespace UWPX_UI.Pages.Settings
                     case "Theme":
                         ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, theme_scp, false);
                         break;
+
+                    case "Background":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, background_scp, false);
+                        break;
                 }
             }
         }

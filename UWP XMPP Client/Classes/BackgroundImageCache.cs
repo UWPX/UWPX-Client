@@ -9,7 +9,7 @@ using Windows.Storage;
 
 namespace UWP_XMPP_Client.Classes
 {
-    static class BackgroundImageCache
+    internal static class BackgroundImageCache
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -46,8 +46,8 @@ namespace UWP_XMPP_Client.Classes
 
         public static void setExampleBackgroundImage(BackgroundImageTemplate img)
         {
-            Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, EXAMPLE_BACKGROUND);
-            Settings.setSetting(SettingsConsts.CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME, img.name);
+            // Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, EXAMPLE_BACKGROUND);
+            // Settings.setSetting(SettingsConsts.CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME, img.name);
             if (selectedImage != null)
             {
                 selectedImage.selected = false;
@@ -76,7 +76,7 @@ namespace UWP_XMPP_Client.Classes
 
         public static async Task deleteCustomBackgroundImage()
         {
-            string imgName = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME);
+            /*string imgName = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME);
             if (imgName is null)
             {
                 return;
@@ -106,7 +106,7 @@ namespace UWP_XMPP_Client.Classes
             {
                 removeBackgroundImage();
             }
-            customBackgroundImage = null;
+            customBackgroundImage = null;*/
         }
 
         public static async Task<string> saveAsCustomBackgroundImageAsync(StorageFile file)
@@ -131,7 +131,7 @@ namespace UWP_XMPP_Client.Classes
                         selected = false
                     };
 
-                    Settings.setSetting(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME, fileName);
+                    //Settings.setSetting(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME, fileName);
                     return f.Path;
                 }
             }
@@ -149,7 +149,7 @@ namespace UWP_XMPP_Client.Classes
             {
                 Logger.Info("Started loading background images...");
                 DateTime timeStart = DateTime.Now;
-                string imgName = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_NAME);
+                string imgName = "";
                 try
                 {
                     // Load custom background image:
@@ -196,7 +196,7 @@ namespace UWP_XMPP_Client.Classes
                     }
 
                     // Load example images:
-                    imgName = Settings.getSettingString(SettingsConsts.CHAT_EXAMPLE_BACKGROUND_IMAGE_NAME);
+                    imgName = "";
                     backgroundImages = new CustomObservableCollection<BackgroundImageTemplate>();
                     ImageCache.Instance.MaxMemoryCacheCount = 100;
                     StorageFolder picturesFolder = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFolderAsync(@"Assets\BackgroundImages");
