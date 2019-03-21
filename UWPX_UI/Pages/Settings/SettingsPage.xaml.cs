@@ -24,7 +24,7 @@ namespace UWPX_UI.Pages.Settings
             new SettingsPageButtonDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", NavTarget = typeof(DataSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability, Media, OMEMO", NavTarget = typeof(ChatSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE71D", Name = "Background Tasks", Description = "Manage Tasks", NavTarget = typeof(BackgroundTaskSettingsPage)},
-            new SettingsPageButtonDataTemplate {Glyph = "\uE72E", Name = "Security", Description = "Passwords", NavTarget = typeof(SettingsPage)},
+            new SettingsPageButtonDataTemplate {Glyph = "\uE72E", Name = "Security", Description = "Passwords", NavTarget = typeof(SecuritySettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\uEB52", Name = "Donate", Description = "Keep The Project Running", NavTarget = typeof(DonateSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE713", Name = "Misc", Description = "Everything Else", NavTarget = typeof(MiscSettingsPage)},
         };

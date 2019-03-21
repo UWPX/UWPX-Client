@@ -297,6 +297,9 @@
     <Compile Include="Pages\Settings\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Settings\SecuritySettingsPage.xaml.cs">
+      <DependentUpon>SecuritySettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\PersonalizeSettingsPage.xaml.cs">
       <DependentUpon>PersonalizeSettingsPage.xaml</DependentUpon>
     </Compile>
@@ -630,6 +633,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Settings\CreditsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Settings\SecuritySettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

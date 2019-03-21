@@ -1,0 +1,63 @@
+﻿<Page x:Class="UWPX_UI.Pages.Settings.SecuritySettingsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:settings="using:UWPX_UI.Controls.Settings"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!--  Content:  -->
+        <controlsComp:NavigationView x:Name="main_nview"
+                                     Grid.Row="1"
+                                     Loaded="Main_nview_Loaded"
+                                     SelectionChanged="Main_nview_SelectionChanged"
+                                     Style="{StaticResource SettingsNavigationViewStyle}">
+            <controlsComp:NavigationView.MenuItems>
+                <controlsComp:NavigationViewItem Content="Passwords"
+                                                 Icon="Permissions"
+                                                 Tag="Passwords"/>
+            </controlsComp:NavigationView.MenuItems>
+            <ScrollViewer x:Name="main_scv"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          VerticalScrollMode="Auto">
+                <StackPanel>
+                    <!--  Data:  -->
+                    <settings:SettingsContentControl x:Name="passwords_scp"
+                                                     Header="Passwords:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <TextBlock Margin="0,10,0,0"
+                                           Text="ToDo: Add settings here."/>
+                            </StackPanel>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+                </StackPanel>
+            </ScrollViewer>
+        </controlsComp:NavigationView>
+
+        <!--  Header:  -->
+        <!--  Has to be bellow content to correctly draw the drop shadow.  -->
+        <controls:CustomSettingsTitleBarControl Grid.Row="0"
+                                                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                                                Frame="{x:Bind Frame, Mode=OneWay}"
+                                                Glyph="&#xE12B;"
+                                                Text="Security"/>
+    </Grid>
+</Page>
