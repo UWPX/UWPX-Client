@@ -190,6 +190,11 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private void EmojiPickerControl_EmojiSelected(EmojiPickerControl sender, Classes.Events.EmojiSelectedEventArgs args)
+        {
+            message_tbx.Text += args.EMOJI.EmojiString;
+        }
+
         #endregion
     }
 }

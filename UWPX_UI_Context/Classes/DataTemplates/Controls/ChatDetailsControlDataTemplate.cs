@@ -90,6 +90,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _AccountInitials; }
             set { SetProperty(ref _AccountInitials, value); }
         }
+        private bool _IsEmojiFlyoutEnabled;
+        public bool IsEmojiFlyoutEnabled
+        {
+            get { return _IsEmojiFlyoutEnabled; }
+            set { SetProperty(ref _IsEmojiFlyoutEnabled, value); }
+        }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
@@ -105,6 +111,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public ChatDetailsControlDataTemplate()
         {
             LoadSettings();
+            IsEmojiFlyoutEnabled = DeviceFamilyHelper.GetDeviceFamilyType() != DeviceFamilyType.Mobile;
         }
 
         #endregion

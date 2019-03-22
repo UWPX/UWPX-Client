@@ -1,6 +1,7 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatDetailsControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -253,10 +254,12 @@
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Button Grid.Column="0"
+                        Margin="-10,0,-10,0"
                         VerticalAlignment="Bottom"
                         Content="&#xE723;"
                         FontFamily="Segoe MDL2 Assets"
@@ -341,13 +344,29 @@
                         </Flyout>
                     </Button.Flyout>
                 </Button>
+                <Button x:Name="addEmoji_btn"
+                        Grid.Column="1"
+                        Margin="-5,0,-15,0"
+                        VerticalAlignment="Bottom"
+                        Content="&#xE76E;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="27"
+                        Style="{ThemeResource TransparentThemeButtonStyle}"
+                        ToolTipService.ToolTip="Emojis"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                    <Button.Flyout>
+                        <Flyout>
+                            <chat:EmojiPickerControl EmojiSelected="EmojiPickerControl_EmojiSelected"/>
+                        </Flyout>
+                    </Button.Flyout>
+                </Button>
                 <TextBox x:Name="message_tbx"
-                         Grid.Column="1"
+                         Grid.Column="2"
                          KeyUp="Message_tbx_KeyUp"
                          Style="{ThemeResource MessageTextBoxStyle}"
                          Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 <Button x:Name="send_btn"
-                        Grid.Column="2"
+                        Grid.Column="3"
                         VerticalAlignment="Bottom"
                         AllowFocusOnInteraction="False"
                         Click="Send_btn_Click"

@@ -134,6 +134,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Events\EmojiSelectedEventArgs.cs" />
     <Compile Include="Classes\SplashScreenImageScale.cs" />
     <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
       <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
@@ -146,6 +147,9 @@
     </Compile>
     <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
       <DependentUpon>ChatMasterControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\EmojiPickerControl.xaml.cs">
+      <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\Content\IShowFlyoutSpeechBubbleContent.cs" />
     <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml.cs">
@@ -465,6 +469,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\Chat\EmojiPickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -720,6 +728,10 @@
     <Page Include="Resources\Styles\GeneralStyles.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\IconPivotItemStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\MessageTextBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
