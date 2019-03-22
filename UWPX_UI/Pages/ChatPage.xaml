@@ -32,16 +32,20 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <StackPanel Grid.Row="0"
-                                Padding="10"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center">
-                        <Image Width="100"
-                               Height="100"
-                               Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
-                        <TextBlock Style="{StaticResource TitleTextBlockStyle}"
-                                   Text="Select a chat to view."/>
-                    </StackPanel>
+                    <Border HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"
+                            CornerRadius="20">
+                        <StackPanel Grid.Row="0"
+                                    Padding="10">
+                            <Image Width="120"
+                                   Height="120"
+                                   Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
+                            <TextBlock FontWeight="SemiBold"
+                                       Style="{StaticResource TitleTextBlockStyle}"
+                                       Text="Select a chat to view."/>
+                        </StackPanel>
+                    </Border>
                 </Grid>
             </DataTemplate>
         </ResourceDictionary>
