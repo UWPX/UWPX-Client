@@ -76,7 +76,15 @@ namespace UWPX_UI_Context.Classes
         {
             ImagePath = Settings.getSettingString(SettingsConsts.CHAT_BACKGROUND_IMAGE_PATH);
             CustomImagePath = Settings.getSettingString(SettingsConsts.CHAT_CUSTOM_BACKGROUND_IMAGE_PATH);
-            BackgroundMode = (ChatBackgroundMode)Settings.getSettingInt(SettingsConsts.CHAT_BACKGROUND_MODE, 0);
+            try
+            {
+                BackgroundMode = (ChatBackgroundMode)Settings.getSettingInt(SettingsConsts.CHAT_BACKGROUND_MODE, 0);
+            }
+            catch (Exception)
+            {
+                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)ChatBackgroundMode.SPLASH_IMAGE);
+                BackgroundMode = ChatBackgroundMode.SPLASH_IMAGE;
+            }
         }
 
         public async Task<string> SaveAsCustomBackgroundImageAsync(StorageFile file)
