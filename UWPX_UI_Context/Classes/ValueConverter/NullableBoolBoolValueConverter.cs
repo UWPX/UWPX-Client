@@ -1,17 +1,13 @@
-﻿using Shared.Classes;
+﻿using System;
+using Windows.UI.Xaml.Data;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class BackgroundImageSelectionControlItemDataTemplate : AbstractDataTemplate
+    public sealed class NullableBoolBoolValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Path;
-        public string Path
-        {
-            get { return _Path; }
-            set { SetProperty(ref _Path, value); }
-        }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,14 +22,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override bool Equals(object obj)
+        public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return obj is BackgroundImageSelectionControlItemDataTemplate o && string.Equals(Path, o.Path);
+            if (value is bool?)
+            {
+                bool? b = (bool?)value;
+                return b == true || b is null;
+            }
+            return false;
         }
 
-        public override int GetHashCode()
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return base.GetHashCode() ^ Path.GetHashCode();
+            if (value is bool b)
+            {
+                return (bool?)b;
+            }
+            return false;
         }
 
         #endregion

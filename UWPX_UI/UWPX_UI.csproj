@@ -220,6 +220,9 @@
     <Compile Include="Controls\Settings\BackgroundImageSelectionControl.xaml.cs">
       <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Settings\CustomBackgroundImageSelectionControl.xaml.cs">
+      <DependentUpon>CustomBackgroundImageSelectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Settings\FolderSizeControl.xaml.cs">
       <DependentUpon>FolderSizeControl.xaml</DependentUpon>
     </Compile>
@@ -555,6 +558,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Settings\BackgroundImageSelectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Settings\CustomBackgroundImageSelectionControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

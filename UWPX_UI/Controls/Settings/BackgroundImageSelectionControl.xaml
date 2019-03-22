@@ -1,10 +1,12 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Settings.BackgroundImageSelectionControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:controls1="using:UWPX_UI_Context.Classes.DataTemplates.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:settings="using:UWPX_UI.Controls.Settings"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -17,8 +19,24 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <controls:AdaptiveGridView DesiredWidth="200"
-                               ItemTemplate="{StaticResource BackgroundImageSelectionControlItemTemplate}"
-                               ItemsSource="{x:Bind VIEW_MODEL.MODEL.IMAGES}"
-                               SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"/>
+    <StackPanel>
+        <RadioButton Content="No background"
+                     IsChecked="{x:Bind VIEW_MODEL.MODEL.IsNoBackgroundChecked, Mode=TwoWay}"/>
+        <RadioButton x:Name="imageBackground_rbtn"
+                     Content="Image background"
+                     IsChecked="{x:Bind VIEW_MODEL.MODEL.IsImageBackgroundChecked, Mode=TwoWay}"/>
+        <settings:CustomBackgroundImageSelectionControl Width="165"
+                                                        Height="180"
+                                                        HorizontalAlignment="Left"
+                                                        IsEnabled="{x:Bind imageBackground_rbtn.IsChecked, Mode=OneWay, Converter={StaticResource NullableBoolBoolValueConverter}}"
+                                                        IsSelected="{x:Bind VIEW_MODEL.MODEL.IsCustomImageBackgroundSelected, Mode=TwoWay}"/>
+        <controls:AdaptiveGridView Margin="0,10,0,0"
+                                   animations:ReorderGridAnimation.Duration="300"
+                                   DesiredWidth="160"
+                                   IsEnabled="{x:Bind imageBackground_rbtn.IsChecked, Mode=OneWay, Converter={StaticResource NullableBoolBoolValueConverter}}"
+                                   ItemHeight="180"
+                                   ItemTemplate="{StaticResource BackgroundImageSelectionControlItemTemplate}"
+                                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.IMAGES}"
+                                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"/>
+    </StackPanel>
 </UserControl>

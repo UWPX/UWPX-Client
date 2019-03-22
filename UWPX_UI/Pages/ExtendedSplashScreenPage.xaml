@@ -5,7 +5,8 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource SystemAccentColor}" SizeChanged="Grid_SizeChanged">
+    <Grid Background="{ThemeResource SystemAccentColor}"
+          SizeChanged="Grid_SizeChanged">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>

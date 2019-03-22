@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Settings.CustomBackgroundImageSelectionControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <GridViewItem IsEnabled="{x:Bind IsEnabled, Mode=OneWay}"
+                  IsSelected="{x:Bind IsSelected, Mode=TwoWay}"
+                  Tapped="GridViewItem_Tapped">
+        <Grid>
+            <controls:ImageEx IsCacheEnabled="False"
+                              Source="{x:Bind VIEW_MODEL.MODEL.ImagePath, Mode=OneWay}"
+                              Stretch="UniformToFill"/>
+
+            <Button x:Name="browse_btn"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Click="Browse_btn_Click"
+                    Content="&#xE8B7;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="30"
+                    Style="{StaticResource TransparentThemeButtonStyle}"/>
+        </Grid>
+    </GridViewItem>
+</UserControl>

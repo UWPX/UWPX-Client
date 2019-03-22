@@ -2,21 +2,24 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class BackgroundImageSelectionControlItemDataTemplate : AbstractDataTemplate
+    public sealed class CustomBackgroundImageSelectionControlDataTemplate : AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Path;
-        public string Path
+        private string _ImagePath;
+        public string ImagePath
         {
-            get { return _Path; }
-            set { SetProperty(ref _Path, value); }
+            get { return _ImagePath; }
+            set { SetProperty(ref _ImagePath, value); }
         }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public CustomBackgroundImageSelectionControlDataTemplate()
+        {
+            LoadImagePath();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -26,20 +29,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override bool Equals(object obj)
-        {
-            return obj is BackgroundImageSelectionControlItemDataTemplate o && string.Equals(Path, o.Path);
-        }
 
-        public override int GetHashCode()
-        {
-            return base.GetHashCode() ^ Path.GetHashCode();
-        }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void LoadImagePath()
+        {
+            ImagePath = ChatBackgroundHelper.INSTANCE.CustomImagePath;
+        }
 
         #endregion
 

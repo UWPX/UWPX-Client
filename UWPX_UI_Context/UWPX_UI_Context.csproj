@@ -135,6 +135,7 @@
     <Compile Include="Classes\BackgroundTaskHelper.cs" />
     <Compile Include="Classes\BuyContentHelper.cs" />
     <Compile Include="Classes\ChatBackgroundHelper.cs" />
+    <Compile Include="Classes\ChatBackgroundMode.cs" />
     <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\CustomBackgroundImageSelectionControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
@@ -191,6 +193,7 @@
     <Compile Include="Classes\DataTemplates\Controls\ChatBackgroundControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
@@ -232,6 +235,7 @@
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInvertedVisabilityValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\NullableBoolBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolVisabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ChatDateTimeStringValueConverter.cs" />

@@ -9,4 +9,5 @@
     <valueConverter:BoolInverterValueConverter x:Key="BoolInverterValueConverter"/>
     <valueConverter:BoolInvertedVisabilityValueConverter x:Key="BoolInvertedVisabilityValueConverter"/>
     <valueConverter:IsNullBoolValueConverter x:Key="IsNullBoolValueConverter"/>
+    <valueConverter:NullableBoolBoolValueConverter x:Key="NullableBoolBoolValueConverter"/>
 </ResourceDictionary>

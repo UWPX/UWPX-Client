@@ -9,6 +9,7 @@
         public const string APP_REQUESTED_THEME = "app_requested_theme";
 
         public const string CHAT_BACKGROUND_IMAGE_PATH = "chat_background_image_path";
+        public const string CHAT_CUSTOM_BACKGROUND_IMAGE_PATH = "chat_custom_background_image_path";
         public const string CHAT_BACKGROUND_MODE = "chat_background_mode";
 
         public const string DISABLE_SOCKET_BACKGROUND_TASK = "disable_socket_background_task";

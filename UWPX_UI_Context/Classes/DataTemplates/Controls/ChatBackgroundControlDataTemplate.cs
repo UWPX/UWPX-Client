@@ -6,11 +6,25 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _ImagePath;
-        public string ImagePath
+        private string _CustomImagePath;
+        public string CustomImagePath
         {
-            get { return _ImagePath; }
-            set { SetProperty(ref _ImagePath, value); }
+            get { return _CustomImagePath; }
+            set { SetProperty(ref _CustomImagePath, value); }
+        }
+
+        private bool _IsSplashImageEnabled;
+        public bool IsSplashImageEnabled
+        {
+            get { return _IsSplashImageEnabled; }
+            set { SetProperty(ref _IsSplashImageEnabled, value); }
+        }
+
+        private bool _IsCustomImageEnabled;
+        public bool IsCustomImageEnabled
+        {
+            get { return _IsCustomImageEnabled; }
+            set { SetProperty(ref _IsCustomImageEnabled, value); }
         }
 
         #endregion
@@ -19,7 +33,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public ChatBackgroundControlDataTemplate()
         {
             ChatBackgroundHelper.INSTANCE.PropertyChanged += INSTANCE_PropertyChanged;
-            ImagePath = ChatBackgroundHelper.INSTANCE.ImagePath;
+            LoadImagePath();
+            LoadBackgroundMode();
         }
 
         #endregion
@@ -35,7 +50,42 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+        private void LoadImagePath()
+        {
+            switch (ChatBackgroundHelper.INSTANCE.BackgroundMode)
+            {
+                case ChatBackgroundMode.CUSTOM_IMAGE:
+                    CustomImagePath = ChatBackgroundHelper.INSTANCE.CustomImagePath;
+                    break;
 
+                case ChatBackgroundMode.IMAGE:
+                    CustomImagePath = ChatBackgroundHelper.INSTANCE.ImagePath;
+                    break;
+            }
+        }
+
+        private void LoadBackgroundMode()
+        {
+            switch (ChatBackgroundHelper.INSTANCE.BackgroundMode)
+            {
+                case ChatBackgroundMode.SPLASH_IMAGE:
+                    IsSplashImageEnabled = true;
+                    IsCustomImageEnabled = false;
+                    break;
+
+                case ChatBackgroundMode.IMAGE:
+                case ChatBackgroundMode.CUSTOM_IMAGE:
+                    IsSplashImageEnabled = false;
+                    IsCustomImageEnabled = true;
+                    break;
+
+                case ChatBackgroundMode.NONE:
+                    IsSplashImageEnabled = false;
+                    IsCustomImageEnabled = false;
+                    break;
+            }
+
+        }
 
         #endregion
 
@@ -47,9 +97,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Events--
         private void INSTANCE_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (string.Equals(e.PropertyName, nameof(ChatBackgroundHelper.ImagePath)))
+            switch (e.PropertyName)
             {
-                ImagePath = ChatBackgroundHelper.INSTANCE.ImagePath;
+                case nameof(ChatBackgroundHelper.CustomImagePath):
+                case nameof(ChatBackgroundHelper.ImagePath):
+                    LoadImagePath();
+                    break;
+
+                case nameof(ChatBackgroundHelper.BackgroundMode):
+                    LoadBackgroundMode();
+                    LoadImagePath();
+                    break;
             }
         }
 

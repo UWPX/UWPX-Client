@@ -10,20 +10,24 @@
              Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
-          VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls:ImageEx x:Name="fallbackBackground_img"
                           Grid.Row="0"
+                          HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
+                          VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}"
                           IsCacheEnabled="True"
                           Source="ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png"
                           Stretch="UniformToFill"
-                          Visibility="{x:Bind VIEW_MODEL.MODEL.ImagePath, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsSplashImageEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
         <controls:ImageEx Grid.Row="0"
+                          HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
+                          VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}"
                           IsCacheEnabled="True"
-                          Source="{x:Bind VIEW_MODEL.MODEL.ImagePath, Mode=OneWay}"
-                          Stretch="UniformToFill"/>
+                          Source="{x:Bind VIEW_MODEL.MODEL.CustomImagePath, Mode=OneWay}"
+                          Stretch="UniformToFill"
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsCustomImageEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
     </Grid>
 </UserControl>
