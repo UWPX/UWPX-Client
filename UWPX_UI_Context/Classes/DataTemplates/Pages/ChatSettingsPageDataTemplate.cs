@@ -1,7 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Shared.Classes;
-using System;
 using System.Runtime.CompilerServices;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
@@ -33,7 +32,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             get { return _AdvancedChatMessageProcessing; }
             set { SetBoolInversedProperty(ref _AdvancedChatMessageProcessing, value, SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING); }
-        }        
+        }
         private bool _AutoJoinMucs;
         public bool AutoJoinMucs
         {
@@ -94,6 +93,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get { return _SpamRegex; }
             set { SetSpamRegexProperty(value); }
         }
+        private bool _IsEmojiButtonEnabled;
+        public bool IsEmojiButtonEnabled
+        {
+            get { return _IsEmojiButtonEnabled; }
+            set { SetBoolProperty(ref _IsEmojiButtonEnabled, value, SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON); }
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -128,6 +133,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             AdvancedChatMessageProcessing = !Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
             VibrateForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
             PlaySoundForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
+            IsEmojiButtonEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
 
             // MUC:
             AutoJoinMucs = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);

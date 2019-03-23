@@ -172,6 +172,9 @@ namespace UWPX_UI_Context.Classes
                                 await ChatDBManager.INSTANCE.deleteChatMessageAsync(msg, false);
                             }
                         }
+
+                        // By default enable the emoji button for all devices that run in mouse interaction mode since the touch keyboard already adds an emoji keyboard:
+                        Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, !DeviceFamilyHelper.IsMouseInteractionMode());
                         Logger.Info("Update to version 0.15.0.0 done.");
                     }
                 }

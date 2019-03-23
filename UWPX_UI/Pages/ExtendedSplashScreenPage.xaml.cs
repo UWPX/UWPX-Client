@@ -198,7 +198,7 @@ namespace UWPX_UI.Pages
                 {
                     if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
                     {
-                        Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+                        PerformInitialStartSetup();
                     }
                     return;
                 }
@@ -207,12 +207,19 @@ namespace UWPX_UI.Pages
             EvaluateActivationArgs();
         }
 
+        private void PerformInitialStartSetup()
+        {
+            // By default enable the emoji button for all devices that run in mouse interaction mode since the touch keyboard already adds an emoji keyboard:
+            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, !DeviceFamilyHelper.IsMouseInteractionMode());
+            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+        }
+
         private void EvaluateActivationArgs()
         {
             // Initially started?
             if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
-                Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
+                PerformInitialStartSetup();
 
                 ROOT_FRAME.Navigate(typeof(AddAccountPage), typeof(ChatPage));
             }

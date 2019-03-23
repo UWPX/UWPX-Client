@@ -78,6 +78,9 @@
                                 <ToggleSwitch x:Name="enablePlaySoundForNewMessage_tgls"
                                               Header="Play sound for new messages"
                                               IsOn="{x:Bind VIEW_MODEL.MODEL.PlaySoundForNewChatMessages, Mode=TwoWay}"/>
+                                <ToggleSwitch x:Name="enableEmojiButton_tgls"
+                                              Header="Enable emoji button"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.IsEmojiButtonEnabled, Mode=TwoWay}"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

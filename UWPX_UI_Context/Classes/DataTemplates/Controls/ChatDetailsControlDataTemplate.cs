@@ -111,7 +111,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public ChatDetailsControlDataTemplate()
         {
             LoadSettings();
-            IsEmojiFlyoutEnabled = DeviceFamilyHelper.GetDeviceFamilyType() != DeviceFamilyType.Mobile;
         }
 
         #endregion
@@ -242,6 +241,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void LoadSettings()
         {
+            IsEmojiFlyoutEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
             DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
         }
 
