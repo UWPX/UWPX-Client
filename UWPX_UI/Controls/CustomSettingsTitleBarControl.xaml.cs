@@ -48,7 +48,7 @@ namespace UWPX_UI.Controls
             set { SetValue(NavigationFallbackPageProperty, value); }
         }
         public static readonly DependencyProperty NavigationFallbackPageProperty = DependencyProperty.Register(nameof(NavigationFallbackPage), typeof(Type), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(typeof(ChatPage)));
-        
+
         public bool IsActive
         {
             get { return (bool)GetValue(IsActiveProperty); }
@@ -64,6 +64,8 @@ namespace UWPX_UI.Controls
             this.InitializeComponent();
             SetupTitleBar();
             SetupKeyboardAccelerators();
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
         }
 
         #endregion
@@ -154,7 +156,7 @@ namespace UWPX_UI.Controls
                 UiUtils.RemoveLastBackStackEntry();
                 return b;
             }
-                
+
             return false;
         }
 
@@ -163,11 +165,6 @@ namespace UWPX_UI.Controls
             if (newValue)
             {
                 UpdateTitleBarLayout();
-                SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
-            }
-            else
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested -= CustomTitleBarControl_BackRequested;
             }
         }
 
@@ -209,7 +206,7 @@ namespace UWPX_UI.Controls
 
         private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if(d is CustomSettingsTitleBarControl titleBarControl)
+            if (d is CustomSettingsTitleBarControl titleBarControl)
             {
                 titleBarControl.OnIsActiveChanged(e.NewValue is bool b && b);
             }

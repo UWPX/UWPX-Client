@@ -1,5 +1,4 @@
-﻿using Logging;
-using System;
+﻿using System;
 using UWPX_UI.Controls.Toolkit.MasterDetailsView;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
@@ -42,14 +41,14 @@ namespace UWPX_UI.Controls
             set { SetValue(NavigationFallbackPageProperty, value); }
         }
         public static readonly DependencyProperty NavigationFallbackPageProperty = DependencyProperty.Register(nameof(NavigationFallbackPage), typeof(Type), typeof(CustomTitleBarControl), new PropertyMetadata(typeof(ChatPage)));
-        
+
         public bool IsActive
         {
             get { return (bool)GetValue(IsActiveProperty); }
             set { SetValue(IsActiveProperty, value); }
         }
         public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(CustomTitleBarControl), new PropertyMetadata(false, OnIsActiveChanged));
-        
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -62,6 +61,8 @@ namespace UWPX_UI.Controls
             }
             SetupTitleBar();
             SetupKeyboardAccelerators();
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
         }
 
         #endregion
@@ -133,7 +134,7 @@ namespace UWPX_UI.Controls
 
         private bool OnGoBackRequested()
         {
-            if(!IsActive)
+            if (!IsActive)
             {
                 return false;
             }
@@ -160,11 +161,6 @@ namespace UWPX_UI.Controls
             if (newValue)
             {
                 UpdateTitleBarLayout();
-                SystemNavigationManager.GetForCurrentView().BackRequested += CustomTitleBarControl_BackRequested;
-            }
-            else
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested -= CustomTitleBarControl_BackRequested;
             }
         }
 
