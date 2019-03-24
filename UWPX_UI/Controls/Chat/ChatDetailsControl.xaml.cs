@@ -192,7 +192,18 @@ namespace UWPX_UI.Controls.Chat
 
         private void EmojiPickerControl_EmojiSelected(EmojiPickerControl sender, Classes.Events.EmojiSelectedEventArgs args)
         {
-            message_tbx.Text += args.EMOJI.EmojiString;
+            int i = message_tbx.SelectionStart;
+            if (message_tbx.SelectionLength > 0)
+            {
+                message_tbx.SelectedText = args.EMOJI.EmojiString;
+                message_tbx.SelectionLength = 0;
+            }
+            else
+            {
+                message_tbx.Text = message_tbx.Text.Insert(message_tbx.SelectionStart, args.EMOJI.EmojiString);
+            }
+            i += args.EMOJI.EmojiString.Length;
+            message_tbx.SelectionStart = i;
         }
 
         #endregion

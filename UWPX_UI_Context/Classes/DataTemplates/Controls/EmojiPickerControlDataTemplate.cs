@@ -29,6 +29,49 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set { SetEmojiQueryProperty(value); }
         }
 
+        private bool _IsRecentChecked;
+        public bool IsRecentChecked
+        {
+            get { return _IsRecentChecked; }
+            set { SetIsRecentCheckedProperty(value); }
+        }
+        private bool _IsSmileysChecked;
+        public bool IsSmileysChecked
+        {
+            get { return _IsSmileysChecked; }
+            set { SetIsSmileysCheckedCheckedProperty(value); }
+        }
+        private bool _IsPeopleChecked;
+        public bool IsPeopleChecked
+        {
+            get { return _IsPeopleChecked; }
+            set { SetIsPeopleCheckedCheckedProperty(value); }
+        }
+        private bool _IsObjectsChecked;
+        public bool IsObjectsChecked
+        {
+            get { return _IsObjectsChecked; }
+            set { SetIsObjectsCheckedCheckedProperty(value); }
+        }
+        private bool _IsFoodChecked;
+        public bool IsFoodChecked
+        {
+            get { return _IsFoodChecked; }
+            set { SetIsFoodCheckedCheckedProperty(value); }
+        }
+        private bool _IsTransportationsChecked;
+        public bool IsTransportationsChecked
+        {
+            get { return _IsTransportationsChecked; }
+            set { SetIsTransportationsCheckedCheckedProperty(value); }
+        }
+        private bool _IsSymbolsChecked;
+        public bool IsSymbolsChecked
+        {
+            get { return _IsSymbolsChecked; }
+            set { SetIsSymbolsCheckedCheckedProperty(value); }
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -38,6 +81,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 Filter = EmojiFilter
             };
+            IsRecentChecked = true;
+
             LoadEmojis();
         }
 
@@ -55,6 +100,97 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 IsLoading = true;
                 EMOJIS_FILTERED.RefreshFilter();
                 IsLoading = false;
+            }
+        }
+
+        private void SetIsRecentCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsRecentChecked, value, nameof(IsRecentChecked)) && value)
+            {
+                IsSmileysChecked = false;
+                IsPeopleChecked = false;
+                IsObjectsChecked = false;
+                IsFoodChecked = false;
+                IsTransportationsChecked = false;
+                IsSymbolsChecked = false;
+            }
+        }
+
+        private void SetIsSmileysCheckedCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsSmileysChecked, value, nameof(IsSmileysChecked)) && value)
+            {
+                IsRecentChecked = false;
+                IsPeopleChecked = false;
+                IsObjectsChecked = false;
+                IsFoodChecked = false;
+                IsTransportationsChecked = false;
+                IsSymbolsChecked = false;
+            }
+        }
+
+        private void SetIsPeopleCheckedCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsPeopleChecked, value, nameof(IsPeopleChecked)) && value)
+            {
+                IsRecentChecked = false;
+                IsSmileysChecked = false;
+                IsObjectsChecked = false;
+                IsFoodChecked = false;
+                IsTransportationsChecked = false;
+                IsSymbolsChecked = false;
+            }
+        }
+
+        private void SetIsObjectsCheckedCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsObjectsChecked, value, nameof(IsObjectsChecked)) && value)
+            {
+                IsRecentChecked = false;
+                IsSmileysChecked = false;
+                IsPeopleChecked = false;
+                IsFoodChecked = false;
+                IsTransportationsChecked = false;
+                IsSymbolsChecked = false;
+            }
+        }
+
+        private void SetIsFoodCheckedCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsFoodChecked, value, nameof(IsFoodChecked)) && value)
+            {
+                IsRecentChecked = false;
+                IsSmileysChecked = false;
+                IsPeopleChecked = false;
+                IsObjectsChecked = false;
+                IsTransportationsChecked = false;
+                IsSymbolsChecked = false;
+            }
+        }
+
+        private void SetIsTransportationsCheckedCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsTransportationsChecked, value, nameof(IsTransportationsChecked)) && value)
+            {
+                IsRecentChecked = false;
+                IsSmileysChecked = false;
+                IsPeopleChecked = false;
+                IsObjectsChecked = false;
+                IsFoodChecked = false;
+                IsSymbolsChecked = false;
+            }
+        }
+
+        private void SetIsSymbolsCheckedCheckedProperty(bool value)
+        {
+            if (SetProperty(ref _IsSymbolsChecked, value, nameof(IsSymbolsChecked)) && value)
+            {
+                IsRecentChecked = false;
+                IsSmileysChecked = false;
+                IsPeopleChecked = false;
+                IsObjectsChecked = false;
+                IsFoodChecked = false;
+                IsTransportationsChecked = false;
             }
         }
 
