@@ -1,4 +1,7 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
+﻿using Data_Manager2.Classes;
+using NeoSmart.Unicode;
+using System.Linq;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -21,12 +24,26 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void OnEmojiClicked(SingleEmoji emoji)
+        {
+            if (!MODEL.EMOJI_RECENT.Contains(emoji))
+            {
+                if (MODEL.EMOJI_RECENT.Count >= 32)
+                {
+                    MODEL.EMOJI_RECENT.RemoveAt(MODEL.EMOJI_RECENT.Count - 1);
+                }
+                MODEL.EMOJI_RECENT.Insert(0, emoji);
+                StoreRecentEmojis();
+            }
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void StoreRecentEmojis()
+        {
+            Settings.LOCAL_OBJECT_STORAGE_HELPER.Save(SettingsConsts.CHAT_RECENT_EMOJI, MODEL.EMOJI_RECENT.Select(x => x.SortOrder).ToArray());
+        }
 
         #endregion
 

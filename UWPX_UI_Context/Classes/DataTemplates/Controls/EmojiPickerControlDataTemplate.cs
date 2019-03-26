@@ -1,4 +1,5 @@
-﻿using NeoSmart.Unicode;
+﻿using Data_Manager2.Classes;
+using NeoSmart.Unicode;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly CustomObservableCollection<SingleEmoji> EMOJI_RECENT;
+        public readonly CustomObservableCollection<SingleEmoji> EMOJI_RECENT = new CustomObservableCollection<SingleEmoji>(true);
         public readonly AdvancedCollectionView EMOJI_SMILEYS_FILTERED;
         public readonly AdvancedCollectionView EMOJI_PEOPLE_FILTERED;
         public readonly AdvancedCollectionView EMOJI_FOOD_FILTERED;
@@ -89,6 +90,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Constructors--
         public EmojiPickerControlDataTemplate()
         {
+            LoadRecentEmoji();
             EMOJI_SMILEYS_FILTERED = new AdvancedCollectionView
             {
                 Filter = EmojiFilter
@@ -135,7 +137,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsRecentChecked, value, nameof(IsRecentChecked)) && value)
             {
-                LoadRecentEmoji();
                 SelectedList = EMOJI_RECENT;
             }
         }
@@ -239,7 +240,35 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private void LoadRecentEmoji()
         {
+            Task.Run(() =>
+            {
+                IsLoading = true;
+                if (Settings.LOCAL_OBJECT_STORAGE_HELPER.KeyExists(SettingsConsts.CHAT_RECENT_EMOJI))
+                {
+                    int[] result = Settings.LOCAL_OBJECT_STORAGE_HELPER.Read<int[]>(SettingsConsts.CHAT_RECENT_EMOJI);
+                    foreach (int i in result)
+                    {
+                        if (TryGetEmoji(i, out SingleEmoji emoji))
+                        {
+                            EMOJI_RECENT.Add(emoji);
+                        }
+                    }
+                }
+                IsLoading = false;
+            });
+        }
 
+        private bool TryGetEmoji(int i, out SingleEmoji emoji)
+        {
+            IEnumerable<SingleEmoji> result = Emoji.All.Where((x) => x.SortOrder == i);
+            if (result.Count() > 0)
+            {
+                emoji = result.First();
+                return true;
+            }
+
+            emoji = Emoji.Abacus;
+            return false;
         }
 
         private void LoadSmileysEmoji()

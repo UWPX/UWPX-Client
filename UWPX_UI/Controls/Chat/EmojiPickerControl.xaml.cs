@@ -75,6 +75,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (e.ClickedItem is SingleEmoji emoji)
             {
+                VIEW_MODEL.OnEmojiClicked(emoji);
                 EmojiSelected?.Invoke(this, new EmojiSelectedEventArgs(emoji));
             }
         }

@@ -94,7 +94,7 @@ namespace NeoSmart.Unicode
             int count = 0;
             foreach (var cp in codepoints)
             {
-                //we used to have message = message.trim() previously. This avoids the extra allocation, hepful in case of long messages.
+                //we used to have message = message.trim() previously. This avoids the extra allocation, helpful in case of long messages.
                 //this was not premature optimization, it came out of necessity.
                 if (cp == "\n" || cp == "\r" || cp == "\t" || cp == " ")
                 {
