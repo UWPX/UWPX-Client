@@ -145,8 +145,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsSmileysChecked, value, nameof(IsSmileysChecked)) && value)
             {
-                LoadSmileysEmoji();
-                SelectedList = EMOJI_SMILEYS_FILTERED;
+                LoadEmoji(EMOJI_SMILEYS_FILTERED, new[] { Emoji.SmileysAndEmotion });
             }
         }
 
@@ -154,8 +153,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsPeopleChecked, value, nameof(IsPeopleChecked)) && value)
             {
-                LoadPeopleEmoji();
-                SelectedList = EMOJI_PEOPLE_FILTERED;
+                LoadEmoji(EMOJI_PEOPLE_FILTERED, new[] { Emoji.PeopleAndBody, Emoji.Activities, Emoji.Component });
             }
         }
 
@@ -163,8 +161,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsObjectsChecked, value, nameof(IsObjectsChecked)) && value)
             {
-                LoadObjectEmoji();
-                SelectedList = EMOJI_OBJECTS_FILTERED;
+                LoadEmoji(EMOJI_OBJECTS_FILTERED, new[] { Emoji.Objects, Emoji.Flags });
             }
         }
 
@@ -172,8 +169,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsFoodChecked, value, nameof(IsFoodChecked)) && value)
             {
-                LoadFoodEmoji();
-                SelectedList = EMOJI_FOOD_FILTERED;
+                LoadEmoji(EMOJI_FOOD_FILTERED, new[] { Emoji.FoodAndDrink, Emoji.AnimalsAndNature });
             }
         }
 
@@ -181,8 +177,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsTransportationsChecked, value, nameof(IsTransportationsChecked)) && value)
             {
-                LoadTransportationsEmoji();
-                SelectedList = EMOJI_TRANSPORTATIONS_FILTERED;
+                LoadEmoji(EMOJI_TRANSPORTATIONS_FILTERED, new[] { Emoji.TravelAndPlaces });
             }
         }
 
@@ -190,8 +185,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsSymbolsChecked, value, nameof(IsSymbolsChecked)) && value)
             {
-                LoadSymbolEmoji();
-                SelectedList = EMOJI_SYMBOLS_FILTERED;
+                LoadEmoji(EMOJI_SYMBOLS_FILTERED, new[] { Emoji.Symbols });
             }
         }
 
@@ -271,92 +265,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             return false;
         }
 
-        private void LoadSmileysEmoji()
+        private void LoadEmoji(AdvancedCollectionView target, SortedSet<SingleEmoji>[] sources)
         {
             Task.Run(async () =>
             {
                 IsLoading = true;
-                if (EMOJI_SMILEYS_FILTERED.Source.Count <= 0)
+                if (target.Source.Count <= 0)
                 {
-                    List<SingleEmoji> emoji = Emoji.SmileysAndEmotion.Where((x) => x.HasGlyph).ToList();
-                    await SharedUtils.CallDispatcherAsync(() => EMOJI_SMILEYS_FILTERED.Source = emoji);
+                    SortedSet<SingleEmoji> result = sources[0];
+                    for (int i = 1; i < sources.Length; i++)
+                    {
+                        result.Union(sources[i]);
+                    }
+                    List<SingleEmoji> emoji = result.Where((x) => x.HasGlyph).ToList();
+                    await SharedUtils.CallDispatcherAsync(() => target.Source = emoji);
                 }
-                EMOJI_SMILEYS_FILTERED.RefreshFilter();
-                IsLoading = false;
-            });
-        }
-
-        private void LoadPeopleEmoji()
-        {
-            Task.Run(async () =>
-            {
-                IsLoading = true;
-                if (EMOJI_PEOPLE_FILTERED.Source.Count <= 0)
-                {
-                    List<SingleEmoji> emoji = Emoji.PeopleAndBody.Union(Emoji.Activities).Union(Emoji.Component).Where((x) => x.HasGlyph).ToList();
-                    await SharedUtils.CallDispatcherAsync(() => EMOJI_PEOPLE_FILTERED.Source = emoji);
-                }
-                EMOJI_PEOPLE_FILTERED.RefreshFilter();
-                IsLoading = false;
-            });
-        }
-
-        private void LoadObjectEmoji()
-        {
-            Task.Run(async () =>
-            {
-                IsLoading = true;
-                if (EMOJI_OBJECTS_FILTERED.Source.Count <= 0)
-                {
-                    List<SingleEmoji> emoji = Emoji.Objects.Union(Emoji.Flags).Where((x) => x.HasGlyph).ToList();
-                    await SharedUtils.CallDispatcherAsync(() => EMOJI_OBJECTS_FILTERED.Source = emoji);
-                }
-                EMOJI_OBJECTS_FILTERED.RefreshFilter();
-                IsLoading = false;
-            });
-        }
-
-        private void LoadSymbolEmoji()
-        {
-            Task.Run(async () =>
-            {
-                IsLoading = true;
-                if (EMOJI_SYMBOLS_FILTERED.Source.Count <= 0)
-                {
-                    List<SingleEmoji> emoji = Emoji.Symbols.Where((x) => x.HasGlyph).ToList();
-                    await SharedUtils.CallDispatcherAsync(() => EMOJI_SYMBOLS_FILTERED.Source = emoji);
-                }
-                EMOJI_SYMBOLS_FILTERED.RefreshFilter();
-                IsLoading = false;
-            });
-        }
-
-        private void LoadFoodEmoji()
-        {
-            Task.Run(async () =>
-            {
-                IsLoading = true;
-                if (EMOJI_FOOD_FILTERED.Source.Count <= 0)
-                {
-                    List<SingleEmoji> emoji = Emoji.FoodAndDrink.Union(Emoji.AnimalsAndNature).Where((x) => x.HasGlyph).ToList();
-                    await SharedUtils.CallDispatcherAsync(() => EMOJI_FOOD_FILTERED.Source = emoji);
-                }
-                EMOJI_FOOD_FILTERED.RefreshFilter();
-                IsLoading = false;
-            });
-        }
-
-        private void LoadTransportationsEmoji()
-        {
-            Task.Run(async () =>
-            {
-                IsLoading = true;
-                if (EMOJI_TRANSPORTATIONS_FILTERED.Source.Count <= 0)
-                {
-                    List<SingleEmoji> emoji = Emoji.TravelAndPlaces.Where((x) => x.HasGlyph).ToList();
-                    await SharedUtils.CallDispatcherAsync(() => EMOJI_TRANSPORTATIONS_FILTERED.Source = emoji);
-                }
-                EMOJI_TRANSPORTATIONS_FILTERED.RefreshFilter();
+                target.RefreshFilter();
+                SelectedList = target;
                 IsLoading = false;
             });
         }
