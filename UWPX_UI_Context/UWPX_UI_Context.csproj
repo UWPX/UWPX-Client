@@ -196,7 +196,6 @@
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Controls\EmojiPickerItemDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />

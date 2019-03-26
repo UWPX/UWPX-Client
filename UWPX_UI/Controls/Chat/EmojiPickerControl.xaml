@@ -5,6 +5,7 @@
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:unicode="using:NeoSmart.Unicode"
              Width="300"
              Height="300"
              mc:Ignorable="d">
@@ -15,9 +16,10 @@
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="EmojiTemplate"
-                          x:DataType="controls:EmojiPickerItemDataTemplate">
+                          x:DataType="unicode:SingleEmoji">
                 <TextBlock FontSize="20"
-                           Text="{x:Bind EmojiString}"/>
+                           Text="{x:Bind Sequence.AsString}"
+                           ToolTipService.ToolTip="{x:Bind Name}"/>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -31,17 +33,18 @@
         </Grid.RowDefinitions>
         <TextBox x:Name="filterEmojis_tbx"
                  Grid.Row="0"
-                 PlaceholderText="Search for emojis..."
+                 PlaceholderText="Search for emoji..."
                  Style="{StaticResource ChatsQueryTextBoxStyle}"
-                 Text="{x:Bind VIEW_MODEL.MODEL.EmojiQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                 Text="{x:Bind VIEW_MODEL.MODEL.EmojiQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 Visibility="{x:Bind VIEW_MODEL.MODEL.IsRecentChecked, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
 
-        <GridView x:Name="emojis_grid"
-                  Grid.Row="1"
+        <GridView Grid.Row="1"
                   IsItemClickEnabled="True"
                   ItemClick="Emojis_grid_ItemClick"
                   ItemTemplate="{StaticResource EmojiTemplate}"
-                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.EMOJIS_FILTERED}"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.SelectedList, Mode=OneWay}"
                   SelectionMode="Single"/>
+
         <ProgressRing Grid.Row="1"
                       Width="50"
                       Height="50"

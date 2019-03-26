@@ -1,5 +1,5 @@
-﻿using System;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
+﻿using NeoSmart.Unicode;
+using System;
 
 namespace UWPX_UI.Classes.Events
 {
@@ -7,12 +7,12 @@ namespace UWPX_UI.Classes.Events
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly EmojiPickerItemDataTemplate EMOJI;
+        public readonly SingleEmoji EMOJI;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public EmojiSelectedEventArgs(EmojiPickerItemDataTemplate emoji)
+        public EmojiSelectedEventArgs(SingleEmoji emoji)
         {
             this.EMOJI = emoji;
         }

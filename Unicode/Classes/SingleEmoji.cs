@@ -1,10 +1,4 @@
-﻿// This class is a part of the fork from neosmarts unicode.net (https://github.com/neosmart/unicode.net)
-// Source: https://github.com/UWPX/unicode.net
-// Original license:
-// MIT License:
-// https://github.com/UWPX/unicode.net/blob/master/LICENSE
-
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 
@@ -23,8 +17,9 @@ namespace NeoSmart.Unicode
         public static readonly SkinTone[] NoSkinTones = new SkinTone[] { SkinTone.NONE };
         public readonly Group Group;
         public readonly string Subgroup;
+        public readonly bool HasGlyph;
 
-        public SingleEmoji(UnicodeSequence sequence, string name = "", string[] searchTerms = null, SkinTone[] skinTones = null, Group group = Group.SMILEYS_AND_EMOTION, string subgroup = "", int sortOrder = -1)
+        public SingleEmoji(UnicodeSequence sequence, string name = "", string[] searchTerms = null, SkinTone[] skinTones = null, Group group = Group.SMILEYS_AND_EMOTION, string subgroup = "", bool hasGlyph = false, int sortOrder = -1)
         {
             Sequence = sequence;
             Name = name;
@@ -32,12 +27,13 @@ namespace NeoSmart.Unicode
             SkinTones = skinTones ?? NoSkinTones;
             Group = group;
             Subgroup = subgroup;
+            HasGlyph = hasGlyph;
             SortOrder = sortOrder;
         }
 
         public int CompareTo(SingleEmoji other)
         {
-            return Sequence.CompareTo(other.Sequence);
+            return SortOrder.CompareTo(other.SortOrder);
         }
 
         public static bool operator ==(SingleEmoji a, SingleEmoji b)

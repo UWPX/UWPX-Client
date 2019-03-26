@@ -1,6 +1,6 @@
-﻿using UWPX_UI.Classes.Events;
+﻿using NeoSmart.Unicode;
+using UWPX_UI.Classes.Events;
 using UWPX_UI_Context.Classes.DataContext.Controls;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Chat
@@ -47,9 +47,9 @@ namespace UWPX_UI.Controls.Chat
         #region --Events--
         private void Emojis_grid_ItemClick(object sender, ItemClickEventArgs e)
         {
-            if (e.ClickedItem is EmojiPickerItemDataTemplate item)
+            if (e.ClickedItem is SingleEmoji emoji)
             {
-                EmojiSelected?.Invoke(this, new EmojiSelectedEventArgs(item));
+                EmojiSelected?.Invoke(this, new EmojiSelectedEventArgs(emoji));
             }
         }
 
