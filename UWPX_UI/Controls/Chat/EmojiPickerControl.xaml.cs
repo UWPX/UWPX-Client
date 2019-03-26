@@ -1,6 +1,7 @@
 ﻿using NeoSmart.Unicode;
 using UWPX_UI.Classes.Events;
 using UWPX_UI_Context.Classes.DataContext.Controls;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -25,6 +26,17 @@ namespace UWPX_UI.Controls.Chat
         {
             this.InitializeComponent();
             GoToVisualState("Recent");
+            emoji_gridv.Items.VectorChanged += Items_VectorChanged;
+            VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
+            UpdateNonFoundVisibility();
+        }
+
+        private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (string.Equals(e.PropertyName, nameof(EmojiPickerControlDataTemplate.IsLoading)))
+            {
+                UpdateLayout();
+            }
         }
 
         #endregion
@@ -44,6 +56,11 @@ namespace UWPX_UI.Controls.Chat
         {
             nextVisualState = state;
             VisualStateManager.GoToState(this, state, true);
+        }
+
+        private void UpdateNonFoundVisibility()
+        {
+            nonFound_stck.Visibility = emoji_gridv.Items.Count <= 0 && !VIEW_MODEL.MODEL.IsLoading ? Visibility.Visible : Visibility.Collapsed;
         }
 
         #endregion
@@ -80,6 +97,11 @@ namespace UWPX_UI.Controls.Chat
             {
                 GoToVisualState(state);
             }
+        }
+
+        private void Items_VectorChanged(Windows.Foundation.Collections.IObservableVector<object> sender, Windows.Foundation.Collections.IVectorChangedEventArgs @event)
+        {
+            UpdateNonFoundVisibility();
         }
 
         #endregion

@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:unicode="using:NeoSmart.Unicode"
+             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              Width="300"
              Height="300"
              mc:Ignorable="d">
@@ -44,6 +45,21 @@
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.SelectedList, Mode=OneWay}"
                   SelectionMode="Single"/>
 
+        <StackPanel x:Name="nonFound_stck"
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Visibility="Collapsed">
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       Foreground="{ThemeResource SystemAccentColor}"
+                       Style="{ThemeResource SubtitleTextBlockStyle}"
+                       Text="¯\_(ツ)_/¯"/>
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Text="We couldn't find this one."/>
+        </StackPanel>
+
         <ProgressRing Grid.Row="1"
                       Width="50"
                       Height="50"
@@ -68,42 +84,49 @@
                           Content="&#xE823;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsRecentChecked, Mode=TwoWay}"
                           Tag="Recent"
+                          ToolTipService.ToolTip="Recent"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
             <ToggleButton x:Name="smileys_tglbtn"
                           Checked="EmojiGroup_tglbtn_Checked"
                           Content="&#xED54;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsSmileysChecked, Mode=TwoWay}"
                           Tag="Smileys"
+                          ToolTipService.ToolTip="Smileys &amp; Emotion"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
             <ToggleButton x:Name="people_tglbtn"
                           Checked="EmojiGroup_tglbtn_Checked"
                           Content="&#xED53;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsPeopleChecked, Mode=TwoWay}"
                           Tag="People"
+                          ToolTipService.ToolTip="People &amp; Body &amp; Components"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
             <ToggleButton x:Name="objects_tglbtn"
                           Checked="EmojiGroup_tglbtn_Checked"
                           Content="&#xED55;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsObjectsChecked, Mode=TwoWay}"
                           Tag="Objects"
+                          ToolTipService.ToolTip="Objects &amp; Flags"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
             <ToggleButton x:Name="food_tglbtn"
                           Checked="EmojiGroup_tglbtn_Checked"
                           Content="&#xED56;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsFoodChecked, Mode=TwoWay}"
                           Tag="Food"
+                          ToolTipService.ToolTip="Food &amp; Animals &amp; Nature"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
             <ToggleButton x:Name="transportations_tglbtn"
                           Checked="EmojiGroup_tglbtn_Checked"
                           Content="&#xED57;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsTransportationsChecked, Mode=TwoWay}"
                           Tag="Transportations"
+                          ToolTipService.ToolTip="Travel &amp; Places"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
             <ToggleButton x:Name="symbols_tglbtn"
                           Checked="EmojiGroup_tglbtn_Checked"
                           Content="&#xEB51;"
                           IsChecked="{x:Bind VIEW_MODEL.MODEL.IsSymbolsChecked, Mode=TwoWay}"
                           Tag="Symbols"
+                          ToolTipService.ToolTip="Symbols"
                           Unchecked="EmojiGroup_tglbtn_Unchecked"/>
         </StackPanel>
         <VisualStateManager.VisualStateGroups>

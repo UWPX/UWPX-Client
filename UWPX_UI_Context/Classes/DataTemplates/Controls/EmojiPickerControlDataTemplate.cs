@@ -249,7 +249,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 IsLoading = true;
                 if (EMOJI_SMILEYS_FILTERED.Source.Count <= 0)
                 {
-                    List<SingleEmoji> emoji = Emoji.SmileysAndEmotion.Union(Emoji.AnimalsAndNature).Where((x) => x.HasGlyph).ToList();
+                    List<SingleEmoji> emoji = Emoji.SmileysAndEmotion.Where((x) => x.HasGlyph).ToList();
                     await SharedUtils.CallDispatcherAsync(() => EMOJI_SMILEYS_FILTERED.Source = emoji);
                 }
                 EMOJI_SMILEYS_FILTERED.RefreshFilter();
