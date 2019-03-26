@@ -1,7 +1,6 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Chat.EmojiPickerControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:UWPX_UI_Context.Classes.DataTemplates.Controls"
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -35,10 +34,10 @@
                  Grid.Row="0"
                  PlaceholderText="Search for emoji..."
                  Style="{StaticResource ChatsQueryTextBoxStyle}"
-                 Text="{x:Bind VIEW_MODEL.MODEL.EmojiQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                 Visibility="{x:Bind VIEW_MODEL.MODEL.IsRecentChecked, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
+                 Text="{x:Bind VIEW_MODEL.MODEL.EmojiQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-        <GridView Grid.Row="1"
+        <GridView x:Name="emoji_gridv"
+                  Grid.Row="1"
                   IsItemClickEnabled="True"
                   ItemClick="Emojis_grid_ItemClick"
                   ItemTemplate="{StaticResource EmojiTemplate}"
@@ -64,20 +63,137 @@
                     <Setter Property="FontSize" Value="20"/>
                 </Style>
             </StackPanel.Resources>
-            <ToggleButton Content="&#xE823;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsRecentChecked, Mode=TwoWay}"/>
-            <ToggleButton Content="&#xED54;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsSmileysChecked, Mode=TwoWay}"/>
-            <ToggleButton Content="&#xED53;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsPeopleChecked, Mode=TwoWay}"/>
-            <ToggleButton Content="&#xED55;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsObjectsChecked, Mode=TwoWay}"/>
-            <ToggleButton Content="&#xED56;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsFoodChecked, Mode=TwoWay}"/>
-            <ToggleButton Content="&#xED57;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsTransportationsChecked, Mode=TwoWay}"/>
-            <ToggleButton Content="&#xEB51;"
-                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsSymbolsChecked, Mode=TwoWay}"/>
+            <ToggleButton x:Name="recent_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xE823;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsRecentChecked, Mode=TwoWay}"
+                          Tag="Recent"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
+            <ToggleButton x:Name="smileys_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xED54;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsSmileysChecked, Mode=TwoWay}"
+                          Tag="Smileys"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
+            <ToggleButton x:Name="people_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xED53;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsPeopleChecked, Mode=TwoWay}"
+                          Tag="People"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
+            <ToggleButton x:Name="objects_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xED55;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsObjectsChecked, Mode=TwoWay}"
+                          Tag="Objects"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
+            <ToggleButton x:Name="food_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xED56;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsFoodChecked, Mode=TwoWay}"
+                          Tag="Food"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
+            <ToggleButton x:Name="transportations_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xED57;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsTransportationsChecked, Mode=TwoWay}"
+                          Tag="Transportations"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
+            <ToggleButton x:Name="symbols_tglbtn"
+                          Checked="EmojiGroup_tglbtn_Checked"
+                          Content="&#xEB51;"
+                          IsChecked="{x:Bind VIEW_MODEL.MODEL.IsSymbolsChecked, Mode=TwoWay}"
+                          Tag="Symbols"
+                          Unchecked="EmojiGroup_tglbtn_Unchecked"/>
         </StackPanel>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="Selected">
+                <VisualState x:Name="Dummy"/>
+                <VisualState x:Name="Recent">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Smileys">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="People">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Objects">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Food">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Transportations">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Symbols">
+                    <VisualState.Setters>
+                        <Setter Target="recent_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="smileys_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="people_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="objects_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="food_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
+                        <Setter Target="symbols_tglbtn.IsChecked" Value="True"/>
+                        <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </UserControl>

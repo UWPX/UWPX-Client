@@ -1,7 +1,9 @@
 ﻿using NeoSmart.Unicode;
 using UWPX_UI.Classes.Events;
 using UWPX_UI_Context.Classes.DataContext.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -14,12 +16,15 @@ namespace UWPX_UI.Controls.Chat
         public delegate void EmojiSelectedHandler(EmojiPickerControl sender, EmojiSelectedEventArgs args);
         public event EmojiSelectedHandler EmojiSelected;
 
+        private string nextVisualState;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public EmojiPickerControl()
         {
             this.InitializeComponent();
+            GoToVisualState("Recent");
         }
 
         #endregion
@@ -35,7 +40,11 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void GoToVisualState(string state)
+        {
+            nextVisualState = state;
+            VisualStateManager.GoToState(this, state, true);
+        }
 
         #endregion
 
@@ -53,6 +62,26 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        #endregion        
+        private void EmojiGroup_tglbtn_Unchecked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton btn && btn.Tag is string state)
+            {
+                if (string.Equals(nextVisualState, state))
+                {
+                    GoToVisualState("Dummy");
+                    GoToVisualState(state);
+                }
+            }
+        }
+
+        private void EmojiGroup_tglbtn_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is ToggleButton btn && btn.Tag is string state)
+            {
+                GoToVisualState(state);
+            }
+        }
+
+        #endregion
     }
 }

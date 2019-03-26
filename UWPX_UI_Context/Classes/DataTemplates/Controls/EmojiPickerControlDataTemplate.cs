@@ -137,13 +137,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadRecentEmoji();
                 SelectedList = EMOJI_RECENT;
-
-                IsSmileysChecked = false;
-                IsPeopleChecked = false;
-                IsObjectsChecked = false;
-                IsFoodChecked = false;
-                IsTransportationsChecked = false;
-                IsSymbolsChecked = false;
             }
         }
 
@@ -153,13 +146,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadSmileysEmoji();
                 SelectedList = EMOJI_SMILEYS_FILTERED;
-
-                IsRecentChecked = false;
-                IsPeopleChecked = false;
-                IsObjectsChecked = false;
-                IsFoodChecked = false;
-                IsTransportationsChecked = false;
-                IsSymbolsChecked = false;
             }
         }
 
@@ -169,13 +155,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadPeopleEmoji();
                 SelectedList = EMOJI_PEOPLE_FILTERED;
-
-                IsRecentChecked = false;
-                IsSmileysChecked = false;
-                IsObjectsChecked = false;
-                IsFoodChecked = false;
-                IsTransportationsChecked = false;
-                IsSymbolsChecked = false;
             }
         }
 
@@ -185,13 +164,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadObjectEmoji();
                 SelectedList = EMOJI_OBJECTS_FILTERED;
-
-                IsRecentChecked = false;
-                IsSmileysChecked = false;
-                IsPeopleChecked = false;
-                IsFoodChecked = false;
-                IsTransportationsChecked = false;
-                IsSymbolsChecked = false;
             }
         }
 
@@ -201,13 +173,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadFoodEmoji();
                 SelectedList = EMOJI_FOOD_FILTERED;
-
-                IsRecentChecked = false;
-                IsSmileysChecked = false;
-                IsPeopleChecked = false;
-                IsObjectsChecked = false;
-                IsTransportationsChecked = false;
-                IsSymbolsChecked = false;
             }
         }
 
@@ -217,13 +182,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadTransportationsEmoji();
                 SelectedList = EMOJI_TRANSPORTATIONS_FILTERED;
-
-                IsRecentChecked = false;
-                IsSmileysChecked = false;
-                IsPeopleChecked = false;
-                IsObjectsChecked = false;
-                IsFoodChecked = false;
-                IsSymbolsChecked = false;
             }
         }
 
@@ -233,13 +191,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 LoadSymbolEmoji();
                 SelectedList = EMOJI_SYMBOLS_FILTERED;
-
-                IsRecentChecked = false;
-                IsSmileysChecked = false;
-                IsPeopleChecked = false;
-                IsObjectsChecked = false;
-                IsFoodChecked = false;
-                IsTransportationsChecked = false;
             }
         }
 
