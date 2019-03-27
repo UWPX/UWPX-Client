@@ -2,6 +2,7 @@
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
@@ -99,6 +100,16 @@ namespace UWPX_UI.Pages.Settings
         private void ResetSpamRegex_btn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             VIEW_MODEL.ResetSpamRegex();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         #endregion

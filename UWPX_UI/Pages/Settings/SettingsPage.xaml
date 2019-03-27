@@ -33,7 +33,8 @@
         </Grid.RowDefinitions>
 
         <!--  Header:  -->
-        <controls:CustomSettingsTitleBarControl Grid.Row="0"
+        <controls:CustomSettingsTitleBarControl x:Name="titleBar"
+                                                Grid.Row="0"
                                                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
                                                 Frame="{x:Bind Frame, Mode=OneWay}"
                                                 Glyph="&#xE713;"

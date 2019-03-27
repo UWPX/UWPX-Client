@@ -9,6 +9,7 @@ using Windows.ApplicationModel;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
@@ -128,6 +129,16 @@ namespace UWPX_UI.Pages.Settings
         private void Version_tbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             VIEW_MODEL.OnVersionTextTapped();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         #endregion

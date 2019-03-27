@@ -2,6 +2,7 @@
 using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
@@ -86,6 +87,16 @@ namespace UWPX_UI.Pages.Settings
                     break;
                 }
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         #endregion

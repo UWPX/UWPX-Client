@@ -1,6 +1,7 @@
 ﻿using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
@@ -83,6 +84,16 @@ namespace UWPX_UI.Pages.Settings
         private async void SendMail_link_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
             await VIEW_MODEL.SendBankDetailsMailAsync();
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         #endregion

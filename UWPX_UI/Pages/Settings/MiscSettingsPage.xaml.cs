@@ -169,6 +169,12 @@ namespace UWPX_UI.Pages.Settings
             {
                 requestedSection = s;
             }
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         private void Main_nview_Loaded(object sender, RoutedEventArgs e)

@@ -73,7 +73,15 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void OnPageNavigatedTo()
+        {
+            IsActive = true;
+        }
 
+        public void OnPageNavigatedFrom()
+        {
+            IsActive = false;
+        }
 
         #endregion
 
@@ -191,16 +199,6 @@ namespace UWPX_UI.Controls
             {
                 args.Handled = OnGoBackRequested();
             }
-        }
-
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            IsActive = false;
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            IsActive = true;
         }
 
         private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

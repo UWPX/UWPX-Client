@@ -4,6 +4,7 @@ using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
@@ -91,6 +92,16 @@ namespace UWPX_UI.Pages.Settings
             await VIEW_MODEL.ReconnectAllAsync();
             reconnectAll_ibtn.ProgressRingVisibility = Visibility.Collapsed;
             reconnectAll_ibtn.IsEnabled = true;
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         #endregion

@@ -120,6 +120,12 @@ namespace UWPX_UI.Pages
                 UpdateViewState(State_Add.Name);
                 UpdateViewState(State_1.Name);
             }
+            titleBar.OnPageNavigatedTo();
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            titleBar.OnPageNavigatedFrom();
         }
 
         private async void Jid1_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)

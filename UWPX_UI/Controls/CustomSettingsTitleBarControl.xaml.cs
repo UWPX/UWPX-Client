@@ -76,7 +76,15 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void OnPageNavigatedTo()
+        {
+            IsActive = true;
+        }
 
+        public void OnPageNavigatedFrom()
+        {
+            IsActive = false;
+        }
 
         #endregion
 
@@ -145,7 +153,12 @@ namespace UWPX_UI.Controls
 
         private bool OnGoBackRequested()
         {
-            if (IsActive && UiUtils.OnGoBackRequested(Frame))
+            if (!IsActive)
+            {
+                return false;
+            }
+
+            if (UiUtils.OnGoBackRequested(Frame))
             {
                 return true;
             }
@@ -192,16 +205,6 @@ namespace UWPX_UI.Controls
         private void GoToOverview_btn_Click(object sender, RoutedEventArgs e)
         {
             UiUtils.NavigateToPage(typeof(SettingsPage));
-        }
-
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            IsActive = true;
-        }
-
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
-        {
-            IsActive = false;
         }
 
         private static void OnIsActiveChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)

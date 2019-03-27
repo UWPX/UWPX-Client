@@ -22,7 +22,7 @@ namespace UWPX_UI.Pages
         public ChatPage()
         {
             this.InitializeComponent();
-            NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
+            NavigationCacheMode = NavigationCacheMode.Required;
         }
 
         #endregion
@@ -111,10 +111,13 @@ namespace UWPX_UI.Pages
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             VIEW_MODEL.OnNavigatedFrom();
+            titleBar.OnPageNavigatedFrom();
         }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             VIEW_MODEL.OnNavigatedTo();
+            titleBar.OnPageNavigatedTo();
         }
 
         #endregion

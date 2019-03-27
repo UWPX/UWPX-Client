@@ -39,7 +39,8 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--  Header:  -->
-        <controls:CustomTitleBarControl Grid.Row="0"
+        <controls:CustomTitleBarControl x:Name="titleBar"
+                                        Grid.Row="0"
                                         Frame="{x:Bind Frame, Mode=OneWay}"/>
 
         <!--  Content:  -->
