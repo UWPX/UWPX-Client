@@ -17,19 +17,19 @@ namespace NeoSmart.Unicode
         /// Only contains fully-qualified and component emoji.
         /// <summary>
 #if NET20 || NET30 || NET35
-		public static readonly List<SingleEmoji> Component = new List<SingleEmoji>() {
+        public static readonly List<SingleEmoji> Component = new List<SingleEmoji>() {
 #else
         public static SortedSet<SingleEmoji> Component => new SortedSet<SingleEmoji>() {
 #endif
-			/* 🏻 */ LightSkinTone,
-			/* 🏼 */ MediumLightSkinTone,
-			/* 🏽 */ MediumSkinTone,
-			/* 🏾 */ MediumDarkSkinTone,
-			/* 🏿 */ DarkSkinTone,
-			/* 🦰 */ RedHair,
-			/* 🦱 */ CurlyHair,
-			/* 🦳 */ WhiteHair,
-			/* 🦲 */ Bald,
+            /* 🏻 */ LightSkinTone,
+            /* 🏼 */ MediumLightSkinTone,
+            /* 🏽 */ MediumSkinTone,
+            /* 🏾 */ MediumDarkSkinTone,
+            /* 🏿 */ DarkSkinTone,
+            /* 🦰 */ RedHair,
+            /* 🦱 */ CurlyHair,
+            /* 🦳 */ WhiteHair,
+            /* 🦲 */ Bald,
         };
     }
 }

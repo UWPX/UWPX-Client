@@ -56,6 +56,11 @@ namespace NeoSmart.Unicode
             }
         }
 
+        public UnicodeSequence(int[] sequences)
+        {
+            _codepoints = sequences.Select(x => new Codepoint(x)).ToArray();
+        }
+
         public UnicodeSequence(IEnumerable<Codepoint> codepoints)
         {
             _codepoints = codepoints.ToArray();

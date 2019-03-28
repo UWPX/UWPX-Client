@@ -35,15 +35,45 @@ namespace NeoSmart.Unicode
 
         public static class SkinTones
         {
+            /// <summary>
+            /// 🏻 light skin tone.
+            /// </summary>
             public static readonly Codepoint Light = new Codepoint("U+1F3FB");
-            public static readonly Codepoint Fitzpatrick12 = MediumLight;
+            /// <summary>
+            /// 🏻 light skin tone.
+            /// </summary>
+            public static readonly Codepoint Fitzpatrick12 = Light;
+            /// <summary>
+            /// 🏼 medium-light skin tone.
+            /// </summary>
             public static readonly Codepoint MediumLight = new Codepoint("U+1F3FC");
+            /// <summary>
+            /// 🏼 medium-light skin tone.
+            /// </summary>
             public static readonly Codepoint Fitzpatrick3 = MediumLight;
+            /// <summary>
+            /// 🏽 medium skin tone.
+            /// </summary>
             public static readonly Codepoint Medium = new Codepoint("U+1F3FD");
+            /// <summary>
+            /// 🏽 medium skin tone.
+            /// </summary>
             public static readonly Codepoint Fitzpatrick4 = Medium;
+            /// <summary>
+            /// 🏾 medium-dark skin tone.
+            /// </summary>
             public static readonly Codepoint MediumDark = new Codepoint("U+1F3FE");
+            /// <summary>
+            /// 🏾 medium-dark skin tone.
+            /// </summary>
             public static readonly Codepoint Fitzpatrick5 = MediumDark;
+            /// <summary>
+            /// 🏿 dark skin tone.
+            /// </summary>
             public static readonly Codepoint Dark = new Codepoint("U+1F3FF");
+            /// <summary>
+            /// 🏿 dark skin tone.
+            /// </summary>
             public static readonly Codepoint Fitzpatrick6 = Dark;
 
             /// <summary>
@@ -94,7 +124,7 @@ namespace NeoSmart.Unicode
             int count = 0;
             foreach (var cp in codepoints)
             {
-                //we used to have message = message.trim() previously. This avoids the extra allocation, helpful in case of long messages.
+                //we used to have message = message.trim() previously. This avoids the extra allocation, hepful in case of long messages.
                 //this was not premature optimization, it came out of necessity.
                 if (cp == "\n" || cp == "\r" || cp == "\t" || cp == " ")
                 {

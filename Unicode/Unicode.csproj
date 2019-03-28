@@ -143,6 +143,7 @@
     <Compile Include="Classes\Emoji-Objects.cs" />
     <Compile Include="Classes\Emoji-PeopleAndBody.cs" />
     <Compile Include="Classes\Emoji-SmileysAndEmotion.cs" />
+    <Compile Include="Classes\Emoji-Subgroups.cs" />
     <Compile Include="Classes\Emoji-Symbols.cs" />
     <Compile Include="Classes\Emoji-TravelAndPlaces.cs" />
     <Compile Include="Classes\Emoji.cs" />
@@ -154,7 +155,6 @@
     <Compile Include="Classes\MultiRange.cs" />
     <Compile Include="Classes\Range.cs" />
     <Compile Include="Classes\SingleEmoji.cs" />
-    <Compile Include="Classes\SkinTone.cs" />
     <Compile Include="Classes\StringExtension.cs" />
     <Compile Include="Classes\UnicodeSequence.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
