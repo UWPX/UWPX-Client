@@ -18,7 +18,8 @@
         <controls:AccountSelectionControl AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
                                           AddAccountClick="AccountSelectionControl_AddAccountClick"
                                           Header="Select account:"/>
-        <TextBlock Text="ChatJID"/>
+        <controls:BareJidInputControl Margin="0,10,0,0"
+                                      Header="With whom do you want to start a chat?"/>
         <CheckBox Margin="0,10,0,0"
                   Content="Add to roster"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.AddToRoster, Mode=TwoWay}"/>

@@ -147,6 +147,7 @@
     <Compile Include="Classes\DataContext\Controls\AccountSettingsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountsListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\BackgroundImageSelectionControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\BareJidInputControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatBackgroundControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
@@ -192,6 +193,7 @@
     <Compile Include="Classes\DataTemplates\Controls\AccountsListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\BackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\BackgroundImageSelectionControlItemDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\BareJidInputControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CertificateDetailDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatBackgroundControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
