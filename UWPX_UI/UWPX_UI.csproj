@@ -134,10 +134,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
     <Compile Include="Classes\Events\EmojiSelectedEventArgs.cs" />
     <Compile Include="Classes\SplashScreenImageScale.cs" />
     <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
       <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\AccountSelectionControl.xaml.cs">
+      <DependentUpon>AccountSelectionControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\ChatBackgroundControl.xaml.cs">
       <DependentUpon>ChatBackgroundControl.xaml</DependentUpon>
@@ -253,6 +257,9 @@
     <Compile Include="Controls\Toolkit\VisualTree.cs" />
     <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
       <DependentUpon>AccountInfoDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\AddChatDialog.xaml.cs">
+      <DependentUpon>AddChatDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
       <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
@@ -454,6 +461,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\AccountSelectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\ChatBackgroundControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -605,6 +616,10 @@
     <Page Include="Dialogs\AccountInfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\AddChatDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\AppCenterPushDialog.xaml">
       <Generator>MSBuild:Compile</Generator>

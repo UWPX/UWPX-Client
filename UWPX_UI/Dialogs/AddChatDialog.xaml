@@ -1,0 +1,29 @@
+﻿<ContentDialog x:Class="UWPX_UI.Dialogs.AddChatDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:controls="using:UWPX_UI.Controls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="Add Chat"
+               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+               PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
+               PrimaryButtonText="Cancel"
+               SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+               SecondaryButtonStyle="{ThemeResource AcceptButtonRevealStyle}"
+               SecondaryButtonText="Add"
+               mc:Ignorable="d">
+
+    <StackPanel>
+        <controls:AccountSelectionControl AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
+                                          AddAccountClick="AccountSelectionControl_AddAccountClick"
+                                          Header="Select account:"/>
+        <TextBlock Text="ChatJID"/>
+        <CheckBox Margin="0,10,0,0"
+                  Content="Add to roster"
+                  IsChecked="{x:Bind VIEW_MODEL.MODEL.AddToRoster, Mode=TwoWay}"/>
+        <CheckBox Margin="0,10,0,0"
+                  Content="Subscribe to presence"
+                  IsChecked="{x:Bind VIEW_MODEL.MODEL.SubscribeToPresence, Mode=TwoWay}"/>
+    </StackPanel>
+</ContentDialog>

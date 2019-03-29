@@ -26,7 +26,7 @@
                       Glyph="{x:Bind Glyph, Mode=OneWay}"/>
             <TextBlock x:Name="text_tbx"
                        Grid.Column="1"
-                       Margin="10,0,0,0"
+                       Margin="{x:Bind TextMargin, Mode=TwoWay}"
                        VerticalAlignment="Center"
                        Text="{x:Bind Text, Mode=OneWay}"/>
         </Grid>

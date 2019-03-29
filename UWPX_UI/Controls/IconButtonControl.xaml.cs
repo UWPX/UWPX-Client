@@ -37,6 +37,13 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty GlyphMarginProperty = DependencyProperty.Register(nameof(GlyphMargin), typeof(Thickness), typeof(IconButtonControl), new PropertyMetadata(new Thickness(0)));
 
+        public Thickness TextMargin
+        {
+            get { return (Thickness)GetValue(TextMarginProperty); }
+            set { SetValue(TextMarginProperty, value); }
+        }
+        public static readonly DependencyProperty TextMarginProperty = DependencyProperty.Register(nameof(TextMargin), typeof(Thickness), typeof(IconButtonControl), new PropertyMetadata(new Thickness(10, 0, 0, 0)));
+
         public delegate void ClickHandler(IconButtonControl sender, RoutedEventArgs args);
         public event ClickHandler Click;
 

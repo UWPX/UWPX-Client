@@ -56,12 +56,9 @@ namespace UWPX_UI.Pages
 
         private async void AddChat_mfoi_Click(object sender, RoutedEventArgs e)
         {
-            AddChatDialog dialog = new AddChatDialog();
+            Dialogs.AddChatDialog dialog = new Dialogs.AddChatDialog();
             await UiUtils.ShowDialogAsync(dialog);
-            if (!dialog.cancled)
-            {
-                await VIEW_MODEL.AddChatAsync(dialog.client, dialog.jabberId, dialog.addToRoster, dialog.requestSubscription);
-            }
+            await VIEW_MODEL.OnAddChatAsync(dialog.VIEW_MODEL.MODEL);
         }
 
         private void AddMix_mfoi_Click_1(object sender, RoutedEventArgs e)

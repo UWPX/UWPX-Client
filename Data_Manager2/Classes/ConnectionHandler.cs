@@ -82,6 +82,7 @@ namespace Data_Manager2.Classes
 
         /// <summary>
         /// Returns all available XMPPClients.
+        /// The CustomObservableCollection won't invoke the UI thread if a change occurs.
         /// </summary>
         public CustomObservableCollection<XMPPClient> getClients()
         {

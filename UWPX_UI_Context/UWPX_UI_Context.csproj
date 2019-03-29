@@ -160,6 +160,8 @@
     <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleContentControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\AccountSelectionControlContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\AddChatDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\CertificateRequirementsDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ColorPickerDialogContext.cs" />
@@ -203,6 +205,8 @@
     <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleContentControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleImageContentControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\AccountSelectionControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\AddChatDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementsDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ClearCacheDialogDataTemplate.cs" />
@@ -228,6 +232,7 @@
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />

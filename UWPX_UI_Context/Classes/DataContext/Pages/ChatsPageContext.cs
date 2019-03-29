@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections;
 using UWPX_UI_Context.Classes.Collections.Toolkit;
 using UWPX_UI_Context.Classes.DataTemplates;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
@@ -47,38 +48,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        /// <summary>
-        /// Adds and starts a new chat.
-        /// </summary>
-        /// <param name="client">Which account/client owns this chat?</param>
-        /// <param name="bareJid">The bare JID of the opponent.</param>
-        /// <param name="addToRoster">Should the chat get added to the users roster?</param>
-        /// <param name="requestSubscription">Request a presence subscription?</param>
-        public async Task AddChatAsync(XMPPClient client, string bareJid, bool addToRoster, bool requestSubscription)
+        public async Task OnAddChatAsync(AddChatDialogDataTemplate dataTemplate)
         {
-            if (client is null || string.IsNullOrEmpty(bareJid))
+            if (dataTemplate.Confirmed)
             {
-                Logger.Error("Unable to add chat! client ?= " + (client is null) + " bareJid ?=" + (bareJid is null));
-                return;
+                await AddChatAsync(dataTemplate.Client, dataTemplate.ChatBareJid, dataTemplate.AddToRoster, dataTemplate.SubscribeToPresence);
             }
-
-            await Task.Run(async () =>
-            {
-                if (addToRoster)
-                {
-                    await client.GENERAL_COMMAND_HELPER.addToRosterAsync(bareJid);
-                }
-                if (requestSubscription)
-                {
-                    await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(bareJid);
-                }
-                ChatDBManager.INSTANCE.setChat(new ChatTable(bareJid, client.getXMPPAccount().getBareJid())
-                {
-                    inRoster = addToRoster,
-                    subscription = requestSubscription ? "pending" : null
-                }, false, true);
-            });
-
         }
 
         public void OnNavigatedTo()
@@ -152,6 +127,40 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 }
             }
             return list;
+        }
+
+        /// <summary>
+        /// Adds and starts a new chat.
+        /// </summary>
+        /// <param name="client">Which account/client owns this chat?</param>
+        /// <param name="bareJid">The bare JID of the opponent.</param>
+        /// <param name="addToRoster">Should the chat get added to the users roster?</param>
+        /// <param name="requestSubscription">Request a presence subscription?</param>
+        private async Task AddChatAsync(XMPPClient client, string bareJid, bool addToRoster, bool requestSubscription)
+        {
+            if (client is null || string.IsNullOrEmpty(bareJid))
+            {
+                Logger.Error("Unable to add chat! client ?= " + (client is null) + " bareJid ?=" + (bareJid is null));
+                return;
+            }
+
+            await Task.Run(async () =>
+            {
+                if (addToRoster)
+                {
+                    await client.GENERAL_COMMAND_HELPER.addToRosterAsync(bareJid);
+                }
+                if (requestSubscription)
+                {
+                    await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(bareJid);
+                }
+                ChatDBManager.INSTANCE.setChat(new ChatTable(bareJid, client.getXMPPAccount().getBareJid())
+                {
+                    inRoster = addToRoster,
+                    subscription = requestSubscription ? "pending" : null
+                }, false, true);
+            });
+
         }
 
         #endregion
