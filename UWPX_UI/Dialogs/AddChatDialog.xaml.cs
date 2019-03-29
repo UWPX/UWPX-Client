@@ -60,7 +60,7 @@ namespace UWPX_UI.Dialogs
 
         private void AccountSelectionControl_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
         {
-
+            VIEW_MODEL.MODEL.Client = args.CLIENT;
         }
 
         #endregion        
