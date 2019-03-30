@@ -1,4 +1,5 @@
 ﻿using Shared.Classes;
+using Shared.Classes.Collections;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -11,7 +12,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public string Text
         {
             get { return _Text; }
-            set { SetProperty(ref _Text, value); }
+            set { SetTextProperty(value); }
         }
 
         private bool _IsValid;
@@ -20,6 +21,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _IsValid; }
             set { SetProperty(ref _IsValid, value); }
         }
+
+        public readonly CustomObservableCollection<string> SUGGESTIONS = new CustomObservableCollection<string>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,7 +43,22 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void UpdateSuggestions(string input)
+        {
+            SUGGESTIONS.Clear();
+            int index = input.IndexOf('@');
+            if (index >= 0)
+            {
+                string domain = input.Substring(index + 1);
+                foreach (string s in Utils.COMMON_XMPP_SERVERS)
+                {
+                    if (s.StartsWith(domain) && !s.Equals(domain))
+                    {
+                        SUGGESTIONS.Add(input + s);
+                    }
+                }
+            }
+        }
 
         #endregion
 

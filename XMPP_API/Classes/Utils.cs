@@ -17,6 +17,30 @@ namespace XMPP_API.Classes
         private static readonly Random RANDOM = new Random();
         private const string DEFAULT_RESOURCE_PREFIX = "UWPX_";
 
+        public static readonly string[] COMMON_XMPP_SERVERS = new string[] {
+            "xmpp.uwpx.org",
+            "jabber.de",
+            "jabber.at",
+            "404.city",
+            "wiuwiu.de ",
+            "ubuntu-jabber.de",
+            "draugr.de",
+            "dukgo.com ",
+            "einfachjabber.de",
+            "xmppnet.de",
+            "is-a-furry.org",
+            "jabberafrica.org",
+            "jabber.no",
+            "jabber.org",
+            "jabber.se",
+            "mailbox.org",
+            "chat.jabb.im",
+            "chat.sumpi.org",
+            "simplewire.de",
+            "mailbox.bz",
+            "kein.ninja"
+        };
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

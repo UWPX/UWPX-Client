@@ -1,11 +1,30 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.BareJidInputControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <AutoSuggestBox Header="{x:Bind Header, Mode=OneWay}"
-                    PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
-                    Text="{x:Bind VIEW_MODEL.MODEL.Text, Mode=TwoWay}"/>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/BareJidAutoSuggestBoxStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <StackPanel>
+        <AutoSuggestBox Header="{x:Bind Header, Mode=OneWay}"
+                        ItemsSource="{x:Bind VIEW_MODEL.MODEL.SUGGESTIONS}"
+                        PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
+                        Style="{StaticResource BareJidAutoSuggestBoxStyle}"
+                        Text="{x:Bind VIEW_MODEL.MODEL.Text, Mode=TwoWay}"
+                        TextChanged="AutoSuggestBox_TextChanged"/>
+        <controls:IconTextBlockControl Margin="0,5,0,0"
+                                       Glyph="&#xE783;"
+                                       GlyphForeground="Red"
+                                       Text="Invalid JID"
+                                       Visibility="{x:Bind VIEW_MODEL.MODEL.IsValid, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
+    </StackPanel>
 </UserControl>

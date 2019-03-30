@@ -22,7 +22,21 @@ namespace UWPX_UI.Controls
             get { return (string)GetValue(PlaceholderTextProperty); }
             set { SetValue(PlaceholderTextProperty, value); }
         }
-        public static readonly DependencyProperty PlaceholderTextProperty = DependencyProperty.Register(nameof(PlaceholderText), typeof(string), typeof(BareJidInputControl), new PropertyMetadata("name@example.com"));
+        public static readonly DependencyProperty PlaceholderTextProperty = DependencyProperty.Register(nameof(PlaceholderText), typeof(string), typeof(BareJidInputControl), new PropertyMetadata("alice@example.com"));
+
+        public string Text
+        {
+            get { return (string)GetValue(TextProperty); }
+            set { SetValue(TextProperty, value); }
+        }
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(BareJidInputControl), new PropertyMetadata(""));
+
+        public bool IsValid
+        {
+            get { return (bool)GetValue(IsValidProperty); }
+            set { SetValue(IsValidProperty, value); }
+        }
+        public static readonly DependencyProperty IsValidProperty = DependencyProperty.Register(nameof(IsValid), typeof(bool), typeof(BareJidInputControl), new PropertyMetadata(false));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,6 +44,7 @@ namespace UWPX_UI.Controls
         public BareJidInputControl()
         {
             this.InitializeComponent();
+            VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
         }
 
         #endregion
@@ -55,7 +70,27 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void AutoSuggestBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (args.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+            {
+                VIEW_MODEL.MODEL.UpdateSuggestions(sender.Text);
+            }
+        }
 
+        private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(VIEW_MODEL.MODEL.IsValid):
+                    IsValid = VIEW_MODEL.MODEL.IsValid;
+                    break;
+
+                case nameof(VIEW_MODEL.MODEL.Text):
+                    Text = VIEW_MODEL.MODEL.Text;
+                    break;
+            }
+        }
 
         #endregion
     }
