@@ -10,14 +10,14 @@ using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -435,15 +435,10 @@ namespace XMPP_API.Classes.Network.XML
             if (XMLUtils.getChildNode(n, Consts.XML_XMLNS, Consts.XML_XEP_0085_NAMESPACE) != null)
             {
                 messages.Add(new ChatStateMessage(n));
-
-                // Chat state messages can contain a body:
-                if (XMLUtils.getChildNode(n, "body") != null)
-                {
-                    messages.Add(new MessageMessage(n, ccType));
-                }
             }
+
             // XEP-0384 (OMEMO Encryption):
-            else if (XMLUtils.getChildNode(n, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE) != null)
+            if (XMLUtils.getChildNode(n, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE) != null)
             {
                 messages.Add(new OmemoMessageMessage(n, ccType));
             }
