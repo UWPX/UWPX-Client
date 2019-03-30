@@ -1,6 +1,7 @@
 ﻿using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.Crypto;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -37,7 +38,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void CopyFingerprintToClipboard()
         {
-            UiUtils.SetClipboardText(MODEL.Fingerprint);
+            UiUtils.SetClipboardText(CryptoUtils.generateOmemoFingerprint(MODEL.Fingerprint));
         }
 
         #endregion

@@ -8,8 +8,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private string _Fingerprint;
-        public string Fingerprint
+        private byte[] _Fingerprint;
+        public byte[] Fingerprint
         {
             get { return _Fingerprint; }
             set { SetProperty(ref _Fingerprint, value); }
@@ -41,17 +41,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 IdentityKey key = account.Account.omemoIdentityKeyPair?.getPublicKey();
                 if (!(key is null))
                 {
-                    Fingerprint = CryptoUtils.generateOmemoFingerprint(key, true);
+                    Fingerprint = CryptoUtils.getRawFromECPublicKey(key.getPublicKey());
                     QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(key, account.Account);
                 }
                 else
                 {
-                    Fingerprint = "Failed to load fingerprint!";
+                    Fingerprint = null;
                     QrCodeFingerprint = null;
                 }
                 return;
             }
-            Fingerprint = "";
+            Fingerprint = null;
             QrCodeFingerprint = null;
         }
 

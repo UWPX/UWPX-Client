@@ -323,6 +323,8 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelper.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildHelperState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\Signal\Session\OmemoSessionBuildResult.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0392\ConsistentColorGenerator.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0392\HsluvConverter.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\AddBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\BookmarksResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\ConferenceItem.cs" />

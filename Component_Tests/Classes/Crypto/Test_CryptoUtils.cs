@@ -133,8 +133,8 @@ namespace Component_Tests.Classes.Crypto
             byte[] identKeyPairSerialized = CryptoUtils.hexStringToByteArray(identKeyPairSerializedHex);
             IdentityKeyPair identKeyPair = new IdentityKeyPair(identKeyPairSerialized);
 
-            string outputRef = "11dbad7f cece7449 2f390f0a 2a8387c5 43e802ab 7f2176e3 03e28840 559c4152";
-            string output = CryptoUtils.generateOmemoFingerprint(identKeyPair.getPublicKey(), false);
+            string outputRef = "11dbad7fcece74492f390f0a2a8387c543e802ab7f2176e303e28840559c4152";
+            string output = CryptoUtils.generateOmemoFingerprint(identKeyPair.getPublicKey());
 
             Assert.AreEqual(outputRef, output);
         }

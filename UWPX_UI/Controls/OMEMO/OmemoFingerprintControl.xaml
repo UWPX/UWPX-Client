@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:extensions="using:UWPX_UI.Extensions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
@@ -18,8 +19,8 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock HorizontalAlignment="Left"
+                       extensions:TextBlockOmemoFingerprintFormatExtension.Fingerprint="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"
                        IsTextSelectionEnabled="True"
-                       Text="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"
                        TextWrapping="WrapWholeWords"/>
             <Button x:Name="cpyFingerprint_btn"
                     Grid.Column="1"

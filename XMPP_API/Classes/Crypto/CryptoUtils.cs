@@ -154,19 +154,12 @@ namespace XMPP_API.Classes.Crypto
         /// <summary>
         /// Generates the display fingerprint for the given OMEMO identity public key.
         /// </summary>
-        /// <param name="key">The OMEMO identity public key.</param>
-        /// <param name="twoLines">Split the fingerprint into two lines.</param>
+        /// <param name="keyRaw">The OMEMO identity public key as a byte[].</param>
         /// <returns>A hex string representing the given OMEMO identity public key. Split up in blocks of 8 characters separated by a whitespace.</returns>
-        public static string generateOmemoFingerprint(IdentityKey key, bool twoLines)
+        public static string generateOmemoFingerprint(byte[] keyRaw)
         {
-            byte[] keyRaw = getRawFromECPublicKey(key.getPublicKey());
             string fingerprint = byteArrayToHexString(keyRaw);
-            fingerprint = Regex.Replace(fingerprint, ".{8}", "$0 ").TrimEnd();
-            if (twoLines)
-            {
-                fingerprint = Regex.Replace(fingerprint, ".{36}", "$0\n").TrimEnd();
-            }
-            return fingerprint;
+            return Regex.Replace(fingerprint, ".{8}", "$0 ").TrimEnd();
         }
 
         /// <summary>
