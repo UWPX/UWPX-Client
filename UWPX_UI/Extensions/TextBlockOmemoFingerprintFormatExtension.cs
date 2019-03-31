@@ -98,7 +98,7 @@ namespace UWPX_UI.Extensions
 
         private static Brush GenBrush(byte[] part)
         {
-            return new SolidColorBrush(ConsistentColorGenerator.GenForegroundColor(part, true, true));
+            return new SolidColorBrush(ConsistentColorGenerator.GenForegroundColor(part, false, false));
         }
 
         #endregion
