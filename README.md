@@ -42,6 +42,7 @@ At the moment UWPX is still in ALPHA state so expect regular crashes and unexpec
 | Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
 | Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
 | Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") |
+| Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) |
 
 
 ## ToDo:
@@ -57,7 +58,6 @@ At the moment UWPX is still in ALPHA state so expect regular crashes and unexpec
 | HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
 | Mix | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") |
 | OMEMO (status -> [#5](https://github.com/UWPX/UWPX-Client/issues/5)) | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
-| Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) |
 
 [MORE NOTES TO COME]
 
