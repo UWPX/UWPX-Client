@@ -74,7 +74,8 @@
                                                       Margin="10"
                                                       HorizontalAlignment="Left"
                                                       VerticalAlignment="Center"
-                                                      Initials="{x:Bind VIEW_MODEL.MODEL.AccountInitials, Mode=OneWay}"
+                                                      BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
+                                                      ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
                                                       PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>
                 <Grid x:Name="headerInfo_grid"
                       Grid.Column="1"

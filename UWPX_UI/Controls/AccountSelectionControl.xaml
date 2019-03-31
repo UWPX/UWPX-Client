@@ -20,6 +20,8 @@
                 <controls:AccountImagePresenceControl Grid.Column="0"
                                                       Width="30"
                                                       Height="30"
+                                                      BareJid="{x:Bind Account.getBareJid(), Mode=OneWay}"
+                                                      ChatType="CHAT"
                                                       PresenceProp="{x:Bind ConnectionState, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
                 <StackPanel Grid.Column="1"
                             Margin="10,0,0,0"
@@ -64,8 +66,8 @@
                   HorizontalAlignment="Stretch"
                   ItemTemplate="{StaticResource AccountTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.CLIENTS}"
-                  SelectionChanged="ComboBox_SelectionChanged"
-                  SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"/>
+                  SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"
+                  SelectionChanged="ComboBox_SelectionChanged"/>
         <controls:IconButtonControl Grid.Row="1"
                                     Grid.Column="1"
                                     Click="IconButtonControl_Click"

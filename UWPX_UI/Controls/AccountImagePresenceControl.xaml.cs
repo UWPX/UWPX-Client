@@ -1,4 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using Data_Manager2.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
@@ -23,12 +25,21 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(BitmapImage), typeof(AccountImagePresenceControl), new PropertyMetadata(null));
 
-        public string Initials
+        public string BareJid
         {
-            get { return (string)GetValue(InitialsProperty); }
-            set { SetValue(InitialsProperty, value); }
+            get { return (string)GetValue(BareJidProperty); }
+            set { SetValue(BareJidProperty, value); }
         }
-        public static readonly DependencyProperty InitialsProperty = DependencyProperty.Register(nameof(Initials), typeof(string), typeof(AccountImagePresenceControl), new PropertyMetadata("\uE77B"));
+        public static readonly DependencyProperty BareJidProperty = DependencyProperty.Register(nameof(BareJid), typeof(string), typeof(AccountImagePresenceControl), new PropertyMetadata("", OnBareJidChanged));
+
+        public ChatType ChatType
+        {
+            get { return (ChatType)GetValue(ChatTypeProperty); }
+            set { SetValue(ChatTypeProperty, value); }
+        }
+        public static readonly DependencyProperty ChatTypeProperty = DependencyProperty.Register(nameof(ChatType), typeof(ChatType), typeof(AccountImagePresenceControl), new PropertyMetadata(ChatType.CHAT, OnChatTypeChanged));
+
+        public readonly AccountImagePresenceControlContext VIEW_MODEL = new AccountImagePresenceControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -51,7 +62,10 @@ namespace UWPX_UI.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView()
+        {
+            VIEW_MODEL.UpdateView(ChatType, BareJid);
+        }
 
         #endregion
 
@@ -61,7 +75,21 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private static void OnBareJidChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is AccountImagePresenceControl control)
+            {
+                control.UpdateView();
+            }
+        }
 
+        private static void OnChatTypeChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is AccountImagePresenceControl control)
+            {
+                control.UpdateView();
+            }
+        }
 
         #endregion
     }

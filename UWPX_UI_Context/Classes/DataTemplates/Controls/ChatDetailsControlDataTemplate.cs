@@ -84,17 +84,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _AccountPresence; }
             set { SetProperty(ref _AccountPresence, value); }
         }
-        private string _AccountInitials;
-        public string AccountInitials
+        private string _BareJid;
+        public string BareJid
         {
-            get { return _AccountInitials; }
-            set { SetProperty(ref _AccountInitials, value); }
+            get { return _BareJid; }
+            set { SetProperty(ref _BareJid, value); }
         }
         private bool _IsEmojiFlyoutEnabled;
         public bool IsEmojiFlyoutEnabled
         {
             get { return _IsEmojiFlyoutEnabled; }
             set { SetProperty(ref _IsEmojiFlyoutEnabled, value); }
+        }
+        private ChatType _ChatType;
+        public ChatType ChatType
+        {
+            get { return _ChatType; }
+            set { SetProperty(ref _ChatType, value); }
         }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);
@@ -181,7 +187,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Account image:
                 AccountPresence = chat.presence;
-                AccountInitials = "\uE77B";
+                BareJid = chat.chatJabberId;
+                ChatType = chat.chatType;
             }
             else
             {
@@ -198,7 +205,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Account image:
                 AccountPresence = muc.getMUCPresence();
-                AccountInitials = "\uE125";
 
                 OmemoEnabled = false;
             }

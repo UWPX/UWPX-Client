@@ -56,6 +56,8 @@
                 <controls:AccountImagePresenceControl Grid.Column="2"
                                                       Width="40"
                                                       Height="40"
+                                                      BareJid="{x:Bind Account.Account.getBareJid(), Mode=OneWay}"
+                                                      ChatType="CHAT"
                                                       PresenceProp="{x:Bind Account.State, Mode=OneWay, Converter={StaticResource ConnectionStatePresenceValueConverter}}"/>
                 <Button x:Name="info_btn"
                         Grid.Column="3"

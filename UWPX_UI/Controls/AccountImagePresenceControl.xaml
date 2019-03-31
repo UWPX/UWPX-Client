@@ -5,21 +5,31 @@
              xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
              Width="40"
              Height="40"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <Style x:Key="ShadowPanelStyle"
-               TargetType="controls:DropShadowPanel">
-            <Setter Property="BlurRadius" Value="8"/>
-            <Setter Property="ShadowOpacity" Value="0.1"/>
-            <Setter Property="OffsetX" Value="0.0"/>
-            <Setter Property="OffsetY" Value="0.0"/>
-            <Setter Property="Color" Value="Black"/>
-            <Setter Property="Visibility" Value="Collapsed"/>
-            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        </Style>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatPersonPictureStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <Style x:Key="ShadowPanelStyle"
+                   TargetType="controls:DropShadowPanel">
+                <Setter Property="BlurRadius" Value="8"/>
+                <Setter Property="ShadowOpacity" Value="0.1"/>
+                <Setter Property="OffsetX" Value="0.0"/>
+                <Setter Property="OffsetY" Value="0.0"/>
+                <Setter Property="Color" Value="Black"/>
+                <Setter Property="Visibility" Value="Collapsed"/>
+                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+            </Style>
+
+            <valueconverter:StringBrushValueConverter x:Key="StringBrushValueConverter"/>
+            <valueconverter:ChatTypeFontFamilyConverter x:Key="ChatTypeFontFamilyConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
@@ -27,14 +37,15 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-
         <controlsComp:PersonPicture x:Name="contact_pp"
                                     Grid.Row="0"
                                     Width="{x:Bind Width, Mode=OneWay}"
                                     Height="{x:Bind Height, Mode=OneWay}"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    Initials="{x:Bind Initials, Mode=OneWay}"
-                                    ProfilePicture="{x:Bind Image, Mode=OneWay}"/>
+                                    Background="{x:Bind BareJid, Mode=OneWay, Converter={StaticResource StringBrushValueConverter}}"
+                                    FontFamily="{x:Bind ChatType, Mode=OneWay, Converter={StaticResource ChatTypeFontFamilyConverter}}"
+                                    Initials="{x:Bind VIEW_MODEL.MODEL.Initials, Mode=OneWay}"
+                                    ProfilePicture="{x:Bind Image, Mode=OneWay}"
+                                    Style="{StaticResource ChatPersonPictureStyle}"/>
 
         <controls:DropShadowPanel Grid.Row="0"
                                   Margin="0,0,-2,-2"

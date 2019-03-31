@@ -124,17 +124,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _AccountPresence; }
             set { SetProperty(ref _AccountPresence, value); }
         }
-        private string _AccountInitials;
-        public string AccountInitials
+        private string _BareJid;
+        public string BareJid
         {
-            get { return _AccountInitials; }
-            set { SetProperty(ref _AccountInitials, value); }
+            get { return _BareJid; }
+            set { SetProperty(ref _BareJid, value); }
         }
         private MUCState _MucState;
         public MUCState MucState
         {
             get { return _MucState; }
             set { SetProperty(ref _MucState, value); }
+        }
+        private ChatType _ChatType;
+        public ChatType ChatType
+        {
+            get { return _ChatType; }
+            set { SetProperty(ref _ChatType, value); }
         }
 
         private readonly ResourceDictionary RESOURCES;
@@ -253,7 +259,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Account image:
                 AccountPresence = chat.presence;
-                AccountInitials = "\uE77B";
+                BareJid = chat.chatJabberId;
+                ChatType = chat.chatType;
             }
         }
 
@@ -266,7 +273,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Account image:
                 AccountPresence = muc.getMUCPresence();
-                AccountInitials = "\uE125";
 
                 MucState = muc.state;
             }
