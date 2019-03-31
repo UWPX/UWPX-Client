@@ -209,7 +209,7 @@ namespace UWPX_UI.Pages
 
         private void PerformInitialStartSetup()
         {
-            // By default enable the emoji button for all non bobile devices since the touch keyboard already adds an emoji keyboard:
+            // By default enable the emoji button for all non mobile devices since the touch keyboard already adds an emoji keyboard:
             Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, !(DeviceFamilyHelper.GetDeviceFamilyType() == DeviceFamilyType.Mobile));
             Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
         }
