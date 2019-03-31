@@ -62,37 +62,40 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             Text = "Calculating size...";
 
             long size = 0;
-            calcSizeTask = Task.Run(async () =>
+            if (!string.IsNullOrWhiteSpace(path))
             {
-                try
+                calcSizeTask = Task.Run(async () =>
                 {
-                    StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
-                    if (!(folder is null))
+                    try
                     {
-                        StorageFileQueryResult result = folder.CreateFileQuery(CommonFileQuery.OrderByName);
-                        var fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
-                        var fileSizes = await Task.WhenAll(fileSizeTasks);
+                        StorageFolder folder = await StorageFolder.GetFolderFromPathAsync(path);
+                        if (!(folder is null))
+                        {
+                            StorageFileQueryResult result = folder.CreateFileQuery(CommonFileQuery.OrderByName);
+                            var fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
+                            var fileSizes = await Task.WhenAll(fileSizeTasks);
 
-                        // Sum up and convert to kilo byte:
-                        size = fileSizes.Sum(l => (long)l) / 1024;
+                            // Sum up and convert to kilo byte:
+                            size = fileSizes.Sum(l => (long)l) / 1024;
+                        }
                     }
-                }
-                catch (FileNotFoundException e)
-                {
-                    Logger.Error("Failed to calculate folder size for path: " + path, e);
-                    Text = "Invalid path!";
+                    catch (FileNotFoundException e)
+                    {
+                        Logger.Error("Failed to calculate folder size for path: " + path, e);
+                        Text = "Invalid path!";
 
-                }
-                catch (Exception e)
-                {
-                    Logger.Error("Failed to calculate folder size for path: " + path, e);
-                }
-            }, calcSizeCancelToken.Token);
+                    }
+                    catch (Exception e)
+                    {
+                        Logger.Error("Failed to calculate folder size for path: " + path, e);
+                    }
+                }, calcSizeCancelToken.Token);
 
-            await calcSizeTask;
-            if (calcSizeCancelToken is null || calcSizeCancelToken.IsCancellationRequested)
-            {
-                return;
+                await calcSizeTask;
+                if (calcSizeCancelToken is null || calcSizeCancelToken.IsCancellationRequested)
+                {
+                    return;
+                }
             }
 
             StringBuilder sb = new StringBuilder("~ ");
