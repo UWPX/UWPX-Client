@@ -7,8 +7,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch"
-          Visibility="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}">
+    <Grid HorizontalAlignment="Stretch">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>

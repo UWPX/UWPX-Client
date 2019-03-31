@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
 using Windows.UI;
@@ -26,25 +24,18 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static Color GenColor(string s)
+        public static Color GenForegroundColor(string s, bool redGreenCorrection, bool blueCorrection)
         {
-            // Angle generation:
-            double hueAngle = GenHueAngle(s);
-
-            // Corrections for Color Vision Deficiencies:
-            hueAngle = DoColorBlindCorrection(hueAngle);
-
-            IList<double> result = HsluvConverter.HsluvToRgb(new List<double> { hueAngle, 100.0, 50.0 });
-            return Color.FromArgb(byte.MaxValue, (byte)(byte.MaxValue * result[0]), (byte)(byte.MaxValue * result[1]), (byte)(byte.MaxValue * result[2]));
+            return GenForegroundColor(Encoding.UTF8.GetBytes(s), redGreenCorrection, blueCorrection);
         }
 
-        public static Color GenColor(byte[] data)
+        public static Color GenForegroundColor(byte[] data, bool redGreenCorrection, bool blueCorrection)
         {
             // Angle generation:
             double hueAngle = GenHueAngle(data);
 
             // Corrections for Color Vision Deficiencies:
-            hueAngle = DoColorBlindCorrection(hueAngle);
+            hueAngle = DoColorBlindCorrection(hueAngle, redGreenCorrection, blueCorrection);
 
             IList<double> result = HsluvConverter.HsluvToRgb(new List<double> { hueAngle, 100.0, 50.0 });
             return Color.FromArgb(byte.MaxValue, (byte)(byte.MaxValue * result[0]), (byte)(byte.MaxValue * result[1]), (byte)(byte.MaxValue * result[2]));
@@ -53,32 +44,41 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
         #endregion
 
         #region --Misc Methods (Private)--
-        private static double GenHueAngle(string s)
-        {
-            return GenHueAngle(Encoding.UTF8.GetBytes(s));
-        }
-
+        /// <summary>
+        /// Generates the hue angle based on the given data.
+        /// </summary>
+        /// <param name="data">The data for which the angle should be generated.</param>
+        /// <returns>The color angle representing the given data.</returns>
         private static double GenHueAngle(byte[] data)
         {
             SHA1 sha1 = SHA1.Create();
             byte[] hash = sha1.ComputeHash(data);
 
-            if (!BitConverter.IsLittleEndian)
-            {
-                hash.Reverse();
-            }
-
-            return (BitConverter.ToInt16(hash, 0) / 65536.0) * 360.0;
+            return ((hash[0] | hash[1] << 8) / 65536.0) * 360.0;
         }
 
-        private static double DoColorBlindCorrection(double angle)
+        /// <summary>
+        /// Performs the color correction for red/green an blue color blind people.
+        /// Described in XEP-0392 (https://xmpp.org/extensions/xep-0392.html#algorithm-cvd)
+        /// </summary>
+        /// <param name="angle">The input hue angle.</param>
+        /// <param name="redGreenCorrection">Should red/green correction be performed.</param>
+        /// <param name="blueCorrection">Should blue correction be performed.</param>
+        /// <returns>The resulting hue angle.</returns>
+        private static double DoColorBlindCorrection(double angle, bool redGreenCorrection, bool blueCorrection)
         {
             // Correct Red/Green-blindness:
-            angle = (angle + 90) % 180 - 90;
-            angle %= 360;
+            if (redGreenCorrection)
+            {
+                angle = (angle + 90) % 180 - 90;
+                angle %= 360;
+            }
 
             // Correct Blue-blindness:
-            angle %= 180;
+            if (blueCorrection)
+            {
+                angle %= 180;
+            }
 
             return angle;
         }

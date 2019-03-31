@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Documents;
@@ -23,12 +22,12 @@ namespace UWPX_UI.Extensions
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public static string GetFingerprint(DependencyObject obj)
+        public static byte[] GetFingerprint(DependencyObject obj)
         {
-            return (string)obj.GetValue(FingerprintProperty);
+            return (byte[])obj.GetValue(FingerprintProperty);
         }
 
-        public static void SetFingerprint(DependencyObject obj, string value)
+        public static void SetFingerprint(DependencyObject obj, byte[] value)
         {
             obj.SetValue(FingerprintProperty, value);
         }
@@ -55,13 +54,14 @@ namespace UWPX_UI.Extensions
         {
             if (d is TextBlock textBlock)
             {
-                if (args.NewValue is Byte[] fingerprint && fingerprint.Length > 0)
+                textBlock.Inlines.Clear();
+                if (args.NewValue is byte[] fingerprint && fingerprint.Length > 0)
                 {
                     int partCount = 4;
                     // Based on: https://stackoverflow.com/questions/11207526/best-way-to-split-an-array
-                    Byte[][] parts = fingerprint
+                    byte[][] parts = fingerprint
                     .Select((s, i) => new { Value = s, Index = i })
-                    .GroupBy(x => x.Index / partCount)
+                    .GroupBy(x => x.Index / (fingerprint.Length / partCount))
                     .Select(grp => grp.Select(x => x.Value).ToArray())
                     .ToArray();
 
@@ -73,9 +73,16 @@ namespace UWPX_UI.Extensions
                             Foreground = GenBrush(parts[e])
                         });
 
-                        if (e == parts.Length / 2)
+                        if (e == parts.Length / 2 - 1)
                         {
                             textBlock.Inlines.Add(new LineBreak());
+                        }
+                        else if (e < parts.Length - 1)
+                        {
+                            textBlock.Inlines.Add(new Run
+                            {
+                                Text = " "
+                            });
                         }
                     }
                 }
@@ -91,7 +98,7 @@ namespace UWPX_UI.Extensions
 
         private static Brush GenBrush(byte[] part)
         {
-            return new SolidColorBrush(ConsistentColorGenerator.GenColor(part));
+            return new SolidColorBrush(ConsistentColorGenerator.GenForegroundColor(part, true, true));
         }
 
         #endregion
