@@ -1,21 +1,20 @@
 ﻿using UWPX_UI.Extensions;
-using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class ChatSettingsPage : Page
+    public sealed partial class DebugSettingsPage : Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ChatSettingsPageContext VIEW_MODEL = new ChatSettingsPageContext();
+        public readonly DebugSettingsPageContext VIEW_MODEL = new DebugSettingsPageContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChatSettingsPage()
+        public DebugSettingsPage()
         {
             this.InitializeComponent();
         }
@@ -49,20 +48,12 @@ namespace UWPX_UI.Pages.Settings
             {
                 switch (item.Tag)
                 {
-                    case "General":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, general_scp, false);
+                    case "Debug":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, debug_scp, false);
                         break;
 
-                    case "MUC":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, muc_scp, false);
-                        break;
-
-                    case "Media":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, media_scp, false);
-                        break;
-
-                    case "OMEMO":
-                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, omemo_scp, false);
+                    case "Spam":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, spam_scp, false);
                         break;
                 }
             }
@@ -72,22 +63,12 @@ namespace UWPX_UI.Pages.Settings
         {
             foreach (object item in main_nview.MenuItems)
             {
-                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "General"))
+                if (item is Microsoft.UI.Xaml.Controls.NavigationViewItem navItem && string.Equals((string)navItem.Tag, "Debug"))
                 {
                     main_nview.SelectedItem = item;
                     break;
                 }
             }
-        }
-
-        private void ClearCache_hlb_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            UiUtils.NavigateToPage(typeof(MiscSettingsPage), "Cache");
-        }
-
-        private async void OmemoInfo_hlb_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            await VIEW_MODEL.OnWhatIsOmemoClickedAsync();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -98,6 +79,11 @@ namespace UWPX_UI.Pages.Settings
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
+        }
+
+        private void ResetSpamRegex_btn_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            VIEW_MODEL.ResetSpamRegex();
         }
 
         #endregion

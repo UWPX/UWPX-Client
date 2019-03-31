@@ -36,7 +36,7 @@
                 <controlsComp:NavigationViewItem Content="General"
                                                  Icon="Message"
                                                  Tag="General"/>
-                <controlsComp:NavigationViewItem Content="Groupchat (MUC)"
+                <controlsComp:NavigationViewItem Content="Group Chat (MUC)"
                                                  Icon="People"
                                                  Tag="MUC"/>
                 <controlsComp:NavigationViewItem Content="Media"
@@ -45,10 +45,6 @@
                 <controlsComp:NavigationViewItem Content="OMEMO"
                                                  Icon="Permissions"
                                                  Tag="OMEMO"/>
-                <controlsComp:NavigationViewItem Content="Spam"
-                                                 Icon="Flag"
-                                                 Tag="Spam"
-                                                 Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
             </controlsComp:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
@@ -85,9 +81,9 @@
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
 
-                    <!--  Groupchat:  -->
+                    <!--  Group Chat:  -->
                     <settings:SettingsContentControl x:Name="muc_scp"
-                                                     Header="Groupchat (MUC):">
+                                                     Header="Group Chat (MUC):">
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
                                 <ToggleSwitch x:Name="autoJoinMUC_tgls"
@@ -127,43 +123,6 @@
                                 <HyperlinkButton x:Name="omemoInfo_hlb"
                                                  Click="OmemoInfo_hlb_Click"
                                                  Content="What is OMEMO?"/>
-                            </StackPanel>
-                        </settings:SettingsContentControl.MainContent>
-                    </settings:SettingsContentControl>
-
-                    <!--  Spam:  -->
-                    <settings:SettingsContentControl x:Name="spam_scp"
-                                                     Header="Spam:"
-                                                     Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
-                        <settings:SettingsContentControl.MainContent>
-                            <StackPanel>
-                                <ToggleSwitch x:Name="spamDetectionEnabled_tgls"
-                                              Header="Enable spam detection"
-                                              IsOn="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=TwoWay}"/>
-                                <ToggleSwitch x:Name="spamDetectionNewChatsOnly_tgls"
-                                              Header="Only for new chats"
-                                              IsEnabled="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=OneWay}"
-                                              IsOn="{x:Bind VIEW_MODEL.MODEL.SpamDetectionNewChatsOnly, Mode=TwoWay}"/>
-                                <Grid>
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="Auto"/>
-                                    </Grid.ColumnDefinitions>
-                                    <TextBox x:Name="spamRegex_tbx"
-                                             Grid.Column="0"
-                                             Margin="0,10,0,10"
-                                             Header="Spam regex"
-                                             IsEnabled="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=OneWay}"
-                                             IsSpellCheckEnabled="False"
-                                             Text="{x:Bind VIEW_MODEL.MODEL.SpamRegex, Mode=TwoWay}"/>
-                                    <Button x:Name="resetSpamRegex_btn"
-                                            Grid.Column="1"
-                                            Height="32"
-                                            Margin="0,22,0,0"
-                                            Click="ResetSpamRegex_btn_Click"
-                                            Content="&#xE777;"
-                                            FontFamily="Segoe MDL2 Assets"/>
-                                </Grid>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

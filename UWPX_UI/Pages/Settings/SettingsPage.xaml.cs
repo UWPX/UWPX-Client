@@ -30,6 +30,8 @@ namespace UWPX_UI.Pages.Settings
             new SettingsPageButtonDataTemplate {Glyph = "\xE713", Name = "Misc", Description = "Everything Else", NavTarget = typeof(MiscSettingsPage)},
         };
 
+        private readonly SettingsPageButtonDataTemplate DEBUG_SETTINGS = new SettingsPageButtonDataTemplate { Glyph = "\uEBE8", Name = "Debug", Description = "Debug Test Features", NavTarget = typeof(DebugSettingsPage) };
+
         private FrameworkElement LastPopUpElement = null;
 
         #endregion
@@ -40,6 +42,11 @@ namespace UWPX_UI.Pages.Settings
             this.InitializeComponent();
             LoadAppVersion();
             VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
+
+            if (VIEW_MODEL.MODEL.DebugSettingsEnabled)
+            {
+                SETTINGS_PAGES.Add(DEBUG_SETTINGS);
+            }
         }
 
         private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -52,10 +59,15 @@ namespace UWPX_UI.Pages.Settings
                         if (settingsPageDataTemplate.DebugSettingsEnabled)
                         {
                             debugSettings_notification.Show("Debug settings enabled.", 5000);
+                            if (!SETTINGS_PAGES.Contains(DEBUG_SETTINGS))
+                            {
+                                SETTINGS_PAGES.Add(DEBUG_SETTINGS);
+                            }
                         }
                         else
                         {
                             debugSettings_notification.Show("Debug settings disabled.", 5000);
+                            SETTINGS_PAGES.Remove(DEBUG_SETTINGS);
                         }
                         break;
                 }

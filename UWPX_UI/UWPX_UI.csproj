@@ -318,6 +318,9 @@
     <Compile Include="Pages\Settings\CreditsPage.xaml.cs">
       <DependentUpon>CreditsPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Settings\DebugSettingsPage.xaml.cs">
+      <DependentUpon>DebugSettingsPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Settings\SecuritySettingsPage.xaml.cs">
       <DependentUpon>SecuritySettingsPage.xaml</DependentUpon>
     </Compile>
@@ -694,6 +697,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\Settings\CreditsPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\Settings\DebugSettingsPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

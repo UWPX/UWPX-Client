@@ -1,5 +1,4 @@
 ﻿using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBManager;
 using Shared.Classes;
 using System.Runtime.CompilerServices;
 
@@ -69,30 +68,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get { return _PlaySoundForNewChatMessages; }
             set { SetBoolInversedProperty(ref _PlaySoundForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES); }
         }
-        private bool _DebugSettingsEnabled;
-        public bool DebugSettingsEnabled
-        {
-            get { return _DebugSettingsEnabled; }
-            set { SetBoolProperty(ref _DebugSettingsEnabled, value, SettingsConsts.DEBUG_SETTINGS_ENABLED); }
-        }
-        private bool _SpamDetectionEnabled;
-        public bool SpamDetectionEnabled
-        {
-            get { return _SpamDetectionEnabled; }
-            set { SetBoolProperty(ref _SpamDetectionEnabled, value, SettingsConsts.SPAM_DETECTION_ENABLED); }
-        }
-        private bool _SpamDetectionNewChatsOnly;
-        public bool SpamDetectionNewChatsOnly
-        {
-            get { return _SpamDetectionNewChatsOnly; }
-            set { SetBoolInversedProperty(ref _SpamDetectionNewChatsOnly, value, SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES); }
-        }
-        private string _SpamRegex;
-        public string SpamRegex
-        {
-            get { return _SpamRegex; }
-            set { SetSpamRegexProperty(value); }
-        }
         private bool _IsEmojiButtonEnabled;
         public bool IsEmojiButtonEnabled
         {
@@ -116,10 +91,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void ResetSpamRegex()
-        {
-            SpamRegex = SpamDBManager.DEFAULT_SPAM_REGEX;
-        }
+
 
         #endregion
 
@@ -144,23 +116,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
             // OMEMO:
             EnableOmemoForNewChats = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
-
-            // Spam:
-            DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
-            SpamRegex = Settings.getSettingString(SettingsConsts.SPAM_REGEX, SpamDBManager.DEFAULT_SPAM_REGEX);
-            SpamDetectionNewChatsOnly = !Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES);
-            SpamDetectionEnabled = Settings.getSettingBoolean(SettingsConsts.SPAM_DETECTION_ENABLED);
-        }
-
-        private bool SetSpamRegexProperty(string value)
-        {
-            if (SetProperty(ref _SpamRegex, value, nameof(SpamRegex)))
-            {
-                Settings.setSetting(SettingsConsts.SPAM_REGEX, value);
-                SpamDBManager.INSTANCE.updateSpamRegex(value);
-                return true;
-            }
-            return false;
         }
 
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)

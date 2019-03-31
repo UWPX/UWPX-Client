@@ -1,14 +1,12 @@
-﻿using System;
-using System.Threading.Tasks;
-using UWPX_UI_Context.Classes.DataTemplates.Pages;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
-    public class ChatSettingsPageContext
+    public sealed class DebugSettingsPageContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ChatSettingsPageDataTemplate MODEL = new ChatSettingsPageDataTemplate();
+        public readonly DebugSettingsPageDataTemplate MODEL = new DebugSettingsPageDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,9 +21,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task OnWhatIsOmemoClickedAsync()
+        public void ResetSpamRegex()
         {
-            await UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
+            MODEL.ResetSpamRegex();
         }
 
         #endregion
