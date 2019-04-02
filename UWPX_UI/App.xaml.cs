@@ -24,7 +24,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI
 {
-    sealed partial class App : Application
+    public sealed partial class App : Application
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -75,9 +75,6 @@ namespace UWPX_UI
 
         private void OnActivatedOrLaunched(IActivatedEventArgs args)
         {
-            // Prevent window from extending into title bar:
-            CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = false;
-
             // Sets the log level:
             InitLogger();
 
@@ -275,7 +272,7 @@ namespace UWPX_UI
             isRunning = true;
         }
 
-        void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }

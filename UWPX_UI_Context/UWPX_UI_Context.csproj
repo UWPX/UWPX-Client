@@ -226,6 +226,7 @@
     <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\AddAccountPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\ChatPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\DebugSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\SecuritySettingsPageDataTemplate.cs" />

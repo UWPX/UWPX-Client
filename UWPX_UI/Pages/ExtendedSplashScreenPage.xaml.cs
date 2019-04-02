@@ -133,7 +133,16 @@ namespace UWPX_UI.Pages
             if (!(ACTIVATION_ARGS.SplashScreen is null))
             {
                 PositionLogoImage();
-                ACTIVATION_ARGS.SplashScreen.Dismissed += SPLASH_SCREEN_Dismissed;
+                if (ACTIVATION_ARGS.PreviousExecutionState != ApplicationExecutionState.Running)
+                {
+                    ACTIVATION_ARGS.SplashScreen.Dismissed += SPLASH_SCREEN_Dismissed;
+                    return;
+                }
+            }
+
+            if (ACTIVATION_ARGS.PreviousExecutionState == ApplicationExecutionState.Running)
+            {
+                Loaded += ExtendedSplashScreenPage_Loaded;
             }
         }
 
@@ -173,11 +182,6 @@ namespace UWPX_UI.Pages
             {
                 Push_App_Server.Classes.PushManager.init();
             }*/
-
-            if (ACTIVATION_ARGS.PreviousExecutionState == ApplicationExecutionState.Terminated)
-            {
-                // TODO: Load state from previously suspended application
-            }
 
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
@@ -314,6 +318,12 @@ namespace UWPX_UI.Pages
         {
             SetImageScale();
             PositionLogoImage();
+        }
+
+        private void ExtendedSplashScreenPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            Loaded -= ExtendedSplashScreenPage_Loaded;
+            EvaluateActivationArgs();
         }
 
         #endregion

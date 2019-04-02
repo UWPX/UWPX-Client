@@ -92,7 +92,7 @@ namespace UWPX_UI.Pages
 
         private void FilterClear_mfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.CHAT_FILTER.ClearFilter();
+            VIEW_MODEL.MODEL.CHAT_FILTER.ClearFilter();
         }
 
         private void FilterChats_tabb_Click(object sender, RoutedEventArgs e)
@@ -113,7 +113,7 @@ namespace UWPX_UI.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            VIEW_MODEL.OnNavigatedTo();
+            VIEW_MODEL.OnNavigatedTo(e.Parameter);
             titleBar.OnPageNavigatedTo();
         }
 
