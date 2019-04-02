@@ -147,7 +147,7 @@
                                                 Click="AddMuc_mfoi_Click_1"
                                                 Text="Add Group Chat (MUC)">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE125;"/>
+                                        <FontIcon Glyph="&#xE902;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Name="addMix_mfoi"
@@ -155,7 +155,7 @@
                                                 IsEnabled="False"
                                                 Text="Add Group Chat (MIX)">
                                     <MenuFlyoutItem.Icon>
-                                        <FontIcon Glyph="&#xE125;"/>
+                                        <FontIcon Glyph="&#xE902;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
                             </MenuFlyout>

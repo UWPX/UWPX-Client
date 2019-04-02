@@ -36,7 +36,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     break;
 
                 case ChatType.MUC:
-                    Initials = "\uE716";
+                    Initials = "\uE902";
                     break;
             }
         }

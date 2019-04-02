@@ -29,7 +29,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         {
             if (value is ChatType chatType && chatType == ChatType.MUC)
             {
-                return new FontFamily("Segoe MDL2 Assets");
+                return (FontFamily)Application.Current.Resources["SymbolThemeFontFamily"];
             }
             return (FontFamily)Application.Current.Resources["ContentControlThemeFontFamily"];
         }

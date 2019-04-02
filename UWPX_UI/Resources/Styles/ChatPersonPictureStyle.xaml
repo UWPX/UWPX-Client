@@ -30,6 +30,7 @@
                                    FontWeight="{TemplateBinding FontWeight}"
                                    Foreground="{TemplateBinding Foreground}"
                                    IsTextScaleFactorEnabled="False"
+                                   Text="{TemplateBinding Initials}"
                                    TextLineBounds="Tight"/>
                         <Ellipse x:Name="PersonPictureEllipse"
                                  Width="{TemplateBinding Width}"
@@ -42,7 +43,7 @@
                               Visibility="Collapsed">
                             <Ellipse x:Name="BadgingBackgroundEllipse"
                                      x:DeferLoadStrategy="Lazy"
-                                     Fill="{ThemeResource PersonPictureEllipseBadgeFillThemeBrush}"
+                                     Fill="{TemplateBinding Background}"
                                      Opacity="{ThemeResource PersonPictureEllipseBadgeStrokeOpacity}"
                                      Stroke="{ThemeResource PersonPictureEllipseBadgeStrokeThemeBrush}"
                                      StrokeThickness="{ThemeResource PersonPictureEllipseBadgeStrokeThickness}"/>
@@ -55,7 +56,7 @@
                                        VerticalAlignment="Center"
                                        x:DeferLoadStrategy="Lazy"
                                        AutomationProperties.AccessibilityView="Raw"
-                                       FontFamily="{TemplateBinding FontFamily}"
+                                       FontFamily="{ThemeResource ContentControlThemeFontFamily}"
                                        FontWeight="{TemplateBinding FontWeight}"
                                        Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}"
                                        IsTextScaleFactorEnabled="False"
