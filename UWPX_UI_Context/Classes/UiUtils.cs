@@ -65,6 +65,12 @@ namespace UWPX_UI_Context.Classes
         }
         public static ThemeListener themeListener;
 
+        public static bool IsWindowActivated
+        {
+            get;
+            private set;
+        }
+
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -324,6 +330,16 @@ namespace UWPX_UI_Context.Classes
         }
 
         /// <summary>
+        /// Sets up the listener for the current window activated state.
+        /// </summary>
+        public static void SetupWindowActivatedListener()
+        {
+            IsWindowActivated = true;
+            Window.Current.Activated -= Current_Activated;
+            Window.Current.Activated += Current_Activated;
+        }
+
+        /// <summary>
         /// Converts the given Color to a hex string e.g. #012345.
         /// </summary>
         /// <param name="c">The Color that should get converted.</param>
@@ -477,6 +493,11 @@ namespace UWPX_UI_Context.Classes
         private static void ThemeListener_ThemeChanged(ThemeListener sender)
         {
             SetupWindow(Application.Current);
+        }
+
+        private static void Current_Activated(object sender, WindowActivatedEventArgs e)
+        {
+            IsWindowActivated = e.WindowActivationState != CoreWindowActivationState.Deactivated;
         }
 
         #endregion

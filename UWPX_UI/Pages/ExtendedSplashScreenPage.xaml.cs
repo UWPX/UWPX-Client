@@ -145,13 +145,16 @@ namespace UWPX_UI.Pages
             // Setup listening for theme changes:
             UiUtils.SetupThemeListener();
 
+            // Setup listener for window activated changes:
+            UiUtils.SetupWindowActivatedListener();
+
             // Setup window:
             UiUtils.SetupWindow(Application.Current);
 
             // Setup App Center crashes, push:
             AppCenterHelper.SetupAppCenter(APP_CENTER_PUSH_CALLBACK);
 
-            // Perform App update tasks if necessary:
+            // Perform app update tasks if necessary:
             await AppUpdateHelper.OnAppStartAsync();
 
             // Register background tasks:
