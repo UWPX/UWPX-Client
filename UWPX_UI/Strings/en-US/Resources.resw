@@ -130,7 +130,7 @@
 * [**openluopworld**](https://github.com/openluopworld) He has done an awesome and simple to use [AES-GCM](https://github.com/openluopworld/aes_gcm) implementation written in C.
 * [**QRCoder**](https://github.com/codebude/QRCoder) An awesome QR-Code library.
 * [**sqlite-net-pcl**](https://github.com/praeclarum/sqlite-net) The backend for storing all messages, chats and accounts.
-* [**Unicode.net**](https://github.com/neosmart/unicode.net) An super easy and powerful emoji and text-processing library for .NET.
+* [**Unicode.net (fork)**](https://github.com/UWPX/unicode.net) A super easy to use and powerful emoji and text-processing library for .NET.
 * [**ZXing.Net**](https://github.com/micjahn/ZXing.Net/)  A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.</value>
   </data>
   <data name="CreditsPage_general_markdown.Text" xml:space="preserve">
