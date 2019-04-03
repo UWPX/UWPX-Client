@@ -168,7 +168,7 @@ namespace XMPP_API.Classes.Network.XML
                                         continue;
 
                                     case "http://jabber.org/protocol/muc":
-                                        // messages.Add(new MUCErrorMessage(n));
+                                        // messages.Add(new MUCErrorMessage(n)); // Issue #58
                                         continue;
 
                                     default:
