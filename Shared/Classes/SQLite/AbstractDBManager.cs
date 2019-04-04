@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 
 namespace Shared.Classes.SQLite
 {
@@ -56,7 +57,7 @@ namespace Shared.Classes.SQLite
         public static async Task exportDBAsync()
         {
             // Get the target path/file.
-            StorageFile targetFile = await getTargetPathAsync().ConfigureAwait(false);
+            StorageFile targetFile = await getTargetSavePathAsync();
             if (targetFile is null)
             {
                 Logger.Info("Exporting DB canceled.");
@@ -83,6 +84,43 @@ namespace Shared.Classes.SQLite
             }
         }
 
+        /// <summary>
+        /// Opens a file picker and imports the DB from the selected path.
+        /// </summary>
+        public static async Task importDBAsync()
+        {
+            // Get the source file:
+            StorageFile sourceFile = await getTargetOpenPathAsync();
+            if (sourceFile is null)
+            {
+                Logger.Info("Importing DB canceled.");
+                return;
+            }
+            Logger.Info("Started importing DB to: " + sourceFile.Path);
+
+            // Close the DB connection:
+            dB.Close();
+
+            // Delete all existing DB files:
+            await deleteDBFilesAsync();
+
+            // Import DB:
+            StorageFile dbFile = await StorageFile.GetFileFromPathAsync(DB_PATH);
+            try
+            {
+                await sourceFile.CopyAndReplaceAsync(dbFile);
+                Logger.Info("Imported DB successfully from:" + sourceFile.Path);
+
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error during importing DB", e);
+            }
+
+            // Open the new DB:
+            dB = new TSSQLiteConnection(DB_PATH);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -90,15 +128,66 @@ namespace Shared.Classes.SQLite
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> getTargetPathAsync()
+        private static async Task<StorageFile> getTargetSavePathAsync()
         {
-            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            FileSavePicker savePicker = new FileSavePicker
             {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             savePicker.FileTypeChoices.Add("SQLite DB", new List<string>() { ".db" });
             savePicker.SuggestedFileName = "data";
             return await savePicker.PickSaveFileAsync();
+        }
+
+        /// <summary>
+        /// Opens a FileSavePicker and lets the user pick the destination.
+        /// </summary>
+        /// <returns>Returns the selected path.</returns>
+        private static async Task<StorageFile> getTargetOpenPathAsync()
+        {
+            FileOpenPicker openPicker = new FileOpenPicker
+            {
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
+            };
+            openPicker.FileTypeFilter.Add(".db");
+            return await openPicker.PickSingleFileAsync();
+        }
+
+        /// <summary>
+        /// Deletes all DB files.
+        /// </summary>
+        private static async Task deleteDBFilesAsync()
+        {
+            try
+            {
+                StorageFile targetFile = await StorageFile.GetFileFromPathAsync(DB_PATH);
+                if (targetFile is null)
+                {
+                    Logger.Warn("Unable to delete DB files - DB file not found.");
+                    return;
+                }
+
+                StorageFolder folder = await targetFile.GetParentAsync();
+                if (folder is null)
+                {
+                    Logger.Warn("Unable to delete DB files - folder not found.");
+                    return;
+                }
+
+                foreach (StorageFile file in await folder.GetFilesAsync())
+                {
+                    if (file.Name.StartsWith(targetFile.Name))
+                    {
+                        await file.DeleteAsync();
+                        Logger.Info("Deleted DB file: " + file.Name);
+                    }
+                }
+                Logger.Info("Finished deleting DB files.");
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to delete DB files!", e);
+            }
         }
 
         #endregion
