@@ -132,7 +132,7 @@ namespace Data_Manager2.Classes.Omemo
             SignedPreKeyRecord signedPreKeyRecord = OmemoSignalKeyDBManager.INSTANCE.getSignedPreKey(signedPreKeyId, ACCOUNT.getBareJid());
             if (signedPreKeyRecord is null)
             {
-                throw new InvalidKeyIdException("No such key: " + signedPreKeyId);
+                Logger.Error("OmemoStore: No such signed pre key: " + signedPreKeyId);
             }
             return signedPreKeyRecord;
         }
