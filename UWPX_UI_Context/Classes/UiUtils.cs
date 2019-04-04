@@ -417,6 +417,8 @@ namespace UWPX_UI_Context.Classes
         {
             // Styles:
             Application.Current.Resources["ButtonRevealStyle"] = Application.Current.Resources["DefaultButtonStyle"];
+            Application.Current.Resources["AcceptButtonRevealStyle"] = Application.Current.Resources["AcceptButtonStyle"];
+            Application.Current.Resources["DeclineButtonRevealStyle"] = Application.Current.Resources["DeclineButtonStyle"];
 
             // Brushes:
             if (IsDarkThemeActive())
