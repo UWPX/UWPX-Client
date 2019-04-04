@@ -284,6 +284,7 @@ namespace UWPX_UI.Pages
         /// </summary>
         private async Task InitDBManagersAsync()
         {
+            // await AbstractDBManager.exportDBAsync();
             await Task.Run(() =>
             {
                 AccountDBManager.INSTANCE.initManager();

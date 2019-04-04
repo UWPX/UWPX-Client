@@ -1,6 +1,8 @@
 ﻿using Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Shared.Classes.SQLite
@@ -48,10 +50,56 @@ namespace Shared.Classes.SQLite
         {
         }
 
+        /// <summary>
+        /// Opens a file picker and exports the DB to the selected path.
+        /// </summary>
+        public static async Task exportDBAsync()
+        {
+            // Get the target path/file.
+            StorageFile targetFile = await getTargetPathAsync().ConfigureAwait(false);
+            if (targetFile is null)
+            {
+                Logger.Info("Exporting DB canceled.");
+                return;
+            }
+            Logger.Info("Started exporting DB to: " + targetFile.Path);
+
+            StorageFile dbFile = await StorageFile.GetFileFromPathAsync(DB_PATH);
+            if (dbFile is null)
+            {
+                Logger.Error("Failed to export DB - file not found.");
+                return;
+            }
+
+            try
+            {
+                await dbFile.CopyAndReplaceAsync(targetFile);
+                Logger.Info("Exported DB successfully to:" + targetFile.Path);
+
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Error during exporting DB", e);
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
-
+        /// <summary>
+        /// Opens a FileSavePicker and lets the user pick the destination.
+        /// </summary>
+        /// <returns>Returns the selected path.</returns>
+        private static async Task<StorageFile> getTargetPathAsync()
+        {
+            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            {
+                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+            };
+            savePicker.FileTypeChoices.Add("SQLite DB", new List<string>() { ".db" });
+            savePicker.SuggestedFileName = "data";
+            return await savePicker.PickSaveFileAsync();
+        }
 
         #endregion
 
