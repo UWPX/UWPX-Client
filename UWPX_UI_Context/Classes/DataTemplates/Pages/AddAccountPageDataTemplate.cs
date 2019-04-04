@@ -45,11 +45,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                 // Update domain and local part if needed:
                 if (IsValidBareJid && !(Account is null))
                 {
+                    string domainPart = Utils.getJidDomainPart(value);
                     if (string.Equals(Account.serverAddress, Account.user.domainPart))
                     {
-                        Account.serverAddress = Utils.getJidDomainPart(value);
+                        Account.serverAddress = domainPart;
                     }
-                    Account.user.domainPart = Account.serverAddress;
+                    Account.user.domainPart = domainPart;
                     Account.user.localPart = Utils.getJidLocalPart(value);
                 }
             }

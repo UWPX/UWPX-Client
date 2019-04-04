@@ -12,11 +12,11 @@ namespace XMPP_API.Classes
             get { return _localPart; }
             set { SetProperty(ref _localPart, value); }
         }
-        private string _userPassword;
+        private string _password;
         public string password
         {
-            get { return _userPassword; }
-            set { SetProperty(ref _userPassword, value); }
+            get { return _password; }
+            set { SetProperty(ref _password, value); }
         }
         private string _resourcePart;
         public string resourcePart

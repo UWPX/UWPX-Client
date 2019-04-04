@@ -158,7 +158,7 @@ namespace Data_Manager2.Classes
             CLIENT_SEMA.Wait();
             for (int i = 0; i < CLIENTS.Count; i++)
             {
-                if (Equals(CLIENTS[i].getXMPPAccount().getBareJid(), accountId))
+                if (string.Equals(CLIENTS[i].getXMPPAccount().getBareJid(), accountId))
                 {
                     await CLIENTS[i].disconnectAsync();
                     CLIENTS.RemoveAt(i);
