@@ -1,0 +1,57 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatSuggestionsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="SuggestionTemplate"
+                      x:DataType="datatemplates:ChatDataTemplate">
+            <Grid Margin="0,5,0,5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <controls:AccountImagePresenceControl Grid.Column="0"
+                                                      BareJid="{x:Bind Chat.chatJabberId}"
+                                                      ChatType="CHAT"
+                                                      Image="{x:Bind Image}"
+                                                      PresenceProp="{x:Bind Chat.presence}"/>
+                <TextBlock x:Name="name_tblck"
+                           Grid.Column="1"
+                           Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           Style="{ThemeResource BodyLineTextBlockStyle}"
+                           Text="{x:Bind Chat.chatJabberId}"
+                           TextTrimming="CharacterEllipsis"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <controls:SeperatorControl Grid.Row="0"
+                                   Text="Suggestions"/>
+
+        <ListView Grid.Row="1"
+                  Margin="0,10,0,0"
+                  ItemTemplate="{StaticResource SuggestionTemplate}"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.SUGGESTIONS_ACV}"
+                  ScrollViewer.VerticalScrollMode="Auto"
+                  SelectionChanged="ListView_SelectionChanged"
+                  SelectionMode="Single"
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
+        <controls:LoadingContentControl Grid.Row="1"
+                                        Margin="0,10,0,0"
+                                        Text="Loading suggestions..."
+                                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+    </Grid>
+</UserControl>

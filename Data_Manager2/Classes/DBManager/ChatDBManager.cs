@@ -150,6 +150,11 @@ namespace Data_Manager2.Classes.DBManager
             return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
+        public List<ChatTable> getNotStartedChatsForClient(string userAccountId, ChatType chatType)
+        {
+            return dB.Query<ChatTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ? AND isChatActive = ? AND chatType = ?;", userAccountId, false, chatType);
+        }
+
         public void setAllNotInRoster(string userAccountId)
         {
             Parallel.ForEach(getAllChatsForClient(userAccountId), (c) =>

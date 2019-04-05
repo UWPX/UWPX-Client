@@ -59,7 +59,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void OnChatSelected(ChatDataTemplate chat)
+        {
+            ChatBareJid = chat.Chat.chatJabberId;
+        }
 
         #endregion
 

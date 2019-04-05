@@ -40,6 +40,8 @@ namespace Data_Manager2.Classes.DBTables
         public ChatType chatType { get; set; }
         // Whether XEP-0384 (OMEMO Encryption) is enable for the chat
         public bool omemoEnabled { get; set; }
+        // Whether there are chat messages for the chat available/the chat has been started
+        public bool isChatActive { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

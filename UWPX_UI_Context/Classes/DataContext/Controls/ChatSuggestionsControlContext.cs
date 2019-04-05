@@ -1,13 +1,14 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
-using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using System.Threading.Tasks;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using XMPP_API.Classes;
 
-namespace UWPX_UI_Context.Classes.DataContext.Dialogs
+namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public sealed class AddChatDialogContext
+    public sealed class ChatSuggestionsControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly AddChatDialogDataTemplate MODEL = new AddChatDialogDataTemplate();
+        public readonly ChatSuggestionsControlDataTemplate MODEL = new ChatSuggestionsControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -22,19 +23,14 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void OnConfirm()
+        public async Task UpdateViewAsync(XMPPClient client)
         {
-            MODEL.Confirmed = true;
+            await MODEL.UpdateViewAsync(client);
         }
 
-        public void OnCancel()
+        public void UpdateView(string filterText)
         {
-            MODEL.Confirmed = false;
-        }
-
-        public void OnChatSelected(ChatDataTemplate chat)
-        {
-            MODEL.OnChatSelected(chat);
+            MODEL.UpdateView(filterText);
         }
 
         #endregion

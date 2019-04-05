@@ -1,9 +1,11 @@
 ﻿<ContentDialog x:Class="UWPX_UI.Dialogs.AddChatDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:chatControls="using:UWPX_UI.Controls.Chat"
                xmlns:controls="using:UWPX_UI.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:templates="using:UWPX_UI_Context.Classes.DataTemplates"
                Title="Add Chat"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
@@ -14,18 +16,33 @@
                SecondaryButtonText="Add"
                mc:Ignorable="d">
 
-    <StackPanel>
-        <controls:AccountSelectionControl AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <controls:AccountSelectionControl Grid.Row="0"
+                                          AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
                                           AddAccountClick="AccountSelectionControl_AddAccountClick"
                                           Header="Select account:"/>
-        <controls:BareJidInputControl Margin="0,10,0,0"
+        <controls:BareJidInputControl Grid.Row="1"
+                                      Margin="0,10,0,0"
                                       Header="With whom do you want to start a chat?"
                                       Text="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=TwoWay}"/>
-        <CheckBox Margin="0,10,0,0"
+        <chatControls:ChatSuggestionsControl Grid.Row="2"
+                                             Client="{x:Bind VIEW_MODEL.MODEL.Client, Mode=OneWay}"
+                                             FilterText="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
+                                             SelectionChanged="ChatSuggestionsControl_SelectionChanged"/>
+        <CheckBox Grid.Row="3"
+                  Margin="0,10,0,0"
                   Content="Add to roster"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.AddToRoster, Mode=TwoWay}"/>
-        <CheckBox Margin="0,10,0,0"
+        <CheckBox Grid.Row="4"
+                  Margin="0,10,0,0"
                   Content="Subscribe to presence"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.SubscribeToPresence, Mode=TwoWay}"/>
-    </StackPanel>
+    </Grid>
 </ContentDialog>

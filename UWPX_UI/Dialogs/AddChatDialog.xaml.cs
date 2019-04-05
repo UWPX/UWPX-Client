@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using UWPX_UI.Controls.Chat;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
@@ -63,6 +65,14 @@ namespace UWPX_UI.Dialogs
             VIEW_MODEL.MODEL.Client = args.CLIENT;
         }
 
-        #endregion        
+        private void ChatSuggestionsControl_SelectionChanged(ChatSuggestionsControl sender, SelectionChangedEventArgs args)
+        {
+            if (args.AddedItems.Count == 1 && args.AddedItems[0] is ChatDataTemplate chat)
+            {
+                VIEW_MODEL.OnChatSelected(chat);
+            }
+        }
+
+        #endregion
     }
 }

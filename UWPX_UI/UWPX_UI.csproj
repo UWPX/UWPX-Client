@@ -155,6 +155,9 @@
     <Compile Include="Controls\Chat\ChatMasterControl.xaml.cs">
       <DependentUpon>ChatMasterControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\ChatSuggestionsControl.xaml.cs">
+      <DependentUpon>ChatSuggestionsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\EmojiPickerControl.xaml.cs">
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
@@ -487,6 +490,10 @@
     <Page Include="Controls\Chat\ChatMasterControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\ChatSuggestionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\EmojiPickerControl.xaml">
       <SubType>Designer</SubType>

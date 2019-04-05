@@ -153,6 +153,7 @@
     <Compile Include="Classes\DataContext\Controls\ChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.Callbacks.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ChatSuggestionsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\CustomBackgroundImageSelectionControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\EmojiPickerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
@@ -201,6 +202,7 @@
     <Compile Include="Classes\DataTemplates\Controls\ChatBackgroundControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ChatSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />

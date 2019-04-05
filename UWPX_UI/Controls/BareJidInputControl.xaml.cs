@@ -29,7 +29,7 @@ namespace UWPX_UI.Controls
             get { return (string)GetValue(TextProperty); }
             set { SetValue(TextProperty, value); }
         }
-        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(BareJidInputControl), new PropertyMetadata(""));
+        public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(BareJidInputControl), new PropertyMetadata("", OnTextChanged));
 
         public bool IsValid
         {
@@ -60,7 +60,13 @@ namespace UWPX_UI.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateText()
+        {
+            if (!string.Equals(Text, VIEW_MODEL.MODEL.Text))
+            {
+                VIEW_MODEL.MODEL.Text = Text;
+            }
+        }
 
         #endregion
 
@@ -89,6 +95,14 @@ namespace UWPX_UI.Controls
                 case nameof(VIEW_MODEL.MODEL.Text):
                     Text = VIEW_MODEL.MODEL.Text;
                     break;
+            }
+        }
+
+        private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is BareJidInputControl control)
+            {
+                control.UpdateText();
             }
         }
 
