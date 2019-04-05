@@ -54,7 +54,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     if (s.StartsWith(domain) && !s.Equals(domain))
                     {
-                        SUGGESTIONS.Add(input + s);
+                        SUGGESTIONS.Add(input + s.Substring(domain.Length));
                     }
                 }
             }
