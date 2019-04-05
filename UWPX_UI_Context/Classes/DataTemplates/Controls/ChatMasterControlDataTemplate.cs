@@ -106,12 +106,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get { return _LastActionIconText; }
             set { SetProperty(ref _LastActionIconText, value); }
         }
-        private Visibility _LastActionIconVisability;
-        public Visibility LastActionIconVisability
-        {
-            get { return _LastActionIconVisability; }
-            set { SetProperty(ref _LastActionIconVisability, value); }
-        }
         private MessageState _LastActionState;
         public MessageState LastActionState
         {
@@ -141,6 +135,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             get { return _ChatType; }
             set { SetProperty(ref _ChatType, value); }
+        }
+        private int _UnreadCount;
+        public int UnreadCount
+        {
+            get { return _UnreadCount; }
+            set { SetProperty(ref _UnreadCount, value); }
         }
 
         private readonly ResourceDictionary RESOURCES;
@@ -253,6 +253,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 // Last chat message:
                 UpdateLastAction(chat);
+                UpdateUnreadCount(chat);
 
                 // Status icons:
                 InRosterVisability = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
@@ -278,6 +279,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
+        public void UpdateUnreadCount(ChatTable chat)
+        {
+            Task.Run(() =>
+            {
+                UnreadCount = ChatDBManager.INSTANCE.getUnreadCount(chat.id);
+            });
+        }
+
         public void UpdateLastAction(ChatTable chat)
         {
             Task.Run(() =>
@@ -286,7 +295,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (lastMsg is null)
                 {
                     LastActionIconText = "";
-                    LastActionIconVisability = Visibility.Collapsed;
                     LastActionState = MessageState.READ;
                 }
                 else
@@ -296,7 +304,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     if (lastMsg.isImage)
                     {
                         LastActionIconText = "\uE722";
-                        LastActionIconVisability = Visibility.Visible;
                         LastActionText = lastMsg.message ?? "You received an image";
                     }
                     else
@@ -305,25 +312,22 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                         {
                             case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
                                 LastActionIconText = "\uE8F2";
-                                LastActionIconVisability = Visibility.Visible;
                                 LastActionText = "You have been invited to a MUC room";
                                 break;
 
                             case MessageMessage.TYPE_ERROR:
                                 LastActionIconText = "\xE7BA";
-                                LastActionIconVisability = Visibility.Visible;
                                 LastActionText = lastMsg.message ?? "You received an error message";
                                 break;
 
                             case MUCHandler.TYPE_CHAT_INFO:
                                 LastActionIconText = "\uE946";
-                                LastActionIconVisability = Visibility.Visible;
                                 LastActionText = (lastMsg.message ?? "-");
                                 break;
 
                             default:
-                                LastActionIconVisability = Visibility.Collapsed;
                                 LastActionText = lastMsg.message ?? "";
+                                LastActionIconText = "";
                                 break;
                         }
                     }

@@ -185,6 +185,7 @@
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"
+                                                      BadgeCount="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"
                                                       BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
                                                       ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
                                                       PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>

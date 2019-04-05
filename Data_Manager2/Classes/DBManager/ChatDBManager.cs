@@ -180,6 +180,11 @@ namespace Data_Manager2.Classes.DBManager
             return list[list.Count - 1];
         }
 
+        public int getUnreadCount(string chatId)
+        {
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND state = ?;", chatId, MessageState.UNREAD).Count;
+        }
+
         /// <summary>
         /// Returns all chat messages for the given userAccountId and state ordered by their chatId.
         /// </summary>

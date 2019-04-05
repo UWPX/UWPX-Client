@@ -244,6 +244,7 @@
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\UiUtils.cs" />
+    <Compile Include="Classes\ValueConverter\BadgeCountStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondInstabilityValueConverter.cs" />

@@ -29,6 +29,7 @@
 
             <valueconverter:StringBrushValueConverter x:Key="StringBrushValueConverter"/>
             <valueconverter:ChatTypeFontFamilyConverter x:Key="ChatTypeFontFamilyConverter"/>
+            <valueconverter:BadgeCountStringValueConverter x:Key="BadgeCountStringValueConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -51,10 +52,20 @@
                                   Margin="0,0,-2,-2"
                                   HorizontalAlignment="Right"
                                   VerticalAlignment="Bottom">
-            <Ellipse x:Name="presence_elipse"
-                     Width="13"
-                     Height="13"
-                     Fill="{x:Bind PresenceProp, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"/>
+            <Grid>
+                <Ellipse x:Name="presence_elipse"
+                         Width="13"
+                         Height="13"
+                         Fill="{x:Bind PresenceProp, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"/>
+                <TextBlock HorizontalAlignment="Center"
+                           VerticalAlignment="Center"
+                           FontFamily="{ThemeResource ContentControlThemeFontFamily}"
+                           FontWeight="SemiLight"
+                           Foreground="{ThemeResource PersonPictureEllipseBadgeForegroundThemeBrush}"
+                           IsTextScaleFactorEnabled="False"
+                           Text="{x:Bind BadgeCount, Mode=OneWay, Converter={StaticResource BadgeCountStringValueConverter}}"
+                           TextLineBounds="Tight"/>
+            </Grid>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>

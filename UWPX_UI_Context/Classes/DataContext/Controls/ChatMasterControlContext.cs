@@ -272,11 +272,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         private void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
         {
             MODEL.UpdateLastAction(chat.Chat);
+            MODEL.UpdateUnreadCount(chat.Chat);
         }
 
         private void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
         {
             MODEL.UpdateLastAction(chat.Chat);
+            MODEL.UpdateUnreadCount(chat.Chat);
         }
 
         #endregion
