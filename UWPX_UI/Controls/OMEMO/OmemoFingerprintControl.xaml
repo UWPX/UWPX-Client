@@ -14,7 +14,7 @@
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock HorizontalAlignment="Left"
@@ -24,10 +24,12 @@
                        TextWrapping="WrapWholeWords"/>
             <Button x:Name="cpyFingerprint_btn"
                     Grid.Column="1"
+                    Margin="10,0,0,0"
                     VerticalAlignment="Center"
                     Click="CpyFingerprint_btn_Click"
                     Content="&#xE8C8;"
-                    FontFamily="Segoe MDL2 Assets"/>
+                    FontFamily="Segoe MDL2 Assets"
+                    ToolTipService.ToolTip="Copy fingerprint"/>
         </Grid>
         <controls:QrCodeControl Grid.Row="1"
                                 Margin="0,10,0,0"

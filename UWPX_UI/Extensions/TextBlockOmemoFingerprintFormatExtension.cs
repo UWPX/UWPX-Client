@@ -57,7 +57,7 @@ namespace UWPX_UI.Extensions
                 textBlock.Inlines.Clear();
                 if (args.NewValue is byte[] fingerprint && fingerprint.Length > 0)
                 {
-                    int partCount = 4;
+                    int partCount = 8;
                     // Based on: https://stackoverflow.com/questions/11207526/best-way-to-split-an-array
                     byte[][] parts = fingerprint
                     .Select((s, i) => new { Value = s, Index = i })
