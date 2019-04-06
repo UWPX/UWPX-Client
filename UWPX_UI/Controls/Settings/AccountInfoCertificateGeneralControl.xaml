@@ -84,7 +84,7 @@
                     Style="{ThemeResource ButtonRevealStyle}">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                Foreground="{ThemeResource SystemAccentColor}"
                                Text="&#xEDE1;"/>
                     <TextBlock Margin="10,0,0,0"

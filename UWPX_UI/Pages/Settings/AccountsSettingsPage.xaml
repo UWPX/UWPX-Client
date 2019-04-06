@@ -12,7 +12,6 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/CircleButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style BasedOn="{StaticResource ButtonRevealStyle}"

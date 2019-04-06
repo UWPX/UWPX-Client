@@ -78,7 +78,7 @@
                                         Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         Click="deleteCustomImage_btn_Click"
                                         Content="&#xE74D;"
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="30"
                                         Foreground="Red"/>
                                 <Button x:Name="browseImage_btn"
@@ -90,7 +90,7 @@
                                         Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         Click="browseImage_btn_Click"
                                         Content="&#xE8B7;"
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="30"
                                         Foreground="{ThemeResource SystemAccentColor}"/>
                                 <Button x:Name="setImage_btn"
@@ -102,7 +102,7 @@
                                         Background="{ThemeResource SystemControlBackgroundAltMediumBrush}"
                                         Click="setImage_btn_Click"
                                         Content="&#xE8FB;"
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="30"
                                         Foreground="Green"/>
                             </Grid>

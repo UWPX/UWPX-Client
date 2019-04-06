@@ -28,7 +28,7 @@
                     VerticalAlignment="Center"
                     Click="CpyFingerprint_btn_Click"
                     Content="&#xE8C8;"
-                    FontFamily="Segoe MDL2 Assets"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     ToolTipService.ToolTip="Copy fingerprint"/>
         </Grid>
         <controls:QrCodeControl Grid.Row="1"

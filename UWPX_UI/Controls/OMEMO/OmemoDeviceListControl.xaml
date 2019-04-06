@@ -18,7 +18,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Grid.Row="0"
                            VerticalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
+                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
                            FontSize="40"
                            Text="&#xE975;"/>
                 <TextBlock Grid.Column="1"

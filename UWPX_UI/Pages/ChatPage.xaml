@@ -130,7 +130,7 @@
                                   Label="Add"
                                   ToolTipService.ToolTip="Add/Join chat">
                         <AppBarButton.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                       Glyph="&#xE109;"/>
                         </AppBarButton.Icon>
                         <AppBarButton.ContextFlyout>
@@ -269,7 +269,7 @@
                             </MenuFlyout>
                         </AppBarButton.ContextFlyout>
                         <AppBarButton.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                       Glyph="&#xE71C;"/>
                         </AppBarButton.Icon>
                     </AppBarButton>
@@ -279,7 +279,7 @@
                                         Label="Search"
                                         ToolTipService.ToolTip="Search chat">
                         <AppBarToggleButton.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                       Glyph="&#xE721;"/>
                         </AppBarToggleButton.Icon>
                     </AppBarToggleButton>
@@ -289,7 +289,7 @@
                                   Label="Settings"
                                   ToolTipService.ToolTip="Settings">
                         <AppBarButton.Icon>
-                            <FontIcon FontFamily="Segoe MDL2 Assets"
+                            <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                       Glyph="&#xE713;"/>
                         </AppBarButton.Icon>
                     </AppBarButton>

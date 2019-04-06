@@ -191,7 +191,7 @@
                                         VerticalAlignment="Bottom"
                                         Click="PickColor_btn_Click"
                                         Content="&#xE790;"
-                                        FontFamily="Segoe MDL2 Assets"
+                                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         Style="{ThemeResource ButtonRevealStyle}"/>
                             </Grid>
                             <Grid Margin="0,10,0,0">

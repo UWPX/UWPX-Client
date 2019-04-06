@@ -149,7 +149,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0"
                            HorizontalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
+                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
                            FontSize="30"
                            Text="&#xE783;"/>
                 <TextBlock Grid.Row="1"
@@ -167,7 +167,7 @@
                 Background="Transparent"
                 Click="Download_btn_Click"
                 Content="&#xE896;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="30"
                 Style="{ThemeResource ButtonRevealStyle}"
                 Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisabilityValueConverter_Download}, FallbackValue=Collapsed}"/>

@@ -113,7 +113,7 @@
                                             Margin="0,23,0,0"
                                             Click="ResetSpamRegex_btn_Click"
                                             Content="&#xE777;"
-                                            FontFamily="Segoe MDL2 Assets"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                             IsEnabled="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=OneWay}"/>
                                 </Grid>
                             </StackPanel>

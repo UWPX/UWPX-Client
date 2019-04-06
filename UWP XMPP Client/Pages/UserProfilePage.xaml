@@ -70,7 +70,7 @@
                                 <TextBlock x:Name="fromArrow_tblck"
                                            Grid.Column="0"
                                            VerticalAlignment="Center"
-                                           FontFamily="Segoe MDL2 Assets"
+                                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                            FontWeight="Black"
                                            Text="&#xE00E;"/>
                                 <Rectangle Grid.Column="1"
@@ -81,7 +81,7 @@
                                 <TextBlock x:Name="toArrow_tblck"
                                            Grid.Column="2"
                                            VerticalAlignment="Center"
-                                           FontFamily="Segoe MDL2 Assets"
+                                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                            Text="&#xE00F;"/>
                             </Grid>
                             <controls:AccountImageWithPresenceControl Grid.Column="2"

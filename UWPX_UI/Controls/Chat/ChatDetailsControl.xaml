@@ -140,7 +140,7 @@
                         Margin="0,0,-10,0"
                         Background="Transparent"
                         Content="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         FontSize="20"
                         FontWeight="Bold"
                         Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
@@ -175,7 +175,7 @@
                         VerticalAlignment="Center"
                         Background="Transparent"
                         Content="&#xE712;"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         FontSize="20"
                         FontWeight="Bold"
                         Style="{ThemeResource ButtonRevealStyle}"
@@ -263,7 +263,7 @@
                         Margin="-10,0,-10,0"
                         VerticalAlignment="Bottom"
                         Content="&#xE723;"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         FontSize="27"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Send images/files">
@@ -277,7 +277,7 @@
                                         IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                    FontSize="20"
                                                    Foreground="{ThemeResource SystemAccentColor}"
                                                    Text="&#xE8F1;"/>
@@ -295,7 +295,7 @@
                                         IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                    FontSize="20"
                                                    Foreground="{ThemeResource SystemAccentColor}"
                                                    Text="&#xE722;"/>
@@ -313,7 +313,7 @@
                                         IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                    FontSize="20"
                                                    Foreground="{ThemeResource SystemAccentColor}"
                                                    Text="&#xE929;"/>
@@ -331,7 +331,7 @@
                                         IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
                                         <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="Segoe MDL2 Assets"
+                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                                    FontSize="20"
                                                    Foreground="{ThemeResource SystemAccentColor}"
                                                    Text="&#xEC50;"/>
@@ -350,7 +350,7 @@
                         Margin="-5,0,-15,0"
                         VerticalAlignment="Bottom"
                         Content="&#xE76E;"
-                        FontFamily="Segoe MDL2 Assets"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         FontSize="27"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Emojis"
@@ -376,11 +376,11 @@
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Send message">
                     <Grid>
-                        <TextBlock FontFamily="Segoe MDL2 Assets"
+                        <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                    Text="&#xE122;"/>
                         <TextBlock x:Name="omemoIndicator_tbx"
                                    Margin="17,-2,0,0"
-                                   FontFamily="Segoe MDL2 Assets"
+                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                    FontSize="10"
                                    Text="&#xE72E;"
                                    Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>

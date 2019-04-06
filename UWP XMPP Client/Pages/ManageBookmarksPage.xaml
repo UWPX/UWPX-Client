@@ -46,7 +46,7 @@
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0"
                                HorizontalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                FontSize="50"
                                Foreground="Gold"
                                Text="&#xE734;"/>
@@ -120,7 +120,7 @@
                                       Click="add_abb_Click"
                                       Label="Add">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                           Glyph="&#xE109;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>
@@ -129,7 +129,7 @@
                                       Click="reload_abb_Click"
                                       Label="Reload">
                             <AppBarButton.Icon>
-                                <FontIcon FontFamily="Segoe MDL2 Assets"
+                                <FontIcon FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                           Glyph="&#xE72C;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>

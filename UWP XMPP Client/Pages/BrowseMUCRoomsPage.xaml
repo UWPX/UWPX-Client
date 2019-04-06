@@ -81,7 +81,7 @@
                             Click="refresh_btn_Click">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock VerticalAlignment="Center"
-                                       FontFamily="Segoe MDL2 Assets"
+                                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                        Foreground="{ThemeResource SystemAccentColor}"
                                        Text="&#xE72C;"/>
                             <TextBlock Margin="10,0,0,0"

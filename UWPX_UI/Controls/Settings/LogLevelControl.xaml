@@ -48,7 +48,7 @@
                 Background="Transparent"
                 Click="LogLevelDebug_btn_Click"
                 Content="&#xE7BA;"
-                FontFamily="Segoe MDL2 Assets"
+                FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="15"
                 Foreground="Red"
                 Style="{ThemeResource ButtonRevealStyle}"

@@ -49,7 +49,7 @@
                     Click="cancel_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                Foreground="Red"
                                Text="&#xE711;"/>
                     <TextBlock Margin="10,0,0,0"
@@ -64,7 +64,7 @@
                     Click="add_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                Foreground="Green"
                                Text="&#xE109;"/>
                     <TextBlock Margin="10,0,0,0"

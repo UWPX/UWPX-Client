@@ -13,7 +13,7 @@
         </Border>
         <RelativePanel HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0, 0, 5, 5" x:Name="check_rltvp">
             <Polygon Points="40,0, 40,40, 0,40" Fill="{ThemeResource SystemAccentColor}"/>
-            <TextBlock Text="&#xE8FB;" FontFamily="Segoe MDL2 Assets" FontSize="20" FontWeight="Bold" Margin="17, 17, 0, 0"/>
+            <TextBlock Text="&#xE8FB;" FontFamily="{ThemeResource SymbolThemeFontFamily}" FontSize="20" FontWeight="Bold" Margin="17, 17, 0, 0"/>
         </RelativePanel>
     </Grid>
 </UserControl>

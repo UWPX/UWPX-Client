@@ -22,7 +22,7 @@
             <TextBox x:Name="text_tbx" PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}" Grid.Column="0" Text="{x:Bind Text, Mode=TwoWay}" TextWrapping="Wrap" KeyDown="text_tbx_KeyDown"/>
             <Button x:Name="save_btn" Grid.Column="1" Click="save_btn_Click" HorizontalAlignment="Right">
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="&#xE105;" FontFamily="Segoe MDL2 Assets" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
+                    <TextBlock Text="&#xE105;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="{ThemeResource SystemAccentColor}" VerticalAlignment="Center"/>
                     <TextBlock Text="Save" VerticalAlignment="Center" Margin="10, 0, 0, 0"/>
                     <ProgressRing x:Name="save_prgr" IsActive="True" Visibility="Collapsed" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
                 </StackPanel>

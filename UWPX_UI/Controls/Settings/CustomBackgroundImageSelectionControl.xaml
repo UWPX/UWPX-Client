@@ -27,7 +27,7 @@
                     VerticalAlignment="Center"
                     Click="Browse_btn_Click"
                     Content="&#xE8B7;"
-                    FontFamily="Segoe MDL2 Assets"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                     FontSize="30"
                     Style="{StaticResource TransparentThemeButtonStyle}"/>
         </Grid>

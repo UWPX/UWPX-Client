@@ -45,7 +45,7 @@
                     Click="banSingle_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                Foreground="Red"
                                Text="&#xE8F8;"/>
                     <TextBlock Margin="10,0,0,0"
@@ -64,7 +64,7 @@
                     Click="kickSingle_btn_Click">
                 <StackPanel Orientation="Horizontal">
                     <TextBlock VerticalAlignment="Center"
-                               FontFamily="Segoe MDL2 Assets"
+                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                Foreground="Red"
                                Text="&#xE711;"/>
                     <TextBlock Margin="10,0,0,0"

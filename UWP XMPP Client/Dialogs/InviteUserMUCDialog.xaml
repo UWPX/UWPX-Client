@@ -22,22 +22,22 @@
         </Grid.RowDefinitions>
 
         <StackPanel x:Name="invalidJid_stckp" Orientation="Horizontal" Grid.Row="0">
-            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+            <TextBlock Text="&#xE7BA;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="Red" VerticalAlignment="Center"/>
             <TextBlock Text="Invalid JID!" VerticalAlignment="Stretch" Foreground="Red" Margin="5, 0, 0, 0"/>
         </StackPanel>
 
         <StackPanel x:Name="validJid_stckp" Orientation="Horizontal" Grid.Row="0" Visibility="Collapsed">
-            <TextBlock Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" Foreground="Green" VerticalAlignment="Center"/>
+            <TextBlock Text="&#xE73E;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="Green" VerticalAlignment="Center"/>
             <TextBlock Text="Valid JID." VerticalAlignment="Stretch" Foreground="Green" Margin="5, 0, 0, 0"/>
         </StackPanel>
 
         <StackPanel x:Name="selfInvite_stckp" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
-            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+            <TextBlock Text="&#xE7BA;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="Red" VerticalAlignment="Center"/>
             <TextBlock Text="You can't invite yourself!" VerticalAlignment="Stretch" Foreground="Red" Margin="5, 0, 0, 0"/>
         </StackPanel>
 
         <StackPanel x:Name="memberInvite_stckp" Orientation="Horizontal" Grid.Row="1" Visibility="Collapsed">
-            <TextBlock Text="&#xE7BA;" FontFamily="Segoe MDL2 Assets" Foreground="Red" VerticalAlignment="Center"/>
+            <TextBlock Text="&#xE7BA;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="Red" VerticalAlignment="Center"/>
             <TextBlock Text="User already in this MUC!" VerticalAlignment="Stretch" Foreground="Red" Margin="5, 0, 0, 0"/>
         </StackPanel>
 

@@ -30,13 +30,13 @@
         <StackPanel Grid.Column="1"
                     VerticalAlignment="Center">
             <TextBlock Margin="0,5,0,5"
-                       FontFamily="Segoe MDL2 Assets"
+                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
                        FontSize="13"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
                        Text="&#xE751;"
                        Visibility="{x:Bind Conference.autoJoin, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
             <TextBlock Margin="0,5,0,5"
-                       FontFamily="Segoe MDL2 Assets"
+                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
                        FontSize="13"
                        Foreground="{ThemeResource SystemAccentColor}"
                        Text="&#xE72E;"

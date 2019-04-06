@@ -18,7 +18,7 @@
         </StackPanel>
         <Button x:Name="addRoom_btn" Grid.Column="1" VerticalAlignment="Center" Margin="10, 0, 0, 0" Click="addRoom_btn_Click">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="&#xE710;" FontFamily="Segoe MDL2 Assets" Foreground="Green" VerticalAlignment="Center"/>
+                <TextBlock Text="&#xE710;" FontFamily="{ThemeResource SymbolThemeFontFamily}" Foreground="Green" VerticalAlignment="Center"/>
                 <TextBlock Text="Add" Margin="10, 0, 0, 0" VerticalAlignment="Center"/>
             </StackPanel>
         </Button>
