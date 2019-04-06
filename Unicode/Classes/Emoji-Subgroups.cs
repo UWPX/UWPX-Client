@@ -1,9 +1,3 @@
-﻿// This class is a part of the fork from neosmarts unicode.net (https://github.com/neosmart/unicode.net)
-// Source: https://github.com/UWPX/unicode.net
-// Original license:
-// MIT License:
-// https://github.com/UWPX/unicode.net/blob/master/LICENSE
-
 namespace NeoSmart.Unicode
 {
     // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/12.0/emoji-test.txt).
