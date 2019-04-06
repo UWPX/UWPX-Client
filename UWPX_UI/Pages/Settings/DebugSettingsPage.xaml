@@ -12,7 +12,12 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <Style TargetType="ToggleSwitch">
+                <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -45,7 +50,36 @@
                     <settings:SettingsContentControl x:Name="debug_scp"
                                                      Header="Debug:">
                         <settings:SettingsContentControl.MainContent>
-                            <StackPanel/>
+                            <StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleSwitch x:Name="disableTcpTimeout_tgls"
+                                                  Header="Disable TCP connection timeout"
+                                                  IsOn="{x:Bind VIEW_MODEL.MODEL.DisableTcpTimeout, Mode=TwoWay}"/>
+                                    <Button Style="{ThemeResource InfoButtonStyle}">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <TextBlock x:Uid="DebugSettingsPage_tcp_timeout_tooltip"
+                                                           MaxWidth="200"
+                                                           TextWrapping="WrapWholeWords"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleSwitch x:Name="disableTlsTimeout_tgls"
+                                                  Header="Disable TLS upgrade timeout"
+                                                  IsOn="{x:Bind VIEW_MODEL.MODEL.DisableTlsTimeout, Mode=TwoWay}"/>
+                                    <Button Style="{ThemeResource InfoButtonStyle}">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <TextBlock x:Uid="DebugSettingsPage_tls_timeout_tooltip"
+                                                           MaxWidth="200"
+                                                           TextWrapping="WrapWholeWords"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
 
@@ -76,10 +110,11 @@
                                     <Button x:Name="resetSpamRegex_btn"
                                             Grid.Column="1"
                                             Height="32"
-                                            Margin="0,22,0,0"
+                                            Margin="0,23,0,0"
                                             Click="ResetSpamRegex_btn_Click"
                                             Content="&#xE777;"
-                                            FontFamily="Segoe MDL2 Assets"/>
+                                            FontFamily="Segoe MDL2 Assets"
+                                            IsEnabled="{x:Bind VIEW_MODEL.MODEL.SpamDetectionEnabled, Mode=OneWay}"/>
                                 </Grid>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>

@@ -57,6 +57,17 @@ namespace XMPP_API.Classes.Network.TCP
 
         public event NewDataReceivedEventHandler NewDataReceived;
 
+        /// <summary>
+        /// Disables the TCP connection timeout defined in <see cref="CONNECTION_TIMEOUT_MS"/>.
+        /// Default = false.
+        /// </summary>
+        public bool disableTcpTimeout;
+        /// <summary>
+        /// Disables the TLS upgrade timeout defined in <see cref="TLS_UPGRADE_TIMEOUT_MS"/>.
+        /// Default = false.
+        /// </summary>
+        public bool disableTlsTimeout;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -74,6 +85,8 @@ namespace XMPP_API.Classes.Network.TCP
             this.dataWriter = null;
             this.socket = null;
             this.readingCTS = null;
+            this.disableTcpTimeout = false;
+            this.disableTlsTimeout = false;
         }
 
         #endregion
@@ -117,7 +130,14 @@ namespace XMPP_API.Classes.Network.TCP
                             }
 
                             // Connect with timeout:
-                            connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT_MS);
+                            if (disableTcpTimeout)
+                            {
+                                connectingCTS = new CancellationTokenSource();
+                            }
+                            else
+                            {
+                                connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT_MS);
+                            }
                             await socket.ConnectAsync(hostName, account.port.ToString()).AsTask(connectingCTS.Token);
 
                             // Setup stream reader and writer:
@@ -197,7 +217,14 @@ namespace XMPP_API.Classes.Network.TCP
             DateTime d = DateTime.Now;
             try
             {
-                tlsUpgradeCTS = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT_MS);
+                if (disableTlsTimeout)
+                {
+                    tlsUpgradeCTS = new CancellationTokenSource();
+                }
+                else
+                {
+                    tlsUpgradeCTS = new CancellationTokenSource(TLS_UPGRADE_TIMEOUT_MS);
+                }
                 await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName).AsTask(tlsUpgradeCTS.Token);
             }
             catch (Exception e)

@@ -238,6 +238,12 @@ Also special thanks to all the Alpha (and hopefully soon Beta) testers that repo
 * [**Progress Telerik UI for UWP**](https://github.com/telerik/UI-For-UWP)  An open-source version of Telerik UI for Universal Windows Platform (UWP) by [Progress](https://www.progress.com/).
 * [**Windows Community Toolkit**](https://github.com/Microsoft/WindowsCommunityToolkit) They provide an awesome collection of helper functions, custom controls and app services.</value>
   </data>
+  <data name="DebugSettingsPage_tcp_timeout_tooltip.Text" xml:space="preserve">
+    <value>Requires an app restart to work.</value>
+  </data>
+  <data name="DebugSettingsPage_tls_timeout_tooltip.Text" xml:space="preserve">
+    <value>Requires an app restart to work.</value>
+  </data>
   <data name="DonateSettingsPage_bank_details0.Text" xml:space="preserve">
     <value>It takes a lot of time and effort to develop and maintain a complex app like UWPX. So, if you like UWPX or simply want to support the development please consider donating to keep the development going.</value>
   </data>

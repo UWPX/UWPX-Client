@@ -37,6 +37,8 @@
         public const string VERSION_REVISION = "version_revision";
         public const string LOG_LEVEL = "log_level";
         public const string DEBUG_SETTINGS_ENABLED = "debug_settings_enabled";
+        public const string DEBUG_DISABLE_TCP_TIMEOUT = "debug_disable_tcp_timeout";
+        public const string DEBUG_DISABLE_TLS_TIMEOUT = "debug_disable_tls_timeout";
 
         public const string CHAT_FILTER_PRESENCE_ONLINE = "chat_filter_presence_online";
         public const string CHAT_FILTER_PRESENCE_AWAY = "chat_filter_presence_away";

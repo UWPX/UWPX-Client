@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly TCPConnection2 TCP_CONNECTION;
+        public readonly TCPConnection2 TCP_CONNECTION;
         public OmemoHelper omemoHelper { get; private set; }
         private readonly DiscoFeatureHelper DISCO_FEATURE_HELPER;
 

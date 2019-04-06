@@ -211,6 +211,8 @@ namespace Data_Manager2.Classes
         private XMPPClient loadAccount(XMPPAccount acc)
         {
             XMPPClient c = new XMPPClient(acc);
+            c.connection.TCP_CONNECTION.disableTcpTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
+            c.connection.TCP_CONNECTION.disableTlsTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
             // Enable OMEMO:
             OmemoStore signalProtocolStore = new OmemoStore(acc);
