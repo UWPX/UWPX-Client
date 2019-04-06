@@ -19,6 +19,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock HorizontalAlignment="Left"
                        extensions:TextBlockOmemoFingerprintFormatExtension.Fingerprint="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"
+                       FontFamily="Consolas"
                        IsTextSelectionEnabled="True"
                        TextWrapping="WrapWholeWords"/>
             <Button x:Name="cpyFingerprint_btn"

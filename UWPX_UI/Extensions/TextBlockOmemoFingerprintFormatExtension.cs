@@ -8,7 +8,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0392;
 
 namespace UWPX_UI.Extensions
 {
-    public sealed class TextBlockOmemoFingerprintFormatExtension
+    public static class TextBlockOmemoFingerprintFormatExtension
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
