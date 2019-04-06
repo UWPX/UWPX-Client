@@ -19728,7 +19728,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2253
         );
 
@@ -19740,7 +19740,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2254
         );
 
@@ -19752,7 +19752,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2255
         );
 
@@ -19764,7 +19764,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2256
         );
 
@@ -19776,7 +19776,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2257
         );
 
@@ -19788,7 +19788,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2258
         );
 
@@ -19800,7 +19800,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2259
         );
 
@@ -19812,7 +19812,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2260
         );
 
@@ -19824,7 +19824,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2261
         );
 
@@ -19836,7 +19836,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2262
         );
 
@@ -19848,7 +19848,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2263
         );
 
@@ -19860,7 +19860,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2264
         );
 
@@ -19872,7 +19872,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2265
         );
 
@@ -19884,7 +19884,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2266
         );
 
@@ -19896,7 +19896,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2267
         );
 
@@ -19908,7 +19908,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2268
         );
 
@@ -19932,7 +19932,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2270
         );
 
@@ -19944,7 +19944,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2271
         );
 
@@ -19956,7 +19956,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2272
         );
 
@@ -19968,7 +19968,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2273
         );
 
@@ -19980,7 +19980,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2274
         );
 
@@ -19992,7 +19992,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2275
         );
 
@@ -20004,7 +20004,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2276
         );
 
@@ -20016,7 +20016,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2277
         );
 
@@ -20028,7 +20028,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2278
         );
 
@@ -20040,7 +20040,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2279
         );
 
@@ -20052,7 +20052,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2280
         );
 
@@ -20064,7 +20064,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2281
         );
 
@@ -20076,7 +20076,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2282
         );
 
@@ -20088,7 +20088,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2283
         );
 
@@ -20100,7 +20100,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2284
         );
 
@@ -20124,7 +20124,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2286
         );
 
@@ -20136,7 +20136,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2287
         );
 
@@ -20148,7 +20148,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2288
         );
 
@@ -20160,7 +20160,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2289
         );
 
@@ -20172,7 +20172,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2290
         );
 
@@ -20184,7 +20184,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2291
         );
 
@@ -20196,7 +20196,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2292
         );
 
@@ -20208,7 +20208,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2293
         );
 
@@ -20220,7 +20220,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2294
         );
 
@@ -20232,7 +20232,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2295
         );
 
@@ -20244,7 +20244,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2296
         );
 
@@ -20256,7 +20256,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2297
         );
 
@@ -20268,7 +20268,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2298
         );
 
@@ -20280,7 +20280,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2299
         );
 
@@ -20292,7 +20292,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2300
         );
 
@@ -20304,7 +20304,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2301
         );
 
@@ -20316,7 +20316,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2302
         );
 
@@ -20328,7 +20328,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2303
         );
 
@@ -20340,7 +20340,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2304
         );
 
@@ -20352,7 +20352,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2305
         );
 
@@ -20364,7 +20364,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2306
         );
 
@@ -20376,7 +20376,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2307
         );
 
@@ -20388,7 +20388,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2308
         );
 
@@ -20400,7 +20400,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2309
         );
 
@@ -20412,7 +20412,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2310
         );
 
@@ -20436,7 +20436,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2312
         );
 
@@ -20448,7 +20448,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2313
         );
 
@@ -20460,7 +20460,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2314
         );
 
@@ -20472,7 +20472,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2315
         );
 
@@ -20484,7 +20484,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2316
         );
 
@@ -20496,7 +20496,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2317
         );
 
@@ -20508,7 +20508,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2318
         );
 
@@ -20520,7 +20520,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2319
         );
 
@@ -20532,7 +20532,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2320
         );
 
@@ -20544,7 +20544,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2321
         );
 
@@ -20556,7 +20556,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2322
         );
 
@@ -20568,7 +20568,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2323
         );
 
@@ -20580,7 +20580,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2324
         );
 
@@ -20592,7 +20592,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2325
         );
 
@@ -20604,7 +20604,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2326
         );
 
@@ -20628,7 +20628,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2328
         );
 
@@ -20640,7 +20640,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2330
         );
 
@@ -20652,7 +20652,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2332
         );
 
@@ -20676,7 +20676,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2335
         );
 
@@ -20688,7 +20688,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2337
         );
 
@@ -20700,7 +20700,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2339
         );
 
@@ -21072,7 +21072,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2372
         );
 
@@ -21084,7 +21084,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2373
         );
 
@@ -21096,7 +21096,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2374
         );
 
@@ -21108,7 +21108,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2375
         );
 
@@ -21120,7 +21120,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 2376
         );
 
@@ -32064,7 +32064,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { },
             group: Group.SYMBOLS,
             subgroup: Subgroups.KEYCAP,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 3459
         );
 

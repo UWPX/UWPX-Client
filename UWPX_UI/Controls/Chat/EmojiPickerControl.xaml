@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatsQueryTextBoxStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/SkinToneRadioButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Key="EmojiTemplate"
@@ -26,6 +27,7 @@
 
     <Grid>
         <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
@@ -54,37 +56,79 @@
             </animations:Implicit.HideAnimations>
         </TextBox>
 
+        <StackPanel Grid.Row="1"
+                    Margin="-5,0,0,0"
+                    Orientation="Horizontal">
+            <RadioButton IsChecked="True"
+                         Style="{StaticResource SkinToneRadioButton}"
+                         ToolTipService.ToolTip="None">
+                <RadioButton.Content>
+                    <SolidColorBrush Color="#ffc83d"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+                         ToolTipService.ToolTip="Light">
+                <RadioButton.Content>
+                    <SolidColorBrush Color="#f7d7c4"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+                         ToolTipService.ToolTip="Medium-Light">
+                <RadioButton.Content>
+                    <SolidColorBrush Color="#d8b094"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+                         ToolTipService.ToolTip="Medium">
+                <RadioButton.Content>
+                    <SolidColorBrush Color="#bb9167"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+                         ToolTipService.ToolTip="Medium-Dark">
+                <RadioButton.Content>
+                    <SolidColorBrush Color="#8e562e"/>
+                </RadioButton.Content>
+            </RadioButton>
+            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+                         ToolTipService.ToolTip="Dark">
+                <RadioButton.Content>
+                    <SolidColorBrush Color="#613d30"/>
+                </RadioButton.Content>
+            </RadioButton>
+        </StackPanel>
+
         <GridView x:Name="emoji_gridv"
-                  Grid.Row="1"
+                  Grid.Row="2"
                   IsItemClickEnabled="True"
                   ItemClick="Emojis_grid_ItemClick"
                   ItemTemplate="{StaticResource EmojiTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.SelectedList, Mode=OneWay}"
-                  SelectionMode="Single"/>
+                  SelectionMode="Single"
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
 
         <StackPanel x:Name="nonFound_stck"
-                    Grid.Row="1"
+                    Grid.Row="2"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
                     Visibility="Collapsed">
-            <TextBlock Grid.Row="0"
-                       HorizontalAlignment="Center"
+            <TextBlock HorizontalAlignment="Center"
                        Foreground="{ThemeResource SystemAccentColor}"
                        Style="{ThemeResource SubtitleTextBlockStyle}"
                        Text="¯\_(ツ)_/¯"/>
-            <TextBlock Grid.Row="1"
-                       HorizontalAlignment="Center"
+            <TextBlock HorizontalAlignment="Center"
                        Text="We couldn't find this one."/>
         </StackPanel>
 
         <ProgressRing Grid.Row="1"
+                      Grid.RowSpan="2"
                       Width="50"
                       Height="50"
                       HorizontalAlignment="Center"
                       VerticalAlignment="Center"
                       IsActive="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}"/>
-        <controls1:SeperatorControl Grid.Row="2"/>
-        <StackPanel Grid.Row="3"
+        <controls1:SeperatorControl Grid.Row="3"/>
+        <StackPanel Grid.Row="4"
                     Margin="0,5,0,0"
                     HorizontalAlignment="Left"
                     Orientation="Horizontal">
