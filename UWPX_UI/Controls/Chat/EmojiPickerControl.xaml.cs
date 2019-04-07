@@ -105,6 +105,40 @@ namespace UWPX_UI.Controls.Chat
             UpdateNonFoundVisibility();
         }
 
+        private void SkinToneRadioButton_Checked(object sender, RoutedEventArgs e)
+        {
+            if (sender is RadioButton radioButton)
+            {
+                switch (radioButton.Tag)
+                {
+
+                    case "0":
+                        VIEW_MODEL.OnSkinToneSelected(Emoji.ZeroWidthJoiner);
+                        break;
+
+                    case "1":
+                        VIEW_MODEL.OnSkinToneSelected(Emoji.SkinTones.Light);
+                        break;
+
+                    case "2":
+                        VIEW_MODEL.OnSkinToneSelected(Emoji.SkinTones.MediumLight);
+                        break;
+
+                    case "3":
+                        VIEW_MODEL.OnSkinToneSelected(Emoji.SkinTones.Medium);
+                        break;
+
+                    case "4":
+                        VIEW_MODEL.OnSkinToneSelected(Emoji.SkinTones.MediumDark);
+                        break;
+
+                    case "5":
+                        VIEW_MODEL.OnSkinToneSelected(Emoji.SkinTones.Dark);
+                        break;
+                }
+            }
+        }
+
         #endregion
     }
 }

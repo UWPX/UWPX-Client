@@ -85,6 +85,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set { SetIsSymbolsCheckedCheckedProperty(value); }
         }
 
+        /// <summary>
+        /// The currently selected skin tone or <see cref="Emoji.ZeroWidthJoiner"/> for yellow.
+        /// </summary>
+        private Codepoint curSkinTone = Emoji.ZeroWidthJoiner;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -97,7 +102,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             };
             EMOJI_PEOPLE_FILTERED = new AdvancedCollectionView
             {
-                Filter = EmojiFilter
+                Filter = EmojiSkinToneFilter
             };
             EMOJI_FOOD_FILTERED = new AdvancedCollectionView
             {
@@ -192,44 +197,61 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void OnSkinToneSelected(Codepoint skinTone)
+        {
+            if (curSkinTone != skinTone)
+            {
+                curSkinTone = skinTone;
+                UpdateFilter();
+            }
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
         private void UpdateFilter()
         {
-            IsLoading = true;
-            if (IsSmileysChecked)
+            Task.Run(() =>
             {
-                EMOJI_SMILEYS_FILTERED.RefreshFilter();
-            }
-            else if (IsPeopleChecked)
-            {
-                EMOJI_PEOPLE_FILTERED.RefreshFilter();
-            }
-            else if (IsObjectsChecked)
-            {
-                EMOJI_OBJECTS_FILTERED.RefreshFilter();
-            }
-            else if (IsSymbolsChecked)
-            {
-                EMOJI_SYMBOLS_FILTERED.RefreshFilter();
-            }
-            else if (IsFoodChecked)
-            {
-                EMOJI_FOOD_FILTERED.RefreshFilter();
-            }
-            else if (IsTransportationsChecked)
-            {
-                EMOJI_TRANSPORTATIONS_FILTERED.RefreshFilter();
-            }
-            IsLoading = false;
+                IsLoading = true;
+                if (IsSmileysChecked)
+                {
+                    EMOJI_SMILEYS_FILTERED.RefreshFilter();
+                }
+                else if (IsPeopleChecked)
+                {
+                    EMOJI_PEOPLE_FILTERED.RefreshFilter();
+                }
+                else if (IsObjectsChecked)
+                {
+                    EMOJI_OBJECTS_FILTERED.RefreshFilter();
+                }
+                else if (IsSymbolsChecked)
+                {
+                    EMOJI_SYMBOLS_FILTERED.RefreshFilter();
+                }
+                else if (IsFoodChecked)
+                {
+                    EMOJI_FOOD_FILTERED.RefreshFilter();
+                }
+                else if (IsTransportationsChecked)
+                {
+                    EMOJI_TRANSPORTATIONS_FILTERED.RefreshFilter();
+                }
+                IsLoading = false;
+            });
         }
 
         private bool EmojiFilter(object o)
         {
             return o is SingleEmoji emoji && (string.IsNullOrEmpty(EmojiQuery) || emoji.SearchTerms.Any((x) => x.ToLower().Contains(EmojiQuery)));
+        }
+
+        private bool EmojiSkinToneFilter(object o)
+        {
+            return o is SingleEmoji emoji
+                && (string.IsNullOrEmpty(EmojiQuery) || emoji.SearchTerms.Any((x) => x.ToLower().Contains(EmojiQuery)))
+                && (curSkinTone == Emoji.ZeroWidthJoiner && emoji.SkinTones == SingleEmoji.NoSkinTones || emoji.SkinTones.Contains(curSkinTone));
         }
 
         private void LoadRecentEmoji()

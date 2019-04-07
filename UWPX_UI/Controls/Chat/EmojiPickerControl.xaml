@@ -56,46 +56,69 @@
             </animations:Implicit.HideAnimations>
         </TextBox>
 
-        <StackPanel Grid.Row="1"
+        <StackPanel x:Name="skinTone_sckp"
+                    Grid.Row="1"
                     Margin="-5,0,0,0"
                     Orientation="Horizontal">
-            <RadioButton IsChecked="True"
-                         Style="{StaticResource SkinToneRadioButton}"
+            <StackPanel.Resources>
+                <Style BasedOn="{StaticResource SkinToneRadioButton}"
+                       TargetType="RadioButton"/>
+            </StackPanel.Resources>
+            <RadioButton Checked="SkinToneRadioButton_Checked"
+                         IsChecked="True"
+                         Tag="0"
                          ToolTipService.ToolTip="None">
                 <RadioButton.Content>
                     <SolidColorBrush Color="#ffc83d"/>
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+            <RadioButton Checked="SkinToneRadioButton_Checked"
+                         Tag="1"
                          ToolTipService.ToolTip="Light">
                 <RadioButton.Content>
                     <SolidColorBrush Color="#f7d7c4"/>
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+            <RadioButton Checked="SkinToneRadioButton_Checked"
+                         Tag="2"
                          ToolTipService.ToolTip="Medium-Light">
                 <RadioButton.Content>
                     <SolidColorBrush Color="#d8b094"/>
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+            <RadioButton Checked="SkinToneRadioButton_Checked"
+                         Tag="3"
                          ToolTipService.ToolTip="Medium">
                 <RadioButton.Content>
                     <SolidColorBrush Color="#bb9167"/>
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+            <RadioButton Checked="SkinToneRadioButton_Checked"
+                         Tag="4"
                          ToolTipService.ToolTip="Medium-Dark">
                 <RadioButton.Content>
                     <SolidColorBrush Color="#8e562e"/>
                 </RadioButton.Content>
             </RadioButton>
-            <RadioButton Style="{StaticResource SkinToneRadioButton}"
+            <RadioButton Checked="SkinToneRadioButton_Checked"
+                         Tag="5"
                          ToolTipService.ToolTip="Dark">
                 <RadioButton.Content>
                     <SolidColorBrush Color="#613d30"/>
                 </RadioButton.Content>
             </RadioButton>
+
+            <animations:Implicit.ShowAnimations>
+                <animations:OpacityAnimation From="0"
+                                             To="1"
+                                             Duration="0:0:0.3"/>
+            </animations:Implicit.ShowAnimations>
+
+            <animations:Implicit.HideAnimations>
+                <animations:OpacityAnimation From="1"
+                                             To="0"
+                                             Duration="0:0:0.3"/>
+            </animations:Implicit.HideAnimations>
         </StackPanel>
 
         <GridView x:Name="emoji_gridv"
@@ -203,6 +226,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Collapsed"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Smileys">
@@ -215,6 +239,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="People">
@@ -227,6 +252,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Objects">
@@ -239,6 +265,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Food">
@@ -251,6 +278,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Transportations">
@@ -263,6 +291,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="True"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="Symbols">
@@ -275,6 +304,7 @@
                         <Setter Target="transportations_tglbtn.IsChecked" Value="False"/>
                         <Setter Target="symbols_tglbtn.IsChecked" Value="True"/>
                         <Setter Target="filterEmojis_tbx.Visibility" Value="Visible"/>
+                        <Setter Target="skinTone_sckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

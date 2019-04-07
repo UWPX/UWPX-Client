@@ -37,6 +37,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
+        public void OnSkinToneSelected(Codepoint skinTone)
+        {
+            MODEL.OnSkinToneSelected(skinTone);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
