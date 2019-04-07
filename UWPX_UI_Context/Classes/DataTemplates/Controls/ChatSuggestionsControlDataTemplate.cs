@@ -23,6 +23,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set { SetProperty(ref _IsLoading, value); }
         }
 
+        private ChatDataTemplate _SelectedItem;
+        public ChatDataTemplate SelectedItem
+        {
+            get { return _SelectedItem; }
+            set { SetProperty(ref _SelectedItem, value); }
+        }
+
         private bool _HasSuggestions;
         public bool HasSuggestions
         {
@@ -75,12 +82,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 this.filterText = filterText;
                 SUGGESTIONS_ACV.RefreshFilter();
+                UpdateSelectedItme();
             }
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void UpdateSelectedItme()
+        {
+            IEnumerable<object> result = SUGGESTIONS_ACV.Where((x) => x is ChatDataTemplate chat && string.Equals(chat.Chat.chatJabberId, filterText));
+            SelectedItem = result.Count() > 0 ? result.First() as ChatDataTemplate : null;
+        }
+
         private async Task LoadSuggestionsAsync(XMPPClient client)
         {
             if (!(loadingTask is null))

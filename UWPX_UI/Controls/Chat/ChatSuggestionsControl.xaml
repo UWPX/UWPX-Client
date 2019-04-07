@@ -47,6 +47,7 @@
                   ItemTemplate="{StaticResource SuggestionTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.SUGGESTIONS_ACV}"
                   ScrollViewer.VerticalScrollMode="Auto"
+                  SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"
                   SelectionChanged="ListView_SelectionChanged"
                   SelectionMode="Single"
                   Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>

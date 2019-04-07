@@ -5,9 +5,9 @@
                xmlns:controls="using:UWPX_UI.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-               xmlns:templates="using:UWPX_UI_Context.Classes.DataTemplates"
                Title="Add Chat"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               IsSecondaryButtonEnabled="{x:Bind chatJid_bjic.IsValid, Mode=OneWay}"
                PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
                PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
                PrimaryButtonText="Cancel"
@@ -28,7 +28,8 @@
                                           AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
                                           AddAccountClick="AccountSelectionControl_AddAccountClick"
                                           Header="Select account:"/>
-        <controls:BareJidInputControl Grid.Row="1"
+        <controls:BareJidInputControl x:Name="chatJid_bjic"
+                                      Grid.Row="1"
                                       Margin="0,10,0,0"
                                       Header="With whom do you want to start a chat?"
                                       Text="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=TwoWay}"/>
