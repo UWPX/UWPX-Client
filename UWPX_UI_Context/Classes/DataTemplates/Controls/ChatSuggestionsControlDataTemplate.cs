@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections.Toolkit;
+using Windows.Foundation.Collections;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
@@ -20,6 +21,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             get { return _IsLoading; }
             set { SetProperty(ref _IsLoading, value); }
+        }
+
+        private bool _HasSuggestions;
+        public bool HasSuggestions
+        {
+            get { return _HasSuggestions; }
+            set { SetProperty(ref _HasSuggestions, value); }
+        }
+
+        private bool _HasFilteredSuggestions;
+        public bool HasFilteredSuggestions
+        {
+            get { return _HasFilteredSuggestions; }
+            set { SetProperty(ref _HasFilteredSuggestions, value); }
         }
 
         private readonly CustomObservableCollection<ChatDataTemplate> SUGGESTIONS = new CustomObservableCollection<ChatDataTemplate>(true);
@@ -37,6 +52,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 Filter = AcvFilter
             };
+            SUGGESTIONS.CollectionChanged += SUGGESTIONS_CollectionChanged;
+            SUGGESTIONS_ACV.VectorChanged += SUGGESTIONS_ACV_VectorChanged;
         }
 
         #endregion
@@ -110,7 +127,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void SUGGESTIONS_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            HasSuggestions = SUGGESTIONS.Count > 0;
+        }
 
+        private void SUGGESTIONS_ACV_VectorChanged(IObservableVector<object> sender, IVectorChangedEventArgs args)
+        {
+            HasFilteredSuggestions = sender.Count > 0;
+        }
 
         #endregion
     }
