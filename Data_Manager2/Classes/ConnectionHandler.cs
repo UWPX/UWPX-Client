@@ -617,7 +617,8 @@ namespace Data_Manager2.Classes
                 chat = new ChatTable(from, to)
                 {
                     lastActive = msg.getDelay(),
-                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT
+                    chatType = string.Equals(msg.TYPE, MessageMessage.TYPE_GROUPCHAT) ? ChatType.MUC : ChatType.CHAT,
+                    isChatActive = true
                 };
             }
 

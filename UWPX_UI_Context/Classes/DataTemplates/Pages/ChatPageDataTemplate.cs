@@ -99,6 +99,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             {
                 foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getBareJid()))
                 {
+                    // Only show chats with at least 1 chat message or that have been started:
+                    if (!chat.isChatActive)
+                    {
+                        continue;
+                    }
+
                     if (chat.chatType == ChatType.MUC)
                     {
                         list.Add(new ChatDataTemplate()

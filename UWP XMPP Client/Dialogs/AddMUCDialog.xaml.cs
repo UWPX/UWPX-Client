@@ -24,8 +24,7 @@ namespace UWP_XMPP_Client.Dialogs
         public bool cancled;
         private List<DiscoFeatureTable> serverList;
         private readonly ObservableCollection<string> SERVERS;
-
-        MessageResponseHelper<IQMessage> setBookmarkHelper;
+        private MessageResponseHelper<IQMessage> setBookmarkHelper;
 
         private string requestedServer;
 
@@ -131,7 +130,8 @@ namespace UWP_XMPP_Client.Dialogs
                 {
                     chatType = ChatType.MUC,
                     inRoster = (bool)bookmark_cbx.IsChecked,
-                    subscription = "none"
+                    subscription = "none",
+                    isChatActive = true
                 };
                 ChatDBManager.INSTANCE.setChat(muc, false, true);
 

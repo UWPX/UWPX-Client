@@ -71,19 +71,30 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
             await Task.Run(async () =>
             {
-                if (addToRoster)
+                ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(bareJid, client.getXMPPAccount().getBareJid()));
+
+                if (chat is null)
+                {
+                    chat = new ChatTable(bareJid, client.getXMPPAccount().getBareJid());
+                }
+
+                // Set chat active:
+                chat.isChatActive = true;
+
+                // Add to roster:
+                if (addToRoster && !chat.inRoster)
                 {
                     await client.GENERAL_COMMAND_HELPER.addToRosterAsync(bareJid);
+                    chat.inRoster = true;
                 }
-                if (requestSubscription)
+
+                // Request presence subscription:
+                if (requestSubscription && (string.Equals(chat.subscription, "none") || string.Equals(chat.subscription, "from")) && string.IsNullOrEmpty(chat.subscription))
                 {
                     await client.GENERAL_COMMAND_HELPER.requestPresenceSubscriptionAsync(bareJid);
+                    chat.subscription = "pending";
                 }
-                ChatDBManager.INSTANCE.setChat(new ChatTable(bareJid, client.getXMPPAccount().getBareJid())
-                {
-                    inRoster = addToRoster,
-                    subscription = requestSubscription ? "pending" : null
-                }, false, true);
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
             });
 
         }

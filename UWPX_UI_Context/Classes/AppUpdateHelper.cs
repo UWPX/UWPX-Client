@@ -177,6 +177,24 @@ namespace UWPX_UI_Context.Classes
                         Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, !DeviceFamilyHelper.IsMouseInteractionMode());
                         Logger.Info("Update to version 0.15.0.0 done.");
                     }
+
+                    // Since v.0.16.0.0 we only show chats that have at least one chat message or have been started by the user:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 17)
+                    {
+                        Logger.Info("Started the 0.16.0.0 update...");
+                        foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
+                        {
+                            Logger.Info("Updating chats for: " + account.getBareJid());
+                            IList<ChatTable> chats = ChatDBManager.INSTANCE.getAllChatsForClient(account.getBareJid());
+                            foreach (ChatTable chat in chats)
+                            {
+                                chat.isChatActive = ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id).Count > 0;
+                                ChatDBManager.INSTANCE.setChat(chat, false, false);
+                            }
+                            Logger.Info("Done updating chats for: " + account.getBareJid());
+                        }
+                        Logger.Info("Update to version 0.16.0.0 done.");
+                    }
                 }
             }
             SetVersion(GetPackageVersion());

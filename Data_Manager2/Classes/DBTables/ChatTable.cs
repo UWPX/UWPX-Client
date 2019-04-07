@@ -71,6 +71,7 @@ namespace Data_Manager2.Classes.DBTables
             this.subscription = null;
             this.subscriptionRequested = false;
             this.lastActive = DateTime.Now;
+            this.isChatActive = false;
         }
 
         #endregion
