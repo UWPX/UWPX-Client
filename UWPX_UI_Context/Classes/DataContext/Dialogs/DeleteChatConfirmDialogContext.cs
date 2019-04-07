@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using Data_Manager2.Classes.DBTables;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
@@ -6,12 +7,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly DeleteChatConfirmDialogDataTemplate MODEL = new DeleteChatConfirmDialogDataTemplate();
+        public readonly DeleteChatConfirmDialogDataTemplate MODEL;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public DeleteChatConfirmDialogContext(ChatTable chat)
+        {
+            this.MODEL = new DeleteChatConfirmDialogDataTemplate(chat);
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

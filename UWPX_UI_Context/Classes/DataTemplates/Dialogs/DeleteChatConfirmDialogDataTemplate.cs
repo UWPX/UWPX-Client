@@ -1,4 +1,6 @@
-﻿using Shared.Classes;
+﻿using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBTables;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
@@ -12,6 +14,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             get { return _KeepChatMessages; }
             set { SetProperty(ref _KeepChatMessages, value); }
         }
+        private bool _RemoveFromRoster;
+        public bool RemoveFromRoster
+        {
+            get { return _RemoveFromRoster; }
+            set { SetProperty(ref _RemoveFromRoster, value); }
+        }
+        private bool _RemoveFromRosterVisible;
+        public bool RemoveFromRosterVisible
+        {
+            get { return _RemoveFromRosterVisible; }
+            set { SetProperty(ref _RemoveFromRosterVisible, value); }
+        }
         private bool _Confirmed;
         public bool Confirmed
         {
@@ -22,10 +36,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DeleteChatConfirmDialogDataTemplate()
+        public DeleteChatConfirmDialogDataTemplate(ChatTable chat)
         {
-            KeepChatMessages = false;
-            Confirmed = false;
+            this.KeepChatMessages = false;
+            this.Confirmed = false;
+            this.RemoveFromRoster = chat.chatType == ChatType.CHAT;
+            this.RemoveFromRosterVisible = this.RemoveFromRoster && chat.inRoster;
         }
 
         #endregion

@@ -132,7 +132,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     }
                     else
                     {
-                        await SetChatInRosterAsync(Chat, false);
+                        if (confirmDialogModel.RemoveFromRoster)
+                        {
+                            await SetChatInRosterAsync(Chat, false);
+                        }
                     }
 
                     if (!confirmDialogModel.KeepChatMessages)
@@ -141,8 +144,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         Logger.Info("Deleted chat messages for: " + Chat.Chat.id);
                     }
 
-                    ChatDBManager.INSTANCE.setChat(Chat.Chat, true, true);
-                    Logger.Info("Deleted chat: " + Chat.Chat.id);
+                    if (Chat.Chat.chatType == ChatType.MUC || confirmDialogModel.RemoveFromRoster)
+                    {
+                        ChatDBManager.INSTANCE.setChat(Chat.Chat, true, true);
+                        Logger.Info("Deleted chat: " + Chat.Chat.id);
+                    }
+                    else
+                    {
+                        Chat.Chat.isChatActive = false;
+                        ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+                        Logger.Info("Marked chat as not active: " + Chat.Chat.id);
+                    }
                 });
             }
         }

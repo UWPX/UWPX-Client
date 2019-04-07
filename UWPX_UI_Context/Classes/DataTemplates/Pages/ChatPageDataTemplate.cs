@@ -142,10 +142,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
         private async void INSTANCE_ChatChanged(ChatDBManager handler, Data_Manager2.Classes.Events.ChatChangedEventArgs args)
         {
-            if (args.REMOVED)
+            if (args.REMOVED || !args.CHAT.isChatActive)
             {
                 CHATS.RemoveId(args.CHAT.id);
-                args.Cancel = true;
+                args.Cancel = args.REMOVED;
                 return;
             }
             else

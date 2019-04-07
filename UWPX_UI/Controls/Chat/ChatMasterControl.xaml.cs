@@ -55,7 +55,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Misc Methods (Private)--
         private async Task DeleteChatAsync()
         {
-            DeleteChatConfirmDialog dialog = new DeleteChatConfirmDialog();
+            DeleteChatConfirmDialog dialog = new DeleteChatConfirmDialog(Chat.Chat);
             await UiUtils.ShowDialogAsync(dialog);
             await VIEW_MODEL.DeleteChatAsync(dialog.VIEW_MODEL.MODEL, Chat);
         }

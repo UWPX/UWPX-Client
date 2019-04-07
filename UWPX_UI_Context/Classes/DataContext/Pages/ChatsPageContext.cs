@@ -2,6 +2,7 @@
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
+using System;
 using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -80,6 +81,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
                 // Set chat active:
                 chat.isChatActive = true;
+                chat.lastActive = DateTime.Now;
 
                 // Add to roster:
                 if (addToRoster && !chat.inRoster)

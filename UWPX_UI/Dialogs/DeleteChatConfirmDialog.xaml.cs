@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using Data_Manager2.Classes.DBTables;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
@@ -7,13 +8,14 @@ namespace UWPX_UI.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly DeleteChatConfirmDialogContext VIEW_MODEL = new DeleteChatConfirmDialogContext();
+        public readonly DeleteChatConfirmDialogContext VIEW_MODEL;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public DeleteChatConfirmDialog()
+        public DeleteChatConfirmDialog(ChatTable chat)
         {
+            this.VIEW_MODEL = new DeleteChatConfirmDialogContext(chat);
             this.InitializeComponent();
         }
 
