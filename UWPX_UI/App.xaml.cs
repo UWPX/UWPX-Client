@@ -228,7 +228,10 @@ namespace UWPX_UI
                                 string trimedText = text.Trim(UiUtils.TRIM_CHARS);
                                 await SendChatMessageAsync(chat, trimedText);
                             }
+                            // ToDo: Mark chat message as read
                         }
+
+                        ToastHelper.UpdateBadgeNumber();
                     }
                     break;
 

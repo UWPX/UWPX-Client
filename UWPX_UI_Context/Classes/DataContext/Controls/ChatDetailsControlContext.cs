@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Toast;
 using Logging;
 using System;
 using System.Threading.Tasks;
@@ -223,9 +224,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 await MODEL.OnNewChatMessageAsync(args.MESSAGE, chat.Chat, chat.MucInfo);
                 if (args.MESSAGE.state == MessageState.UNREAD)
                 {
+                    // Mark message as read and update the badge notification count:
                     await Task.Run(() =>
                     {
                         ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
+                        ToastHelper.UpdateBadgeNumber();
                     });
                 }
             }

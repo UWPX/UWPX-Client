@@ -1,8 +1,10 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
 using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Shared.Classes;
 using System;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation.Metadata;
 using Windows.Phone.Devices.Notification;
 using Windows.UI.Notifications;
@@ -36,7 +38,24 @@ namespace Data_Manager2.Classes.Toast
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public static void SetBadgeNumber(int i)
+        {
+            // Get the blank badge XML payload for a badge number
+            XmlDocument badgeXml = BadgeUpdateManager.GetTemplateContent(BadgeTemplateType.BadgeNumber);
 
+            // Set the value of the badge in the XML to our number
+            XmlElement badgeElement = badgeXml.SelectSingleNode("/badge") as XmlElement;
+            badgeElement.SetAttribute("value", i.ToString());
+
+            // Create the badge notification
+            BadgeNotification badge = new BadgeNotification(badgeXml);
+
+            // Create the badge updater for the application
+            BadgeUpdater badgeUpdater = BadgeUpdateManager.CreateBadgeUpdaterForApplication();
+
+            // And update the badge
+            badgeUpdater.Update(badge);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -145,6 +164,11 @@ namespace Data_Manager2.Classes.Toast
             popToast(toastContent, chat);
         }
 
+        public static void UpdateBadgeNumber()
+        {
+            SetBadgeNumber(ChatDBManager.INSTANCE.getUnreadCount());
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -195,7 +219,7 @@ namespace Data_Manager2.Classes.Toast
             }
 
             // Play sound:
-            if(!Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES))
+            if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES))
             {
                 SharedUtils.PlaySoundFromUri("ms-winsoundevent:Notification.Default");
             }

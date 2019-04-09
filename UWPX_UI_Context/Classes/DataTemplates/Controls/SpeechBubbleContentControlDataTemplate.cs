@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Toast;
 using Shared.Classes;
 using System;
 using System.Threading.Tasks;
@@ -88,9 +89,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             IsImage = message.isImage;
             State = message.state;
 
-            if(State == MessageState.UNREAD)
+            if (State == MessageState.UNREAD)
             {
-                Task.Run(() => ChatDBManager.INSTANCE.markMessageAsRead(message));
+                // Mark message as read and update the badge notification count:
+                Task.Run(() =>
+                {
+                    ChatDBManager.INSTANCE.markMessageAsRead(message);
+                    ToastHelper.UpdateBadgeNumber();
+                });
             }
 
             if (chat.chatType == ChatType.MUC)

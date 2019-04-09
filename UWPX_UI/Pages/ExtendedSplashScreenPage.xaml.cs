@@ -189,6 +189,9 @@ namespace UWPX_UI.Pages
             // Remove the messages will be send later toast:
             ToastHelper.removeToastGroup(ToastHelper.WILL_BE_SEND_LATER_TOAST_GROUP);
 
+            // Update badge notification count:
+            ToastHelper.UpdateBadgeNumber();
+
             // Show initial start dialog:
             if (!Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA))
             {
@@ -324,6 +327,10 @@ namespace UWPX_UI.Pages
         private void ExtendedSplashScreenPage_Loaded(object sender, RoutedEventArgs e)
         {
             Loaded -= ExtendedSplashScreenPage_Loaded;
+
+            // Update badge notification count:
+            ToastHelper.UpdateBadgeNumber();
+
             EvaluateActivationArgs();
         }
 

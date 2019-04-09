@@ -710,6 +710,7 @@ namespace Data_Manager2.Classes
                             case MessageMessage.TYPE_CHAT:
                                 if (!message.isCC)
                                 {
+                                    // Create toast:
                                     if (message.isImage)
                                     {
                                         ToastHelper.showChatTextImageToast(message, chat);
@@ -718,6 +719,9 @@ namespace Data_Manager2.Classes
                                     {
                                         ToastHelper.showChatTextToast(message, chat);
                                     }
+
+                                    // Update badge notification count:
+                                    ToastHelper.UpdateBadgeNumber();
                                 }
                                 break;
 
