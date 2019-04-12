@@ -23,6 +23,7 @@ namespace Data_Manager2.Classes.Toast
         public const string WILL_BE_SEND_LATER_TOAST_GROUP = "will_be_send_later";
 
         private static readonly TimeSpan VIBRATE_TS = TimeSpan.FromMilliseconds(150);
+        private static DateTime lastVibration = DateTime.MinValue;
 
         public delegate void OnChatMessageToastHandler(OnChatMessageToastEventArgs args);
         /// <summary>
@@ -215,7 +216,12 @@ namespace Data_Manager2.Classes.Toast
             // Vibrate:
             if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
-                VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
+                // Only vibrate once:
+                if (DateTime.Now.Subtract(lastVibration).CompareTo(VIBRATE_TS) >= 0)
+                {
+                    lastVibration = DateTime.Now;
+                    VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
+                }
             }
 
             // Play sound:
