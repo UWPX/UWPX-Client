@@ -120,7 +120,7 @@ namespace Data_Manager2.Classes.Toast
                 },
                 Actions = getActions(msg, chat),
                 DisplayTimestamp = msg.date,
-                Launch = new ChatToastActivation(chat.id, false).generate()
+                Launch = new ChatToastActivation(chat.id, msg.id).generate()
             };
 
             popToast(toastContent, chat);
@@ -159,7 +159,7 @@ namespace Data_Manager2.Classes.Toast
                 },
                 Actions = getActions(msg, chat),
                 DisplayTimestamp = msg.date,
-                Launch = new ChatToastActivation(chat.id, false).generate()
+                Launch = new ChatToastActivation(chat.id, msg.id).generate()
             };
 
             popToast(toastContent, chat);
@@ -244,7 +244,7 @@ namespace Data_Manager2.Classes.Toast
                 },
                 Buttons =
                 {
-                    new ToastButton("Send", new SendReplyToastActivation(chat.id, false).generate())
+                    new ToastButton("Send", new SendReplyToastActivation(chat.id, msg.id).generate())
                     {
                         ActivationType = ToastActivationType.Background,
                         ImageUri = chat.omemoEnabled ? SEND_BUTTON_ENCRYPTED_IMAGE_PATH : SEND_BUTTON_IMAGE_PATH,
@@ -254,7 +254,7 @@ namespace Data_Manager2.Classes.Toast
                     {
                         ActivationType = ToastActivationType.Background
                     },
-                    new ToastButton("Mark as read", new MarkMessageAsReadToastActivation(msg.id, false).generate())
+                    new ToastButton("Mark as read", new MarkMessageAsReadToastActivation(msg.id).generate())
                     {
                         ActivationType = ToastActivationType.Background
                     }

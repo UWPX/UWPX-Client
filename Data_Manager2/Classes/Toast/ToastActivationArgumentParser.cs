@@ -1,4 +1,8 @@
-﻿using System.Linq;
+﻿using Logging;
+using System;
+using System.Linq;
+using Windows.Foundation;
+using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.Toast
 {
@@ -28,22 +32,34 @@ namespace Data_Manager2.Classes.Toast
                 return null;
             }
 
-            string type = activationString.Substring(0, activationString.IndexOf('='));
-            string args = activationString.Substring(activationString.IndexOf('=') + 1);
+            if (!Uri.TryCreate(activationString, UriKind.RelativeOrAbsolute, out Uri result))
+            {
+                Logger.Warn("Failed to parse activationString to Uri: " + activationString);
+                return null;
+            }
+
+            WwwFormUrlDecoder query = UriUtils.parseUriQuery(result);
+
+            string type = query.Where(x => string.Equals(x.Name, AbstractToastActivation.TYPE_QUERY)).Select(x => x.Value).FirstOrDefault();
+            if (string.IsNullOrEmpty(type))
+            {
+                Logger.Warn("Failed to parse activationString - no type query: " + activationString);
+                return null;
+            }
 
             switch (type)
             {
                 case ChatToastActivation.TYPE:
-                    return new ChatToastActivation(args, true);
+                    return new ChatToastActivation(result);
 
                 case MarkChatAsReadToastActivation.TYPE:
-                    return new MarkChatAsReadToastActivation(args, true);
+                    return new MarkChatAsReadToastActivation(result);
 
                 case MarkMessageAsReadToastActivation.TYPE:
-                    return new MarkMessageAsReadToastActivation(args, true);
+                    return new MarkMessageAsReadToastActivation(result);
 
                 case SendReplyToastActivation.TYPE:
-                    return new SendReplyToastActivation(args, true);
+                    return new SendReplyToastActivation(result);
 
                 default:
                     return null;

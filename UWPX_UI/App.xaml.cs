@@ -211,7 +211,11 @@ namespace UWPX_UI
                         Logger.Debug("App activated in background through toast with: " + arguments);
                         AbstractToastActivation abstractToastActivation = ToastActivationArgumentParser.parseArguments(arguments);
 
-                        if (abstractToastActivation is MarkChatAsReadToastActivation markChatAsRead)
+                        if (abstractToastActivation is null)
+                        {
+                            Logger.Warn("Unable to evaluate toast activation string - unknown format");
+                        }
+                        else if (abstractToastActivation is MarkChatAsReadToastActivation markChatAsRead)
                         {
                             ToastHelper.removeToastGroup(markChatAsRead.CHAT_ID);
                             ChatDBManager.INSTANCE.markAllMessagesAsRead(markChatAsRead.CHAT_ID);
@@ -228,7 +232,7 @@ namespace UWPX_UI
                                 string trimedText = text.Trim(UiUtils.TRIM_CHARS);
                                 await SendChatMessageAsync(chat, trimedText);
                             }
-                            // ToDo: Mark chat message as read
+                            ChatDBManager.INSTANCE.markMessageAsRead(sendReply.CHAT_MESSAGE_ID);
                         }
 
                         ToastHelper.UpdateBadgeNumber();

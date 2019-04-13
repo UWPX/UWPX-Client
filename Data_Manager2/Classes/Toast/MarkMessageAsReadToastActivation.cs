@@ -1,25 +1,34 @@
-﻿namespace Data_Manager2.Classes.Toast
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Windows.Foundation;
+using XMPP_API.Classes;
+
+namespace Data_Manager2.Classes.Toast
 {
     public class MarkMessageAsReadToastActivation : AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public const string TYPE = "MARK_MESSAGE_AS_READ";
+        public const string CHAT_MESSAGE_QUERY = "MSG_ID";
         public readonly string CHAT_MESSAGE_ID;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 25/08/2018 Created [Fabian Sauter]
-        /// </history>
-        public MarkMessageAsReadToastActivation(string args, bool received)
+        public MarkMessageAsReadToastActivation(string msgId)
         {
-            this.CHAT_MESSAGE_ID = args;
-            this.IS_VALID = !string.IsNullOrEmpty(args);
+            this.CHAT_MESSAGE_ID = msgId;
+            this.IS_VALID = !string.IsNullOrEmpty(this.CHAT_MESSAGE_ID);
+        }
+
+        public MarkMessageAsReadToastActivation(Uri uri)
+        {
+            WwwFormUrlDecoder query = UriUtils.parseUriQuery(uri);
+
+            this.CHAT_MESSAGE_ID = query.Where(x => string.Equals(x.Name, CHAT_MESSAGE_QUERY)).Select(x => x.Value).FirstOrDefault();
+            this.IS_VALID = !string.IsNullOrEmpty(this.CHAT_MESSAGE_ID);
         }
 
         #endregion
@@ -32,7 +41,12 @@
         #region --Misc Methods (Public)--
         public override string generate()
         {
-            return TYPE + '=' + CHAT_MESSAGE_ID;
+            Dictionary<string, string> queryPairs = new Dictionary<string, string>
+            {
+                { TYPE_QUERY, TYPE },
+                { CHAT_MESSAGE_QUERY, CHAT_MESSAGE_ID }
+            };
+            return UriUtils.buildUri(queryPairs).ToString();
         }
 
         #endregion

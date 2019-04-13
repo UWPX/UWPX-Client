@@ -4,17 +4,13 @@
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public const string TYPE_QUERY = "TYPE";
+
         public bool IS_VALID { get; protected set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 19/08/2018 Created [Fabian Sauter]
-        /// </history>
         protected AbstractToastActivation()
         {
         }
