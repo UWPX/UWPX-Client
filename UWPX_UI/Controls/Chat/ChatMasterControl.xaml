@@ -72,7 +72,18 @@
                 <ToggleMenuFlyoutItem x:Name="mute_tmfo"
                                       Click="Mute_tmfo_Click"
                                       IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
-                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}"/>
+                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE74F;"/>
+                    </MenuFlyoutItem.Icon>
+                </ToggleMenuFlyoutItem>
+                <MenuFlyoutItem x:Name="markChatAsRead_tmfo"
+                                Click="MarkAsRead_tmfo_Click"
+                                Text="Mark as read">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8C3;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
                 <MenuFlyoutItem x:Name="block_tmfo"
                                 IsEnabled="False"
                                 Text="Block (WIP)">
@@ -139,7 +150,18 @@
                 <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo"
                                       Click="MuteMUC_tmfo_Click"
                                       IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
-                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}"/>
+                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE74F;"/>
+                    </MenuFlyoutItem.Icon>
+                </ToggleMenuFlyoutItem>
+                <MenuFlyoutItem x:Name="markMucAsRead_tmfo"
+                                Click="MarkAsRead_tmfo_Click"
+                                Text="Mark as read">
+                    <MenuFlyoutItem.Icon>
+                        <FontIcon Glyph="&#xE8C3;"/>
+                    </MenuFlyoutItem.Icon>
+                </MenuFlyoutItem>
                 <MenuFlyoutSeparator/>
                 <MenuFlyoutItem x:Name="deleteMUC_mfo"
                                 Click="DeleteMUC_mfo_Click"

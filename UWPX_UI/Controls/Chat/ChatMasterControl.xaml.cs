@@ -214,6 +214,11 @@ namespace UWPX_UI.Controls.Chat
             await VIEW_MODEL.AnswerPresenceSubscriptionRequestAsync(Chat, false);
         }
 
+        private void MarkAsRead_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.MarkAsRead(Chat);
+        }
+
         #endregion
     }
 }

@@ -189,6 +189,13 @@
                                     <FontIcon Glyph="&#xEA4A;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
+                            <MenuFlyoutItem x:Name="markAsRead_tmfo"
+                                            Click="MarkAsRead_tmfo_Click"
+                                            Text="Mark as read">
+                                <MenuFlyoutItem.Icon>
+                                    <FontIcon Glyph="&#xE8C3;"/>
+                                </MenuFlyoutItem.Icon>
+                            </MenuFlyoutItem>
                             <MenuFlyoutItem x:Name="enter_mfo"
                                             Click="Enter_mfo_Click"
                                             Text="Enter room"
@@ -236,8 +243,8 @@
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="Padding" Value="10,5,10,5"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                        <Setter Property="Padding" Value="10,5,10,5"/>
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>

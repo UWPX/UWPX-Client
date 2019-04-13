@@ -207,6 +207,11 @@ namespace UWPX_UI.Controls.Chat
             message_tbx.SelectionStart = i;
         }
 
+        private void MarkAsRead_tmfo_Click(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.MarkAsRead(Chat);
+        }
+
         #endregion
     }
 }

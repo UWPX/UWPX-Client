@@ -198,6 +198,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             });
         }
 
+        public void MarkAsRead(ChatDataTemplate chat)
+        {
+            Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id));
+        }
+
         public async Task RejectPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)
         {
             await chatTemplate.Client.GENERAL_COMMAND_HELPER.answerPresenceSubscriptionRequestAsync(chatTemplate.Chat.chatJabberId, false);
