@@ -235,9 +235,6 @@
     <Compile Include="Dialogs\AddBookmarkDialog.xaml.cs">
       <DependentUpon>AddBookmarkDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\AddChatDialog.xaml.cs">
-      <DependentUpon>AddChatDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
       <DependentUpon>AddMUCDialog.xaml</DependentUpon>
     </Compile>
@@ -495,10 +492,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\AddBookmarkDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\AddChatDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
