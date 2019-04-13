@@ -7,7 +7,7 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Title="Add Chat"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-               IsSecondaryButtonEnabled="{x:Bind chatJid_bjic.IsValid, Mode=OneWay}"
+               IsSecondaryButtonEnabled="{x:Bind VIEW_MODEL.MODEL.IsInputValid, Mode=OneWay}"
                PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
                PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
                PrimaryButtonText="Cancel"
@@ -20,6 +20,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -28,20 +29,26 @@
                                           AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
                                           AddAccountClick="AccountSelectionControl_AddAccountClick"
                                           Header="Select account:"/>
-        <controls:BareJidInputControl x:Name="chatJid_bjic"
-                                      Grid.Row="1"
+        <controls:BareJidInputControl Grid.Row="1"
                                       Margin="0,10,0,0"
                                       Header="With whom do you want to start a chat?"
+                                      IsValid="{x:Bind VIEW_MODEL.MODEL.IsBareJidValid, Mode=TwoWay}"
                                       Text="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=TwoWay}"/>
-        <chatControls:ChatSuggestionsControl Grid.Row="2"
+        <controls:IconTextBlockControl Grid.Row="2"
+                                       Margin="0,5,0,0"
+                                       Glyph="&#xE783;"
+                                       GlyphForeground="Red"
+                                       Text="Chat exists"
+                                       Visibility="{x:Bind VIEW_MODEL.MODEL.ChatExists, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+        <chatControls:ChatSuggestionsControl Grid.Row="3"
                                              Client="{x:Bind VIEW_MODEL.MODEL.Client, Mode=OneWay}"
                                              FilterText="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
                                              SelectionChanged="ChatSuggestionsControl_SelectionChanged"/>
-        <CheckBox Grid.Row="3"
+        <CheckBox Grid.Row="4"
                   Margin="0,10,0,0"
                   Content="Add to roster"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.AddToRoster, Mode=TwoWay}"/>
-        <CheckBox Grid.Row="4"
+        <CheckBox Grid.Row="5"
                   Margin="0,10,0,0"
                   Content="Subscribe to presence"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.SubscribeToPresence, Mode=TwoWay}"/>

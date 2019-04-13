@@ -1,4 +1,7 @@
-﻿using Shared.Classes;
+﻿using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
+using Shared.Classes;
+using System.Threading.Tasks;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
@@ -21,6 +24,27 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set { SetProperty(ref _AddToRoster, value); }
         }
 
+        private bool _ChatExists;
+        public bool ChatExists
+        {
+            get { return _ChatExists; }
+            set { SetChatExistsProperty(value); }
+        }
+
+        private bool _IsBareJidValid;
+        public bool IsBareJidValid
+        {
+            get { return _IsBareJidValid; }
+            set { SetIsBareJidValidProperty(value); }
+        }
+
+        private bool _IsInputValid;
+        public bool IsInputValid
+        {
+            get { return _IsInputValid; }
+            set { SetProperty(ref _IsInputValid, value); }
+        }
+
         private bool _SubscribeToPresence;
         public bool SubscribeToPresence
         {
@@ -32,7 +56,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         public string ChatBareJid
         {
             get { return _ChatBareJid; }
-            set { SetProperty(ref _ChatBareJid, value); }
+            set { SetChatBareJidProperty(value); }
         }
 
         private XMPPClient _Client;
@@ -54,7 +78,40 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetChatBareJidProperty(string value)
+        {
+            if (SetProperty(ref _ChatBareJid, value, nameof(ChatBareJid)))
+            {
+                if (Client is null || string.IsNullOrEmpty(value))
+                {
+                    ChatExists = false;
+                }
+                else
+                {
+                    Task.Run(() =>
+                    {
+                        ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(value, Client.getXMPPAccount().getBareJid()));
+                        ChatExists = !(chat is null) && chat.isChatActive;
+                    });
+                }
+            }
+        }
 
+        private void SetChatExistsProperty(bool value)
+        {
+            if (SetProperty(ref _ChatExists, value, nameof(ChatExists)))
+            {
+                UpdateIsInputValid();
+            }
+        }
+
+        private void SetIsBareJidValidProperty(bool value)
+        {
+            if (SetProperty(ref _IsBareJidValid, value, nameof(IsBareJidValid)))
+            {
+                UpdateIsInputValid();
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -67,7 +124,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateIsInputValid()
+        {
+            IsInputValid = IsBareJidValid && !ChatExists;
+        }
 
         #endregion
 
