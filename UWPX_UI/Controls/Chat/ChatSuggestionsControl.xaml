@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             MaxHeight="230"
              Visibility="{x:Bind VIEW_MODEL.MODEL.HasSuggestions, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"
              mc:Ignorable="d">
 
@@ -36,7 +37,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
         <controls:SeperatorControl Grid.Row="0"
@@ -46,7 +47,6 @@
                   Margin="0,10,0,0"
                   ItemTemplate="{StaticResource SuggestionTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.SUGGESTIONS_ACV}"
-                  ScrollViewer.VerticalScrollMode="Auto"
                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"
                   SelectionChanged="ListView_SelectionChanged"
                   SelectionMode="Single"
