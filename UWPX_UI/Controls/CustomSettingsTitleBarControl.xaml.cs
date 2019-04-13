@@ -109,14 +109,16 @@ namespace UWPX_UI.Controls
 
         private void UpdateTitleBarLayout()
         {
-            if (DeviceFamilyHelper.IsRunningOnDesktopDevice())
+            if (!DeviceFamilyHelper.IsRunningOnDesktopDevice())
             {
-                // Set XAML element as a draggable region.
-                CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
-                UpdateTitleBarLayout(titleBar);
-                Window.Current.SetTitleBar(titleBar_grid);
-                titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
+                return;
             }
+
+            // Set XAML element as a draggable region.
+            CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
+            UpdateTitleBarLayout(titleBar);
+            Window.Current.SetTitleBar(titleBar_grid);
+            titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
         }
 
         private void UpdateTitleBarLayout(CoreApplicationViewTitleBar titleBar)

@@ -181,29 +181,31 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            if (DesignMode.DesignModeEnabled == false)
+            if (DesignMode.DesignModeEnabled)
             {
-                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-                if (_frame != null)
-                {
-                    _frame.Navigating -= OnFrameNavigating;
-                }
-
-                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
-                _frame = this.FindAscendant<Frame>();
-                if (_frame != null)
-                {
-                    _frame.Navigating += OnFrameNavigating;
-                }
-
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (_selectionStateGroup != null)
-                {
-                    _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
-                }
-
-                UpdateView(true);
+                return;
             }
+
+            SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+            if (_frame != null)
+            {
+                _frame.Navigating -= OnFrameNavigating;
+            }
+
+            _navigationView = this.FindAscendants()?.FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
+            _frame = this.FindAscendant<Frame>();
+            if (_frame != null)
+            {
+                _frame.Navigating += OnFrameNavigating;
+            }
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+            }
+
+            UpdateView(true);
         }
 
         public void ClearSelectedItem()
@@ -215,20 +217,22 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void OnUnloaded(object sender, RoutedEventArgs e)
         {
-            if (DesignMode.DesignModeEnabled == false)
+            if (DesignMode.DesignModeEnabled)
             {
-                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-                if (_frame != null)
-                {
-                    _frame.Navigating -= OnFrameNavigating;
-                }
+                return;
+            }
 
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (_selectionStateGroup != null)
-                {
-                    _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
-                    _selectionStateGroup = null;
-                }
+            SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+            if (_frame != null)
+            {
+                _frame.Navigating -= OnFrameNavigating;
+            }
+
+            _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
+            if (_selectionStateGroup != null)
+            {
+                _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                _selectionStateGroup = null;
             }
         }
 
@@ -256,7 +260,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <summary>
         /// Closes the details pane if we are in narrow state
         /// </summary>
-        /// <param name="sender">The sender</param>
+        /// <param name="sender">The sender of the event</param>
         /// <param name="args">The event args</param>
         private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
         {
@@ -270,7 +274,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <summary>
         /// Closes the details pane if we are in narrow state
         /// </summary>
-        /// <param name="sender">The sender</param>
+        /// <param name="sender">The sender of the event</param>
         /// <param name="args">The event args</param>
         private void OnBackRequested(object sender, BackRequestedEventArgs args)
         {
@@ -356,7 +360,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                 }
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
-                    if (_previousSystemBackButtonVisibility.HasValue == false)
+                    if (!(_previousSystemBackButtonVisibility is null))
                     {
                         if ((_navigationView == null) || (_frame == null))
                         {
@@ -503,7 +507,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <summary>
         /// Fires when the selection state of the control changes
         /// </summary>
-        /// <param name="sender">the sender</param>
+        /// <param name="sender">The sender of the event</param>
         /// <param name="e">the event args</param>
         /// <remarks>
         /// Sets focus to the item list when the viewState is not Details.

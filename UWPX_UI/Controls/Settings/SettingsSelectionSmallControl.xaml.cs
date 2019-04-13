@@ -14,7 +14,7 @@ namespace UWPX_UI.Controls.Settings
             get { return (SettingsPageButtonDataTemplate)GetValue(ModelProperty); }
             set { SetValue(ModelProperty, value); }
         }
-        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageButtonDataTemplate), typeof(SettingsSelectionSmallControl), new PropertyMetadata(new SettingsPageButtonDataTemplate()
+        public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageButtonDataTemplate), typeof(SettingsSelectionSmallControl), new PropertyMetadata(new SettingsPageButtonDataTemplate
         {
             Description = "Description",
             Glyph = "\uE9CE",

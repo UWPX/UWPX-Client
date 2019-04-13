@@ -133,17 +133,14 @@ namespace UWPX_UI
                     throw new NotImplementedException("Sending encrypted messages for MUC is not supported right now!");
                 }
             }
+            else if (chat.chatType == ChatType.CHAT)
+            {
+                toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, reciptRequested);
+            }
             else
             {
-                if (chat.chatType == ChatType.CHAT)
-                {
-                    toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, reciptRequested);
-                }
-                else
-                {
-                    MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
-                    toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, mucInfo.nickname, reciptRequested);
-                }
+                MUCChatInfoTable mucInfo = MUCDBManager.INSTANCE.getMUCInfo(chat.id);
+                toSendMsg = new MessageMessage(fromFullJid, to, message, chatType, mucInfo.nickname, reciptRequested);
             }
 
             // Create a copy for the DB:
@@ -171,17 +168,14 @@ namespace UWPX_UI
                 {
                     Logger.Error("Unable to send message in background - no such client: " + fromBareJid);
                 }
+                // Send the message:
+                else if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
+                {
+                    await client.sendOmemoMessageAsync(toSendOmemoMsg, chat.chatJabberId, client.getXMPPAccount().getBareJid());
+                }
                 else
                 {
-                    // Send the message:
-                    if (toSendMsg is OmemoMessageMessage toSendOmemoMsg)
-                    {
-                        await client.sendOmemoMessageAsync(toSendOmemoMsg, chat.chatJabberId, client.getXMPPAccount().getBareJid());
-                    }
-                    else
-                    {
-                        await client.sendAsync(toSendMsg);
-                    }
+                    await client.sendAsync(toSendMsg);
                 }
             }
             else

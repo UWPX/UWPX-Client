@@ -256,16 +256,17 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
 
         private static void OnUseSwipeControlWhenPossibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var slider = d as SlidableListItem;
-            if (slider == null)
+            if (!(d is SlidableListItem slider))
             {
                 return;
             }
 
-            if (slider.UseSwipeControlWhenPossible && SlidableListItem.IsSwipeControlSupported)
+            if (slider.UseSwipeControlWhenPossible && IsSwipeControlSupported)
             {
-                ResourceDictionary dict = new ResourceDictionary();
-                dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItemSwipeControlTemplate.xaml");
+                ResourceDictionary dict = new ResourceDictionary
+                {
+                    Source = new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItemSwipeControlTemplate.xaml")
+                };
                 slider._previousTemplateUsed = slider.Template;
                 slider.Template = dict["SlidableListItemSwipeControlStyle"] as ControlTemplate;
             }
@@ -279,8 +280,10 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 }
                 else
                 {
-                    ResourceDictionary dict = new ResourceDictionary();
-                    dict.Source = new System.Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml");
+                    ResourceDictionary dict = new ResourceDictionary
+                    {
+                        Source = new Uri("ms-appx:///Microsoft.Toolkit.Uwp.UI.Controls/SlidableListItem/SlidableListItem.xaml")
+                    };
                     slider.Template = dict["SlidableListItemDefaultTemplate"] as ControlTemplate;
                 }
             }
@@ -305,24 +308,25 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
 
         private void UpdateSwipeControlItems()
         {
-            var swipeControl = _swipeControl as SwipeControl;
-            if (swipeControl == null)
+            if (!(_swipeControl is SwipeControl swipeControl))
             {
                 return;
             }
 
             if (IsLeftCommandEnabled)
             {
-                var leftItem = _leftSwipeItem as SwipeItem;
-                var leftItems = _leftSwipeItems as SwipeItems;
+                SwipeItem leftItem = _leftSwipeItem as SwipeItem;
+                SwipeItems leftItems = _leftSwipeItems as SwipeItems;
 
                 if (leftItem == null)
                 {
-                    leftItem = new SwipeItem();
-                    leftItem.IconSource = new SymbolIconSource();
+                    leftItem = new SwipeItem
+                    {
+                        IconSource = new SymbolIconSource()
+                    };
                     leftItem.Invoked += LeftControl_Invoked;
 
-                    leftItems = new SwipeItems()
+                    leftItems = new SwipeItems
                     {
                         leftItem
                     };
@@ -350,16 +354,18 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
 
             if (IsRightCommandEnabled)
             {
-                var rightItem = _rightSwipeItem as SwipeItem;
-                var rightItems = _rightSwipeItems as SwipeItems;
+                SwipeItem rightItem = _rightSwipeItem as SwipeItem;
+                SwipeItems rightItems = _rightSwipeItems as SwipeItems;
 
                 if (rightItem == null)
                 {
-                    rightItem = new SwipeItem();
-                    rightItem.IconSource = new SymbolIconSource();
+                    rightItem = new SwipeItem
+                    {
+                        IconSource = new SymbolIconSource()
+                    };
                     rightItem.Invoked += RightControl_Invoked;
 
-                    rightItems = new SwipeItems()
+                    rightItems = new SwipeItems
                     {
                         rightItem
                     };
@@ -446,7 +452,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 _commandContainer = GetTemplateChild(PartCommandContainer) as Grid;
                 if (_commandContainer != null)
                 {
-                    _commandContainer.Background = LeftBackground as Brush;
+                    _commandContainer.Background = LeftBackground;
                     _commandContainer.Clip = new RectangleGeometry();
                     _commandContainerTransform = new CompositeTransform();
                     _commandContainer.Clip.Transform = _commandContainerTransform;
@@ -625,7 +631,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 // If swiping from left to right, show left command panel.
                 _rightCommandPanel.Opacity = 0;
 
-                _commandContainer.Background = LeftBackground as Brush;
+                _commandContainer.Background = LeftBackground;
                 _commandContainer.Opacity = 1;
                 _leftCommandPanel.Opacity = 1;
 
@@ -666,7 +672,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 // If swiping from right to left, show right command panel.
                 _leftCommandPanel.Opacity = 0;
 
-                _commandContainer.Background = RightBackground as Brush;
+                _commandContainer.Background = RightBackground;
                 _commandContainer.Opacity = 1;
                 _rightCommandPanel.Opacity = 1;
 
@@ -921,7 +927,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 {
                     SetValue(SwipeStatusProperty, value);
 
-                    var eventArguments = new SwipeStatusChangedEventArgs()
+                    var eventArguments = new SwipeStatusChangedEventArgs
                     {
                         OldValue = oldValue,
                         NewValue = value

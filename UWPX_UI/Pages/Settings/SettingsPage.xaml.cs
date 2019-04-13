@@ -18,7 +18,7 @@ namespace UWPX_UI.Pages.Settings
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly SettingsPageContext VIEW_MODEL = new SettingsPageContext();
-        private ObservableCollection<SettingsPageButtonDataTemplate> SETTINGS_PAGES = new ObservableCollection<SettingsPageButtonDataTemplate>()
+        private readonly ObservableCollection<SettingsPageButtonDataTemplate> SETTINGS_PAGES = new ObservableCollection<SettingsPageButtonDataTemplate>
         {
             new SettingsPageButtonDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", NavTarget = typeof(AccountsSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Theme", NavTarget = typeof(PersonalizeSettingsPage)},
@@ -120,22 +120,26 @@ namespace UWPX_UI.Pages.Settings
 
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (DeviceFamilyHelper.IsMouseInteractionMode() && sender is FrameworkElement settingsSelection)
+            if (!(DeviceFamilyHelper.IsMouseInteractionMode() && sender is FrameworkElement settingsSelection))
             {
-                LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(settingsSelection) as FrameworkElement) as FrameworkElement;
-                Canvas.SetZIndex(LastPopUpElement, 10);
-                LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
+                return;
             }
+
+            LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(settingsSelection) as FrameworkElement) as FrameworkElement;
+            Canvas.SetZIndex(LastPopUpElement, 10);
+            LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
         }
 
         private void SettingsSelectionControl_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (!(LastPopUpElement is null))
+            if (LastPopUpElement is null)
             {
-                Canvas.SetZIndex(LastPopUpElement, 0);
-                LastPopUpElement.Scale(centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
-                LastPopUpElement = null;
+                return;
             }
+
+            Canvas.SetZIndex(LastPopUpElement, 0);
+            LastPopUpElement.Scale(centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
+            LastPopUpElement = null;
         }
 
         private void Version_tbx_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)

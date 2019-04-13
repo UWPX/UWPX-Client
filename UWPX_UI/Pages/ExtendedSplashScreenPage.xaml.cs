@@ -88,14 +88,11 @@ namespace UWPX_UI.Pages
                     curImageScale = SplashScreenImageScale.SMALL;
                 }
             }
-            else
+            else if (curImageScale != SplashScreenImageScale.TINY)
             {
-                if (curImageScale != SplashScreenImageScale.TINY)
-                {
-                    background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png", UriKind.Absolute));
-                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-100.png", UriKind.Absolute));
-                    curImageScale = SplashScreenImageScale.TINY;
-                }
+                background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png", UriKind.Absolute));
+                logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-100.png", UriKind.Absolute));
+                curImageScale = SplashScreenImageScale.TINY;
             }
         }
 
@@ -220,7 +217,7 @@ namespace UWPX_UI.Pages
         private void PerformInitialStartSetup()
         {
             // By default enable the emoji button for all non mobile devices since the touch keyboard already adds an emoji keyboard:
-            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, !(DeviceFamilyHelper.GetDeviceFamilyType() == DeviceFamilyType.Mobile));
+            Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON, DeviceFamilyHelper.GetDeviceFamilyType() != DeviceFamilyType.Mobile);
             Data_Manager2.Classes.Settings.setSetting(SettingsConsts.INITIALLY_STARTED, true);
         }
 

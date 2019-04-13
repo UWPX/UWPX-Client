@@ -162,75 +162,77 @@ namespace UWPX_UI.Extensions
         #region --Events--
         private static async void OnFormattedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is TextBlock textBlock && e.NewValue is string text && !string.IsNullOrWhiteSpace(text))
+            if (!(d is TextBlock textBlock && e.NewValue is string text && !string.IsNullOrWhiteSpace(text)))
             {
-                // Check if advanced chat message processing is disabled:
-                if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
-                {
-                    textBlock.Inlines.Add(new Run { Text = text });
-                    return;
-                }
+                return;
+            }
 
-                // Clear all inlines:
-                textBlock.Inlines.Clear();
+            // Check if advanced chat message processing is disabled:
+            if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
+            {
+                textBlock.Inlines.Add(new Run { Text = text });
+                return;
+            }
 
-                bool isEmoji = await Task.Run(() => Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS)));
-                if (isEmoji)
+            // Clear all inlines:
+            textBlock.Inlines.Clear();
+
+            bool isEmoji = await Task.Run(() => Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS)));
+            if (isEmoji)
+            {
+                textBlock.Inlines.Add(new Run
                 {
-                    textBlock.Inlines.Add(new Run
+                    Text = text,
+                    FontSize = 50
+                });
+            }
+            else
+            {
+                var lastPosition = 0;
+                var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
+
+                do
+                {
+                    await Task.Run(() =>
                     {
-                        Text = text,
-                        FontSize = 50
+                        try
+                        {
+                            matches[0] = URL_REGEX.Match(text, lastPosition);
+                            matches[1] = EMAIL_REGEX.Match(text, lastPosition);
+                            matches[2] = PHONE_REGEX.Match(text, lastPosition);
+                        }
+                        catch (RegexMatchTimeoutException)
+                        {
+                        }
                     });
-                }
-                else
-                {
-                    var lastPosition = 0;
-                    var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
 
-                    do
+                    var firstMatch = matches.Where(x => !(x is null) && x.Success).OrderBy(x => x.Index)?.FirstOrDefault();
+                    if (firstMatch == matches[0])
                     {
-                        await Task.Run(() =>
-                        {
-                            try
-                            {
-                                matches[0] = URL_REGEX.Match(text, lastPosition);
-                                matches[1] = EMAIL_REGEX.Match(text, lastPosition);
-                                matches[2] = PHONE_REGEX.Match(text, lastPosition);
-                            }
-                            catch (RegexMatchTimeoutException)
-                            {
-                            }
-                        });
+                        // the first match is an URL:
+                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                        lastPosition = createUrlElement(textBlock, firstMatch);
+                    }
+                    else if (firstMatch == matches[1])
+                    {
+                        // the first match is an email:
+                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                        lastPosition = createContactElement(textBlock, firstMatch, null);
+                    }
+                    else if (firstMatch == matches[2])
+                    {
+                        // the first match is a phone number:
+                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                        lastPosition = createContactElement(textBlock, null, firstMatch);
+                    }
+                    else
+                    {
+                        // no match, we add the whole text:
+                        textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) });
+                        lastPosition = text.Length;
+                    }
 
-                        var firstMatch = matches.Where(x => x != null && x.Success).OrderBy(x => x.Index).FirstOrDefault();
-                        if (firstMatch == matches[0])
-                        {
-                            // the first match is an URL:
-                            createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                            lastPosition = createUrlElement(textBlock, firstMatch);
-                        }
-                        else if (firstMatch == matches[1])
-                        {
-                            // the first match is an email:
-                            createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                            lastPosition = createContactElement(textBlock, firstMatch, null);
-                        }
-                        else if (firstMatch == matches[2])
-                        {
-                            // the first match is a phone number:
-                            createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                            lastPosition = createContactElement(textBlock, null, firstMatch);
-                        }
-                        else
-                        {
-                            // no match, we add the whole text:
-                            textBlock.Inlines.Add(new Run { Text = text.Substring(lastPosition) });
-                            lastPosition = text.Length;
-                        }
-
-                    } while (lastPosition < text.Length);
-                }
+                } while (lastPosition < text.Length);
             }
         }
 
