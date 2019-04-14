@@ -146,7 +146,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public async Task<bool> decryptAsync(OmemoHelper helper, uint localeDeciceId)
         {
             SignalProtocolAddress remoteAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
-            return await decryptAsync(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
+            return await decryptAsync(helper.loadCipher(remoteAddress), localeDeciceId, helper);
         }
 
         /// <summary>
@@ -154,11 +154,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Sets ENCRYPTED to false.
         /// </summary>
         /// <param name="cipher">The SessionCipher for decrypting the content of BASE_64_PAYLOAD.</param>
-        /// <param name="remoteAddress">The SignalProtocolAddress of the sender.</param>
         /// <param name="localeDeciceId">The local device id.</param>
         /// <param name="helper">The current OmemoHelper object of the current account. If null, won't remove used PreKey.</param>
         /// <returns>True on success.</returns>
-        public async Task<bool> decryptAsync(SessionCipher cipher, SignalProtocolAddress remoteAddress, uint localeDeciceId, OmemoHelper helper)
+        public async Task<bool> decryptAsync(SessionCipher cipher, uint localeDeciceId, OmemoHelper helper)
         {
             try
             {
@@ -171,7 +170,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
 
                 // 2. Load the cipher:
-                SignalProtocolAddress address = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
                 byte[] encryptedKeyAuthTag = Convert.FromBase64String(key.BASE_64_KEY);
                 byte[] decryptedKeyAuthTag = null;
                 if (key.IS_PRE_KEY)
@@ -220,7 +218,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 byte[] encryptedData = Convert.FromBase64String(BASE_64_PAYLOAD);
                 byte[] decryptedData = aes128Gcm.decrypt(encryptedData);
 
-                // 5. Convert decrypted data to Unicode string:
+                // 5. Convert decrypted data to an Unicode string:
                 MESSAGE = Encoding.UTF8.GetString(decryptedData);
 
                 ENCRYPTED = false;
