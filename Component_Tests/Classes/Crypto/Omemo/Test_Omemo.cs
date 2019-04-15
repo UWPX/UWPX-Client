@@ -249,7 +249,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             // Bob decrypts the message:
             SignalProtocolAddress aliceAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(bobOmemoMessage.getFrom()), bobOmemoMessage.SOURCE_DEVICE_ID);
             SessionCipher bobSessionCipher = new SessionCipher(bobSessionStore, bobPreKeyStore, bobSignedPreKeyStore, bobIdentStore, aliceAddress);
-            await bobOmemoMessage.decryptAsync(bobSessionCipher, aliceAddress, BOB_ADDRESS.getDeviceId(), null);
+            await bobOmemoMessage.decryptAsync(bobSessionCipher, BOB_ADDRESS.getDeviceId(), null);
             Assert.IsFalse(bobOmemoMessage.ENCRYPTED);
             Assert.AreEqual(aliceOrigMsg, bobOmemoMessage.MESSAGE);
         }
