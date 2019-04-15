@@ -1,18 +1,20 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.AppCenter.Push;
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
+using Windows.Foundation.Collections;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -24,7 +26,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI
 {
-    public sealed partial class App : Application
+    public sealed partial class App: Application
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -189,7 +191,7 @@ namespace UWPX_UI
         #region --Misc Methods (Protected)--
         protected override async void OnBackgroundActivated(BackgroundActivatedEventArgs args)
         {
-            var deferral = args.TaskInstance.GetDeferral();
+            BackgroundTaskDeferral deferral = args.TaskInstance.GetDeferral();
 
             switch (args.TaskInstance.Task.Name)
             {
@@ -200,7 +202,7 @@ namespace UWPX_UI
                         InitLogger();
 
                         string arguments = details.Argument;
-                        var userInput = details.UserInput;
+                        ValueSet userInput = details.UserInput;
 
                         Logger.Debug("App activated in background through toast with: " + arguments);
                         AbstractToastActivation abstractToastActivation = ToastActivationArgumentParser.parseArguments(arguments);
@@ -240,15 +242,9 @@ namespace UWPX_UI
             deferral.Complete();
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs args)
-        {
-            OnActivatedOrLaunched(args);
-        }
+        protected override void OnLaunched(LaunchActivatedEventArgs args) => OnActivatedOrLaunched(args);
 
-        protected override void OnActivated(IActivatedEventArgs args)
-        {
-            OnActivatedOrLaunched(args);
-        }
+        protected override void OnActivated(IActivatedEventArgs args) => OnActivatedOrLaunched(args);
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
@@ -257,7 +253,7 @@ namespace UWPX_UI
         {
             isRunning = false;
 
-            var deferral = e.SuspendingOperation.GetDeferral();
+            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             // TODO re-implement transfer socket ownership:
             //await ConnectionHandler.INSTANCE.transferSocketOwnershipAsync();
 
@@ -273,10 +269,7 @@ namespace UWPX_UI
             isRunning = true;
         }
 
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
-        {
-            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
 
         private async void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
         {
@@ -289,7 +282,7 @@ namespace UWPX_UI
             if (e.CustomData != null)
             {
                 pushSummary.Append("\n\tCustom data:\n");
-                foreach (var key in e.CustomData.Keys)
+                foreach (string key in e.CustomData.Keys)
                 {
                     pushSummary.Append($"\t\t{key} : {e.CustomData[key]}\n");
                 }
@@ -309,10 +302,7 @@ namespace UWPX_UI
             }
         }
 
-        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
-        {
-            Logger.Error("Unhanded exception: ", e.Exception);
-        }
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e) => Logger.Error("Unhanded exception: ", e.Exception);
 
         #endregion
     }

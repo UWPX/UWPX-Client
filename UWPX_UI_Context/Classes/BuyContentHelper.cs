@@ -1,7 +1,7 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Logging;
 using Windows.ApplicationModel.Store;
 using Windows.Services.Store;
 
