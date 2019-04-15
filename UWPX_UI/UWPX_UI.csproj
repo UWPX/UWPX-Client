@@ -273,6 +273,9 @@
     <Compile Include="Dialogs\CertificateRequirementsDialog.xaml.cs">
       <DependentUpon>CertificateRequirementsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ChangePresenceDialog.xaml.cs">
+      <DependentUpon>ChangePresenceDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ClearCacheDialog.xaml.cs">
       <DependentUpon>ClearCacheDialog.xaml</DependentUpon>
     </Compile>
@@ -647,6 +650,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Dialogs\ChangePresenceDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Dialogs\ClearCacheDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -740,6 +747,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\MyValueConverters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\SaveButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
