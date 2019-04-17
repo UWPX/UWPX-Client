@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Shared.Classes;
-using System;
 using Windows.Data.Xml.Dom;
 using Windows.Foundation.Metadata;
 using Windows.Phone.Devices.Notification;
@@ -23,6 +23,7 @@ namespace Data_Manager2.Classes.Toast
         public const string WILL_BE_SEND_LATER_TOAST_GROUP = "will_be_send_later";
 
         private static readonly TimeSpan VIBRATE_TS = TimeSpan.FromMilliseconds(150);
+        private static readonly TimeSpan VIBRATE_TIMEOUT_TS = TimeSpan.FromSeconds(3);
         private static DateTime lastVibration = DateTime.MinValue;
 
         public delegate void OnChatMessageToastHandler(OnChatMessageToastEventArgs args);
@@ -61,14 +62,11 @@ namespace Data_Manager2.Classes.Toast
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void removeToastGroup(string group)
-        {
-            ToastNotificationManager.History.RemoveGroup(group);
-        }
+        public static void removeToastGroup(string group) => ToastNotificationManager.History.RemoveGroup(group);
 
         public static void showWillBeSendLaterToast(ChatTable chat)
         {
-            var toastContent = new ToastContent
+            ToastContent toastContent = new ToastContent
             {
                 Visual = new ToastVisual
                 {
@@ -93,7 +91,7 @@ namespace Data_Manager2.Classes.Toast
 
         public static void showChatTextToast(ChatMessageTable msg, ChatTable chat)
         {
-            var toastContent = new ToastContent
+            ToastContent toastContent = new ToastContent
             {
                 Visual = new ToastVisual
                 {
@@ -128,7 +126,7 @@ namespace Data_Manager2.Classes.Toast
 
         public static void showChatTextImageToast(ChatMessageTable msg, ChatTable chat)
         {
-            var toastContent = new ToastContent
+            ToastContent toastContent = new ToastContent
             {
                 Visual = new ToastVisual
                 {
@@ -165,18 +163,12 @@ namespace Data_Manager2.Classes.Toast
             popToast(toastContent, chat);
         }
 
-        public static void UpdateBadgeNumber()
-        {
-            SetBadgeNumber(ChatDBManager.INSTANCE.getUnreadCount());
-        }
+        public static void UpdateBadgeNumber() => SetBadgeNumber(ChatDBManager.INSTANCE.getUnreadCount());
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private static void popToast(ToastContent content, ChatTable chat)
-        {
-            popToast(content, chat, chat.id);
-        }
+        private static void popToast(ToastContent content, ChatTable chat) => popToast(content, chat, chat.id);
 
         private static void popToast(ToastContent content, ChatTable chat, string group)
         {
@@ -217,7 +209,7 @@ namespace Data_Manager2.Classes.Toast
             if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
                 // Only vibrate once:
-                if (DateTime.Now.Subtract(lastVibration).CompareTo(VIBRATE_TS) >= 0)
+                if (DateTime.Now.Subtract(lastVibration).CompareTo(VIBRATE_TIMEOUT_TS) >= 0)
                 {
                     lastVibration = DateTime.Now;
                     VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
