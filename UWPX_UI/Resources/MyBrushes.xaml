@@ -39,6 +39,8 @@
     <SolidColorBrush x:Key="SpeechBubbleCaptionForegroundBrush"
                      Opacity="0.9"
                      Color="#99FFFFFF"/>
+    <SolidColorBrush x:Key="TileBackgroundBrush"
+                     Color="#33691E"/>
 
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">

@@ -1,11 +1,11 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.AppCenter.Push;
 using Shared.Classes;
-using System;
-using System.Threading.Tasks;
 using UWPX_UI.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
@@ -19,7 +19,7 @@ using BackgroundTaskHelper = UWPX_UI_Context.Classes.BackgroundTaskHelper;
 
 namespace UWPX_UI.Pages
 {
-    public sealed partial class ExtendedSplashScreenPage : Page
+    public sealed partial class ExtendedSplashScreenPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

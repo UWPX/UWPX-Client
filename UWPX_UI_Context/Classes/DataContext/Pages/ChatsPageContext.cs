@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
-using System;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 using XMPP_API.Classes;

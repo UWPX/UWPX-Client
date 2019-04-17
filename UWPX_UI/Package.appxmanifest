@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" Executable="$targetnametoken$.exe" EntryPoint="UWPX_UI.App">
-      <uap:VisualElements DisplayName="UWPX Alpha" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="An XMPP client for the Universal Windows Platform." BackgroundColor="transparent">
+      <uap:VisualElements DisplayName="UWPX Alpha" Square150x150Logo="Assets\Square150x150Logo.png" Square44x44Logo="Assets\Square44x44Logo.png" Description="An XMPP client for the Universal Windows Platform." BackgroundColor="#33691E">
         <uap:LockScreen Notification="badge" BadgeLogo="Assets\BadgeLogo.png" />
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square310x310Logo="Assets\LargeTile.png" Square71x71Logo="Assets\SmallTile.png" ShortName="UWPX">
           <uap:ShowNameOnTiles>
@@ -24,7 +24,7 @@
             <uap:ShowOn Tile="square310x310Logo" />
           </uap:ShowNameOnTiles>
         </uap:DefaultTile>
-        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="transparent" />
+        <uap:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#33691E" />
       </uap:VisualElements>
       <Extensions>
         <uap:Extension Category="windows.protocol">
