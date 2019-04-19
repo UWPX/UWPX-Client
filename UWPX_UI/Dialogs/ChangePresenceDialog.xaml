@@ -3,18 +3,45 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:controls="using:UWPX_UI.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:dataTemplates="using:UWPX_UI_Context.Classes.DataTemplates"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Title="Change presence"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-               PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
-               PrimaryButtonText="Cancel"
+               PrimaryButtonText="Close"
                SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
                SecondaryButtonStyle="{ThemeResource SaveButtonRevealStyle}"
                SecondaryButtonText="Save"
                mc:Ignorable="d">
 
+    <ContentDialog.Resources>
+        <DataTemplate x:Key="PresenceTemplate"
+                      x:DataType="dataTemplates:PresenceDataTemplate">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock VerticalAlignment="Center"
+                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                           Foreground="{x:Bind Presence, Converter={StaticResource PresenceBrushValueConverter}}"
+                           Text="&#xEDAF;"/>
+                <TextBlock Margin="10,0,0,0"
+                           VerticalAlignment="Center"
+                           Text="{x:Bind Presence}"/>
+            </StackPanel>
+        </DataTemplate>
+    </ContentDialog.Resources>
+
     <StackPanel>
-        <controls:AccountSelectionControl/>
+        <controls:AccountSelectionControl AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
+                                          AddAccountClick="AccountSelectionControl_AddAccountClick"/>
+        <ComboBox Margin="0,10,0,0"
+                  HorizontalAlignment="Stretch"
+                  Header="Presence"
+                  ItemTemplate="{StaticResource PresenceTemplate}"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.PRESENCES}"
+                  PlaceholderText="Select presence..."
+                  SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"/>
+        <TextBox Margin="0,10,0,0"
+                 Header="Status"
+                 PlaceholderText="Your current status"
+                 Text="{x:Bind VIEW_MODEL.MODEL.Status, Mode=TwoWay}"/>
     </StackPanel>
 </ContentDialog>

@@ -1,19 +1,26 @@
-﻿using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
-using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using Shared.Classes;
+using XMPP_API.Classes;
 
-namespace UWPX_UI_Context.Classes.DataContext.Dialogs
+namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public class ChangePresenceDialogContext
+    public sealed class PresenceDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ChangePresenceDialogDataTemplate MODEL = new ChangePresenceDialogDataTemplate();
+        private Presence _Presence;
+        public Presence Presence
+        {
+            get => _Presence;
+            set => SetProperty(ref _Presence, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public PresenceDataTemplate(Presence presence)
+        {
+            Presence = presence;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -23,20 +30,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task SavePresenceAsync()
-        {
-            await Task.Run(async () =>
-            {
-                // Save presence and status:
-                MODEL.Client.getXMPPAccount().presence = MODEL.SelectedItem.Presence;
-                MODEL.Client.getXMPPAccount().status = MODEL.Status;
 
-                AccountDBManager.INSTANCE.setAccount(MODEL.Client.getXMPPAccount(), false);
-
-                // Send the updated presence and status to the server:
-                await MODEL.Client.GENERAL_COMMAND_HELPER.setPreseceAsync(MODEL.SelectedItem.Presence, MODEL.Status);
-            });
-        }
 
         #endregion
 

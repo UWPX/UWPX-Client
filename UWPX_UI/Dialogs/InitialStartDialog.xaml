@@ -6,7 +6,6 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Title="Welcome!"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-               PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
                PrimaryButtonText="Close"
                mc:Ignorable="d">
 

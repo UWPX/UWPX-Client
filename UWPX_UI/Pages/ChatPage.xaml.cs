@@ -1,6 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using UWP_XMPP_Client.Dialogs;
 using UWP_XMPP_Client.Pages;
+using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
@@ -56,7 +57,7 @@ namespace UWPX_UI.Pages
 
         private async void AddChat_mfoi_Click(object sender, RoutedEventArgs e)
         {
-            Dialogs.AddChatDialog dialog = new Dialogs.AddChatDialog();
+            AddChatDialog dialog = new AddChatDialog();
             await UiUtils.ShowDialogAsync(dialog);
             await VIEW_MODEL.OnAddChatAsync(dialog.VIEW_MODEL.MODEL);
         }
@@ -79,7 +80,7 @@ namespace UWPX_UI.Pages
 
         private async void ChangePresence_abb_Click(object sender, RoutedEventArgs e)
         {
-            ChangeAccountPresenceDialog dialog = new ChangeAccountPresenceDialog();
+            ChangePresenceDialog dialog = new ChangePresenceDialog();
             await UiUtils.ShowDialogAsync(dialog);
         }
 

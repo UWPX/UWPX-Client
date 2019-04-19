@@ -41,8 +41,23 @@ namespace UWPX_UI.Dialogs
         {
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            args.Cancel = true;
+            IsEnabled = false;
+            await VIEW_MODEL.SavePresenceAsync();
+            IsEnabled = true;
+            Hide();
+        }
+
+        private void AccountSelectionControl_AddAccountClick(Controls.AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)
+        {
+            Hide();
+        }
+
+        private void AccountSelectionControl_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
+        {
+            VIEW_MODEL.MODEL.Client = args.CLIENT;
         }
 
         #endregion

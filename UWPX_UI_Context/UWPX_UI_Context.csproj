@@ -239,6 +239,7 @@
     <Compile Include="Classes\DataTemplates\Pages\DataSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\SettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\PresenceDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
