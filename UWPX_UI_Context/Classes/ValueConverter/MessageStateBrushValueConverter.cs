@@ -35,7 +35,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
 
             if (value is MessageState state && state == MessageState.UNREAD)
             {
-                return ThemeUtils.GetThemeResource<SolidColorBrush>("SystemAccentColor");
+                return new SolidColorBrush(ThemeUtils.GetThemeResource<Color>("SystemAccentColor"));
             }
 
             return ThemeUtils.GetThemeResource<SolidColorBrush>("CaptionTextBrush", Resources);
