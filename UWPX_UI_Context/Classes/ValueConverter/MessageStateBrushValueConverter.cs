@@ -35,10 +35,10 @@ namespace UWPX_UI_Context.Classes.ValueConverter
 
             if (value is MessageState state && state == MessageState.UNREAD)
             {
-                return UiUtils.GetThemeResource<SolidColorBrush>("SystemAccentColor");
+                return ThemeUtils.GetThemeResource<SolidColorBrush>("SystemAccentColor");
             }
 
-            return UiUtils.GetThemeResource<SolidColorBrush>("CaptionTextBrush", Resources);
+            return ThemeUtils.GetThemeResource<SolidColorBrush>("CaptionTextBrush", Resources);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

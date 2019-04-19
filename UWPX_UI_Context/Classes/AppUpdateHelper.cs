@@ -1,12 +1,12 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
 using Logging;
 using Shared.Classes.SQLite;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using XMPP_API.Classes.Network;
 
@@ -147,7 +147,7 @@ namespace UWPX_UI_Context.Classes
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 14)
                     {
                         Logger.Info("Started setting the default theme to dark...");
-                        UiUtils.RootTheme = Windows.UI.Xaml.ElementTheme.Dark;
+                        ThemeUtils.RootTheme = Windows.UI.Xaml.ElementTheme.Dark;
                         Logger.Info("Finished setting the default theme to dark. Update to version 0.14.0.0 done.");
                     }
 

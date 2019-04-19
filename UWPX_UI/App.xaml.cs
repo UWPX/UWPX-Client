@@ -83,7 +83,7 @@ namespace UWPX_UI
             // Override resources to increase the UI performance on mobile devices:
             if (DeviceFamilyHelper.GetDeviceFamilyType() == DeviceFamilyType.Mobile)
             {
-                UiUtils.OverrideResources();
+                ThemeUtils.OverrideThemeResources();
             }
 
             isRunning = true;

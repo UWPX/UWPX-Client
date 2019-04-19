@@ -247,6 +247,7 @@
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
+    <Compile Include="Classes\ThemeUtils.cs" />
     <Compile Include="Classes\UiUtils.cs" />
     <Compile Include="Classes\ValueConverter\BadgeCountStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\Bandwidth\InboundBitsPerSecondInstabilityValueConverter.cs" />

@@ -10,7 +10,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages
 {
-    public sealed partial class ChatPage : Page
+    public sealed partial class ChatPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

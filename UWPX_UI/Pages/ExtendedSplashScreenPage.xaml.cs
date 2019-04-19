@@ -145,11 +145,11 @@ namespace UWPX_UI.Pages
 
         private async Task LoadAppAsync()
         {
-            // Set requested theme:
-            UiUtils.LoadRequestedTheme();
-
             // Setup listening for theme changes:
-            UiUtils.SetupThemeListener();
+            ThemeUtils.SetupThemeListener();
+
+            // Set requested theme:
+            ThemeUtils.LoadRequestedTheme();
 
             // Setup listener for window activated changes:
             UiUtils.SetupWindowActivatedListener();

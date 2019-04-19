@@ -1,10 +1,10 @@
-﻿using Shared.Classes;
-using System.Runtime.CompilerServices;
+﻿using System.Runtime.CompilerServices;
+using Shared.Classes;
 using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class PersonalizeSettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class PersonalizeSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -42,7 +42,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         {
             if (SetProperty(ref storage, value, propertyName) && value)
             {
-                UiUtils.RootTheme = theme;
+                ThemeUtils.RootTheme = theme;
             }
         }
 
@@ -56,7 +56,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Misc Methods (Private)--
         private void LoadSettings()
         {
-            switch (UiUtils.RootTheme)
+            switch (ThemeUtils.RootTheme)
             {
                 case ElementTheme.Light:
                     LightThemeChecked = true;

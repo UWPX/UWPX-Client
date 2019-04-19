@@ -4,9 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using Data_Manager2.Classes;
 using Logging;
-using Microsoft.Toolkit.Uwp.UI.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
@@ -31,40 +29,6 @@ namespace UWPX_UI_Context.Classes
         public static readonly char[] TRIM_CHARS = { ' ', '\t', '\n', '\r' };
         private static readonly Random RANDOM = new Random();
 
-        public const string DEVICE_FAMILY_DESKTOP = "";
-        public const string DEVICE_FAMILY_MOBILE = "";
-        public const string DEVICE_FAMILY_XBOX = "";
-        public const string DEVICE_FAMILY_IOT = "";
-        public const string DEVICE_FAMILY_IOT_HEADLESS = "";
-        public const string DEVICE_FAMILY_HOLOLENS = "";
-        public const string DEVICE_FAMILY_TEAM = "";
-
-        /// <summary>
-        /// Gets or sets (with LocalSettings persistence) the RequestedTheme of the root element.
-        /// </summary>
-        public static ElementTheme RootTheme
-        {
-            get
-            {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    return rootElement.RequestedTheme;
-                }
-
-                return ElementTheme.Default;
-            }
-            set
-            {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    rootElement.RequestedTheme = value;
-                    SetupWindow(Application.Current);
-                }
-                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
-            }
-        }
-        public static ThemeListener themeListener;
-
         public static bool IsWindowActivated
         {
             get;
@@ -74,93 +38,6 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        /// <summary>
-        /// Returns the resource for the given key from the <see cref="Application.Current.Resources"/> for the current theme specified in <see cref="RootTheme"/>./>
-        /// </summary>
-        /// <param name="key">The key for the resource you want to retrieve.</param>
-        public static T GetThemeResource<T>(string key)
-        {
-            return GetThemeResource<T>(key, Application.Current.Resources);
-        }
-
-        /// <summary>
-        /// Returns the resource for the given key from the given <see cref="ResourceDictionary"/> for the current theme specified in <see cref="RootTheme"/>./>
-        /// </summary>
-        /// <param name="resources">The <see cref="ResourceDictionary"/> you want to get the resource from.</param>
-        /// <param name="key">The key for the resource you want to retrieve.</param>
-        public static T GetThemeResource<T>(string key, ResourceDictionary resources)
-        {
-            if (resources.ThemeDictionaries.ContainsKey(RootTheme.ToString()))
-            {
-                ResourceDictionary themeResources = resources.ThemeDictionaries[RootTheme.ToString()] as ResourceDictionary;
-                if (themeResources.ContainsKey(key))
-                {
-                    return (T)themeResources[key];
-                }
-            }
-            return (T)resources[key];
-        }
-
-        /// <summary>
-        /// Sets the given resource for all themes.
-        /// </summary>
-        /// <param name="key">The resource key.</param>
-        /// <param name="value">The value of the resource.</param>
-        public static void SetResourceAll(string key, object value)
-        {
-            SetResourceAll(key, value, Application.Current.Resources);
-        }
-
-        /// <summary>
-        /// Sets the given resource for all themes.
-        /// </summary>
-        /// <param name="key">The resource key.</param>
-        /// <param name="value">The value of the resource.</param>
-        /// <param name="resources">The <see cref="ResourceDictionary"/> to set the resource in.</param>
-        public static void SetResourceAll(string key, object value, ResourceDictionary resources)
-        {
-            // Remove all theme resources:
-            foreach (ElementTheme theme in Enum.GetValues(typeof(ElementTheme)))
-            {
-                if (resources.ThemeDictionaries.ContainsKey(theme.ToString()))
-                {
-                    resources.ThemeDictionaries.Remove(key);
-                }
-            }
-
-            // Set the default key and value:
-            resources[key] = value;
-        }
-
-        /// <summary>
-        /// Sets the given resource for the given theme.
-        /// </summary>
-        /// <param name="key">The resource key.</param>
-        /// <param name="value">The value of the resource.</param>
-        /// <param name="theme">The <see cref="ElementTheme"/> for which the resource should be set.</param>
-        public static void SetThemeResource(string key, object value, ElementTheme theme)
-        {
-            SetThemeResource(key, value, theme, Application.Current.Resources);
-        }
-
-        /// <summary>
-        /// Sets the given resource for the given theme.
-        /// </summary>
-        /// <param name="key">The resource key.</param>
-        /// <param name="value">The value of the resource.</param>
-        /// <param name="theme">The <see cref="ElementTheme"/> for which the resource should be set.</param>
-        /// <param name="resources">The <see cref="ResourceDictionary"/> to set the resource in.</param>
-        public static void SetThemeResource(string key, object value, ElementTheme theme, ResourceDictionary resources)
-        {
-            if (!resources.ThemeDictionaries.ContainsKey(theme.ToString()))
-            {
-                resources.ThemeDictionaries[theme.ToString()] = new ResourceDictionary();
-            }
-
-            ResourceDictionary themeResources = resources.ThemeDictionaries[theme.ToString()] as ResourceDictionary;
-            themeResources[key] = value;
-        }
-
         public static List<KeyboardAccelerator> GetGoBackKeyboardAccelerators()
         {
             return new List<KeyboardAccelerator>
@@ -185,22 +62,22 @@ namespace UWPX_UI_Context.Classes
             switch (presence)
             {
                 case Presence.Online:
-                    return GetThemeResource<SolidColorBrush>("PresenceOnlineBrush");
+                    return ThemeUtils.GetThemeResource<SolidColorBrush>("PresenceOnlineBrush");
 
                 case Presence.Chat:
-                    return GetThemeResource<SolidColorBrush>("PresenceChatBrush");
+                    return ThemeUtils.GetThemeResource<SolidColorBrush>("PresenceChatBrush");
 
                 case Presence.Away:
-                    return GetThemeResource<SolidColorBrush>("PresenceAwayBrush");
+                    return ThemeUtils.GetThemeResource<SolidColorBrush>("PresenceAwayBrush");
 
                 case Presence.Xa:
-                    return GetThemeResource<SolidColorBrush>("PresenceXaBrush");
+                    return ThemeUtils.GetThemeResource<SolidColorBrush>("PresenceXaBrush");
 
                 case Presence.Dnd:
-                    return GetThemeResource<SolidColorBrush>("PresenceDndBrush");
+                    return ThemeUtils.GetThemeResource<SolidColorBrush>("PresenceDndBrush");
 
                 default:
-                    return GetThemeResource<SolidColorBrush>("PresenceUnavailableBrush");
+                    return ThemeUtils.GetThemeResource<SolidColorBrush>("PresenceUnavailableBrush");
 
             }
         }
@@ -260,11 +137,6 @@ namespace UWPX_UI_Context.Classes
                 Logger.Error("Failed to navigate to " + pageType.ToString() + " - Window.Current.Content is not of type Frame!");
                 return false;
             }
-        }
-
-        public static bool IsDarkThemeActive()
-        {
-            return Application.Current.RequestedTheme == ApplicationTheme.Dark;
         }
 
         public static bool IsApplicationViewApiAvailable()
@@ -348,36 +220,6 @@ namespace UWPX_UI_Context.Classes
             return await Launcher.LaunchUriAsync(url);
         }
 
-        public static ElementTheme LoadRequestedTheme()
-        {
-            ElementTheme theme = ElementTheme.Dark;
-
-            // Set the default theme to dark:
-            if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
-            {
-                theme = ElementTheme.Dark;
-            }
-            else
-            {
-                string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
-                if (themeString != null)
-                {
-                    Enum.TryParse(themeString, out theme);
-                }
-            }
-            RootTheme = theme;
-            return RootTheme;
-        }
-
-        public static void SetupThemeListener()
-        {
-            if (themeListener is null)
-            {
-                themeListener = new ThemeListener();
-                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
-            }
-        }
-
         public static void SetupWindow(Application application)
         {
             // PC, Mobile:
@@ -386,7 +228,7 @@ namespace UWPX_UI_Context.Classes
                 ApplicationView appView = ApplicationView.GetForCurrentView();
 
                 // Dye title:
-                Brush windowBrush = GetThemeResource<Brush>("AppBackgroundAcrylicWindowBrush", application.Resources);
+                Brush windowBrush = ThemeUtils.GetThemeResource<Brush>("AppBackgroundAcrylicWindowBrush", application.Resources);
                 if (windowBrush is Microsoft.UI.Xaml.Media.AcrylicBrush acrylicWindowBrush)
                 {
                     appView.TitleBar.BackgroundColor = acrylicWindowBrush.TintColor;
@@ -397,10 +239,11 @@ namespace UWPX_UI_Context.Classes
                 }
 
                 //Dye title bar buttons:
+                ApplicationTheme actualTheme = ThemeUtils.GetActualTheme();
                 appView.TitleBar.ButtonInactiveBackgroundColor = Colors.Transparent;
-                appView.TitleBar.ButtonInactiveForegroundColor = GetThemeResource<Color>("SystemListLowColor", application.Resources);
+                appView.TitleBar.ButtonInactiveForegroundColor = actualTheme == ApplicationTheme.Dark ? HexStringToColor("#19FFFFFF") : HexStringToColor("#19000000");
                 appView.TitleBar.ButtonBackgroundColor = Colors.Transparent;
-                appView.TitleBar.ButtonForegroundColor = GetThemeResource<Color>("SystemBaseHighColor", application.Resources);
+                appView.TitleBar.ButtonForegroundColor = actualTheme == ApplicationTheme.Dark ? HexStringToColor("#FFFFFFFF") : HexStringToColor("#FF000000");
 
                 // Extend window:
                 CoreApplication.GetCurrentView().TitleBar.ExtendViewIntoTitleBar = true;
@@ -413,7 +256,7 @@ namespace UWPX_UI_Context.Classes
                 StatusBar statusBar = StatusBar.GetForCurrentView();
                 if (statusBar != null)
                 {
-                    statusBar.BackgroundColor = GetThemeResource<SolidColorBrush>("AppBackgroundAcrylicElementBrush", application.Resources).Color;
+                    statusBar.BackgroundColor = ThemeUtils.GetThemeResource<SolidColorBrush>("AppBackgroundAcrylicElementBrush", application.Resources).Color;
                     statusBar.BackgroundOpacity = 1.0d;
                 }
             }
@@ -447,10 +290,25 @@ namespace UWPX_UI_Context.Classes
         public static Color HexStringToColor(string hexString)
         {
             hexString = hexString.Replace("#", string.Empty);
-            byte r = (byte)Convert.ToUInt32(hexString.Substring(0, 2), 16);
-            byte g = (byte)Convert.ToUInt32(hexString.Substring(2, 2), 16);
-            byte b = (byte)Convert.ToUInt32(hexString.Substring(4, 2), 16);
-            return Color.FromArgb(255, r, g, b);
+            byte a = 255;
+            byte r = 255;
+            byte g = 255;
+            byte b = 255;
+            if (hexString.Length > 6)
+            {
+                a = (byte)Convert.ToUInt32(hexString.Substring(0, 2), 16);
+                r = (byte)Convert.ToUInt32(hexString.Substring(2, 2), 16);
+                g = (byte)Convert.ToUInt32(hexString.Substring(4, 2), 16);
+                b = (byte)Convert.ToUInt32(hexString.Substring(6, 2), 16);
+            }
+            else
+            {
+                r = (byte)Convert.ToUInt32(hexString.Substring(0, 2), 16);
+                g = (byte)Convert.ToUInt32(hexString.Substring(2, 2), 16);
+                b = (byte)Convert.ToUInt32(hexString.Substring(4, 2), 16);
+            }
+
+            return Color.FromArgb(a, r, g, b);
         }
 
         /// <summary>
@@ -500,52 +358,6 @@ namespace UWPX_UI_Context.Classes
         }
 
         /// <summary>
-        /// Overrides the default resources like "ButtonRevealStyle" with more performant versions
-        /// to increase the UI performance on low end devices like phones.
-        /// </summary>
-        public static void OverrideResources()
-        {
-            // Styles:
-            SetResourceAll("ButtonRevealStyle", GetThemeResource<object>("DefaultButtonStyle"));
-            SetResourceAll("AcceptButtonRevealStyle", GetThemeResource<object>("AcceptButtonStyle"));
-            SetResourceAll("DeclineButtonRevealStyle", GetThemeResource<object>("DeclineButtonStyle"));
-            SetResourceAll("SaveButtonRevealStyle", GetThemeResource<object>("SaveButtonStyle"));
-
-            // Brushes:
-            // Dark:
-            SetThemeResource("AppBackgroundAcrylicWindowBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0x24,
-                G = 0x24,
-                B = 0x24,
-            }), ElementTheme.Dark);
-            SetThemeResource("AppBackgroundAcrylicElementBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0x2D,
-                G = 0x2D,
-                B = 0x2D,
-            }), ElementTheme.Dark);
-
-            // Light:
-            SetThemeResource("AppBackgroundAcrylicWindowBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0xD6,
-                G = 0xD6,
-                B = 0xD6,
-            }), ElementTheme.Dark);
-            SetThemeResource("AppBackgroundAcrylicElementBrush", new SolidColorBrush(new Color()
-            {
-                A = 0xFF,
-                R = 0xCD,
-                G = 0xCD,
-                B = 0xCD,
-            }), ElementTheme.Light);
-        }
-
-        /// <summary>
         /// Hides the StatusBar on Windows Mobile devices.
         /// </summary>
         public static async Task HideStatusBarAsync()
@@ -580,11 +392,6 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void ThemeListener_ThemeChanged(ThemeListener sender)
-        {
-            SetupWindow(Application.Current);
-        }
-
         private static void Current_Activated(object sender, WindowActivatedEventArgs e)
         {
             IsWindowActivated = e.WindowActivationState != CoreWindowActivationState.Deactivated;

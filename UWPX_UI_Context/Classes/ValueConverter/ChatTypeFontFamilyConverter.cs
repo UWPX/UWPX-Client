@@ -28,9 +28,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         {
             if (value is ChatType chatType && chatType == ChatType.MUC)
             {
-                return UiUtils.GetThemeResource<FontFamily>("SymbolThemeFontFamily");
+                return ThemeUtils.GetThemeResource<FontFamily>("SymbolThemeFontFamily");
             }
-            return UiUtils.GetThemeResource<FontFamily>("ContentControlThemeFontFamily");
+            return ThemeUtils.GetThemeResource<FontFamily>("ContentControlThemeFontFamily");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
