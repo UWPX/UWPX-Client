@@ -27,6 +27,40 @@
                 <chat:ChatDetailsControl Chat="{x:Bind}"/>
             </DataTemplate>
 
+            <DataTemplate x:Key="NoItemsTemplate">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="1">
+                        <TextBlock HorizontalAlignment="Center"
+                                   Foreground="{ThemeResource SystemAccentColor}"
+                                   Style="{ThemeResource SubtitleTextBlockStyle}"
+                                   Text="¯\_(ツ)_/¯"/>
+                        <TextBlock HorizontalAlignment="Center"
+                                   Text="No chats found"/>
+                    </StackPanel>
+                    <Grid Grid.Row="2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <FontIcon Grid.Column="0"
+                                  Margin="19,0,0,10"
+                                  VerticalAlignment="Bottom"
+                                  FontSize="30"
+                                  Foreground="{ThemeResource SystemAccentColor}"
+                                  Glyph="&#xF0AE;"/>
+                        <TextBlock Grid.Column="1"
+                                   Margin="10,10,10,18"
+                                   Text="Click to add one"
+                                   TextWrapping="WrapWholeWords"/>
+                    </Grid>
+                </Grid>
+            </DataTemplate>
+
             <DataTemplate x:Key="NoSelectionTemplate">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -73,6 +107,7 @@
                                              ItemTemplate="{StaticResource MasterTemplate}"
                                              ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHATS_ACV}"
                                              MasterPaneBackground="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"
+                                             NoItemsContentTemplate="{StaticResource NoItemsTemplate}"
                                              NoSelectionContentTemplate="{StaticResource NoSelectionTemplate}"
                                              SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}">
             <!--  Style  -->

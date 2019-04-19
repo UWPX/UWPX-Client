@@ -1,18 +1,18 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Shared.Classes;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections;
 using UWPX_UI_Context.Classes.Collections.Toolkit;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class ChatPageDataTemplate : AbstractDataTemplate
+    public sealed class ChatPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
