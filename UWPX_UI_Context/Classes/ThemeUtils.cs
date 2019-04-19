@@ -35,7 +35,11 @@ namespace UWPX_UI_Context.Classes
                 Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
             }
         }
-        public static ThemeListener themeListener;
+        public static ThemeListener ThemeListener
+        {
+            get;
+            private set;
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -226,10 +230,10 @@ namespace UWPX_UI_Context.Classes
 
         public static void SetupThemeListener()
         {
-            if (themeListener is null)
+            if (ThemeListener is null)
             {
-                themeListener = new ThemeListener();
-                themeListener.ThemeChanged += ThemeListener_ThemeChanged;
+                ThemeListener = new ThemeListener();
+                ThemeListener.ThemeChanged += ThemeListener_ThemeChanged;
             }
         }
 
