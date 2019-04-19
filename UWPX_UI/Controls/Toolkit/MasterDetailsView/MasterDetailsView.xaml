@@ -36,6 +36,10 @@
                                                   Content="{TemplateBinding MasterHeader}"
                                                   ContentTemplate="{TemplateBinding MasterHeaderTemplate}"
                                                   Visibility="Collapsed"/>
+                                <ContentPresenter x:Name="NoItemsPresenter"
+                                                  Grid.Row="1"
+                                                  Content="{TemplateBinding NoItemsContent}"
+                                                  ContentTemplate="{TemplateBinding NoItemsContentTemplate}"/>
                                 <ListView x:Name="MasterList"
                                           Grid.Row="1"
                                           IsTabStop="False"
@@ -44,7 +48,8 @@
                                           ItemTemplate="{TemplateBinding ItemTemplate}"
                                           ItemTemplateSelector="{TemplateBinding ItemTemplateSelector}"
                                           ItemsSource="{TemplateBinding ItemsSource}"
-                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                          SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                          Visibility="Collapsed"/>
                                 <Grid x:Name="MasterCommandBarPanel"
                                       Grid.Row="2"/>
                             </Grid>
@@ -185,6 +190,20 @@
                                         <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
                                         <Setter Target="SelectionDetailsPanel.Visibility" Value="Collapsed"/>
                                         <Setter Target="MasterPanel.Visibility" Value="Visible"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="HasItemsStates">
+                                <VisualState x:Name="HasItemsState">
+                                    <VisualState.Setters>
+                                        <Setter Target="MasterList.Visibility" Value="Visible"/>
+                                        <Setter Target="NoItemsPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasNoItemsState">
+                                    <VisualState.Setters>
+                                        <Setter Target="MasterList.Visibility" Value="Collapsed"/>
+                                        <Setter Target="NoItemsPresenter.Visibility" Value="Visible"/>
                                     </VisualState.Setters>
                                 </VisualState>
                             </VisualStateGroup>

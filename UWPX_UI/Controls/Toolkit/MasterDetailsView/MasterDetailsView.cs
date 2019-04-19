@@ -22,6 +22,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
     /// Panel that allows for a Master/Details pattern.
     /// </summary>
     [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
+    [TemplatePart(Name = NoItemsPresenter, Type = typeof(ContentPresenter))]
     [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
     [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
@@ -29,9 +30,12 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
     [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
     [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
     [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
-    public partial class MasterDetailsView : ItemsControl
+    [TemplateVisualState(Name = HasItemsState, GroupName = HasItemsStates)]
+    [TemplateVisualState(Name = HasNoItemsState, GroupName = HasItemsStates)]
+    public partial class MasterDetailsView: ItemsControl
     {
         private const string PartDetailsPresenter = "DetailsPresenter";
+        private const string NoItemsPresenter = "NoItemsPresenter";
         private const string PartDetailsPanel = "DetailsPanel";
         private const string PartBackButton = "MasterDetailsBackButton";
         private const string PartHeaderContentPresenter = "HeaderContentPresenter";
@@ -43,6 +47,9 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         private const string HasSelectionWideState = "HasSelectionWide";
         private const string NoSelectionNarrowState = "NoSelectionNarrow";
         private const string NoSelectionWideState = "NoSelectionWide";
+        private const string HasItemsStates = "HasItemsStates";
+        private const string HasNoItemsState = "HasNoItemsState";
+        private const string HasItemsState = "HasItemsState";
 
         private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
         private bool _previousNavigationViewBackEnabled;
@@ -65,6 +72,14 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
             Loaded += OnLoaded;
             Unloaded += OnUnloaded;
+        }
+
+        protected override void OnItemsChanged(object e)
+        {
+            base.OnItemsChanged(e);
+
+            // Update visual state:
+            VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, true);
         }
 
         /// <summary>
@@ -422,6 +437,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
             VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
             VisualStateManager.GoToState(this, state, animate);
+            VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, animate);
         }
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)

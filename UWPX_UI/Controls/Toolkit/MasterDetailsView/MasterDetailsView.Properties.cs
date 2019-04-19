@@ -50,6 +50,26 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             new PropertyMetadata(null));
 
         /// <summary>
+        /// Identifies the <see cref="NoItemsContent"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="NoItemsContent"/> dependency property.</returns>
+        public static readonly DependencyProperty NoItemsContentProperty = DependencyProperty.Register(
+            nameof(NoItemsContent),
+            typeof(object),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="NoItemsContentTemplate"/> dependency property.
+        /// </summary>
+        /// <returns>The identifier for the <see cref="NoItemsContentTemplate"/> dependency property.</returns>
+        public static readonly DependencyProperty NoItemsContentTemplateProperty = DependencyProperty.Register(
+            nameof(NoItemsContentTemplate),
+            typeof(DataTemplate),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
         /// Identifies the <see cref="MasterHeader"/> dependency property.
         /// </summary>
         /// <returns>The identifier for the <see cref="MasterHeader"/> dependency property.</returns>
@@ -218,6 +238,30 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         {
             get { return (DataTemplate)GetValue(MasterHeaderTemplateProperty); }
             set { SetValue(MasterHeaderTemplateProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the content for the no items presenter
+        /// </summary>
+        /// <returns>
+        /// The content of the no items presenter. The default is null.
+        /// </returns>
+        public object NoItemsContent
+        {
+            get { return GetValue(NoItemsContentProperty); }
+            set { SetValue(NoItemsContentProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the DataTemplate used to display the content of the master pane's header.
+        /// </summary>
+        /// <returns>
+        /// The template that specifies the visualization of the master pane header object. The default is null.
+        /// </returns>
+        public DataTemplate NoItemsContentTemplate
+        {
+            get { return (DataTemplate)GetValue(NoItemsContentTemplateProperty); }
+            set { SetValue(NoItemsContentTemplateProperty, value); }
         }
 
         /// <summary>
