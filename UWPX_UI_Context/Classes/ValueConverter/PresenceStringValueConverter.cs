@@ -1,18 +1,19 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
-using Windows.UI.Xaml.Controls;
+﻿using System;
+using Windows.UI.Xaml.Data;
+using XMPP_API.Classes;
 
-namespace UWPX_UI.Dialogs
+namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed partial class ChangePresenceDialog: ContentDialog
+    public sealed class PresenceStringValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ChangePresenceDialogContext VIEW_MODEL = new ChangePresenceDialogContext();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChangePresenceDialog() => InitializeComponent();
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -22,7 +23,19 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public object Convert(object value, Type targetType, object parameter, string language)
+        {
+            if (value is Presence p)
+            {
+                return p.ToString();
+            }
+            return Presence.Unavailable.ToString();
+        }
 
+        public object ConvertBack(object value, Type targetType, object parameter, string language)
+        {
+            return value is string s ? Utils.parsePresence(s) : Presence.Unavailable;
+        }
 
         #endregion
 
@@ -37,25 +50,7 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            args.Cancel = true;
-            bool result = await VIEW_MODEL.SavePresenceAsync();
-            if (result)
-            {
-                Hide();
-            }
-        }
 
-        private void AccountSelectionControl_AddAccountClick(Controls.AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)
-        {
-            Hide();
-        }
-
-        private void AccountSelectionControl_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
-        {
-            VIEW_MODEL.MODEL.Client = args.CLIENT;
-        }
 
         #endregion
     }

@@ -284,6 +284,7 @@
     <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\OMEMO\OmemoHelperStateStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\PresenceBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\PresenceStringValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttMaxValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttMinValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />

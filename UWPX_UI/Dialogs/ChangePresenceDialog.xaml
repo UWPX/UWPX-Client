@@ -5,9 +5,10 @@
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:dataTemplates="using:UWPX_UI_Context.Classes.DataTemplates"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
                Title="Change presence"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-               PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+               IsSecondaryButtonEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaveEnabled, Mode=OneWay}"
                PrimaryButtonText="Close"
                SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
                SecondaryButtonStyle="{ThemeResource SaveButtonRevealStyle}"
@@ -24,24 +25,33 @@
                            Text="&#xEDAF;"/>
                 <TextBlock Margin="10,0,0,0"
                            VerticalAlignment="Center"
-                           Text="{x:Bind Presence}"/>
+                           Text="{x:Bind Presence, Converter={StaticResource PresenceStringValueConverter}}"/>
             </StackPanel>
         </DataTemplate>
+        <valueConverter:PresenceStringValueConverter x:Key="PresenceStringValueConverter"/>
     </ContentDialog.Resources>
 
     <StackPanel>
         <controls:AccountSelectionControl AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
-                                          AddAccountClick="AccountSelectionControl_AddAccountClick"/>
+                                          AddAccountClick="AccountSelectionControl_AddAccountClick"
+                                          IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"/>
         <ComboBox Margin="0,10,0,0"
                   HorizontalAlignment="Stretch"
                   Header="Presence"
+                  IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
                   ItemTemplate="{StaticResource PresenceTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.PRESENCES}"
                   PlaceholderText="Select presence..."
                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"/>
         <TextBox Margin="0,10,0,0"
                  Header="Status"
+                 IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
                  PlaceholderText="Your current status"
                  Text="{x:Bind VIEW_MODEL.MODEL.Status, Mode=TwoWay}"/>
+        <controls:IconTextBlockControl Margin="0,5,0,0"
+                                       Glyph="&#xE783;"
+                                       GlyphForeground="Red"
+                                       Text="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay}"
+                                       Visibility="{x:Bind VIEW_MODEL.MODEL.ErrorText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
     </StackPanel>
 </ContentDialog>

@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
+using Logging;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
@@ -23,18 +25,32 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task SavePresenceAsync()
+        public async Task<bool> SavePresenceAsync()
         {
-            await Task.Run(async () =>
+            return await Task.Run(async () =>
             {
+                MODEL.IsSaving = true;
                 // Save presence and status:
                 MODEL.Client.getXMPPAccount().presence = MODEL.SelectedItem.Presence;
                 MODEL.Client.getXMPPAccount().status = MODEL.Status;
+                try
+                {
+                    AccountDBManager.INSTANCE.setAccount(MODEL.Client.getXMPPAccount(), false);
 
-                AccountDBManager.INSTANCE.setAccount(MODEL.Client.getXMPPAccount(), false);
-
-                // Send the updated presence and status to the server:
-                await MODEL.Client.GENERAL_COMMAND_HELPER.setPreseceAsync(MODEL.SelectedItem.Presence, MODEL.Status);
+                    // Send the updated presence and status to the server:
+                    await MODEL.Client.GENERAL_COMMAND_HELPER.setPreseceAsync(MODEL.SelectedItem.Presence, MODEL.Status);
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to update presence for account: " + MODEL.Client.getXMPPAccount().getBareJid(), e);
+                    MODEL.ErrorText = "Saving presence failed - view logs!";
+                    return false;
+                }
+                finally
+                {
+                    MODEL.IsSaving = false;
+                }
+                return true;
             });
         }
 
