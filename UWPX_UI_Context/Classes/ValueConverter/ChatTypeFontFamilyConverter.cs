@@ -1,12 +1,11 @@
-﻿using Data_Manager2.Classes;
-using System;
-using Windows.UI.Xaml;
+﻿using System;
+using Data_Manager2.Classes;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class ChatTypeFontFamilyConverter : IValueConverter
+    public sealed class ChatTypeFontFamilyConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -29,9 +28,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         {
             if (value is ChatType chatType && chatType == ChatType.MUC)
             {
-                return (FontFamily)Application.Current.Resources["SymbolThemeFontFamily"];
+                return UiUtils.GetThemeResource<FontFamily>("SymbolThemeFontFamily");
             }
-            return (FontFamily)Application.Current.Resources["ContentControlThemeFontFamily"];
+            return UiUtils.GetThemeResource<FontFamily>("ContentControlThemeFontFamily");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

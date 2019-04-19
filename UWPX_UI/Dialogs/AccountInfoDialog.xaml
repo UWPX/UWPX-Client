@@ -5,6 +5,7 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                xmlns:settings="using:UWPX_UI.Controls.Settings"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               SecondaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
                SecondaryButtonText="Close"
                mc:Ignorable="d">
 

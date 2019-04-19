@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWP_XMPP_Client.Controls
 {
-    public sealed partial class BackgroundImageSelectionControl : UserControl
+    public sealed partial class BackgroundImageSelectionControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -65,12 +65,12 @@ namespace UWP_XMPP_Client.Controls
         {
             if (Selected)
             {
-                imageBorder_brdr.BorderBrush = new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"]);
+                imageBorder_brdr.BorderBrush = new SolidColorBrush((Color)Resources["SystemAccentColor"]);
                 check_rltvp.Visibility = Visibility.Visible;
             }
             else
             {
-                imageBorder_brdr.BorderBrush = (SolidColorBrush)Application.Current.Resources["SystemControlBackgroundBaseMediumBrush"];
+                imageBorder_brdr.BorderBrush = (SolidColorBrush)Resources["SystemControlBackgroundBaseMediumBrush"];
                 check_rltvp.Visibility = Visibility.Collapsed;
             }
         }

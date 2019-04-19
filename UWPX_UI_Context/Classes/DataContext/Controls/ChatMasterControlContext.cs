@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -40,45 +40,45 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private async Task SetChatInRosterAsync(ChatDataTemplate Chat, bool inRoster)
+        private async Task SetChatInRosterAsync(ChatDataTemplate chat, bool inRoster)
         {
-            if (Chat.Chat.inRoster != inRoster)
+            if (chat.Chat.inRoster != inRoster)
             {
-                Chat.Chat.inRoster = inRoster;
-                UpdateView(Chat);
-                ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+                chat.Chat.inRoster = inRoster;
+                UpdateView(chat);
+                ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
             }
 
             if (inRoster)
             {
-                await Chat.Client.GENERAL_COMMAND_HELPER.addToRosterAsync(Chat.Chat.chatJabberId);
+                await chat.Client.GENERAL_COMMAND_HELPER.addToRosterAsync(chat.Chat.chatJabberId);
             }
             else
             {
-                await Chat.Client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(Chat.Chat.chatJabberId);
+                await chat.Client.GENERAL_COMMAND_HELPER.removeFromRosterAsync(chat.Chat.chatJabberId);
             }
         }
 
-        private void SetChatBookmarked(ChatDataTemplate Chat, bool bookmarked)
+        private void SetChatBookmarked(ChatDataTemplate chat, bool bookmarked)
         {
-            if (Chat.Chat.inRoster != bookmarked)
+            if (chat.Chat.inRoster != bookmarked)
             {
-                Chat.Chat.inRoster = bookmarked;
-                UpdateView(Chat);
-                ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+                chat.Chat.inRoster = bookmarked;
+                UpdateView(chat);
+                ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
             }
-            UpdateBookmarks(Chat.Client);
+            UpdateBookmarks(chat.Client);
         }
 
-        public async Task SetChatMutedAsync(ChatDataTemplate Chat, bool muted)
+        public async Task SetChatMutedAsync(ChatDataTemplate chat, bool muted)
         {
-            if (Chat.Chat.muted != muted)
+            if (chat.Chat.muted != muted)
             {
                 await Task.Run(() =>
                 {
-                    Chat.Chat.muted = muted;
-                    UpdateView(Chat);
-                    ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
+                    chat.Chat.muted = muted;
+                    UpdateView(chat);
+                    ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
                 });
             }
         }
@@ -107,53 +107,53 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             UpdateView(newChat);
         }
 
-        public async Task SwitchChatInRosterAsync(ChatDataTemplate Chat)
+        public async Task SwitchChatInRosterAsync(ChatDataTemplate chat)
         {
-            await SetChatInRosterAsync(Chat, !Chat.Chat.inRoster);
+            await SetChatInRosterAsync(chat, !chat.Chat.inRoster);
         }
 
-        public void SwitchChatBookmarked(ChatDataTemplate Chat)
+        public void SwitchChatBookmarked(ChatDataTemplate chat)
         {
-            SetChatBookmarked(Chat, !Chat.Chat.inRoster);
+            SetChatBookmarked(chat, !chat.Chat.inRoster);
         }
 
-        public async Task DeleteChatAsync(DeleteChatConfirmDialogDataTemplate confirmDialogModel, ChatDataTemplate Chat)
+        public async Task DeleteChatAsync(DeleteChatConfirmDialogDataTemplate confirmDialogModel, ChatDataTemplate chat)
         {
             if (confirmDialogModel.Confirmed)
             {
                 await Task.Run(async () =>
                 {
-                    if (Chat.Chat.chatType == ChatType.MUC)
+                    if (chat.Chat.chatType == ChatType.MUC)
                     {
-                        SetChatBookmarked(Chat, false);
+                        SetChatBookmarked(chat, false);
 
-                        MUCDBManager.INSTANCE.setMUCChatInfo(Chat.MucInfo, true, false);
-                        Logger.Info("Deleted MUC info for: " + Chat.Chat.id);
+                        MUCDBManager.INSTANCE.setMUCChatInfo(chat.MucInfo, true, false);
+                        Logger.Info("Deleted MUC info for: " + chat.Chat.id);
                     }
                     else
                     {
                         if (confirmDialogModel.RemoveFromRoster)
                         {
-                            await SetChatInRosterAsync(Chat, false);
+                            await SetChatInRosterAsync(chat, false);
                         }
                     }
 
                     if (!confirmDialogModel.KeepChatMessages)
                     {
-                        await ChatDBManager.INSTANCE.deleteAllChatMessagesForChatAsync(Chat.Chat.id);
-                        Logger.Info("Deleted chat messages for: " + Chat.Chat.id);
+                        await ChatDBManager.INSTANCE.deleteAllChatMessagesForChatAsync(chat.Chat.id);
+                        Logger.Info("Deleted chat messages for: " + chat.Chat.id);
                     }
 
-                    if (Chat.Chat.chatType == ChatType.MUC || confirmDialogModel.RemoveFromRoster)
+                    if (chat.Chat.chatType == ChatType.MUC || confirmDialogModel.RemoveFromRoster)
                     {
-                        ChatDBManager.INSTANCE.setChat(Chat.Chat, true, true);
-                        Logger.Info("Deleted chat: " + Chat.Chat.id);
+                        ChatDBManager.INSTANCE.setChat(chat.Chat, true, true);
+                        Logger.Info("Deleted chat: " + chat.Chat.id);
                     }
                     else
                     {
-                        Chat.Chat.isChatActive = false;
-                        ChatDBManager.INSTANCE.setChat(Chat.Chat, false, true);
-                        Logger.Info("Marked chat as not active: " + Chat.Chat.id);
+                        chat.Chat.isChatActive = false;
+                        ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
+                        Logger.Info("Marked chat as not active: " + chat.Chat.id);
                     }
                 });
             }

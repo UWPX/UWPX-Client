@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes;
-using System;
+﻿using System;
+using Data_Manager2.Classes;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MessageStateBrushValueConverter : IValueConverter
+    public sealed class MessageStateBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -35,9 +35,10 @@ namespace UWPX_UI_Context.Classes.ValueConverter
 
             if (value is MessageState state && state == MessageState.UNREAD)
             {
-                return new SolidColorBrush((Color)Resources["SystemAccentColor"]);
+                return UiUtils.GetThemeResource<SolidColorBrush>("SystemAccentColor");
             }
-            return (SolidColorBrush)Resources["CaptionTextBrush"];
+
+            return UiUtils.GetThemeResource<SolidColorBrush>("CaptionTextBrush", Resources);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

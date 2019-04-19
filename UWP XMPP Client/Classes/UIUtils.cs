@@ -1,9 +1,9 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Controls;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.ApplicationModel.DataTransfer;
 using Windows.Foundation.Metadata;
@@ -18,7 +18,7 @@ using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Classes
 {
-    static class UiUtils
+    internal static class UiUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

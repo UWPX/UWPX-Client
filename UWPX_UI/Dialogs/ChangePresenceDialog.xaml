@@ -10,7 +10,7 @@
                PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
                PrimaryButtonText="Cancel"
                SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-               SecondaryButtonStyle="{ThemeResource SaveButtonStyle}"
+               SecondaryButtonStyle="{ThemeResource SaveButtonRevealStyle}"
                SecondaryButtonText="Save"
                mc:Ignorable="d">
 
