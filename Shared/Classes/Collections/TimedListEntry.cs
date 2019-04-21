@@ -2,7 +2,7 @@
 
 namespace Shared.Classes.Collections
 {
-    public class TimedListEntry<T> : ITimedEntry
+    public class TimedListEntry<T>: ITimedEntry
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,16 +12,10 @@ namespace Shared.Classes.Collections
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 03/01/2018 Created [Fabian Sauter]
-        /// </history>
         public TimedListEntry(T item)
         {
             this.item = item;
-            this.insertionTime = DateTime.Now;
+            insertionTime = DateTime.Now;
         }
 
         #endregion
@@ -32,13 +26,9 @@ namespace Shared.Classes.Collections
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public bool canGetRemoved()
+        public bool CanGetRemoved()
         {
-            if (item is ITimedEntry)
-            {
-                return (item as ITimedEntry).canGetRemoved();
-            }
-            return true;
+            return item is ITimedEntry entry ? entry.CanGetRemoved() : true;
         }
 
         #endregion

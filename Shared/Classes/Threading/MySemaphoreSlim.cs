@@ -2,7 +2,7 @@
 
 namespace Shared.Classes.Threading
 {
-    public class MySemaphoreSlim : SemaphoreSlim
+    public class MySemaphoreSlim: SemaphoreSlim
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -11,12 +11,6 @@ namespace Shared.Classes.Threading
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 31/01/2018 Created [Fabian Sauter]
-        /// </history>
         public MySemaphoreSlim(int initialCount, int maxCount) : base(initialCount, maxCount)
         {
         }

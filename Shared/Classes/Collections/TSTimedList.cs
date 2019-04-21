@@ -13,32 +13,26 @@ namespace Shared.Classes.Collections
         private int cleanupIntervallInMs;
         public int itemTimeoutInMs;
         private readonly List<TimedListEntry<T>> LIST;
-        private static readonly object _locker = new object();
+        private static readonly object LOCKER = new object();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 03/01/2018 Created [Fabian Sauter]
-        /// </history>
         public TSTimedList()
         {
-            this.LIST = new List<TimedListEntry<T>>();
-            this.itemAdded = false;
-            this.cleanupIntervallInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-            this.itemTimeoutInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-            this.timer = null;
+            LIST = new List<TimedListEntry<T>>();
+            itemAdded = false;
+            cleanupIntervallInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+            itemTimeoutInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+            timer = null;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public TimedListEntry<T> getTimed(T item)
+        public TimedListEntry<T> GetTimed(T item)
         {
-            lock (_locker)
+            lock (LOCKER)
             {
                 for (int i = 0; i < LIST.Count; i++)
                 {
@@ -58,7 +52,7 @@ namespace Shared.Classes.Collections
             return LIST.Count <= 0;
         }
 
-        public List<T> getEntries()
+        public List<T> GetEntries()
         {
             List<T> list = new List<T>();
             foreach (TimedListEntry<T> item in LIST)
@@ -71,23 +65,23 @@ namespace Shared.Classes.Collections
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void addTimed(T item)
+        public void AddTimed(T item)
         {
-            lock (_locker)
+            lock (LOCKER)
             {
                 LIST.Add(new TimedListEntry<T>(item));
             }
-            onItemAdded();
+            OnItemAdded();
         }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private void onItemAdded()
+        private void OnItemAdded()
         {
             if (timer is null)
             {
-                startTimer();
+                StartTimer();
             }
             else
             {
@@ -95,14 +89,14 @@ namespace Shared.Classes.Collections
             }
         }
 
-        private void startTimer()
+        private void StartTimer()
         {
             timer = new Timer((obj) =>
             {
-                cleanupList();
+                CleanupList();
                 if (itemAdded)
                 {
-                    startTimer();
+                    StartTimer();
                     itemAdded = false;
                 }
                 else
@@ -112,14 +106,14 @@ namespace Shared.Classes.Collections
             }, null, cleanupIntervallInMs, Timeout.Infinite);
         }
 
-        private void cleanupList()
+        private void CleanupList()
         {
             int countRemoved = 0;
-            lock (_locker)
+            lock (LOCKER)
             {
                 for (int i = 0; i < LIST.Count; i++)
                 {
-                    if (DateTime.Now.Subtract(LIST[i].insertionTime).TotalMilliseconds >= itemTimeoutInMs && LIST[i].canGetRemoved())
+                    if (DateTime.Now.Subtract(LIST[i].insertionTime).TotalMilliseconds >= itemTimeoutInMs && LIST[i].CanGetRemoved())
                     {
                         LIST.RemoveAt(i);
                         countRemoved++;

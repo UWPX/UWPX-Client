@@ -257,7 +257,7 @@ namespace XMPP_API.Classes.Network
 
             if (msg is IQMessage && msg.ID != null)
             {
-                messageIdCache.addTimed(msg.ID);
+                messageIdCache.AddTimed(msg.ID);
             }
             try
             {
@@ -506,7 +506,7 @@ namespace XMPP_API.Classes.Network
                 // Filter IQ messages which ids are not valid:
                 if (msg is IQMessage iq)
                 {
-                    if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.getTimed(iq.ID) != null)
+                    if (iq.GetType().Equals(IQMessage.RESULT) && messageIdCache.GetTimed(iq.ID) != null)
                     {
                         Logger.Warn("[XMPPConnection2]: Invalid message id received!");
                         return;

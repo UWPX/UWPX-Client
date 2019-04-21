@@ -6,7 +6,7 @@ namespace Shared.Classes
     /// <summary>
     /// Based on: https://github.com/Microsoft/Windows-appsample-trafficapp/blob/master/LocationHelper/BindableBase.cs
     /// </summary>
-    public abstract class AbstractDataTemplate : INotifyPropertyChanged
+    public abstract class AbstractDataTemplate: INotifyPropertyChanged
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -1,6 +1,6 @@
 ﻿namespace Shared.Classes.Network
 {
-    public abstract class AbstractDownloadableObject : AbstractDataTemplate
+    public abstract class AbstractDownloadableObject: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -10,27 +10,30 @@
         /// </summary>
         public DownloadState State
         {
-            get { return _State; }
-            set { SetProperty(ref _State, value); }
+            get => _State;
+            set => SetProperty(ref _State, value);
         }
+
         protected double _Progress;
         /// <summary>
         /// The download progress in percent.
         /// </summary>
         public double Progress
         {
-            get { return _Progress; }
-            set { SetProperty(ref _Progress, value); }
+            get => _Progress;
+            set => SetProperty(ref _Progress, value);
         }
+
         protected string _SourceUrl;
         /// <summary>
         /// The url where the object should get downloaded from.
         /// </summary>
         public string SourceUrl
         {
-            get { return _SourceUrl; }
-            set { SetProperty(ref _SourceUrl, value); }
+            get => _SourceUrl;
+            set => SetProperty(ref _SourceUrl, value);
         }
+
         protected string _TargetFolderPath;
         /// <summary>
         /// The target folder path, where the downloaded object should get saved to.
@@ -38,9 +41,10 @@
         /// </summary>
         public string TargetFolderPath
         {
-            get { return _TargetFolderPath; }
-            set { SetProperty(ref _TargetFolderPath, value); }
+            get => _TargetFolderPath;
+            set => SetProperty(ref _TargetFolderPath, value);
         }
+
         protected string _TargetFileName;
         /// <summary>
         /// The name of the downloaded object with extension.
@@ -48,17 +52,18 @@
         /// </summary>
         public string TargetFileName
         {
-            get { return _TargetFileName; }
-            set { SetProperty(ref _TargetFileName, value); }
+            get => _TargetFileName;
+            set => SetProperty(ref _TargetFileName, value);
         }
+
         protected DownloadError _Error;
         /// <summary>
         /// The error code if one occurred.
         /// </summary>
         public DownloadError Error
         {
-            get { return _Error; }
-            set { SetProperty(ref _Error, value); }
+            get => _Error;
+            set => SetProperty(ref _Error, value);
         }
 
         #endregion

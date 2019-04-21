@@ -2,7 +2,7 @@
 
 namespace Shared.Classes.Network
 {
-    public class DownloadStateChangedEventArgs : EventArgs
+    public class DownloadStateChangedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,8 +14,8 @@ namespace Shared.Classes.Network
         #region --Constructors--
         public DownloadStateChangedEventArgs(DownloadState oldState, DownloadState newState)
         {
-            this.OLD_STATE = oldState;
-            this.NEW_STATE = newState;
+            OLD_STATE = oldState;
+            NEW_STATE = newState;
         }
 
         #endregion

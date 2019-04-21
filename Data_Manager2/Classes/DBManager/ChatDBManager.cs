@@ -365,14 +365,14 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<ChatTable>();
             dB.CreateTable<ChatMessageTable>();
             dB.CreateTable<MUCDirectInvitationTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<ChatTable>();
             dB.DropTable<ChatMessageTable>();

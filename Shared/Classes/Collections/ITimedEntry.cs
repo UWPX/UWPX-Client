@@ -2,6 +2,6 @@
 {
     public interface ITimedEntry
     {
-        bool canGetRemoved();
+        bool CanGetRemoved();
     }
 }

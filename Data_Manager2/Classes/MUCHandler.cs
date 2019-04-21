@@ -83,7 +83,7 @@ namespace Data_Manager2.Classes
         public async Task enterMUCAsync(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
             MUCJoinHelper helper = new MUCJoinHelper(client, muc, info);
-            TIMED_LIST.addTimed(helper);
+            TIMED_LIST.AddTimed(helper);
 
             await helper.enterRoomAsync();
         }
@@ -102,7 +102,7 @@ namespace Data_Manager2.Classes
         #region --Misc Methods (Private)--
         private void stopMUCJoinHelper(ChatTable muc)
         {
-            foreach (MUCJoinHelper h in TIMED_LIST.getEntries())
+            foreach (MUCJoinHelper h in TIMED_LIST.GetEntries())
             {
                 if (Equals(h.MUC.id, muc.id))
                 {

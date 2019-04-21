@@ -11,12 +11,12 @@ namespace Shared.Classes.Collections
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074
     /// </summary>
-    public class CustomObservableCollection<T> : ObservableCollection<T>
+    public class CustomObservableCollection<T>: ObservableCollection<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private const string CountName = nameof(Count);
-        private const string IndexerName = "Item[]";
+        private const string COUNT_NAME = nameof(Count);
+        private const string INDEXER_NAME = "Item[]";
         public readonly bool INVOKE_IN_UI_THREAD;
 
         #endregion
@@ -24,7 +24,7 @@ namespace Shared.Classes.Collections
         #region --Constructors--
         public CustomObservableCollection(bool invokeInUiThread) : base()
         {
-            this.INVOKE_IN_UI_THREAD = invokeInUiThread;
+            INVOKE_IN_UI_THREAD = invokeInUiThread;
         }
 
         #endregion
@@ -47,7 +47,10 @@ namespace Shared.Classes.Collections
 
             if (collection is ICollection<T> list)
             {
-                if (list.Count == 0) return;
+                if (list.Count == 0)
+                {
+                    return;
+                }
             }
             else if (!collection.Any())
             {
@@ -61,7 +64,7 @@ namespace Shared.Classes.Collections
             CheckReentrancy();
 
             int startIndex = Count;
-            foreach (var i in collection)
+            foreach (T i in collection)
             {
                 Items.Add(i);
             }
@@ -77,12 +80,15 @@ namespace Shared.Classes.Collections
         {
             if (count)
             {
-                OnPropertyChanged(new PropertyChangedEventArgs(CountName));
+                OnPropertyChanged(new PropertyChangedEventArgs(COUNT_NAME));
             }
-            OnPropertyChanged(new PropertyChangedEventArgs(IndexerName));
+            OnPropertyChanged(new PropertyChangedEventArgs(INDEXER_NAME));
         }
 
-        private void OnCollectionReset() => OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        private void OnCollectionReset()
+        {
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
 
         #endregion
 

@@ -1,12 +1,12 @@
-﻿using Logging;
-using SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using Logging;
+using SQLite;
 
 namespace Shared.Classes.SQLite
 {
-    public class TSSQLiteConnection : IDisposable
+    public class TSSQLiteConnection: IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -22,15 +22,9 @@ namespace Shared.Classes.SQLite
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 05/01/2018 Created [Fabian Sauter]
-        /// </history>
         public TSSQLiteConnection(string dBPath)
         {
-            this.DB_PATH = dBPath;
+            DB_PATH = dBPath;
 
             DB_CONNECTION_MUTEX.WaitOne();
             if (!DB_CONNECTIONS.ContainsKey(dBPath))
@@ -95,7 +89,8 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj)); ;
+                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj));
+                ;
             }
             catch (Exception e)
             {
@@ -210,7 +205,7 @@ namespace Shared.Classes.SQLite
 
         public void Dispose()
         {
-            foreach (var connection in DB_CONNECTIONS)
+            foreach (KeyValuePair<string, Tuple<bool, Mutex, SQLiteConnection>> connection in DB_CONNECTIONS)
             {
                 try
                 {

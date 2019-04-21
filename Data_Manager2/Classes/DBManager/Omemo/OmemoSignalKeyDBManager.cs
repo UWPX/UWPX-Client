@@ -268,7 +268,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<OmemoIdentityKeyTable>();
             dB.CreateTable<OmemoSignedPreKeyTable>();
@@ -276,7 +276,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             dB.CreateTable<OmemoSessionStoreTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<OmemoIdentityKeyTable>();
             dB.DropTable<OmemoSignedPreKeyTable>();

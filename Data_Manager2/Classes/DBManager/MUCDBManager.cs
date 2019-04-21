@@ -210,13 +210,13 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<MUCChatInfoTable>();
             dB.CreateTable<MUCOccupantTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<MUCChatInfoTable>();
             dB.DropTable<MUCOccupantTable>();

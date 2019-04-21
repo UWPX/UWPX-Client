@@ -98,12 +98,12 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<ImageTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<ImageTable>();
         }

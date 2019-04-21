@@ -72,7 +72,7 @@ namespace Data_Manager2.Classes
             Logger.Info("Entering MUC room '" + MUC.chatJabberId + "' as '" + INFO.nickname + '\'');
         }
 
-        public bool canGetRemoved()
+        public bool CanGetRemoved()
         {
             switch (INFO.state)
             {

@@ -104,13 +104,13 @@ namespace Data_Manager2.Classes.DBManager.Omemo
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<OmemoDeviceTable>();
             dB.CreateTable<OmemoDeviceListSubscriptionTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<OmemoDeviceTable>();
             dB.DropTable<OmemoDeviceListSubscriptionTable>();

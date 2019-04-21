@@ -1,8 +1,8 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Logging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 
@@ -20,21 +20,15 @@ namespace Shared.Classes.SQLite
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 17/11/2017 Created [Fabian Sauter]
-        /// </history>
         protected AbstractDBManager()
         {
             if (RESET_DB_ON_STARTUP)
             {
 #pragma warning disable CS0162 // Unreachable code detected
-                dropTables();
+                DropTables();
 #pragma warning restore CS0162 // Unreachable code detected
             }
-            createTables();
+            CreateTables();
         }
 
         #endregion
@@ -44,9 +38,6 @@ namespace Shared.Classes.SQLite
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        /// <summary>
-        /// Inits the manager.
-        /// </summary>
         public virtual void initManager()
         {
         }
@@ -54,10 +45,10 @@ namespace Shared.Classes.SQLite
         /// <summary>
         /// Opens a file picker and exports the DB to the selected path.
         /// </summary>
-        public static async Task exportDBAsync()
+        public static async Task ExportDBAsync()
         {
             // Get the target path/file.
-            StorageFile targetFile = await getTargetSavePathAsync();
+            StorageFile targetFile = await GetTargetSavePathAsync();
             if (targetFile is null)
             {
                 Logger.Info("Exporting DB canceled.");
@@ -87,10 +78,10 @@ namespace Shared.Classes.SQLite
         /// <summary>
         /// Opens a file picker and imports the DB from the selected path.
         /// </summary>
-        public static async Task importDBAsync()
+        public static async Task ImportDBAsync()
         {
             // Get the source file:
-            StorageFile sourceFile = await getTargetOpenPathAsync();
+            StorageFile sourceFile = await GetTargetOpenPathAsync();
             if (sourceFile is null)
             {
                 Logger.Info("Importing DB canceled.");
@@ -102,7 +93,7 @@ namespace Shared.Classes.SQLite
             dB.Close();
 
             // Delete all existing DB files:
-            await deleteDBFilesAsync();
+            await DeleteDBFilesAsync();
 
             // Import DB:
             StorageFile dbFile = await StorageFile.GetFileFromPathAsync(DB_PATH);
@@ -128,7 +119,7 @@ namespace Shared.Classes.SQLite
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> getTargetSavePathAsync()
+        private static async Task<StorageFile> GetTargetSavePathAsync()
         {
             FileSavePicker savePicker = new FileSavePicker
             {
@@ -143,7 +134,7 @@ namespace Shared.Classes.SQLite
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> getTargetOpenPathAsync()
+        private static async Task<StorageFile> GetTargetOpenPathAsync()
         {
             FileOpenPicker openPicker = new FileOpenPicker
             {
@@ -156,7 +147,7 @@ namespace Shared.Classes.SQLite
         /// <summary>
         /// Deletes all DB files.
         /// </summary>
-        private static async Task deleteDBFilesAsync()
+        private static async Task DeleteDBFilesAsync()
         {
             try
             {
@@ -197,7 +188,7 @@ namespace Shared.Classes.SQLite
         /// Deletes the whole db and recreates an empty one.
         /// Only for testing use resetDB() instead!
         /// </summary>
-        protected void deleteDB()
+        protected void DeleteDB()
         {
             try
             {
@@ -214,12 +205,12 @@ namespace Shared.Classes.SQLite
         /// <summary>
         /// Drops every table in the db.
         /// </summary>
-        protected abstract void dropTables();
+        protected abstract void DropTables();
 
         /// <summary>
         /// Creates all required tables.
         /// </summary>
-        protected abstract void createTables();
+        protected abstract void CreateTables();
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

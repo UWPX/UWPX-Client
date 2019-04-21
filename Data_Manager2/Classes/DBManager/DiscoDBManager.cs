@@ -145,14 +145,14 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<DiscoFeatureTable>();
             dB.CreateTable<DiscoIdentityTable>();
             dB.CreateTable<DiscoItemTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<DiscoFeatureTable>();
             dB.DropTable<DiscoIdentityTable>();

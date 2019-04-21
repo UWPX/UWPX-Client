@@ -272,14 +272,14 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void createTables()
+        protected override void CreateTables()
         {
             dB.CreateTable<AccountTable>();
             dB.CreateTable<ConnectionOptionsTable>();
             dB.CreateTable<IgnoredCertificateErrorTable>();
         }
 
-        protected override void dropTables()
+        protected override void DropTables()
         {
             dB.DropTable<AccountTable>();
             dB.DropTable<ConnectionOptionsTable>();
