@@ -3,15 +3,15 @@ using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class LogLevelDataTemplate : AbstractDataTemplate
+    public sealed class LogLevelDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private LogLevel _LogLevel;
         public LogLevel LogLevel
         {
-            get { return _LogLevel; }
-            set { SetProperty(ref _LogLevel, value); }
+            get => _LogLevel;
+            set => SetProperty(ref _LogLevel, value);
         }
 
         #endregion

@@ -1,172 +1,88 @@
-﻿using Data_Manager2.Classes;
-using Shared.Classes;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
+using Data_Manager2.Classes;
+using Shared.Classes;
 using UWPX_UI_Context.Classes.Collections.Toolkit;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public class ChatFilterDataTemplate : AbstractDataTemplate
+    public class ChatFilterDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _ChatQuery;
         public string ChatQuery
         {
-            get { return _ChatQuery; }
-            set
-            {
-                if (!string.Equals(_ChatQuery, value.ToLowerInvariant()))
-                {
-                    _ChatQuery = value.ToLowerInvariant();
-                    OnChatQueryChanged();
-                }
-            }
+            get => _ChatQuery;
+            set => SetSettingsProperty(ref _ChatQuery, value, SettingsConsts.CHAT_FILTER_QUERY);
         }
         private bool _ChatQueryEnabled;
         public bool ChatQueryEnabled
         {
-            get { return _ChatQueryEnabled; }
-            set
-            {
-                if (_ChatQueryEnabled != value)
-                {
-                    _ChatQueryEnabled = value;
-                    OnChatQueryEnabledChanged();
-                }
-            }
+            get => _ChatQueryEnabled;
+            set => SetSettingsProperty(ref _ChatQueryEnabled, value, SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
         }
 
         private bool _NotOnline;
         public bool NotOnline
         {
-            get { return _NotOnline; }
-            set
-            {
-                if (_NotOnline != value)
-                {
-                    _NotOnline = value;
-                    OnNotOnlineChanged();
-                }
-            }
+            get => _NotOnline;
+            set => SetNotOnlineProperty(value);
         }
         private bool _NotUnavailable;
         public bool NotUnavailable
         {
-            get { return _NotUnavailable; }
-            set
-            {
-                if (_NotUnavailable != value)
-                {
-                    _NotUnavailable = value;
-                    OnNotUnavailableChanged();
-                }
-            }
+            get => _NotUnavailable;
+            set => SetNotUnavailableProperty(value);
         }
         private bool _ChatsOnly;
         public bool ChatsOnly
         {
-            get { return _ChatsOnly; }
-            set
-            {
-                if (_ChatsOnly != value)
-                {
-                    _ChatsOnly = value;
-                    OnChatsOnlyChanged();
-                }
-            }
+            get => _ChatsOnly;
+            set => SetChatsOnlyProperty(value);
         }
         private bool _MucsOnly;
         public bool MucsOnly
         {
-            get { return _MucsOnly; }
-            set
-            {
-                if (_MucsOnly != value)
-                {
-                    _MucsOnly = value;
-                    OnMucsOnlyChanged();
-                }
-            }
+            get => _MucsOnly;
+            set => SetMucsOnlyProperty(value);
         }
         private bool _PresenceOnline;
         public bool PresenceOnline
         {
-            get { return _PresenceOnline; }
-            set
-            {
-                if (_PresenceOnline != value)
-                {
-                    _PresenceOnline = value;
-                    OnPresenceOnlineChanged();
-                }
-            }
+            get => _PresenceOnline;
+            set => SetPresenceOnlineProperty(value);
         }
         private bool _PresenceAway;
         public bool PresenceAway
         {
-            get { return _PresenceAway; }
-            set
-            {
-                if (_PresenceAway != value)
-                {
-                    _PresenceAway = value;
-                    OnPresenceUnavailableChanged();
-                }
-            }
+            get => _PresenceAway;
+            set => SetPresenceAwayProperty(value);
         }
         private bool _PresenceUnavailable;
         public bool PresenceUnavailable
         {
-            get { return _PresenceUnavailable; }
-            set
-            {
-                if (_PresenceUnavailable != value)
-                {
-                    _PresenceUnavailable = value;
-                    OnPresenceUnavailableChanged();
-                }
-            }
+            get => _PresenceUnavailable;
+            set => SetPresenceUnavailableProperty(value);
         }
         private bool _PresenceDnd;
         public bool PresenceDnd
         {
-            get { return _PresenceDnd; }
-            set
-            {
-                if (_PresenceDnd != value)
-                {
-                    _PresenceDnd = value;
-                    OnPresenceDndChanged();
-                }
-            }
+            get => _PresenceDnd;
+            set => SetPresenceDndProperty(value);
         }
         private bool _PresenceXa;
         public bool PresenceXa
         {
-            get { return _PresenceXa; }
-            set
-            {
-                if (_PresenceXa != value)
-                {
-                    _PresenceXa = value;
-                    OnPresenceXaChanged();
-                }
-            }
+            get => _PresenceXa;
+            set => SetPresenceXaProperty(value);
         }
         private bool _PresenceChat;
         public bool PresenceChat
         {
-            get { return _PresenceChat; }
-            set
-            {
-                if (_PresenceChat != value)
-                {
-                    _PresenceChat = value;
-                    OnPresenceChatChanged();
-                }
-            }
+            get => _PresenceChat;
+            set => SetPresenceChatProperty(value);
         }
 
         private readonly AdvancedCollectionView CHATS_ACV;
@@ -180,29 +96,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             using (DeferRefresh())
             {
-                this.CHATS_ACV = chatsACV;
+                CHATS_ACV = chatsACV;
 
-                this._PresenceOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_ONLINE);
-                this._PresenceAway = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_AWAY);
-                this._PresenceUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
-                this._PresenceXa = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_XA);
-                this._PresenceDnd = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_DND);
-                this._PresenceChat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_CHAT);
+                _PresenceOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_ONLINE);
+                _PresenceAway = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_AWAY);
+                _PresenceUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
+                _PresenceXa = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_XA);
+                _PresenceDnd = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_DND);
+                _PresenceChat = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_PRESENCE_CHAT);
 
 
-                this._ChatQuery = Settings.getSettingString(SettingsConsts.CHAT_FILTER_QUERY, string.Empty);
-                this._ChatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
-                this._NotOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
-                this._NotUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
-                this._ChatsOnly = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHATS_ONLY);
-                this._MucsOnly = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUCS_ONLY);
+                _ChatQuery = Settings.getSettingString(SettingsConsts.CHAT_FILTER_QUERY, string.Empty);
+                _ChatQueryEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_QUERY_ENABLED);
+                _NotOnline = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_ONLINE);
+                _NotUnavailable = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE);
+                _ChatsOnly = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_CHATS_ONLY);
+                _MucsOnly = Settings.getSettingBoolean(SettingsConsts.CHAT_FILTER_MUCS_ONLY);
             }
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetPresencesTo(bool b)
+        private void SetPresences(bool b)
         {
             PresenceOnline = b;
             PresenceAway = b;
@@ -218,16 +134,148 @@ namespace UWPX_UI_Context.Classes.DataTemplates
             NotUnavailable = b;
         }
 
+        private bool SetSettingsProperty<T>(ref T storage, T value, string settingsToken, [CallerMemberName] string propertyName = null)
+        {
+            if (SetProperty(ref storage, value, propertyName))
+            {
+                Settings.setSetting(settingsToken, value);
+                return true;
+            }
+            return false;
+        }
+
+        private bool SetBoolInversedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
+        {
+            if (SetProperty(ref storage, value, propertyName))
+            {
+                Settings.setSetting(settingsToken, !value);
+                return true;
+            }
+            return false;
+        }
+
+        private void SetNotOnlineProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _NotOnline, value, SettingsConsts.CHAT_FILTER_NOT_ONLINE, nameof(NotOnline)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetPresences(false);
+                    NotUnavailable = false;
+                }
+            }
+        }
+
+        private void SetNotUnavailableProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _NotUnavailable, value, SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE, nameof(NotUnavailable)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetPresences(false);
+                    NotOnline = false;
+                }
+            }
+        }
+
+        private void SetMucsOnlyProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _MucsOnly, value, SettingsConsts.CHAT_FILTER_MUCS_ONLY, nameof(MucsOnly)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    ChatsOnly = false;
+                }
+            }
+        }
+
+        private void SetChatsOnlyProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _ChatsOnly, value, SettingsConsts.CHAT_FILTER_CHATS_ONLY, nameof(ChatsOnly)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    MucsOnly = false;
+                }
+            }
+        }
+
+        private void SetPresenceChatProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _PresenceChat, value, SettingsConsts.CHAT_FILTER_PRESENCE_CHAT, nameof(PresenceChat)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetGeneralPresencesTo(false);
+                }
+            }
+        }
+
+        private void SetPresenceOnlineProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _PresenceOnline, value, SettingsConsts.CHAT_FILTER_PRESENCE_ONLINE, nameof(PresenceOnline)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetGeneralPresencesTo(false);
+                }
+            }
+        }
+
+        private void SetPresenceAwayProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _PresenceAway, value, SettingsConsts.CHAT_FILTER_PRESENCE_AWAY, nameof(PresenceAway)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetGeneralPresencesTo(false);
+                }
+            }
+        }
+
+        private void SetPresenceXaProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _PresenceXa, value, SettingsConsts.CHAT_FILTER_PRESENCE_XA, nameof(PresenceXa)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetGeneralPresencesTo(false);
+                }
+            }
+        }
+
+        private void SetPresenceDndProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _PresenceDnd, value, SettingsConsts.CHAT_FILTER_PRESENCE_CHAT, nameof(PresenceDnd)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetGeneralPresencesTo(false);
+                }
+            }
+        }
+
+        private void SetPresenceUnavailableProperty(bool value)
+        {
+            if (SetSettingsProperty(ref _PresenceUnavailable, value, SettingsConsts.CHAT_FILTER_PRESENCE_CHAT, nameof(PresenceUnavailable)) && value)
+            {
+                using (DeferRefresh())
+                {
+                    SetGeneralPresencesTo(false);
+                }
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         public bool Filter(object o)
         {
-            return (o is ChatDataTemplate chat
+            return o is ChatDataTemplate chat
                     && (!ChatQueryEnabled
                         || string.IsNullOrEmpty(ChatQuery)
                         || FilterChatQuery(chat))
-                    && FilterPresence(chat))
+                    && FilterPresence(chat)
                     && FilterChatType(chat);
         }
 
@@ -235,162 +283,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             using (DeferRefresh())
             {
-                SetPresencesTo(false);
+                SetPresences(false);
                 SetGeneralPresencesTo(false);
                 MucsOnly = false;
                 ChatsOnly = false;
             }
         }
 
-        #region --Filter Object Changed--
-        private void OnChatQueryChanged()
-        {
-            SaveChatQuery();
-            OnPropertyChanged(nameof(ChatQuery));
-        }
-
-        private void OnChatQueryEnabledChanged()
-        {
-            using (DeferRefresh())
-            {
-                OnPropertyChanged(nameof(ChatQueryEnabled));
-            }
-            SaveChatQueryEnabled();
-        }
-
-        private void OnNotOnlineChanged()
-        {
-            if (NotOnline)
-            {
-                using (DeferRefresh())
-                {
-                    SetPresencesTo(false);
-                    NotUnavailable = false;
-                }
-            }
-            SaveNotOnline();
-            OnPropertyChanged(nameof(NotOnline));
-        }
-
-        private void OnNotUnavailableChanged()
-        {
-            if (NotUnavailable)
-            {
-                using (DeferRefresh())
-                {
-                    SetPresencesTo(false);
-                    NotOnline = false;
-                }
-            }
-            SaveNotUnavailable();
-            OnPropertyChanged(nameof(NotUnavailable));
-        }
-
-        private void OnPresenceOnlineChanged()
-        {
-            if (PresenceOnline)
-            {
-                using (DeferRefresh())
-                {
-                    SetGeneralPresencesTo(false);
-                }
-            }
-            SavePresenceOnline();
-            OnPropertyChanged(nameof(PresenceOnline));
-        }
-
-        private void OnPresenceAwayChanged()
-        {
-            if (PresenceAway)
-            {
-                using (DeferRefresh())
-                {
-                    SetGeneralPresencesTo(false);
-                }
-            }
-            SavePresenceAway();
-            OnPropertyChanged(nameof(PresenceAway));
-        }
-
-        private void OnPresenceUnavailableChanged()
-        {
-            if (PresenceUnavailable)
-            {
-                using (DeferRefresh())
-                {
-                    SetGeneralPresencesTo(false);
-                }
-            }
-            SavePresenceUnavailable();
-            OnPropertyChanged(nameof(PresenceUnavailable));
-        }
-
-        private void OnPresenceXaChanged()
-        {
-            if (PresenceXa)
-            {
-                using (DeferRefresh())
-                {
-                    SetGeneralPresencesTo(false);
-                }
-            }
-            SavePresenceOnline();
-            OnPropertyChanged(nameof(PresenceXa));
-        }
-
-        private void OnPresenceChatChanged()
-        {
-            if (PresenceChat)
-            {
-                using (DeferRefresh())
-                {
-                    SetGeneralPresencesTo(false);
-                }
-            }
-            SavePresenceOnline();
-            OnPropertyChanged(nameof(PresenceChat));
-        }
-
-        private void OnPresenceDndChanged()
-        {
-            if (PresenceDnd)
-            {
-                using (DeferRefresh())
-                {
-                    SetGeneralPresencesTo(false);
-                }
-            }
-            SavePresenceDnd();
-            OnPropertyChanged(nameof(PresenceDnd));
-        }
-
-        private void OnMucsOnlyChanged()
-        {
-            if (MucsOnly)
-            {
-                using (DeferRefresh())
-                {
-                    ChatsOnly = false;
-                }
-            }
-            SaveMucsOnly();
-            OnPropertyChanged(nameof(MucsOnly));
-        }
-
-        private void OnChatsOnlyChanged()
-        {
-            if (ChatsOnly)
-            {
-                using (DeferRefresh())
-                {
-                    MucsOnly = false;
-                }
-            }
-            SaveChatsOnly();
-            OnPropertyChanged(nameof(ChatsOnly));
-        }
-
-        #endregion
         public IDisposable DeferRefresh()
         {
             return new FilterChangedDeferrer(this);
@@ -456,74 +355,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         {
             if (ChatsOnly || MucsOnly)
             {
-                return chat.Chat.chatType == ChatType.CHAT && ChatsOnly || chat.Chat.chatType == ChatType.MUC && MucsOnly;
+                return (chat.Chat.chatType == ChatType.CHAT && ChatsOnly) || (chat.Chat.chatType == ChatType.MUC && MucsOnly);
             }
             return true;
         }
-
-        #region --Save Objects--
-        private void SaveChatQuery()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_QUERY, ChatQuery);
-        }
-
-        private void SaveChatQueryEnabled()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_QUERY_ENABLED, ChatQueryEnabled);
-        }
-
-        private void SaveNotOnline()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_NOT_ONLINE, NotOnline);
-        }
-
-        private void SaveNotUnavailable()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_NOT_UNAVAILABLE, NotUnavailable);
-        }
-
-        private void SavePresenceOnline()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_QUERY, ChatQuery);
-        }
-
-        private void SavePresenceUnavailable()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_PRESENCE_UNAVAILABLE, PresenceUnavailable);
-        }
-
-        private void SavePresenceChat()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_PRESENCE_CHAT, PresenceChat);
-        }
-
-        private void SavePresenceAway()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_PRESENCE_AWAY, PresenceAway);
-        }
-
-        private void SavePresenceXa()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_PRESENCE_XA, PresenceXa);
-        }
-
-        private void SavePresenceDnd()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_PRESENCE_DND, PresenceDnd);
-        }
-
-        private void SaveMucsOnly()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_MUCS_ONLY, MucsOnly);
-        }
-
-        private void SaveChatsOnly()
-        {
-            Settings.setSetting(SettingsConsts.CHAT_FILTER_CHATS_ONLY, ChatsOnly);
-        }
-
-        #endregion
-
         #endregion
 
         #region --Misc Methods (Protected)--

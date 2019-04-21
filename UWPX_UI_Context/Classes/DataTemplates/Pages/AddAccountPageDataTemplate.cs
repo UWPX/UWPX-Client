@@ -4,27 +4,27 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class AddAccountPageDataTemplate : AbstractDataTemplate
+    public sealed class AddAccountPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _BareJidText;
         public string BareJidText
         {
-            get { return _BareJidText; }
-            set { SetBareJidText(value); }
+            get => _BareJidText;
+            set => SetBareJidText(value);
         }
         private bool _IsValidBareJid;
         public bool IsValidBareJid
         {
-            get { return _IsValidBareJid; }
-            set { SetProperty(ref _IsValidBareJid, value); }
+            get => _IsValidBareJid;
+            set => SetProperty(ref _IsValidBareJid, value);
         }
         private XMPPAccount _Account;
         public XMPPAccount Account
         {
-            get { return _Account; }
-            internal set { SetAccountProperty(value); }
+            get => _Account;
+            internal set => SetAccountProperty(value);
         }
 
         #endregion

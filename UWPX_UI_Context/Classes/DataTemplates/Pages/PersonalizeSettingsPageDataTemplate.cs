@@ -11,20 +11,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         private bool _LightThemeChecked;
         public bool LightThemeChecked
         {
-            get { return _LightThemeChecked; }
-            set { SetThemeProperty(ref _LightThemeChecked, value, ElementTheme.Light); }
+            get => _LightThemeChecked;
+            set => SetThemeProperty(ref _LightThemeChecked, value, ElementTheme.Light);
         }
         private bool _DarkThemeChecked;
         public bool DarkThemeChecked
         {
-            get { return _DarkThemeChecked; }
-            set { SetThemeProperty(ref _DarkThemeChecked, value, ElementTheme.Dark); }
+            get => _DarkThemeChecked;
+            set => SetThemeProperty(ref _DarkThemeChecked, value, ElementTheme.Dark);
         }
         private bool _SystemThemeChecked;
         public bool SystemThemeChecked
         {
-            get { return _SystemThemeChecked; }
-            set { SetThemeProperty(ref _SystemThemeChecked, value, ElementTheme.Default); }
+            get => _SystemThemeChecked;
+            set => SetThemeProperty(ref _SystemThemeChecked, value, ElementTheme.Default);
         }
 
         #endregion

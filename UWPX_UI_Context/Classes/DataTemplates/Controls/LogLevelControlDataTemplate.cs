@@ -1,20 +1,20 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Collections.ObjectModel;
+using Data_Manager2.Classes;
 using Logging;
 using Shared.Classes;
-using System;
-using System.Collections.ObjectModel;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class LogLevelControlDataTemplate : AbstractDataTemplate
+    public sealed class LogLevelControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private LogLevelDataTemplate _LogLevelSelectedItem;
         public LogLevelDataTemplate LogLevelSelectedItem
         {
-            get { return _LogLevelSelectedItem; }
-            set { SetLogLevel(value); }
+            get => _LogLevelSelectedItem;
+            set => SetLogLevel(value);
         }
         public readonly ObservableCollection<LogLevelDataTemplate> LOG_LEVELS = new ObservableCollection<LogLevelDataTemplate>();
 

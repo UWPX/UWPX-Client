@@ -1,50 +1,50 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Shared.Classes;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class AccountDataTemplate : AbstractDataTemplate
+    public sealed class AccountDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private XMPPClient _Client;
         public XMPPClient Client
         {
-            get { return _Client; }
-            set { SetClient(value); }
+            get => _Client;
+            set => SetClient(value);
         }
         private XMPPAccount _Account;
         public XMPPAccount Account
         {
-            get { return _Account; }
-            private set { SetAccount(value); }
+            get => _Account;
+            private set => SetAccount(value);
         }
         private bool _Enabled;
         public bool Enabled
         {
-            get { return _Enabled; }
-            set { SetEnabled(value); }
+            get => _Enabled;
+            set => SetEnabled(value);
         }
         private string _ErrorText;
         public string ErrorText
         {
-            get { return _ErrorText; }
-            set { SetProperty(ref _ErrorText, value); }
+            get => _ErrorText;
+            set => SetProperty(ref _ErrorText, value);
         }
         private ConnectionState _State;
         public ConnectionState State
         {
-            get { return _State; }
-            set { SetProperty(ref _State, value); }
+            get => _State;
+            set => SetProperty(ref _State, value);
         }
         private ConnectionError _ConnectionError;
         public ConnectionError ConnectionError
         {
-            get { return _ConnectionError; }
-            set { SetProperty(ref _ConnectionError, value); }
+            get => _ConnectionError;
+            set => SetProperty(ref _ConnectionError, value);
         }
 
         public object lastConnectionError { get; private set; }

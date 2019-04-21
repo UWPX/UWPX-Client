@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
 {
-    public sealed class SpeechBubbleDataTemplateSelector : DataTemplateSelector
+    public sealed class SpeechBubbleDataTemplateSelector: DataTemplateSelector
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

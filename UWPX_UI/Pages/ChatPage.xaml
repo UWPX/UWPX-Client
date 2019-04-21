@@ -204,7 +204,7 @@
                             <MenuFlyout x:Name="filterChats_mfo">
                                 <MenuFlyoutSubItem Text="Chat type">
                                     <MenuFlyoutSubItem.Icon>
-                                        <FontIcon Glyph="&#xE125;"/>
+                                        <FontIcon Glyph="&#xE902;"/>
                                     </MenuFlyoutSubItem.Icon>
                                     <ToggleMenuFlyoutItem x:Name="filterChat_tmfo"
                                                           IsChecked="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.ChatsOnly, Mode=TwoWay}"
@@ -218,7 +218,7 @@
                                                           IsChecked="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.MucsOnly, Mode=TwoWay}"
                                                           Text="MUC">
                                         <MenuFlyoutItem.Icon>
-                                            <FontIcon Glyph="&#xE125;"/>
+                                            <FontIcon Glyph="&#xE902;"/>
                                         </MenuFlyoutItem.Icon>
                                     </ToggleMenuFlyoutItem>
                                 </MenuFlyoutSubItem>

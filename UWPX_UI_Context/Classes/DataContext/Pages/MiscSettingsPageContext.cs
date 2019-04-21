@@ -1,7 +1,7 @@
-﻿using Data_Manager2.Classes;
-using Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Data_Manager2.Classes;
+using Logging;
 using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 using Windows.Storage;

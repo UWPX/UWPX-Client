@@ -2,15 +2,15 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class ConfirmDialogDataTemplate : AbstractDataTemplate
+    public sealed class ConfirmDialogDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _Confirmed;
         public bool Confirmed
         {
-            get { return _Confirmed; }
-            set { SetProperty(ref _Confirmed, value); }
+            get => _Confirmed;
+            set => SetProperty(ref _Confirmed, value);
         }
 
         #endregion

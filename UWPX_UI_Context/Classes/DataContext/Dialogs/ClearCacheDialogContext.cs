@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
 using Logging;
 using Shared.Classes.SQLite;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs

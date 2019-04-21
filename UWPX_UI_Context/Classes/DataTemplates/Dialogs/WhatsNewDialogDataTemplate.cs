@@ -3,7 +3,7 @@ using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class WhatsNewDialogDataTemplate : AbstractDataTemplate
+    public sealed class WhatsNewDialogDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

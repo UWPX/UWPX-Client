@@ -2,29 +2,29 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class ChatBackgroundControlDataTemplate : AbstractDataTemplate
+    public sealed class ChatBackgroundControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _CustomImagePath;
         public string CustomImagePath
         {
-            get { return _CustomImagePath; }
-            set { SetProperty(ref _CustomImagePath, value); }
+            get => _CustomImagePath;
+            set => SetProperty(ref _CustomImagePath, value);
         }
 
         private bool _IsSplashImageEnabled;
         public bool IsSplashImageEnabled
         {
-            get { return _IsSplashImageEnabled; }
-            set { SetProperty(ref _IsSplashImageEnabled, value); }
+            get => _IsSplashImageEnabled;
+            set => SetProperty(ref _IsSplashImageEnabled, value);
         }
 
         private bool _IsCustomImageEnabled;
         public bool IsCustomImageEnabled
         {
-            get { return _IsCustomImageEnabled; }
-            set { SetProperty(ref _IsCustomImageEnabled, value); }
+            get => _IsCustomImageEnabled;
+            set => SetProperty(ref _IsCustomImageEnabled, value);
         }
 
         #endregion
@@ -54,11 +54,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             switch (ChatBackgroundHelper.INSTANCE.BackgroundMode)
             {
-                case ChatBackgroundMode.CUSTOM_IMAGE:
+                case ChatBackgroundMode.CustomImage:
                     CustomImagePath = ChatBackgroundHelper.INSTANCE.CustomImagePath;
                     break;
 
-                case ChatBackgroundMode.IMAGE:
+                case ChatBackgroundMode.Image:
                     CustomImagePath = ChatBackgroundHelper.INSTANCE.ImagePath;
                     break;
             }
@@ -68,18 +68,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             switch (ChatBackgroundHelper.INSTANCE.BackgroundMode)
             {
-                case ChatBackgroundMode.SPLASH_IMAGE:
+                case ChatBackgroundMode.SplashImage:
                     IsSplashImageEnabled = true;
                     IsCustomImageEnabled = false;
                     break;
 
-                case ChatBackgroundMode.IMAGE:
-                case ChatBackgroundMode.CUSTOM_IMAGE:
+                case ChatBackgroundMode.Image:
+                case ChatBackgroundMode.CustomImage:
                     IsSplashImageEnabled = false;
                     IsCustomImageEnabled = true;
                     break;
 
-                case ChatBackgroundMode.NONE:
+                case ChatBackgroundMode.None:
                     IsSplashImageEnabled = false;
                     IsCustomImageEnabled = false;
                     break;

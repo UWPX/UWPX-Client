@@ -51,7 +51,7 @@ namespace UWPX_UI.Pages
         private async Task Next()
         {
             UpdateViewState(State_1_Next.Name);
-            await VIEW_MODEL.CreateAccount();
+            await VIEW_MODEL.CreateAccountAsync();
             UpdateViewState(State_2.Name);
             password_pwb.Focus(FocusState.Keyboard);
         }

@@ -1,58 +1,58 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Logging;
 using Shared.Classes;
-using System.Runtime.CompilerServices;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public class MiscSettingsPageDataTemplate : AbstractDataTemplate
+    public class MiscSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _Analytics;
         public bool Analytics
         {
-            get { return _Analytics; }
-            set { SetAnalytics(value); }
+            get => _Analytics;
+            set => SetAnalytics(value);
         }
         private bool _Crashreports;
         public bool Crashreports
         {
-            get { return _Crashreports; }
-            set { SetCrashreports(value); }
+            get => _Crashreports;
+            set => SetCrashreports(value);
         }
         private bool _ShowWelcomeDialogOnStartup;
         public bool ShowWelcomeDialogOnStartup
         {
-            get { return _ShowWelcomeDialogOnStartup; }
-            set { SetBoolInversedProperty(ref _ShowWelcomeDialogOnStartup, value, SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA); }
+            get => _ShowWelcomeDialogOnStartup;
+            set => SetBoolInversedProperty(ref _ShowWelcomeDialogOnStartup, value, SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
         }
         private bool _ShowWhatsNewDialogOnStartup;
         public bool ShowWhatsNewDialogOnStartup
         {
-            get { return _ShowWhatsNewDialogOnStartup; }
-            set { SetBoolInversedProperty(ref _ShowWhatsNewDialogOnStartup, value, SettingsConsts.HIDE_WHATS_NEW_DIALOG); }
+            get => _ShowWhatsNewDialogOnStartup;
+            set => SetBoolInversedProperty(ref _ShowWhatsNewDialogOnStartup, value, SettingsConsts.HIDE_WHATS_NEW_DIALOG);
         }
 
         private string _LogFolderPath;
         public string LogFolderPath
         {
-            get { return _LogFolderPath; }
-            set { SetProperty(ref _LogFolderPath, value); }
+            get => _LogFolderPath;
+            set => SetProperty(ref _LogFolderPath, value);
         }
         private string _ImageCacheFolderPath;
         public string ImageCacheFolderPath
         {
-            get { return _ImageCacheFolderPath; }
-            set { SetProperty(ref _ImageCacheFolderPath, value); }
+            get => _ImageCacheFolderPath;
+            set => SetProperty(ref _ImageCacheFolderPath, value);
         }
         private bool _IsRunningOnPc;
         public bool IsRunningOnPc
         {
-            get { return _IsRunningOnPc; }
-            set { SetProperty(ref _IsRunningOnPc, value); }
+            get => _IsRunningOnPc;
+            set => SetProperty(ref _IsRunningOnPc, value);
         }
 
         #endregion
@@ -123,24 +123,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             Task.Run(async () =>
             {
                 StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetImageCacheFolderAsync();
-                if (!(folder is null))
-                {
-                    ImageCacheFolderPath = folder.Path;
-                }
-                else
-                {
-                    ImageCacheFolderPath = "";
-                }
+                ImageCacheFolderPath = folder is null ? "" : folder.Path;
 
                 folder = await Logger.GetLogFolderAsync();
-                if (!(folder is null))
-                {
-                    LogFolderPath = folder.Path;
-                }
-                else
-                {
-                    LogFolderPath = "";
-                }
+                LogFolderPath = folder is null ? "" : folder.Path;
             });
         }
 

@@ -4,29 +4,29 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class XMPPClientDataTemplate : AbstractDataTemplate
+    public sealed class XMPPClientDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private XMPPClient _Client;
         public XMPPClient Client
         {
-            get { return _Client; }
-            set { SetClientProperty(value); }
+            get => _Client;
+            set => SetClientProperty(value);
         }
 
         private ConnectionState _ConnectionState;
         public ConnectionState ConnectionState
         {
-            get { return _ConnectionState; }
-            set { SetProperty(ref _ConnectionState, value); }
+            get => _ConnectionState;
+            set => SetProperty(ref _ConnectionState, value);
         }
 
         private XMPPAccount _Account;
         public XMPPAccount Account
         {
-            get { return _Account; }
-            set { SetProperty(ref _Account, value); }
+            get => _Account;
+            set => SetProperty(ref _Account, value);
         }
 
         #endregion
@@ -34,7 +34,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Constructors--
         public XMPPClientDataTemplate(XMPPClient client)
         {
-            this.Client = client;
+            Client = client;
         }
 
         #endregion

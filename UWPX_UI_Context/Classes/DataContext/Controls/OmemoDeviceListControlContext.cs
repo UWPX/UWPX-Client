@@ -1,6 +1,6 @@
-﻿using Logging;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;

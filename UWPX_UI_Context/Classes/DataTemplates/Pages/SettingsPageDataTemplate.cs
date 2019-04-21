@@ -1,18 +1,18 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Runtime.CompilerServices;
+using Data_Manager2.Classes;
 using Shared.Classes;
-using System.Runtime.CompilerServices;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class SettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class SettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _DebugSettingsEnabled;
         public bool DebugSettingsEnabled
         {
-            get { return _DebugSettingsEnabled; }
-            set { SetBoolProperty(ref _DebugSettingsEnabled, value, SettingsConsts.DEBUG_SETTINGS_ENABLED); }
+            get => _DebugSettingsEnabled;
+            set => SetBoolProperty(ref _DebugSettingsEnabled, value, SettingsConsts.DEBUG_SETTINGS_ENABLED);
         }
 
         #endregion

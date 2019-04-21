@@ -1,15 +1,15 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates;
 
 namespace UWPX_UI_Context.Classes.Collections
 {
-    public class ObservableChatDictionaryList : ICollection, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList
+    public class ObservableChatDictionaryList: ICollection, INotifyCollectionChanged, INotifyPropertyChanged, IDisposable, IList
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -43,8 +43,8 @@ namespace UWPX_UI_Context.Classes.Collections
         #region --Constructors--
         public ObservableChatDictionaryList()
         {
-            this.DICTIONARY = new Dictionary<string, ChatDataTemplate>();
-            this.LIST = new List<ChatDataTemplate>();
+            DICTIONARY = new Dictionary<string, ChatDataTemplate>();
+            LIST = new List<ChatDataTemplate>();
         }
 
         #endregion
@@ -102,7 +102,7 @@ namespace UWPX_UI_Context.Classes.Collections
                 return;
             }
 
-            foreach (var i in list)
+            foreach (ChatDataTemplate i in list)
             {
                 int index = InternalAdd(i);
                 if (!callCollectionReset)
@@ -118,7 +118,7 @@ namespace UWPX_UI_Context.Classes.Collections
 
         public void CopyTo(Array array, int index)
         {
-            foreach (var item in LIST)
+            foreach (ChatDataTemplate item in LIST)
             {
                 array.SetValue(item, index);
             }
@@ -126,7 +126,7 @@ namespace UWPX_UI_Context.Classes.Collections
 
         public void Dispose()
         {
-            foreach (var item in LIST)
+            foreach (ChatDataTemplate item in LIST)
             {
                 item.PropertyChanged -= Item_PropertyChanged;
             }
@@ -142,7 +142,7 @@ namespace UWPX_UI_Context.Classes.Collections
         public void Clear()
         {
             DICTIONARY.Clear();
-            foreach (var item in LIST)
+            foreach (ChatDataTemplate item in LIST)
             {
                 item.PropertyChanged -= Item_PropertyChanged;
             }

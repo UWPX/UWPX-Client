@@ -3,21 +3,21 @@ using Windows.UI;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class ColorPickerDialogDataTemplate : AbstractDataTemplate
+    public sealed class ColorPickerDialogDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private Color _SelectedColor;
         public Color SelectedColor
         {
-            get { return _SelectedColor; }
-            set { SetProperty(ref _SelectedColor, value); }
+            get => _SelectedColor;
+            set => SetProperty(ref _SelectedColor, value);
         }
         private bool _Confirmed;
         public bool Confirmed
         {
-            get { return _Confirmed; }
-            set { SetProperty(ref _Confirmed, value); }
+            get => _Confirmed;
+            set => SetProperty(ref _Confirmed, value);
         }
 
         #endregion
@@ -25,8 +25,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Constructors--
         public ColorPickerDialogDataTemplate(Color color)
         {
-            this.SelectedColor = color;
-            this.Confirmed = false;
+            SelectedColor = color;
+            Confirmed = false;
         }
 
         #endregion

@@ -3,15 +3,15 @@ using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class InitialStartDialogDataTemplate : AbstractDataTemplate
+    public sealed class InitialStartDialogDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _ShowOnStartup;
         public bool ShowOnStartup
         {
-            get { return _ShowOnStartup; }
-            set { SetShowOnStartupProperty(value); }
+            get => _ShowOnStartup;
+            set => SetShowOnStartupProperty(value);
         }
 
         #endregion

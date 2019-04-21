@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages

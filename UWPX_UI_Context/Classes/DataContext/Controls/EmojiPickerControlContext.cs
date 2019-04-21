@@ -1,6 +1,6 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Linq;
+using Data_Manager2.Classes;
 using NeoSmart.Unicode;
-using System.Linq;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls

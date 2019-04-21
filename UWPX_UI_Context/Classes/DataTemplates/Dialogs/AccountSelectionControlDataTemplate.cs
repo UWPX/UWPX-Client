@@ -1,12 +1,12 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Linq;
+using Data_Manager2.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using System.Linq;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class AccountSelectionControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountSelectionControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,8 +15,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         private XMPPClientDataTemplate _SelectedItem;
         public XMPPClientDataTemplate SelectedItem
         {
-            get { return _SelectedItem; }
-            set { SetProperty(ref _SelectedItem, value); }
+            get => _SelectedItem;
+            set => SetProperty(ref _SelectedItem, value);
         }
 
         #endregion

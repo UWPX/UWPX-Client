@@ -13,7 +13,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
     /// <summary>
     /// Vector changed EventArgs
     /// </summary>
-    internal class VectorChangedEventArgs : IVectorChangedEventArgs
+    internal class VectorChangedEventArgs: IVectorChangedEventArgs
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="VectorChangedEventArgs"/> class.

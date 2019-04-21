@@ -2,15 +2,15 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class BackgroundImageSelectionControlItemDataTemplate : AbstractDataTemplate
+    public sealed class BackgroundImageSelectionControlItemDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Path;
         public string Path
         {
-            get { return _Path; }
-            set { SetProperty(ref _Path, value); }
+            get => _Path;
+            set => SetProperty(ref _Path, value);
         }
 
         #endregion

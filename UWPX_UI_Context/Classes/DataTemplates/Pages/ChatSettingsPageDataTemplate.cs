@@ -1,78 +1,78 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Runtime.CompilerServices;
+using Data_Manager2.Classes;
 using Shared.Classes;
-using System.Runtime.CompilerServices;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public class ChatSettingsPageDataTemplate : AbstractDataTemplate
+    public class ChatSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _EnterToSend;
         public bool EnterToSend
         {
-            get { return _EnterToSend; }
-            set { SetBoolProperty(ref _EnterToSend, value, SettingsConsts.ENTER_TO_SEND_MESSAGES); }
+            get => _EnterToSend;
+            set => SetBoolProperty(ref _EnterToSend, value, SettingsConsts.ENTER_TO_SEND_MESSAGES);
         }
         private bool _SendChatState;
         public bool SendChatState
         {
-            get { return _SendChatState; }
-            set { SetBoolInversedProperty(ref _SendChatState, value, SettingsConsts.DONT_SEND_CHAT_STATE); }
+            get => _SendChatState;
+            set => SetBoolInversedProperty(ref _SendChatState, value, SettingsConsts.DONT_SEND_CHAT_STATE);
         }
         private bool _SendReceivedMarkers;
         public bool SendReceivedMarkers
         {
-            get { return _SendReceivedMarkers; }
-            set { SetBoolInversedProperty(ref _SendReceivedMarkers, value, SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS); }
+            get => _SendReceivedMarkers;
+            set => SetBoolInversedProperty(ref _SendReceivedMarkers, value, SettingsConsts.DONT_SEND_CHAT_MESSAGE_RECEIVED_MARKERS);
         }
         private bool _AdvancedChatMessageProcessing;
         public bool AdvancedChatMessageProcessing
         {
-            get { return _AdvancedChatMessageProcessing; }
-            set { SetBoolInversedProperty(ref _AdvancedChatMessageProcessing, value, SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING); }
+            get => _AdvancedChatMessageProcessing;
+            set => SetBoolInversedProperty(ref _AdvancedChatMessageProcessing, value, SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING);
         }
         private bool _AutoJoinMucs;
         public bool AutoJoinMucs
         {
-            get { return _AutoJoinMucs; }
-            set { SetBoolInversedProperty(ref _AutoJoinMucs, value, SettingsConsts.DISABLE_AUTO_JOIN_MUC); }
+            get => _AutoJoinMucs;
+            set => SetBoolInversedProperty(ref _AutoJoinMucs, value, SettingsConsts.DISABLE_AUTO_JOIN_MUC);
         }
         private bool _ImageAutoDownload;
         public bool ImageAutoDownload
         {
-            get { return _ImageAutoDownload; }
-            set { SetBoolInversedProperty(ref _ImageAutoDownload, value, SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD); }
+            get => _ImageAutoDownload;
+            set => SetBoolInversedProperty(ref _ImageAutoDownload, value, SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD);
         }
         private bool _StoreImagesInLibrary;
         public bool StoreImagesInLibrary
         {
-            get { return _StoreImagesInLibrary; }
-            set { SetBoolInversedProperty(ref _StoreImagesInLibrary, value, SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY); }
+            get => _StoreImagesInLibrary;
+            set => SetBoolInversedProperty(ref _StoreImagesInLibrary, value, SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY);
         }
         private bool _EnableOmemoForNewChats;
         public bool EnableOmemoForNewChats
         {
-            get { return _EnableOmemoForNewChats; }
-            set { SetBoolProperty(ref _EnableOmemoForNewChats, value, SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS); }
+            get => _EnableOmemoForNewChats;
+            set => SetBoolProperty(ref _EnableOmemoForNewChats, value, SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
         }
         private bool _VibrateForNewChatMessages;
         public bool VibrateForNewChatMessages
         {
-            get { return _VibrateForNewChatMessages; }
-            set { SetBoolInversedProperty(ref _VibrateForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES); }
+            get => _VibrateForNewChatMessages;
+            set => SetBoolInversedProperty(ref _VibrateForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
         }
         private bool _PlaySoundForNewChatMessages;
         public bool PlaySoundForNewChatMessages
         {
-            get { return _PlaySoundForNewChatMessages; }
-            set { SetBoolInversedProperty(ref _PlaySoundForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES); }
+            get => _PlaySoundForNewChatMessages;
+            set => SetBoolInversedProperty(ref _PlaySoundForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
         }
         private bool _IsEmojiButtonEnabled;
         public bool IsEmojiButtonEnabled
         {
-            get { return _IsEmojiButtonEnabled; }
-            set { SetBoolProperty(ref _IsEmojiButtonEnabled, value, SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON); }
+            get => _IsEmojiButtonEnabled;
+            set => SetBoolProperty(ref _IsEmojiButtonEnabled, value, SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
         }
 
         #endregion

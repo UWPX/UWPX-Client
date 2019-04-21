@@ -24,8 +24,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         private ChatDataTemplate _SelectedItem;
         public ChatDataTemplate SelectedItem
         {
-            get { return _SelectedItem; }
-            set { SetProperty(ref _SelectedItem, value); }
+            get => _SelectedItem;
+            set => SetProperty(ref _SelectedItem, value);
         }
 
         #endregion
@@ -33,14 +33,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Constructors--
         public ChatPageDataTemplate()
         {
-            this.CHATS_ACV = new AdvancedCollectionView(CHATS, true)
+            CHATS_ACV = new AdvancedCollectionView(CHATS, true)
             {
                 Filter = AcvFilter
             };
 
-            this.CHATS_ACV.ObserveFilterProperty(nameof(ChatDataTemplate.Chat));
-            this.CHATS_ACV.SortDescriptions.Add(new Microsoft.Toolkit.Uwp.UI.SortDescription(nameof(ChatDataTemplate.Chat), Microsoft.Toolkit.Uwp.UI.SortDirection.Descending));
-            this.CHAT_FILTER = new ChatFilterDataTemplate(this.CHATS_ACV);
+            CHATS_ACV.ObserveFilterProperty(nameof(ChatDataTemplate.Chat));
+            CHATS_ACV.SortDescriptions.Add(new Microsoft.Toolkit.Uwp.UI.SortDescription(nameof(ChatDataTemplate.Chat), Microsoft.Toolkit.Uwp.UI.SortDirection.Descending));
+            CHAT_FILTER = new ChatFilterDataTemplate(CHATS_ACV);
 
             LoadChats();
         }

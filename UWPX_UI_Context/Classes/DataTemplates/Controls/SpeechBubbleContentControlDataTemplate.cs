@@ -1,64 +1,64 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Shared.Classes;
-using System;
-using System.Threading.Tasks;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class SpeechBubbleContentControlDataTemplate : AbstractDataTemplate
+    public sealed class SpeechBubbleContentControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Text;
         public string Text
         {
-            get { return _Text; }
-            set { SetProperty(ref _Text, value); }
+            get => _Text;
+            set => SetProperty(ref _Text, value);
         }
         private string _NicknameText;
         public string NicknameText
         {
-            get { return _NicknameText; }
-            set { SetProperty(ref _NicknameText, value); }
+            get => _NicknameText;
+            set => SetProperty(ref _NicknameText, value);
         }
         private DateTime _Date;
         public DateTime Date
         {
-            get { return _Date; }
-            set { SetProperty(ref _Date, value); }
+            get => _Date;
+            set => SetProperty(ref _Date, value);
         }
         private bool _IsEncrypted;
         public bool IsEncrypted
         {
-            get { return _IsEncrypted; }
-            set { SetProperty(ref _IsEncrypted, value); }
+            get => _IsEncrypted;
+            set => SetProperty(ref _IsEncrypted, value);
         }
         private bool _IsCarbonCopy;
         public bool IsCarbonCopy
         {
-            get { return _IsCarbonCopy; }
-            set { SetProperty(ref _IsCarbonCopy, value); }
+            get => _IsCarbonCopy;
+            set => SetProperty(ref _IsCarbonCopy, value);
         }
         private string _MessageType;
         public string MessageType
         {
-            get { return _MessageType; }
-            set { SetProperty(ref _MessageType, value); }
+            get => _MessageType;
+            set => SetProperty(ref _MessageType, value);
         }
         private bool _IsImage;
         public bool IsImage
         {
-            get { return _IsImage; }
-            set { SetProperty(ref _IsImage, value); }
+            get => _IsImage;
+            set => SetProperty(ref _IsImage, value);
         }
         private MessageState _State;
         public MessageState State
         {
-            get { return _State; }
-            set { SetProperty(ref _State, value); }
+            get => _State;
+            set => SetProperty(ref _State, value);
         }
 
         #endregion

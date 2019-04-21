@@ -1,40 +1,40 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Shared.Classes;
-using System;
 using Windows.UI.Xaml.Media.Imaging;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class ChatDataTemplate : AbstractDataTemplate, IDisposable
+    public sealed class ChatDataTemplate: AbstractDataTemplate, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private BitmapImage _Image;
         public BitmapImage Image
         {
-            get { return _Image; }
-            set { SetProperty(ref _Image, value); }
+            get => _Image;
+            set => SetProperty(ref _Image, value);
         }
         private ChatTable _Chat;
         public ChatTable Chat
         {
-            get { return _Chat; }
-            set { SetProperty(ref _Chat, value); }
+            get => _Chat;
+            set => SetProperty(ref _Chat, value);
         }
         private MUCChatInfoTable _MucInfo;
         public MUCChatInfoTable MucInfo
         {
-            get { return _MucInfo; }
-            set { SetProperty(ref _MucInfo, value); }
+            get => _MucInfo;
+            set => SetProperty(ref _MucInfo, value);
         }
         private XMPPClient _Client;
         public XMPPClient Client
         {
-            get { return _Client; }
-            set { SetProperty(ref _Client, value); }
+            get => _Client;
+            set => SetProperty(ref _Client, value);
         }
 
         /// <summary>

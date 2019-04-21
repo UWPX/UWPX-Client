@@ -1,7 +1,7 @@
-﻿using QRCoder;
-using Shared.Classes;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using QRCoder;
+using Shared.Classes;
 using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.Xaml;
@@ -10,27 +10,27 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class QrCodeControlDataTemplate : AbstractDataTemplate
+    public sealed class QrCodeControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _IsLoading;
         public bool IsLoading
         {
-            get { return _IsLoading; }
-            set { SetProperty(ref _IsLoading, value); }
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
         }
         private bool _DefaultQrCode;
         public bool DefaultQrCode
         {
-            get { return _DefaultQrCode; }
-            set { SetDefaultQrCode(value); }
+            get => _DefaultQrCode;
+            set => SetDefaultQrCode(value);
         }
         private BitmapImage _QrCodeImage;
         public BitmapImage QrCodeImage
         {
-            get { return _QrCodeImage; }
-            set { SetProperty(ref _QrCodeImage, value); }
+            get => _QrCodeImage;
+            set => SetProperty(ref _QrCodeImage, value);
         }
 
         private string curQrCodeText;

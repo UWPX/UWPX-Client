@@ -1,23 +1,23 @@
-﻿using Data_Manager2.Classes;
-using Shared.Classes;
-using Shared.Classes.Collections;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Data_Manager2.Classes;
+using Shared.Classes;
+using Shared.Classes.Collections;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class AccountsListControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountsListControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _IsLoading;
         public bool IsLoading
         {
-            get { return _IsLoading; }
-            set { SetProperty(ref _IsLoading, value); }
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
         }
 
         public readonly CustomObservableCollection<AccountDataTemplate> ACCOUNTS = new CustomObservableCollection<AccountDataTemplate>(true);

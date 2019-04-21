@@ -1,15 +1,15 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using NeoSmart.Unicode;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.Collections.Toolkit;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class EmojiPickerControlDataTemplate : AbstractDataTemplate
+    public sealed class EmojiPickerControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,65 +24,65 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private object _SelectedList;
         public object SelectedList
         {
-            get { return _SelectedList; }
-            set { SetProperty(ref _SelectedList, value); }
+            get => _SelectedList;
+            set => SetProperty(ref _SelectedList, value);
         }
 
         private bool _IsLoading;
         public bool IsLoading
         {
-            get { return _IsLoading; }
-            set { SetProperty(ref _IsLoading, value); }
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
         }
 
         private string _EmojiQuery;
         public string EmojiQuery
         {
-            get { return _EmojiQuery; }
-            set { SetEmojiQueryProperty(value); }
+            get => _EmojiQuery;
+            set => SetEmojiQueryProperty(value);
         }
 
         private bool _IsRecentChecked;
         public bool IsRecentChecked
         {
-            get { return _IsRecentChecked; }
-            set { SetIsRecentCheckedProperty(value); }
+            get => _IsRecentChecked;
+            set => SetIsRecentCheckedProperty(value);
         }
         private bool _IsSmileysChecked;
         public bool IsSmileysChecked
         {
-            get { return _IsSmileysChecked; }
-            set { SetIsSmileysCheckedCheckedProperty(value); }
+            get => _IsSmileysChecked;
+            set => SetIsSmileysCheckedCheckedProperty(value);
         }
         private bool _IsPeopleChecked;
         public bool IsPeopleChecked
         {
-            get { return _IsPeopleChecked; }
-            set { SetIsPeopleCheckedCheckedProperty(value); }
+            get => _IsPeopleChecked;
+            set => SetIsPeopleCheckedCheckedProperty(value);
         }
         private bool _IsObjectsChecked;
         public bool IsObjectsChecked
         {
-            get { return _IsObjectsChecked; }
-            set { SetIsObjectsCheckedCheckedProperty(value); }
+            get => _IsObjectsChecked;
+            set => SetIsObjectsCheckedCheckedProperty(value);
         }
         private bool _IsFoodChecked;
         public bool IsFoodChecked
         {
-            get { return _IsFoodChecked; }
-            set { SetIsFoodCheckedCheckedProperty(value); }
+            get => _IsFoodChecked;
+            set => SetIsFoodCheckedCheckedProperty(value);
         }
         private bool _IsTransportationsChecked;
         public bool IsTransportationsChecked
         {
-            get { return _IsTransportationsChecked; }
-            set { SetIsTransportationsCheckedCheckedProperty(value); }
+            get => _IsTransportationsChecked;
+            set => SetIsTransportationsCheckedCheckedProperty(value);
         }
         private bool _IsSymbolsChecked;
         public bool IsSymbolsChecked
         {
-            get { return _IsSymbolsChecked; }
-            set { SetIsSymbolsCheckedCheckedProperty(value); }
+            get => _IsSymbolsChecked;
+            set => SetIsSymbolsCheckedCheckedProperty(value);
         }
 
         /// <summary>
@@ -251,7 +251,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             return o is SingleEmoji emoji
                 && (string.IsNullOrEmpty(EmojiQuery) || emoji.SearchTerms.Any((x) => x.ToLower().Contains(EmojiQuery)))
-                && (curSkinTone == Emoji.ZeroWidthJoiner && emoji.SkinTones == SingleEmoji.NoSkinTones || emoji.SkinTones.Contains(curSkinTone));
+                && ((curSkinTone == Emoji.ZeroWidthJoiner && emoji.SkinTones == SingleEmoji.NoSkinTones) || emoji.SkinTones.Contains(curSkinTone));
         }
 
         private void LoadRecentEmoji()

@@ -1,7 +1,7 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Logging;
 using Windows.ApplicationModel.Background;
 
 namespace UWPX_UI_Context.Classes

@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public class FilterChangedDeferrer : IDisposable
+    public class FilterChangedDeferrer: IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,8 +13,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates
         #region --Constructors--
         public FilterChangedDeferrer(ChatFilterDataTemplate chatFilter)
         {
-            this.CHAT_FILTER = chatFilter;
-            this.CHAT_FILTER.DeferRefreshUp();
+            CHAT_FILTER = chatFilter;
+            CHAT_FILTER.DeferRefreshUp();
         }
 
         #endregion

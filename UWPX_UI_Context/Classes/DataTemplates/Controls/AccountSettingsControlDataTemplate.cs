@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class AccountControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

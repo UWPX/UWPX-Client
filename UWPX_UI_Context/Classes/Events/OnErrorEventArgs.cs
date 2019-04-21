@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.Events
 {
-    public class OnErrorEventArgs : CancelEventArgs
+    public class OnErrorEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,8 +14,8 @@ namespace UWPX_UI_Context.Classes.Events
         #region --Constructors--
         public OnErrorEventArgs(string title, string message)
         {
-            this.TITLE = title;
-            this.MESSAGE = message;
+            TITLE = title;
+            MESSAGE = message;
         }
 
         #endregion

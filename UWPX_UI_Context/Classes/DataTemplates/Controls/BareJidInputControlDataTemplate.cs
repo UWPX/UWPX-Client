@@ -4,22 +4,22 @@ using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class BareJidInputControlDataTemplate : AbstractDataTemplate
+    public sealed class BareJidInputControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Text;
         public string Text
         {
-            get { return _Text; }
-            set { SetTextProperty(value); }
+            get => _Text;
+            set => SetTextProperty(value);
         }
 
         private bool _IsValid;
         public bool IsValid
         {
-            get { return _IsValid; }
-            set { SetProperty(ref _IsValid, value); }
+            get => _IsValid;
+            set => SetProperty(ref _IsValid, value);
         }
 
         public readonly CustomObservableCollection<string> SUGGESTIONS = new CustomObservableCollection<string>(true);

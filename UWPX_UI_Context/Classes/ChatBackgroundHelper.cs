@@ -1,13 +1,13 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Logging;
 using Shared.Classes;
-using System;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes
 {
-    public class ChatBackgroundHelper : AbstractDataTemplate
+    public class ChatBackgroundHelper: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -19,22 +19,22 @@ namespace UWPX_UI_Context.Classes
         private string _ImagePath;
         public string ImagePath
         {
-            get { return _ImagePath; }
-            set { SetImagePathProperty(value); }
+            get => _ImagePath;
+            set => SetImagePathProperty(value);
         }
 
         private string _CustomImagePath;
         public string CustomImagePath
         {
-            get { return _CustomImagePath; }
-            set { SetCustomImagePathProperty(value); }
+            get => _CustomImagePath;
+            set => SetCustomImagePathProperty(value);
         }
 
         private ChatBackgroundMode _BackgroundMode;
         public ChatBackgroundMode BackgroundMode
         {
-            get { return _BackgroundMode; }
-            set { SetBackgroundModeProperty(value); }
+            get => _BackgroundMode;
+            set => SetBackgroundModeProperty(value);
         }
 
         #endregion
@@ -82,8 +82,8 @@ namespace UWPX_UI_Context.Classes
             }
             catch (Exception)
             {
-                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)ChatBackgroundMode.SPLASH_IMAGE);
-                BackgroundMode = ChatBackgroundMode.SPLASH_IMAGE;
+                Settings.setSetting(SettingsConsts.CHAT_BACKGROUND_MODE, (int)ChatBackgroundMode.SplashImage);
+                BackgroundMode = ChatBackgroundMode.SplashImage;
             }
         }
 
@@ -95,7 +95,7 @@ namespace UWPX_UI_Context.Classes
                 if (!(folder is null))
                 {
                     // Delete image:
-                    await DeleteCustomBackgroundImage();
+                    await DeleteCustomBackgroundImageAsync();
 
                     // Save new image:
                     StorageFile f = await folder.CreateFileAsync(DateTime.Now.ToString("MM_dd_yyyy-HH_mm_ss") + file.FileType, CreationCollisionOption.OpenIfExists);
@@ -114,7 +114,7 @@ namespace UWPX_UI_Context.Classes
             return CustomImagePath;
         }
 
-        public async Task DeleteCustomBackgroundImage()
+        public async Task DeleteCustomBackgroundImageAsync()
         {
             try
             {

@@ -13,71 +13,71 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         private bool _Confirmed;
         public bool Confirmed
         {
-            get { return _Confirmed; }
-            set { SetProperty(ref _Confirmed, value); }
+            get => _Confirmed;
+            set => SetProperty(ref _Confirmed, value);
         }
 
         private bool _AddToRoster;
         public bool AddToRoster
         {
-            get { return _AddToRoster; }
-            set { SetProperty(ref _AddToRoster, value); }
+            get => _AddToRoster;
+            set => SetProperty(ref _AddToRoster, value);
         }
 
         private bool _ChatExists;
         public bool ChatExists
         {
-            get { return _ChatExists; }
-            set { SetChatExistsProperty(value); }
+            get => _ChatExists;
+            set => SetChatExistsProperty(value);
         }
 
         private bool _IsBareJidValid;
         public bool IsBareJidValid
         {
-            get { return _IsBareJidValid; }
-            set { SetIsBareJidValidProperty(value); }
+            get => _IsBareJidValid;
+            set => SetIsBareJidValidProperty(value);
         }
 
         private bool _IsInputValid;
         public bool IsInputValid
         {
-            get { return _IsInputValid; }
-            set { SetProperty(ref _IsInputValid, value); }
+            get => _IsInputValid;
+            set => SetProperty(ref _IsInputValid, value);
         }
 
         private bool _SubscribeToPresence;
         public bool SubscribeToPresence
         {
-            get { return _SubscribeToPresence; }
-            set { SetProperty(ref _SubscribeToPresence, value); }
+            get => _SubscribeToPresence;
+            set => SetProperty(ref _SubscribeToPresence, value);
         }
 
         private string _ChatBareJid;
         public string ChatBareJid
         {
-            get { return _ChatBareJid; }
-            set { SetChatBareJidProperty(value); }
+            get => _ChatBareJid;
+            set => SetChatBareJidProperty(value);
         }
 
         private bool _IsInRoster;
         public bool IsInRoster
         {
-            get { return _IsInRoster; }
-            set { SetProperty(ref _IsInRoster, value); }
+            get => _IsInRoster;
+            set => SetProperty(ref _IsInRoster, value);
         }
 
         private bool _IsSubscribedToPresence;
         public bool IsSubscribedToPresence
         {
-            get { return _IsSubscribedToPresence; }
-            set { SetProperty(ref _IsSubscribedToPresence, value); }
+            get => _IsSubscribedToPresence;
+            set => SetProperty(ref _IsSubscribedToPresence, value);
         }
 
         private XMPPClient _Client;
         public XMPPClient Client
         {
-            get { return _Client; }
-            set { SetProperty(ref _Client, value); }
+            get => _Client;
+            set => SetProperty(ref _Client, value);
         }
 
         #endregion

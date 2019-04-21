@@ -27,7 +27,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         /// <summary>
         /// Notification deferrer helper class
         /// </summary>
-        public class NotificationDeferrer : IDisposable
+        public class NotificationDeferrer: IDisposable
         {
             private readonly AdvancedCollectionView _acvs;
             private readonly object _currentItem;

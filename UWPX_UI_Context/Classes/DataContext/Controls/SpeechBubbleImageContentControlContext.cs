@@ -1,11 +1,11 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Text;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes.Network;
-using System;
-using System.Text;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.Storage;
 using Windows.UI.Xaml;

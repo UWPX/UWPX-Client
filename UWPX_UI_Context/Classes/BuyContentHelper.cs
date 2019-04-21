@@ -13,9 +13,9 @@ namespace UWPX_UI_Context.Classes
         #region --Attributes--
         public const string SUPPORT_TIER_1 = "SupportTier1";
 #if DEBUG
-        private static LicenseInformation licenseInformation = CurrentAppSimulator.LicenseInformation;
+        private static readonly LicenseInformation LICENSE_INFO = CurrentAppSimulator.LicenseInformation;
 #else
-        private static LicenseInformation licenseInformation = CurrentApp.LicenseInformation;
+        private static readonly LicenseInformation LICENSE_INFO = CurrentApp.LicenseInformation;
 #endif
 
         public const string CONSUMABLE = "Consumable";

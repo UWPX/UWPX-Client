@@ -1,11 +1,11 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Logging;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 using Microsoft.AppCenter.Push;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace UWPX_UI_Context.Classes
 {

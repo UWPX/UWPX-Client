@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class DonateSettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class DonateSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

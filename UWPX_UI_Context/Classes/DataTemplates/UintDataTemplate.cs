@@ -2,15 +2,15 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class UintDataTemplate : AbstractDataTemplate
+    public sealed class UintDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private uint _Value;
         public uint Value
         {
-            get { return _Value; }
-            set { SetProperty(ref _Value, value); }
+            get => _Value;
+            set => SetProperty(ref _Value, value);
         }
 
         #endregion

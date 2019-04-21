@@ -3,15 +3,15 @@ using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class AccountImagePresenceControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountImagePresenceControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Initials;
         public string Initials
         {
-            get { return _Initials; }
-            set { SetProperty(ref _Initials, value); }
+            get => _Initials;
+            set => SetProperty(ref _Initials, value);
         }
 
         #endregion

@@ -1,13 +1,13 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using System;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class BackgroundImageSelectionControlDataTemplate : AbstractDataTemplate
+    public sealed class BackgroundImageSelectionControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -18,29 +18,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private BackgroundImageSelectionControlItemDataTemplate _SelectedItem;
         public BackgroundImageSelectionControlItemDataTemplate SelectedItem
         {
-            get { return _SelectedItem; }
-            set { SetSelectedItem(value); }
+            get => _SelectedItem;
+            set => SetSelectedItem(value);
         }
 
         private bool _IsNoBackgroundChecked;
         public bool IsNoBackgroundChecked
         {
-            get { return _IsNoBackgroundChecked; }
-            set { SetIsNoBackgroundCheckedProperty(value); }
+            get => _IsNoBackgroundChecked;
+            set => SetIsNoBackgroundCheckedProperty(value);
         }
 
         private bool _IsImageBackgroundChecked;
         public bool IsImageBackgroundChecked
         {
-            get { return _IsImageBackgroundChecked; }
-            set { SetIsImageBackgroundCheckedProperty(value); }
+            get => _IsImageBackgroundChecked;
+            set => SetIsImageBackgroundCheckedProperty(value);
         }
 
         private bool _IsCustomImageBackgroundSelected;
         public bool IsCustomImageBackgroundSelected
         {
-            get { return _IsCustomImageBackgroundSelected; }
-            set { SetIsCustomImageBackgroundSelectedProperty(value); }
+            get => _IsCustomImageBackgroundSelected;
+            set => SetIsCustomImageBackgroundSelectedProperty(value);
         }
 
         #endregion
@@ -95,22 +95,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (IsNoBackgroundChecked)
             {
-                ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.NONE;
+                ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.None;
             }
             else if (IsCustomImageBackgroundSelected)
             {
-                ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.CUSTOM_IMAGE;
+                ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.CustomImage;
             }
             else if (!(SelectedItem is null))
             {
-                if (string.Equals(SelectedItem.Path, SPLASH_SCREEN_IMAGE_PATH))
-                {
-                    ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.SPLASH_IMAGE;
-                }
-                else
-                {
-                    ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.IMAGE;
-                }
+                ChatBackgroundHelper.INSTANCE.BackgroundMode = string.Equals(SelectedItem.Path, SPLASH_SCREEN_IMAGE_PATH) ? ChatBackgroundMode.SplashImage : ChatBackgroundMode.Image;
             }
         }
 
@@ -126,17 +119,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             switch (ChatBackgroundHelper.INSTANCE.BackgroundMode)
             {
-                case ChatBackgroundMode.SPLASH_IMAGE:
-                case ChatBackgroundMode.IMAGE:
+                case ChatBackgroundMode.SplashImage:
+                case ChatBackgroundMode.Image:
                     IsImageBackgroundChecked = true;
                     break;
 
-                case ChatBackgroundMode.CUSTOM_IMAGE:
+                case ChatBackgroundMode.CustomImage:
                     IsImageBackgroundChecked = true;
                     IsCustomImageBackgroundSelected = true;
                     break;
 
-                case ChatBackgroundMode.NONE:
+                case ChatBackgroundMode.None:
                     IsNoBackgroundChecked = true;
                     break;
             }
@@ -169,7 +162,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             IMAGES.Add(img);
 
-            if (ChatBackgroundHelper.INSTANCE.BackgroundMode != ChatBackgroundMode.CUSTOM_IMAGE && string.Equals(curBackgroundImagePath, img.Path))
+            if (ChatBackgroundHelper.INSTANCE.BackgroundMode != ChatBackgroundMode.CustomImage && string.Equals(curBackgroundImagePath, img.Path))
             {
                 SelectedItem = img;
             }

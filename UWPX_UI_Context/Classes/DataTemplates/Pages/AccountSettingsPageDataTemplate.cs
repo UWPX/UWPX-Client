@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class AccountSettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class AccountSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

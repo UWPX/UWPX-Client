@@ -2,21 +2,21 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class CertificateDetailDataTemplate : AbstractDataTemplate
+    public sealed class CertificateDetailDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Name;
         public string Name
         {
-            get { return _Name; }
-            set { SetProperty(ref _Name, value); }
+            get => _Name;
+            set => SetProperty(ref _Name, value);
         }
         private string _Value;
         public string Value
         {
-            get { return _Value; }
-            set { SetProperty(ref _Value, value); }
+            get => _Value;
+            set => SetProperty(ref _Value, value);
         }
 
         #endregion

@@ -1,53 +1,54 @@
-﻿using Logging;
-using Shared.Classes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Logging;
+using Shared.Classes;
 using Windows.Networking.Sockets;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
 using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class AccountInfoCertificateGeneralControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountInfoCertificateGeneralControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _ValidFromShort;
         public string ValidFromShort
         {
-            get { return _ValidFromShort; }
-            set { SetProperty(ref _ValidFromShort, value); }
+            get => _ValidFromShort;
+            set => SetProperty(ref _ValidFromShort, value);
         }
         private string _ValidToShort;
         public string ValidToShort
         {
-            get { return _ValidToShort; }
-            set { SetProperty(ref _ValidToShort, value); }
+            get => _ValidToShort;
+            set => SetProperty(ref _ValidToShort, value);
         }
         private string _IssuedTo;
         public string IssuedTo
         {
-            get { return _IssuedTo; }
-            set { SetProperty(ref _IssuedTo, value); }
+            get => _IssuedTo;
+            set => SetProperty(ref _IssuedTo, value);
         }
         private string _IssuedFrom;
         public string IssuedFrom
         {
-            get { return _IssuedFrom; }
-            set { SetProperty(ref _IssuedFrom, value); }
+            get => _IssuedFrom;
+            set => SetProperty(ref _IssuedFrom, value);
         }
         private StreamSocketInformation _SocketInfo;
         public StreamSocketInformation SocketInfo
         {
-            get { return _SocketInfo; }
-            set { SetProperty(ref _SocketInfo, value); }
+            get => _SocketInfo;
+            set => SetProperty(ref _SocketInfo, value);
         }
 
         public readonly ObservableCollection<CertificateDetailDataTemplate> DETAILS = new ObservableCollection<CertificateDetailDataTemplate>();
@@ -105,7 +106,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 if (file != null)
                 {
-                    var blob = SocketInfo.ServerCertificate.GetCertificateBlob();
+                    IBuffer blob = SocketInfo.ServerCertificate.GetCertificateBlob();
                     await FileIO.WriteBufferAsync(file, blob);
                 }
             }
@@ -233,7 +234,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is ConnectionInformation connectionInfo)
-
+            {
                 switch (e.PropertyName)
                 {
                     case nameof(connectionInfo.socketInfo):
@@ -241,6 +242,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                         LoadValuesFromCert(connectionInfo?.socketInfo?.ServerCertificate);
                         break;
                 }
+            }
         }
 
         #endregion

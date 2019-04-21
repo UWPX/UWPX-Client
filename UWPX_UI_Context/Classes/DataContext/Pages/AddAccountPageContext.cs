@@ -1,8 +1,8 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Logging;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 using XMPP_API.Classes;
@@ -47,7 +47,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task CreateAccount()
+        public async Task CreateAccountAsync()
         {
             await Task.Run(() =>
             {

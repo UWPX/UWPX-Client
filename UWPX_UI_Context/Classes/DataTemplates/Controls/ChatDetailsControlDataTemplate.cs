@@ -1,106 +1,106 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public class ChatDetailsControlDataTemplate : AbstractDataTemplate
+    public class ChatDetailsControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _NameText;
         public string NameText
         {
-            get { return _NameText; }
-            set { SetProperty(ref _NameText, value); }
+            get => _NameText;
+            set => SetProperty(ref _NameText, value);
         }
         private string _AccountText;
         public string AccountText
         {
-            get { return _AccountText; }
-            set { SetProperty(ref _AccountText, value); }
+            get => _AccountText;
+            set => SetProperty(ref _AccountText, value);
         }
         private string _StatusText;
         public string StatusText
         {
-            get { return _StatusText; }
-            set { SetProperty(ref _StatusText, value); }
+            get => _StatusText;
+            set => SetProperty(ref _StatusText, value);
         }
         private Visibility _EnterMucVisability;
         public Visibility EnterMucVisability
         {
-            get { return _EnterMucVisability; }
-            set { SetProperty(ref _EnterMucVisability, value); }
+            get => _EnterMucVisability;
+            set => SetProperty(ref _EnterMucVisability, value);
         }
         private Visibility _LeaveMucVisability;
         public Visibility LeaveMucVisability
         {
-            get { return _LeaveMucVisability; }
-            set { SetProperty(ref _LeaveMucVisability, value); }
+            get => _LeaveMucVisability;
+            set => SetProperty(ref _LeaveMucVisability, value);
         }
         private bool _DebugSettingsEnabled;
         public bool DebugSettingsEnabled
         {
-            get { return _DebugSettingsEnabled; }
-            set { SetProperty(ref _DebugSettingsEnabled, value); }
+            get => _DebugSettingsEnabled;
+            set => SetProperty(ref _DebugSettingsEnabled, value);
         }
         private Visibility _OmemoVisability;
         public Visibility OmemoVisability
         {
-            get { return _OmemoVisability; }
-            set { SetProperty(ref _OmemoVisability, value); }
+            get => _OmemoVisability;
+            set => SetProperty(ref _OmemoVisability, value);
         }
         private bool _OmemoEnabled;
         public bool OmemoEnabled
         {
-            get { return _OmemoEnabled; }
-            set { SetOmemoEnabledProperty(value); }
+            get => _OmemoEnabled;
+            set => SetOmemoEnabledProperty(value);
         }
         private bool _IsLoadingChatMessages;
         public bool IsLoadingChatMessages
         {
-            get { return _IsLoadingChatMessages; }
-            set { SetProperty(ref _IsLoadingChatMessages, value); }
+            get => _IsLoadingChatMessages;
+            set => SetProperty(ref _IsLoadingChatMessages, value);
         }
         private string _MessageText;
         public string MessageText
         {
-            get { return _MessageText; }
-            set { SetProperty(ref _MessageText, value); }
+            get => _MessageText;
+            set => SetProperty(ref _MessageText, value);
         }
         private Presence _AccountPresence;
         public Presence AccountPresence
         {
-            get { return _AccountPresence; }
-            set { SetProperty(ref _AccountPresence, value); }
+            get => _AccountPresence;
+            set => SetProperty(ref _AccountPresence, value);
         }
         private string _BareJid;
         public string BareJid
         {
-            get { return _BareJid; }
-            set { SetProperty(ref _BareJid, value); }
+            get => _BareJid;
+            set => SetProperty(ref _BareJid, value);
         }
         private bool _IsEmojiFlyoutEnabled;
         public bool IsEmojiFlyoutEnabled
         {
-            get { return _IsEmojiFlyoutEnabled; }
-            set { SetProperty(ref _IsEmojiFlyoutEnabled, value); }
+            get => _IsEmojiFlyoutEnabled;
+            set => SetProperty(ref _IsEmojiFlyoutEnabled, value);
         }
         private ChatType _ChatType;
         public ChatType ChatType
         {
-            get { return _ChatType; }
-            set { SetProperty(ref _ChatType, value); }
+            get => _ChatType;
+            set => SetProperty(ref _ChatType, value);
         }
 
         public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);

@@ -1,6 +1,6 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Logging;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -58,7 +58,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (e.NewValue is bool b && b)
             {
-                ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.CUSTOM_IMAGE;
+                ChatBackgroundHelper.INSTANCE.BackgroundMode = ChatBackgroundMode.CustomImage;
             }
         }
 

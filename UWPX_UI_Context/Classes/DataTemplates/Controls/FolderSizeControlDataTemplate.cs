@@ -1,25 +1,25 @@
-﻿using Logging;
-using Shared.Classes;
-using System;
+﻿using System;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Logging;
+using Shared.Classes;
 using Windows.Storage;
 using Windows.Storage.Search;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class FolderSizeControlDataTemplate : AbstractDataTemplate
+    public sealed class FolderSizeControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Text;
         public string Text
         {
-            get { return _Text; }
-            set { SetProperty(ref _Text, value); }
+            get => _Text;
+            set => SetProperty(ref _Text, value);
         }
 
         private CancellationTokenSource calcSizeCancelToken = null;

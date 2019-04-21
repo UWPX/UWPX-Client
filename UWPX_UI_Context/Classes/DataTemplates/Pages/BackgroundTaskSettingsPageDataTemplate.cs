@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class BackgroundTaskSettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class BackgroundTaskSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

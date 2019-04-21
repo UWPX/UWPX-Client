@@ -1,10 +1,10 @@
-﻿using Data_Manager2.Classes;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
-using System;
-using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.System;

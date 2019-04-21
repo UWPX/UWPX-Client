@@ -14,7 +14,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #region --Constructors--
         public DeleteChatConfirmDialogContext(ChatTable chat)
         {
-            this.MODEL = new DeleteChatConfirmDialogDataTemplate(chat);
+            MODEL = new DeleteChatConfirmDialogDataTemplate(chat);
         }
 
         #endregion

@@ -1,55 +1,55 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Logging;
-using Shared.Classes;
-using Shared.Classes.Network;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using Data_Manager2.Classes.DBTables;
+using Logging;
+using Shared.Classes;
+using Shared.Classes.Network;
 using Windows.Storage;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class SpeechBubbleImageContentControlDataTemplate : AbstractDataTemplate
+    public sealed class SpeechBubbleImageContentControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _ImagePath;
         public string ImagePath
         {
-            get { return _ImagePath; }
-            set { SetImagePathProperty(value); }
+            get => _ImagePath;
+            set => SetImagePathProperty(value);
         }
         private BitmapImage _ImageBitmap;
         public BitmapImage ImageBitmap
         {
-            get { return _ImageBitmap; }
-            set { SetProperty(ref _ImageBitmap, value); }
+            get => _ImageBitmap;
+            set => SetProperty(ref _ImageBitmap, value);
         }
         private bool _IsLoadingImage;
         public bool IsLoadingImage
         {
-            get { return _IsLoadingImage; }
-            set { SetProperty(ref _IsLoadingImage, value); }
+            get => _IsLoadingImage;
+            set => SetProperty(ref _IsLoadingImage, value);
         }
         private string _ErrorText;
         public string ErrorText
         {
-            get { return _ErrorText; }
-            set { SetProperty(ref _ErrorText, value); }
+            get => _ErrorText;
+            set => SetProperty(ref _ErrorText, value);
         }
         private DownloadState _State;
         public DownloadState State
         {
-            get { return _State; }
-            set { SetProperty(ref _State, value); }
+            get => _State;
+            set => SetProperty(ref _State, value);
         }
         private ImageTable _Image;
         public ImageTable Image
         {
-            get { return _Image; }
-            set { SetImage(value); }
+            get => _Image;
+            set => SetImage(value);
         }
 
         private CancellationTokenSource loadImageCancellationSource = null;

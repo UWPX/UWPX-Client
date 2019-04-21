@@ -38,11 +38,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                 InvokeOnError("Error", "Failed to bookmark!\nServer responded: " + errMsg.ERROR_OBJ.ERROR_NAME);
                 return true;
             }
-            if (string.Equals(msg.TYPE, IQMessage.RESULT))
-            {
-                return true;
-            }
-            return false;
+            return string.Equals(msg.TYPE, IQMessage.RESULT);
         }
 
         #endregion

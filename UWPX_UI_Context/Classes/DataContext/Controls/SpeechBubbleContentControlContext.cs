@@ -1,7 +1,7 @@
-﻿using Data_Manager2.Classes.DBManager;
-using Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
+using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using Windows.UI.Xaml;

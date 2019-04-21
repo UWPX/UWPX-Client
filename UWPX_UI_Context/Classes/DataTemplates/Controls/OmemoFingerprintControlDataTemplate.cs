@@ -4,21 +4,21 @@ using XMPP_API.Classes.Crypto;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class OmemoFingerprintControlDataTemplate : AbstractDataTemplate
+    public sealed class OmemoFingerprintControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private byte[] _Fingerprint;
         public byte[] Fingerprint
         {
-            get { return _Fingerprint; }
-            set { SetProperty(ref _Fingerprint, value); }
+            get => _Fingerprint;
+            set => SetProperty(ref _Fingerprint, value);
         }
         private string _QrCodeFingerprint;
         public string QrCodeFingerprint
         {
-            get { return _QrCodeFingerprint; }
-            set { SetProperty(ref _QrCodeFingerprint, value); }
+            get => _QrCodeFingerprint;
+            set => SetProperty(ref _QrCodeFingerprint, value);
         }
 
         #endregion

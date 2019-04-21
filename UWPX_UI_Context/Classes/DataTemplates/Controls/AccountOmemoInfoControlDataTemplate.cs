@@ -3,27 +3,27 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class AccountOmemoInfoControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountOmemoInfoControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private OmemoHelperState _OmemoState;
         public OmemoHelperState OmemoState
         {
-            get { return _OmemoState; }
-            set { SetProperty(ref _OmemoState, value); }
+            get => _OmemoState;
+            set => SetProperty(ref _OmemoState, value);
         }
         private uint _DeviceId;
         public uint DeviceId
         {
-            get { return _DeviceId; }
-            set { SetProperty(ref _DeviceId, value); }
+            get => _DeviceId;
+            set => SetProperty(ref _DeviceId, value);
         }
         private string _ErrorText;
         public string ErrorText
         {
-            get { return _ErrorText; }
-            set { SetProperty(ref _ErrorText, value); }
+            get => _ErrorText;
+            set => SetProperty(ref _ErrorText, value);
         }
 
         #endregion

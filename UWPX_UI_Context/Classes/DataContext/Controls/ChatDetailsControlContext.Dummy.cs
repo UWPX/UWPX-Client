@@ -1,7 +1,7 @@
-﻿using Data_Manager2.Classes;
-using Data_Manager2.Classes.DBTables;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBTables;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 

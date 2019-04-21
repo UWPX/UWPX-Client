@@ -1,8 +1,8 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -12,135 +12,135 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public class ChatMasterControlDataTemplate : AbstractDataTemplate
+    public class ChatMasterControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private Visibility _RequestPresenceSubscriptionVisability;
         public Visibility RequestPresenceSubscriptionVisability
         {
-            get { return _RequestPresenceSubscriptionVisability; }
-            set { SetProperty(ref _RequestPresenceSubscriptionVisability, value); }
+            get => _RequestPresenceSubscriptionVisability;
+            set => SetProperty(ref _RequestPresenceSubscriptionVisability, value);
         }
         private Visibility _CancelPresenceSubscriptionVisability;
         public Visibility CancelPresenceSubscriptionVisability
         {
-            get { return _CancelPresenceSubscriptionVisability; }
-            set { SetProperty(ref _CancelPresenceSubscriptionVisability, value); }
+            get => _CancelPresenceSubscriptionVisability;
+            set => SetProperty(ref _CancelPresenceSubscriptionVisability, value);
         }
         private Visibility _RejectPresenceSubscriptionVisability;
         public Visibility RejectPresenceSubscriptionVisability
         {
-            get { return _RejectPresenceSubscriptionVisability; }
-            set { SetProperty(ref _RejectPresenceSubscriptionVisability, value); }
+            get => _RejectPresenceSubscriptionVisability;
+            set => SetProperty(ref _RejectPresenceSubscriptionVisability, value);
         }
         private Visibility _ProbePresenceVisability;
         public Visibility ProbePresenceVisability
         {
-            get { return _ProbePresenceVisability; }
-            set { SetProperty(ref _ProbePresenceVisability, value); }
+            get => _ProbePresenceVisability;
+            set => SetProperty(ref _ProbePresenceVisability, value);
         }
         private Visibility _AccountActionsVisability;
         public Visibility AccountActionsVisability
         {
-            get { return _AccountActionsVisability; }
-            set { SetProperty(ref _AccountActionsVisability, value); }
+            get => _AccountActionsVisability;
+            set => SetProperty(ref _AccountActionsVisability, value);
         }
         private bool _PresenceFlyoutEnabled;
         public bool PresenceFlyoutEnabled
         {
-            get { return _PresenceFlyoutEnabled; }
-            set { SetProperty(ref _PresenceFlyoutEnabled, value); }
+            get => _PresenceFlyoutEnabled;
+            set => SetProperty(ref _PresenceFlyoutEnabled, value);
         }
         private SolidColorBrush _AccountColorBrush;
         public SolidColorBrush AccountColorBrush
         {
-            get { return _AccountColorBrush; }
-            set { SetProperty(ref _AccountColorBrush, value); }
+            get => _AccountColorBrush;
+            set => SetProperty(ref _AccountColorBrush, value);
         }
         private string _NameText;
         public string NameText
         {
-            get { return _NameText; }
-            set { SetProperty(ref _NameText, value); }
+            get => _NameText;
+            set => SetProperty(ref _NameText, value);
         }
         private string _MuteText;
         public string MuteText
         {
-            get { return _MuteText; }
-            set { SetProperty(ref _MuteText, value); }
+            get => _MuteText;
+            set => SetProperty(ref _MuteText, value);
         }
         private string _RemoveFromRosterText;
         public string RemoveFromRosterText
         {
-            get { return _RemoveFromRosterText; }
-            set { SetProperty(ref _RemoveFromRosterText, value); }
+            get => _RemoveFromRosterText;
+            set => SetProperty(ref _RemoveFromRosterText, value);
         }
         private string _InfoText;
         public string InfoText
         {
-            get { return _InfoText; }
-            set { SetProperty(ref _InfoText, value); }
+            get => _InfoText;
+            set => SetProperty(ref _InfoText, value);
         }
         private Visibility _InfoTextVisability;
         public Visibility InfoTextVisability
         {
-            get { return _InfoTextVisability; }
-            set { SetProperty(ref _InfoTextVisability, value); }
+            get => _InfoTextVisability;
+            set => SetProperty(ref _InfoTextVisability, value);
         }
         private Visibility _InRosterVisability;
         public Visibility InRosterVisability
         {
-            get { return _InRosterVisability; }
-            set { SetProperty(ref _InRosterVisability, value); }
+            get => _InRosterVisability;
+            set => SetProperty(ref _InRosterVisability, value);
         }
         private string _LastActionText;
         public string LastActionText
         {
-            get { return _LastActionText; }
-            set { SetProperty(ref _LastActionText, value); }
+            get => _LastActionText;
+            set => SetProperty(ref _LastActionText, value);
         }
         private string _LastActionIconText;
         public string LastActionIconText
         {
-            get { return _LastActionIconText; }
-            set { SetProperty(ref _LastActionIconText, value); }
+            get => _LastActionIconText;
+            set => SetProperty(ref _LastActionIconText, value);
         }
         private MessageState _LastActionState;
         public MessageState LastActionState
         {
-            get { return _LastActionState; }
-            set { SetProperty(ref _LastActionState, value); }
+            get => _LastActionState;
+            set => SetProperty(ref _LastActionState, value);
         }
         private Presence _AccountPresence;
         public Presence AccountPresence
         {
-            get { return _AccountPresence; }
-            set { SetProperty(ref _AccountPresence, value); }
+            get => _AccountPresence;
+            set => SetProperty(ref _AccountPresence, value);
         }
         private string _BareJid;
         public string BareJid
         {
-            get { return _BareJid; }
-            set { SetProperty(ref _BareJid, value); }
+            get => _BareJid;
+            set => SetProperty(ref _BareJid, value);
         }
         private MUCState _MucState;
         public MUCState MucState
         {
-            get { return _MucState; }
-            set { SetProperty(ref _MucState, value); }
+            get => _MucState;
+            set => SetProperty(ref _MucState, value);
         }
         private ChatType _ChatType;
         public ChatType ChatType
         {
-            get { return _ChatType; }
-            set { SetProperty(ref _ChatType, value); }
+            get => _ChatType;
+            set => SetProperty(ref _ChatType, value);
         }
         private int _UnreadCount;
         public int UnreadCount
         {
-            get { return _UnreadCount; }
-            set { SetProperty(ref _UnreadCount, value); }
+            get => _UnreadCount;
+            set => SetProperty(ref _UnreadCount, value);
         }
 
         private readonly ResourceDictionary RESOURCES;
@@ -150,7 +150,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Constructors--
         public ChatMasterControlDataTemplate(ResourceDictionary resources)
         {
-            this.RESOURCES = resources;
+            RESOURCES = resources;
         }
 
         #endregion
@@ -322,7 +322,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                             case MUCHandler.TYPE_CHAT_INFO:
                                 LastActionIconText = "\uE946";
-                                LastActionText = (lastMsg.message ?? "-");
+                                LastActionText = lastMsg.message ?? "-";
                                 break;
 
                             default:

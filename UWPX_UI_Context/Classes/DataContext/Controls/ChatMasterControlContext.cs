@@ -33,8 +33,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Constructors--
         public ChatMasterControlContext(ResourceDictionary resources)
         {
-            this.MODEL = new ChatMasterControlDataTemplate(resources);
-            this.THEME_LISTENER.ThemeChanged += THEME_LISTENER_ThemeChanged;
+            MODEL = new ChatMasterControlDataTemplate(resources);
+            THEME_LISTENER.ThemeChanged += THEME_LISTENER_ThemeChanged;
         }
 
         #endregion

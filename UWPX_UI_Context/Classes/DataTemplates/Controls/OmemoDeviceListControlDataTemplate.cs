@@ -1,11 +1,11 @@
-﻿using Shared.Classes;
-using Shared.Classes.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using Shared.Classes;
+using Shared.Classes.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class OmemoDeviceListControlDataTemplate : AbstractDataTemplate
+    public sealed class OmemoDeviceListControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,14 +14,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private bool _RefreshingDevices;
         public bool RefreshingDevices
         {
-            get { return _RefreshingDevices; }
-            set { SetProperty(ref _RefreshingDevices, value); }
+            get => _RefreshingDevices;
+            set => SetProperty(ref _RefreshingDevices, value);
         }
         private bool _ResettingDevices;
         public bool ResettingDevices
         {
-            get { return _ResettingDevices; }
-            set { SetProperty(ref _ResettingDevices, value); }
+            get => _ResettingDevices;
+            set => SetProperty(ref _ResettingDevices, value);
         }
 
         #endregion

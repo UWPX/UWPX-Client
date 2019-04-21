@@ -6,8 +6,6 @@
 // See the LICENSE file in the project root for more information.
 
 
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,6 +15,8 @@ using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml.Data;
@@ -29,7 +29,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
     /// <summary>
     /// A collection view implementation that supports filtering, sorting and incremental loading
     /// </summary>
-    public partial class AdvancedCollectionView : IAdvancedCollectionView, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
+    public partial class AdvancedCollectionView: IAdvancedCollectionView, INotifyPropertyChanged, ISupportIncrementalLoading, IComparer<object>
     {
         private readonly List<object> _view;
 

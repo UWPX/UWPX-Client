@@ -1,35 +1,35 @@
-﻿using Shared.Classes;
-using System;
+﻿using System;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
 {
-    public sealed class SettingsPageButtonDataTemplate : AbstractDataTemplate
+    public sealed class SettingsPageButtonDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _Name;
         public string Name
         {
-            get { return _Name; }
-            set { SetProperty(ref _Name, value); }
+            get => _Name;
+            set => SetProperty(ref _Name, value);
         }
         private string _Description;
         public string Description
         {
-            get { return _Description; }
-            set { SetProperty(ref _Description, value); }
+            get => _Description;
+            set => SetProperty(ref _Description, value);
         }
         private string _Glyph;
         public string Glyph
         {
-            get { return _Glyph; }
-            set { SetProperty(ref _Glyph, value); }
+            get => _Glyph;
+            set => SetProperty(ref _Glyph, value);
         }
         private Type _NavTarget;
         public Type NavTarget
         {
-            get { return _NavTarget; }
-            set { SetProperty(ref _NavTarget, value); }
+            get => _NavTarget;
+            set => SetProperty(ref _NavTarget, value);
         }
 
         #endregion

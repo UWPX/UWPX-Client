@@ -1,44 +1,44 @@
 ﻿
+using System.Runtime.CompilerServices;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Shared.Classes;
-using System.Runtime.CompilerServices;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public sealed class DebugSettingsPageDataTemplate : AbstractDataTemplate
+    public sealed class DebugSettingsPageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _DisableTcpTimeout;
         public bool DisableTcpTimeout
         {
-            get { return _DisableTcpTimeout; }
-            set { SetBoolProperty(ref _DisableTcpTimeout, value, SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT); }
+            get => _DisableTcpTimeout;
+            set => SetBoolProperty(ref _DisableTcpTimeout, value, SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
         }
         private bool _DisableTlsTimeout;
         public bool DisableTlsTimeout
         {
-            get { return _DisableTlsTimeout; }
-            set { SetBoolProperty(ref _DisableTlsTimeout, value, SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT); }
+            get => _DisableTlsTimeout;
+            set => SetBoolProperty(ref _DisableTlsTimeout, value, SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
         }
         private bool _SpamDetectionEnabled;
         public bool SpamDetectionEnabled
         {
-            get { return _SpamDetectionEnabled; }
-            set { SetBoolProperty(ref _SpamDetectionEnabled, value, SettingsConsts.SPAM_DETECTION_ENABLED); }
+            get => _SpamDetectionEnabled;
+            set => SetBoolProperty(ref _SpamDetectionEnabled, value, SettingsConsts.SPAM_DETECTION_ENABLED);
         }
         private bool _SpamDetectionNewChatsOnly;
         public bool SpamDetectionNewChatsOnly
         {
-            get { return _SpamDetectionNewChatsOnly; }
-            set { SetBoolInversedProperty(ref _SpamDetectionNewChatsOnly, value, SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES); }
+            get => _SpamDetectionNewChatsOnly;
+            set => SetBoolInversedProperty(ref _SpamDetectionNewChatsOnly, value, SettingsConsts.SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES);
         }
         private string _SpamRegex;
         public string SpamRegex
         {
-            get { return _SpamRegex; }
-            set { SetSpamRegexProperty(value); }
+            get => _SpamRegex;
+            set => SetSpamRegexProperty(value);
         }
 
         #endregion

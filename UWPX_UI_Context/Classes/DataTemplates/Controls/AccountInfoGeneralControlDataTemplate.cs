@@ -6,33 +6,33 @@ using XMPP_API.Classes.Network.XML;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public sealed class AccountInfoGeneralControlDataTemplate : AbstractDataTemplate
+    public sealed class AccountInfoGeneralControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private MessageParserStats _ParserStats;
         public MessageParserStats ParserStats
         {
-            get { return _ParserStats; }
-            set { SetProperty(ref _ParserStats, value); }
+            get => _ParserStats;
+            set => SetProperty(ref _ParserStats, value);
         }
         private bool _TlsConnected;
         public bool TlsConnected
         {
-            get { return _TlsConnected; }
-            set { SetProperty(ref _TlsConnected, value); }
+            get => _TlsConnected;
+            set => SetProperty(ref _TlsConnected, value);
         }
         private MessageCarbonsState _MsgCarbonsState;
         public MessageCarbonsState MsgCarbonsState
         {
-            get { return _MsgCarbonsState; }
-            set { SetProperty(ref _MsgCarbonsState, value); }
+            get => _MsgCarbonsState;
+            set => SetProperty(ref _MsgCarbonsState, value);
         }
         private StreamSocketInformation _SocketInfo;
         public StreamSocketInformation SocketInfo
         {
-            get { return _SocketInfo; }
-            set { SetProperty(ref _SocketInfo, value); }
+            get => _SocketInfo;
+            set => SetProperty(ref _SocketInfo, value);
         }
 
         #endregion
@@ -93,7 +93,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private void CONNECTION_INFO_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is ConnectionInformation connectionInfo)
-
+            {
                 switch (e.PropertyName)
                 {
                     case nameof(connectionInfo.msgCarbonsState):
@@ -108,6 +108,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                         SocketInfo = connectionInfo.socketInfo;
                         break;
                 }
+            }
         }
 
         #endregion

@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
 {
-    public sealed class SpeechBubbleConentDataTemplateSelector : DataTemplateSelector
+    public sealed class SpeechBubbleConentDataTemplateSelector: DataTemplateSelector
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -43,11 +43,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
         {
             if (item is SpeechBubbleContentControlContext viewModel)
             {
-                if (viewModel.MODEL.IsImage)
-                {
-                    return ImageTemplate;
-                }
-                return TextTemplate;
+                return viewModel.MODEL.IsImage ? ImageTemplate : TextTemplate;
             }
             return base.SelectTemplateCore(item, container);
         }

@@ -1,11 +1,11 @@
-﻿using Shared.Classes;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using Shared.Classes;
 using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class CertificateRequirementsDialogDataTemplate : AbstractDataTemplate
+    public sealed class CertificateRequirementsDialogDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,8 +15,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         private bool _Confirmed;
         public bool Confirmed
         {
-            get { return _Confirmed; }
-            set { SetProperty(ref _Confirmed, value); }
+            get => _Confirmed;
+            set => SetProperty(ref _Confirmed, value);
         }
 
         #endregion
@@ -24,7 +24,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Constructors--
         public CertificateRequirementsDialogDataTemplate(XMPPAccount account)
         {
-            this.ACCOUNT = account;
+            ACCOUNT = account;
             LoadRequirements();
         }
 
