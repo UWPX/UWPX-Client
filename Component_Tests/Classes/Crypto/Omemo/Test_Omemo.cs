@@ -1,14 +1,14 @@
-﻿using Component_Tests.Classes.Crypto.Libsignal;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using Component_Tests.Classes.Crypto.Libsignal;
 using libsignal;
 using libsignal.ecc;
 using libsignal.protocol;
 using libsignal.state;
 using libsignal.util;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML;
@@ -19,7 +19,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 namespace Component_Tests.Classes.Crypto.Omemo
 {
     [TestClass]
-    public class Test_Omemo
+    internal class Test_Omemo
     {
         private readonly SignalProtocolAddress ALICE_ADDRESS = new SignalProtocolAddress("alice@example.com", 1);
         private readonly SignalProtocolAddress BOB_ADDRESS = new SignalProtocolAddress("bob@example.com", 1);
@@ -64,7 +64,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             //-----------------OMEOMO Session Building:-----------------
             MessageParser2 parser = new MessageParser2();
 
-            string deviceListMsg = getDeviceListMsg();
+            string deviceListMsg = GetDeviceListMsg();
             List<AbstractMessage> messages = parser.parseMessages(ref deviceListMsg);
             Assert.IsTrue(messages.Count == 1);
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
@@ -74,7 +74,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.getDeviceId());
 
             // Alice builds a session to Bob:
-            string bundleInfoMsg = getBundleInfoMsg(bobIdentKey, bobSignedPreKey, bobPreKeys);
+            string bundleInfoMsg = GetBundleInfoMsg(bobIdentKey, bobSignedPreKey, bobPreKeys);
             messages = parser.parseMessages(ref bundleInfoMsg);
             Assert.IsTrue(messages.Count == 1);
             Assert.IsTrue(messages[0] is OmemoBundleInformationResultMessage);
@@ -196,7 +196,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             //-----------------OMEOMO Session Building:-----------------
             MessageParser2 parser = new MessageParser2();
 
-            string deviceListMsg = getDeviceListMsg();
+            string deviceListMsg = GetDeviceListMsg();
             List<AbstractMessage> messages = parser.parseMessages(ref deviceListMsg);
             Assert.IsTrue(messages.Count == 1);
             Assert.IsTrue(messages[0] is OmemoDeviceListResultMessage);
@@ -206,7 +206,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             Assert.IsTrue(selectedBobDeviceId == BOB_ADDRESS.getDeviceId());
 
             // Alice builds a session to Bob:
-            string bundleInfoMsg = getBundleInfoMsg(bobIdentKey, bobSignedPreKey, bobPreKeys);
+            string bundleInfoMsg = GetBundleInfoMsg(bobIdentKey, bobSignedPreKey, bobPreKeys);
             messages = parser.parseMessages(ref bundleInfoMsg);
             Assert.IsTrue(messages.Count == 1);
             Assert.IsTrue(messages[0] is OmemoBundleInformationResultMessage);
@@ -261,7 +261,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             IdentityKeyPair aliceIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
             IList<PreKeyRecord> alicePreKeys = KeyHelper.generatePreKeys(0, 1);
             SignedPreKeyRecord aliceSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(aliceIdentKey);
-            string bundleInfo = getBundleInfoMsg(aliceIdentKey, aliceSignedPreKey, alicePreKeys);
+            string bundleInfo = GetBundleInfoMsg(aliceIdentKey, aliceSignedPreKey, alicePreKeys);
 
             MessageParser2 parser = new MessageParser2();
             List<AbstractMessage> messages = parser.parseMessages(ref bundleInfo);
@@ -288,7 +288,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             IdentityKeyPair aliceIdentKey = CryptoUtils.generateOmemoIdentityKeyPair();
             IList<PreKeyRecord> alicePreKeys = CryptoUtils.generateOmemoPreKeys();
             SignedPreKeyRecord aliceSignedPreKey = CryptoUtils.generateOmemoSignedPreKey(aliceIdentKey);
-            string bundleInfo = getBundleInfoMsg(aliceIdentKey, aliceSignedPreKey, alicePreKeys);
+            string bundleInfo = GetBundleInfoMsg(aliceIdentKey, aliceSignedPreKey, alicePreKeys);
 
             MessageParser2 parser = new MessageParser2();
             List<AbstractMessage> messages = parser.parseMessages(ref bundleInfo);
@@ -316,7 +316,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             }
         }
 
-        public string getDeviceListMsg()
+        public string GetDeviceListMsg()
         {
             StringBuilder sb = new StringBuilder("<iq xml:lang='en' to='");
             sb.Append(ALICE_ADDRESS.getName());
@@ -331,7 +331,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             return sb.ToString();
         }
 
-        public string getBundleInfoMsg(IdentityKeyPair identKey, SignedPreKeyRecord signedPreKey, IList<PreKeyRecord> preKeys)
+        public string GetBundleInfoMsg(IdentityKeyPair identKey, SignedPreKeyRecord signedPreKey, IList<PreKeyRecord> preKeys)
         {
             IList<Tuple<uint, ECPublicKey>> publicPreKeys = new List<Tuple<uint, ECPublicKey>>();
             foreach (PreKeyRecord pk in preKeys)

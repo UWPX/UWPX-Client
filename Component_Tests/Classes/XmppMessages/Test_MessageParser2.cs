@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 

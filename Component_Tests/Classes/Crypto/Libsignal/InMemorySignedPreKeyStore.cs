@@ -1,28 +1,19 @@
-﻿using libsignal.state;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using libsignal.state;
 
 namespace Component_Tests.Classes.Crypto.Libsignal
 {
-    class InMemorySignedPreKeyStore : SignedPreKeyStore
+    internal class InMemorySignedPreKeyStore: SignedPreKeyStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly Dictionary<uint, SignedPreKeyRecord> SIGNED_PRE_KEYS;
+        private readonly Dictionary<uint, SignedPreKeyRecord> SIGNED_PRE_KEYS = new Dictionary<uint, SignedPreKeyRecord>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 07/11/2018 Created [Fabian Sauter]
-        /// </history>
-        public InMemorySignedPreKeyStore()
-        {
-            this.SIGNED_PRE_KEYS = new Dictionary<uint, SignedPreKeyRecord>();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -1,29 +1,20 @@
-﻿using libsignal;
-using libsignal.state;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using libsignal;
+using libsignal.state;
 
 namespace Component_Tests.Classes.Crypto.Libsignal
 {
-    class InMemorySessionStore : SessionStore
+    internal class InMemorySessionStore: SessionStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly Dictionary<SignalProtocolAddress, SessionRecord> SESSIONS;
+        private readonly Dictionary<SignalProtocolAddress, SessionRecord> SESSIONS = new Dictionary<SignalProtocolAddress, SessionRecord>();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 07/11/2018 Created [Fabian Sauter]
-        /// </history>
-        public InMemorySessionStore()
-        {
-            this.SESSIONS = new Dictionary<SignalProtocolAddress, SessionRecord>();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,7 +22,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         public List<uint> GetSubDeviceSessions(string name)
         {
             List<uint> ids = new List<uint>();
-            foreach (var kv in SESSIONS)
+            foreach (KeyValuePair<SignalProtocolAddress, SessionRecord> kv in SESSIONS)
             {
                 if (string.Equals(kv.Key.getName(), name))
                 {
@@ -46,7 +37,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         #region --Misc Methods (Public)--
         public SessionRecord LoadSession(SignalProtocolAddress address)
         {
-            if(ContainsSession(address))
+            if (ContainsSession(address))
             {
                 return SESSIONS[address];
             }
@@ -65,7 +56,7 @@ namespace Component_Tests.Classes.Crypto.Libsignal
 
         public void DeleteAllSessions(string name)
         {
-            foreach (var s in SESSIONS.Where(kv => string.Equals(kv.Key.getName(), name)).ToList())
+            foreach (KeyValuePair<SignalProtocolAddress, SessionRecord> s in SESSIONS.Where(kv => string.Equals(kv.Key.getName(), name)).ToList())
             {
                 SESSIONS.Remove(s.Key);
             }

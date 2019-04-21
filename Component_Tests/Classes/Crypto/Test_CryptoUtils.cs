@@ -1,14 +1,14 @@
-﻿using libsignal;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text;
+using libsignal;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using XMPP_API.Classes.Crypto;
 
 namespace Component_Tests.Classes.Crypto
 {
     [TestClass]
-    public class Test_CryptoUtils
+    internal class Test_CryptoUtils
     {
         [TestCategory("Crypto")]
         [TestMethod]

@@ -1,12 +1,12 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+﻿using System;
 using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using XMPP_API.Classes.Crypto;
 
 namespace Component_Tests.Classes.Crypto
 {
     [TestClass]
-    public class Test_Aes128GcmCpp
+    internal class Test_Aes128GcmCpp
     {
         [TestCategory("Crypto")]
         [TestMethod]
@@ -74,7 +74,7 @@ namespace Component_Tests.Classes.Crypto
             Assert.IsTrue(encData.SequenceEqual(refCiphertext));
             Assert.IsTrue(aesEnc.authTag.SequenceEqual(refAuthTag));
         }
-        
+
         [TestCategory("Crypto")]
         [TestMethod]
         public void Test_Aes128GcmCpp_Enc_Dec_Long_1()

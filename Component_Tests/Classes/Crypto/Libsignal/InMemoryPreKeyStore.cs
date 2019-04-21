@@ -1,9 +1,9 @@
-﻿using libsignal.state;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using libsignal.state;
 
 namespace Component_Tests.Classes.Crypto.Libsignal
 {
-    class InMemoryPreKeyStore : PreKeyStore
+    internal class InMemoryPreKeyStore: PreKeyStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,15 +12,9 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 07/11/2018 Created [Fabian Sauter]
-        /// </history>
         public InMemoryPreKeyStore()
         {
-            this.PRE_KEYS = new Dictionary<uint, PreKeyRecord>();
+            PRE_KEYS = new Dictionary<uint, PreKeyRecord>();
         }
 
         #endregion

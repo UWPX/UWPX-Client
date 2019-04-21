@@ -1,10 +1,10 @@
-﻿using libsignal;
+﻿using System.Collections.Generic;
+using libsignal;
 using libsignal.state;
-using System.Collections.Generic;
 
 namespace Component_Tests.Classes.Crypto.Libsignal
 {
-    class InMemoryIdentityKeyStore : IdentityKeyStore
+    internal class InMemoryIdentityKeyStore: IdentityKeyStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,17 +16,11 @@ namespace Component_Tests.Classes.Crypto.Libsignal
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 07/11/2018 Created [Fabian Sauter]
-        /// </history>
         public InMemoryIdentityKeyStore(IdentityKeyPair clientIdentKeyPair, uint clientRegId)
         {
-            this.CLIENT_IDENT_KEY_PAIR = clientIdentKeyPair;
-            this.CLIENT_REG_ID = clientRegId;
-            this.IDENTITY_KEYS = new Dictionary<string, IdentityKey>();
+            CLIENT_IDENT_KEY_PAIR = clientIdentKeyPair;
+            CLIENT_REG_ID = clientRegId;
+            IDENTITY_KEYS = new Dictionary<string, IdentityKey>();
         }
 
         #endregion
