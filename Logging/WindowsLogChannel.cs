@@ -1,10 +1,11 @@
-﻿using NLog;
-using System;
+﻿using System;
+using NLog;
+using NLog.Targets;
 using Windows.Foundation.Diagnostics;
 
 namespace Logging
 {
-    class WindowsLogChannel : NLog.Targets.TargetWithLayout
+    internal class WindowsLogChannel: TargetWithLayout
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,15 +14,7 @@ namespace Logging
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 24/10/2018 Created [Fabian Sauter]
-        /// </history>
-        public WindowsLogChannel()
-        {
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

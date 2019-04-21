@@ -1,9 +1,10 @@
 ﻿using System.Diagnostics;
 using NLog;
+using NLog.Targets;
 
 namespace Logging
 {
-    class ConsoleTarget : NLog.Targets.TargetWithLayout
+    internal class ConsoleTarget: TargetWithLayout
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,15 +13,7 @@ namespace Logging
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 14/10/2018 Created [Fabian Sauter]
-        /// </history>
-        public ConsoleTarget()
-        {
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

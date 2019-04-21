@@ -1,14 +1,15 @@
-﻿using NLog;
-using NLog.Config;
-using NLog.Targets;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using NLog;
+using NLog.Config;
+using NLog.Targets;
 using Windows.ApplicationModel;
 using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.Storage.Search;
 
 namespace Logging
@@ -29,7 +30,7 @@ namespace Logging
             Target.Register<WindowsLogChannel>(nameof(WindowsLogChannel));
             LogManager.Configuration = new XmlLoggingConfiguration(Path.Combine(Package.Current.InstalledLocation.Path, @"Logging\NLog.config"));
             LogManager.Configuration.Variables["LogPath"] = getLogsFolderPath();
-            LogManager.Configuration.Variables["LogArchivePath"] = getLogsArchivePath();
+            LogManager.Configuration.Variables["LogArchivePath"] = GetLogsArchivePath();
             NLOGGER = LogManager.GetCurrentClassLogger();
         }
 
@@ -40,11 +41,11 @@ namespace Logging
         /// Opens a FileSavePicker and lets the user pick the destination.
         /// </summary>
         /// <returns>Returns the selected path.</returns>
-        private static async Task<StorageFile> getTargetPathAsync()
+        private static async Task<StorageFile> GetTargetPathAsync()
         {
-            var savePicker = new Windows.Storage.Pickers.FileSavePicker
+            FileSavePicker savePicker = new FileSavePicker
             {
-                SuggestedStartLocation = Windows.Storage.Pickers.PickerLocationId.DocumentsLibrary
+                SuggestedStartLocation = PickerLocationId.DocumentsLibrary
             };
             savePicker.FileTypeChoices.Add("Logs", new List<string>() { ".zip" });
             savePicker.SuggestedFileName = "Logs";
@@ -55,13 +56,13 @@ namespace Logging
         /// Calculates the size of the "Logs" folder.
         /// </summary>
         /// <returns>Returns the "Logs" folder size in KB.</returns>
-        public static async Task<long> getLogFolderSizeAsync()
+        public static async Task<long> GetLogFolderSizeAsync()
         {
-            StorageFolder logsFolder = await getLogFolderAsync();
+            StorageFolder logsFolder = await GetLogFolderAsync();
             StorageFileQueryResult result = logsFolder.CreateFileQuery();
 
-            var fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
-            var sizes = await Task.WhenAll(fileSizeTasks);
+            IEnumerable<Task<ulong>> fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
+            ulong[] sizes = await Task.WhenAll(fileSizeTasks);
 
             return sizes.Sum(l => (long)l) / 1024;
         }
@@ -70,7 +71,7 @@ namespace Logging
         /// Returns the "Logs" folder and creates it, if it does not exist.
         /// </summary>
         /// <returns>Returns the "Logs" folder.</returns>
-        public static async Task<StorageFolder> getLogFolderAsync()
+        public static async Task<StorageFolder> GetLogFolderAsync()
         {
             return await ApplicationData.Current.LocalFolder.CreateFolderAsync("Logs", CreationCollisionOption.OpenIfExists);
         }
@@ -80,12 +81,12 @@ namespace Logging
             return Path.Combine(ApplicationData.Current.LocalFolder.Path, "Logs");
         }
 
-        private static string getExportedLogsPath()
+        private static string GetExportedLogsPath()
         {
             return Path.Combine(ApplicationData.Current.LocalFolder.Path, "LogsExport.zip");
         }
 
-        private static string getLogsArchivePath()
+        private static string GetLogsArchivePath()
         {
             return Path.Combine(getLogsFolderPath(), "Archive");
         }
@@ -171,7 +172,7 @@ namespace Logging
         /// Opens the log folder.
         /// </summary>
         /// <returns>An async Task.</returns>
-        public static async Task openLogFolderAsync()
+        public static async Task OpenLogFolderAsync()
         {
             StorageFolder folder = ApplicationData.Current.LocalFolder;
             await Windows.System.Launcher.LaunchFolderAsync(folder);
@@ -180,12 +181,12 @@ namespace Logging
         /// <summary>
         /// Deletes all files inside the "Logs" folder, if they aren't opened by anything at the moment.
         /// </summary>
-        public static async Task deleteLogsAsync()
+        public static async Task DeleteLogsAsync()
         {
-            StorageFolder logsFolder = await getLogFolderAsync();
+            StorageFolder logsFolder = await GetLogFolderAsync();
             if (logsFolder != null)
             {
-                foreach (var item in await logsFolder.GetItemsAsync())
+                foreach (IStorageItem item in await logsFolder.GetItemsAsync())
                 {
                     try
                     {
@@ -204,10 +205,10 @@ namespace Logging
         /// <summary>
         /// Exports all logs as a .zip file to the selected path.
         /// </summary>
-        public static async Task exportLogsAsync()
+        public static async Task ExportLogsAsync()
         {
-            // Get the target path/file.
-            StorageFile targetFile = await getTargetPathAsync().ConfigureAwait(false);
+            // Get the target path/file:
+            StorageFile targetFile = await GetTargetPathAsync().ConfigureAwait(false);
             if (targetFile is null)
             {
                 Info("Exporting logs canceled.");
@@ -222,8 +223,8 @@ namespace Logging
                 await zipItem.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
 
-            StorageFolder logsFolder = await getLogFolderAsync().ConfigureAwait(false);
-            ZipFile.CreateFromDirectory(logsFolder.Path, getExportedLogsPath(), CompressionLevel.Fastest, true);
+            StorageFolder logsFolder = await GetLogFolderAsync().ConfigureAwait(false);
+            ZipFile.CreateFromDirectory(logsFolder.Path, GetExportedLogsPath(), CompressionLevel.Fastest, true);
 
             try
             {

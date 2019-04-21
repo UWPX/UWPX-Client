@@ -132,7 +132,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                     ImageCacheFolderPath = "";
                 }
 
-                folder = await Logger.getLogFolderAsync();
+                folder = await Logger.GetLogFolderAsync();
                 if (!(folder is null))
                 {
                     LogFolderPath = folder.Path;

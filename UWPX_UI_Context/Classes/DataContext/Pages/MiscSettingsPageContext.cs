@@ -75,12 +75,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task ExportLogsAsync()
         {
-            await Logger.exportLogsAsync();
+            await Logger.ExportLogsAsync();
         }
 
         public async Task DeleteLogsAsync(ConfirmDialogContext viewModel)
         {
-            await Logger.deleteLogsAsync();
+            await Logger.DeleteLogsAsync();
         }
 
         public async Task ClearImageCacheAsync(ConfirmDialogContext viewModel)
