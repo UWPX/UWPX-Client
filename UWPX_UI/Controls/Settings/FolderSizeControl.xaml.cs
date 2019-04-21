@@ -5,14 +5,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class FolderSizeControl : UserControl
+    public sealed partial class FolderSizeControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string FolderPath
         {
-            get { return (string)GetValue(FolderPathProperty); }
-            set { SetValue(FolderPathProperty, value); }
+            get => (string)GetValue(FolderPathProperty);
+            set => SetValue(FolderPathProperty, value);
         }
         public static readonly DependencyProperty FolderPathProperty = DependencyProperty.Register(nameof(FolderPath), typeof(string), typeof(FolderSizeControl), new PropertyMetadata(null, OnFolderPathChanged));
 
@@ -23,7 +23,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public FolderSizeControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

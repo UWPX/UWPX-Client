@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class BackgroundImageSelectionControl : UserControl
+    public sealed partial class BackgroundImageSelectionControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,7 +14,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public BackgroundImageSelectionControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

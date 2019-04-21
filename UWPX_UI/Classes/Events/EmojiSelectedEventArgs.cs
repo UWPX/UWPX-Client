@@ -1,9 +1,9 @@
-﻿using NeoSmart.Unicode;
-using System;
+﻿using System;
+using NeoSmart.Unicode;
 
 namespace UWPX_UI.Classes.Events
 {
-    public class EmojiSelectedEventArgs : EventArgs
+    public class EmojiSelectedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,7 +14,7 @@ namespace UWPX_UI.Classes.Events
         #region --Constructors--
         public EmojiSelectedEventArgs(SingleEmoji emoji)
         {
-            this.EMOJI = emoji;
+            EMOJI = emoji;
         }
 
         #endregion

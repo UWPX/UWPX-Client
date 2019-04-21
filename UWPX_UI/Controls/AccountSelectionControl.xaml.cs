@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class AccountSelectionControl : UserControl
+    public sealed partial class AccountSelectionControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,8 +16,8 @@ namespace UWPX_UI.Controls
 
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(AccountSelectionControl), new PropertyMetadata(""));
 
@@ -32,7 +32,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public AccountSelectionControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

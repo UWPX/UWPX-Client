@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 namespace UWPX_UI.Controls.Chat
 {
-    public sealed partial class ChatBackgroundControl : UserControl
+    public sealed partial class ChatBackgroundControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -19,7 +19,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Constructors--
         public ChatBackgroundControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

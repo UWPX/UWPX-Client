@@ -5,14 +5,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class InfoDialog : ContentDialog
+    public sealed partial class InfoDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string MarkdownText
         {
-            get { return (string)GetValue(MarkdownTextProperty); }
-            set { SetValue(MarkdownTextProperty, value); }
+            get => (string)GetValue(MarkdownTextProperty);
+            set => SetValue(MarkdownTextProperty, value);
         }
         public static readonly DependencyProperty MarkdownTextProperty = DependencyProperty.Register(nameof(MarkdownText), typeof(string), typeof(InfoDialog), new PropertyMetadata(""));
 
@@ -21,9 +21,9 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public InfoDialog(string title, string markdownText)
         {
-            this.Title = title;
-            this.MarkdownText = markdownText;
-            this.InitializeComponent();
+            Title = title;
+            MarkdownText = markdownText;
+            InitializeComponent();
         }
 
         #endregion

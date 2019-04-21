@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using UWP_XMPP_Client.Classes.Events;
 using UWP_XMPP_Client.Pages;
 using UWPX_UI.Controls.Toolkit.SlidableListItem;
@@ -14,14 +14,14 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Controls.Chat
 {
-    public sealed partial class ChatMasterControl : UserControl
+    public sealed partial class ChatMasterControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public ChatDataTemplate Chat
         {
-            get { return (ChatDataTemplate)GetValue(ChatProperty); }
-            set { SetValue(ChatProperty, value); }
+            get => (ChatDataTemplate)GetValue(ChatProperty);
+            set => SetValue(ChatProperty, value);
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatMasterControl), new PropertyMetadata(null, ChatPropertyChanged));
 
@@ -32,9 +32,9 @@ namespace UWPX_UI.Controls.Chat
         #region --Constructors--
         public ChatMasterControl()
         {
-            this.InitializeComponent();
-            this.VIEW_MODEL = new ChatMasterControlContext(Resources);
-            this.VIEW_MODEL.OnError += VIEW_MODEL_OnError;
+            InitializeComponent();
+            VIEW_MODEL = new ChatMasterControlContext(Resources);
+            VIEW_MODEL.OnError += VIEW_MODEL_OnError;
         }
 
         #endregion

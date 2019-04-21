@@ -4,14 +4,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class CustomBackgroundImageSelectionControl : UserControl
+    public sealed partial class CustomBackgroundImageSelectionControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public bool IsSelected
         {
-            get { return (bool)GetValue(IsSelectedProperty); }
-            set { SetValue(IsSelectedProperty, value); }
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
         }
         public static readonly DependencyProperty IsSelectedProperty = DependencyProperty.Register(nameof(IsSelected), typeof(bool), typeof(CustomBackgroundImageSelectionControl), new PropertyMetadata(false, OnIsSelectedChanged));
 
@@ -22,7 +22,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public CustomBackgroundImageSelectionControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

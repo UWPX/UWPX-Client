@@ -73,7 +73,7 @@ namespace UWPX_UI.Extensions
                             Foreground = GenBrush(parts[e])
                         });
 
-                        if (e == parts.Length / 2 - 1)
+                        if (e == (parts.Length / 2) - 1)
                         {
                             textBlock.Inlines.Add(new LineBreak());
                         }

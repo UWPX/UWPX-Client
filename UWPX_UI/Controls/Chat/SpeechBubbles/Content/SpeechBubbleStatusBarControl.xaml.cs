@@ -4,14 +4,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 {
-    public sealed partial class SpeechBubbleStatusBarControl : UserControl
+    public sealed partial class SpeechBubbleStatusBarControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public SpeechBubbleContentControlContext ViewModel
         {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (SpeechBubbleContentControlContext)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(ViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleStatusBarControl), new PropertyMetadata(null));
 
@@ -20,7 +20,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #region --Constructors--
         public SpeechBubbleStatusBarControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

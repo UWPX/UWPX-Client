@@ -5,14 +5,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class SettingsSelectionSmallControl : UserControl
+    public sealed partial class SettingsSelectionSmallControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public SettingsPageButtonDataTemplate Model
         {
-            get { return (SettingsPageButtonDataTemplate)GetValue(ModelProperty); }
-            set { SetValue(ModelProperty, value); }
+            get => (SettingsPageButtonDataTemplate)GetValue(ModelProperty);
+            set => SetValue(ModelProperty, value);
         }
         public static readonly DependencyProperty ModelProperty = DependencyProperty.Register(nameof(Model), typeof(SettingsPageButtonDataTemplate), typeof(SettingsSelectionSmallControl), new PropertyMetadata(new SettingsPageButtonDataTemplate
         {
@@ -27,7 +27,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public SettingsSelectionSmallControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

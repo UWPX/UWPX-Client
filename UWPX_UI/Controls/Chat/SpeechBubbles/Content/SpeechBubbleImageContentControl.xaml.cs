@@ -1,7 +1,7 @@
-﻿using Logging;
-using Shared.Classes.Network;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Logging;
+using Shared.Classes.Network;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
@@ -12,14 +12,14 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 {
-    public sealed partial class SpeechBubbleImageContentControl : UserControl, IShowFlyoutSpeechBubbleContent
+    public sealed partial class SpeechBubbleImageContentControl: UserControl, IShowFlyoutSpeechBubbleContent
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public SpeechBubbleContentControlContext SpeechBubbleContentViewModel
         {
-            get { return (SpeechBubbleContentControlContext)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
+            get => (SpeechBubbleContentControlContext)GetValue(ViewModelProperty);
+            set => SetValue(ViewModelProperty, value);
         }
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleImageContentControl), new PropertyMetadata(null, OnSpeechBubbleContentViewModelChanged));
 
@@ -30,7 +30,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #region --Constructors--
         public SpeechBubbleImageContentControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

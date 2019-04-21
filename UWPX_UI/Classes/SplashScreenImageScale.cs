@@ -1,6 +1,6 @@
 ﻿namespace UWPX_UI.Classes
 {
-    enum SplashScreenImageScale
+    internal enum SplashScreenImageScale
     {
         TINY,
         SMALL,

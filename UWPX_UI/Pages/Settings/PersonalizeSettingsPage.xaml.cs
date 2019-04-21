@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class PersonalizeSettingsPage : Page
+    public sealed partial class PersonalizeSettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,7 +17,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public PersonalizeSettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -8,21 +8,21 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Chat
 {
-    public sealed partial class ChatDetailsControl : UserControl
+    public sealed partial class ChatDetailsControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public ChatDataTemplate Chat
         {
-            get { return (ChatDataTemplate)GetValue(ChatProperty); }
-            set { SetValue(ChatProperty, value); }
+            get => (ChatDataTemplate)GetValue(ChatProperty);
+            set => SetValue(ChatProperty, value);
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(ChatDetailsControl), new PropertyMetadata(null, ChatPropertyChanged));
 
         public bool IsDummy
         {
-            get { return (bool)GetValue(IsDummyProperty); }
-            set { SetValue(IsDummyProperty, value); }
+            get => (bool)GetValue(IsDummyProperty);
+            set => SetValue(IsDummyProperty, value);
         }
         public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register(nameof(IsDummy), typeof(bool), typeof(ChatDetailsControl), new PropertyMetadata(false, OnIsDummyChanged));
 
@@ -33,7 +33,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Constructors--
         public ChatDetailsControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

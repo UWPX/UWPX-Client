@@ -37,7 +37,7 @@ namespace UWPX_UI.Pages
             this.ACTIVATION_ARGS = args;
             this.ROOT_FRAME = rootFrame;
             this.APP_CENTER_PUSH_CALLBACK = appCenterPushCallback;
-            this.InitializeComponent();
+            InitializeComponent();
 
             SetupSplashScreen();
         }

@@ -3,21 +3,21 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class SettingsContentControl : UserControl
+    public sealed partial class SettingsContentControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(SettingsContentControl), new PropertyMetadata(""));
 
         public object MainContent
         {
-            get { return GetValue(MainContentProperty); }
-            set { SetValue(MainContentProperty, value); }
+            get => GetValue(MainContentProperty);
+            set => SetValue(MainContentProperty, value);
         }
         public static readonly DependencyProperty MainContentProperty = DependencyProperty.Register(nameof(MainContent), typeof(object), typeof(SettingsContentControl), new PropertyMetadata(null));
 
@@ -26,7 +26,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public SettingsContentControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

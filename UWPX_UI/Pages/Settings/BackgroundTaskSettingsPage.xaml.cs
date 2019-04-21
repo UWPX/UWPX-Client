@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class BackgroundTaskSettingsPage : Page
+    public sealed partial class BackgroundTaskSettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,7 +16,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public BackgroundTaskSettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class SecuritySettingsPage : Page
+    public sealed partial class SecuritySettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,7 +16,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public SecuritySettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

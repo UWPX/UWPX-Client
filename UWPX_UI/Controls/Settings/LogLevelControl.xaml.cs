@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class LogLevelControl : UserControl
+    public sealed partial class LogLevelControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,7 +15,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public LogLevelControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

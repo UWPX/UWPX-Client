@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class AccountInfoDialog : ContentDialog
+    public sealed partial class AccountInfoDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,8 +14,8 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public AccountInfoDialog(AccountDataTemplate account)
         {
-            this.ACCOUNT = account;
-            this.InitializeComponent();
+            ACCOUNT = account;
+            InitializeComponent();
         }
 
         #endregion

@@ -5,35 +5,35 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class IconTextBlockControl : UserControl
+    public sealed partial class IconTextBlockControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string Glyph
         {
-            get { return (string)GetValue(GlyphProperty); }
-            set { SetValue(GlyphProperty, value); }
+            get => (string)GetValue(GlyphProperty);
+            set => SetValue(GlyphProperty, value);
         }
         public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(IconTextBlockControl), new PropertyMetadata(""));
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(IconTextBlockControl), new PropertyMetadata(""));
 
         public Brush GlyphForeground
         {
-            get { return (Brush)GetValue(GlyphForegroundProperty); }
-            set { SetValue(GlyphForegroundProperty, value); }
+            get => (Brush)GetValue(GlyphForegroundProperty);
+            set => SetValue(GlyphForegroundProperty, value);
         }
         public static readonly DependencyProperty GlyphForegroundProperty = DependencyProperty.Register(nameof(GlyphForeground), typeof(Brush), typeof(IconButtonControl), new PropertyMetadata(new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"])));
 
         public Style TextBlockStyle
         {
-            get { return (Style)GetValue(TextBlockStyleProperty); }
-            set { SetValue(TextBlockStyleProperty, value); }
+            get => (Style)GetValue(TextBlockStyleProperty);
+            set => SetValue(TextBlockStyleProperty, value);
         }
         public static readonly DependencyProperty TextBlockStyleProperty = DependencyProperty.Register(nameof(TextBlockStyle), typeof(Style), typeof(IconButtonControl), new PropertyMetadata(null));
 
@@ -42,7 +42,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public IconTextBlockControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

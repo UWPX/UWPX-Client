@@ -14,7 +14,7 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public ClearCacheDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

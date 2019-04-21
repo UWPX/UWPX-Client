@@ -3,7 +3,7 @@ using Windows.UI.Xaml;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 {
-    interface IShowFlyoutSpeechBubbleContent
+    internal interface IShowFlyoutSpeechBubbleContent
     {
         void ShowFlyout(FrameworkElement sender, Point point);
     }

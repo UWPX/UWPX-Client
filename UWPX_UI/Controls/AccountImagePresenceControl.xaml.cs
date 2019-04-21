@@ -7,42 +7,42 @@ using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class AccountImagePresenceControl : UserControl
+    public sealed partial class AccountImagePresenceControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public Presence PresenceProp
         {
-            get { return (Presence)GetValue(PresencePropProperty); }
-            set { SetValue(PresencePropProperty, value); }
+            get => (Presence)GetValue(PresencePropProperty);
+            set => SetValue(PresencePropProperty, value);
         }
         public static readonly DependencyProperty PresencePropProperty = DependencyProperty.Register(nameof(PresenceProp), typeof(Presence), typeof(AccountImagePresenceControl), new PropertyMetadata(Presence.Unavailable));
 
         public BitmapImage Image
         {
-            get { return (BitmapImage)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
+            get => (BitmapImage)GetValue(ImageProperty);
+            set => SetValue(ImageProperty, value);
         }
         public static readonly DependencyProperty ImageProperty = DependencyProperty.Register(nameof(Image), typeof(BitmapImage), typeof(AccountImagePresenceControl), new PropertyMetadata(null));
 
         public string BareJid
         {
-            get { return (string)GetValue(BareJidProperty); }
-            set { SetValue(BareJidProperty, value); }
+            get => (string)GetValue(BareJidProperty);
+            set => SetValue(BareJidProperty, value);
         }
         public static readonly DependencyProperty BareJidProperty = DependencyProperty.Register(nameof(BareJid), typeof(string), typeof(AccountImagePresenceControl), new PropertyMetadata("", OnBareJidChanged));
 
         public ChatType ChatType
         {
-            get { return (ChatType)GetValue(ChatTypeProperty); }
-            set { SetValue(ChatTypeProperty, value); }
+            get => (ChatType)GetValue(ChatTypeProperty);
+            set => SetValue(ChatTypeProperty, value);
         }
         public static readonly DependencyProperty ChatTypeProperty = DependencyProperty.Register(nameof(ChatType), typeof(ChatType), typeof(AccountImagePresenceControl), new PropertyMetadata(ChatType.CHAT, OnChatTypeChanged));
 
         public int BadgeCount
         {
-            get { return (int)GetValue(BadgeCountProperty); }
-            set { SetValue(BadgeCountProperty, value); }
+            get => (int)GetValue(BadgeCountProperty);
+            set => SetValue(BadgeCountProperty, value);
         }
         public static readonly DependencyProperty BadgeCountProperty = DependencyProperty.Register(nameof(BadgeCount), typeof(int), typeof(AccountImagePresenceControl), new PropertyMetadata(0));
 
@@ -53,7 +53,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public AccountImagePresenceControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

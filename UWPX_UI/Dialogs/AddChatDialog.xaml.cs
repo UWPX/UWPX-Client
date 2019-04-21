@@ -16,7 +16,7 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public AddChatDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

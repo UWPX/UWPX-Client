@@ -12,7 +12,10 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChangePresenceDialog() => InitializeComponent();
+        public ChangePresenceDialog()
+        {
+            InitializeComponent();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

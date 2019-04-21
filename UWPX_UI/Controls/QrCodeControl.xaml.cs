@@ -4,14 +4,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class QrCodeControl : UserControl
+    public sealed partial class QrCodeControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string QrCodeText
         {
-            get { return (string)GetValue(QrCodeTextProperty); }
-            set { SetValue(QrCodeTextProperty, value); }
+            get => (string)GetValue(QrCodeTextProperty);
+            set => SetValue(QrCodeTextProperty, value);
         }
         public static readonly DependencyProperty QrCodeTextProperty = DependencyProperty.Register(nameof(QrCodeText), typeof(string), typeof(QrCodeControl), new PropertyMetadata("", OnQrCodeTextChanged));
 
@@ -22,7 +22,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public QrCodeControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

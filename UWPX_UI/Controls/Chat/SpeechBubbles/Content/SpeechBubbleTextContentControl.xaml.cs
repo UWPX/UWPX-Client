@@ -8,14 +8,14 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
 {
-    public sealed partial class SpeechBubbleTextContentControl : UserControl, IShowFlyoutSpeechBubbleContent
+    public sealed partial class SpeechBubbleTextContentControl: UserControl, IShowFlyoutSpeechBubbleContent
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public SpeechBubbleContentControlContext SpeechBubbleContentViewModel
         {
-            get { return (SpeechBubbleContentControlContext)GetValue(SpeechBubbleContentViewModelProperty); }
-            set { SetValue(SpeechBubbleContentViewModelProperty, value); }
+            get => (SpeechBubbleContentControlContext)GetValue(SpeechBubbleContentViewModelProperty);
+            set => SetValue(SpeechBubbleContentViewModelProperty, value);
         }
         public static readonly DependencyProperty SpeechBubbleContentViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleTextContentControl), new PropertyMetadata(null));
 
@@ -24,7 +24,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #region --Constructors--
         public SpeechBubbleTextContentControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

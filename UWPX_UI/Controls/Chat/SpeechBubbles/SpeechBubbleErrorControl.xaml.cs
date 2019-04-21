@@ -7,14 +7,14 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles
 {
-    public sealed partial class SpeechBubbleErrorControl : UserControl
+    public sealed partial class SpeechBubbleErrorControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public ChatMessageDataTemplate ChatMessage
         {
-            get { return (ChatMessageDataTemplate)GetValue(ChatMessageProperty); }
-            set { SetValue(ChatMessageProperty, value); }
+            get => (ChatMessageDataTemplate)GetValue(ChatMessageProperty);
+            set => SetValue(ChatMessageProperty, value);
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleErrorControl), new PropertyMetadata(null, OnChatMessageChanged));
 
@@ -25,7 +25,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #region --Constructors--
         public SpeechBubbleErrorControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -4,28 +4,28 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class ConfirmDialog : ContentDialog
+    public sealed partial class ConfirmDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string MarkdownText
         {
-            get { return (string)GetValue(MarkdownTextProperty); }
-            set { SetValue(MarkdownTextProperty, value); }
+            get => (string)GetValue(MarkdownTextProperty);
+            set => SetValue(MarkdownTextProperty, value);
         }
         public static readonly DependencyProperty MarkdownTextProperty = DependencyProperty.Register(nameof(MarkdownText), typeof(string), typeof(ConfirmDialog), new PropertyMetadata(""));
 
         public string PositiveText
         {
-            get { return (string)GetValue(PositiveTextProperty); }
-            set { SetValue(PositiveTextProperty, value); }
+            get => (string)GetValue(PositiveTextProperty);
+            set => SetValue(PositiveTextProperty, value);
         }
         public static readonly DependencyProperty PositiveTextProperty = DependencyProperty.Register(nameof(PositiveText), typeof(string), typeof(ConfirmDialog), new PropertyMetadata("Yes"));
 
         public string NegativeText
         {
-            get { return (string)GetValue(NegativeTextProperty); }
-            set { SetValue(NegativeTextProperty, value); }
+            get => (string)GetValue(NegativeTextProperty);
+            set => SetValue(NegativeTextProperty, value);
         }
         public static readonly DependencyProperty NegativeTextProperty = DependencyProperty.Register(nameof(NegativeText), typeof(string), typeof(ConfirmDialog), new PropertyMetadata("No"));
 
@@ -36,9 +36,9 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public ConfirmDialog(string title, string markdownText)
         {
-            this.Title = title;
-            this.MarkdownText = markdownText;
-            this.InitializeComponent();
+            Title = title;
+            MarkdownText = markdownText;
+            InitializeComponent();
         }
 
         #endregion

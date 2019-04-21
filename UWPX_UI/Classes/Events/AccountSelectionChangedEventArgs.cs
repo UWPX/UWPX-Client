@@ -3,7 +3,7 @@ using XMPP_API.Classes;
 
 namespace UWPX_UI.Classes.Events
 {
-    public class AccountSelectionChangedEventArgs : EventArgs
+    public class AccountSelectionChangedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,7 +14,7 @@ namespace UWPX_UI.Classes.Events
         #region --Constructors--
         public AccountSelectionChangedEventArgs(XMPPClient client)
         {
-            this.CLIENT = client;
+            CLIENT = client;
         }
 
         #endregion

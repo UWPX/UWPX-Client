@@ -5,9 +5,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
-using Microsoft.Toolkit.Uwp.UI.Animations;
 using System;
 using System.Windows.Input;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Metadata;
@@ -27,7 +27,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
     [TemplatePart(Name = PartCommandContainer, Type = typeof(Grid))]
     [TemplatePart(Name = PartLeftCommandPanel, Type = typeof(StackPanel))]
     [TemplatePart(Name = PartRightCommandPanel, Type = typeof(StackPanel))]
-    public class SlidableListItem : ContentControl
+    public class SlidableListItem: ContentControl
     {
         /// <summary>
         /// Identifies the <see cref="ExtraSwipeThreshold"/> property

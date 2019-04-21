@@ -8,7 +8,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 
 namespace UWPX_UI.Controls.Chat
 {
-    public sealed partial class EmojiPickerControl : UserControl
+    public sealed partial class EmojiPickerControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,7 +24,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Constructors--
         public EmojiPickerControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             GoToVisualState("Recent");
             emoji_gridv.Items.VectorChanged += Items_VectorChanged;
             VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;

@@ -22,7 +22,7 @@ namespace UWPX_UI.Pages
         #region --Constructors--
         public ChatPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             NavigationCacheMode = NavigationCacheMode.Required;
         }
 

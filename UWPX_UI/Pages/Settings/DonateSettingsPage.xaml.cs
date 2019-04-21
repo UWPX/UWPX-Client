@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class DonateSettingsPage : Page
+    public sealed partial class DonateSettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,7 +16,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public DonateSettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -17,7 +17,7 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public WhatsNewDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -37,12 +37,12 @@ namespace UWPX_UI
         #region --Constructors--
         public App()
         {
-            this.isRunning = false;
+            isRunning = false;
 
-            this.InitializeComponent();
-            this.Suspending += OnSuspending;
-            this.Resuming += App_Resuming;
-            this.UnhandledException += App_UnhandledException;
+            InitializeComponent();
+            Suspending += OnSuspending;
+            Resuming += App_Resuming;
+            UnhandledException += App_UnhandledException;
         }
 
         #endregion
@@ -242,9 +242,15 @@ namespace UWPX_UI
             deferral.Complete();
         }
 
-        protected override void OnLaunched(LaunchActivatedEventArgs args) => OnActivatedOrLaunched(args);
+        protected override void OnLaunched(LaunchActivatedEventArgs args)
+        {
+            OnActivatedOrLaunched(args);
+        }
 
-        protected override void OnActivated(IActivatedEventArgs args) => OnActivatedOrLaunched(args);
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            OnActivatedOrLaunched(args);
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
@@ -269,7 +275,10 @@ namespace UWPX_UI
             isRunning = true;
         }
 
-        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e) => throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
+        {
+            throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
+        }
 
         private async void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
         {
@@ -302,7 +311,10 @@ namespace UWPX_UI
             }
         }
 
-        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e) => Logger.Error("Unhanded exception: ", e.Exception);
+        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            Logger.Error("Unhanded exception: ", e.Exception);
+        }
 
         #endregion
     }

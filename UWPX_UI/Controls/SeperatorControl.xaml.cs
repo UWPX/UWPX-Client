@@ -3,14 +3,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class SeperatorControl : UserControl
+    public sealed partial class SeperatorControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(SeperatorControl), new PropertyMetadata(""));
 
@@ -19,7 +19,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public SeperatorControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

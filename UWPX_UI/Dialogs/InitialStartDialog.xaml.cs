@@ -16,7 +16,7 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public InitialStartDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

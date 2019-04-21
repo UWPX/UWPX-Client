@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class BareJidInputControl : UserControl
+    public sealed partial class BareJidInputControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,29 +12,29 @@ namespace UWPX_UI.Controls
 
         public string Header
         {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
         }
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(BareJidInputControl), new PropertyMetadata(""));
 
         public string PlaceholderText
         {
-            get { return (string)GetValue(PlaceholderTextProperty); }
-            set { SetValue(PlaceholderTextProperty, value); }
+            get => (string)GetValue(PlaceholderTextProperty);
+            set => SetValue(PlaceholderTextProperty, value);
         }
         public static readonly DependencyProperty PlaceholderTextProperty = DependencyProperty.Register(nameof(PlaceholderText), typeof(string), typeof(BareJidInputControl), new PropertyMetadata("alice@example.com"));
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(BareJidInputControl), new PropertyMetadata("", OnTextChanged));
 
         public bool IsValid
         {
-            get { return (bool)GetValue(IsValidProperty); }
-            set { SetValue(IsValidProperty, value); }
+            get => (bool)GetValue(IsValidProperty);
+            set => SetValue(IsValidProperty, value);
         }
         public static readonly DependencyProperty IsValidProperty = DependencyProperty.Register(nameof(IsValid), typeof(bool), typeof(BareJidInputControl), new PropertyMetadata(false));
 
@@ -43,7 +43,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public BareJidInputControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
         }
 

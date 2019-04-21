@@ -9,7 +9,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class MiscSettingsPage : Page
+    public sealed partial class MiscSettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -21,7 +21,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public MiscSettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -6,14 +6,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles
 {
-    public sealed partial class SpeechBubbleDownControl : UserControl
+    public sealed partial class SpeechBubbleDownControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public ChatMessageDataTemplate ChatMessage
         {
-            get { return (ChatMessageDataTemplate)GetValue(ChatMessageProperty); }
-            set { SetValue(ChatMessageProperty, value); }
+            get => (ChatMessageDataTemplate)GetValue(ChatMessageProperty);
+            set => SetValue(ChatMessageProperty, value);
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleDownControl), new PropertyMetadata(null, OnChatMessageChanged));
 
@@ -24,7 +24,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #region --Constructors--
         public SpeechBubbleDownControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

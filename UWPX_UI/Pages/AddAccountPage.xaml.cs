@@ -12,7 +12,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages
 {
-    public sealed partial class AddAccountPage : Page
+    public sealed partial class AddAccountPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -27,7 +27,7 @@ namespace UWPX_UI.Pages
         #region --Constructors--
         public AddAccountPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

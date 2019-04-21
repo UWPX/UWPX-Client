@@ -5,14 +5,14 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
 {
-    public sealed partial class AccountInfoGeneralControl : UserControl
+    public sealed partial class AccountInfoGeneralControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public AccountDataTemplate Account
         {
-            get { return (AccountDataTemplate)GetValue(AccountProperty); }
-            set { SetValue(AccountProperty, value); }
+            get => (AccountDataTemplate)GetValue(AccountProperty);
+            set => SetValue(AccountProperty, value);
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountInfoGeneralControl), new PropertyMetadata(null, OnAccountChanged));
 
@@ -23,7 +23,7 @@ namespace UWPX_UI.Controls.Settings
         #region --Constructors--
         public AccountInfoGeneralControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -14,7 +14,7 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public DeleteAccountConfirmDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

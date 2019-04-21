@@ -1,6 +1,6 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Animations;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Text;
+using Microsoft.Toolkit.Uwp.UI.Animations;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
@@ -13,7 +13,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class SettingsPage : Page
+    public sealed partial class SettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -39,7 +39,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public SettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             LoadAppVersion();
             VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
 

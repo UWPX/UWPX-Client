@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class DeleteChatConfirmDialog : ContentDialog
+    public sealed partial class DeleteChatConfirmDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,8 +15,8 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public DeleteChatConfirmDialog(ChatTable chat)
         {
-            this.VIEW_MODEL = new DeleteChatConfirmDialogContext(chat);
-            this.InitializeComponent();
+            VIEW_MODEL = new DeleteChatConfirmDialogContext(chat);
+            InitializeComponent();
         }
 
         #endregion

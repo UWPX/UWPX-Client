@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Pages.Settings
 {
-    public sealed partial class DebugSettingsPage : Page
+    public sealed partial class DebugSettingsPage: Page
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,7 +16,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Constructors--
         public DebugSettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

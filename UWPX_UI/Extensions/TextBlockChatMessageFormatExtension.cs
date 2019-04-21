@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes;
-using NeoSmart.Unicode;
-using System;
+﻿using System;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using Data_Manager2.Classes;
+using NeoSmart.Unicode;
 using UWPX_UI_Context.Classes;
 using Windows.ApplicationModel.Contacts;
 using Windows.UI.Xaml;
@@ -24,7 +24,7 @@ namespace UWPX_UI.Extensions
         /// The default prefix to use to convert a relative URI to an absolute URI
         /// The Windows RunTime is only working with absolute URI
         /// </summary>
-        private const string RelativeUriDefaultPrefix = "https://";
+        private const string RELATIVE_URI_DEFAULT_PREFIX = "https://";
         private const string URL_REGEX_PATTERN = @"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'"".,<>?«»“”‘’]))";
         private const string EMAIL_REGEX_PATTERN = @"(?("")("".+?(?<!\\)""@)|(([0-9a-z]((\.(?!\.))|[-!#\$%&'\*\+/=\?\^`\{\}\|~\w])*)(?<=[0-9a-z])@))(?(\[)(\[(\d{1,3}\.){3}\d{1,3}\])|(([0-9a-z][-\w]*[0-9a-z]*\.)+[a-z0-9][\-a-z0-9]{0,22}[a-z0-9]))";
         private const string PHONE_REGEX_PATTERN = @"\+?(\d{2,}[\-\(\)\. ]?){2,}\d\b";
@@ -69,9 +69,9 @@ namespace UWPX_UI.Extensions
         /// <param name="rawText">the raw text where the fragment will be extracted</param>
         /// <param name="startPosition">the start position to extract the fragment</param>
         /// <param name="endPosition">the end position to extract the fragment</param>
-        private static void createRunElement(TextBlock textBlock, string rawText, int startPosition, int endPosition)
+        private static void CreateRunElement(TextBlock textBlock, string rawText, int startPosition, int endPosition)
         {
-            var fragment = rawText.Substring(startPosition, endPosition - startPosition);
+            string fragment = rawText.Substring(startPosition, endPosition - startPosition);
             textBlock.Inlines.Add(new Run { Text = fragment });
         }
 
@@ -82,31 +82,30 @@ namespace UWPX_UI.Extensions
         /// <param name="textBlock">the textblock where to add the hyperlink</param>
         /// <param name="urlMatch">the match for the URL to use to create the hyperlink element</param>
         /// <returns>the newest position on the source string for the parsing</returns>
-        private static int createUrlElement(TextBlock textBlock, Match urlMatch)
+        private static int CreateUrlElement(TextBlock textBlock, Match urlMatch)
         {
             if (Uri.TryCreate(urlMatch.Value, UriKind.RelativeOrAbsolute, out Uri targetUri))
             {
-                Hyperlink link = new Hyperlink();
-                link.Inlines.Add(new Run
+                Hyperlink link = new Hyperlink
                 {
-                    Text = urlMatch.Value,
-                    Foreground = (Brush)Application.Current.Resources["SpeechBubbleForegroundBrush"]
-                });
-
-                if (targetUri.IsAbsoluteUri)
-                {
-                    link.NavigateUri = targetUri;
-                }
-                else
-                {
-                    link.NavigateUri = new Uri(RelativeUriDefaultPrefix + targetUri.OriginalString);
-                }
-
+                    Inlines =
+                    {
+                        new Run
+                        {
+                            Text = urlMatch.Value,
+                            Foreground = (Brush)Application.Current.Resources["SpeechBubbleForegroundBrush"]
+                        }
+                    },
+                    NavigateUri = targetUri.IsAbsoluteUri ? targetUri : new Uri(RELATIVE_URI_DEFAULT_PREFIX + targetUri.OriginalString)
+                };
                 textBlock.Inlines.Add(link);
             }
             else
             {
-                textBlock.Inlines.Add(new Run { Text = urlMatch.Value });
+                textBlock.Inlines.Add(new Run
+                {
+                    Text = urlMatch.Value
+                });
             }
 
             return urlMatch.Index + urlMatch.Length;
@@ -123,9 +122,9 @@ namespace UWPX_UI.Extensions
         /// <param name="emailMatch">the match for the email to use to create the hyperlink element. Set to null if not available but at least one of emailMatch and phoneMatch must be not null.</param>
         /// <param name="phoneMatch">the match for the phone number to create the hyperlink element. Set to null if not available but at least one of emailMatch and phoneMatch must be not null.</param>
         /// <returns>the newest position on the source string for the parsing</returns>
-        private static int createContactElement(TextBlock textBlock, Match emailMatch, Match phoneMatch)
+        private static int CreateContactElement(TextBlock textBlock, Match emailMatch, Match phoneMatch)
         {
-            var currentMatch = emailMatch ?? phoneMatch;
+            Match currentMatch = emailMatch ?? phoneMatch;
 
             Hyperlink link = new Hyperlink();
             link.Inlines.Add(new Run
@@ -135,7 +134,7 @@ namespace UWPX_UI.Extensions
             });
             link.Click += (s, a) =>
             {
-                var contact = new Contact();
+                Contact contact = new Contact();
                 if (emailMatch != null)
                 {
                     contact.Emails.Add(new ContactEmail { Address = emailMatch.Value });
@@ -188,8 +187,8 @@ namespace UWPX_UI.Extensions
             }
             else
             {
-                var lastPosition = 0;
-                var matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
+                int lastPosition = 0;
+                Match[] matches = new Match[3] { Match.Empty, Match.Empty, Match.Empty };
 
                 do
                 {
@@ -206,24 +205,24 @@ namespace UWPX_UI.Extensions
                         }
                     });
 
-                    var firstMatch = matches.Where(x => !(x is null) && x.Success).OrderBy(x => x.Index)?.FirstOrDefault();
+                    Match firstMatch = matches.Where(x => !(x is null) && x.Success).OrderBy(x => x.Index)?.FirstOrDefault();
                     if (firstMatch == matches[0])
                     {
                         // the first match is an URL:
-                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                        lastPosition = createUrlElement(textBlock, firstMatch);
+                        CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                        lastPosition = CreateUrlElement(textBlock, firstMatch);
                     }
                     else if (firstMatch == matches[1])
                     {
                         // the first match is an email:
-                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                        lastPosition = createContactElement(textBlock, firstMatch, null);
+                        CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                        lastPosition = CreateContactElement(textBlock, firstMatch, null);
                     }
                     else if (firstMatch == matches[2])
                     {
                         // the first match is a phone number:
-                        createRunElement(textBlock, text, lastPosition, firstMatch.Index);
-                        lastPosition = createContactElement(textBlock, null, firstMatch);
+                        CreateRunElement(textBlock, text, lastPosition, firstMatch.Index);
+                        lastPosition = CreateContactElement(textBlock, null, firstMatch);
                     }
                     else
                     {

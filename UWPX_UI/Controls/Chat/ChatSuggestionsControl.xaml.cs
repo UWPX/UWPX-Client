@@ -6,21 +6,21 @@ using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Chat
 {
-    public sealed partial class ChatSuggestionsControl : UserControl
+    public sealed partial class ChatSuggestionsControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public XMPPClient Client
         {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set { SetValue(ClientProperty, value); }
+            get => (XMPPClient)GetValue(ClientProperty);
+            set => SetValue(ClientProperty, value);
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ChatSuggestionsControl), new PropertyMetadata(null, OnClientChanged));
 
         public string FilterText
         {
-            get { return (string)GetValue(FilterTextProperty); }
-            set { SetValue(FilterTextProperty, value); }
+            get => (string)GetValue(FilterTextProperty);
+            set => SetValue(FilterTextProperty, value);
         }
         public static readonly DependencyProperty FilterTextProperty = DependencyProperty.Register(nameof(FilterText), typeof(string), typeof(ChatSuggestionsControl), new PropertyMetadata("", OnFilterTextChanged));
 
@@ -34,7 +34,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Constructors--
         public ChatSuggestionsControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -10,49 +10,49 @@ using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI.Controls
 {
-    public sealed partial class CustomSettingsTitleBarControl : UserControl
+    public sealed partial class CustomSettingsTitleBarControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public Frame Frame
         {
-            get { return (Frame)GetValue(FrameProperty); }
-            set { SetValue(FrameProperty, value); }
+            get => (Frame)GetValue(FrameProperty);
+            set => SetValue(FrameProperty, value);
         }
         public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(null));
 
         public string Glyph
         {
-            get { return (string)GetValue(GlyphProperty); }
-            set { SetValue(GlyphProperty, value); }
+            get => (string)GetValue(GlyphProperty);
+            set => SetValue(GlyphProperty, value);
         }
         public static readonly DependencyProperty GlyphProperty = DependencyProperty.Register(nameof(Glyph), typeof(string), typeof(CustomSettingsTitleBarControl), new PropertyMetadata("\uE9CE"));
 
         public string Text
         {
-            get { return (string)GetValue(TextProperty); }
-            set { SetValue(TextProperty, value); }
+            get => (string)GetValue(TextProperty);
+            set => SetValue(TextProperty, value);
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(CustomSettingsTitleBarControl), new PropertyMetadata("Text"));
 
         public Visibility BackRequestButtonVisability
         {
-            get { return (Visibility)GetValue(BackRequestButtonVisabilityProperty); }
-            set { SetValue(BackRequestButtonVisabilityProperty, value); }
+            get => (Visibility)GetValue(BackRequestButtonVisabilityProperty);
+            set => SetValue(BackRequestButtonVisabilityProperty, value);
         }
         public static readonly DependencyProperty BackRequestButtonVisabilityProperty = DependencyProperty.Register(nameof(BackRequestButtonVisability), typeof(Visibility), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(Visibility.Visible));
 
         public Type NavigationFallbackPage
         {
-            get { return (Type)GetValue(NavigationFallbackPageProperty); }
-            set { SetValue(NavigationFallbackPageProperty, value); }
+            get => (Type)GetValue(NavigationFallbackPageProperty);
+            set => SetValue(NavigationFallbackPageProperty, value);
         }
         public static readonly DependencyProperty NavigationFallbackPageProperty = DependencyProperty.Register(nameof(NavigationFallbackPage), typeof(Type), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(typeof(ChatPage)));
 
         public bool IsActive
         {
-            get { return (bool)GetValue(IsActiveProperty); }
-            set { SetValue(IsActiveProperty, value); }
+            get => (bool)GetValue(IsActiveProperty);
+            set => SetValue(IsActiveProperty, value);
         }
         public static readonly DependencyProperty IsActiveProperty = DependencyProperty.Register(nameof(IsActive), typeof(bool), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(false, OnIsActiveChanged));
 
@@ -61,7 +61,7 @@ namespace UWPX_UI.Controls
         #region --Constructors--
         public CustomSettingsTitleBarControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             SetupTitleBar();
             SetupKeyboardAccelerators();
 

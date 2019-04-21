@@ -16,7 +16,7 @@ namespace UWPX_UI.Dialogs
         public CertificateRequirementsDialog(XMPPAccount account)
         {
             VIEW_MODEL = new CertificateRequirementsDialogContext(account);
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class ColorPickerDialog : ContentDialog
+    public sealed partial class ColorPickerDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -15,8 +15,8 @@ namespace UWPX_UI.Dialogs
         #region --Constructors--
         public ColorPickerDialog(Color color)
         {
-            this.VIEW_MODEL = new ColorPickerDialogContext(color);
-            this.InitializeComponent();
+            VIEW_MODEL = new ColorPickerDialogContext(color);
+            InitializeComponent();
         }
 
         #endregion

@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Chat.SpeechBubbles
 {
-    public sealed partial class SpeechBubbleTopControl : UserControl
+    public sealed partial class SpeechBubbleTopControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,7 +24,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #region --Constructors--
         public SpeechBubbleTopControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion
