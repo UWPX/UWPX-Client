@@ -1,12 +1,12 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class AddChatDialogDataTemplate : AbstractDataTemplate
+    public sealed class AddChatDialogDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -59,6 +59,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set { SetChatBareJidProperty(value); }
         }
 
+        private bool _IsInRoster;
+        public bool IsInRoster
+        {
+            get { return _IsInRoster; }
+            set { SetProperty(ref _IsInRoster, value); }
+        }
+
+        private bool _IsSubscribedToPresence;
+        public bool IsSubscribedToPresence
+        {
+            get { return _IsSubscribedToPresence; }
+            set { SetProperty(ref _IsSubscribedToPresence, value); }
+        }
+
         private XMPPClient _Client;
         public XMPPClient Client
         {
@@ -91,7 +105,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
                     Task.Run(() =>
                     {
                         ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(value, Client.getXMPPAccount().getBareJid()));
-                        ChatExists = !(chat is null) && chat.isChatActive;
+                        if (chat is null)
+                        {
+                            ChatExists = false;
+                            IsInRoster = false;
+                            IsSubscribedToPresence = false;
+                        }
+                        else
+                        {
+                            IsInRoster = chat.inRoster;
+                            IsSubscribedToPresence = chat.subscriptionRequested || string.Equals(chat.subscription, "to") || string.Equals(chat.subscription, "both");
+                            ChatExists = chat.isChatActive;
+                        }
                     });
                 }
             }

@@ -60,7 +60,7 @@
                        Style="{ThemeResource SubtitleTextBlockStyle}"
                        Text="¯\_(ツ)_/¯"/>
             <TextBlock HorizontalAlignment="Center"
-                       Text="We couldn't find this one."/>
+                       Text="No suggestions found"/>
         </StackPanel>
         <controls:LoadingContentControl Grid.Row="1"
                                         Margin="0,10,0,0"
