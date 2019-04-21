@@ -133,7 +133,7 @@
                                Style="{ThemeResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <Button Grid.Column="2"
                         Height="35"
@@ -145,7 +145,7 @@
                         FontWeight="Bold"
                         Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
                         Style="{ThemeResource ButtonRevealStyle}"
-                        Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisability, Mode=OneWay}">
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
@@ -199,7 +199,7 @@
                             <MenuFlyoutItem x:Name="enter_mfo"
                                             Click="Enter_mfo_Click"
                                             Text="Enter room"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.EnterMucVisability, Mode=OneWay}">
+                                            Visibility="{x:Bind VIEW_MODEL.MODEL.EnterMucVisibility, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Green"
                                               Glyph="&#xE8BD;"/>
@@ -208,7 +208,7 @@
                             <MenuFlyoutItem x:Name="leave_mfo"
                                             Click="Leave_mfo_Click"
                                             Text="Leave room"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.LeaveMucVisability, Mode=OneWay}">
+                                            Visibility="{x:Bind VIEW_MODEL.MODEL.LeaveMucVisibility, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Red"
                                               Glyph="&#xE89B;"/>
@@ -217,7 +217,7 @@
                             <MenuFlyoutItem x:Name="test_mfo"
                                             Click="Test_mfo_Click"
                                             Text="Debug/Test"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                                            Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                                 <MenuFlyoutItem.Icon>
                                     <FontIcon Foreground="Gold"
                                               Glyph="&#xE81F;"/>
@@ -361,7 +361,7 @@
                         FontSize="27"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Emojis"
-                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                     <Button.Flyout>
                         <Flyout>
                             <chat:EmojiPickerControl EmojiSelected="EmojiPickerControl_EmojiSelected"/>
@@ -390,7 +390,7 @@
                                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                    FontSize="10"
                                    Text="&#xE72E;"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     </Grid>
                 </Button>
             </Grid>

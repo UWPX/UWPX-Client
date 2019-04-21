@@ -28,6 +28,6 @@
         <CheckBox Margin="0,10,0,0"
                   Content="Remove from roster"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.RemoveFromRoster, Mode=TwoWay}"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterVisible, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterVisible, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
     </StackPanel>
 </ContentDialog>

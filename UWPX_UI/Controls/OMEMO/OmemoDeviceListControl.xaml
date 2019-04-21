@@ -68,7 +68,7 @@
                                          Click="Reset_ibtn_Click"
                                          Glyph="&#xED62;"
                                          IsEnabled="{x:Bind VIEW_MODEL.MODEL.ResettingDevices, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-                                         ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.ResettingDevices, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"
+                                         ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.ResettingDevices, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
                                          Text="Reset devices"/>
         <local:IconProgressButtonControl x:Name="refresh_ibtn"
                                          Grid.Row="3"
@@ -77,7 +77,7 @@
                                          Click="Refresh_ibtn_Click"
                                          Glyph="&#xE72C;"
                                          IsEnabled="{x:Bind VIEW_MODEL.MODEL.RefreshingDevices, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-                                         ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.RefreshingDevices, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"
+                                         ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.RefreshingDevices, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
                                          Text="Refresh devices"/>
     </Grid>
 </UserControl>

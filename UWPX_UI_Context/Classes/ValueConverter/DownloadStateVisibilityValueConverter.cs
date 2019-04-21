@@ -1,20 +1,24 @@
-﻿using Data_Manager2.Classes;
+﻿using Shared.Classes.Network;
 using System;
+using System.Collections.Generic;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MucStateMucLeaveVisabilityValueConverter : IValueConverter
+    public sealed class DownloadStateVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public List<DownloadState> statesVisible { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public DownloadStateVisibilityValueConverter()
+        {
+            statesVisible = new List<DownloadState>();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -26,7 +30,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MUCState s && (s == MUCState.ENTERING || s == MUCState.ENTERD))
+            if (value is DownloadState state && statesVisible.Contains(state))
             {
                 return Visibility.Visible;
             }

@@ -1,11 +1,12 @@
-﻿using Data_Manager2.Classes;
+﻿using Logging;
 using System;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MucStateMucJoinVisabilityValueConverter : IValueConverter
+    public sealed class LogLevelWarningVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -26,7 +27,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MUCState s && s != MUCState.ENTERING && s != MUCState.ENTERD)
+            if (value is LogLevelDataTemplate logLevel && logLevel.LogLevel == LogLevel.DEBUG)
             {
                 return Visibility.Visible;
             }

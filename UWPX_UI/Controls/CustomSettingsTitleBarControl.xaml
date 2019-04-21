@@ -49,7 +49,7 @@
                             HorizontalAlignment="Left"
                             Click="BackRequest_btn_Click"
                             Style="{ThemeResource NavigationBackButtonSmallStyle}"
-                            Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}"/>
+                            Visibility="{x:Bind BackRequestButtonVisibility, Mode=OneWay}"/>
                     <Button x:Name="goToOverview_btn"
                             Grid.Column="1"
                             Click="GoToOverview_btn_Click"

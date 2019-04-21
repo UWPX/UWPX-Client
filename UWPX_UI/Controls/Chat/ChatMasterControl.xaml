@@ -17,8 +17,8 @@
                 <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml"/>
             </valueconverter:MessageStateBrushValueConverter.Resources>
         </valueconverter:MessageStateBrushValueConverter>
-        <valueconverter:MucStateMucJoinVisabilityValueConverter x:Key="MucStateMucJoinVisabilityValueConverter"/>
-        <valueconverter:MucStateMucLeaveVisabilityValueConverter x:Key="MucStateMucLeaveVisabilityValueConverter"/>
+        <valueconverter:MucStateMucJoinVisibilityValueConverter x:Key="MucStateMucJoinVisibilityValueConverter"/>
+        <valueconverter:MucStateMucLeaveVisibilityValueConverter x:Key="MucStateMucLeaveVisibilityValueConverter"/>
         <MenuFlyout x:Name="chat_mfo">
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showProfile_mfo"
@@ -35,7 +35,7 @@
                     <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo"
                                     Click="RequestPresenceSubscription_mfo_Click"
                                     Text="Request subscription"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RequestPresenceSubscriptionVisability, Mode=OneWay}">
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RequestPresenceSubscriptionVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Foreground="Green"
                                       Glyph="&#xE109;"/>
@@ -44,7 +44,7 @@
                     <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo"
                                     Click="CancelPresenceSubscription_mfo_Click"
                                     Text="Cancel subscription"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.CancelPresenceSubscriptionVisability, Mode=OneWay}">
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.CancelPresenceSubscriptionVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Foreground="Red"
                                       Glyph="&#xE738;"/>
@@ -53,7 +53,7 @@
                     <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
                                     Click="RejectPresenceSubscription_mfo_Click"
                                     Text="Reject subscription"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RejectPresenceSubscriptionVisability, Mode=OneWay}">
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RejectPresenceSubscriptionVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Foreground="Red"
                                       Glyph="&#xE711;"/>
@@ -62,7 +62,7 @@
                     <MenuFlyoutItem x:Name="probePresence_mfo"
                                     Click="ProbePresence_mfo_Click"
                                     Text="Probe presence"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.ProbePresenceVisability, Mode=OneWay}">
+                                    Visibility="{x:Bind VIEW_MODEL.MODEL.ProbePresenceVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
                             <FontIcon Glyph="&#xEA62;"/>
                         </MenuFlyoutItem.Icon>
@@ -123,7 +123,7 @@
                 <MenuFlyoutItem x:Name="enter_mfo"
                                 Click="Enter_mfo_Click"
                                 Text="Enter room"
-                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisabilityValueConverter}}">
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisibilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Foreground="Green"
                                   Glyph="&#xE8BD;"/>
@@ -132,7 +132,7 @@
                 <MenuFlyoutItem x:Name="leave_mfo"
                                 Click="Leave_mfo_Click"
                                 Text="Leave room"
-                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisabilityValueConverter}}">
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisibilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Foreground="Red"
                                   Glyph="&#xE89B;"/>
@@ -231,7 +231,7 @@
                                    Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
                                    Style="{ThemeResource CaptionLineTextBlockStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                         <TextBlock x:Name="lastAction_tblck"
                                    Grid.Column="1"
                                    VerticalAlignment="Center"
@@ -248,7 +248,7 @@
                                Style="{ThemeResource CaptionLineTextBlockStyle}"
                                Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisability, Mode=OneWay}"/>
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisibility, Mode=OneWay}"/>
                 </StackPanel>
 
                 <Grid Grid.Column="3"
@@ -268,7 +268,7 @@
                                FontSize="12"
                                Foreground="{ThemeResource GoldBrush}"
                                Text="&#xE734;"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisability, Mode=OneWay}"/>
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisibility, Mode=OneWay}"/>
                     <TextBlock x:Name="muted_tbck"
                                Grid.Row="1"
                                HorizontalAlignment="Right"
@@ -277,7 +277,7 @@
                                FontSize="13"
                                Foreground="{ThemeResource CaptionTextBrush}"
                                Text="&#xE74F;"
-                               Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                               Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     <TextBlock x:Name="lastActionDate_tblck"
                                Grid.Row="2"
                                HorizontalAlignment="Right"
@@ -290,7 +290,7 @@
             <Grid x:Name="accountAction_grid"
                   Grid.Row="1"
                   Margin="10,0,10,10"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.AccountActionsVisability, Mode=OneWay}">
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.AccountActionsVisibility, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

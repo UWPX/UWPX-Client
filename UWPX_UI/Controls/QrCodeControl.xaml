@@ -18,6 +18,6 @@
                Source="{x:Bind VIEW_MODEL.MODEL.QrCodeImage, Mode=OneWay}"/>
         <ProgressRing Grid.Row="1"
                       IsActive="True"
-                      Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                      Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
     </Grid>
 </UserControl>

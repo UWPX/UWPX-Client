@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Data_Manager2.Classes;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class BoolVisabilityValueConverter : IValueConverter
+    public sealed class MucStateMucJoinVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -25,7 +26,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is bool b && b)
+            if (value is MUCState s && s != MUCState.ENTERING && s != MUCState.ENTERD)
             {
                 return Visibility.Visible;
             }
@@ -34,7 +35,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return value is Visibility v && v == Visibility.Visible;
+            throw new NotImplementedException();
         }
 
         #endregion

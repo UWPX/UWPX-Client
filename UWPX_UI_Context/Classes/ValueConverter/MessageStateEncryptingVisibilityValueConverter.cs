@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Data_Manager2.Classes;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class StringEmptyVisabilityValueConverter : IValueConverter
+    public sealed class MessageStateEncryptingVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -25,7 +26,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is string s && !string.IsNullOrEmpty(s))
+            if (value is MessageState state && state == MessageState.TO_ENCRYPT)
             {
                 return Visibility.Visible;
             }

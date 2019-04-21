@@ -6,7 +6,7 @@
              xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              MaxHeight="230"
-             Visibility="{x:Bind VIEW_MODEL.MODEL.HasSuggestions, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"
+             Visibility="{x:Bind VIEW_MODEL.MODEL.HasSuggestions, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
              mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -50,11 +50,11 @@
                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"
                   SelectionChanged="ListView_SelectionChanged"
                   SelectionMode="Single"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}"/>
         <StackPanel Grid.Row="1"
                     Margin="0,10,0,0"
                     HorizontalAlignment="Center"
-                    Visibility="{x:Bind VIEW_MODEL.MODEL.HasFilteredSuggestions, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}">
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.HasFilteredSuggestions, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
             <TextBlock HorizontalAlignment="Center"
                        Foreground="{ThemeResource SystemAccentColor}"
                        Style="{ThemeResource SubtitleTextBlockStyle}"
@@ -65,6 +65,6 @@
         <controls:LoadingContentControl Grid.Row="1"
                                         Margin="0,10,0,0"
                                         Text="Loading suggestions..."
-                                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
     </Grid>
 </UserControl>

@@ -39,7 +39,7 @@
                                        Glyph="&#xE783;"
                                        GlyphForeground="Red"
                                        Text="Chat exists"
-                                       Visibility="{x:Bind VIEW_MODEL.MODEL.ChatExists, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                                       Visibility="{x:Bind VIEW_MODEL.MODEL.ChatExists, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
         <chatControls:ChatSuggestionsControl Grid.Row="3"
                                              Client="{x:Bind VIEW_MODEL.MODEL.Client, Mode=OneWay}"
                                              FilterText="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"

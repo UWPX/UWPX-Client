@@ -111,7 +111,7 @@
                            Margin="10,0,10,0"
                            HorizontalAlignment="Center"
                            Text="Debug settings enabled."
-                           Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Converter={StaticResource BoolVisabilityValueConverter}, Mode=OneWay}"/>
+                           Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Converter={StaticResource BoolVisibilityValueConverter}, Mode=OneWay}"/>
             </Grid>
         </ScrollViewer>
 

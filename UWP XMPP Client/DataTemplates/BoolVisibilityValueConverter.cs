@@ -1,11 +1,10 @@
-﻿using Data_Manager2.Classes;
-using System;
+﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed class MessageStateUnreadVisabilityValueConverter : IValueConverter
+    class BoolVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,7 +13,15 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        /// <summary>
+        /// Basic Constructor
+        /// </summary>
+        /// <history>
+        /// 27/06/2018 Created [Fabian Sauter]
+        /// </history>
+        public BoolVisibilityValueConverter()
+        {
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -26,16 +33,20 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MessageState state && state == MessageState.UNREAD)
+            if (value is bool b)
             {
-                return Visibility.Visible;
+                return b ? Visibility.Visible : Visibility.Collapsed;
             }
             return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            throw new NotImplementedException();
+            if (value is Visibility v)
+            {
+                return v == Visibility.Visible;
+            }
+            return false;
         }
 
         #endregion

@@ -16,35 +16,35 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private Visibility _RequestPresenceSubscriptionVisability;
-        public Visibility RequestPresenceSubscriptionVisability
+        private Visibility _RequestPresenceSubscriptionVisibility;
+        public Visibility RequestPresenceSubscriptionVisibility
         {
-            get => _RequestPresenceSubscriptionVisability;
-            set => SetProperty(ref _RequestPresenceSubscriptionVisability, value);
+            get => _RequestPresenceSubscriptionVisibility;
+            set => SetProperty(ref _RequestPresenceSubscriptionVisibility, value);
         }
-        private Visibility _CancelPresenceSubscriptionVisability;
-        public Visibility CancelPresenceSubscriptionVisability
+        private Visibility _CancelPresenceSubscriptionVisibility;
+        public Visibility CancelPresenceSubscriptionVisibility
         {
-            get => _CancelPresenceSubscriptionVisability;
-            set => SetProperty(ref _CancelPresenceSubscriptionVisability, value);
+            get => _CancelPresenceSubscriptionVisibility;
+            set => SetProperty(ref _CancelPresenceSubscriptionVisibility, value);
         }
-        private Visibility _RejectPresenceSubscriptionVisability;
-        public Visibility RejectPresenceSubscriptionVisability
+        private Visibility _RejectPresenceSubscriptionVisibility;
+        public Visibility RejectPresenceSubscriptionVisibility
         {
-            get => _RejectPresenceSubscriptionVisability;
-            set => SetProperty(ref _RejectPresenceSubscriptionVisability, value);
+            get => _RejectPresenceSubscriptionVisibility;
+            set => SetProperty(ref _RejectPresenceSubscriptionVisibility, value);
         }
-        private Visibility _ProbePresenceVisability;
-        public Visibility ProbePresenceVisability
+        private Visibility _ProbePresenceVisibility;
+        public Visibility ProbePresenceVisibility
         {
-            get => _ProbePresenceVisability;
-            set => SetProperty(ref _ProbePresenceVisability, value);
+            get => _ProbePresenceVisibility;
+            set => SetProperty(ref _ProbePresenceVisibility, value);
         }
-        private Visibility _AccountActionsVisability;
-        public Visibility AccountActionsVisability
+        private Visibility _AccountActionsVisibility;
+        public Visibility AccountActionsVisibility
         {
-            get => _AccountActionsVisability;
-            set => SetProperty(ref _AccountActionsVisability, value);
+            get => _AccountActionsVisibility;
+            set => SetProperty(ref _AccountActionsVisibility, value);
         }
         private bool _PresenceFlyoutEnabled;
         public bool PresenceFlyoutEnabled
@@ -82,17 +82,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _InfoText;
             set => SetProperty(ref _InfoText, value);
         }
-        private Visibility _InfoTextVisability;
-        public Visibility InfoTextVisability
+        private Visibility _InfoTextVisibility;
+        public Visibility InfoTextVisibility
         {
-            get => _InfoTextVisability;
-            set => SetProperty(ref _InfoTextVisability, value);
+            get => _InfoTextVisibility;
+            set => SetProperty(ref _InfoTextVisibility, value);
         }
-        private Visibility _InRosterVisability;
-        public Visibility InRosterVisability
+        private Visibility _InRosterVisibility;
+        public Visibility InRosterVisibility
         {
-            get => _InRosterVisability;
-            set => SetProperty(ref _InRosterVisability, value);
+            get => _InRosterVisibility;
+            set => SetProperty(ref _InRosterVisibility, value);
         }
         private string _LastActionText;
         public string LastActionText
@@ -190,44 +190,44 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (!(chat is null))
             {
-                AccountActionsVisability = Visibility.Collapsed;
+                AccountActionsVisibility = Visibility.Collapsed;
                 if (chat.chatType != ChatType.MUC)
                 {
                     // Chat jabber id:
                     NameText = chat.chatJabberId;
 
                     // Subscription state:
-                    ProbePresenceVisability = Visibility.Collapsed;
-                    RequestPresenceSubscriptionVisability = Visibility.Collapsed;
-                    CancelPresenceSubscriptionVisability = Visibility.Collapsed;
-                    RejectPresenceSubscriptionVisability = Visibility.Collapsed;
+                    ProbePresenceVisibility = Visibility.Collapsed;
+                    RequestPresenceSubscriptionVisibility = Visibility.Collapsed;
+                    CancelPresenceSubscriptionVisibility = Visibility.Collapsed;
+                    RejectPresenceSubscriptionVisibility = Visibility.Collapsed;
                     PresenceFlyoutEnabled = true;
 
                     switch (chat.subscription)
                     {
                         case "to":
-                            CancelPresenceSubscriptionVisability = Visibility.Visible;
-                            ProbePresenceVisability = Visibility.Visible;
+                            CancelPresenceSubscriptionVisibility = Visibility.Visible;
+                            ProbePresenceVisibility = Visibility.Visible;
                             break;
                         case "both":
-                            CancelPresenceSubscriptionVisability = Visibility.Visible;
-                            ProbePresenceVisability = Visibility.Visible;
-                            RejectPresenceSubscriptionVisability = Visibility.Visible;
+                            CancelPresenceSubscriptionVisibility = Visibility.Visible;
+                            ProbePresenceVisibility = Visibility.Visible;
+                            RejectPresenceSubscriptionVisibility = Visibility.Visible;
                             break;
                         case "subscribe":
                             PresenceFlyoutEnabled = false;
-                            AccountActionsVisability = Visibility.Visible;
+                            AccountActionsVisibility = Visibility.Visible;
                             break;
                         case "unsubscribe":
-                            RequestPresenceSubscriptionVisability = Visibility.Visible;
+                            RequestPresenceSubscriptionVisibility = Visibility.Visible;
                             break;
                         case "from":
-                            RequestPresenceSubscriptionVisability = Visibility.Visible;
-                            RejectPresenceSubscriptionVisability = Visibility.Visible;
+                            RequestPresenceSubscriptionVisibility = Visibility.Visible;
+                            RejectPresenceSubscriptionVisibility = Visibility.Visible;
                             break;
                         case "none":
                         default:
-                            RequestPresenceSubscriptionVisability = Visibility.Visible;
+                            RequestPresenceSubscriptionVisibility = Visibility.Visible;
                             break;
                     }
 
@@ -242,13 +242,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (chat.subscriptionRequested)
                 {
                     InfoText = "Subscription pending...";
-                    InfoTextVisability = Visibility.Visible;
-                    CancelPresenceSubscriptionVisability = Visibility.Visible;
-                    RequestPresenceSubscriptionVisability = Visibility.Collapsed;
+                    InfoTextVisibility = Visibility.Visible;
+                    CancelPresenceSubscriptionVisibility = Visibility.Visible;
+                    RequestPresenceSubscriptionVisibility = Visibility.Collapsed;
                 }
                 else
                 {
-                    InfoTextVisability = Visibility.Collapsed;
+                    InfoTextVisibility = Visibility.Collapsed;
                 }
 
                 // Last chat message:
@@ -256,7 +256,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 UpdateUnreadCount(chat);
 
                 // Status icons:
-                InRosterVisability = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
+                InRosterVisibility = chat.inRoster ? Visibility.Visible : Visibility.Collapsed;
 
                 // Account image:
                 AccountPresence = chat.presence;

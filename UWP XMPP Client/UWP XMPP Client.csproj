@@ -212,12 +212,12 @@
     </Compile>
     <Compile Include="DataTemplates\BackgroundImageTemplate.cs" />
     <Compile Include="DataTemplates\BitDataRateValueConverter.cs" />
-    <Compile Include="DataTemplates\BoolVisabilityValueConverter.cs" />
+    <Compile Include="DataTemplates\BoolVisibilityValueConverter.cs" />
     <Compile Include="DataTemplates\CertificateDetailsTemplate.cs" />
     <Compile Include="DataTemplates\CertificateRequirementTemplate.cs" />
     <Compile Include="DataTemplates\ChatMessageDataTemplate.cs" />
     <Compile Include="DataTemplates\ChatTemplate.cs" />
-    <Compile Include="DataTemplates\MessageUnreadVisabilityValueConverter.cs" />
+    <Compile Include="DataTemplates\MessageUnreadVisibilityValueConverter.cs" />
     <Compile Include="DataTemplates\MUCBanedUserTemplate .cs" />
     <Compile Include="DataTemplates\MUCInfoFieldTemplate.cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
@@ -229,7 +229,7 @@
     <Compile Include="DataTemplates\ServerFeaturesTemplate.cs" />
     <Compile Include="DataTemplates\SettingTemplate.cs" />
     <Compile Include="DataTemplates\SpeechBubbleDateValueConverter.cs" />
-    <Compile Include="DataTemplates\StringEmptyVisabilityValueConverter.cs" />
+    <Compile Include="DataTemplates\StringEmptyVisibilityValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
     <Compile Include="DataTemplates\UintTemplate.cs" />
     <Compile Include="Dialogs\AddBookmarkDialog.xaml.cs">

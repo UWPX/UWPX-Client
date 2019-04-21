@@ -25,6 +25,6 @@
                                        Glyph="&#xE783;"
                                        GlyphForeground="Red"
                                        Text="Invalid JID"
-                                       Visibility="{x:Bind VIEW_MODEL.MODEL.IsValid, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}"/>
+                                       Visibility="{x:Bind VIEW_MODEL.MODEL.IsValid, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}"/>
     </StackPanel>
 </UserControl>

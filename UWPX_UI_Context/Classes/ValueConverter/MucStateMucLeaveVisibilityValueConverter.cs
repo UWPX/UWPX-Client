@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Data_Manager2.Classes;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace UWP_XMPP_Client.DataTemplates
+namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    class StringEmptyVisabilityValueConverter : IValueConverter
+    public sealed class MucStateMucLeaveVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,15 +14,7 @@ namespace UWP_XMPP_Client.DataTemplates
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 27/06/2018 Created [Fabian Sauter]
-        /// </history>
-        public StringEmptyVisabilityValueConverter()
-        {
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -33,9 +26,9 @@ namespace UWP_XMPP_Client.DataTemplates
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is string s)
+            if (value is MUCState s && (s == MUCState.ENTERING || s == MUCState.ENTERD))
             {
-                return string.IsNullOrEmpty(s) ? Visibility.Collapsed : Visibility.Visible;
+                return Visibility.Visible;
             }
             return Visibility.Collapsed;
         }

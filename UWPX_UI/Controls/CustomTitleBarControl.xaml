@@ -29,7 +29,7 @@
             HorizontalAlignment="Left"
             Click="BackRequest_btn_Click"
             Style="{ThemeResource NavigationBackButtonSmallStyle}"
-            Visibility="{x:Bind BackRequestButtonVisability, Mode=OneWay}" />
+            Visibility="{x:Bind BackRequestButtonVisibility, Mode=OneWay}" />
         <controls:SeperatorControl Grid.Row="1" />
     </Grid>
 </UserControl>

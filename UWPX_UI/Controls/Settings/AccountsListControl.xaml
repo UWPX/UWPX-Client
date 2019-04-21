@@ -24,7 +24,7 @@
                   ItemTemplate="{StaticResource AccountTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.ACCOUNTS}"
                   SelectionMode="None"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisabilityValueConverter}}">
+                  Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Padding" Value="10,5,10,5"/>
@@ -71,7 +71,7 @@
         <Grid Grid.Row="0"
               HorizontalAlignment="Center"
               VerticalAlignment="Center"
-              Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+              Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

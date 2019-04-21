@@ -36,17 +36,17 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _StatusText;
             set => SetProperty(ref _StatusText, value);
         }
-        private Visibility _EnterMucVisability;
-        public Visibility EnterMucVisability
+        private Visibility _EnterMucVisibility;
+        public Visibility EnterMucVisibility
         {
-            get => _EnterMucVisability;
-            set => SetProperty(ref _EnterMucVisability, value);
+            get => _EnterMucVisibility;
+            set => SetProperty(ref _EnterMucVisibility, value);
         }
-        private Visibility _LeaveMucVisability;
-        public Visibility LeaveMucVisability
+        private Visibility _LeaveMucVisibility;
+        public Visibility LeaveMucVisibility
         {
-            get => _LeaveMucVisability;
-            set => SetProperty(ref _LeaveMucVisability, value);
+            get => _LeaveMucVisibility;
+            set => SetProperty(ref _LeaveMucVisibility, value);
         }
         private bool _DebugSettingsEnabled;
         public bool DebugSettingsEnabled
@@ -54,11 +54,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _DebugSettingsEnabled;
             set => SetProperty(ref _DebugSettingsEnabled, value);
         }
-        private Visibility _OmemoVisability;
-        public Visibility OmemoVisability
+        private Visibility _OmemoVisibility;
+        public Visibility OmemoVisibility
         {
-            get => _OmemoVisability;
-            set => SetProperty(ref _OmemoVisability, value);
+            get => _OmemoVisibility;
+            set => SetProperty(ref _OmemoVisibility, value);
         }
         private bool _OmemoEnabled;
         public bool OmemoEnabled
@@ -162,27 +162,27 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
                 if (chat.chatType == ChatType.MUC)
                 {
-                    OmemoVisability = Visibility.Collapsed;
+                    OmemoVisibility = Visibility.Collapsed;
 
                     if (muc.state != MUCState.ENTERD && muc.state != MUCState.ENTERING)
                     {
-                        EnterMucVisability = Visibility.Visible;
-                        LeaveMucVisability = Visibility.Collapsed;
+                        EnterMucVisibility = Visibility.Visible;
+                        LeaveMucVisibility = Visibility.Collapsed;
                     }
                     else
                     {
-                        EnterMucVisability = Visibility.Collapsed;
-                        LeaveMucVisability = Visibility.Visible;
+                        EnterMucVisibility = Visibility.Collapsed;
+                        LeaveMucVisibility = Visibility.Visible;
                     }
                 }
                 else
                 {
                     NameText = chat.chatJabberId ?? "";
                     StatusText = chat.chatState ?? chat.status ?? "";
-                    EnterMucVisability = Visibility.Collapsed;
-                    LeaveMucVisability = Visibility.Collapsed;
+                    EnterMucVisibility = Visibility.Collapsed;
+                    LeaveMucVisibility = Visibility.Collapsed;
                     OmemoEnabled = chat.omemoEnabled;
-                    OmemoVisability = Visibility.Visible;
+                    OmemoVisibility = Visibility.Visible;
                 }
 
                 // Account image:

@@ -100,7 +100,7 @@
                                MaxLines="1"
                                Text="{x:Bind Account.ErrorText, Mode=OneWay}"
                                TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind Account.ErrorText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                               Visibility="{x:Bind Account.ErrorText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <ToggleSwitch Grid.Column="5"
                               Height="40"

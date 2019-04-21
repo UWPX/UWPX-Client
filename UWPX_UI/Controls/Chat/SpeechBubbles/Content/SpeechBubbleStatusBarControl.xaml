@@ -28,8 +28,8 @@
         </Style>
 
         <valueConverter:MessageStateGlyphTextValueConverter x:Key="MessageStateGlyphTextValueConverter"/>
-        <valueConverter:MessageStateIsDeliveredVisabilityValueConverter x:Key="MessageStateIsDeliveredVisabilityValueConverter"/>
-        <valueConverter:MessageStateEncryptingVisabilityValueConverter x:Key="MessageStateEncryptingVisabilityValueConverter"/>
+        <valueConverter:MessageStateIsDeliveredVisibilityValueConverter x:Key="MessageStateIsDeliveredVisibilityValueConverter"/>
+        <valueConverter:MessageStateEncryptingVisibilityValueConverter x:Key="MessageStateEncryptingVisibilityValueConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -40,7 +40,7 @@
         <ProgressBar Grid.Row="1"
                      Margin="0,5,0,0"
                      IsIndeterminate="True"
-                     Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisabilityValueConverter}}"/>
+                     Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisibilityValueConverter}}"/>
 
         <StackPanel Grid.Row="0"
                     HorizontalAlignment="{x:Bind HorizontalContentAlignment, Mode=OneWay}"
@@ -52,12 +52,12 @@
                        Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
                        Text="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                       Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
             <FontIcon Margin="0,0,5,1"
                       FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                       Glyph="&#xECCC;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisabilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.NicknameText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
             <TextBlock Margin="0,0,5,0"
                        ContextFlyout="{x:Bind ContextFlyout, Mode=OneWay}"
                        Style="{ThemeResource ReplacedContectMenuCaptionTextBlock}"
@@ -66,13 +66,13 @@
                       FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                       Glyph="&#xE72E;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.IsEncrypted, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.IsEncrypted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <FontIcon Grid.Column="4"
                       Margin="0,0,5,2"
                       FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                       Glyph="&#xE8C8;"
                       Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                      Visibility="{x:Bind ViewModel.MODEL.IsCarbonCopy, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                      Visibility="{x:Bind ViewModel.MODEL.IsCarbonCopy, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             <Grid VerticalAlignment="Bottom">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -84,7 +84,7 @@
                           FontSize="{x:Bind nick_tbx.FontSize, Mode=OneWay}"
                           Glyph="&#xE73E;"
                           Style="{ThemeResource ReplacedContectMenuCaptionFontIcon}"
-                          Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateIsDeliveredVisabilityValueConverter}}"/>
+                          Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateIsDeliveredVisibilityValueConverter}}"/>
             </Grid>
         </StackPanel>
     </Grid>

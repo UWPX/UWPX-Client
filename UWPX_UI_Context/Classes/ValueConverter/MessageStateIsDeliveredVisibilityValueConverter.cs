@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MessageStateIsDeliveredVisabilityValueConverter : IValueConverter
+    public sealed class MessageStateIsDeliveredVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -1,10 +1,11 @@
-﻿using System;
+﻿using Data_Manager2.Classes;
+using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWP_XMPP_Client.DataTemplates
 {
-    class BoolVisabilityValueConverter : IValueConverter
+    class MessageUnreadVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -17,9 +18,9 @@ namespace UWP_XMPP_Client.DataTemplates
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 27/06/2018 Created [Fabian Sauter]
+        /// 15/09/2018 Created [Fabian Sauter]
         /// </history>
-        public BoolVisabilityValueConverter()
+        public MessageUnreadVisibilityValueConverter()
         {
         }
 
@@ -33,20 +34,16 @@ namespace UWP_XMPP_Client.DataTemplates
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is bool b)
+            if (value is MessageState s)
             {
-                return b ? Visibility.Visible : Visibility.Collapsed;
+                return s == MessageState.UNREAD ? Visibility.Visible : Visibility.Collapsed;
             }
             return Visibility.Collapsed;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            if (value is Visibility v)
-            {
-                return v == Visibility.Visible;
-            }
-            return false;
+            throw new NotImplementedException();
         }
 
         #endregion

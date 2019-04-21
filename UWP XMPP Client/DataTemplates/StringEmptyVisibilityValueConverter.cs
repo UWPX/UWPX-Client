@@ -1,11 +1,10 @@
-﻿using Data_Manager2.Classes;
-using System;
+﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWP_XMPP_Client.DataTemplates
 {
-    public sealed class MessageStateEncryptingVisabilityValueConverter : IValueConverter
+    class StringEmptyVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -14,7 +13,15 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        /// <summary>
+        /// Basic Constructor
+        /// </summary>
+        /// <history>
+        /// 27/06/2018 Created [Fabian Sauter]
+        /// </history>
+        public StringEmptyVisibilityValueConverter()
+        {
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -26,9 +33,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MessageState state && state == MessageState.TO_ENCRYPT)
+            if (value is string s)
             {
-                return Visibility.Visible;
+                return string.IsNullOrEmpty(s) ? Visibility.Collapsed : Visibility.Visible;
             }
             return Visibility.Collapsed;
         }

@@ -8,7 +8,7 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <valueconverter:LogLevelWarningVisabilityValueConverter x:Key="LogLevelWarningVisabilityValueConverter"/>
+        <valueconverter:LogLevelWarningVisibilityValueConverter x:Key="LogLevelWarningVisibilityValueConverter"/>
         <valueconverter:LogLevelStringValueConverter x:Key="LogLevelStringValueConverter"/>
 
         <DataTemplate x:Key="LogLevelTemplate"
@@ -52,7 +52,7 @@
                 FontSize="15"
                 Foreground="Red"
                 Style="{ThemeResource ButtonRevealStyle}"
-                Visibility="{x:Bind VIEW_MODEL.MODEL.LogLevelSelectedItem, Mode=OneWay, Converter={StaticResource LogLevelWarningVisabilityValueConverter}}">
+                Visibility="{x:Bind VIEW_MODEL.MODEL.LogLevelSelectedItem, Mode=OneWay, Converter={StaticResource LogLevelWarningVisibilityValueConverter}}">
             <Button.Flyout>
                 <Flyout>
                     <TextBlock MaxWidth="200"

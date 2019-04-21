@@ -1,12 +1,11 @@
-﻿using Logging;
+﻿using Data_Manager2.Classes;
 using System;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class LogLevelWarningVisabilityValueConverter : IValueConverter
+    public sealed class MessageStateUnreadVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -27,7 +26,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is LogLevelDataTemplate logLevel && logLevel.LogLevel == LogLevel.DEBUG)
+            if (value is MessageState state && state == MessageState.UNREAD)
             {
                 return Visibility.Visible;
             }

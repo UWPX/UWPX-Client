@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class BoolInvertedVisabilityValueConverter : IValueConverter
+    public sealed class BoolVisibilityValueConverter : IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -25,7 +25,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is bool b && !b)
+            if (value is bool b && b)
             {
                 return Visibility.Visible;
             }
@@ -34,7 +34,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
         {
-            return value is Visibility v && v != Visibility.Visible;
+            return value is Visibility v && v == Visibility.Visible;
         }
 
         #endregion

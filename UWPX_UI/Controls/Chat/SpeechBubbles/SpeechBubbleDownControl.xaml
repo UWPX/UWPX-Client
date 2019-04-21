@@ -25,7 +25,7 @@
         <selectors:SpeechBubbleConentDataTemplateSelector x:Key="SpeechBubbleConentDataTemplateSelector"
                                                           ImageTemplate="{StaticResource SpeechBubbleImageContentControlTemplate}"
                                                           TextTemplate="{StaticResource SpeechBubbleTextContentControlTemplate}"/>
-        <converter:MessageStateUnreadVisabilityValueConverter x:Key="MessageStateUnreadVisabilityValueConverter"/>
+        <converter:MessageStateUnreadVisibilityValueConverter x:Key="MessageStateUnreadVisibilityValueConverter"/>
     </UserControl.Resources>
 
     <Grid Margin="50,0,0,0">

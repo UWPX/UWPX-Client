@@ -14,7 +14,7 @@
                    Margin="10,10,0,2"
                    Foreground="{ThemeResource TextControlBorderBrush}"
                    Text="{x:Bind Text, Mode=OneWay}"
-                   Visibility="{x:Bind Text, Converter={StaticResource StringEmptyVisabilityValueConverter}, Mode=OneWay}"/>
+                   Visibility="{x:Bind Text, Converter={StaticResource StringEmptyVisibilityValueConverter}, Mode=OneWay}"/>
         <Line Grid.Row="1"
               Stretch="UniformToFill"
               Stroke="{ThemeResource TextControlBorderBrush}"

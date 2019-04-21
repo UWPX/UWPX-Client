@@ -121,7 +121,7 @@
 
             <!--  Master Header:  -->
             <masterdetailsview:MasterDetailsView.MasterHeader>
-                <Grid Visibility="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.ChatQueryEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}">
+                <Grid Visibility="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.ChatQueryEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="0"
                                                      To="1"

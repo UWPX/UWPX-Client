@@ -4,10 +4,10 @@
 
     <valueConverter:PresenceBrushValueConverter x:Key="PresenceBrushValueConverter"/>
     <valueConverter:ChatDateTimeStringValueConverter x:Key="ChatDateTimeStringValueConverter"/>
-    <valueConverter:BoolVisabilityValueConverter x:Key="BoolVisabilityValueConverter"/>
-    <valueConverter:StringEmptyVisabilityValueConverter x:Key="StringEmptyVisabilityValueConverter"/>
+    <valueConverter:BoolVisibilityValueConverter x:Key="BoolVisibilityValueConverter"/>
+    <valueConverter:StringEmptyVisibilityValueConverter x:Key="StringEmptyVisibilityValueConverter"/>
     <valueConverter:BoolInverterValueConverter x:Key="BoolInverterValueConverter"/>
-    <valueConverter:BoolInvertedVisabilityValueConverter x:Key="BoolInvertedVisabilityValueConverter"/>
+    <valueConverter:BoolInvertedVisibilityValueConverter x:Key="BoolInvertedVisibilityValueConverter"/>
     <valueConverter:IsNullBoolValueConverter x:Key="IsNullBoolValueConverter"/>
     <valueConverter:NullableBoolBoolValueConverter x:Key="NullableBoolBoolValueConverter"/>
 </ResourceDictionary>

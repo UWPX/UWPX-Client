@@ -21,13 +21,13 @@
                           IsCacheEnabled="True"
                           Source="ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png"
                           Stretch="UniformToFill"
-                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsSplashImageEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsSplashImageEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
         <controls:ImageEx Grid.Row="0"
                           HorizontalAlignment="{x:Bind HorizontalAlignment, Mode=OneWay}"
                           VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}"
                           IsCacheEnabled="True"
                           Source="{x:Bind VIEW_MODEL.MODEL.CustomImagePath, Mode=OneWay}"
                           Stretch="UniformToFill"
-                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsCustomImageEnabled, Mode=OneWay, Converter={StaticResource BoolVisabilityValueConverter}}"/>
+                          Visibility="{x:Bind VIEW_MODEL.MODEL.IsCustomImageEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
     </Grid>
 </UserControl>

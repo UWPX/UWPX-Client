@@ -35,12 +35,12 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty TextProperty = DependencyProperty.Register(nameof(Text), typeof(string), typeof(CustomSettingsTitleBarControl), new PropertyMetadata("Text"));
 
-        public Visibility BackRequestButtonVisability
+        public Visibility BackRequestButtonVisibility
         {
-            get => (Visibility)GetValue(BackRequestButtonVisabilityProperty);
-            set => SetValue(BackRequestButtonVisabilityProperty, value);
+            get => (Visibility)GetValue(BackRequestButtonVisibilityProperty);
+            set => SetValue(BackRequestButtonVisibilityProperty, value);
         }
-        public static readonly DependencyProperty BackRequestButtonVisabilityProperty = DependencyProperty.Register(nameof(BackRequestButtonVisability), typeof(Visibility), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(Visibility.Visible));
+        public static readonly DependencyProperty BackRequestButtonVisibilityProperty = DependencyProperty.Register(nameof(BackRequestButtonVisibility), typeof(Visibility), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(Visibility.Visible));
 
         public Type NavigationFallbackPage
         {
@@ -95,7 +95,7 @@ namespace UWPX_UI.Controls
             {
                 if (!DeviceFamilyHelper.ShouldShowBackButton())
                 {
-                    BackRequestButtonVisability = Visibility.Collapsed;
+                    BackRequestButtonVisibility = Visibility.Collapsed;
                 }
 
                 UpdateTitleBarLayout();

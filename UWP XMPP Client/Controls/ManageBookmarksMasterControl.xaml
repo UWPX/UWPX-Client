@@ -7,8 +7,8 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <datatemplates:BoolVisabilityValueConverter x:Key="boolVisabilityValueConverter"/>
-        <datatemplates:StringEmptyVisabilityValueConverter x:Key="stringEmptyVisabilityValueConverter"/>
+        <datatemplates:BoolVisibilityValueConverter x:Key="boolVisibilityValueConverter"/>
+        <datatemplates:StringEmptyVisibilityValueConverter x:Key="stringEmptyVisibilityValueConverter"/>
     </UserControl.Resources>
 
     <Grid>
@@ -19,13 +19,13 @@
         <StackPanel Grid.Column="0">
             <TextBlock Text="{x:Bind Conference.name, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind Conference.name, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
+                       Visibility="{x:Bind Conference.name, Mode=OneWay, Converter={StaticResource stringEmptyVisibilityValueConverter}}"/>
             <TextBlock Text="{x:Bind Conference.jid, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind Conference.jid, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
+                       Visibility="{x:Bind Conference.jid, Mode=OneWay, Converter={StaticResource stringEmptyVisibilityValueConverter}}"/>
             <TextBlock Text="{x:Bind Conference.nick, Mode=OneWay}"
                        TextTrimming="CharacterEllipsis"
-                       Visibility="{x:Bind Conference.nick, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
+                       Visibility="{x:Bind Conference.nick, Mode=OneWay, Converter={StaticResource stringEmptyVisibilityValueConverter}}"/>
         </StackPanel>
         <StackPanel Grid.Column="1"
                     VerticalAlignment="Center">
@@ -34,13 +34,13 @@
                        FontSize="13"
                        Foreground="{StaticResource SystemControlBackgroundBaseMediumBrush}"
                        Text="&#xE751;"
-                       Visibility="{x:Bind Conference.autoJoin, Mode=OneWay, Converter={StaticResource boolVisabilityValueConverter}}"/>
+                       Visibility="{x:Bind Conference.autoJoin, Mode=OneWay, Converter={StaticResource boolVisibilityValueConverter}}"/>
             <TextBlock Margin="0,5,0,5"
                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
                        FontSize="13"
                        Foreground="{ThemeResource SystemAccentColor}"
                        Text="&#xE72E;"
-                       Visibility="{x:Bind Conference.password, Mode=OneWay, Converter={StaticResource stringEmptyVisabilityValueConverter}}"/>
+                       Visibility="{x:Bind Conference.password, Mode=OneWay, Converter={StaticResource stringEmptyVisibilityValueConverter}}"/>
         </StackPanel>
     </Grid>
 </UserControl>
