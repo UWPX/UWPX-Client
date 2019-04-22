@@ -28,6 +28,7 @@
 
                 <Grid x:Name="titleBar_grid"
                       Grid.Row="0"
+                      VerticalAlignment="Stretch"
                       Background="Transparent">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition x:Name="leftPaddingColumn"

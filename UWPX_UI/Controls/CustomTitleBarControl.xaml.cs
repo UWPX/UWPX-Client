@@ -114,6 +114,7 @@ namespace UWPX_UI.Controls
             // Set XAML element as a draggable region.
             CoreApplicationViewTitleBar titleBar = CoreApplication.GetCurrentView().TitleBar;
             UpdateTitleBarLayout(titleBar);
+
             Window.Current.SetTitleBar(titleBar_grid);
             titleBar.LayoutMetricsChanged += TitleBar_LayoutMetricsChanged;
         }
@@ -127,7 +128,9 @@ namespace UWPX_UI.Controls
             titleBar_grid.Margin = new Thickness(0, -1, 0, 0);
 
             // Update title bar control size as needed to account for system size changes.
-            titleBar_grid.Height = titleBar.Height;
+            // Do not update the Height since it will be always 0 - bug
+            // Reference: https://wpdev.uservoice.com/forums/110705-universal-windows-platform/suggestions/15657012-titlebar-extendviewintotitlebar-in-anniv-update-b
+            // titleBar_grid.Height = titleBar.Height;
         }
 
         private void SetupKeyboardAccelerators()
