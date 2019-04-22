@@ -34,9 +34,9 @@ namespace UWPX_UI.Pages
         #region --Constructors--
         public ExtendedSplashScreenPage(IActivatedEventArgs args, Frame rootFrame, EventHandler<PushNotificationReceivedEventArgs> appCenterPushCallback)
         {
-            this.ACTIVATION_ARGS = args;
-            this.ROOT_FRAME = rootFrame;
-            this.APP_CENTER_PUSH_CALLBACK = appCenterPushCallback;
+            ACTIVATION_ARGS = args;
+            ROOT_FRAME = rootFrame;
+            APP_CENTER_PUSH_CALLBACK = appCenterPushCallback;
             InitializeComponent();
 
             SetupSplashScreen();
@@ -57,7 +57,6 @@ namespace UWPX_UI.Pages
                 if (curImageScale != SplashScreenImageScale.HUGE)
                 {
                     background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_4000.png", UriKind.Absolute));
-                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-400.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.HUGE;
                 }
             }
@@ -66,7 +65,6 @@ namespace UWPX_UI.Pages
                 if (curImageScale != SplashScreenImageScale.LARGE)
                 {
                     background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_3000.png", UriKind.Absolute));
-                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-200.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.LARGE;
                 }
             }
@@ -75,7 +73,6 @@ namespace UWPX_UI.Pages
                 if (curImageScale != SplashScreenImageScale.MEDIUM)
                 {
                     background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_2000.png", UriKind.Absolute));
-                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-150.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.MEDIUM;
                 }
             }
@@ -84,14 +81,12 @@ namespace UWPX_UI.Pages
                 if (curImageScale != SplashScreenImageScale.SMALL)
                 {
                     background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_1000.png", UriKind.Absolute));
-                    logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-125.png", UriKind.Absolute));
                     curImageScale = SplashScreenImageScale.SMALL;
                 }
             }
             else if (curImageScale != SplashScreenImageScale.TINY)
             {
                 background_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/SplashScreen/splash_screen_800.png", UriKind.Absolute));
-                logo_img.Source = new BitmapImage(new Uri("ms-appx:///Assets/SplashScreen.scale-100.png", UriKind.Absolute));
                 curImageScale = SplashScreenImageScale.TINY;
             }
         }

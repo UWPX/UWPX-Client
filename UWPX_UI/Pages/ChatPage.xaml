@@ -74,7 +74,7 @@
                                     Padding="10">
                             <Image Width="120"
                                    Height="120"
-                                   Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
+                                   Source="ms-appx:///Assets/Square150x150Logo.png"/>
                             <TextBlock FontWeight="SemiBold"
                                        Style="{StaticResource TitleTextBlockStyle}"
                                        Text="Select a chat to view."/>
