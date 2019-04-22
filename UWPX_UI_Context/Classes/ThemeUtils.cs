@@ -209,20 +209,12 @@ namespace UWPX_UI_Context.Classes
         #region --Misc Methods (Public)--
         public static ElementTheme LoadRequestedTheme()
         {
-            ElementTheme theme = ElementTheme.Dark;
+            ElementTheme theme = ElementTheme.Default;
 
-            // Set the default theme to dark:
-            if (!Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
+            if (themeString != null)
             {
-                theme = ElementTheme.Dark;
-            }
-            else
-            {
-                string themeString = Settings.getSettingString(SettingsConsts.APP_REQUESTED_THEME);
-                if (themeString != null)
-                {
-                    Enum.TryParse(themeString, out theme);
-                }
+                Enum.TryParse(themeString, out theme);
             }
             RootTheme = theme;
             return RootTheme;

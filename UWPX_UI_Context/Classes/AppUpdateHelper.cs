@@ -182,6 +182,11 @@ namespace UWPX_UI_Context.Classes
                     if (versionLastStart.Major <= 0 && versionLastStart.Minor < 17)
                     {
                         Logger.Info("Started the 0.16.0.0 update...");
+
+                        // Set the default theme to default again since in v.14 we set it to dark:
+                        Logger.Info("Started setting the default theme to default...");
+                        ThemeUtils.RootTheme = Windows.UI.Xaml.ElementTheme.Default;
+
                         foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
                         {
                             Logger.Info("Updating chats for: " + account.getBareJid());
