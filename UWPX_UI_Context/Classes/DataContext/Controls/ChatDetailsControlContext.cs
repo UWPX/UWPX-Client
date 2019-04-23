@@ -146,15 +146,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
         {
-            if (args.Key == VirtualKey.Enter)
+            if (args.Key == VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
             {
+                if (UiUtils.IsVirtualKeyDown(VirtualKey.Shift))
+                {
+                    return;
+                }
+
+                args.Handled = true;
                 if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
                 {
-                    if (!UiUtils.IsVirtualKeyDown(VirtualKey.Shift) && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
-                    {
-                        SendChatMessage(chat);
-                        args.Handled = true;
-                    }
+                    SendChatMessage(chat);
                 }
             }
         }

@@ -1,396 +1,426 @@
-﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatDetailsControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:chat="using:UWPX_UI.Controls.Chat"
-             xmlns:controls="using:UWPX_UI.Controls"
-             xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
-             xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
-             xmlns:templates="using:UWPX_UI_Context.Classes.DataTemplates"
-             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="UWPX_UI.Controls.Chat.ChatDetailsControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:chat="using:UWPX_UI.Controls.Chat"
+    xmlns:controls="using:UWPX_UI.Controls"
+    xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
+    xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
+    xmlns:templates="using:UWPX_UI_Context.Classes.DataTemplates"
+    xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
+    mc:Ignorable="d">
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml" />
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml" />
             </ResourceDictionary.MergedDictionaries>
 
-            <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
-            <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
-            <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
+            <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter" />
+            <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter" />
+            <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter" />
 
-            <DataTemplate x:Key="SpeechBubbleTopTemplate"
-                          x:DataType="templates:ChatMessageDataTemplate">
-                <speechbubbles:SpeechBubbleTopControl ChatMessage="{x:Bind}"/>
+            <DataTemplate x:Key="SpeechBubbleTopTemplate" x:DataType="templates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleTopControl ChatMessage="{x:Bind}" />
             </DataTemplate>
-            <DataTemplate x:Key="SpeechBubbleDownTemplate"
-                          x:DataType="templates:ChatMessageDataTemplate">
-                <speechbubbles:SpeechBubbleDownControl ChatMessage="{x:Bind}"/>
+            <DataTemplate x:Key="SpeechBubbleDownTemplate" x:DataType="templates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleDownControl ChatMessage="{x:Bind}" />
             </DataTemplate>
-            <DataTemplate x:Key="SpeechBubbleErrorTemplate"
-                          x:DataType="templates:ChatMessageDataTemplate">
-                <speechbubbles:SpeechBubbleErrorControl ChatMessage="{x:Bind}"/>
+            <DataTemplate x:Key="SpeechBubbleErrorTemplate" x:DataType="templates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleErrorControl ChatMessage="{x:Bind}" />
             </DataTemplate>
-            <selectors:SpeechBubbleDataTemplateSelector x:Key="SpeechBubbleDataTemplateSelector"
-                                                        SpeechBubbleDownTemplate="{StaticResource SpeechBubbleDownTemplate}"
-                                                        SpeechBubbleErrorTemplate="{StaticResource SpeechBubbleErrorTemplate}"
-                                                        SpeechBubbleTopTemplate="{StaticResource SpeechBubbleTopTemplate}"/>
+            <selectors:SpeechBubbleDataTemplateSelector
+                x:Key="SpeechBubbleDataTemplateSelector"
+                SpeechBubbleDownTemplate="{StaticResource SpeechBubbleDownTemplate}"
+                SpeechBubbleErrorTemplate="{StaticResource SpeechBubbleErrorTemplate}"
+                SpeechBubbleTopTemplate="{StaticResource SpeechBubbleTopTemplate}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Image Grid.Row="0"
-               Source="ms-appx:///Assets/Images/splash_screen.png"
-               Stretch="UniformToFill"/>
+        <Image
+            Grid.Row="0"
+            Source="ms-appx:///Assets/Images/splash_screen.png"
+            Stretch="UniformToFill" />
 
         <!--  Main:  -->
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
             <!--  Header:  -->
-            <Grid Grid.Row="0"
-                  Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}">
+            <Grid Grid.Row="0" Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <controls:AccountImagePresenceControl Grid.Column="0"
-                                                      Width="30"
-                                                      Height="30"
-                                                      Margin="10"
-                                                      HorizontalAlignment="Left"
-                                                      VerticalAlignment="Center"
-                                                      BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
-                                                      ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
-                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>
-                <Grid x:Name="headerInfo_grid"
-                      Grid.Column="1"
-                      VerticalAlignment="Center"
-                      RightTapped="HeaderInfo_grid_RightTapped">
+                <controls:AccountImagePresenceControl
+                    Grid.Column="0"
+                    Width="30"
+                    Height="30"
+                    Margin="10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
+                    ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
+                    PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}" />
+                <Grid
+                    x:Name="headerInfo_grid"
+                    Grid.Column="1"
+                    VerticalAlignment="Center"
+                    RightTapped="HeaderInfo_grid_RightTapped">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
                     <Grid.ContextFlyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Name="copyNameText_mfi"
-                                            Click="CopyNameText_mfi_Click"
-                                            Text="Copy chat text">
+                            <MenuFlyoutItem
+                                x:Name="copyNameText_mfi"
+                                Click="CopyNameText_mfi_Click"
+                                Text="Copy chat text">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C8;"/>
+                                    <FontIcon Glyph="&#xE8C8;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="copyAccountText_mfi"
-                                            Click="CopyAccountText_mfi_Click"
-                                            Text="Copy account text">
+                            <MenuFlyoutItem
+                                x:Name="copyAccountText_mfi"
+                                Click="CopyAccountText_mfi_Click"
+                                Text="Copy account text">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C8;"/>
+                                    <FontIcon Glyph="&#xE8C8;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="copyChatStatus_mfi"
-                                            Click="CopyChatStatus_mfi_Click"
-                                            Text="Copy chat status/subject">
+                            <MenuFlyoutItem
+                                x:Name="copyChatStatus_mfi"
+                                Click="CopyChatStatus_mfi_Click"
+                                Text="Copy chat status/subject">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C8;"/>
+                                    <FontIcon Glyph="&#xE8C8;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </Grid.ContextFlyout>
 
                     <!--  Name:  -->
-                    <TextBlock Grid.Row="0"
-                               HorizontalAlignment="Center"
-                               Style="{ThemeResource BaseLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock
+                        Grid.Row="0"
+                        HorizontalAlignment="Center"
+                        Style="{ThemeResource BaseLineTextBlockStyle}"
+                        Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis" />
                     <!--  Account:  -->
-                    <TextBlock Grid.Row="1"
-                               HorizontalAlignment="Center"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Style="{ThemeResource CaptionLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock
+                        Grid.Row="1"
+                        HorizontalAlignment="Center"
+                        Foreground="{ThemeResource CaptionTextBrush}"
+                        Style="{ThemeResource CaptionLineTextBlockStyle}"
+                        Text="{x:Bind VIEW_MODEL.MODEL.AccountText, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis" />
                     <!--  Status:  -->
-                    <TextBlock Grid.Row="2"
-                               HorizontalAlignment="Center"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Style="{ThemeResource CaptionLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
+                    <TextBlock
+                        Grid.Row="2"
+                        HorizontalAlignment="Center"
+                        Foreground="{ThemeResource CaptionTextBrush}"
+                        Style="{ThemeResource CaptionLineTextBlockStyle}"
+                        Text="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.StatusText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}" />
                 </Grid>
-                <Button Grid.Column="2"
-                        Height="35"
-                        Margin="0,0,-10,0"
-                        Background="Transparent"
-                        Content="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
-                        Style="{ThemeResource ButtonRevealStyle}"
-                        Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}">
+                <Button
+                    Grid.Column="2"
+                    Height="35"
+                    Margin="0,0,-10,0"
+                    Background="Transparent"
+                    Content="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Foreground="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
-                                <RadioButton GroupName="OMEMO"
-                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}">
-                                    <controls:IconTextBlockControl Glyph="&#xE72E;"
-                                                                   GlyphForeground="DarkGreen"
-                                                                   Text="Encrypted (OMEMO)"/>
+                                <RadioButton GroupName="OMEMO" IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}">
+                                    <controls:IconTextBlockControl
+                                        Glyph="&#xE72E;"
+                                        GlyphForeground="DarkGreen"
+                                        Text="Encrypted (OMEMO)" />
                                 </RadioButton>
-                                <RadioButton GroupName="OMEMO"
-                                             IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}">
-                                    <controls:IconTextBlockControl Glyph="&#xE785;"
-                                                                   GlyphForeground="DarkRed"
-                                                                   Text="Unencrypted (OMEMO)"/>
+                                <RadioButton GroupName="OMEMO" IsChecked="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}">
+                                    <controls:IconTextBlockControl
+                                        Glyph="&#xE785;"
+                                        GlyphForeground="DarkRed"
+                                        Text="Unencrypted (OMEMO)" />
                                 </RadioButton>
-                                <HyperlinkButton x:Name="readOnOmemo_link"
-                                                 Margin="0,10,0,0"
-                                                 Click="ReadOnOmemo_link_Click"
-                                                 Content="What is OMEMO?"/>
+                                <HyperlinkButton
+                                    x:Name="readOnOmemo_link"
+                                    Margin="0,10,0,0"
+                                    Click="ReadOnOmemo_link_Click"
+                                    Content="What is OMEMO?" />
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button Grid.Column="3"
-                        Height="35"
-                        Margin="10,0,10,0"
-                        VerticalAlignment="Center"
-                        Background="Transparent"
-                        Content="&#xE712;"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Style="{ThemeResource ButtonRevealStyle}"
-                        ToolTipService.ToolTip="More">
+                <Button
+                    Grid.Column="3"
+                    Height="35"
+                    Margin="10,0,10,0"
+                    VerticalAlignment="Center"
+                    Background="Transparent"
+                    Content="&#xE712;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="20"
+                    FontWeight="Bold"
+                    Style="{ThemeResource ButtonRevealStyle}"
+                    ToolTipService.ToolTip="More">
                     <Button.Flyout>
                         <MenuFlyout>
-                            <MenuFlyoutItem x:Name="info_mfo"
-                                            Click="Info_mfo_Click"
-                                            Text="Info">
+                            <MenuFlyoutItem
+                                x:Name="info_mfo"
+                                Click="Info_mfo_Click"
+                                Text="Info">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xEA4A;"/>
+                                    <FontIcon Glyph="&#xEA4A;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="markAsRead_tmfo"
-                                            Click="MarkAsRead_tmfo_Click"
-                                            Text="Mark as read">
+                            <MenuFlyoutItem
+                                x:Name="markAsRead_tmfo"
+                                Click="MarkAsRead_tmfo_Click"
+                                Text="Mark as read">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE8C3;"/>
+                                    <FontIcon Glyph="&#xE8C3;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="enter_mfo"
-                                            Click="Enter_mfo_Click"
-                                            Text="Enter room"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.EnterMucVisibility, Mode=OneWay}">
+                            <MenuFlyoutItem
+                                x:Name="enter_mfo"
+                                Click="Enter_mfo_Click"
+                                Text="Enter room"
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.EnterMucVisibility, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Green"
-                                              Glyph="&#xE8BD;"/>
+                                    <FontIcon Foreground="Green" Glyph="&#xE8BD;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="leave_mfo"
-                                            Click="Leave_mfo_Click"
-                                            Text="Leave room"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.LeaveMucVisibility, Mode=OneWay}">
+                            <MenuFlyoutItem
+                                x:Name="leave_mfo"
+                                Click="Leave_mfo_Click"
+                                Text="Leave room"
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.LeaveMucVisibility, Mode=OneWay}">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Red"
-                                              Glyph="&#xE89B;"/>
+                                    <FontIcon Foreground="Red" Glyph="&#xE89B;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
-                            <MenuFlyoutItem x:Name="test_mfo"
-                                            Click="Test_mfo_Click"
-                                            Text="Debug/Test"
-                                            Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                            <MenuFlyoutItem
+                                x:Name="test_mfo"
+                                Click="Test_mfo_Click"
+                                Text="Debug/Test"
+                                Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Gold"
-                                              Glyph="&#xE81F;"/>
+                                    <FontIcon Foreground="Gold" Glyph="&#xE81F;" />
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
                         </MenuFlyout>
                     </Button.Flyout>
                 </Button>
             </Grid>
-            <controls:SeperatorControl Grid.Row="1"/>
+            <controls:SeperatorControl Grid.Row="1" />
 
             <!--  Messages:  -->
-            <ListView Grid.Row="2"
-                      ItemTemplateSelector="{StaticResource SpeechBubbleDataTemplateSelector}"
-                      ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
-                      SelectionMode="None">
+            <ListView
+                Grid.Row="2"
+                ItemTemplateSelector="{StaticResource SpeechBubbleDataTemplateSelector}"
+                ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
+                SelectionMode="None">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <ItemsStackPanel Grid.ColumnSpan="1"
-                                         VerticalAlignment="Bottom"
-                                         ItemsUpdatingScrollMode="KeepLastItemInView"/>
+                        <ItemsStackPanel
+                            Grid.ColumnSpan="1"
+                            VerticalAlignment="Bottom"
+                            ItemsUpdatingScrollMode="KeepLastItemInView" />
                     </ItemsPanelTemplate>
                 </ListView.ItemsPanel>
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Setter Property="Padding" Value="10,5,10,5"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        <Setter Property="Padding" Value="10,5,10,5" />
                     </Style>
                 </ListView.ItemContainerStyle>
             </ListView>
 
             <!--  Messages Loading:  -->
-            <controls1:Loading Grid.Row="2"
-                               Background="{ThemeResource SystemControlAcrylicElementBrush}"
-                               IsLoading="{x:Bind VIEW_MODEL.MODEL.IsLoadingChatMessages, Mode=OneWay}">
-                <controls:LoadingContentControl Text="Loading chat messages..."/>
+            <controls1:Loading
+                Grid.Row="2"
+                Background="{ThemeResource SystemControlAcrylicElementBrush}"
+                IsLoading="{x:Bind VIEW_MODEL.MODEL.IsLoadingChatMessages, Mode=OneWay}">
+                <controls:LoadingContentControl Text="Loading chat messages..." />
             </controls1:Loading>
-            <controls:SeperatorControl Grid.Row="3"/>
+            <controls:SeperatorControl Grid.Row="3" />
 
             <!--  Input:  -->
-            <Grid Grid.Row="4"
-                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+            <Grid Grid.Row="4" Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Button Grid.Column="0"
-                        Margin="-10,0,-10,0"
-                        VerticalAlignment="Bottom"
-                        Content="&#xE723;"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="27"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Send images/files">
+                <Button
+                    Grid.Column="0"
+                    Margin="-10,0,-10,0"
+                    VerticalAlignment="Bottom"
+                    Content="&#xE723;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="27"
+                    Style="{ThemeResource TransparentThemeButtonStyle}"
+                    ToolTipService.ToolTip="Send images/files">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
-                                <Button x:Name="clipImgLib_btn"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Left"
-                                        Click="ClipImgLib_btn_Click"
-                                        IsEnabled="False">
+                                <Button
+                                    x:Name="clipImgLib_btn"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    Click="ClipImgLib_btn_Click"
+                                    IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                   FontSize="20"
-                                                   Foreground="{ThemeResource SystemAccentColor}"
-                                                   Text="&#xE8F1;"/>
-                                        <TextBlock Margin="10,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="20"
-                                                   Text="Image from library"/>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                            FontSize="20"
+                                            Foreground="{ThemeResource SystemAccentColor}"
+                                            Text="&#xE8F1;" />
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Text="Image from library" />
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="clipImgCam_btn"
-                                        Margin="0,10,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Left"
-                                        Click="ClipImgCam_btn_Click"
-                                        IsEnabled="False">
+                                <Button
+                                    x:Name="clipImgCam_btn"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    Click="ClipImgCam_btn_Click"
+                                    IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                   FontSize="20"
-                                                   Foreground="{ThemeResource SystemAccentColor}"
-                                                   Text="&#xE722;"/>
-                                        <TextBlock Margin="10,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="20"
-                                                   Text="Image from camera"/>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                            FontSize="20"
+                                            Foreground="{ThemeResource SystemAccentColor}"
+                                            Text="&#xE722;" />
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Text="Image from camera" />
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="clipDraw_btn"
-                                        Margin="0,10,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Left"
-                                        Click="ClipDraw_btn_Click"
-                                        IsEnabled="False">
+                                <Button
+                                    x:Name="clipDraw_btn"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    Click="ClipDraw_btn_Click"
+                                    IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                   FontSize="20"
-                                                   Foreground="{ThemeResource SystemAccentColor}"
-                                                   Text="&#xE929;"/>
-                                        <TextBlock Margin="10,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="20"
-                                                   Text="Drawing"/>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                            FontSize="20"
+                                            Foreground="{ThemeResource SystemAccentColor}"
+                                            Text="&#xE929;" />
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Text="Drawing" />
                                     </StackPanel>
                                 </Button>
-                                <Button x:Name="clipFile_btn"
-                                        Margin="0,10,0,0"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Left"
-                                        Click="ClipFile_btn_Click"
-                                        IsEnabled="False">
+                                <Button
+                                    x:Name="clipFile_btn"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Left"
+                                    Click="ClipFile_btn_Click"
+                                    IsEnabled="False">
                                     <StackPanel Orientation="Horizontal">
-                                        <TextBlock VerticalAlignment="Center"
-                                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                                   FontSize="20"
-                                                   Foreground="{ThemeResource SystemAccentColor}"
-                                                   Text="&#xEC50;"/>
-                                        <TextBlock Margin="10,0,0,0"
-                                                   VerticalAlignment="Center"
-                                                   FontSize="20"
-                                                   Text="File"/>
+                                        <TextBlock
+                                            VerticalAlignment="Center"
+                                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                            FontSize="20"
+                                            Foreground="{ThemeResource SystemAccentColor}"
+                                            Text="&#xEC50;" />
+                                        <TextBlock
+                                            Margin="10,0,0,0"
+                                            VerticalAlignment="Center"
+                                            FontSize="20"
+                                            Text="File" />
                                     </StackPanel>
                                 </Button>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <Button x:Name="addEmoji_btn"
-                        Grid.Column="1"
-                        Margin="-5,0,-15,0"
-                        VerticalAlignment="Bottom"
-                        Content="&#xE76E;"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="27"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Emojis"
-                        Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                <Button
+                    x:Name="addEmoji_btn"
+                    Grid.Column="1"
+                    Margin="-5,0,-15,0"
+                    VerticalAlignment="Bottom"
+                    Content="&#xE76E;"
+                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                    FontSize="27"
+                    Style="{ThemeResource TransparentThemeButtonStyle}"
+                    ToolTipService.ToolTip="Emojis"
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                     <Button.Flyout>
                         <Flyout>
-                            <chat:EmojiPickerControl EmojiSelected="EmojiPickerControl_EmojiSelected"/>
+                            <chat:EmojiPickerControl EmojiSelected="EmojiPickerControl_EmojiSelected" />
                         </Flyout>
                     </Button.Flyout>
                 </Button>
-                <TextBox x:Name="message_tbx"
-                         Grid.Column="2"
-                         KeyUp="Message_tbx_KeyUp"
-                         Style="{ThemeResource MessageTextBoxStyle}"
-                         Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                <Button x:Name="send_btn"
-                        Grid.Column="3"
-                        VerticalAlignment="Bottom"
-                        AllowFocusOnInteraction="False"
-                        Click="Send_btn_Click"
-                        FontSize="27"
-                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
-                        Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Send message">
+                <chat:EnterTextBox
+                    x:Name="message_tbx"
+                    Grid.Column="2"
+                    EnterKeyDown="Message_tbx_EnterKeyDown"
+                    Style="{ThemeResource MessageTextBoxStyle}"
+                    Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Button
+                    x:Name="send_btn"
+                    Grid.Column="3"
+                    VerticalAlignment="Bottom"
+                    AllowFocusOnInteraction="False"
+                    Click="Send_btn_Click"
+                    FontSize="27"
+                    IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
+                    Style="{ThemeResource TransparentThemeButtonStyle}"
+                    ToolTipService.ToolTip="Send message">
                     <Grid>
-                        <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   Text="&#xE122;"/>
-                        <TextBlock x:Name="omemoIndicator_tbx"
-                                   Margin="17,-2,0,0"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   FontSize="10"
-                                   Text="&#xE72E;"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                        <TextBlock FontFamily="{ThemeResource SymbolThemeFontFamily}" Text="&#xE122;" />
+                        <TextBlock
+                            x:Name="omemoIndicator_tbx"
+                            Margin="17,-2,0,0"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            FontSize="10"
+                            Text="&#xE72E;"
+                            Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}" />
                     </Grid>
                 </Button>
             </Grid>

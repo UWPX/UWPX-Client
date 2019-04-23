@@ -172,11 +172,6 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.SendChatMessage(Chat);
         }
 
-        private void Message_tbx_KeyUp(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
-        {
-            VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
-        }
-
         private async void ReadOnOmemo_link_Click(object sender, RoutedEventArgs e)
         {
             await VIEW_MODEL.OnReadOnOmemoClickedAsync();
@@ -210,6 +205,11 @@ namespace UWPX_UI.Controls.Chat
         private void MarkAsRead_tmfo_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.MarkAsRead(Chat);
+        }
+
+        private void Message_tbx_EnterKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        {
+            VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
         }
 
         #endregion

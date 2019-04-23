@@ -161,6 +161,7 @@
     <Compile Include="Controls\Chat\EmojiPickerControl.xaml.cs">
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\EnterTextBox.cs" />
     <Compile Include="Controls\Chat\SpeechBubbles\Content\IShowFlyoutSpeechBubbleContent.cs" />
     <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml.cs">
       <DependentUpon>SpeechBubbleErrorStatusBarControl.xaml</DependentUpon>
