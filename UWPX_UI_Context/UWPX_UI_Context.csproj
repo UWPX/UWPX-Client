@@ -165,6 +165,7 @@
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\AccountSelectionControlContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\AddChatDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\AddMucDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\CertificateRequirementsDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ChangePresenceDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
@@ -215,6 +216,7 @@
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleImageContentControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\AccountSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\AddChatDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\AddMucDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementsDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ChangePresenceDialogDataTemplate.cs" />

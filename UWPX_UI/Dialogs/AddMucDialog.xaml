@@ -1,0 +1,25 @@
+﻿<ContentDialog x:Class="UWPX_UI.Dialogs.AddMucDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:controls="using:UWPX_UI.Controls"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               xmlns:theme="using:UWPX_UI_Context.Classes"
+               Title="Add MUC"
+               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
+               PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
+               PrimaryButtonText="Cancel"
+               RequestedTheme="{x:Bind theme:ThemeUtils.RootTheme, Mode=OneWay}"
+               SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
+               SecondaryButtonStyle="{ThemeResource AcceptButtonRevealStyle}"
+               SecondaryButtonText="Add"
+               mc:Ignorable="d">
+
+    <Grid>
+        <controls:AccountSelectionControl Grid.Row="0"
+                                          AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
+                                          AddAccountClick="AccountSelectionControl_AddAccountClick"
+                                          Header="Select account:"/>
+    </Grid>
+</ContentDialog>
