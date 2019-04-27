@@ -39,6 +39,10 @@ namespace UWPX_UI
         {
             isRunning = false;
 
+            // Set requested theme:
+            ElementTheme theme = ThemeUtils.LoadRequestedTheme();
+            RequestedTheme = ThemeUtils.GetActualTheme(theme);
+
             InitializeComponent();
             Suspending += OnSuspending;
             Resuming += App_Resuming;

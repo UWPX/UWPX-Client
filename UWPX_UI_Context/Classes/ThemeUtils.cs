@@ -16,15 +16,7 @@ namespace UWPX_UI_Context.Classes
         /// </summary>
         public static ElementTheme RootTheme
         {
-            get
-            {
-                if (Window.Current.Content is FrameworkElement rootElement)
-                {
-                    return rootElement.RequestedTheme;
-                }
-
-                return ElementTheme.Default;
-            }
+            get => _RootTheme;
             set
             {
                 if (Window.Current.Content is FrameworkElement rootElement)
@@ -32,9 +24,11 @@ namespace UWPX_UI_Context.Classes
                     rootElement.RequestedTheme = value;
                     UiUtils.SetupWindow(Application.Current);
                 }
+                _RootTheme = value;
                 Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
             }
         }
+        private static ElementTheme _RootTheme;
         public static ThemeListener ThemeListener
         {
             get;
@@ -67,6 +61,11 @@ namespace UWPX_UI_Context.Classes
         public static ApplicationTheme GetActualTheme()
         {
             return GetActualTheme(RootTheme);
+        }
+
+        public static ElementTheme GetElementTheme(ApplicationTheme theme)
+        {
+            return theme == ApplicationTheme.Dark ? ElementTheme.Dark : ElementTheme.Light;
         }
 
         /// <summary>
@@ -244,6 +243,10 @@ namespace UWPX_UI_Context.Classes
         #region --Events--
         private static void ThemeListener_ThemeChanged(ThemeListener sender)
         {
+            if (RootTheme == ElementTheme.Default)
+            {
+                RootTheme = GetElementTheme(sender.CurrentTheme);
+            }
             UiUtils.SetupWindow(Application.Current);
         }
 

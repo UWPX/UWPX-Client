@@ -267,6 +267,9 @@ For more up to date information visit:
 * [Website](https://uwpx.org/)
 * [Twitter](https://twitter.com/uwpx_app)</value>
   </data>
+  <data name="PersonalizeSettingsPage_change_theme_tooltip.Text" xml:space="preserve">
+    <value>Requires an app restart to work properly once changed.</value>
+  </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
     <value># UI Overhaul Part 2 and OMEMO
 

@@ -143,9 +143,6 @@ namespace UWPX_UI.Pages
             // Setup listening for theme changes:
             ThemeUtils.SetupThemeListener();
 
-            // Set requested theme:
-            ThemeUtils.LoadRequestedTheme();
-
             // Setup listener for window activated changes:
             UiUtils.SetupWindowActivatedListener();
 

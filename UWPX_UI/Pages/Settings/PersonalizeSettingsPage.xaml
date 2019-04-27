@@ -13,6 +13,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Page.Resources>
@@ -48,17 +49,30 @@
                             <settings:SettingsContentControl x:Name="theme_scp"
                                                              Header="Theme:">
                                 <settings:SettingsContentControl.MainContent>
-                                    <StackPanel>
-                                        <RadioButton x:Name="lightTheme_rbtn"
-                                                     Margin="0,10,0,0"
-                                                     Content="Light"
-                                                     IsChecked="{x:Bind VIEW_MODEL.MODEL.LightThemeChecked, Mode=TwoWay}"/>
-                                        <RadioButton x:Name="darkTheme_rbtn"
-                                                     Content="Dark"
-                                                     IsChecked="{x:Bind VIEW_MODEL.MODEL.DarkThemeChecked, Mode=TwoWay}"/>
-                                        <RadioButton x:Name="systemTheme_rbtn"
-                                                     Content="Use system theme"
-                                                     IsChecked="{x:Bind VIEW_MODEL.MODEL.SystemThemeChecked, Mode=TwoWay}"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <StackPanel>
+                                            <RadioButton x:Name="lightTheme_rbtn"
+                                                         Margin="0,10,0,0"
+                                                         Content="Light"
+                                                         IsChecked="{x:Bind VIEW_MODEL.MODEL.LightThemeChecked, Mode=TwoWay}"/>
+                                            <RadioButton x:Name="darkTheme_rbtn"
+                                                         Content="Dark"
+                                                         IsChecked="{x:Bind VIEW_MODEL.MODEL.DarkThemeChecked, Mode=TwoWay}"/>
+                                            <RadioButton x:Name="systemTheme_rbtn"
+                                                         Content="Use system theme"
+                                                         IsChecked="{x:Bind VIEW_MODEL.MODEL.SystemThemeChecked, Mode=TwoWay}"/>
+                                        </StackPanel>
+                                        <Button Grid.Column="1"
+                                                Margin="10,0,0,0"
+                                                Style="{ThemeResource InfoButtonStyle}">
+                                            <Button.Flyout>
+                                                <Flyout>
+                                                    <TextBlock x:Uid="PersonalizeSettingsPage_change_theme_tooltip"
+                                                               MaxWidth="200"
+                                                               TextWrapping="WrapWholeWords"/>
+                                                </Flyout>
+                                            </Button.Flyout>
+                                        </Button>
                                     </StackPanel>
                                 </settings:SettingsContentControl.MainContent>
                             </settings:SettingsContentControl>
