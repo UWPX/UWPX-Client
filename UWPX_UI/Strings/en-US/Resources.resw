@@ -271,12 +271,12 @@ For more up to date information visit:
     <value>Requires an app restart to work properly once changed.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># UI Overhaul Part 2 and OMEMO
+    <value># UI Overhaul Part 3 - New Logo Again...
 
-This month the UI Overhaul ([#52](https://github.com/UWPX/UWPX-Client/issues/52)) continues and I focused more on fixing bugs for existing controls than adding new ones.  
-Never the less I added new ones (e.g the emoji picker). Also you are now able to reply directly from toast messages and if the app is not running they will be send as soon as it is the next time.
-Since I more or less broke OMEMO in [v.0.14.0.0](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.14.0.0) I fixed it and made it even more robust against bugged keys.  
-If you have any suggestions/feedback please head over to ([#50](https://github.com/UWPX/UWPX-Client/issues/50)) and let me know about it!
+And another month of development is over. This month I *again* mainly focused on the UI Overhaul ([#52](https://github.com/UWPX/UWPX-Client/issues/52)) since it gets time this gets done. I plan with about two to three months more that I have to focus on all the UI stuff till it's finally done.  
+Never the less this month brings a bunch of new UI related fixed and additions like a new logo (again)!  
+I was not really that happy with the old "new" logo and how it was scaling so I decided to do a new one agian...
+The new logo solves these issues and also matches the new simple [Windows 10 logo style](https://user-images.githubusercontent.com/11741404/56378745-39c84080-620e-11e9-8ef9-7be6bbb18d05.png). (Links to an image taken from: [Meet the new icons for Office 365](https://www.youtube.com/watch?v=YplAU5myNP4)).
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -288,33 +288,28 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29)
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
 * Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40)
-* Duplicate MUC messages [#46](https://github.com/UWPX/UWPX-Client/issues/46)
 * Support for gtalk [#54](https://github.com/UWPX/UWPX-Client/issues/54)
 
 ### Changes:
-* Added chat background changing again
-* Added a first version of the new "Add chat" dialog
-* Added a reply option for toasts
-* Added support for encrypted text in toast messages
-* Added an emoji button and flyout (can be enabled/disabled via the chat settings)
-* Added a debug/test settings category if debug mode is enabled (press 5 times on the app version on the settings page to enable debug mode)
-* Added [XEP-0392](https://xmpp.org/extensions/xep-0392.html) (Consistent Color Generation) support
-* Vibrating/Playing a sound once a new message arrives and the app is open (can be disabled via the chat settings)
-* Updated account images to use a XEP-0392 (CCG) color as background color
-* The OMEMO fingerprint is now colored to make it easier to compare/validate it
-* Fixed OMEMO not sending messages [#49](https://github.com/UWPX/UWPX-Client/issues/49)
-* Fixed OMEMO not sending "long" messages [#56](https://github.com/UWPX/UWPX-Client/issues/56)
-* Fixed XEP-60 PubSub subscription message structure
-* Fixed not ignoring 0 as an OMEMO device id
-* Fixed last action text color
-* Fixed hardware back button navigation
-* Fixed chat message unread marker not showing
-* Fixed generating folder size for empty/null folder paths
-* Generating new OMEMO pre keys if during storing them an error occurred
-* Removed all empty settings pages for now
-* Refactored the OMEMO session building to be more robust and use async requests
+* New logo!
+* Added an unread message count indicator for each chat
+* Added an unread message count indicator for the app tile
+* Added chat suggestions if you click on add chat
+* Added a debug option to disable TLS upgrade and TCP connection timeouts
+* Added Emoji picker skin tone support
+* Added "Mark chat as read" menu flyout items
+* Added the account color to the account selection control
+* Added a placeholder if you have no chats
+* Added a new change presence dialog
+* Switched to a mono space font for the OMEMO fingerprint
+* Fixed OMEMO signed per key loading
+* Fixed devices vibrating continously if a lot of messages arrive
+* Fixed enter/shift-enter for sending chat messages [#62](https://github.com/UWPX/UWPX-Client/issues/62)
+* Fixed window not movable [#62](https://github.com/UWPX/UWPX-Client/issues/62)
+* Fixed theme related issues if you decided not to use the same theme as your system for UWPX
+* A bunch of code cleanup and code quality improvements
 
 
-[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.15.0.0)</value>
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.16.0.0)</value>
   </data>
 </root>
