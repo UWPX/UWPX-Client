@@ -4,9 +4,9 @@
 
 | Platform | Branch | Build Status | Latest Version - Store | Latest Version - Sideload |
 | :---: | :---: | :---: | :---: | :---: |
-| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x64%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=5) | [v.0.15.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.15.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.15.0.0/UWPX_UI_0.15.0.0.zip) |
-| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x86%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=6) | [v.0.15.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.15.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.15.0.0/UWPX_UI_0.15.0.0.zip) |
-| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20ARM%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=7) | [v.0.15.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.15.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.15.0.0/UWPX_UI_0.15.0.0.zip) |
+| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x64%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=5) | [v.0.15.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.16.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.16.0.0/UWPX_UI_0.16.0.0.zip) |
+| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x86%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=6) | [v.0.15.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.16.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.16.0.0/UWPX_UI_0.16.0.0.zip) |
+| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20ARM%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=7) | [v.0.15.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.16.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.16.0.0/UWPX_UI_0.16.0.0.zip) |
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/551476163f8f4784bd1017bf2e8f3db1)](https://www.codacy.com/app/COM8/UWPX-Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UWPX/UWPX-Client&amp;utm_campaign=Badge_Grade)
 
@@ -19,6 +19,9 @@ Chat with all your XMPP contacts.
 
 It implements the E**x**tensible **M**essaging and **P**resence **P**rotocol ([XMPP](https://xmpp.org/)).
 At the moment UWPX is still in ALPHA state so expect regular crashes and unexpected behavior.
+
+### Want more up to date news?
+Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
 
 ## Table of Contents
 1. [Features](#features)
