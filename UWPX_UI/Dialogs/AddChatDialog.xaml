@@ -28,7 +28,7 @@
         <controls:AccountSelectionControl Grid.Row="0"
                                           AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
                                           AddAccountClick="AccountSelectionControl_AddAccountClick"
-                                          Header="Select account:"/>
+                                          Header="Select account"/>
         <controls:BareJidInputControl Grid.Row="1"
                                       Margin="0,10,0,0"
                                       Header="With whom do you want to start a chat?"

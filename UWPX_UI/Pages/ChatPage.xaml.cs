@@ -62,12 +62,14 @@ namespace UWPX_UI.Pages
             await VIEW_MODEL.OnAddChatAsync(dialog.VIEW_MODEL.MODEL);
         }
 
-        private void AddMix_mfoi_Click_1(object sender, RoutedEventArgs e)
+        private async void AddMix_mfoi_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Add MIX support.
+            AddMucDialog dialog = new AddMucDialog();
+            await UiUtils.ShowDialogAsync(dialog);
         }
 
-        private async void AddMuc_mfoi_Click_1(object sender, RoutedEventArgs e)
+        private async void AddMuc_mfoi_Click(object sender, RoutedEventArgs e)
         {
             AddMUCDialog dialog = new AddMUCDialog();
             await UiUtils.ShowDialogAsync(dialog);

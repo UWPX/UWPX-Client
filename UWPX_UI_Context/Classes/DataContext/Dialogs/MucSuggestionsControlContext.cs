@@ -1,17 +1,12 @@
-﻿using Shared.Classes;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
+namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
-    public sealed class AddMucDialogDataTemplate: AbstractDataTemplate
+    public sealed class MucSuggestionsControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsInputValid;
-        public bool IsInputValid
-        {
-            get => _IsInputValid;
-            set => SetProperty(ref _IsInputValid, value);
-        }
+        public readonly MucSuggestionsControlDataTemplate MODEL = new MucSuggestionsControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

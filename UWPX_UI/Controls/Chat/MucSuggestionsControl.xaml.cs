@@ -1,22 +1,21 @@
-﻿using Shared.Classes;
+﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
+namespace UWPX_UI.Controls.Chat
 {
-    public sealed class AddMucDialogDataTemplate: AbstractDataTemplate
+    public sealed partial class MucSuggestionsControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsInputValid;
-        public bool IsInputValid
-        {
-            get => _IsInputValid;
-            set => SetProperty(ref _IsInputValid, value);
-        }
+        public readonly MucSuggestionsControlContext VIEW_MODEL = new MucSuggestionsControlContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public MucSuggestionsControl()
+        {
+            InitializeComponent();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

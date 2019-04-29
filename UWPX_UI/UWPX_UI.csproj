@@ -162,6 +162,9 @@
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\EnterTextBox.cs" />
+    <Compile Include="Controls\Chat\MucSuggestionsControl.xaml.cs">
+      <DependentUpon>MucSuggestionsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\Content\IShowFlyoutSpeechBubbleContent.cs" />
     <Compile Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml.cs">
       <DependentUpon>SpeechBubbleErrorStatusBarControl.xaml</DependentUpon>
@@ -267,6 +270,9 @@
     </Compile>
     <Compile Include="Dialogs\AddChatDialog.xaml.cs">
       <DependentUpon>AddChatDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\AddMucDialog.xaml.cs">
+      <DependentUpon>AddMucDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\AppCenterPushDialog.xaml.cs">
       <DependentUpon>AppCenterPushDialog.xaml</DependentUpon>
@@ -503,6 +509,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Chat\MucSuggestionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\SpeechBubbles\Content\SpeechBubbleErrorStatusBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -640,6 +650,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\AddChatDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\AddMucDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

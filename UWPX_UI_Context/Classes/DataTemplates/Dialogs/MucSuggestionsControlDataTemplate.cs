@@ -2,16 +2,11 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
 {
-    public sealed class AddMucDialogDataTemplate: AbstractDataTemplate
+    public sealed class MucSuggestionsControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsInputValid;
-        public bool IsInputValid
-        {
-            get => _IsInputValid;
-            set => SetProperty(ref _IsInputValid, value);
-        }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
