@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
 using UWPX_UI_Context.Classes.DataTemplates;
@@ -200,7 +201,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void MarkAsRead(ChatDataTemplate chat)
         {
-            Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id));
+            Task.Run(() =>
+            {
+                ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id);
+                ToastHelper.UpdateBadgeNumber();
+            });
         }
 
         public async Task RejectPresenceSubscriptionAsync(ChatDataTemplate chatTemplate)

@@ -184,7 +184,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public void MarkAsRead(ChatDataTemplate chat)
         {
-            Task.Run(() => ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id));
+            Task.Run(() =>
+            {
+                ChatDBManager.INSTANCE.markAllMessagesAsRead(chat.Chat.id);
+                ToastHelper.UpdateBadgeNumber();
+            });
         }
 
         #endregion

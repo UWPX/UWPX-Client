@@ -1,15 +1,15 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Shared.Classes.SQLite;
 using SQLite;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class ChatDBManager : AbstractDBManager
+    public class ChatDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -53,9 +53,9 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        public void setChatTableValue(string id, object IdValue, string name, object value)
+        public void setChatTableValue(string id, object idValue, string name, object value)
         {
-            dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, IdValue);
+            dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, idValue);
         }
 
         public bool doesChatExist(string id)
