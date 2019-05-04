@@ -48,6 +48,11 @@ namespace UWPX_UI.Dialogs
         {
         }
 
+        private void AccountSelectionControl_AddAccountClick(Controls.AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)
+        {
+            Hide();
+        }
+
         #endregion
     }
 }

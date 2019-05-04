@@ -24,30 +24,35 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <controls:AccountSelectionControl Grid.Row="0"
+                                          AddAccountClick="AccountSelectionControl_AddAccountClick"
                                           Header="Select account"/>
         <chat:MucSuggestionsControl Grid.Row="1"
                                     Margin="0,10,0,0"/>
-        <CheckBox x:Name="password_chbx"
-                  Grid.Row="2"
-                  Content="Password"/>
-        <PasswordBox Grid.Row="3"
+        <PasswordBox Grid.Row="2"
                      Margin="0,10,0,0"
                      Header="Password"
-                     Visibility="{x:Bind password_chbx.IsChecked, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-        <Button Grid.Row="4"
-                Margin="0,10,0,0"
-                Content="Browse rooms"
-                Style="{ThemeResource ButtonRevealStyle}"/>
-        <CheckBox Grid.Row="5"
-                  Margin="0,10,0,0"
-                  Content="Bookmark"
-                  IsChecked="True"/>
-        <CheckBox Grid.Row="6"
-                  Margin="0,10,0,0"
-                  Content="Auto join"
-                  IsChecked="True"/>
+                     PlaceholderText="Empty if none"/>
+        <Grid Grid.Row="3">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <CheckBox Grid.Column="0"
+                      Margin="0,10,0,0"
+                      Content="Bookmark"
+                      IsChecked="True"/>
+            <CheckBox Grid.Column="1"
+                      Margin="0,10,0,0"
+                      Content="Auto join"
+                      IsChecked="True"/>
+        </Grid>
+        <controls:IconButtonControl Grid.Row="4"
+                                    Margin="0,10,0,0"
+                                    HorizontalAlignment="Left"
+                                    Glyph="&#xE721;"
+                                    Style="{ThemeResource ButtonRevealStyle}"
+                                    Text="Browse"/>
     </Grid>
 </ContentDialog>

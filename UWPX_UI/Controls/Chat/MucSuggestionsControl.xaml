@@ -38,6 +38,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="1"/>
+        <controls:BareJidInputControl Grid.Row="0"/>
+        <ScrollViewer Grid.Row="1"
+                      VerticalScrollBarVisibility="Hidden"/>
     </Grid>
 </UserControl>
