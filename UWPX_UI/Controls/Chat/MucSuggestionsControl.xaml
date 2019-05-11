@@ -38,7 +38,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <controls:BareJidInputControl Grid.Row="0"/>
+        <controls:BareJidInputControl Grid.Row="0"
+                                      PlaceholderText="room@chat.example.com"/>
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Hidden"/>
     </Grid>
