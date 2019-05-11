@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Globalization;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class ChatDateTimeStringValueConverter : IValueConverter
+    public sealed class ChatDateTimeStringValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -40,7 +41,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                 // Yesterday:
                 if (date.Date.CompareTo(DateTime.Now.Date.AddDays(-1)) == 0)
                 {
-                    return "Yesterday";
+                    return "Yesterday" + date.ToString(" HH:mm");
                 }
 
                 // Day of the last week:
@@ -48,7 +49,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                 {
                     if (date.Date.CompareTo(DateTime.Now.Date.AddDays(i)) == 0)
                     {
-                        return date.ToString("dddd");
+                        return CultureInfo.CurrentUICulture.DateTimeFormat.GetAbbreviatedDayName(date.DayOfWeek) + date.ToString(" HH:mm");
                     }
                 }
 
