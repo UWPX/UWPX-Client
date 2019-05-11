@@ -100,7 +100,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
                 foreach (ChatTable chat in ChatDBManager.INSTANCE.getAllChatsForClient(c.getXMPPAccount().getBareJid()))
                 {
                     // Only show chats with at least 1 chat message or that have been started:
-                    if (!chat.isChatActive)
+                    if (chat.chatType == ChatType.CHAT && !chat.isChatActive)
                     {
                         continue;
                     }
