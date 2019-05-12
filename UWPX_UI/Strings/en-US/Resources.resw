@@ -131,7 +131,8 @@
 * [**QRCoder**](https://github.com/codebude/QRCoder) An awesome QR-Code library.
 * [**sqlite-net-pcl**](https://github.com/praeclarum/sqlite-net) The backend for storing all messages, chats and accounts.
 * [**Unicode.net (fork)**](https://github.com/UWPX/unicode.net) A super easy to use and powerful emoji and text-processing library for .NET.
-* [**ZXing.Net**](https://github.com/micjahn/ZXing.Net/)  A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.</value>
+* [**ZXing.Net**](https://github.com/micjahn/ZXing.Net/)  A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.
+* [**DnsClient.NET**](http://dnsclient.michaco.net/) DnsClient.NET is a simple yet very powerful and high performant open source library for the .NET Framework to do DNS lookups.</value>
   </data>
   <data name="CreditsPage_general_markdown.Text" xml:space="preserve">
     <value>This project wouldn't be possible without the great work of all those people working on the libraries used by UWPX. So take a second, head over and take a look at their great work!</value>
