@@ -49,13 +49,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #region --Misc Methods (Public)--
         public async Task CreateAccountAsync()
         {
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
                 XMPPUser user = new XMPPUser(MODEL.BareJidText, Utils.getRandomResourcePart());
                 XMPPAccount account = new XMPPAccount(user)
                 {
-                    color = UiUtils.GenRandomHexColor()
+                    color = UiUtils.GenRandomHexColor(),
                 };
+
+                // Look up the DNS SRV record:
+                await account.dnsSrvLookupAsync();
+
                 account.generateOmemoKeys();
                 SetAccount(account);
             });

@@ -1,18 +1,21 @@
-﻿using libsignal;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using DnsClient.Protocol;
+using libsignal;
 using libsignal.ecc;
 using libsignal.state;
 using libsignal.util;
 using Logging;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using System;
-using System.Collections.Generic;
 using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network
 {
-    public class XMPPAccount : AbstractDataTemplate
+    public class XMPPAccount: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -197,7 +200,8 @@ namespace XMPP_API.Classes.Network
             SetProperty(ref _connectionConfiguration, value, nameof(connectionConfiguration));
             if (!(connectionConfiguration is null))
             {
-                connectionConfiguration.PropertyChanged += ConnectionConfiguration_PropertyChanged; ;
+                connectionConfiguration.PropertyChanged += ConnectionConfiguration_PropertyChanged;
+                ;
             }
         }
 
@@ -318,6 +322,38 @@ namespace XMPP_API.Classes.Network
         public override int GetHashCode()
         {
             return base.GetHashCode();
+        }
+
+        /// <summary>
+        /// Performs a DNS lookup and sets the first entry (highest priority).
+        /// Updates <see cref="port"/> and <see cref="serverAddress"/>.
+        /// </summary>
+        /// <returns>Returns true if the request was successful and the new values differ from the old values.</returns>
+        public async Task<bool> dnsSrvLookupAsync()
+        {
+            List<SrvRecord> records = await TCPConnection2.dnsSrvLookupAsync(user.domainPart);
+            if (records.Count <= 0)
+            {
+                return false;
+            }
+
+            SrvRecord record = records[0];
+            string serverAddress = record.Target.Value;
+            if (serverAddress.EndsWith("."))
+            {
+                serverAddress = serverAddress.Substring(0, serverAddress.Length - 1);
+            }
+            if ((ushort)port == record.Port && this.serverAddress.Equals(serverAddress))
+            {
+                return false;
+            }
+            else
+            {
+                port = record.Port;
+                this.serverAddress = serverAddress;
+                Logger.Info("Updated the port and server address for: " + user.domainPart + " to: " + this.serverAddress + ":" + port);
+                return true;
+            }
         }
 
         #endregion

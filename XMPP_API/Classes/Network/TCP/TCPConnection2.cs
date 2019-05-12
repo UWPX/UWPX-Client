@@ -1,8 +1,12 @@
-﻿using Logging;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using DnsClient;
+using DnsClient.Protocol;
+using Logging;
 using Windows.Networking;
 using Windows.Networking.Sockets;
 using Windows.Security.Cryptography.Certificates;
@@ -11,7 +15,7 @@ using XMPP_API.Classes.Network.Events;
 
 namespace XMPP_API.Classes.Network.TCP
 {
-    public class TCPConnection2 : AbstractConnection2
+    public class TCPConnection2: AbstractConnection2
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -138,7 +142,8 @@ namespace XMPP_API.Classes.Network.TCP
                             {
                                 connectingCTS = new CancellationTokenSource(CONNECTION_TIMEOUT_MS);
                             }
-                            await socket.ConnectAsync(hostName, account.port.ToString()).AsTask(connectingCTS.Token);
+
+                            await socket.ConnectAsync(hostName, account.port.ToString(), SocketProtectionLevel.PlainSocket).AsTask(connectingCTS.Token);
 
                             // Setup stream reader and writer:
                             dataWriter = new DataWriter(socket.OutputStream);
@@ -230,7 +235,7 @@ namespace XMPP_API.Classes.Network.TCP
             catch (Exception e)
             {
                 SocketErrorStatus socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
-                lastConnectionError = new ConnectionError(socketErrorStatus, "TLS upgrade failed after " + (DateTime.Now.Subtract(d).TotalMilliseconds) + "ms!");
+                lastConnectionError = new ConnectionError(socketErrorStatus, "TLS upgrade failed after " + DateTime.Now.Subtract(d).TotalMilliseconds + "ms!");
                 setState(ConnectionState.ERROR, lastConnectionError);
                 throw e;
             }
@@ -480,6 +485,33 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 // Reader task got canceled
             }
+        }
+
+        /// <summary>
+        /// Performs a DNS SRV lookup for the given host and returns a list of <see cref="SrvRecord"/> objects for the "xmpp-client" service.
+        /// </summary>
+        /// <param name="host">The host the lookup should be performed for.</param>
+        /// <returns>A list of <see cref="SrvRecord"/> objects ordered by their priority or an empty list of an error occurred or no entries were found.</returns>
+        public static async Task<List<SrvRecord>> dnsSrvLookupAsync(string host)
+        {
+            Logger.Info("Performing DNS SRV lookup for: " + host);
+            LookupClient lookup = new LookupClient();
+            try
+            {
+                IDnsQueryResponse response = await lookup.QueryAsync("_xmpp-client._tcp." + host, QueryType.SRV);
+                if (response is DnsQueryResponse dnsResponse)
+                {
+                    IEnumerable<SrvRecord> records = dnsResponse.AllRecords.Where((record) => record is SrvRecord).Select((record) => record as SrvRecord);
+                    List<SrvRecord> list = records.ToList();
+                    list.Sort((a, b) => a.Priority.CompareTo(b.Priority));
+                    return list;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("[TCPConnection2]: Failed to look up DNS SRV record for: " + host, e);
+            }
+            return new List<SrvRecord>();
         }
 
         #endregion
