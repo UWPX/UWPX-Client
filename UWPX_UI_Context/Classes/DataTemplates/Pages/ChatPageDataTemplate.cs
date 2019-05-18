@@ -16,7 +16,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly ObservableChatDictionaryList CHATS = new ObservableChatDictionaryList();
+        private readonly SaveObservableChatDictionaryList CHATS = new SaveObservableChatDictionaryList();
         public readonly ChatFilterDataTemplate CHAT_FILTER;
 
         public readonly AdvancedCollectionView CHATS_ACV;

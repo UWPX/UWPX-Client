@@ -21,7 +21,7 @@ namespace UWPX_UI_Context.Classes.Collections
         public object SyncRoot => false;
         public bool IsFixedSize => false;
         public bool IsReadOnly => false;
-        object IList.this[int index]
+        public object this[int index]
         {
             get => LIST[index];
             set

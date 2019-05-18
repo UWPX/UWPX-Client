@@ -137,6 +137,7 @@
     <Compile Include="Classes\ChatBackgroundHelper.cs" />
     <Compile Include="Classes\ChatBackgroundMode.cs" />
     <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
+    <Compile Include="Classes\Collections\SaveObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />
