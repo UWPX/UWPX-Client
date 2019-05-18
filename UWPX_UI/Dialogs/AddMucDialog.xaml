@@ -52,7 +52,6 @@
                                     Margin="0,10,0,0"
                                     HorizontalAlignment="Left"
                                     Glyph="&#xE721;"
-                                    Style="{ThemeResource ButtonRevealStyle}"
                                     Text="Browse"/>
     </Grid>
 </ContentDialog>
