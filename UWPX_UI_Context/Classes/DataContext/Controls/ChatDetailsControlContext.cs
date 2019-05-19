@@ -40,24 +40,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             {
                 return;
             }
-
-            ChatDataTemplate newChat = null;
-            if (args.OldValue is ChatDataTemplate oldChat)
-            {
-                oldChat.PropertyChanged -= Chat_PropertyChanged;
-                oldChat.ChatMessageChanged -= Chat_ChatMessageChanged;
-                oldChat.NewChatMessage -= Chat_NewChatMessage;
-            }
-
-            if (args.NewValue is ChatDataTemplate)
-            {
-                newChat = args.NewValue as ChatDataTemplate;
-                newChat.PropertyChanged += Chat_PropertyChanged;
-                newChat.ChatMessageChanged += Chat_ChatMessageChanged;
-                newChat.NewChatMessage += Chat_NewChatMessage;
-            }
-
-            UpdateView(newChat);
+            UpdateView(args.NewValue is ChatDataTemplate newChat ? newChat : null);
         }
 
         public void SendChatMessage(ChatDataTemplate chat)
@@ -220,38 +203,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender is ChatDataTemplate chat)
-            {
-                UpdateView(chat);
-            }
-        }
 
-        private async void Chat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
-        {
-            if (!MODEL.isDummy)
-            {
-                await MODEL.OnNewChatMessageAsync(args.MESSAGE, chat.Chat, chat.MucInfo);
-                if (args.MESSAGE.state == MessageState.UNREAD)
-                {
-                    // Mark message as read and update the badge notification count:
-                    await Task.Run(() =>
-                    {
-                        ChatDBManager.INSTANCE.markMessageAsRead(args.MESSAGE);
-                        ToastHelper.UpdateBadgeNumber();
-                    });
-                }
-            }
-        }
-
-        private async void Chat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
-        {
-            if (!MODEL.isDummy)
-            {
-                await MODEL.OnChatMessageChangedAsync(args.MESSAGE, args.REMOVED);
-            }
-        }
 
         #endregion
     }

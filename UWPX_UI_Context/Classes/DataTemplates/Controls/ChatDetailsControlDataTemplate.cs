@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
-using Data_Manager2.Classes.Toast;
-using Logging;
 using Shared.Classes;
-using Shared.Classes.Collections;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 
@@ -103,12 +97,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _ChatType, value);
         }
 
-        public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);
-        private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
-
-        private CancellationTokenSource loadChatMessagesCancelToken = null;
-        private Task loadChatMessagesTask = null;
         private ChatTable chat;
+        private MUCChatInfoTable muc;
         internal bool isDummy = false;
 
         #endregion
@@ -149,12 +139,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (!(chat is null))
             {
-                // Do not reload chat messages, if for example only the presence changes:
-                if (!isDummy && (this.chat is null || !string.Equals(chat.id, this.chat.id)))
-                {
-                    LoadChatMessages(chat, muc);
-                }
                 this.chat = chat;
+                this.muc = muc;
                 if (isDummy)
                 {
                     AccountText = chat.userAccountId;
@@ -210,41 +196,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             }
         }
 
-        public async Task OnNewChatMessageAsync(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
-        {
-            await CHAT_MESSAGES_SEMA.WaitAsync();
-            CHAT_MESSAGES.Add(new ChatMessageDataTemplate
-            {
-                Chat = chat,
-                Message = msg,
-                MUC = muc
-            });
-            CHAT_MESSAGES_SEMA.Release();
-        }
-
-        public async Task OnChatMessageChangedAsync(ChatMessageTable msg, bool removed)
-        {
-            await CHAT_MESSAGES_SEMA.WaitAsync();
-            for (int i = 0; i < CHAT_MESSAGES.Count; i++)
-            {
-                if (string.Equals(CHAT_MESSAGES[i].Message.id, msg.id))
-                {
-                    if (removed)
-                    {
-                        CHAT_MESSAGES.RemoveAt(i);
-                    }
-                    else
-                    {
-                        CHAT_MESSAGES[i].Message = msg;
-                    }
-                    CHAT_MESSAGES_SEMA.Release();
-                    return;
-                }
-            }
-            CHAT_MESSAGES_SEMA.Release();
-            Logger.Warn("OnChatMessageChanged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
-        }
-
         public void LoadSettings()
         {
             IsEmojiFlyoutEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
@@ -254,63 +205,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        /// <summary>
-        /// Starts a new Task and loads all chat messages for the given chat.
-        /// </summary>
-        /// <param name="chat">The chat which all chat messages should get loaded for.</param>
-        /// <param name="muc">If the chat is of type MUC, than non null value. Else null.</param>
-        private void LoadChatMessages(ChatTable chat, MUCChatInfoTable muc)
-        {
-            Task.Run(async () =>
-            {
-                if (!(loadChatMessagesCancelToken is null))
-                {
-                    loadChatMessagesCancelToken.Cancel();
-                }
-                loadChatMessagesCancelToken = new CancellationTokenSource();
 
-                if (!(loadChatMessagesTask is null))
-                {
-                    await loadChatMessagesTask;
-                }
-
-                IsLoadingChatMessages = true;
-
-                await CHAT_MESSAGES_SEMA.WaitAsync();
-                CHAT_MESSAGES.Clear();
-                CHAT_MESSAGES_SEMA.Release();
-
-                List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-                loadChatMessagesTask = Task.Run(() =>
-                {
-                    IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id);
-                    for (int i = 0; i < list.Count && !loadChatMessagesCancelToken.IsCancellationRequested; i++)
-                    {
-                        msgs.Add(new ChatMessageDataTemplate
-                        {
-                            Message = list[i],
-                            Chat = chat,
-                            MUC = muc
-                        });
-                    }
-                });
-
-                await loadChatMessagesTask;
-
-                if (!loadChatMessagesCancelToken.IsCancellationRequested)
-                {
-                    await CHAT_MESSAGES_SEMA.WaitAsync();
-                    CHAT_MESSAGES.AddRange(msgs);
-                    CHAT_MESSAGES_SEMA.Release();
-                }
-                IsLoadingChatMessages = false;
-
-                if (!loadChatMessagesCancelToken.IsCancellationRequested)
-                {
-                    ToastHelper.removeToastGroup(chat.id);
-                }
-            });
-        }
 
         #endregion
 

@@ -1,9 +1,7 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBTables;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -49,7 +47,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         private void AddDummyMessage(ChatTable chat, string msg, string fromUser, MessageState state, bool isEncrypted, bool isImage)
         {
-            MODEL.CHAT_MESSAGES.Add(new DataTemplates.ChatMessageDataTemplate
+            /*MODEL.CHAT_MESSAGES.Add(new DataTemplates.ChatMessageDataTemplate
             {
                 Chat = chat,
                 Message = new ChatMessageTable
@@ -64,7 +62,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                     isDummyMessage = true,
                     isEncrypted = isEncrypted
                 }
-            });
+            });*/
         }
 
         private void SendDelayedMessage(ChatTable chat, string msg, bool isEncrypted, bool isImage, int msDelay)

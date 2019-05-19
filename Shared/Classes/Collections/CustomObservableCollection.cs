@@ -5,19 +5,23 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Toolkit.Collections;
 
 namespace Shared.Classes.Collections
 {
     /// <summary>
     /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074
     /// </summary>
-    public class CustomObservableCollection<T>: ObservableCollection<T>
+    public class CustomObservableCollection<T>: ObservableCollection<T>, IIncrementalSource<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private const string COUNT_NAME = nameof(Count);
         private const string INDEXER_NAME = "Item[]";
         public readonly bool INVOKE_IN_UI_THREAD;
+        public Func<int, int, CancellationToken, Task<IEnumerable<T>>> GetPagedItemsFuncAsync;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -30,7 +34,10 @@ namespace Shared.Classes.Collections
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public async Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        {
+            return await GetPagedItemsFuncAsync(pageIndex, pageSize, cancellationToken);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
