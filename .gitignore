@@ -290,3 +290,4 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+/UWPX_UI/Assets/Fonts/seguiemj.ttf

@@ -1,0 +1,6 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--  Replace the default windows Emoji font with a newer one for older devices so all get the new Emoji:  -->
+    <FontFamily x:Key="ContentControlThemeFontFamily">ms-appx:///Assets/Fonts/seguiemj.ttf#Segoe UI Emoji,XamlAutoFontFamily</FontFamily>
+</ResourceDictionary>

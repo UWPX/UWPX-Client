@@ -8,6 +8,9 @@
                 <!--  Windows UI Library:  -->
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls"/>
 
+                <!--  Fonts:  -->
+                <ResourceDictionary Source="ms-appx:///Resources/MyFonts.xaml"/>
+
                 <!--  Brushes:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml"/>
 
