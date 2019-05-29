@@ -42,6 +42,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
         private CancellationToken loadChatMessagesCancelToken = default;
         private Task loadChatMessagesTask = null;
+        private bool loaded = false;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -66,8 +67,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
 
-            if (!(Chat is null))
+            if (!(Chat is null) && !loaded)
             {
+                loaded = true;
                 return await LoadChatMessagesAsync(pageIndex, pageSize, cancellationToken);
             }
             return msgs;
@@ -77,6 +79,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)) && !(value is null))
             {
+                loaded = false;
                 // Chat changed load chat messages:
                 CHAT_MESSAGES_INC.RefreshAsync();
             }
@@ -93,11 +96,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public async Task OnNewChatMessageAsync(ChatMessageTable msg, ChatTable chat, MUCChatInfoTable muc)
         {
             await CHAT_MESSAGES_SEMA.WaitAsync();
-            CHAT_MESSAGES.Add(new ChatMessageDataTemplate
+            await SharedUtils.CallDispatcherAsync(() =>
             {
-                Chat = chat,
-                Message = msg,
-                MUC = muc
+                CHAT_MESSAGES_INC.Add(new ChatMessageDataTemplate
+                {
+                    Chat = chat,
+                    Message = msg,
+                    MUC = muc
+                });
             });
             CHAT_MESSAGES_SEMA.Release();
         }
