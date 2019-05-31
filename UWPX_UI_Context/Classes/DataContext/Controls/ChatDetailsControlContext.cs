@@ -36,11 +36,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs args)
         {
-            if (args.NewValue == args.OldValue)
+            ChatDataTemplate newChat = null;
+            if (args.OldValue is ChatDataTemplate oldChat)
             {
-                return;
+                oldChat.PropertyChanged -= Chat_PropertyChanged;
             }
-            UpdateView(args.NewValue is ChatDataTemplate newChat ? newChat : null);
+
+            if (args.NewValue is ChatDataTemplate)
+            {
+                newChat = args.NewValue as ChatDataTemplate;
+                newChat.PropertyChanged += Chat_PropertyChanged;
+            }
+
+            UpdateView(newChat);
         }
 
         public void SendChatMessage(ChatDataTemplate chat)
@@ -198,7 +206,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ChatDataTemplate chat)
+            {
+                UpdateView(chat);
+            }
+        }
 
         #endregion
     }

@@ -92,17 +92,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             ChatDataTemplate newChat = null;
             if (args.OldValue is ChatDataTemplate oldChat)
             {
-                oldChat.PropertyChanged -= OldChat_PropertyChanged;
-                oldChat.ChatMessageChanged -= OldChat_ChatMessageChanged;
-                oldChat.NewChatMessage -= OldChat_NewChatMessage;
+                oldChat.PropertyChanged -= Chat_PropertyChanged;
+                oldChat.ChatMessageChanged -= Chat_ChatMessageChanged;
+                oldChat.NewChatMessage -= Chat_NewChatMessage;
             }
 
             if (args.NewValue is ChatDataTemplate)
             {
                 newChat = args.NewValue as ChatDataTemplate;
-                newChat.PropertyChanged += OldChat_PropertyChanged;
-                newChat.ChatMessageChanged += OldChat_ChatMessageChanged;
-                newChat.NewChatMessage += OldChat_NewChatMessage;
+                newChat.PropertyChanged += Chat_PropertyChanged;
+                newChat.ChatMessageChanged += Chat_ChatMessageChanged;
+                newChat.NewChatMessage += Chat_NewChatMessage;
             }
 
             UpdateView(newChat);
@@ -278,7 +278,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void OldChat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (sender is ChatDataTemplate chat)
             {
@@ -291,13 +291,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.OnThemeChanged();
         }
 
-        private void OldChat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
+        private void Chat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
         {
             MODEL.UpdateLastAction(chat.Chat);
             MODEL.UpdateUnreadCount(chat.Chat);
         }
 
-        private void OldChat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
+        private void Chat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
         {
             MODEL.UpdateLastAction(chat.Chat);
             MODEL.UpdateUnreadCount(chat.Chat);
