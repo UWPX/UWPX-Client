@@ -41,7 +41,7 @@
         </Grid.RowDefinitions>
         <ListView Grid.Row="2"
                   ItemTemplateSelector="{StaticResource SpeechBubbleDataTemplateSelector}"
-                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES_INC}"
+                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
                   SelectionMode="None">
             <ListView.Header>
                 <controls:ScrollHeader Mode="Fade"

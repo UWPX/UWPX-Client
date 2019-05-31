@@ -141,6 +141,7 @@
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Defer.cs" />
     <Compile Include="Classes\Collections\Toolkit\AdvancedCollectionView.Events.cs" />
+    <Compile Include="Classes\Collections\Toolkit\IncrementalLoadingCollection.cs" />
     <Compile Include="Classes\Collections\Toolkit\VectorChangedEventArgs.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountImagePresenceControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountInfoCertificateGeneralControlContext.cs" />

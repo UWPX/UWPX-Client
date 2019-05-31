@@ -5,18 +5,16 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
-using Microsoft.Toolkit.Uwp;
 using Shared.Classes;
-using Shared.Classes.Collections;
+using UWPX_UI_Context.Classes.Collections.Toolkit;
+
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    using IncChatMessageList = IncrementalLoadingCollection<CustomObservableCollection<ChatMessageDataTemplate>, ChatMessageDataTemplate>;
     public class ChatMessageListControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
-        public readonly IncChatMessageList CHAT_MESSAGES_INC;
+        public readonly IncrementalLoadingCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
 
         private ChatDataTemplate _Chat;
         public ChatDataTemplate Chat
@@ -49,14 +47,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Constructors--
         public ChatMessageListControlDataTemplate()
         {
-            CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true)
-            {
-                GetPagedItemsFuncAsync = GetPagedItemsFuncAsync
-            };
-            CHAT_MESSAGES_INC = new IncChatMessageList(CHAT_MESSAGES)
+            CHAT_MESSAGES = new IncrementalLoadingCollection<ChatMessageDataTemplate>()
             {
                 OnStartLoading = () => IsLoading = true,
-                OnEndLoading = () => IsLoading = false
+                OnEndLoading = () => IsLoading = false,
+                GetPagedItemsFuncAsync = GetPagedItemsFuncAsync
             };
         }
 
@@ -81,7 +76,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             {
                 loaded = false;
                 // Chat changed load chat messages:
-                CHAT_MESSAGES_INC.RefreshAsync();
+                CHAT_MESSAGES.RefreshAsync();
             }
         }
 
@@ -98,7 +93,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             await CHAT_MESSAGES_SEMA.WaitAsync();
             await SharedUtils.CallDispatcherAsync(() =>
             {
-                CHAT_MESSAGES_INC.Add(new ChatMessageDataTemplate
+                CHAT_MESSAGES.Add(new ChatMessageDataTemplate
                 {
                     Chat = chat,
                     Message = msg,
