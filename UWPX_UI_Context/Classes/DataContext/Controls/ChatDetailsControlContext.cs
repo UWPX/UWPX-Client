@@ -87,14 +87,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
             else
             {
-                if (chat.Chat.chatType == ChatType.CHAT)
-                {
-                    toSendMsg = new MessageMessage(from, to, message, chatType, reciptRequested);
-                }
-                else
-                {
-                    toSendMsg = new MessageMessage(from, to, message, chatType, chat.MucInfo.nickname, reciptRequested);
-                }
+                toSendMsg = chat.Chat.chatType == ChatType.CHAT
+                    ? new MessageMessage(from, to, message, chatType, reciptRequested)
+                    : new MessageMessage(from, to, message, chatType, chat.MucInfo.nickname, reciptRequested);
             }
 
             // Create a copy for the DB:

@@ -91,15 +91,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         /// </summary>
         public bool HasMoreItems
         {
-            get
-            {
-                if (_cancellationToken.IsCancellationRequested)
-                {
-                    return false;
-                }
-
-                return _hasMoreItems;
-            }
+            get => _cancellationToken.IsCancellationRequested ? false : _hasMoreItems;
 
             private set
             {

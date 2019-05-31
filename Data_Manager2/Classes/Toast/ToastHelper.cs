@@ -62,7 +62,10 @@ namespace Data_Manager2.Classes.Toast
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void removeToastGroup(string group) => ToastNotificationManager.History.RemoveGroup(group);
+        public static void removeToastGroup(string group)
+        {
+            ToastNotificationManager.History.RemoveGroup(group);
+        }
 
         public static void showWillBeSendLaterToast(ChatTable chat)
         {
@@ -163,12 +166,18 @@ namespace Data_Manager2.Classes.Toast
             popToast(toastContent, chat);
         }
 
-        public static void UpdateBadgeNumber() => SetBadgeNumber(ChatDBManager.INSTANCE.getUnreadCount());
+        public static void UpdateBadgeNumber()
+        {
+            SetBadgeNumber(ChatDBManager.INSTANCE.getUnreadCount());
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
-        private static void popToast(ToastContent content, ChatTable chat) => popToast(content, chat, chat.id);
+        private static void popToast(ToastContent content, ChatTable chat)
+        {
+            popToast(content, chat, chat.id);
+        }
 
         private static void popToast(ToastContent content, ChatTable chat, string group)
         {
@@ -205,15 +214,18 @@ namespace Data_Manager2.Classes.Toast
 
         private static void popToastReduced()
         {
+            // Only vibrate or play sound once every VIBRATE_TIMEOUT_TS time span:
+            if (DateTime.Now.Subtract(lastVibration).CompareTo(VIBRATE_TIMEOUT_TS) < 0)
+            {
+                return;
+            }
+            lastVibration = DateTime.Now;
+
             // Vibrate:
             if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
-                // Only vibrate once:
-                if (DateTime.Now.Subtract(lastVibration).CompareTo(VIBRATE_TIMEOUT_TS) >= 0)
-                {
-                    lastVibration = DateTime.Now;
-                    VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
-                }
+
+                VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
             }
 
             // Play sound:

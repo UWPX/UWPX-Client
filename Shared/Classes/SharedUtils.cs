@@ -131,7 +131,7 @@ namespace Shared.Classes
         {
             MediaPlayer player = new MediaPlayer()
             {
-                Source = MediaSource.CreateFromUri(new Uri("ms-winsoundevent:Notification.Default"))
+                Source = MediaSource.CreateFromUri(new Uri(uri))
             };
             player.Play();
             return player;
