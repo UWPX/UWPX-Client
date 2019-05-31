@@ -1032,7 +1032,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.FACE_CONCERNED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 87
         );
 
@@ -1596,7 +1596,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.EMOTION,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 137
         );
 
@@ -1620,7 +1620,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SMILEYS_AND_EMOTION,
             subgroup: Subgroups.EMOTION,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 139
         );
 
@@ -2232,7 +2232,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 197
         );
 
@@ -2244,7 +2244,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 198
         );
 
@@ -2256,7 +2256,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 199
         );
 
@@ -2268,7 +2268,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 200
         );
 
@@ -2280,7 +2280,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 201
         );
 
@@ -2292,7 +2292,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.HAND_FINGERS_PARTIAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 202
         );
 
@@ -4188,7 +4188,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 363
         );
 
@@ -4200,7 +4200,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 364
         );
 
@@ -4428,7 +4428,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 383
         );
 
@@ -4440,7 +4440,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 384
         );
 
@@ -4452,7 +4452,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 385
         );
 
@@ -4464,7 +4464,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 386
         );
 
@@ -4476,7 +4476,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 387
         );
 
@@ -4488,7 +4488,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.BODY_PARTS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 388
         );
 
@@ -4836,7 +4836,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON,
-            hasGlyph: true,
+            hasGlyph: false,
             sortOrder: 418
         );
 
@@ -7536,7 +7536,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 727
         );
 
@@ -7548,7 +7548,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 728
         );
 
@@ -7560,7 +7560,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 729
         );
 
@@ -7572,7 +7572,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 730
         );
 
@@ -7584,7 +7584,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 731
         );
 
@@ -7596,7 +7596,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 732
         );
 
@@ -7608,7 +7608,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 733
         );
 
@@ -7620,7 +7620,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 735
         );
 
@@ -7632,7 +7632,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 737
         );
 
@@ -7644,7 +7644,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 739
         );
 
@@ -7656,7 +7656,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 741
         );
 
@@ -7668,7 +7668,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 743
         );
 
@@ -7680,7 +7680,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 745
         );
 
@@ -7692,7 +7692,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 747
         );
 
@@ -7704,7 +7704,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 749
         );
 
@@ -7716,7 +7716,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 751
         );
 
@@ -7728,7 +7728,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 753
         );
 
@@ -7740,7 +7740,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_GESTURE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 755
         );
 
@@ -14808,7 +14808,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1606
         );
 
@@ -14820,7 +14820,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1607
         );
 
@@ -14832,7 +14832,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1608
         );
 
@@ -14844,7 +14844,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1609
         );
 
@@ -14856,7 +14856,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1610
         );
 
@@ -14868,7 +14868,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1611
         );
 
@@ -14880,7 +14880,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1612
         );
 
@@ -14892,7 +14892,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1614
         );
 
@@ -14904,7 +14904,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1616
         );
 
@@ -14916,7 +14916,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1618
         );
 
@@ -14928,7 +14928,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1620
         );
 
@@ -14940,7 +14940,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1622
         );
 
@@ -14952,7 +14952,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1624
         );
 
@@ -14964,7 +14964,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1626
         );
 
@@ -14976,7 +14976,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1628
         );
 
@@ -14988,7 +14988,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1630
         );
 
@@ -15000,7 +15000,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1632
         );
 
@@ -15012,7 +15012,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1634
         );
 
@@ -15024,7 +15024,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1636
         );
 
@@ -15036,7 +15036,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1637
         );
 
@@ -15048,7 +15048,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1638
         );
 
@@ -15060,7 +15060,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1639
         );
 
@@ -15072,7 +15072,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1640
         );
 
@@ -15084,7 +15084,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1641
         );
 
@@ -15096,7 +15096,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1642
         );
 
@@ -15108,7 +15108,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1644
         );
 
@@ -15120,7 +15120,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1646
         );
 
@@ -15132,7 +15132,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1648
         );
 
@@ -15144,7 +15144,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1650
         );
 
@@ -15156,7 +15156,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1652
         );
 
@@ -15168,7 +15168,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1654
         );
 
@@ -15180,7 +15180,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1656
         );
 
@@ -15192,7 +15192,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1658
         );
 
@@ -15204,7 +15204,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1660
         );
 
@@ -15216,7 +15216,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1662
         );
 
@@ -15228,7 +15228,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1664
         );
 
@@ -15240,7 +15240,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1666
         );
 
@@ -15252,7 +15252,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1667
         );
 
@@ -15264,7 +15264,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1668
         );
 
@@ -15276,7 +15276,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1669
         );
 
@@ -15288,7 +15288,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1670
         );
 
@@ -15300,7 +15300,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1671
         );
 
@@ -15312,7 +15312,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1672
         );
 
@@ -15324,7 +15324,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1673
         );
 
@@ -15336,7 +15336,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1674
         );
 
@@ -15348,7 +15348,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1675
         );
 
@@ -15360,7 +15360,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1676
         );
 
@@ -15372,7 +15372,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1677
         );
 
@@ -15384,7 +15384,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1678
         );
 
@@ -15396,7 +15396,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1679
         );
 
@@ -15408,7 +15408,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1680
         );
 
@@ -15420,7 +15420,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1681
         );
 
@@ -15432,7 +15432,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1682
         );
 
@@ -15444,7 +15444,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1683
         );
 
@@ -15456,7 +15456,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1684
         );
 
@@ -15468,7 +15468,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1685
         );
 
@@ -15480,7 +15480,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1686
         );
 
@@ -15492,7 +15492,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1687
         );
 
@@ -15504,7 +15504,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1688
         );
 
@@ -15516,7 +15516,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1689
         );
 
@@ -15528,7 +15528,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1690
         );
 
@@ -15540,7 +15540,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1691
         );
 
@@ -15552,7 +15552,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1692
         );
 
@@ -15564,7 +15564,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1693
         );
 
@@ -15576,7 +15576,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1694
         );
 
@@ -15588,7 +15588,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1695
         );
 
@@ -15600,7 +15600,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1696
         );
 
@@ -15612,7 +15612,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1697
         );
 
@@ -15624,7 +15624,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1698
         );
 
@@ -15636,7 +15636,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1699
         );
 
@@ -15648,7 +15648,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1700
         );
 
@@ -15660,7 +15660,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.PERSON_ACTIVITY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 1701
         );
 
@@ -19728,7 +19728,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2253
         );
 
@@ -19740,7 +19740,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2254
         );
 
@@ -19752,7 +19752,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2255
         );
 
@@ -19764,7 +19764,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2256
         );
 
@@ -19776,7 +19776,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2257
         );
 
@@ -19788,7 +19788,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2258
         );
 
@@ -19800,7 +19800,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2259
         );
 
@@ -19812,7 +19812,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2260
         );
 
@@ -19824,7 +19824,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2261
         );
 
@@ -19836,7 +19836,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2262
         );
 
@@ -19848,7 +19848,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2263
         );
 
@@ -19860,7 +19860,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2264
         );
 
@@ -19872,7 +19872,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2265
         );
 
@@ -19884,7 +19884,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2266
         );
 
@@ -19896,7 +19896,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2267
         );
 
@@ -19908,7 +19908,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2268
         );
 
@@ -19932,7 +19932,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2270
         );
 
@@ -19944,7 +19944,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2271
         );
 
@@ -19956,7 +19956,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2272
         );
 
@@ -19968,7 +19968,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2273
         );
 
@@ -19980,7 +19980,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2274
         );
 
@@ -19992,7 +19992,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2275
         );
 
@@ -20004,7 +20004,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2276
         );
 
@@ -20016,7 +20016,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2277
         );
 
@@ -20028,7 +20028,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2278
         );
 
@@ -20040,7 +20040,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2279
         );
 
@@ -20052,7 +20052,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2280
         );
 
@@ -20064,7 +20064,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2281
         );
 
@@ -20076,7 +20076,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2282
         );
 
@@ -20088,7 +20088,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2283
         );
 
@@ -20100,7 +20100,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2284
         );
 
@@ -20124,7 +20124,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2286
         );
 
@@ -20136,7 +20136,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2287
         );
 
@@ -20148,7 +20148,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2288
         );
 
@@ -20160,7 +20160,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2289
         );
 
@@ -20172,7 +20172,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2290
         );
 
@@ -20184,7 +20184,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2291
         );
 
@@ -20196,7 +20196,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2292
         );
 
@@ -20208,7 +20208,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2293
         );
 
@@ -20220,7 +20220,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2294
         );
 
@@ -20232,7 +20232,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2295
         );
 
@@ -20244,7 +20244,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2296
         );
 
@@ -20256,7 +20256,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2297
         );
 
@@ -20268,7 +20268,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2298
         );
 
@@ -20280,7 +20280,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2299
         );
 
@@ -20292,7 +20292,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2300
         );
 
@@ -20304,7 +20304,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2301
         );
 
@@ -20316,7 +20316,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2302
         );
 
@@ -20328,7 +20328,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2303
         );
 
@@ -20340,7 +20340,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2304
         );
 
@@ -20352,7 +20352,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2305
         );
 
@@ -20364,7 +20364,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2306
         );
 
@@ -20376,7 +20376,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2307
         );
 
@@ -20388,7 +20388,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2308
         );
 
@@ -20400,7 +20400,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2309
         );
 
@@ -20412,7 +20412,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2310
         );
 
@@ -20436,7 +20436,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2312
         );
 
@@ -20448,7 +20448,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2313
         );
 
@@ -20460,7 +20460,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2314
         );
 
@@ -20472,7 +20472,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2315
         );
 
@@ -20484,7 +20484,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2316
         );
 
@@ -20496,7 +20496,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2317
         );
 
@@ -20508,7 +20508,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2318
         );
 
@@ -20520,7 +20520,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2319
         );
 
@@ -20532,7 +20532,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2320
         );
 
@@ -20544,7 +20544,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2321
         );
 
@@ -20556,7 +20556,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Light },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2322
         );
 
@@ -20568,7 +20568,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumLight },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2323
         );
 
@@ -20580,7 +20580,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.Medium },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2324
         );
 
@@ -20592,7 +20592,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark, SkinTones.MediumDark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2325
         );
 
@@ -20604,7 +20604,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.PEOPLE_AND_BODY,
             subgroup: Subgroups.FAMILY,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2326
         );
 
@@ -21072,7 +21072,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Light },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2372
         );
 
@@ -21084,7 +21084,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumLight },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2373
         );
 
@@ -21096,7 +21096,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Medium },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2374
         );
 
@@ -21108,7 +21108,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.MediumDark },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2375
         );
 
@@ -21120,7 +21120,7 @@ namespace NeoSmart.Unicode
             skinTones: new Codepoint[] { SkinTones.Dark },
             group: Group.COMPONENT,
             subgroup: Subgroups.SKIN_TONE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2376
         );
 
@@ -21288,7 +21288,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2390
         );
 
@@ -21324,7 +21324,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2393
         );
 
@@ -21336,7 +21336,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2394
         );
 
@@ -21888,7 +21888,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2441
         );
 
@@ -21900,7 +21900,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2442
         );
 
@@ -21912,7 +21912,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_MAMMAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2443
         );
 
@@ -22116,7 +22116,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ANIMALS_AND_NATURE,
             subgroup: Subgroups.ANIMAL_BIRD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2461
         );
 
@@ -23088,7 +23088,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2547
         );
 
@@ -23100,7 +23100,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_VEGETABLE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2548
         );
 
@@ -23220,7 +23220,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2558
         );
 
@@ -23388,7 +23388,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2572
         );
 
@@ -23484,7 +23484,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_PREPARED,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2580
         );
 
@@ -23772,7 +23772,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.FOOD_MARINE,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2604
         );
 
@@ -24120,7 +24120,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2633
         );
 
@@ -24132,7 +24132,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2634
         );
 
@@ -24144,7 +24144,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.FOOD_AND_DRINK,
             subgroup: Subgroups.DRINK,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2635
         );
 
@@ -24732,7 +24732,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.PLACE_RELIGIOUS,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2698
         );
 
@@ -25344,7 +25344,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2754
         );
 
@@ -25356,7 +25356,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2755
         );
 
@@ -25368,7 +25368,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_GROUND,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2756
         );
 
@@ -25680,7 +25680,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.TRANSPORT_AIR,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2790
         );
 
@@ -26376,7 +26376,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.TRAVEL_AND_PLACES,
             subgroup: Subgroups.SKY_WEATHER,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2855
         );
 
@@ -27336,7 +27336,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.SPORT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2955
         );
 
@@ -27408,7 +27408,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2961
         );
 
@@ -27420,7 +27420,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.ACTIVITIES,
             subgroup: Subgroups.GAME,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2962
         );
 
@@ -27744,7 +27744,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 2997
         );
 
@@ -27864,7 +27864,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3007
         );
 
@@ -27876,7 +27876,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3008
         );
 
@@ -27888,7 +27888,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3009
         );
 
@@ -27900,7 +27900,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3010
         );
 
@@ -28068,7 +28068,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.CLOTHING,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3025
         );
 
@@ -28488,7 +28488,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.MUSICAL_INSTRUMENT,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3064
         );
 
@@ -28920,7 +28920,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.LIGHT_VIDEO,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3109
         );
 
@@ -29868,7 +29868,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3207
         );
 
@@ -30036,7 +30036,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.TOOL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3230
         );
 
@@ -30192,7 +30192,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3245
         );
 
@@ -30216,7 +30216,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3247
         );
 
@@ -30228,7 +30228,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.MEDICAL,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3248
         );
 
@@ -30276,7 +30276,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3254
         );
 
@@ -30324,7 +30324,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.OBJECTS,
             subgroup: Subgroups.HOUSEHOLD,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3258
         );
 
@@ -32700,7 +32700,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3534
         );
 
@@ -32712,7 +32712,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3535
         );
 
@@ -32724,7 +32724,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3536
         );
 
@@ -32748,7 +32748,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3538
         );
 
@@ -32760,7 +32760,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3539
         );
 
@@ -32796,7 +32796,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3542
         );
 
@@ -32808,7 +32808,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3543
         );
 
@@ -32820,7 +32820,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3544
         );
 
@@ -32832,7 +32832,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3545
         );
 
@@ -32844,7 +32844,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3546
         );
 
@@ -32856,7 +32856,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3547
         );
 
@@ -32868,7 +32868,7 @@ namespace NeoSmart.Unicode
             skinTones: SingleEmoji.NoSkinTones,
             group: Group.SYMBOLS,
             subgroup: Subgroups.GEOMETRIC,
-            hasGlyph: false,
+            hasGlyph: true,
             sortOrder: 3548
         );
 
