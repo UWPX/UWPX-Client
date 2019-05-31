@@ -158,7 +158,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsPeopleChecked, value, nameof(IsPeopleChecked)) && value)
             {
-                LoadEmoji(EMOJI_PEOPLE_FILTERED, new[] { Emoji.PeopleAndBody, Emoji.Activities, Emoji.Component });
+                LoadEmoji(EMOJI_PEOPLE_FILTERED, new[] { Emoji.PeopleAndBody, Emoji.Component });
             }
         }
 
@@ -182,7 +182,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _IsTransportationsChecked, value, nameof(IsTransportationsChecked)) && value)
             {
-                LoadEmoji(EMOJI_TRANSPORTATIONS_FILTERED, new[] { Emoji.TravelAndPlaces });
+                LoadEmoji(EMOJI_TRANSPORTATIONS_FILTERED, new[] { Emoji.TravelAndPlaces, Emoji.Activities });
             }
         }
 
@@ -297,7 +297,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     SortedSet<SingleEmoji> result = sources[0];
                     for (int i = 1; i < sources.Length; i++)
                     {
-                        result.Union(sources[i]);
+                        result.UnionWith(sources[i]);
                     }
                     List<SingleEmoji> emoji = result.Where((x) => x.HasGlyph).ToList();
                     await SharedUtils.CallDispatcherAsync(() => target.Source = emoji);
