@@ -363,6 +363,7 @@
     </AppxManifest>
     <PRIResource Include="Strings\en-US\Resources.resw" />
     <Content Include="Assets\Fonts\seguiemj.ttf" />
+    <Content Include="Assets\Fonts\segmdl2.ttf" />
     <None Include="UWPX_UI_StoreKey.pfx" />
     <None Include="UWPX_UI_TemporaryKey.pfx" />
   </ItemGroup>

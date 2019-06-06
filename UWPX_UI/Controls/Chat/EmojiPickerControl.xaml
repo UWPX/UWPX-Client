@@ -158,7 +158,7 @@
             <StackPanel.Resources>
                 <Style BasedOn="{StaticResource ToggleButtonRevealStyle}"
                        TargetType="ToggleButton">
-                    <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
+                    <Setter Property="FontFamily" Value="{ThemeResource SymbolThemeFontFamily}"/>
                     <Setter Property="Background" Value="Transparent"/>
                     <Setter Property="FontSize" Value="20"/>
                 </Style>
