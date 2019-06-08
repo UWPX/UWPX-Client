@@ -187,7 +187,7 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Name="addMix_mfoi"
                                                 Click="AddMix_mfoi_Click"
-                                                IsEnabled="True"
+                                                IsEnabled="False"
                                                 Text="Add Group Chat (MIX)">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE902;"/>
