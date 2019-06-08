@@ -272,12 +272,14 @@ For more up to date information visit:
     <value>Requires an app restart to work properly once changed.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># UI Overhaul Part 3 - New Logo Again...
+    <value># SRV and Emoji
 
-And another month of development is over. This month I *again* mainly focused on the UI Overhaul ([#52](https://github.com/UWPX/UWPX-Client/issues/52)) since it gets time this gets done. I plan with about two to three months more that I have to focus on all the UI stuff till it's finally done.  
-Never the less this month brings a bunch of new UI related fixed and additions like a new logo (again)!  
-I was not really that happy with the old "new" logo and how it was scaling so I decided to do a new one agian...
-The new logo solves these issues and also matches the new simple [Windows 10 logo style](https://user-images.githubusercontent.com/11741404/56378745-39c84080-620e-11e9-8ef9-7be6bbb18d05.png). (Links to an image taken from: [Meet the new icons for Office 365](https://www.youtube.com/watch?v=YplAU5myNP4)).
+It's time again! A new release is here!  
+Last month I didn't really had that much time to spare for working on UWPX.
+Never the less this release includes one more or less big new feature:  
+If you add a new account and enter your JID, UWPX tries to look up the [SRV](https://wiki.xmpp.org/web/SRV_Records) record for you and populates the `Server address` and `Port` field automatically with the correct values.  
+
+The next two to three months I have to, like last month, reduce the time I can spend working on UWPX, since there's quiet a lot of other (University) stuff I have to prioritize.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -292,25 +294,14 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Support for gtalk [#54](https://github.com/UWPX/UWPX-Client/issues/54)
 
 ### Changes:
-* New logo!
-* Added an unread message count indicator for each chat
-* Added an unread message count indicator for the app tile
-* Added chat suggestions if you click on add chat
-* Added a debug option to disable TLS upgrade and TCP connection timeouts
-* Added Emoji picker skin tone support
-* Added "Mark chat as read" menu flyout items
-* Added the account color to the account selection control
-* Added a placeholder if you have no chats
-* Added a new change presence dialog
-* Switched to a mono space font for the OMEMO fingerprint
-* Fixed OMEMO signed per key loading
-* Fixed devices vibrating continously if a lot of messages arrive
-* Fixed enter/shift-enter for sending chat messages [#62](https://github.com/UWPX/UWPX-Client/issues/62)
-* Fixed window not movable [#62](https://github.com/UWPX/UWPX-Client/issues/62)
-* Fixed theme related issues if you decided not to use the same theme as your system for UWPX
-* A bunch of code cleanup and code quality improvements
+* Added a SRV record lookup for the server address if add a new account
+* Added a thread save wrapper for the chats list
+* Replacing the Emoji font for older devices - all devices now support Unicode 12.0 Emoji
+* Fixed marking a chat as read does not update the app tile
+* Fixed a crash related to the icon button style
+* Fixed the notification sound spam
 
 
-[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.16.0.0)</value>
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.17.0.0)</value>
   </data>
 </root>
