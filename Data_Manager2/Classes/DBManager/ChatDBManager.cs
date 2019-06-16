@@ -65,7 +65,13 @@ namespace Data_Manager2.Classes.DBManager
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
         {
-            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date ASC;", chatId);
+            return getAllChatMessagesForChat(chatId, 100);
+        }
+
+        public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId, int limit)
+        {
+            // First get a limited amount of messages and the sort it again into the correct order:
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM (SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date DESC LIMIT ?) ORDER BY date ASC;", chatId, limit);
         }
 
         public ChatTable getChat(string chatId)
