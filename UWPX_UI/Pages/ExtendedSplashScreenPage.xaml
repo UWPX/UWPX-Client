@@ -18,7 +18,7 @@
                Stretch="UniformToFill"/>
         <Canvas Grid.Row="0">
             <Image x:Name="logo_img"
-                   Source="ms-appx:///Assets/SplashScreen.png"/>
+                   Source="ms-appx:///Assets//SplashScreen/SplashScreen.scale-100.png"/>
         </Canvas>
     </Grid>
 </Page>
