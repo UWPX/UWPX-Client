@@ -184,7 +184,7 @@
                                          extensions:TextBoxMask.Mask="#hhhhhh"
                                          extensions:TextBoxMask.PlaceHolder="0"
                                          PlaceholderText="#D50000"
-                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.color, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                         Text="{x:Bind VIEW_MODEL.MODEL.Account.color, Mode=TwoWay}"/>
                                 <Button x:Name="pickColor_btn"
                                         Grid.Column="2"
                                         Height="32"
