@@ -4,7 +4,6 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
-             xmlns:local="using:UWPX_UI.Controls.Chat"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
@@ -39,7 +38,9 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <controls:BareJidInputControl Grid.Row="0"
-                                      PlaceholderText="room@chat.example.com"/>
+                                      IsValid="{x:Bind IsValid, Mode=TwoWay}"
+                                      PlaceholderText="room@chat.example.com"
+                                      Text="{x:Bind RoomBareJid, Mode=TwoWay}"/>
         <ScrollViewer Grid.Row="1"
                       VerticalScrollBarVisibility="Hidden"/>
     </Grid>

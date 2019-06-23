@@ -1,4 +1,7 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using System.ComponentModel;
+using UWPX_UI.Classes.Events;
+using UWPX_UI.Controls;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
@@ -42,15 +45,25 @@ namespace UWPX_UI.Dialogs
         #region --Events--
         private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            VIEW_MODEL.OnCancel();
+            Hide();
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            VIEW_MODEL.OnConfirm();
+            Hide();
         }
 
-        private void AccountSelectionControl_AddAccountClick(Controls.AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)
+        private void AccountSelectionControl_AddAccountClick(AccountSelectionControl sender, CancelEventArgs args)
         {
+            VIEW_MODEL.OnCancel();
             Hide();
+        }
+
+        private void AccountSelectionControl_AccountSelectionChanged(AccountSelectionControl sender, AccountSelectionChangedEventArgs args)
+        {
+            VIEW_MODEL.MODEL.Client = args.CLIENT;
         }
 
         #endregion
