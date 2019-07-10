@@ -127,7 +127,7 @@ namespace UWPX_UI.Pages.Settings
 
             LastPopUpElement = VisualTreeHelper.GetParent(VisualTreeHelper.GetParent(settingsSelection) as FrameworkElement) as FrameworkElement;
             Canvas.SetZIndex(LastPopUpElement, 10);
-            LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
+            LastPopUpElement.Scale(scaleX: 1.05f, scaleY: 1.05f, easingType: EasingType.Sine).Start();
         }
 
         private void SettingsSelectionControl_PointerExited(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -138,7 +138,7 @@ namespace UWPX_UI.Pages.Settings
             }
 
             Canvas.SetZIndex(LastPopUpElement, 0);
-            LastPopUpElement.Scale(centerX: (float)LastPopUpElement.Width / 2, centerY: (float)LastPopUpElement.Height / 2, easingType: EasingType.Sine).Start();
+            LastPopUpElement.Scale(easingType: EasingType.Sine).Start();
             LastPopUpElement = null;
         }
 
