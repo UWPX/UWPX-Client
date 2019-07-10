@@ -72,6 +72,20 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
+        /// Sends a SetBookmarksMessage to set bookmarks on the server.
+        /// https://xmpp.org/extensions/xep-0048.html#storage-pubsub-upload
+        /// </summary>
+        /// <param name="conferences">A list of XEP-0048 <seealso cref="Network.XML.Messages.XEP_0048.ConferenceItem"/> objects that should be set.</param>
+        /// <returns>The XEP-0048 SetBookmarksMessage result.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> setBookmars_xep_0048Async(IList<Network.XML.Messages.XEP_0048.ConferenceItem> conferences)
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            Network.XML.Messages.XEP_0048.SetBookmarksMessage msg = new Network.XML.Messages.XEP_0048.SetBookmarksMessage(CONNECTION.account.getFullJid(), conferences);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
         /// Sends a RequestBookmarksMessage to request all bookmarks from the server.
         /// https://xmpp.org/extensions/xep-0402.html#retrieving-bookmarks
         /// </summary>

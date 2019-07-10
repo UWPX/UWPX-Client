@@ -66,6 +66,12 @@ namespace UWPX_UI.Dialogs
             VIEW_MODEL.MODEL.Client = args.CLIENT;
         }
 
+        private void Browse_ibtn_Click(IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        {
+            VIEW_MODEL.OnCancel();
+            Hide();
+        }
+
         #endregion
     }
 }

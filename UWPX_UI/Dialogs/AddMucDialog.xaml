@@ -59,14 +59,17 @@
             <CheckBox Grid.Column="0"
                       Margin="0,10,0,0"
                       Content="Bookmark"
-                      IsChecked="True"/>
+                      IsChecked="{x:Bind VIEW_MODEL.MODEL.Bookmark, Mode=TwoWay}"/>
             <CheckBox Grid.Column="1"
                       Margin="0,10,0,0"
-                      Content="Auto join"
-                      IsChecked="True"/>
+                      IsChecked="{x:Bind VIEW_MODEL.MODEL.AutoJoin, Mode=TwoWay}"
+                      Content="Auto join"/>
         </Grid>
         <controls:IconButtonControl Grid.Row="6"
                                     Margin="0,10,0,0"
+                                    IsEnabled="False"
+                                    x:Name="browse_ibtn"
+                                    Click="Browse_ibtn_Click"
                                     HorizontalAlignment="Left"
                                     Glyph="&#xE721;"
                                     Text="Browse"/>

@@ -63,10 +63,28 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetClientProperty(value);
         }
 
+        private bool _Bookmark;
+        public bool Bookmark
+        {
+            get => _Bookmark;
+            set => SetProperty(ref _Bookmark, value);
+        }
+
+        private bool _AutoJoin;
+        public bool AutoJoin
+        {
+            get => _AutoJoin;
+            set => SetProperty(ref _AutoJoin, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public AddMucDialogDataTemplate()
+        {
+            AutoJoin = true;
+            Bookmark = true;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

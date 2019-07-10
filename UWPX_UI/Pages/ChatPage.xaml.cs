@@ -1,5 +1,4 @@
 ﻿using Data_Manager2.Classes;
-using UWP_XMPP_Client.Dialogs;
 using UWP_XMPP_Client.Pages;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;
@@ -62,17 +61,16 @@ namespace UWPX_UI.Pages
             await VIEW_MODEL.OnAddChatAsync(dialog.VIEW_MODEL.MODEL);
         }
 
-        private async void AddMix_mfoi_Click(object sender, RoutedEventArgs e)
+        private void AddMix_mfoi_Click(object sender, RoutedEventArgs e)
         {
             // TODO: Add MIX support.
-            AddMucDialog dialog = new AddMucDialog();
-            await UiUtils.ShowDialogAsync(dialog);
         }
 
         private async void AddMuc_mfoi_Click(object sender, RoutedEventArgs e)
         {
-            AddMUCDialog dialog = new AddMUCDialog();
+            AddMucDialog dialog = new AddMucDialog();
             await UiUtils.ShowDialogAsync(dialog);
+            await VIEW_MODEL.OnAddMucAsync(dialog.VIEW_MODEL.MODEL);
         }
 
         private void Settings_abb_Click(object sender, RoutedEventArgs e)
