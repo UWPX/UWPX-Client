@@ -70,6 +70,13 @@
                           ItemsSource="{x:Bind SETTINGS_PAGES}"
                           SelectionMode="Single"
                           Visibility="Collapsed">
+                    <GridView.ItemContainerTransitions>
+                        <TransitionCollection>
+                            <EntranceThemeTransition/>
+                            <RepositionThemeTransition/>
+                            <AddDeleteThemeTransition/>
+                        </TransitionCollection>
+                    </GridView.ItemContainerTransitions>
                     <GridView.ItemContainerStyle>
                         <Style TargetType="FrameworkElement">
                             <Setter Property="Margin" Value="10,5,10,15"/>
