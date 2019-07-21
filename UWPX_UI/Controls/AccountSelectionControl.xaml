@@ -73,8 +73,10 @@
         <ComboBox Grid.Row="1"
                   Grid.Column="0"
                   HorizontalAlignment="Stretch"
+                  IsEnabled="{x:Bind VIEW_MODEL.MODEL.HasClients, Mode=OneWay}"
                   ItemTemplate="{StaticResource AccountTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.CLIENTS}"
+                  PlaceholderText="No accounts found. Click + to add one."
                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"
                   SelectionChanged="ComboBox_SelectionChanged"/>
         <controls:IconButtonControl Grid.Row="1"
