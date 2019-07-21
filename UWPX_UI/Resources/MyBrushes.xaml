@@ -89,7 +89,7 @@
             <SolidColorBrush x:Key="CaptionTextBrush"
                              Color="#99000000"/>
             <SolidColorBrush x:Key="GoldBrush"
-                             Color="#FFFFF700"/>
+                             Color="#FFFFEB3B"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 

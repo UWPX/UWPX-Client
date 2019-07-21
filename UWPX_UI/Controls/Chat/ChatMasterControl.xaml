@@ -96,7 +96,7 @@
                                 Click="RemoveFromRoster_mfo_Click"
                                 Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="Gold"
+                        <FontIcon Foreground="{ThemeResource GoldBrush}"
                                   Glyph="&#xE734;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
@@ -143,7 +143,7 @@
                                 Click="Bookmark_tmfo_Click"
                                 Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="Gold"
+                        <FontIcon Foreground="{ThemeResource GoldBrush}"
                                   Glyph="&#xE734;"/>
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
@@ -177,7 +177,7 @@
 
     <slidablelistitem:SlidableListItem x:Name="slideListItem_sli"
                                        LeftBackground="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
-                                       LeftForeground="Gold"
+                                       LeftForeground="{ThemeResource GoldBrush}"
                                        LeftIcon="OutlineStar"
                                        LeftLabel="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}"
                                        MouseSlidingEnabled="True"

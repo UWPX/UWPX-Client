@@ -187,7 +187,7 @@
                                 </MenuFlyoutItem>
                                 <MenuFlyoutItem x:Name="addMix_mfoi"
                                                 Click="AddMix_mfoi_Click"
-                                                IsEnabled="True"
+                                                IsEnabled="False"
                                                 Text="Add Group Chat (MIX)">
                                     <MenuFlyoutItem.Icon>
                                         <FontIcon Glyph="&#xE902;"/>
@@ -342,7 +342,7 @@
                                       Click="ManageBookmarks_abb_Click"
                                       Label="Manage bookmarks">
                             <AppBarButton.Icon>
-                                <FontIcon Foreground="Gold"
+                                <FontIcon Foreground="{ThemeResource GoldBrush}"
                                           Glyph="&#xE734;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>

@@ -199,7 +199,7 @@
                                             Text="Debug/Test"
                                             Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                                 <MenuFlyoutItem.Icon>
-                                    <FontIcon Foreground="Gold"
+                                    <FontIcon Foreground="{ThemeResource GoldBrush}"
                                               Glyph="&#xE81F;"/>
                                 </MenuFlyoutItem.Icon>
                             </MenuFlyoutItem>
