@@ -4,6 +4,7 @@ using UWP_XMPP_Client.Classes.Events;
 using UWP_XMPP_Client.Pages;
 using UWPX_UI.Controls.Toolkit.SlidableListItem;
 using UWPX_UI.Dialogs;
+using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
@@ -184,7 +185,7 @@ namespace UWPX_UI.Controls.Chat
             }
             else
             {
-                UiUtils.NavigateToPage(typeof(UserProfilePage), new NavigatedToUserProfileEventArgs(Chat.Chat, Chat.Client));
+                UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToUserProfileEventArgs(Chat.Chat, Chat.Client));
             }
         }
 

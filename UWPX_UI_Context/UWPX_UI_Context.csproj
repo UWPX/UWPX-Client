@@ -157,6 +157,9 @@
     <Compile Include="Classes\DataContext\Controls\ChatMasterControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatMessageListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatSuggestionsControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ContactInfoControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ContactMediaControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\ContactOmemoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\CustomBackgroundImageSelectionControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\EmojiPickerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
@@ -184,6 +187,7 @@
     <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatsPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\ContactInfoPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\DebugSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\SecuritySettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\PersonalizeSettingsPageContext.cs" />
@@ -240,6 +244,7 @@
     <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\ContactInfoPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\DebugSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\SecuritySettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\PersonalizeSettingsPageDataTemplate.cs" />

@@ -91,15 +91,15 @@ namespace UWPX_UI.Controls.Chat
         #region --Events--
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            this.SizeChanged -= ChatBackgroundControl_SizeChanged;
+            SizeChanged -= ChatBackgroundControl_SizeChanged;
         }
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             SetImageScale();
 
-            this.SizeChanged -= ChatBackgroundControl_SizeChanged;
-            this.SizeChanged += ChatBackgroundControl_SizeChanged;
+            SizeChanged -= ChatBackgroundControl_SizeChanged;
+            SizeChanged += ChatBackgroundControl_SizeChanged;
         }
 
         private void ChatBackgroundControl_SizeChanged(object sender, SizeChangedEventArgs e)

@@ -51,7 +51,8 @@
         <controls:DropShadowPanel Grid.Row="0"
                                   Margin="0,0,-2,-2"
                                   HorizontalAlignment="Right"
-                                  VerticalAlignment="Bottom">
+                                  VerticalAlignment="Bottom"
+                                  Visibility="{x:Bind PresenceVisibility, Mode=OneWay}">
             <Grid>
                 <Ellipse x:Name="presence_elipse"
                          Width="13"

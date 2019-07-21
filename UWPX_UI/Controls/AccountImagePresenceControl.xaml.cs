@@ -46,6 +46,13 @@ namespace UWPX_UI.Controls
         }
         public static readonly DependencyProperty BadgeCountProperty = DependencyProperty.Register(nameof(BadgeCount), typeof(int), typeof(AccountImagePresenceControl), new PropertyMetadata(0));
 
+        public Visibility PresenceVisibility
+        {
+            get { return (Visibility)GetValue(PresenceVisibilityProperty); }
+            set { SetValue(PresenceVisibilityProperty, value); }
+        }
+        public static readonly DependencyProperty PresenceVisibilityProperty = DependencyProperty.Register(nameof(PresenceVisibility), typeof(Visibility), typeof(AccountImagePresenceControl), new PropertyMetadata(Visibility.Visible));
+
         public readonly AccountImagePresenceControlContext VIEW_MODEL = new AccountImagePresenceControlContext();
 
         #endregion

@@ -19,12 +19,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _SelectedItem, value);
         }
 
+        private bool _HasClients;
+        public bool HasClients
+        {
+            get => _HasClients;
+            set => SetProperty(ref _HasClients, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public AccountSelectionControlDataTemplate()
         {
-            LoadClients();
+            HasClients = false;
+            CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
+            // LoadClients();
             SetSelectedItem();
         }
 
@@ -70,7 +79,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void CLIENTS_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            HasClients = CLIENTS.Count > 0;
+        }
 
         #endregion
     }

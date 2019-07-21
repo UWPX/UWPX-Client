@@ -161,6 +161,15 @@
     <Compile Include="Controls\Chat\ChatSuggestionsControl.xaml.cs">
       <DependentUpon>ChatSuggestionsControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\ContactInfoControl.xaml.cs">
+      <DependentUpon>ContactInfoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ContactMediaControl.xaml.cs">
+      <DependentUpon>ContactMediaControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\ContactOmemoControl.xaml.cs">
+      <DependentUpon>ContactOmemoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\EmojiPickerControl.xaml.cs">
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
@@ -318,6 +327,9 @@
     </Compile>
     <Compile Include="Pages\ChatPage.xaml.cs">
       <DependentUpon>ChatPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\ContactInfoPage.xaml.cs">
+      <DependentUpon>ContactInfoPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ExtendedSplashScreenPage.xaml.cs">
       <DependentUpon>ExtendedSplashScreenPage.xaml</DependentUpon>
@@ -531,6 +543,18 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Chat\ContactInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\ContactMediaControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\ContactOmemoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\EmojiPickerControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -734,6 +758,10 @@
     <Page Include="Pages\ChatPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\ContactInfoPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\ExtendedSplashScreenPage.xaml">
       <Generator>MSBuild:Compile</Generator>
