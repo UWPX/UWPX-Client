@@ -19,7 +19,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -62,16 +62,16 @@
                       IsChecked="{x:Bind VIEW_MODEL.MODEL.Bookmark, Mode=TwoWay}"/>
             <CheckBox Grid.Column="1"
                       Margin="0,10,0,0"
-                      IsChecked="{x:Bind VIEW_MODEL.MODEL.AutoJoin, Mode=TwoWay}"
-                      Content="Auto join"/>
+                      Content="Auto join"
+                      IsChecked="{x:Bind VIEW_MODEL.MODEL.AutoJoin, Mode=TwoWay}"/>
         </Grid>
-        <controls:IconButtonControl Grid.Row="6"
+        <controls:IconButtonControl x:Name="browse_ibtn"
+                                    Grid.Row="6"
                                     Margin="0,10,0,0"
-                                    IsEnabled="False"
-                                    x:Name="browse_ibtn"
-                                    Click="Browse_ibtn_Click"
                                     HorizontalAlignment="Left"
+                                    Click="Browse_ibtn_Click"
                                     Glyph="&#xE721;"
+                                    IsEnabled="False"
                                     Text="Browse"/>
     </Grid>
 </ContentDialog>
