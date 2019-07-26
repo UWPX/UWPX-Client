@@ -33,7 +33,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         {
             HasClients = false;
             CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
-            // LoadClients();
+            LoadClients();
             SetSelectedItem();
         }
 
