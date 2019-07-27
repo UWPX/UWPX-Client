@@ -213,6 +213,11 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
         }
 
+        private void Header_grid_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            chatMessages_cmg.ScrollHeaderMinSize = e.NewSize.Height;
+        }
+
         #endregion
     }
 }

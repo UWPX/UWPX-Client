@@ -270,6 +270,7 @@
     <Compile Include="Classes\ValueConverter\Bandwidth\OutboundBitsPerSecondValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInvertedVisibilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ChatTypeFontFamilyConverter.cs" />
+    <Compile Include="Classes\ValueConverter\DoubleGridLengthValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\NullableBoolBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolVisibilityValueConverter.cs" />

@@ -39,9 +39,18 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
+            <!--  Messages:  -->
+            <chat:ChatMessageListControl x:Name="chatMessages_cmg"
+                                         Grid.Row="0"
+                                         Grid.RowSpan="3"
+                                         Chat="{x:Bind Chat, Mode=OneWay}"
+                                         IsDummy="{x:Bind IsDummy, Mode=OneWay}"/>
+
             <!--  Header:  -->
-            <Grid Grid.Row="0"
-                  Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}">
+            <Grid x:Name="header_grid"
+                  Grid.Row="0"
+                  Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"
+                  SizeChanged="Header_grid_SizeChanged">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
@@ -208,11 +217,6 @@
                 </Button>
             </Grid>
             <controls:SeperatorControl Grid.Row="1"/>
-
-            <!--  Messages:  -->
-            <chat:ChatMessageListControl Grid.Row="2"
-                                         Chat="{x:Bind Chat, Mode=OneWay}"
-                                         IsDummy="{x:Bind IsDummy, Mode=OneWay}"/>
 
             <!--  Messages Loading:  -->
             <controls1:Loading Grid.Row="2"

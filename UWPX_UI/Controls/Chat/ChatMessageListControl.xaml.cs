@@ -23,6 +23,13 @@ namespace UWPX_UI.Controls.Chat
         }
         public static readonly DependencyProperty IsDummyProperty = DependencyProperty.Register(nameof(IsDummy), typeof(bool), typeof(ChatMessageListControl), new PropertyMetadata(false, OnIsDummyChanged));
 
+        public double ScrollHeaderMinSize
+        {
+            get { return (double)GetValue(ScrollHeaderMinSizeProperty); }
+            set { SetValue(ScrollHeaderMinSizeProperty, value); }
+        }
+        public static readonly DependencyProperty ScrollHeaderMinSizeProperty = DependencyProperty.Register(nameof(ScrollHeaderMinSize), typeof(double), typeof(ChatMessageListControl), new PropertyMetadata(0d));
+
         public readonly ChatMessageListControlContext VIEW_MODEL = new ChatMessageListControlContext();
 
         #endregion
