@@ -173,11 +173,6 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.SendChatMessage(Chat);
         }
 
-        private async void ReadOnOmemo_link_Click(object sender, RoutedEventArgs e)
-        {
-            await VIEW_MODEL.OnReadOnOmemoClickedAsync();
-        }
-
         private static void OnIsDummyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is ChatDetailsControl chatDetailsControl)

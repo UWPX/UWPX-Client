@@ -147,11 +147,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public async Task OnReadOnOmemoClickedAsync()
-        {
-            await UiUtils.LaunchUriAsync(new Uri("https://conversations.im/omemo/"));
-        }
-
         public async Task LeaveMucAsync(ChatDataTemplate chatTemplate)
         {
             if (!MODEL.isDummy)

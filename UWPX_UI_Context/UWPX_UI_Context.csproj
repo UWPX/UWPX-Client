@@ -164,6 +164,7 @@
     <Compile Include="Classes\DataContext\Controls\EmojiPickerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\OmemoButtonControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
@@ -218,6 +219,7 @@
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\OmemoButtonControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />

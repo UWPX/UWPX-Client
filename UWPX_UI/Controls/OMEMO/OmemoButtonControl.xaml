@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.OMEMO.OmemoButtonControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
+        <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
+    </UserControl.Resources>
+
+    <Button Grid.Column="2"
+            Height="35"
+            Background="Transparent"
+            Content="{x:Bind OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
+            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+            FontSize="20"
+            FontWeight="Bold"
+            Foreground="{x:Bind OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
+            Style="{ThemeResource ButtonRevealStyle}">
+        <Button.Flyout>
+            <Flyout>
+                <StackPanel>
+                    <RadioButton GroupName="OMEMO"
+                                 IsChecked="{x:Bind OmemoEnabled, Mode=TwoWay}">
+                        <controls:IconTextBlockControl Glyph="&#xE72E;"
+                                                       GlyphForeground="DarkGreen"
+                                                       Text="Encrypted (OMEMO)"/>
+                    </RadioButton>
+                    <RadioButton GroupName="OMEMO"
+                                 IsChecked="{x:Bind OmemoEnabled, Mode=TwoWay, Converter={StaticResource BoolInverterValueConverter}}">
+                        <controls:IconTextBlockControl Glyph="&#xE785;"
+                                                       GlyphForeground="DarkRed"
+                                                       Text="Unencrypted"/>
+                    </RadioButton>
+                    <HyperlinkButton x:Name="readOnOmemo_link"
+                                     Margin="0,10,0,0"
+                                     Click="ReadOnOmemo_link_Click"
+                                     Content="What is OMEMO?"/>
+                </StackPanel>
+            </Flyout>
+        </Button.Flyout>
+    </Button>
+</UserControl>
