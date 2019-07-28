@@ -272,16 +272,24 @@ For more up to date information visit:
     <value>Requires an app restart to work properly once changed.</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># SRV and Emoji
+    <value># [August 2019] New "Add Group Chat (MUC)" dialog
 
-It's time again! A new release is here!  
-Last month I didn't really had that much time to spare for working on UWPX.
-Never the less this release includes one more or less big new feature:  
-If you add a new account and enter your JID, UWPX tries to look up the [SRV](https://wiki.xmpp.org/web/SRV_Records) record for you and populates the `Server address` and `Port` field automatically with the correct values.  
-
-The next two to three months I have to, like last month, reduce the time I can spend working on UWPX, since there's quiet a lot of other (University) stuff I have to prioritize.
+Time goes by and I finally managed to have some free time to work on UWPX.
+This months release includes the new "Add Group Chat (MUC)" dialog and a first work in progress preview of new "Contact Info" page. Other than that there are only minor changes in the release.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
+
+### Future plans
+
+#### August to November 2019
+Between August to November 2019 I will spend a lot of time developing UWPX. This is caused by me writing my Bachelor's thesis about UWPX. In detail I'm writing it about [XMPP for IoT](https://xmpp.org/uses/internet-of-things.html). Because of this UWPX will get an extension for IoT support.  
+Don't worry, if you are not interested in [XMPP for IoT](https://xmpp.org/uses/internet-of-things.html), all of it will be encapsulated in an [app extension](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-an-extension) so only people who are interested in it can install and use it.
+
+#### Windows Mobile in 2020
+Since Microsoft will shutdown the MS Store for all Windows 10 Mobile devices by 2020 there won't be a way for me to publish any new updates for all users who still stick with there Windows Phone (besides sideloading apps).  
+##### So the last update for all devices running Windows 10 (Mobile) &lt; 10.0.16299.0 will be made available roughly around the 20.12.2019.
+If you still wan't to continue using your Windows Phone and get "regular" UWPX updates I suggest having a look at [Windows 10 ARM for Lumia 950](https://github.com/WOA-Project/WOA-Deployer-Lumia).  
+Battery life is not that great while you use it but beside that it's quiet usable on my Lumia 950 XL 😄 
 
 ### Want more up to date news?
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
@@ -294,14 +302,16 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Support for gtalk [#54](https://github.com/UWPX/UWPX-Client/issues/54)
 
 ### Changes:
-* Added a SRV record lookup for the server address if add a new account
-* Added a thread save wrapper for the chats list
-* Replacing the Emoji font for older devices - all devices now support Unicode 12.0 Emoji
-* Fixed marking a chat as read does not update the app tile
-* Fixed a crash related to the icon button style
-* Fixed the notification sound spam
+* Added the new "Add Group Chat (MUC)" dialog
+* Added a placeholder text if no accounts are available in the account selection control
+* Added a first prototype of the new "Contact Info" page
+* Updated the chat messages container
+* Only loading and showing the last 100 messages until incremental chat message loading is done
+* Updated the app icons with higher resolution ones based on an SVG version of the original
+* Slightly changed the light and dark window and element colors
+* Fixed the color picker not updating color on the add/change account page
 
 
-[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.17.0.0)</value>
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.18.0.0)</value>
   </data>
 </root>
