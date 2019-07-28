@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
+             xmlns:valueConverter="using:UWPX_UI_Context.Classes.ValueConverter"
              HorizontalAlignment="Center"
              mc:Ignorable="d">
 
@@ -24,6 +25,7 @@
             <Setter Property="Foreground" Value="{ThemeResource SystemAccentColor}"/>
             <Setter Property="Height" Value="35"/>
         </Style>
+        <valueConverter:PresenceStringValueConverter x:Key="PresenceStringValueConverter"/>
     </UserControl.Resources>
 
     <controls:DropShadowPanel x:Name="mainShadow"
@@ -44,17 +46,17 @@
                     <controls1:AccountImagePresenceControl Grid.Row="0"
                                                            Width="150"
                                                            Height="150"
-                                                           BareJid="someone@xmpp.uwpx.org"
+                                                           BareJid="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
                                                            PresenceVisibility="Collapsed"/>
                     <controls:DropShadowPanel Grid.Row="1"
                                               Margin="0,10,0,0"
                                               HorizontalAlignment="Center">
-                        <Border Background="{StaticResource PresenceOnlineBrush}"
+                        <Border Background="{x:Bind VIEW_MODEL.MODEL.Presence, Mode=OneWay, Converter={StaticResource PresenceBrushValueConverter}}"
                                 CornerRadius="2">
                             <TextBlock Margin="5,0,5,0"
                                        Foreground="White"
                                        IsTextSelectionEnabled="True"
-                                       Text="Online"/>
+                                       Text="{x:Bind VIEW_MODEL.MODEL.Presence, Mode=OneWay, Converter={StaticResource PresenceStringValueConverter}}"/>
                         </Border>
                     </controls:DropShadowPanel>
 
@@ -62,8 +64,9 @@
                                Margin="0,10,0,0"
                                IsTextSelectionEnabled="True"
                                MaxLines="1"
-                               Text="com8@xmpp.uwpx.org"
-                               TextTrimming="CharacterEllipsis"/>
+                               Text="{x:Bind VIEW_MODEL.MODEL.ChatState, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.ChatState, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
                 <Grid Grid.Column="1"
                       Margin="30,0,0,0">
@@ -83,22 +86,24 @@
                         <TextBlock Grid.Column="0"
                                    IsTextSelectionEnabled="True"
                                    Style="{StaticResource SubtitleTextBlockStyle}"
-                                   Text="Some Name"/>
+                                   Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=OneWay}"/>
                         <Button Grid.Column="1"
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
                                 Content="&#xE70F;"
+                                IsEnabled="False"
                                 Style="{ThemeResource TransparentButtonStlye}"
                                 ToolTipService.ToolTip="Change Nickname"/>
                     </Grid>
                     <TextBlock Grid.Row="1"
                                Margin="0,10,0,0"
-                               Text="someone@xmpp.uwpx.org"/>
+                               Text="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.DifferentNickname, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     <controls1:SeperatorControl Grid.Row="2"
                                                 Margin="0,10,0,0"/>
                     <TextBlock Grid.Row="3"
                                Margin="0,10,0,0"
-                               Text="This is some status Text."/>
+                               Text="{x:Bind VIEW_MODEL.MODEL.ChatStatus, Mode=OneWay}"/>
                     <Grid Grid.Row="4"
                           HorizontalAlignment="Center"
                           VerticalAlignment="Bottom">
@@ -109,16 +114,71 @@
                         </Grid.ColumnDefinitions>
                         <omemoControls:OmemoButtonControl Grid.Column="0"
                                                           Margin="0,10,0,0"/>
-                        <Button Grid.Column="1"
+                        <Button x:Name="mute_btn"
+                                Grid.Column="1"
                                 Margin="10,10,0,0"
-                                Content="&#xE74F;"
+                                Click="Mute_btn_Click"
+                                Content="{x:Bind VIEW_MODEL.MODEL.MuteGlyph, Mode=OneWay}"
                                 Style="{ThemeResource TransparentButtonStlye}"
-                                ToolTipService.ToolTip="Mute"/>
+                                ToolTipService.ToolTip="{x:Bind VIEW_MODEL.MODEL.MuteTooltip, Mode=OneWay}"/>
                         <Button Grid.Column="2"
                                 Margin="10,10,0,0"
-                                Content="&#xF138;"
+                                Content="&#xE712;"
                                 Style="{ThemeResource TransparentButtonStlye}"
-                                ToolTipService.ToolTip="Presence"/>
+                                ToolTipService.ToolTip="More">
+                            <Button.Flyout>
+                                <MenuFlyout>
+                                    <MenuFlyoutSubItem x:Name="presenceSubscription_mfo"
+                                                       IsEnabled="{x:Bind VIEW_MODEL.MODEL.PresenceFlyoutEnabled, Mode=OneWay}"
+                                                       Text="Presence subscription">
+                                        <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo"
+                                                        Click="RequestPresenceSubscription_mfo_Click"
+                                                        Text="Request subscription"
+                                                        Visibility="{x:Bind VIEW_MODEL.MODEL.RequestPresenceSubscriptionVisibility, Mode=OneWay}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Foreground="Green"
+                                                          Glyph="&#xE109;"/>
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo"
+                                                        Click="CancelPresenceSubscription_mfo_Click"
+                                                        Text="Cancel subscription"
+                                                        Visibility="{x:Bind VIEW_MODEL.MODEL.CancelPresenceSubscriptionVisibility, Mode=OneWay}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Foreground="Red"
+                                                          Glyph="&#xE738;"/>
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
+                                                        Click="RejectPresenceSubscription_mfo_Click"
+                                                        Text="Reject subscription"
+                                                        Visibility="{x:Bind VIEW_MODEL.MODEL.RejectPresenceSubscriptionVisibility, Mode=OneWay}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Foreground="Red"
+                                                          Glyph="&#xE711;"/>
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                        <MenuFlyoutItem x:Name="probePresence_mfo"
+                                                        Click="ProbePresence_mfo_Click"
+                                                        Text="Probe presence"
+                                                        Visibility="{x:Bind VIEW_MODEL.MODEL.ProbePresenceVisibility, Mode=OneWay}">
+                                            <MenuFlyoutItem.Icon>
+                                                <FontIcon Glyph="&#xEA62;"/>
+                                            </MenuFlyoutItem.Icon>
+                                        </MenuFlyoutItem>
+                                    </MenuFlyoutSubItem>
+                                    <MenuFlyoutSeparator/>
+                                    <MenuFlyoutItem x:Name="removeFromRoster_mfo"
+                                                    Click="RemoveFromRoster_mfo_Click"
+                                                    Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Foreground="{ThemeResource GoldBrush}"
+                                                      Glyph="&#xE734;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                </MenuFlyout>
+                            </Button.Flyout>
+                        </Button>
                     </Grid>
                 </Grid>
             </Grid>

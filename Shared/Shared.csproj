@@ -143,6 +143,7 @@
     <Compile Include="Classes\SharedUtils.cs" />
     <Compile Include="Classes\SQLite\AbstractDBManager.cs" />
     <Compile Include="Classes\SQLite\TSSQLiteConnection.cs" />
+    <Compile Include="Classes\TaskExtensions.cs" />
     <Compile Include="Classes\Threading\MySemaphoreSlim.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Shared.rd.xml" />

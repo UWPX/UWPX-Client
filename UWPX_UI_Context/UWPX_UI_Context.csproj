@@ -215,6 +215,7 @@
     <Compile Include="Classes\DataTemplates\Controls\ChatMasterControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatMessageListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatSuggestionsControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\ContactInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
     <Compile Include="Classes\DeviceFamilyHelper.cs" />
+    <Compile Include="Classes\Events\NavigatedToContactInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\ThemeUtils.cs" />

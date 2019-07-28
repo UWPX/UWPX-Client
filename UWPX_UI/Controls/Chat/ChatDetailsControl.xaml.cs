@@ -4,6 +4,7 @@ using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
+using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -125,7 +126,7 @@ namespace UWPX_UI.Controls.Chat
                 }
                 else
                 {
-                    UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToUserProfileEventArgs(Chat.Chat, Chat.Client));
+                    UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat.Client, Chat.Chat));
                 }
             }
         }

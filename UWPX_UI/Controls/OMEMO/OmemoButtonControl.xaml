@@ -20,7 +20,8 @@
             FontSize="20"
             FontWeight="Bold"
             Foreground="{x:Bind OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
-            Style="{ThemeResource ButtonRevealStyle}">
+            Style="{ThemeResource ButtonRevealStyle}"
+            ToolTipService.ToolTip="Enable/Disable Encryption">
         <Button.Flyout>
             <Flyout>
                 <StackPanel>
