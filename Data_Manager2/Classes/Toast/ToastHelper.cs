@@ -26,6 +26,9 @@ namespace Data_Manager2.Classes.Toast
         private static readonly TimeSpan VIBRATE_TIMEOUT_TS = TimeSpan.FromSeconds(3);
         private static DateTime lastVibration = DateTime.MinValue;
 
+        private static readonly TimeSpan POP_TOAST_TIMEOUT_TS = TimeSpan.FromSeconds(5);
+        private static DateTime lastPopToast = DateTime.MinValue;
+
         public delegate void OnChatMessageToastHandler(OnChatMessageToastEventArgs args);
         /// <summary>
         /// Called before the toast gets toasted.
@@ -197,6 +200,10 @@ namespace Data_Manager2.Classes.Toast
             switch (args.toasterTypeOverride)
             {
                 case ChatMessageToasterType.FULL:
+                    // Make sure we only send actual on screen popups every 5 seconds:
+                    toast.SuppressPopup = DateTime.Now.Subtract(lastPopToast).CompareTo(POP_TOAST_TIMEOUT_TS) < 0;
+                    lastPopToast = DateTime.Now;
+
                     ToastNotificationManager.CreateToastNotifier().Show(toast);
                     Logger.Debug("Toast for group: " + toast.Group + " toasted with toaster type: " + args.toasterTypeOverride.ToString());
                     break;
