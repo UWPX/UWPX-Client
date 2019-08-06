@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:media="using:Microsoft.UI.Xaml.Media">
+                    xmlns:media="using:Microsoft.UI.Xaml.Media"
+                    xmlns:media1="using:Microsoft.Toolkit.Uwp.UI.Media">
 
     <SolidColorBrush x:Key="PresenceOnlineBrush"
                      Opacity="0.9"
@@ -42,15 +43,18 @@
     <SolidColorBrush x:Key="TileBackgroundBrush"
                      Color="#33691E"/>
 
+    <!--  ContentDialog background backdrop  -->
+    <media1:BackdropBlurBrush x:Key="SystemControlPageBackgroundMediumAltMediumBrush"
+                              Amount="6.0"/>
+
     <ResourceDictionary.ThemeDictionaries>
         <ResourceDictionary x:Key="Dark">
             <Color x:Key="DropShadowColor">#FF000000</Color>
-
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicWindowBrush"
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="#FF2E2E2E"
                                 TintColor="#FF2E2E2E"
-                                TintOpacity="0.6"/>
+                                TintOpacity="0.7"/>
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
                                 BackgroundSource="Backdrop"
                                 FallbackColor="#FF2A2A2A"
