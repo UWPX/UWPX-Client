@@ -271,6 +271,27 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             OnError?.Invoke(this, new OnErrorEventArgs(titel, message));
         }
 
+        private void LoadSettings()
+        {
+            int show = Settings.getSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
+            switch (show)
+            {
+                case 1:
+                    MODEL.ShowAccountColor = true;
+                    break;
+
+                case 2:
+                    MODEL.ShowAccountColor = false;
+                    break;
+
+                default:
+                    MODEL.ShowAccountColor = ConnectionHandler.INSTANCE.getClients().Count > 1;
+                    break;
+            }
+
+            Settings.SettingChanged += Settings_SettingChanged;
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -304,21 +325,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             MODEL.UpdateUnreadCount(chat.Chat);
         }
 
-        private void LoadSettings()
+        private void Settings_SettingChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            int show = Settings.getSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
-            switch (show)
+            switch (e.PropertyName)
             {
-                case 1:
-                    MODEL.ShowAccountColor = true;
-                    break;
-
-                case 2:
-                    MODEL.ShowAccountColor = false;
-                    break;
-
-                default:
-                    MODEL.ShowAccountColor = ConnectionHandler.INSTANCE.getClients().Count > 1;
+                case SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR:
+                    LoadSettings();
                     break;
             }
         }

@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.Helpers;
+﻿using System.ComponentModel;
+using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Data_Manager2.Classes
 {
@@ -7,6 +8,8 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly LocalObjectStorageHelper LOCAL_OBJECT_STORAGE_HELPER = new LocalObjectStorageHelper();
+
+        public static event PropertyChangedEventHandler SettingChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,6 +27,7 @@ namespace Data_Manager2.Classes
         public static void setSetting(string token, object value)
         {
             Windows.Storage.ApplicationData.Current.LocalSettings.Values[token] = value;
+            SettingChanged?.Invoke(value, new PropertyChangedEventArgs(token));
         }
 
         /// <summary>
