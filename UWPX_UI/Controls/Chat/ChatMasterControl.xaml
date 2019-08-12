@@ -203,7 +203,8 @@
                            Grid.Column="0"
                            Width="5"
                            Margin="5,0,0,0"
-                           Fill="{x:Bind VIEW_MODEL.MODEL.AccountColorBrush, Mode=OneWay}"/>
+                           Fill="{x:Bind VIEW_MODEL.MODEL.AccountColorBrush, Mode=OneWay}"
+                           Visibility="{x:Bind VIEW_MODEL.MODEL.ShowAccountColor, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                 <controls:AccountImagePresenceControl x:Name="image_aciwp"
                                                       Grid.Column="1"
                                                       Margin="5,0,0,0"

@@ -53,6 +53,7 @@
         public const string CHAT_FILTER_CHATS_ONLY = "chat_filter_chats_only";
         public const string CHAT_FILTER_MUCS_ONLY = "chat_filter_mucs_only";
         public const string CHAT_ENABLE_EMOJI_BUTTON = "chat_enable_emoji_button";
+        public const string CHAT_SHOW_ACCOUNT_COLOR = "chat_show_account_color";
         public const string SPAM_DETECTION_ENABLED = "spam_detection_enabled";
         public const string SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES = "spam_detection_for_all_chat_messages";
         public const string SPAM_REGEX = "spam_regex";

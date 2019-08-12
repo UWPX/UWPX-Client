@@ -1,10 +1,10 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using Data_Manager2.Classes;
+﻿using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
@@ -36,6 +36,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             MODEL = new ChatMasterControlDataTemplate(resources);
             THEME_LISTENER.ThemeChanged += THEME_LISTENER_ThemeChanged;
+            LoadSettings();
         }
 
         #endregion
@@ -301,6 +302,25 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             MODEL.UpdateLastAction(chat.Chat);
             MODEL.UpdateUnreadCount(chat.Chat);
+        }
+
+        private void LoadSettings()
+        {
+            int show = Settings.getSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
+            switch (show)
+            {
+                case 1:
+                    MODEL.ShowAccountColor = true;
+                    break;
+
+                case 2:
+                    MODEL.ShowAccountColor = false;
+                    break;
+
+                default:
+                    MODEL.ShowAccountColor = ConnectionHandler.INSTANCE.getClients().Count > 1;
+                    break;
+            }
         }
 
         #endregion

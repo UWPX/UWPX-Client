@@ -74,6 +74,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _IsEmojiButtonEnabled;
             set => SetBoolProperty(ref _IsEmojiButtonEnabled, value, SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
         }
+        private int _ShowAccountColor;
+        public int ShowAccountColor
+        {
+            get => _ShowAccountColor;
+            set => SetIntProperty(ref _ShowAccountColor, value, SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -106,6 +112,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             VibrateForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
             PlaySoundForNewChatMessages = !Settings.getSettingBoolean(SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
             IsEmojiButtonEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
+            ShowAccountColor = Settings.getSettingInt(SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR, 0);
 
             // MUC:
             AutoJoinMucs = !Settings.getSettingBoolean(SettingsConsts.DISABLE_AUTO_JOIN_MUC);
@@ -130,9 +137,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
         private bool SetBoolInversedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
+            return SetBoolProperty(ref storage, !value, settingsToken, propertyName);
+        }
+
+        private bool SetIntProperty(ref int storage, int value, string settingsToken, [CallerMemberName] string propertyName = null)
+        {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, !value);
+                Settings.setSetting(settingsToken, value);
                 return true;
             }
             return false;

@@ -123,6 +123,16 @@
   <data name="AddAccountPage_resource_tooltip.Text" xml:space="preserve">
     <value>It's recommend to choose a name that doesn't give others too much information about you and your device, since it will be public.</value>
   </data>
+  <data name="ChatSettingsPage_account_color_tooltip.Text" xml:space="preserve">
+    <value>**Auto**  
+Shows the account color if you have multiple accounts.
+
+**Show**  
+Allways shows the account color.
+
+**Hide**  
+Never shows the account color.</value>
+  </data>
   <data name="CreditsPage_code_markdown.Text" xml:space="preserve">
     <value>* [**App Center Crashes/Push/Analytics**](https://github.com/Microsoft/AppCenter-SDK-DotNet) Allows me to collect crash reports ([UWPX Privacy Policy](https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting)).
 * [**libsignal-protocol-pcl**](https://github.com/langboost/libsignal-protocol-pcl) A port of the [libsignal-protocol-java](https://github.com/signalapp/libsignal-protocol-java) library for C# UWP.
