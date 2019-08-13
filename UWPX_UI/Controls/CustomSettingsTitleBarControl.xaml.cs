@@ -1,4 +1,5 @@
 ﻿using System;
+using Shared.Classes;
 using UWPX_UI.Pages;
 using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;

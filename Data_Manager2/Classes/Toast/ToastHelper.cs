@@ -5,7 +5,6 @@ using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Shared.Classes;
 using Windows.Data.Xml.Dom;
-using Windows.Foundation.Metadata;
 using Windows.Phone.Devices.Notification;
 using Windows.UI.Notifications;
 
@@ -229,9 +228,8 @@ namespace Data_Manager2.Classes.Toast
             lastVibration = DateTime.Now;
 
             // Vibrate:
-            if (ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice") && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
+            if (DeviceFamilyHelper.SupportsVibration() && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
-
                 VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
             }
 

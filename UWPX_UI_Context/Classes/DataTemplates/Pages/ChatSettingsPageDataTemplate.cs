@@ -80,6 +80,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             get => _ShowAccountColor;
             set => SetIntProperty(ref _ShowAccountColor, value, SettingsConsts.CHAT_SHOW_ACCOUNT_COLOR);
         }
+        private bool _VibrationSupported;
+        public bool VibrationSupported
+        {
+            get => _VibrationSupported;
+            set => SetProperty(ref _VibrationSupported, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -123,6 +129,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
             // OMEMO:
             EnableOmemoForNewChats = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
+
+            // Misc:
+            VibrationSupported = DeviceFamilyHelper.SupportsVibration();
         }
 
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)

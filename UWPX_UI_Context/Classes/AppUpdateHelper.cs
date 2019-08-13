@@ -6,6 +6,7 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
 using Logging;
+using Shared.Classes;
 using Shared.Classes.SQLite;
 using Windows.ApplicationModel;
 using XMPP_API.Classes.Network;

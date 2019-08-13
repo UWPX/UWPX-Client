@@ -1,7 +1,8 @@
-﻿using Windows.System.Profile;
+﻿using Windows.Foundation.Metadata;
+using Windows.System.Profile;
 using Windows.UI.ViewManagement;
 
-namespace UWPX_UI_Context.Classes
+namespace Shared.Classes
 {
     public enum DeviceFamilyType
     {
@@ -86,6 +87,15 @@ namespace UWPX_UI_Context.Classes
                 || type == DeviceFamilyType.HoloLens
                 || type == DeviceFamilyType.Mobile
                 || type == DeviceFamilyType.IoT;
+        }
+
+        /// <summary>
+        /// Checks whether the device supports vibration and has the specific APIs available.
+        /// </summary>
+        /// <returns>True if the device has a vibration motor and the required APIs available.</returns>
+        public static bool SupportsVibration()
+        {
+            return ApiInformation.IsTypePresent("Windows.Phone.Devices.Notification.VibrationDevice");
         }
 
         #endregion
