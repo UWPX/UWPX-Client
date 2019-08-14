@@ -146,7 +146,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
         private bool SetBoolInversedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
-            return SetBoolProperty(ref storage, !value, settingsToken, propertyName);
+            if (SetProperty(ref storage, value, propertyName))
+            {
+                Settings.setSetting(settingsToken, !value);
+                return true;
+            }
+            return false;
         }
 
         private bool SetIntProperty(ref int storage, int value, string settingsToken, [CallerMemberName] string propertyName = null)
