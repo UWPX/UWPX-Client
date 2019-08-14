@@ -133,6 +133,59 @@ Allways shows the account color.
 **Hide**  
 Never shows the account color.</value>
   </data>
+  <data name="ChatSettingsPage_advanced_chat_message_processing_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Enables link, Emoji, email, ... detection in chat messages.
+![Emoji button example](ms-appx:///Assets/SettingsPreview/advanced_chat_message_processing_on.png)
+
+**Off**  
+Disables link, Emoji, email, ... detection in chat messages.
+![Emoji button example](ms-appx:///Assets/SettingsPreview/advanced_chat_message_processing_off.png)</value>
+  </data>
+  <data name="ChatSettingsPage_device_vibration_new_messages_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Vibrate when a new message arrives.
+
+**Off**  
+Don't vibrate when a new message arrives.</value>
+  </data>
+  <data name="ChatSettingsPage_enable_emoji_button_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Shows the Emoji button in the chat window.
+![Emoji button example](ms-appx:///Assets/SettingsPreview/emoji_button.gif)
+
+**Off**  
+Hides the Emoji button in the chat window.</value>
+  </data>
+  <data name="ChatSettingsPage_enter_to_send_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Pressing the `enter` key will result in sending the message.  
+A new line can be forced by pressing `shift` + `enter`.
+
+**Off**  
+Pressing enter won't result in sending the message.</value>
+  </data>
+  <data name="ChatSettingsPage_play_sound_new_messages_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Play a sound when a new message arrives.
+
+**Off**  
+Don't play a sound when a new message arrives.</value>
+  </data>
+  <data name="ChatSettingsPage_send_chat_message_received_markers_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Sends delivery conformations for arrived messages.
+
+**Off**  
+Does no send delivery conformations for arrived messages.</value>
+  </data>
+  <data name="ChatSettingsPage_send_chat_state_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Sends your current chat state to your contacts (e.g. `online`, `typin`, ...).
+
+**Off**  
+Does not send your current chat state to your contacts (e.g. `online`, `typin`, ...).</value>
+  </data>
   <data name="CreditsPage_code_markdown.Text" xml:space="preserve">
     <value>* [**App Center Crashes/Push/Analytics**](https://github.com/Microsoft/AppCenter-SDK-DotNet) Allows me to collect crash reports ([UWPX Privacy Policy](https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting)).
 * [**libsignal-protocol-pcl**](https://github.com/langboost/libsignal-protocol-pcl) A port of the [libsignal-protocol-java](https://github.com/signalapp/libsignal-protocol-java) library for C# UWP.

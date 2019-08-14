@@ -440,6 +440,9 @@
     <Content Include="Assets\BackgroundImages\walls.jpeg" />
     <Content Include="Assets\BackgroundImages\wood.jpeg" />
     <Content Include="Assets\BackgroundImages\wood_moos.jpeg" />
+    <Content Include="Assets\SettingsPreview\advanced_chat_message_processing_off.png" />
+    <Content Include="Assets\SettingsPreview\advanced_chat_message_processing_on.png" />
+    <Content Include="Assets\SettingsPreview\emoji_button.gif" />
     <Content Include="Assets\Images\default_muc_image.png" />
     <Content Include="Assets\Images\default_user_image.png" />
     <Content Include="Assets\Images\github_mark.png" />

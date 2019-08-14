@@ -166,15 +166,15 @@ namespace UWPX_UI.Extensions
                 return;
             }
 
+            // Clear all inlines:
+            textBlock.Inlines.Clear();
+
             // Check if advanced chat message processing is disabled:
             if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
             {
                 textBlock.Inlines.Add(new Run { Text = text });
                 return;
             }
-
-            // Clear all inlines:
-            textBlock.Inlines.Clear();
 
             bool isEmoji = await Task.Run(() => Emoji.IsEmoji(text.TrimEnd(UiUtils.TRIM_CHARS).TrimStart(UiUtils.TRIM_CHARS)));
             if (isEmoji)
