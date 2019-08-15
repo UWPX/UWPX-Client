@@ -68,10 +68,10 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucManageControl()
         {
-            this.fields = new CustomObservableCollection<MUCInfoFieldTemplate>();
-            this.messageResponseHelper = null;
-            this.saveMessageResponseHelper = null;
-            this.InitializeComponent();
+            fields = new CustomObservableCollection<MUCInfoFieldTemplate>();
+            messageResponseHelper = null;
+            saveMessageResponseHelper = null;
+            InitializeComponent();
         }
 
         #endregion

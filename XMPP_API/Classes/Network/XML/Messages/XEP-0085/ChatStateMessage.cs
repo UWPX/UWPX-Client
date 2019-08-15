@@ -53,7 +53,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
 
         public ChatStateMessage(string to, string from, ChatState state) :base(from, to, getRandomId())
         {
-            this.STATE = state;
+            STATE = state;
         }
 
         #endregion

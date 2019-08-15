@@ -30,9 +30,9 @@ namespace Data_Manager2.Classes.DBTables
 
         public ConnectionOptionsTable(ConnectionConfiguration configuration)
         {
-            this.tlsMode = configuration.tlsMode;
-            this.disableStreamManagement = configuration.disableStreamManagement;
-            this.disableMessageCarbons = configuration.disableMessageCarbons;
+            tlsMode = configuration.tlsMode;
+            disableStreamManagement = configuration.disableStreamManagement;
+            disableMessageCarbons = configuration.disableMessageCarbons;
         }
 
         #endregion

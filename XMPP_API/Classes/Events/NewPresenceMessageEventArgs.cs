@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Events
         /// </history>
         public NewPresenceMessageEventArgs(PresenceMessage msg)
         {
-            this.PRESENCE_MESSAGE = msg;
+            PRESENCE_MESSAGE = msg;
         }
 
         #endregion

@@ -53,10 +53,10 @@ namespace Data_Manager2.Classes
         /// </history>
         public ConnectionHandler()
         {
-            this.IMAGE_DOWNLOAD_HANDLER = new ImageDownloadHandler(DOWNLOAD_HANDLER);
-            Task.Run(async () => await this.IMAGE_DOWNLOAD_HANDLER.ContinueDownloadsAsync());
-            this.CLIENTS = new CustomObservableCollection<XMPPClient>(false);
-            this.CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
+            IMAGE_DOWNLOAD_HANDLER = new ImageDownloadHandler(DOWNLOAD_HANDLER);
+            Task.Run(async () => await IMAGE_DOWNLOAD_HANDLER.ContinueDownloadsAsync());
+            CLIENTS = new CustomObservableCollection<XMPPClient>(false);
+            CLIENTS.CollectionChanged += CLIENTS_CollectionChanged;
             loadClients();
             AccountDBManager.INSTANCE.AccountChanged += INSTANCE_AccountChanged;
         }

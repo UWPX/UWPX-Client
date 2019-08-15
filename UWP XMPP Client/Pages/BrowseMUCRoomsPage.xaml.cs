@@ -46,9 +46,9 @@ namespace UWP_XMPP_Client.Pages
         public BrowseMUCRoomsPage()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
-            this.messageResponseHelper = null;
-            this.rooms = new CustomObservableCollection<MUCRoomTemplate>();
-            this.InitializeComponent();
+            messageResponseHelper = null;
+            rooms = new CustomObservableCollection<MUCRoomTemplate>();
+            InitializeComponent();
         }
 
         #endregion

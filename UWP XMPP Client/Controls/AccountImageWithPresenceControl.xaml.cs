@@ -66,7 +66,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public AccountImageWithPresenceControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

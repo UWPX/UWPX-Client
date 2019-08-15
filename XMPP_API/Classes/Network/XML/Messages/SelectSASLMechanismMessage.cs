@@ -20,8 +20,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public SelectSASLMechanismMessage(string mechanism, string value)
         {
-            this.MECHANISM = mechanism;
-            this.VALUE = value;
+            MECHANISM = mechanism;
+            VALUE = value;
         }
 
         #endregion

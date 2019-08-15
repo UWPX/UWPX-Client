@@ -89,11 +89,11 @@ namespace UWP_XMPP_Client.DataTemplates
 
         public ChatTemplate(XMPPClient client, ChatTable chat, MUCChatInfoTable mucInfo, BitmapImage image)
         {
-            this._client = client;
-            this._chat = chat;
-            this._mucInfo = mucInfo;
-            this._image = image;
-            this.index = -1;
+            _client = client;
+            _chat = chat;
+            _mucInfo = mucInfo;
+            _image = image;
+            index = -1;
         }
 
         #endregion

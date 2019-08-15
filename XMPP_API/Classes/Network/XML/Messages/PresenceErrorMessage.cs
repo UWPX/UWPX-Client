@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public PresenceErrorMessage(string from, string to, PresenceErrorType errorType) : base(from, to, Presence.NotDefined, null, int.MinValue)
         {
-            this.ERROR_TYPE = errorType;
+            ERROR_TYPE = errorType;
         }
 
         #endregion

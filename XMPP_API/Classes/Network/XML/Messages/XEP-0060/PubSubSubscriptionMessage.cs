@@ -30,12 +30,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
                 XmlNode subNode = XMLUtils.getChildNode(pubSub, "subscription");
                 if (!(subNode is null))
                 {
-                    this.NODE_NAME = subNode.Attributes["node"]?.Value;
-                    this.JID = subNode.Attributes["jid"]?.Value;
-                    this.SUBID = subNode.Attributes["subid"]?.Value;
-                    if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out this.SUBSCRIPTION))
+                    NODE_NAME = subNode.Attributes["node"]?.Value;
+                    JID = subNode.Attributes["jid"]?.Value;
+                    SUBID = subNode.Attributes["subid"]?.Value;
+                    if (!Enum.TryParse(subNode.Attributes["subscription"]?.Value?.ToUpper(), out SUBSCRIPTION))
                     {
-                        this.SUBSCRIPTION = PubSubSubscriptionState.NONE;
+                        SUBSCRIPTION = PubSubSubscriptionState.NONE;
                     }
                 }
             }

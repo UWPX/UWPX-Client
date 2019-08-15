@@ -22,10 +22,10 @@ namespace XMPP_API.Classes.Network.XML
         /// </history>
         public RosterItem(XmlNode n)
         {
-            this.JID = n.Attributes["jid"].Value;
-            this.NAME = n.Attributes["name"]?.Value;
-            this.SUBSCRIPTION = n.Attributes["subscription"]?.Value ?? "none";
-            this.ASK = n.Attributes["ask"]?.Value;
+            JID = n.Attributes["jid"].Value;
+            NAME = n.Attributes["name"]?.Value;
+            SUBSCRIPTION = n.Attributes["subscription"]?.Value ?? "none";
+            ASK = n.Attributes["ask"]?.Value;
         }
 
         #endregion

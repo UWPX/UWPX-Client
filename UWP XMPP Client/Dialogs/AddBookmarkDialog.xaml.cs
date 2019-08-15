@@ -31,10 +31,10 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public AddBookmarkDialog(XMPPClient client)
         {
-            this.CLIENT = client;
-            this.success = false;
-            this.messageResponseHelper = null;
-            this.InitializeComponent();
+            CLIENT = client;
+            success = false;
+            messageResponseHelper = null;
+            InitializeComponent();
         }
 
         #endregion

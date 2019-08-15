@@ -21,8 +21,8 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public InitialStartDialog()
         {
-            this.showOnStartup = true;
-            this.InitializeComponent();
+            showOnStartup = true;
+            InitializeComponent();
         }
 
         #endregion

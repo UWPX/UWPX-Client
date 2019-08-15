@@ -18,8 +18,8 @@
         /// </history>
         public TCPReadResult(TCPReadState state, string data)
         {
-            this.STATE = state;
-            this.DATA = data;
+            STATE = state;
+            DATA = data;
         }
 
         #endregion

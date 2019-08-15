@@ -31,8 +31,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         #region --Constructors--
         public AsyncMessageResponseHelper(IMessageSender messageSender, Predicate<T> isValidAnswer)
         {
-            this.MESSAGE_SENDER = messageSender;
-            this.IS_VALID_ANSWER = isValidAnswer;
+            MESSAGE_SENDER = messageSender;
+            IS_VALID_ANSWER = isValidAnswer;
         }
 
         #endregion

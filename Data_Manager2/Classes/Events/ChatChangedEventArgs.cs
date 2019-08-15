@@ -21,8 +21,8 @@ namespace Data_Manager2.Classes.Events
         /// </history>
         public ChatChangedEventArgs(ChatTable chat, bool removed)
         {
-            this.CHAT = chat;
-            this.REMOVED = removed;
+            CHAT = chat;
+            REMOVED = removed;
         }
 
         #endregion

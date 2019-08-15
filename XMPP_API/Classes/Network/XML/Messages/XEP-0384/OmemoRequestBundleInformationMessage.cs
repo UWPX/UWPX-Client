@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoRequestBundleInformationMessage(string from, string to, uint deviceId) : base(from, to, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceId, 1)
         {
-            this.DEVICE_ID = deviceId;
+            DEVICE_ID = deviceId;
         }
 
         #endregion

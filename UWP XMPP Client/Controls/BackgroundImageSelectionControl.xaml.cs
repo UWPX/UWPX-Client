@@ -45,7 +45,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public BackgroundImageSelectionControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

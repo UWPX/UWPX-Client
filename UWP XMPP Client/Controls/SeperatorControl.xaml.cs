@@ -36,7 +36,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public SeperatorControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

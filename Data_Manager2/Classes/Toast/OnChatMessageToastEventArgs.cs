@@ -23,8 +23,8 @@ namespace Data_Manager2.Classes.Toast
         /// </history>
         public OnChatMessageToastEventArgs(ToastNotification toast, ChatTable chat)
         {
-            this.TOAST = toast;
-            this.CHAT = chat;
+            TOAST = toast;
+            CHAT = chat;
         }
 
         #endregion

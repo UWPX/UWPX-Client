@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public NewDiscoResponseMessageEventArgs(DiscoResponseMessage disco)
         {
-            this.DISCO = disco;
+            DISCO = disco;
         }
 
         #endregion

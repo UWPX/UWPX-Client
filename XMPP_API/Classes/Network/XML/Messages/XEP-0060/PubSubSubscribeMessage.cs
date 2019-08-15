@@ -20,8 +20,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubSubscribeMessage(string fromFullJid, string fromBareJid, string to, string nodeName) : base(fromFullJid, to)
         {
-            this.NODE_NAME = nodeName;
-            this.FROM_BARE_JID = fromBareJid;
+            NODE_NAME = nodeName;
+            FROM_BARE_JID = fromBareJid;
         }
 
         #endregion

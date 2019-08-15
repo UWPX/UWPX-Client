@@ -19,14 +19,14 @@
         /// </history>
         internal OmemoSessionBuildResult(OmemoSession session)
         {
-            this.SESSION = session;
-            this.SUCCESS = true;
+            SESSION = session;
+            SUCCESS = true;
         }
 
         internal OmemoSessionBuildResult(OmemoSessionBuildError error)
         {
-            this.ERROR = error;
-            this.SUCCESS = false;
+            ERROR = error;
+            SUCCESS = false;
         }
 
         #endregion

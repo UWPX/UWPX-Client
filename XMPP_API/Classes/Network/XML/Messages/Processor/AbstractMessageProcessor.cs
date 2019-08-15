@@ -22,8 +22,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// </history>
         protected AbstractMessageProcessor(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection)
         {
-            this.TCP_CONNECTION = tcpConnection;
-            this.XMPP_CONNECTION = xMPPConnection;
+            TCP_CONNECTION = tcpConnection;
+            XMPP_CONNECTION = xMPPConnection;
         }
 
         #endregion

@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public BindResourceMessage(string resource) : base(null, null, SET, getRandomId())
         {
-            this.RESOURCE = resource;
+            RESOURCE = resource;
         }
 
         #endregion

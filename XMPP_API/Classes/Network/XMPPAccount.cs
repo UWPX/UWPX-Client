@@ -130,24 +130,24 @@ namespace XMPP_API.Classes.Network
 
         public XMPPAccount(XMPPUser user, string serverAddress, int port, ConnectionConfiguration connectionConfiguration)
         {
-            this.invokeInUiThread = false;
+            invokeInUiThread = false;
             this.user = user;
             this.serverAddress = serverAddress;
             this.port = port;
             this.connectionConfiguration = connectionConfiguration;
-            this.presencePriorety = 0;
-            this.disabled = false;
-            this.color = null;
-            this.presence = Presence.Online;
-            this.status = null;
-            this.CONNECTION_INFO = new ConnectionInformation();
-            this.CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
-            this.omemoIdentityKeyPair = null;
-            this.omemoSignedPreKeyPair = null;
-            this.OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyRecord>(false);
-            this.OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
-            this.omemoDeviceId = 0;
-            this.omemoBundleInfoAnnounced = false;
+            presencePriorety = 0;
+            disabled = false;
+            color = null;
+            presence = Presence.Online;
+            status = null;
+            CONNECTION_INFO = new ConnectionInformation();
+            CONNECTION_INFO.PropertyChanged += CONNECTION_INFO_PropertyChanged;
+            omemoIdentityKeyPair = null;
+            omemoSignedPreKeyPair = null;
+            OMEMO_PRE_KEYS = new CustomObservableCollection<PreKeyRecord>(false);
+            OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
+            omemoDeviceId = 0;
+            omemoBundleInfoAnnounced = false;
         }
 
         #endregion

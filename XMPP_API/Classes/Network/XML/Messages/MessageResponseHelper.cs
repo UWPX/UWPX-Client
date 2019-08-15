@@ -38,15 +38,15 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Constructors--
         public MessageResponseHelper(IMessageSender messageSender, OnMessageHandler onMessage, OnTimeoutHandler onTimeout)
         {
-            this.MESSAGE_SENDER = messageSender;
-            this.ON_MESSAGE = onMessage;
-            this.ON_TIMEOUT = onTimeout;
-            this.timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
-            this.matchId = true;
-            this.sendId = null;
-            this.METHOD_SEMA = new SemaphoreSlim(1, 1);
-            this.TIMER_SEMA = new SemaphoreSlim(1, 1);
-            this.disposed = false;
+            MESSAGE_SENDER = messageSender;
+            ON_MESSAGE = onMessage;
+            ON_TIMEOUT = onTimeout;
+            timeout = TimeSpan.FromSeconds(TIMEOUT_5_SEC);
+            matchId = true;
+            sendId = null;
+            METHOD_SEMA = new SemaphoreSlim(1, 1);
+            TIMER_SEMA = new SemaphoreSlim(1, 1);
+            disposed = false;
         }
 
         #endregion

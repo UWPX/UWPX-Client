@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.Classes.Events
         /// </history>
         public SelectionChangedMultiEventArgs(List<object> selectedItems)
         {
-            this.SELECTED_ITEMS = selectedItems;
+            SELECTED_ITEMS = selectedItems;
         }
 
         #endregion

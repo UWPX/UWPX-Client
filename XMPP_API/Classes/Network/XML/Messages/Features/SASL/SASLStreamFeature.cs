@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         /// </history>
         public SASLStreamFeature(XmlNode n) : base(n)
         {
-            this.MECHANISMS = new ArrayList(3);
+            MECHANISMS = new ArrayList(3);
             loadMechanisms(n);
         }
 

@@ -26,36 +26,36 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
         /// </history>
         public HTTPUploadErrorMessage(XmlNode node) : base(node)
         {
-            this.RETRY = false;
-            this.RETRY_STAMP = DateTime.MinValue;
+            RETRY = false;
+            RETRY_STAMP = DateTime.MinValue;
 
             XmlNode errorNode = XMLUtils.getChildNode(node, "error");
             if (errorNode != null)
             {
-                this.TYPE_SHORT = errorNode.Attributes["type"]?.Value;
+                TYPE_SHORT = errorNode.Attributes["type"]?.Value;
 
                 foreach (XmlNode n in errorNode.ChildNodes)
                 {
                     switch (n.Name)
                     {
                         case "text" when string.Equals(n.NamespaceURI, Consts.XML_ERROR_NAMESPACE):
-                            this.TEXT = n.InnerText;
+                            TEXT = n.InnerText;
                             break;
 
                         case "retry" when string.Equals(n.NamespaceURI, Consts.XML_XEP_0363_NAMESPACE):
-                            this.RETRY = true;
+                            RETRY = true;
                             XmlAttribute stamp = XMLUtils.getAttribute(n, "stamp");
                             if (stamp != null)
                             {
                                 DateTimeParserHelper parserHelper = new DateTimeParserHelper();
-                                this.RETRY_STAMP = parserHelper.parse(stamp.Value);
+                                RETRY_STAMP = parserHelper.parse(stamp.Value);
                             }
                             break;
 
                         default:
                             if (n.NamespaceURI.Equals(Consts.XML_ERROR_NAMESPACE))
                             {
-                                this.TYPE_LONG = n.Name;
+                                TYPE_LONG = n.Name;
                             }
                             break;
                     }
@@ -65,11 +65,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
             XmlNode requestNode = XMLUtils.getChildNode(node, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
             if (requestNode != null)
             {
-                this.REQUEST_MESSAGE = new HTTPUploadRequestSlotMessage(node);
+                REQUEST_MESSAGE = new HTTPUploadRequestSlotMessage(node);
             }
             else
             {
-                this.REQUEST_MESSAGE = null;
+                REQUEST_MESSAGE = null;
             }
         }
 

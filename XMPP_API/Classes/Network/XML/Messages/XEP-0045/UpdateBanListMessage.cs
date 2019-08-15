@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public UpdateBanListMessage(string from, string roomJid, List<BanedUser> changedUsers) : base(from, roomJid, SET, getRandomId())
         {
-            this.UPDATED_USERS = changedUsers;
+            UPDATED_USERS = changedUsers;
         }
 
         #endregion

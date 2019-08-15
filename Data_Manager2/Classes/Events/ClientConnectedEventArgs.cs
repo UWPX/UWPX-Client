@@ -20,7 +20,7 @@ namespace Data_Manager2.Classes.Events
         /// </history>
         public ClientConnectedEventArgs(XMPPClient client)
         {
-            this.CLIENT = client;
+            CLIENT = client;
         }
 
         #endregion

@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public ErrorMessage(string type)
         {
-            this.TYPE = type;
+            TYPE = type;
         }
 
         #endregion

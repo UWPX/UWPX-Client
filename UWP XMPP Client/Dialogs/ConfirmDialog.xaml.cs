@@ -27,8 +27,8 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public ConfirmDialog()
         {
-            this.confirmed = false;
-            this.InitializeComponent();
+            confirmed = false;
+            InitializeComponent();
         }
 
         #endregion

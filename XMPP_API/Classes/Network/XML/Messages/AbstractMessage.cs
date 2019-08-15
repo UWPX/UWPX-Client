@@ -35,9 +35,9 @@ namespace XMPP_API.Classes.Network.XML.Messages
         protected AbstractMessage(string id)
         {
             processed = false;
-            this.restartConnection = NO_RESTART;
-            this.ID = id ?? getRandomId();
-            this.cacheUntilSend = false;
+            restartConnection = NO_RESTART;
+            ID = id ?? getRandomId();
+            cacheUntilSend = false;
         }
 
         #endregion

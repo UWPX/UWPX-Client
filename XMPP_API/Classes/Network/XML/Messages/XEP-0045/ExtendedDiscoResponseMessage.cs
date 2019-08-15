@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public ExtendedDiscoResponseMessage(XmlNode n) : base(n)
         {
-            this.roomConfig = new DataForm();
+            roomConfig = new DataForm();
 
             XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
             if (qNode != null)
@@ -35,7 +35,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                         case "x":
                             if (Equals(node.NamespaceURI, Consts.XML_XEP_0004_NAMESPACE))
                             {
-                                this.roomConfig.loadRoomConfig(node);
+                                roomConfig.loadRoomConfig(node);
                             }
                             break;
 
@@ -43,7 +43,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                             string var = node.Attributes["var"]?.Value;
                             if (var != null && !Equals(var, Consts.XML_XEP_0045_NAMESPACE))
                             {
-                                this.roomConfig.FIELDS.Add(new Field()
+                                roomConfig.FIELDS.Add(new Field()
                                 {
                                     type = FieldType.BOOLEAN,
                                     var = var,

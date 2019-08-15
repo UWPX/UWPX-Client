@@ -37,8 +37,8 @@ namespace Push_App_Server.Classes
         /// </history>
         public PushConnection() : base(DUMMY_XMPP_ACCOUNT)
         {
-            this.tCPConnection = new TCPConnection2(DUMMY_XMPP_ACCOUNT);
-            this.tCPConnection.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
+            tCPConnection = new TCPConnection2(DUMMY_XMPP_ACCOUNT);
+            tCPConnection.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
         }
 
         #endregion

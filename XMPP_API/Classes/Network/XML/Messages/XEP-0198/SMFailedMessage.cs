@@ -30,7 +30,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
             {
                 if (n.NamespaceURI.Equals(Consts.XML_ERROR_NAMESPACE))
                 {
-                    this.ERROR_MESSAGE = n.Name;
+                    ERROR_MESSAGE = n.Name;
                     return;
                 }
             }

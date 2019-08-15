@@ -35,12 +35,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
         public OmemoBundleInformation(IdentityKey publicIdentityKey, ECPublicKey publicSignedPreKey, uint signedPreKeyId, byte[] signedPreKeySignature, IList<Tuple<uint, ECPublicKey>> publicPreKeys)
         {
-            this.id = null;
-            this.PUBLIC_IDENTITY_KEY = publicIdentityKey;
-            this.PUBLIC_SIGNED_PRE_KEY = publicSignedPreKey;
-            this.PUBLIC_PRE_KEYS = publicPreKeys;
-            this.SIGNED_PRE_KEY_SIGNATURE = signedPreKeySignature;
-            this.SIGNED_PRE_KEY_ID = signedPreKeyId;
+            id = null;
+            PUBLIC_IDENTITY_KEY = publicIdentityKey;
+            PUBLIC_SIGNED_PRE_KEY = publicSignedPreKey;
+            PUBLIC_PRE_KEYS = publicPreKeys;
+            SIGNED_PRE_KEY_SIGNATURE = signedPreKeySignature;
+            SIGNED_PRE_KEY_ID = signedPreKeyId;
         }
 
         #endregion

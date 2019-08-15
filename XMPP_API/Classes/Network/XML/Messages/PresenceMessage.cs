@@ -23,14 +23,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public PresenceMessage(string from, string to, Presence presence, string status, int priorety) : base(from, to)
         {
-            this.PRESENCE = presence;
-            this.STATUS = status;
-            this.PRIORETY = priorety;
+            PRESENCE = presence;
+            STATUS = status;
+            PRIORETY = priorety;
         }
 
         public PresenceMessage(string from, string to, string type) : this(from, to, Presence.NotDefined, null, int.MinValue)
         {
-            this.TYPE = type;
+            TYPE = type;
         }
 
         public PresenceMessage(int priorety, Presence presence, string status) : this(null, null, presence, status, priorety)
@@ -43,23 +43,23 @@ namespace XMPP_API.Classes.Network.XML.Messages
             XmlNode showNode = XMLUtils.getChildNode(node, "show");
             if (showNode != null)
             {
-                this.PRESENCE = Utils.parsePresence(showNode.InnerText);
+                PRESENCE = Utils.parsePresence(showNode.InnerText);
             }
 
             XmlAttribute typeAttribute = node.Attributes["type"];
             if (typeAttribute != null)
             {
-                this.TYPE = typeAttribute.Value;
+                TYPE = typeAttribute.Value;
                 if (showNode is null)
                 {
-                    this.PRESENCE = Utils.parsePresence(typeAttribute.Value);
+                    PRESENCE = Utils.parsePresence(typeAttribute.Value);
                 }
             }
             else if (showNode is null)
             {
-                this.PRESENCE = Presence.Online;
+                PRESENCE = Presence.Online;
             }
-            this.STATUS = XMLUtils.getChildNode(node, "status")?.InnerText;
+            STATUS = XMLUtils.getChildNode(node, "status")?.InnerText;
         }
 
         #endregion

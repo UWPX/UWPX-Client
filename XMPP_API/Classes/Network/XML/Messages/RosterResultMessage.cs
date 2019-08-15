@@ -21,18 +21,18 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public RosterResultMessage(XmlNode n) : base(n)
         {
             XmlNode query = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_ROSTER_NAMESPACE);
-            this.ITEMS = new ArrayList();
+            ITEMS = new ArrayList();
             if (query != null)
             {
                 foreach (XmlNode n1 in query.ChildNodes)
                 {
                     if (n1.Name.Equals("presence"))
                     {
-                        this.ITEMS.Add(new PresenceMessage(n1));
+                        ITEMS.Add(new PresenceMessage(n1));
                     }
                     else
                     {
-                        this.ITEMS.Add(new RosterItem(n1));
+                        ITEMS.Add(new RosterItem(n1));
                     }
                 }
             }

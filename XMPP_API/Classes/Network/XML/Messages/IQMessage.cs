@@ -27,13 +27,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public IQMessage(string from, string to, string type, string id) : base(from, to, id)
         {
-            this.TYPE = type;
+            TYPE = type;
         }
 
         public IQMessage(XmlNode answer) : base(answer?.Attributes["from"]?.Value, answer?.Attributes["to"]?.Value, answer.Attributes["id"]?.Value)
         {
-            this.TYPE = answer.Attributes["type"]?.Value;
-            this.ANSWER = answer;
+            TYPE = answer.Attributes["type"]?.Value;
+            ANSWER = answer;
         }
 
         #endregion

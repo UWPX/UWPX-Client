@@ -26,7 +26,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public ManageBookmarksMasterControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -21,16 +21,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public Error()
         {
-            this.ERROR_TYPE = ErrorType.UNKNOWN;
-            this.ERROR_NAME = ErrorName.UNKNOWN;
-            this.ERROR_MESSAGE = "\"No message found.\"";
+            ERROR_TYPE = ErrorType.UNKNOWN;
+            ERROR_NAME = ErrorName.UNKNOWN;
+            ERROR_MESSAGE = "\"No message found.\"";
         }
 
         public Error(XmlNode n)
         {
-            this.ERROR_NAME = getErrorName(n);
-            this.ERROR_TYPE = getErrorType(n);
-            this.ERROR_MESSAGE = '"' + n.InnerText + '"';
+            ERROR_NAME = getErrorName(n);
+            ERROR_TYPE = getErrorType(n);
+            ERROR_MESSAGE = '"' + n.InnerText + '"';
         }
 
         #endregion

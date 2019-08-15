@@ -20,8 +20,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubRequestNodeMessage(string from, string to, string nodeName, uint maxItems) : base(from, to)
         {
-            this.NODE_NAME = nodeName;
-            this.MAX_ITEMS = maxItems;
+            NODE_NAME = nodeName;
+            MAX_ITEMS = maxItems;
         }
 
         #endregion

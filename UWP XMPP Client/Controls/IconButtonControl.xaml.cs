@@ -51,7 +51,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public IconButtonControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

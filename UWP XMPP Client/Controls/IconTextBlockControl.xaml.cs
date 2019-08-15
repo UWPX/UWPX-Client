@@ -40,7 +40,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public IconTextBlockControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

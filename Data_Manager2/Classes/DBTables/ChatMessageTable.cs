@@ -62,41 +62,41 @@ namespace Data_Manager2.Classes.DBTables
             switch (msg.TYPE)
             {
                 case MessageMessage.TYPE_ERROR:
-                    this.id = generateErrorMessageId(msg.ID, chat.id);
-                    this.fromUser = msg.getFrom();
+                    id = generateErrorMessageId(msg.ID, chat.id);
+                    fromUser = msg.getFrom();
                     break;
 
                 case MessageMessage.TYPE_GROUPCHAT:
-                    this.id = generateId(msg.ID, chat.id);
-                    this.fromUser = msg.FROM_NICK;
+                    id = generateId(msg.ID, chat.id);
+                    fromUser = msg.FROM_NICK;
                     break;
 
                 default:
-                    this.id = generateId(msg.ID, chat.id);
-                    this.fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
+                    id = generateId(msg.ID, chat.id);
+                    fromUser = Utils.getBareJidFromFullJid(msg.getFrom());
                     break;
             }
-            this.chatId = chat.id;
-            this.type = msg.TYPE;
-            this.message = msg.MESSAGE;
-            this.date = msg.getDelay();
-            this.isDummyMessage = false;
-            if (this.date.Equals(DateTime.MinValue))
+            chatId = chat.id;
+            type = msg.TYPE;
+            message = msg.MESSAGE;
+            date = msg.getDelay();
+            isDummyMessage = false;
+            if (date.Equals(DateTime.MinValue))
             {
-                this.date = DateTime.Now;
+                date = DateTime.Now;
             }
             if (msg.CC_TYPE == XMPP_API.Classes.Network.XML.CarbonCopyType.SENT)
             {
-                this.state = MessageState.SEND;
+                state = MessageState.SEND;
             }
             else
             {
-                this.state = MessageState.UNREAD;
+                state = MessageState.UNREAD;
             }
-            this.isImage = isMessageAnImageUrl(msg.MESSAGE);
-            this.isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
-            this.isEncrypted = msg is OmemoMessageMessage;
-            this.isFavorite = false;
+            isImage = isMessageAnImageUrl(msg.MESSAGE);
+            isCC = msg.CC_TYPE != XMPP_API.Classes.Network.XML.CarbonCopyType.NONE;
+            isEncrypted = msg is OmemoMessageMessage;
+            isFavorite = false;
         }
 
         #endregion

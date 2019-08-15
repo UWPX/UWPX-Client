@@ -39,8 +39,8 @@ namespace XMPP_API.Classes.Network.XML
         /// </history>
         public MessageParser2()
         {
-            this.STATS = new MessageParserStats();
-            this.READER_SETTINGS = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
+            STATS = new MessageParserStats();
+            READER_SETTINGS = new XmlReaderSettings { ConformanceLevel = ConformanceLevel.Fragment };
         }
 
         #endregion

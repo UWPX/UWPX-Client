@@ -24,8 +24,8 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public AddToRosterMessage(string fullJabberId, string bareJid) : base(fullJabberId, null, SET, getRandomId())
         {
-            this.BARE_JID = bareJid;
-            this.cacheUntilSend = true;
+            BARE_JID = bareJid;
+            cacheUntilSend = true;
         }
 
         #endregion

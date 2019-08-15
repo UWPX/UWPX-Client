@@ -49,8 +49,8 @@ namespace UWP_XMPP_Client.Classes.Collections
         /// </history>
         public ObservableChatDictionaryList()
         {
-            this.DICTIONARY = new Dictionary<string, ChatTemplate>();
-            this.LIST = new List<ChatTemplate>();
+            DICTIONARY = new Dictionary<string, ChatTemplate>();
+            LIST = new List<ChatTemplate>();
         }
 
         #endregion

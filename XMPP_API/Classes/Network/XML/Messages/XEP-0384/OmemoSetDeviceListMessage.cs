@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoSetDeviceListMessage(string from, OmemoDevices devices) : base(from, null, Consts.XML_XEP_0384_DEVICE_LIST_NODE)
         {
-            this.DEVICES = devices;
+            DEVICES = devices;
         }
 
         #endregion

@@ -20,8 +20,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoSetBundleInformationMessage(string from, OmemoBundleInformation bundleInfo, uint deviceid) : base(from, null, Consts.XML_XEP_0384_BUNDLE_INFO_NODE + deviceid)
         {
-            this.BUNDLE_INFO = bundleInfo;
-            this.DEVICE_ID = deviceid;
+            BUNDLE_INFO = bundleInfo;
+            DEVICE_ID = deviceid;
         }
 
         #endregion

@@ -58,20 +58,20 @@ namespace Data_Manager2.Classes.DBTables
 
         public ChatTable(string chatJabberId, string userAccountId)
         {
-            this.id = generateId(chatJabberId, userAccountId);
+            id = generateId(chatJabberId, userAccountId);
             this.chatJabberId = chatJabberId;
             this.userAccountId = userAccountId;
-            this.chatState = null;
-            this.chatType = ChatType.CHAT;
-            this.inRoster = false;
-            this.muted = false;
-            this.omemoEnabled = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
-            this.presence = Presence.Unavailable;
-            this.status = null;
-            this.subscription = null;
-            this.subscriptionRequested = false;
-            this.lastActive = DateTime.Now;
-            this.isChatActive = false;
+            chatState = null;
+            chatType = ChatType.CHAT;
+            inRoster = false;
+            muted = false;
+            omemoEnabled = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
+            presence = Presence.Unavailable;
+            status = null;
+            subscription = null;
+            subscriptionRequested = false;
+            lastActive = DateTime.Now;
+            isChatActive = false;
         }
 
         #endregion

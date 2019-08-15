@@ -41,10 +41,10 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public SaveablePasswordBox()
         {
-            this.EnableSaving = true;
-            this.isSaving = false;
-            this.IsEnabledChanged += SaveablePasswordBox_IsEnabledChanged;
-            this.InitializeComponent();
+            EnableSaving = true;
+            isSaving = false;
+            IsEnabledChanged += SaveablePasswordBox_IsEnabledChanged;
+            InitializeComponent();
         }
 
         #endregion

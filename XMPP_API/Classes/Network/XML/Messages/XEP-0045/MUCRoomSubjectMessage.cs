@@ -23,13 +23,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
             XmlNode sNode = XMLUtils.getChildNode(node, "subject");
             if (sNode != null)
             {
-                this.SUBJECT = sNode.InnerText;
+                SUBJECT = sNode.InnerText;
             }
         }
 
         public MUCRoomSubjectMessage(string from, string to, string subject) : base(from, to, null, TYPE_GROUPCHAT, null, false)
         {
-            this.SUBJECT = subject;
+            SUBJECT = subject;
         }
 
         #endregion

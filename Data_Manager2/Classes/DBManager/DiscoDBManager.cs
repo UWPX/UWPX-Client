@@ -26,7 +26,7 @@ namespace Data_Manager2.Classes.DBManager
         /// </history>
         public DiscoDBManager()
         {
-            this.RESPONSE_HELPERS = new List<MessageResponseHelper<IQMessage>>();
+            RESPONSE_HELPERS = new List<MessageResponseHelper<IQMessage>>();
             ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
         }
 

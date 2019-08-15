@@ -22,9 +22,9 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public NewChatStateEventArgs(ChatStateMessage message)
         {
-            this.STATE = message.getState();
-            this.FROM = Utils.getBareJidFromFullJid(message.getFrom());
-            this.TO = Utils.getBareJidFromFullJid(message.getTo());
+            STATE = message.getState();
+            FROM = Utils.getBareJidFromFullJid(message.getFrom());
+            TO = Utils.getBareJidFromFullJid(message.getTo());
         }
 
         #endregion

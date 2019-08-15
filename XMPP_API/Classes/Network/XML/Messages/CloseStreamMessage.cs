@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public CloseStreamMessage(XmlNode node)
         {
-            this.CLOSE_NODE = node;
+            CLOSE_NODE = node;
             if(node is null)
             {
                 return;
@@ -31,14 +31,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
             {
                 if (item.Name.Equals("stream:error"))
                 {
-                    this.REASON = item.Value;
+                    REASON = item.Value;
                 }
             }
         }
 
         public CloseStreamMessage(string reason)
         {
-            this.REASON = reason ?? "";
+            REASON = reason ?? "";
         }
 
         #endregion

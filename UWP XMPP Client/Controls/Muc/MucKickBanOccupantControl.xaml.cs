@@ -38,12 +38,12 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucKickBanOccupantControl(MUCKickBanOccupantDialog dialog, XMPPClient client, ChatTable chat, bool canKick, bool canBan)
         {
-            this.KICK_BAN_DIALOG = dialog;
-            this.CLIENT = client;
-            this.CHAT = chat;
+            KICK_BAN_DIALOG = dialog;
+            CLIENT = client;
+            CHAT = chat;
             this.canKick = canKick;
             this.canBan = canBan;
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

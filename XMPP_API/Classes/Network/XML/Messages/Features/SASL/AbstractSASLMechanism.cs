@@ -25,9 +25,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         /// </history>
         protected AbstractSASLMechanism(string id, string password, SASLConnection saslConnection)
         {
-            this.ID = id;
-            this.PASSWORD = password;
-            this.SASL_CONNECTION = saslConnection;
+            ID = id;
+            PASSWORD = password;
+            SASL_CONNECTION = saslConnection;
         }
 
         #endregion

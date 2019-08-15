@@ -20,8 +20,8 @@ namespace Data_Manager2.Classes
         #region --Constructors--
         public ImageDownloadHandler(DownloadHandler downloadHandler)
         {
-            this.DOWNLOAD_HANDLER = downloadHandler;
-            this.DOWNLOAD_HANDLER.DownloadStateChanged += DOWNLOAD_HANDLER_DownloadStateChanged;
+            DOWNLOAD_HANDLER = downloadHandler;
+            DOWNLOAD_HANDLER.DownloadStateChanged += DOWNLOAD_HANDLER_DownloadStateChanged;
         }
 
         #endregion

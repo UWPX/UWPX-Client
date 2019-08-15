@@ -25,7 +25,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public ChangeAccountPresenceDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

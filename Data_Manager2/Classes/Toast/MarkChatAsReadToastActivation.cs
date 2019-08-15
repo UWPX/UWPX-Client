@@ -19,16 +19,16 @@ namespace Data_Manager2.Classes.Toast
         #region --Constructors--
         public MarkChatAsReadToastActivation(string chatId, bool received)
         {
-            this.CHAT_ID = chatId;
-            this.IS_VALID = !string.IsNullOrEmpty(this.CHAT_ID);
+            CHAT_ID = chatId;
+            IS_VALID = !string.IsNullOrEmpty(CHAT_ID);
         }
 
         public MarkChatAsReadToastActivation(Uri uri)
         {
             WwwFormUrlDecoder query = UriUtils.parseUriQuery(uri);
 
-            this.CHAT_ID = query.Where(x => string.Equals(x.Name, CHAT_QUERY)).Select(x => x.Value).FirstOrDefault();
-            this.IS_VALID = !string.IsNullOrEmpty(this.CHAT_ID);
+            CHAT_ID = query.Where(x => string.Equals(x.Name, CHAT_QUERY)).Select(x => x.Value).FirstOrDefault();
+            IS_VALID = !string.IsNullOrEmpty(CHAT_ID);
         }
 
         #endregion

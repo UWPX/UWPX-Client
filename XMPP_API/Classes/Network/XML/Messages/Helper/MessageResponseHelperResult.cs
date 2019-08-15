@@ -14,8 +14,8 @@
 
         internal MessageResponseHelperResult(MessageResponseHelperResultState state, T result)
         {
-            this.STATE = state;
-            this.RESULT = result;
+            STATE = state;
+            RESULT = result;
         }
 
         #endregion

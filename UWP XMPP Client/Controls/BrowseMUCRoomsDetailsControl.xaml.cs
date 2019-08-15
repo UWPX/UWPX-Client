@@ -34,9 +34,9 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public BrowseMUCRoomsDetailsControl()
         {
-            this.InitializeComponent();
-            this.messageResponseHelper = null;
-            this.FIELDS = new CustomObservableCollection<MUCInfoFieldTemplate>();
+            InitializeComponent();
+            messageResponseHelper = null;
+            FIELDS = new CustomObservableCollection<MUCInfoFieldTemplate>();
         }
 
         #endregion

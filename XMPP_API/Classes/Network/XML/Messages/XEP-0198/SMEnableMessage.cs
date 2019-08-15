@@ -23,10 +23,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
         /// </history>
         public SMEnableMessage()
         {
-            this.ID = null;
-            this.RESUME = false;
-            this.LOCATION = null;
-            this.MAX = 0;
+            ID = null;
+            RESUME = false;
+            LOCATION = null;
+            MAX = 0;
         }
 
         public SMEnableMessage(XmlNode node)
@@ -36,22 +36,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
                 switch (att.Name.ToString())
                 {
                     case "id":
-                        this.ID = att.Value;
+                        ID = att.Value;
                         break;
 
                     case "location":
-                        this.LOCATION = att.Value;
+                        LOCATION = att.Value;
                         break;
 
                     case "max":
-                        if (uint.TryParse(att.Value, out this.MAX))
+                        if (uint.TryParse(att.Value, out MAX))
                         {
-                            this.MAX = 0;
+                            MAX = 0;
                         }
                         break;
 
                     case "resume":
-                        this.RESUME = XMLUtils.tryParseToBool(att.Value);
+                        RESUME = XMLUtils.tryParseToBool(att.Value);
                         break;
 
                     default:

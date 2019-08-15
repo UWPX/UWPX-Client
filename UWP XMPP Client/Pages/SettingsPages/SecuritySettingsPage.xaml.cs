@@ -26,8 +26,8 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         /// </history>
         public SecuritySettingsPage()
         {
-            this.PASSWORDS = new ObservableCollection<PasswordCredentialTemplate>();
-            this.InitializeComponent();
+            PASSWORDS = new ObservableCollection<PasswordCredentialTemplate>();
+            InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
         }
 

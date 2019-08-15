@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0184
         /// </history>
         public DeliveryReceiptMessage(string from, string to, string receiptId) : base(from, to, getRandomId())
         {
-            this.RECEIPT_ID = receiptId;
+            RECEIPT_ID = receiptId;
         }
 
         public DeliveryReceiptMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())

@@ -25,7 +25,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public LoadingContentControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

@@ -20,7 +20,7 @@ namespace Data_Manager2.Classes.Events
         /// </history>
         public NewChatMessageEventArgs(ChatMessageTable message)
         {
-            this.MESSAGE = message;
+            MESSAGE = message;
         }
 
         #endregion

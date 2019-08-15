@@ -32,7 +32,7 @@ namespace XMPP_API.Classes.Network
         protected AbstractConnection2(XMPPAccount account)
         {
             this.account = account;
-            this.state = ConnectionState.DISCONNECTED;
+            state = ConnectionState.DISCONNECTED;
         }
 
         #endregion
@@ -59,7 +59,7 @@ namespace XMPP_API.Classes.Network
             {
                 s = param?.ToString();
             }
-            Logger.Debug("[" + this.GetType().Name + "] " + oldState + " -> " + newState + ": " + s);
+            Logger.Debug("[" + GetType().Name + "] " + oldState + " -> " + newState + ": " + s);
         }
 
         /// <summary>

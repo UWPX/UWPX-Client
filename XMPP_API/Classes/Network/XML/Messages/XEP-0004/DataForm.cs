@@ -33,10 +33,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
 
         public DataForm(DataFormType type, List<Field> fields)
         {
-            this.FIELDS = fields;
+            FIELDS = fields;
             this.type = type;
-            this.titel = null;
-            this.instructions = null;
+            titel = null;
+            instructions = null;
         }
 
         public DataForm(XmlNode node) : this(DataFormType.CANCEL)

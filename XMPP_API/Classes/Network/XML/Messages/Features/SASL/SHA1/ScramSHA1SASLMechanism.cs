@@ -37,12 +37,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
 
         public ScramSHA1SASLMechanism(string id, string password, string clientNonceBase64, SASLConnection saslConnection) : base(id, password, saslConnection)
         {
-            this.PASSWORD_NORMALIZED = password.Normalize();
-            this.CLIENT_NONCE_BASE_64 = clientNonceBase64;
-            this.serverNonce = null;
-            this.saltBase64 = null;
-            this.clientFirstMsg = null;
-            this.serverFirstMsg = null;
+            PASSWORD_NORMALIZED = password.Normalize();
+            CLIENT_NONCE_BASE_64 = clientNonceBase64;
+            serverNonce = null;
+            saltBase64 = null;
+            clientFirstMsg = null;
+            serverFirstMsg = null;
         }
 
         #endregion

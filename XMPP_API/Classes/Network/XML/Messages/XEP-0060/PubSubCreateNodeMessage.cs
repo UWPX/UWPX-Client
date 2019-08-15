@@ -25,8 +25,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 
         public PubSubCreateNodeMessage(string from, string to, string nodeName, DataForm nodeConfig) : base(from, to)
         {
-            this.NODE_NAME = nodeName;
-            this.NODE_CONFIG = nodeConfig;
+            NODE_NAME = nodeName;
+            NODE_CONFIG = nodeConfig;
         }
 
         #endregion

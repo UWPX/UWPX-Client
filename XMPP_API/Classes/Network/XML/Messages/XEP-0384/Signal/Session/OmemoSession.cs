@@ -22,9 +22,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         /// </history>
         public OmemoSession(string chatJid)
         {
-            this.CHAT_JID = chatJid;
-            this.DEVICE_SESSIONS_OWN = new Dictionary<uint, SessionCipher>();
-            this.DEVICE_SESSIONS_REMOTE = new Dictionary<uint, SessionCipher>();
+            CHAT_JID = chatJid;
+            DEVICE_SESSIONS_OWN = new Dictionary<uint, SessionCipher>();
+            DEVICE_SESSIONS_REMOTE = new Dictionary<uint, SessionCipher>();
         }
 
         #endregion

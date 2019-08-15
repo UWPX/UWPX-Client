@@ -31,7 +31,7 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public DonateControl()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

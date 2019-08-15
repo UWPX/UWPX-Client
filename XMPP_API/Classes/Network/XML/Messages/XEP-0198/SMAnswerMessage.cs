@@ -20,15 +20,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
         /// </history>
         public SMAnswerMessage(int handle)
         {
-            this.HANDLE = handle;
+            HANDLE = handle;
         }
 
         public SMAnswerMessage(XmlNode node)
         {
             XmlAttribute att = node.Attributes["h"];
-            if (att is null || !int.TryParse(att.Value, out this.HANDLE))
+            if (att is null || !int.TryParse(att.Value, out HANDLE))
             {
-                this.HANDLE = -1;
+                HANDLE = -1;
             }
         }
 

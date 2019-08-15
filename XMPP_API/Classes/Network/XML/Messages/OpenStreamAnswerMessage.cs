@@ -24,10 +24,10 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public OpenStreamAnswerMessage(XmlNode streamNode) : base(streamNode.Attributes["id"]?.Value)
         {
-            this.STREAM_NODE = streamNode;
-            this.FROM = STREAM_NODE.Attributes["from"]?.Value;
-            this.TO = STREAM_NODE.Attributes.GetNamedItem("to")?.Value;
-            this.STREAM_FEATURES = getStreamFeaturesMessage(streamNode);
+            STREAM_NODE = streamNode;
+            FROM = STREAM_NODE.Attributes["from"]?.Value;
+            TO = STREAM_NODE.Attributes.GetNamedItem("to")?.Value;
+            STREAM_FEATURES = getStreamFeaturesMessage(streamNode);
         }
 
         #endregion

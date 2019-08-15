@@ -24,9 +24,9 @@ namespace XMPP_API.Classes.Events
         /// </history>
         public OmemoSessionBuildErrorEventArgs(string chatJid, OmemoSessionBuildError error, IList<OmemoMessageMessage> messages)
         {
-            this.CHAT_JID = chatJid;
-            this.ERROR = error;
-            this.MESSAGES = messages;
+            CHAT_JID = chatJid;
+            ERROR = error;
+            MESSAGES = messages;
         }
 
         #endregion

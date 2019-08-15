@@ -23,9 +23,9 @@ namespace UWP_XMPP_Client.Classes.Events
         /// </history>
         public NavigatedToMUCInfoEventArgs(ChatTable chat, XMPPClient client, MUCChatInfoTable mucInfo)
         {
-            this.CHAT = chat;
-            this.CLIENT = client;
-            this.MUC_INFO = mucInfo;
+            CHAT = chat;
+            CLIENT = client;
+            MUC_INFO = mucInfo;
         }
 
         #endregion

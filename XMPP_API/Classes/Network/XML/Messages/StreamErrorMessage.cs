@@ -23,16 +23,16 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public StreamErrorMessage(XmlNode n)
         {
-            this.ERROR_TYPE = StreamErrorType.UNKNOWN;
-            this.ERROR_TEXT = "";
+            ERROR_TYPE = StreamErrorType.UNKNOWN;
+            ERROR_TEXT = "";
             if (n.HasChildNodes)
             {
                 foreach (XmlNode n1 in n.ChildNodes)
                 {
                     if (string.Equals(n1.NamespaceURI, Consts.XML_STREAM_ERROR_NAMESPACE))
                     {
-                        this.ERROR_TYPE = parseStreamErrorType(n1.Name);
-                        this.ERROR_TEXT = n1.InnerXml;
+                        ERROR_TYPE = parseStreamErrorType(n1.Name);
+                        ERROR_TEXT = n1.InnerXml;
                         return;
                     }
                 }

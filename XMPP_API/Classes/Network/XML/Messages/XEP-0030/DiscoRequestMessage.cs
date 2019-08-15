@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         /// </history>
         public DiscoRequestMessage(string from, string to, DiscoType discoType) : base(from, to, GET, getRandomId())
         {
-            this.DISCO_TYPE = discoType;
+            DISCO_TYPE = discoType;
         }
 
         #endregion

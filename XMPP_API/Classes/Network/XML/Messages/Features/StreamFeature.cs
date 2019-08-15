@@ -21,9 +21,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
         /// </history>
         public StreamFeature(XmlNode n)
         {
-            this.NAME = n.Name;
-            this.NAMESPACE = n.NamespaceURI;
-            this.REQUIRED = XMLUtils.getChildNode(n, "required") != null;
+            NAME = n.Name;
+            NAMESPACE = n.NamespaceURI;
+            REQUIRED = XMLUtils.getChildNode(n, "required") != null;
         }
 
         #endregion

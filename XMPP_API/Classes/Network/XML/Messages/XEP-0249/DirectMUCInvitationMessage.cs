@@ -25,9 +25,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0249
         /// </history>
         public DirectMUCInvitationMessage(string from, string to, string roomJid, string roomPassword, string reason) : base(from, to, null, null, null, false)
         {
-            this.ROOM_JID = roomJid;
-            this.ROOM_PASSWORD = roomPassword;
-            this.REASON = reason;
+            ROOM_JID = roomJid;
+            ROOM_PASSWORD = roomPassword;
+            REASON = reason;
         }
 
         public DirectMUCInvitationMessage(XmlNode node) : base(node, TYPE_MUC_DIRECT_INVITATION)

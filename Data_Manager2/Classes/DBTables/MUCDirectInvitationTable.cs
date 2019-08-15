@@ -38,10 +38,10 @@ namespace Data_Manager2.Classes.DBTables
         public MUCDirectInvitationTable(DirectMUCInvitationMessage invitationMessage, string chatMessageId)
         {
             this.chatMessageId = chatMessageId;
-            this.reason = invitationMessage.REASON;
-            this.roomJid = invitationMessage.ROOM_JID;
-            this.roomPassword = invitationMessage.ROOM_PASSWORD;
-            this.state = MUCDirectInvitationState.REQUESTED;
+            reason = invitationMessage.REASON;
+            roomJid = invitationMessage.ROOM_JID;
+            roomPassword = invitationMessage.ROOM_PASSWORD;
+            state = MUCDirectInvitationState.REQUESTED;
         }
 
         #endregion

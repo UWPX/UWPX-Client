@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public NewDeliveryReceiptEventArgs(DeliveryReceiptMessage msg)
         {
-            this.MSG = msg;
+            MSG = msg;
         }
 
         #endregion

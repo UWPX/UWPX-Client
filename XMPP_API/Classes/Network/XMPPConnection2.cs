@@ -78,49 +78,49 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public XMPPConnection2(XMPPAccount account) : base(account)
         {
-            this.holdConnection = false;
-            this.connectionErrorCount = 0;
-            this.lastConnectionError = null;
-            this.TCP_CONNECTION = new TCPConnection2(account);
-            this.TCP_CONNECTION.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
-            this.TCP_CONNECTION.NewDataReceived += TCPConnection_NewDataReceived;
+            holdConnection = false;
+            connectionErrorCount = 0;
+            lastConnectionError = null;
+            TCP_CONNECTION = new TCPConnection2(account);
+            TCP_CONNECTION.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
+            TCP_CONNECTION.NewDataReceived += TCPConnection_NewDataReceived;
 
-            this.PARSER = new MessageParser2();
-            this.MESSAGE_PROCESSORS = new AbstractMessageProcessor[4];
-            this.streamId = null;
-            this.messageIdCache = new TSTimedList<string>();
+            PARSER = new MessageParser2();
+            MESSAGE_PROCESSORS = new AbstractMessageProcessor[4];
+            streamId = null;
+            messageIdCache = new TSTimedList<string>();
 
-            this.connectionTimer = null;
-            this.reconnectRequested = false;
-            this.timeout = TimeSpan.FromMilliseconds(CONNECTION_TIMEOUT);
+            connectionTimer = null;
+            reconnectRequested = false;
+            timeout = TimeSpan.FromMilliseconds(CONNECTION_TIMEOUT);
 
-            this.GENERAL_COMMAND_HELPER = new GeneralCommandHelper(this);
-            this.MUC_COMMAND_HELPER = new MUCCommandHelper(this);
-            this.PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
-            this.OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
+            GENERAL_COMMAND_HELPER = new GeneralCommandHelper(this);
+            MUC_COMMAND_HELPER = new MUCCommandHelper(this);
+            PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
+            OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
 
             // The order in which new messages should get processed (TLS -- SASL -- Stream Management -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html
             //-------------------------------------------------------------
             // TLS:
-            this.MESSAGE_PROCESSORS[0] = new TLSConnection(TCP_CONNECTION, this);
+            MESSAGE_PROCESSORS[0] = new TLSConnection(TCP_CONNECTION, this);
 
             // SASL:
-            this.MESSAGE_PROCESSORS[1] = new SASLConnection(TCP_CONNECTION, this);
+            MESSAGE_PROCESSORS[1] = new SASLConnection(TCP_CONNECTION, this);
 
             // XEP-0198 (Stream Management):
-            this.MESSAGE_PROCESSORS[2] = new SMConnection(TCP_CONNECTION, this);
+            MESSAGE_PROCESSORS[2] = new SMConnection(TCP_CONNECTION, this);
 
             // Resource binding:
             RecourceBindingConnection recourceBindingConnection = new RecourceBindingConnection(TCP_CONNECTION, this);
             recourceBindingConnection.ResourceBound += RecourceBindingConnection_ResourceBound;
-            this.MESSAGE_PROCESSORS[3] = recourceBindingConnection;
+            MESSAGE_PROCESSORS[3] = recourceBindingConnection;
             //-------------------------------------------------------------
 
             NetworkHelper.Instance.NetworkChanged += Instance_NetworkChanged;
 
-            this.omemoHelper = null;
-            this.DISCO_FEATURE_HELPER = new DiscoFeatureHelper(this);
+            omemoHelper = null;
+            DISCO_FEATURE_HELPER = new DiscoFeatureHelper(this);
         }
 
         #endregion

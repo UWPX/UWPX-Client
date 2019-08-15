@@ -25,7 +25,7 @@ namespace XMPP_API.Classes
         /// </history>
         public OmemoCommandHelper(XMPPConnection2 connection)
         {
-            this.CONNECTION = connection;
+            CONNECTION = connection;
         }
 
         #endregion

@@ -83,14 +83,14 @@ namespace XMPP_API.Classes.Network.TCP
         /// </history>
         public TCPConnection2(XMPPAccount account) : base(account)
         {
-            this.lastConnectionError = null;
-            this.connectingCTS = null;
-            this.dataReader = null;
-            this.dataWriter = null;
-            this.socket = null;
-            this.readingCTS = null;
-            this.disableTcpTimeout = false;
-            this.disableTlsTimeout = false;
+            lastConnectionError = null;
+            connectingCTS = null;
+            dataReader = null;
+            dataWriter = null;
+            socket = null;
+            readingCTS = null;
+            disableTcpTimeout = false;
+            disableTlsTimeout = false;
         }
 
         #endregion

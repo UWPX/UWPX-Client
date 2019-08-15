@@ -28,7 +28,7 @@ namespace Push_App_Server.Classes
         /// </history>
         public DataWriter(XMPPClient client)
         {
-            this.PUSH_CONNECTION = new PushConnection();
+            PUSH_CONNECTION = new PushConnection();
             this.client = client;
         }
 

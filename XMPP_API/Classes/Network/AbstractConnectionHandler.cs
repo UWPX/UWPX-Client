@@ -34,8 +34,8 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public AbstractConnectionHandler(XMPPAccount account)
         {
-            this.ACCOUNT = account;
-            this.state = ConnectionState.DISCONNECTED;
+            ACCOUNT = account;
+            state = ConnectionState.DISCONNECTED;
         }
 
         #endregion

@@ -46,9 +46,9 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public MultiSelectControl()
         {
-            this.MaxHeight = 200;
-            this.SELECTED_ITEMS = new List<object>();
-            this.InitializeComponent();
+            MaxHeight = 200;
+            SELECTED_ITEMS = new List<object>();
+            InitializeComponent();
         }
 
         #endregion

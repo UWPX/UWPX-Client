@@ -47,12 +47,12 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public InviteUserMUCDialog(XMPPClient client, List<string> memberList)
         {
-            this.USER_ACCOUNT_ID = client.getXMPPAccount().getBareJid();
-            this.MEMBER_LIST = memberList;
-            this.canceled = true;
-            this.SUGGESTIONS = new ObservableCollection<string>();
-            this.InitializeComponent();
-            this.Reason = "Hi, I'd like to invite you to a MUC chat room.";
+            USER_ACCOUNT_ID = client.getXMPPAccount().getBareJid();
+            MEMBER_LIST = memberList;
+            canceled = true;
+            SUGGESTIONS = new ObservableCollection<string>();
+            InitializeComponent();
+            Reason = "Hi, I'd like to invite you to a MUC chat room.";
         }
 
         #endregion

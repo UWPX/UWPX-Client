@@ -66,8 +66,8 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucInfoControl()
         {
-            this.changeNickHelper = null;
-            this.InitializeComponent();
+            changeNickHelper = null;
+            InitializeComponent();
         }
 
         #endregion

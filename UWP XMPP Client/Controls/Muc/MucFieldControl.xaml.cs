@@ -38,8 +38,8 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucFieldControl()
         {
-            this.InitializeComponent();
-            this.InputEnabled = true;
+            InitializeComponent();
+            InputEnabled = true;
         }
 
         #endregion

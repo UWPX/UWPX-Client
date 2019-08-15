@@ -30,28 +30,28 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
                 XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE);
                 if (x != null)
                 {
-                    this.IS_ROOM_CONFIGURATION_ALLOWED = true;
-                    this.ROOM_CONFIG = new DataForm(x);
+                    IS_ROOM_CONFIGURATION_ALLOWED = true;
+                    ROOM_CONFIG = new DataForm(x);
                     return;
                 }
                 else
                 {
                     IS_ROOM_CONFIGURATION_ALLOWED = false;
-                    this.ROOM_CONFIG = null;
+                    ROOM_CONFIG = null;
                 }
             }
         }
 
         public RoomInfoMessage(string from, string to, DataForm roomConfig, MUCAffiliation configType) : base(from, to, SET, getRandomId())
         {
-            this.ROOM_CONFIG = roomConfig;
-            this.ROOM_CONFIG.FIELDS.Add(new Field()
+            ROOM_CONFIG = roomConfig;
+            ROOM_CONFIG.FIELDS.Add(new Field()
             {
                 type = FieldType.HIDDEN,
                 value = Consts.XML_XEP_0045_NAMESPACE_ROOM_CONFIG,
                 var = "FORM_TYPE"
             });
-            this.CONFIG_LEVEL = configType;
+            CONFIG_LEVEL = configType;
         }
 
         #endregion

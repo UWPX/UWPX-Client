@@ -42,7 +42,7 @@ namespace XMPP_API.Classes
         /// </history>
         public XMPPUser(string localPart, string domainPart, string resourcePart, string password)
         {
-            this.invokeInUiThread = false;
+            invokeInUiThread = false;
             this.localPart = localPart;
             this.password = password;
             this.resourcePart = resourcePart;
@@ -51,10 +51,10 @@ namespace XMPP_API.Classes
 
         public XMPPUser(string bareJid, string recourcePart)
         {
-            this.localPart = bareJid is null ? null : Utils.getJidLocalPart(bareJid);
-            this.domainPart = bareJid is null ? null : Utils.getJidDomainPart(bareJid);
-            this.resourcePart = recourcePart;
-            this.password = null;
+            localPart = bareJid is null ? null : Utils.getJidLocalPart(bareJid);
+            domainPart = bareJid is null ? null : Utils.getJidDomainPart(bareJid);
+            resourcePart = recourcePart;
+            password = null;
         }
 
         public XMPPUser(string userId, string domain, string resource) : this(userId, domain, resource, null)

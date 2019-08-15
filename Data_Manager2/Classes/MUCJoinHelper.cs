@@ -1,16 +1,16 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes.Collections;
-using System;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 // https://xmpp.org/extensions/xep-0045.html
 namespace Data_Manager2.Classes
 {
-    public class MUCJoinHelper : ITimedEntry, IDisposable
+    public class MUCJoinHelper: ITimedEntry, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -32,9 +32,9 @@ namespace Data_Manager2.Classes
         /// </history>
         public MUCJoinHelper(XMPPClient client, ChatTable muc, MUCChatInfoTable info)
         {
-            this.CLIENT = client;
-            this.MUC = muc;
-            this.INFO = info;
+            CLIENT = client;
+            MUC = muc;
+            INFO = info;
         }
 
         #endregion

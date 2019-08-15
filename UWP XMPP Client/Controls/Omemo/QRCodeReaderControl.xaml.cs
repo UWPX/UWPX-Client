@@ -36,9 +36,9 @@ namespace UWP_XMPP_Client.Controls.Omemo
         /// </history>
         public QRCodeReaderControl()
         {
-            this.mediaCapture = null;
-            this.frameReader = null;
-            this.QR_CODE_READER = new BarcodeReader()
+            mediaCapture = null;
+            frameReader = null;
+            QR_CODE_READER = new BarcodeReader()
             {
                 AutoRotate = true,
                 TryInverted = true,
@@ -50,9 +50,9 @@ namespace UWP_XMPP_Client.Controls.Omemo
             QR_CODE_READER.Options.PossibleFormats.Clear();
             QR_CODE_READER.Options.PossibleFormats.Add(BarcodeFormat.QR_CODE);
             QR_CODE_READER.ResultFound += QR_CODE_READER_ResultFound;
-            this.frameCounter = 0;
-            this.CAMERA_IMAGE = new SoftwareBitmapSource();
-            this.InitializeComponent();
+            frameCounter = 0;
+            CAMERA_IMAGE = new SoftwareBitmapSource();
+            InitializeComponent();
             Application.Current.Suspending += Current_Suspending;
         }
 

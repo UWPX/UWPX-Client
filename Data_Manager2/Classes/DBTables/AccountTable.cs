@@ -62,21 +62,21 @@ namespace Data_Manager2.Classes.DBTables
 
         public AccountTable(XMPPAccount account)
         {
-            this.id = account.getBareJid();
-            this.userId = account.user.localPart;
-            this.domain = account.user.domainPart;
-            this.resource = account.user.resourcePart;
-            this.serverAddress = account.serverAddress;
-            this.port = account.port;
-            this.disabled = account.disabled;
-            this.color = account.color;
-            this.presence = account.presence;
-            this.status = account.status;
-            this.omemoKeysGenerated = account.omemoKeysGenerated;
-            this.omemoDeviceId = account.omemoDeviceId;
-            this.omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
-            this.omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
-            this.omemoSignedPreKeyId = account.omemoSignedPreKeyId;
+            id = account.getBareJid();
+            userId = account.user.localPart;
+            domain = account.user.domainPart;
+            resource = account.user.resourcePart;
+            serverAddress = account.serverAddress;
+            port = account.port;
+            disabled = account.disabled;
+            color = account.color;
+            presence = account.presence;
+            status = account.status;
+            omemoKeysGenerated = account.omemoKeysGenerated;
+            omemoDeviceId = account.omemoDeviceId;
+            omemoIdentityKeyPair = account.omemoIdentityKeyPair?.serialize();
+            omemoBundleInfoAnnounced = account.omemoBundleInfoAnnounced;
+            omemoSignedPreKeyId = account.omemoSignedPreKeyId;
         }
 
         internal XMPPAccount toXMPPAccount()

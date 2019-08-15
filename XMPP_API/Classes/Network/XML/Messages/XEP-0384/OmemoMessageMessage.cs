@@ -37,24 +37,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoMessageMessage(string from, string to, string message, string type, bool reciptRequested) : base(from, to, message, type, reciptRequested)
         {
-            this.includeBody = false;
-            this.KEYS = new List<OmemoKey>();
-            this.ENCRYPTED = false;
+            includeBody = false;
+            KEYS = new List<OmemoKey>();
+            ENCRYPTED = false;
         }
 
         public OmemoMessageMessage(XmlNode node, CarbonCopyType ccType) : base(node, ccType)
         {
-            this.KEYS = new List<OmemoKey>();
+            KEYS = new List<OmemoKey>();
             XmlNode encryptedNode = XMLUtils.getChildNode(node, "encrypted", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
             if (encryptedNode != null)
             {
-                this.ENCRYPTED = true;
+                ENCRYPTED = true;
                 XmlNode headerNode = XMLUtils.getChildNode(encryptedNode, "header");
                 if (headerNode != null)
                 {
                     if (uint.TryParse(headerNode.Attributes["sid"]?.Value, out uint sid))
                     {
-                        this.SOURCE_DEVICE_ID = sid;
+                        SOURCE_DEVICE_ID = sid;
                     }
 
                     foreach (XmlNode n in headerNode.ChildNodes)
@@ -62,11 +62,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         switch (n.Name)
                         {
                             case "key":
-                                this.KEYS.Add(new OmemoKey(n));
+                                KEYS.Add(new OmemoKey(n));
                                 break;
 
                             case "iv":
-                                this.BASE_64_IV = n.InnerText;
+                                BASE_64_IV = n.InnerText;
                                 break;
 
                             default:
@@ -78,7 +78,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 XmlNode payloadNode = XMLUtils.getChildNode(encryptedNode, "payload");
                 if (payloadNode != null)
                 {
-                    this.BASE_64_PAYLOAD = payloadNode.InnerText;
+                    BASE_64_PAYLOAD = payloadNode.InnerText;
                 }
             }
         }

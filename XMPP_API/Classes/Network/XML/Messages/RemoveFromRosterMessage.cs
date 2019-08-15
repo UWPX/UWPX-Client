@@ -20,13 +20,13 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public RemoveFromRosterMessage(XmlNode answer) : base(answer)
         {
-            this.TARGET = null;
+            TARGET = null;
         }
 
         public RemoveFromRosterMessage(string fullJabberId, string target) : base(fullJabberId, null, SET, getRandomId())
         {
-            this.TARGET = target;
-            this.cacheUntilSend = true;
+            TARGET = target;
+            cacheUntilSend = true;
         }
 
         #endregion

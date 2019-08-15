@@ -21,8 +21,8 @@ namespace Data_Manager2.Classes.Events
         /// </history>
         public AccountChangedEventArgs(XMPPAccount account, bool removed)
         {
-            this.ACCOUNT = account;
-            this.REMOVED = removed;
+            ACCOUNT = account;
+            REMOVED = removed;
         }
 
         #endregion

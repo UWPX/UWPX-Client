@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         /// </history>
         public RemoveBookmarkMessage(string from, ConferenceItem conferenceItem) : base(from, null, Consts.XML_XEP_0402_NAMESPACE)
         {
-            this.CONFERENCE_ITEM = conferenceItem;
+            CONFERENCE_ITEM = conferenceItem;
         }
 
         #endregion

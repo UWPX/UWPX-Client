@@ -26,8 +26,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 
         public StorageItem(IList<ConferenceItem> conferences)
         {
-            this.id = "current";
-            this.CONFERENCES = conferences;
+            id = "current";
+            CONFERENCES = conferences;
         }
 
         public StorageItem(XmlNode n) : this()

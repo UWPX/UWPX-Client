@@ -48,7 +48,7 @@ namespace UWP_XMPP_Client.Pages
         /// </history>
         public MUCInfoPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += MUCInfoPage_BackRequested;
         }
 

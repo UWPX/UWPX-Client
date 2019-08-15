@@ -21,14 +21,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         /// </history>
         public FieldOption()
         {
-            this.label = null;
-            this.value = null;
+            label = null;
+            value = null;
         }
 
         public FieldOption(XmlNode node)
         {
-            this.label = node.Attributes["label"]?.Value;
-            this.value = getValue(node);
+            label = node.Attributes["label"]?.Value;
+            value = getValue(node);
         }
 
         #endregion

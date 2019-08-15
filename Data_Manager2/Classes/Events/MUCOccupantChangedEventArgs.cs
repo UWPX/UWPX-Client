@@ -21,8 +21,8 @@ namespace Data_Manager2.Classes.Events
         /// </history>
         public MUCOccupantChangedEventArgs(MUCOccupantTable member, bool removed)
         {
-            this.MUC_OCCUPANT = member;
-            this.REMOVED = removed;
+            MUC_OCCUPANT = member;
+            REMOVED = removed;
         }
 
         #endregion

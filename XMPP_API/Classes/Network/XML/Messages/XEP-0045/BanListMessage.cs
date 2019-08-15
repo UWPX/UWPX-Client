@@ -22,12 +22,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public BanListMessage(string from, string roomJid) : base(from, roomJid, GET, getRandomId())
         {
-            this.BANED_USERS = new List<BanedUser>();
+            BANED_USERS = new List<BanedUser>();
         }
 
         public BanListMessage(XmlNode node) : base(node)
         {
-            this.BANED_USERS = new List<BanedUser>();
+            BANED_USERS = new List<BanedUser>();
 
             XmlNode qNode = XMLUtils.getChildNode(node, "query", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_ADMIN);
             if (qNode != null)

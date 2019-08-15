@@ -27,7 +27,7 @@ namespace Data_Manager2.Classes.Omemo
         /// </history>
         public OmemoStore(XMPPAccount account)
         {
-            this.ACCOUNT = account;
+            ACCOUNT = account;
         }
 
         #endregion

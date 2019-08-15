@@ -21,18 +21,18 @@ namespace Data_Manager2.Classes.Toast
         #region --Constructors--
         public SendReplyToastActivation(string chatId, string msgId)
         {
-            this.CHAT_ID = chatId;
-            this.CHAT_MESSAGE_ID = msgId;
-            this.IS_VALID = !string.IsNullOrEmpty(this.CHAT_ID) && !string.IsNullOrEmpty(this.CHAT_MESSAGE_ID);
+            CHAT_ID = chatId;
+            CHAT_MESSAGE_ID = msgId;
+            IS_VALID = !string.IsNullOrEmpty(CHAT_ID) && !string.IsNullOrEmpty(CHAT_MESSAGE_ID);
         }
 
         public SendReplyToastActivation(Uri uri)
         {
             WwwFormUrlDecoder query = UriUtils.parseUriQuery(uri);
 
-            this.CHAT_ID = query.Where(x => string.Equals(x.Name, CHAT_QUERY)).Select(x => x.Value).FirstOrDefault();
-            this.CHAT_MESSAGE_ID = query.Where(x => string.Equals(x.Name, CHAT_MESSAGE_QUERY)).Select(x => x.Value).FirstOrDefault();
-            this.IS_VALID = !string.IsNullOrEmpty(this.CHAT_ID) && !string.IsNullOrEmpty(this.CHAT_MESSAGE_ID);
+            CHAT_ID = query.Where(x => string.Equals(x.Name, CHAT_QUERY)).Select(x => x.Value).FirstOrDefault();
+            CHAT_MESSAGE_ID = query.Where(x => string.Equals(x.Name, CHAT_MESSAGE_QUERY)).Select(x => x.Value).FirstOrDefault();
+            IS_VALID = !string.IsNullOrEmpty(CHAT_ID) && !string.IsNullOrEmpty(CHAT_MESSAGE_ID);
         }
 
         #endregion

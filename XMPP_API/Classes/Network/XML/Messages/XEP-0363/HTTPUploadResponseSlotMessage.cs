@@ -23,11 +23,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
             XmlNode slotNode = XMLUtils.getChildNode(node, "slot", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
             if (slotNode != null)
             {
-                this.SLOT = new HTTPUploadSlot(slotNode);
+                SLOT = new HTTPUploadSlot(slotNode);
             }
             else
             {
-                this.SLOT = null;
+                SLOT = null;
             }
         }
 

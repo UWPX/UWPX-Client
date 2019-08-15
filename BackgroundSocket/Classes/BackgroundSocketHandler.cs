@@ -28,8 +28,8 @@ namespace BackgroundSocket.Classes
         /// </history>
         public BackgroundSocketHandler()
         {
-            this.count = 0;
-            this.deferral = null;
+            count = 0;
+            deferral = null;
         }
 
         #endregion

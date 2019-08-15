@@ -30,9 +30,9 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public MessageSendEventArgs(string id, string chatMessageId, bool delayed)
         {
-            this.ID = id;
-            this.CHAT_MESSAGE_ID = chatMessageId;
-            this.DELAYED = delayed;
+            ID = id;
+            CHAT_MESSAGE_ID = chatMessageId;
+            DELAYED = delayed;
         }
 
         #endregion

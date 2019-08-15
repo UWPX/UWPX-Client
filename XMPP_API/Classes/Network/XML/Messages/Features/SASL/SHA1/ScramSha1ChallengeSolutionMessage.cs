@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public ScramSha1ChallengeSolutionMessage(string solution)
         {
-            this.SOLUTION = solution;
+            SOLUTION = solution;
         }
 
         #endregion

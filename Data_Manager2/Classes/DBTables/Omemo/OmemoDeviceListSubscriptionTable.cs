@@ -33,7 +33,7 @@ namespace Data_Manager2.Classes.DBTables.Omemo
 
         public OmemoDeviceListSubscriptionTable(string accountId, string name, OmemoDeviceListSubscriptionState state, DateTime lastUpdateReceived)
         {
-            this.id = generateId(accountId, name);
+            id = generateId(accountId, name);
             this.accountId = accountId;
             this.name = name;
             this.state = state;

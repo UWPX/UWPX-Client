@@ -19,7 +19,7 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public ReadQRCodeDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         #endregion

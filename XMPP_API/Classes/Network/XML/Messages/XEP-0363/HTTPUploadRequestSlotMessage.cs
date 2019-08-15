@@ -24,9 +24,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
         /// </history>
         public HTTPUploadRequestSlotMessage(string from, string to, string fileName, string contentType, uint sizeByte) : base(from, to, GET, getRandomId())
         {
-            this.FILE_NAME = fileName;
-            this.CONTENT_TYPE = contentType;
-            this.SIZE_BYTE = sizeByte;
+            FILE_NAME = fileName;
+            CONTENT_TYPE = contentType;
+            SIZE_BYTE = sizeByte;
         }
 
         public HTTPUploadRequestSlotMessage(XmlNode node) : base(node)
@@ -34,9 +34,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
             XmlNode requestNode = XMLUtils.getChildNode(node, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
             if (requestNode != null)
             {
-                this.FILE_NAME = requestNode.Attributes["filename"]?.Value;
-                this.CONTENT_TYPE = requestNode.Attributes["content-type"]?.Value;
-                uint.TryParse(requestNode.Attributes["size"]?.Value, out this.SIZE_BYTE);
+                FILE_NAME = requestNode.Attributes["filename"]?.Value;
+                CONTENT_TYPE = requestNode.Attributes["content-type"]?.Value;
+                uint.TryParse(requestNode.Attributes["size"]?.Value, out SIZE_BYTE);
             }
         }
 

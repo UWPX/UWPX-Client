@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubPublishOptions(DataForm options)
         {
-            this.OPTIONS = options;
+            OPTIONS = options;
         }
 
         #endregion

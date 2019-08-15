@@ -26,64 +26,64 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         /// </history>
         public Field()
         {
-            this.options = new List<FieldOption>();
-            this.selectedOptions = new List<FieldOption>();
-            this.value = null;
-            this.var = null;
-            this.label = null;
+            options = new List<FieldOption>();
+            selectedOptions = new List<FieldOption>();
+            value = null;
+            var = null;
+            label = null;
         }
 
         public Field(XmlNode node)
         {
-            this.var = node.Attributes["var"]?.Value;
-            this.label = node.Attributes["label"]?.Value;
+            var = node.Attributes["var"]?.Value;
+            label = node.Attributes["label"]?.Value;
 
             switch (node.Attributes["type"]?.Value)
             {
                 case "boolean":
-                    this.value = XMLUtils.tryParseToBool(getValue(node));
-                    this.type = FieldType.BOOLEAN;
+                    value = XMLUtils.tryParseToBool(getValue(node));
+                    type = FieldType.BOOLEAN;
                     break;
 
                 case "text-private":
-                    this.value = getValue(node);
-                    this.type = FieldType.TEXT_PRIVATE;
+                    value = getValue(node);
+                    type = FieldType.TEXT_PRIVATE;
                     break;
 
                 case "text-single":
-                    this.value = getValue(node);
-                    this.type = FieldType.TEXT_SINGLE;
+                    value = getValue(node);
+                    type = FieldType.TEXT_SINGLE;
                     break;
 
                 case "text-multi":
-                    this.type = FieldType.TEXT_MULTI;
+                    type = FieldType.TEXT_MULTI;
                     break;
 
                 case "fixed":
-                    this.value = getValue(node);
-                    this.type = FieldType.FIXED;
+                    value = getValue(node);
+                    type = FieldType.FIXED;
                     break;
 
                 case "list-single":
-                    this.options = getOptions(node);
-                    this.selectedOptions = getSelectedOptions(node, this.options);
-                    this.type = FieldType.LIST_SINGLE;
+                    options = getOptions(node);
+                    selectedOptions = getSelectedOptions(node, options);
+                    type = FieldType.LIST_SINGLE;
                     break;
 
                 case "list-multi":
-                    this.options = getOptions(node);
-                    this.selectedOptions = getSelectedOptions(node, this.options);
-                    this.type = FieldType.LIST_MULTI;
+                    options = getOptions(node);
+                    selectedOptions = getSelectedOptions(node, options);
+                    type = FieldType.LIST_MULTI;
                     break;
 
                 case "hidden":
-                    this.value = getValue(node);
-                    this.type = FieldType.HIDDEN;
+                    value = getValue(node);
+                    type = FieldType.HIDDEN;
                     break;
 
                 default:
-                    this.value = getValue(node);
-                    this.type = FieldType.NONE;
+                    value = getValue(node);
+                    type = FieldType.NONE;
                     break;
             }
         }

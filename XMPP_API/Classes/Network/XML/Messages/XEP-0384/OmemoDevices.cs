@@ -25,13 +25,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoDevices()
         {
-            this.IDS = new HashSet<uint>();
-            this.id = "current";
+            IDS = new HashSet<uint>();
+            id = "current";
         }
 
         public OmemoDevices(string id)
         {
-            this.IDS = new HashSet<uint>();
+            IDS = new HashSet<uint>();
             this.id = id;
         }
 
@@ -70,7 +70,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             {
                 if (string.Equals(itemNode.Name, "item"))
                 {
-                    this.id = itemNode.Attributes["id"]?.Value;
+                    id = itemNode.Attributes["id"]?.Value;
                     XmlNode listNode = XMLUtils.getChildNode(itemNode, "list", Consts.XML_XMLNS, Consts.XML_XEP_0384_NAMESPACE);
                     if (listNode != null)
                     {

@@ -60,11 +60,11 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucOccupantsControl()
         {
-            this.OCCUPANTS = new ObservableCollection<MUCOccupantTemplate>();
+            OCCUPANTS = new ObservableCollection<MUCOccupantTemplate>();
             MUCDBManager.INSTANCE.MUCOccupantChanged += INSTANCE_MUCMemberChanged;
-            this.canBan = false;
-            this.canKick = false;
-            this.InitializeComponent();
+            canBan = false;
+            canKick = false;
+            InitializeComponent();
         }
 
         #endregion

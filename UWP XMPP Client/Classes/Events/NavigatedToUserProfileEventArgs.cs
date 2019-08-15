@@ -22,8 +22,8 @@ namespace UWP_XMPP_Client.Classes.Events
         /// </history>
         public NavigatedToUserProfileEventArgs(ChatTable chat, XMPPClient client)
         {
-            this.CHAT = chat;
-            this.CLIENT = client;
+            CHAT = chat;
+            CLIENT = client;
         }
 
         #endregion

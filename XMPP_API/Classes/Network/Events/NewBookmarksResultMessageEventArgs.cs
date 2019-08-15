@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public NewBookmarksResultMessageEventArgs(BookmarksResultMessage bookmarks_message)
         {
-            this.BOOKMARKS_MESSAGE = bookmarks_message;
+            BOOKMARKS_MESSAGE = bookmarks_message;
         }
 
         #endregion

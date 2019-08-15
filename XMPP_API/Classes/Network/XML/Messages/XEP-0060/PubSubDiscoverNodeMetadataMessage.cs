@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubDiscoverNodeMetadataMessage(string from, string to, string node) : base(from, to, DiscoType.INFO)
         {
-            this.NODE = node;
+            NODE = node;
         }
 
         #endregion

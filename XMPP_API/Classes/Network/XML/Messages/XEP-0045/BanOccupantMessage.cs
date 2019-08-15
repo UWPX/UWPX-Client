@@ -21,8 +21,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public BanOccupantMessage(string from, string roomJid, string jid, string reason) : base(from, roomJid, SET, getRandomId())
         {
-            this.REASON = reason;
-            this.JID = jid;
+            REASON = reason;
+            JID = jid;
         }
 
         #endregion

@@ -43,18 +43,18 @@ namespace UWP_XMPP_Client.Dialogs
 
         public AddMUCDialog(string roomJid, string password, string userAccountId) : this(roomJid)
         {
-            this.enablePassword_cbx.IsChecked = true;
-            this.password_pwb.Password = password;
-            this.accountSelection_asc.setSelectedAccount(userAccountId);
-            this.password_pwb.Visibility = Visibility.Visible;
+            enablePassword_cbx.IsChecked = true;
+            password_pwb.Password = password;
+            accountSelection_asc.setSelectedAccount(userAccountId);
+            password_pwb.Visibility = Visibility.Visible;
         }
 
         public AddMUCDialog(string roomJid)
         {
-            this.setBookmarkHelper = null;
-            this.cancled = true;
-            this.serverList = new List<DiscoFeatureTable>();
-            this.SERVERS = new ObservableCollection<string>();
+            setBookmarkHelper = null;
+            cancled = true;
+            serverList = new List<DiscoFeatureTable>();
+            SERVERS = new ObservableCollection<string>();
             InitializeComponent();
 
             if (roomJid != null)

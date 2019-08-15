@@ -25,10 +25,10 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public DiscoFeatureHelper(XMPPConnection2 connection)
         {
-            this.CONNECTION = connection;
+            CONNECTION = connection;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
-            this.discoMessageResponseHelper = null;
-            this.carbonsMessageResponseHelper = null;
+            discoMessageResponseHelper = null;
+            carbonsMessageResponseHelper = null;
         }
 
         #endregion

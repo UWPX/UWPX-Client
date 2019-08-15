@@ -32,12 +32,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         /// </history>
         internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, XMPPConnection2 connection, OmemoHelper omemoHelper)
         {
-            this.CONNECTION = connection;
-            this.CHAT_JID = chatJid;
-            this.BARE_ACCOUNT_JID = bareAccountJid;
-            this.FULL_ACCOUNT_JID = fullAccountJid;
-            this.OMEMO_HELPER = omemoHelper;
-            this.STATE = OmemoSessionBuildHelperState.NOT_STARTED;
+            CONNECTION = connection;
+            CHAT_JID = chatJid;
+            BARE_ACCOUNT_JID = bareAccountJid;
+            FULL_ACCOUNT_JID = fullAccountJid;
+            OMEMO_HELPER = omemoHelper;
+            STATE = OmemoSessionBuildHelperState.NOT_STARTED;
         }
 
         #endregion

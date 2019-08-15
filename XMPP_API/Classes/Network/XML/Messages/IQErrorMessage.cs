@@ -23,11 +23,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             XmlNode eNode = XMLUtils.getChildNode(n, ERROR);
             if (eNode is null)
             {
-                this.ERROR_OBJ = new Error();
+                ERROR_OBJ = new Error();
             }
             else
             {
-                this.ERROR_OBJ = new Error(eNode);
+                ERROR_OBJ = new Error(eNode);
             }
         }
 

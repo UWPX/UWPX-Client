@@ -22,26 +22,26 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public ConnectionError(ConnectionErrorCode errorCode)
         {
-            this.ERROR_CODE = errorCode;
-            this.ERROR_MESSAGE = null;
-            this.SOCKET_ERROR = SocketErrorStatus.Unknown;
+            ERROR_CODE = errorCode;
+            ERROR_MESSAGE = null;
+            SOCKET_ERROR = SocketErrorStatus.Unknown;
         }
 
         public ConnectionError(ConnectionErrorCode errorCode, string errorMessage) : this(errorCode)
         {
-            this.ERROR_MESSAGE = errorMessage;
-            this.SOCKET_ERROR = SocketErrorStatus.Unknown;
+            ERROR_MESSAGE = errorMessage;
+            SOCKET_ERROR = SocketErrorStatus.Unknown;
         }
 
         public ConnectionError(SocketErrorStatus socketError) : this(ConnectionErrorCode.SOCKET_ERROR)
         {
-            this.SOCKET_ERROR = socketError;
+            SOCKET_ERROR = socketError;
         }
 
         public ConnectionError(SocketErrorStatus socketError, string errorMessage) : this(ConnectionErrorCode.SOCKET_ERROR)
         {
-            this.SOCKET_ERROR = socketError;
-            this.ERROR_MESSAGE = errorMessage;
+            SOCKET_ERROR = socketError;
+            ERROR_MESSAGE = errorMessage;
         }
 
         #endregion

@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// </history>
         public PubSubDeleteNodeMessage(string from, string to, string nodeName) : base(from, to)
         {
-            this.NODE_NAME = nodeName;
+            NODE_NAME = nodeName;
         }
 
         #endregion

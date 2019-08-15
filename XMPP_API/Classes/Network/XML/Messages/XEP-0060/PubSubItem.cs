@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public PubSubItem(string id, IXElementable content)
         {
             this.id = id;
-            this.CONTENT = content;
+            CONTENT = content;
         }
 
         #endregion

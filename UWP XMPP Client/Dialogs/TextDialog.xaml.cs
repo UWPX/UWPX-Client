@@ -25,13 +25,13 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public TextDialog()
         {
-            this.InitializeComponent();
+            InitializeComponent();
         }
 
         public TextDialog(string text, string titel) : this()
         {
-            this.Text = text;
-            this.Title = titel;
+            Text = text;
+            Title = titel;
         }
 
         #endregion

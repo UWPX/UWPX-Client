@@ -37,25 +37,25 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         public MessageMessage(string from, string to, string message, string type, string from_nick, bool reciptRequested) : base(from, to)
         {
-            this.MESSAGE = message;
-            this.TYPE = type;
-            this.cacheUntilSend = true;
-            this.delay = DateTime.MinValue;
-            this.FROM_NICK = from_nick;
-            this.RECIPT_REQUESTED = reciptRequested;
-            this.CC_TYPE = CarbonCopyType.NONE;
-            this.includeBody = true;
+            MESSAGE = message;
+            TYPE = type;
+            cacheUntilSend = true;
+            delay = DateTime.MinValue;
+            FROM_NICK = from_nick;
+            RECIPT_REQUESTED = reciptRequested;
+            CC_TYPE = CarbonCopyType.NONE;
+            includeBody = true;
         }
 
         public MessageMessage(XmlNode node, string type) : this(node, CarbonCopyType.NONE)
         {
-            this.TYPE = type;
-            this.chatMessageId = null;
+            TYPE = type;
+            chatMessageId = null;
         }
 
         public MessageMessage(XmlNode node, CarbonCopyType ccType) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
         {
-            this.CC_TYPE = ccType;
+            CC_TYPE = ccType;
             if (!node.HasChildNodes)
             {
                 MESSAGE = "invalid message: " + node.ToString();

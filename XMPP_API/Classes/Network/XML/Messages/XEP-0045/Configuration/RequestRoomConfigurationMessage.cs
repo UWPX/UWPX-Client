@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// </history>
         public RequestRoomConfigurationMessage(string to, MUCAffiliation senderAffiliation) : base(null, to, GET, getRandomId())
         {
-            this.SENDER_AFFILIATION = senderAffiliation;
+            SENDER_AFFILIATION = senderAffiliation;
         }
 
         #endregion

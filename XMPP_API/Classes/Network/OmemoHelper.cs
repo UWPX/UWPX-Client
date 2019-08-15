@@ -41,11 +41,11 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public OmemoHelper(XMPPConnection2 connection, IOmemoStore omemoStore)
         {
-            this.CONNECTION = connection;
-            this.OMEMO_STORE = omemoStore;
+            CONNECTION = connection;
+            OMEMO_STORE = omemoStore;
 
-            this.OMEMO_SESSIONS = new Dictionary<string, OmemoSession>();
-            this.MESSAGE_CACHE = new Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>>();
+            OMEMO_SESSIONS = new Dictionary<string, OmemoSession>();
+            MESSAGE_CACHE = new Dictionary<string, Tuple<List<OmemoMessageMessage>, OmemoSessionBuildHelper>>();
 
             reset();
         }

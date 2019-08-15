@@ -21,8 +21,8 @@ namespace Data_Manager2.Classes.Events
         /// </history>
         public MUCInfoChangedEventArgs(MUCChatInfoTable muc, bool removed)
         {
-            this.MUC_INFO = muc;
-            this.REMOVED = removed;
+            MUC_INFO = muc;
+            REMOVED = removed;
         }
 
         #endregion

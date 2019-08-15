@@ -24,8 +24,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features
         /// </history>
         public StreamFeaturesMessage(XmlNode node)
         {
-            this.STREAM_FEATURES_NODE = node;
-            this.FEATURES = new ArrayList(5);
+            STREAM_FEATURES_NODE = node;
+            FEATURES = new ArrayList(5);
             loadFeatures();
         }
 

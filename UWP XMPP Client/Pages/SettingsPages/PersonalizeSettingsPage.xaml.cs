@@ -38,10 +38,10 @@ namespace UWP_XMPP_Client.Pages.SettingsPages
         /// </history>
         public PersonalizeSettingsPage()
         {
-            this.InitializeComponent();
+            InitializeComponent();
             Windows.UI.Core.SystemNavigationManager.GetForCurrentView().BackRequested += AbstractBackRequestPage_BackRequested;
-            this.BACKGROUND_IMAGES = BackgroundImageCache.backgroundImages;
-            this.CustomBackgroundImage = BackgroundImageCache.customBackgroundImage;
+            BACKGROUND_IMAGES = BackgroundImageCache.backgroundImages;
+            CustomBackgroundImage = BackgroundImageCache.customBackgroundImage;
         }
 
         #endregion

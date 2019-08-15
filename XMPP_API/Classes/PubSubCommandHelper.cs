@@ -27,7 +27,7 @@ namespace XMPP_API.Classes
         /// </history>
         public PubSubCommandHelper(XMPPConnection2 connection)
         {
-            this.CONNECTION = connection;
+            CONNECTION = connection;
         }
 
         #endregion

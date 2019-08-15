@@ -32,10 +32,10 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public AccountSelectionControl()
         {
-            this.ACCOUNTS = new ObservableCollection<string>();
-            this.CLIENTS = new List<XMPPClient>();
-            this.userAccountId = null;
-            this.InitializeComponent();
+            ACCOUNTS = new ObservableCollection<string>();
+            CLIENTS = new List<XMPPClient>();
+            userAccountId = null;
+            InitializeComponent();
         }
 
         #endregion

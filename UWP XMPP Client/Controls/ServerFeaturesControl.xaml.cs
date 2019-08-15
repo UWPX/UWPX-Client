@@ -74,10 +74,10 @@ namespace UWP_XMPP_Client.Controls
         /// </history>
         public ServerFeaturesControl()
         {
-            this.discoInfoHelper = null;
-            this.discoItemsHelper = null;
-            this.SERVER_FEATURES = new ObservableCollection<ServerFeaturesTemplate>();
-            this.InitializeComponent();
+            discoInfoHelper = null;
+            discoItemsHelper = null;
+            SERVER_FEATURES = new ObservableCollection<ServerFeaturesTemplate>();
+            InitializeComponent();
         }
 
         #endregion

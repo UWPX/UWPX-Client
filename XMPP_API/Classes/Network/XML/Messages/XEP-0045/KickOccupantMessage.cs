@@ -21,8 +21,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public KickOccupantMessage(string from, string roomJid, string nickname, string reason) : base(from, roomJid, SET, getRandomId())
         {
-            this.REASON = reason;
-            this.NICKNAME = nickname;
+            REASON = reason;
+            NICKNAME = nickname;
         }
 
         #endregion

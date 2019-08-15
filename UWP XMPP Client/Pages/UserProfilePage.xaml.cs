@@ -55,8 +55,8 @@ namespace UWP_XMPP_Client.Pages
         /// </history>
         public UserProfilePage()
         {
-            this.OMEMO_DEVICES = new CustomObservableCollection<uint>();
-            this.InitializeComponent();
+            OMEMO_DEVICES = new CustomObservableCollection<uint>();
+            InitializeComponent();
             SystemNavigationManager.GetForCurrentView().BackRequested += UserProfilePage_BackRequested;
         }
 
@@ -65,13 +65,13 @@ namespace UWP_XMPP_Client.Pages
         #region --Set-, Get- Methods--
         private void setChat(ChatTable chat)
         {
-            this.Chat = chat;
+            Chat = chat;
             showProfile();
         }
 
         private void setClient(XMPPClient client)
         {
-            this.Client = client;
+            Client = client;
             showClient();
         }
 

@@ -33,9 +33,9 @@ namespace UWP_XMPP_Client.Pages
         public ManageBookmarksPage()
         {
             SystemNavigationManager.GetForCurrentView().BackRequested += BrowseMUCRoomsPage_BackRequested;
-            this.messageResponseHelper = null;
-            this.BOOKMARKS = new CustomObservableCollection<ConferenceItem>();
-            this.InitializeComponent();
+            messageResponseHelper = null;
+            BOOKMARKS = new CustomObservableCollection<ConferenceItem>();
+            InitializeComponent();
         }
 
         #endregion

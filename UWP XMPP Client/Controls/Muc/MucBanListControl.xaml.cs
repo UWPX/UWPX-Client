@@ -65,9 +65,9 @@ namespace UWP_XMPP_Client.Controls.Muc
         /// </history>
         public MucBanListControl()
         {
-            this.responseHelper = null;
-            this.BANNED_USERS = new ObservableCollection<MUCBanedUserTemplate>();
-            this.InitializeComponent();
+            responseHelper = null;
+            BANNED_USERS = new ObservableCollection<MUCBanedUserTemplate>();
+            InitializeComponent();
         }
 
         #endregion

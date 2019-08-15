@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         /// </history>
         public JoinRoomRequestMessage(string from, string room, string nick, string roomPassword) : base(from, room + '/' + nick, Presence.NotDefined, null, int.MinValue)
         {
-            this.ROOM_PASSWORD = roomPassword;
+            ROOM_PASSWORD = roomPassword;
         }
 
         #endregion

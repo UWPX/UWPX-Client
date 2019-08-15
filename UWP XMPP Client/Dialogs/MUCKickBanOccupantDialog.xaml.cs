@@ -37,12 +37,12 @@ namespace UWP_XMPP_Client.Dialogs
         /// </history>
         public MUCKickBanOccupantDialog(ObservableCollection<MUCOccupantTemplate> occupants, XMPPClient client, ChatTable chat, bool canKick, bool canBan)
         {
-            this.OCCUPANTS = occupants;
-            this.CLIENT = client;
-            this.CHAT = chat;
-            this.CAN_KICK = canKick;
-            this.CAN_BAN = canBan;
-            this.InitializeComponent();
+            OCCUPANTS = occupants;
+            CLIENT = client;
+            CHAT = chat;
+            CAN_KICK = canKick;
+            CAN_BAN = canBan;
+            InitializeComponent();
         }
 
         #endregion

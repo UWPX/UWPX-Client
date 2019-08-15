@@ -28,9 +28,9 @@ namespace XMPP_API.Classes
         public DateTimeParserHelper()
         {
             // Regex: https://regex101.com/
-            this.DATE_REGEX = new Regex(@"\d{4}(-?\d{2}){2}");
-            this.TIME_REGEX = new Regex(@"(\d{2}:){2}\d{2}(.\d{3})?\D*");
-            this.DATE_TIME_REGEX = new Regex(@"\d{4}(-?\d{2}){2}T(\d{2}:){2}\d{2}(.\d{3})?\D*");
+            DATE_REGEX = new Regex(@"\d{4}(-?\d{2}){2}");
+            TIME_REGEX = new Regex(@"(\d{2}:){2}\d{2}(.\d{3})?\D*");
+            DATE_TIME_REGEX = new Regex(@"\d{4}(-?\d{2}){2}T(\d{2}:){2}\d{2}(.\d{3})?\D*");
         }
 
         #endregion

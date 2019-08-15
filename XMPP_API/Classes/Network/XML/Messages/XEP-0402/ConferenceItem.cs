@@ -27,12 +27,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
         /// </history>
         public ConferenceItem()
         {
-            this.IS_VALID = false;
+            IS_VALID = false;
         }
 
         public ConferenceItem(XmlNode node)
         {
-            this.IS_VALID = false;
+            IS_VALID = false;
 
             if (node != null)
             {

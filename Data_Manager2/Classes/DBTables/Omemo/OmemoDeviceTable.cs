@@ -31,10 +31,10 @@ namespace Data_Manager2.Classes.DBTables.Omemo
 
         public OmemoDeviceTable(SignalProtocolAddress device, string accountId)
         {
-            this.id = generateId(accountId, device.getName(), device.getDeviceId());
+            id = generateId(accountId, device.getName(), device.getDeviceId());
             this.accountId = accountId;
-            this.name = device.getName();
-            this.deviceId = device.getDeviceId();
+            name = device.getName();
+            deviceId = device.getDeviceId();
         }
 
         #endregion

@@ -17,7 +17,7 @@
         /// </history>
         public ShowAddMUCNavigationParameter(string roomJid)
         {
-            this.ROOM_JID = roomJid;
+            ROOM_JID = roomJid;
         }
 
         #endregion

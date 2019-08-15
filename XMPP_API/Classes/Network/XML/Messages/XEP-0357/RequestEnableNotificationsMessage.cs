@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
         /// </history>
         public RequestEnableNotificationsMessage(string server) : base(null, null, SET, getRandomId())
         {
-            this.SERVER = server;
+            SERVER = server;
         }
 
         #endregion

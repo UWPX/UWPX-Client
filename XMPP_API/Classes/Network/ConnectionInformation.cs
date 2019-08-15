@@ -38,10 +38,10 @@ namespace XMPP_API.Classes.Network
         /// </history>
         public ConnectionInformation()
         {
-            this.invokeInUiThread = false;
-            this.msgCarbonsState = MessageCarbonsState.DISABLED;
-            this.tlsConnected = false;
-            this.socketInfo = null;
+            invokeInUiThread = false;
+            msgCarbonsState = MessageCarbonsState.DISABLED;
+            tlsConnected = false;
+            socketInfo = null;
         }
 
         #endregion

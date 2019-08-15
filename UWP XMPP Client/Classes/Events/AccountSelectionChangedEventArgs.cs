@@ -20,7 +20,7 @@ namespace UWP_XMPP_Client.Classes.Events
         /// </history>
         public AccountSelectionChangedEventArgs(XMPPClient client)
         {
-            this.CLIENT = client;
+            CLIENT = client;
         }
 
         #endregion

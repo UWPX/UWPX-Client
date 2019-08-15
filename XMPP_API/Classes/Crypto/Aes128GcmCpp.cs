@@ -24,10 +24,10 @@
         /// </history>
         public Aes128GcmCpp()
         {
-            this.AES_GCM_WRAPPER_CPP = new AES_GCM.AesGcmWrapper();
-            this.key = null;
-            this.iv = null;
-            this.authTag = null;
+            AES_GCM_WRAPPER_CPP = new AES_GCM.AesGcmWrapper();
+            key = null;
+            iv = null;
+            authTag = null;
         }
 
         #endregion

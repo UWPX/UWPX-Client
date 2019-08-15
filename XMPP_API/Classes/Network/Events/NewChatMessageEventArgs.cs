@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.Events
         /// </history>
         public NewChatMessageEventArgs(MessageMessage message)
         {
-            this.MESSAGE = message;
+            MESSAGE = message;
         }
 
         #endregion

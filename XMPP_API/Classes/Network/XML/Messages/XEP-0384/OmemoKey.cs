@@ -22,9 +22,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// </history>
         public OmemoKey(uint remoteDeviceId, bool isPreKey, string base64Key)
         {
-            this.REMOTE_DEVICE_ID = remoteDeviceId;
-            this.IS_PRE_KEY = isPreKey;
-            this.BASE_64_KEY = base64Key;
+            REMOTE_DEVICE_ID = remoteDeviceId;
+            IS_PRE_KEY = isPreKey;
+            BASE_64_KEY = base64Key;
         }
 
         public OmemoKey(XmlNode node)
