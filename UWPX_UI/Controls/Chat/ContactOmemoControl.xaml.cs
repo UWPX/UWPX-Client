@@ -1,30 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
+﻿using Data_Manager2.Classes.DBTables;
+using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
-using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Chat
 {
-    public sealed partial class ContactOmemoControl : UserControl
+    public sealed partial class ContactOmemoControl: UserControl
     {
-		//--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
+        //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public ChatTable Chat
+        {
+            get { return (ChatTable)GetValue(ChatProperty); }
+            set { SetValue(ChatProperty, value); }
+        }
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(ContactOmemoControl), new PropertyMetadata(null, OnChatChanged));
 
+        public XMPPClient Client
+        {
+            get { return (XMPPClient)GetValue(ClientProperty); }
+            set { SetValue(ClientProperty, value); }
+        }
+        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ContactOmemoControl), new PropertyMetadata(null, OnClientChanged));
 
+        public readonly ContactOmemoControlContext VIEW_MODEL = new ContactOmemoControlContext();
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-		public ContactOmemoControl()
+        public ContactOmemoControl()
         {
             InitializeComponent();
         }
@@ -42,7 +46,10 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
@@ -52,7 +59,21 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private static void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ContactOmemoControl contactInfoControl)
+            {
+                contactInfoControl.UpdateView(e);
+            }
+        }
 
+        private static void OnClientChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ContactOmemoControl contactInfoControl)
+            {
+                contactInfoControl.UpdateView(e);
+            }
+        }
 
         #endregion
     }

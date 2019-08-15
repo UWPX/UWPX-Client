@@ -1,14 +1,14 @@
-﻿using libsignal;
-using libsignal.ecc;
-using libsignal.state;
-using libsignal.util;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
+using libsignal;
+using libsignal.ecc;
+using libsignal.state;
+using libsignal.util;
 using Windows.Security.Cryptography;
 using Windows.Security.Cryptography.Core;
 using Windows.Storage.Streams;
@@ -147,7 +147,10 @@ namespace XMPP_API.Classes.Crypto
         {
             StringBuilder hex = new StringBuilder(data.Length * 2);
             foreach (byte b in data)
+            {
                 hex.AppendFormat("{0:x2}", b);
+            }
+
             return hex.ToString();
         }
 
@@ -163,17 +166,29 @@ namespace XMPP_API.Classes.Crypto
         }
 
         /// <summary>
-        /// 
+        /// Generates the OMEMO fingerprint for displaying as a QR code.
         /// </summary>
-        /// <param name="key"></param>
-        /// <param name="account"></param>
-        /// <returns></returns>
+        /// <param name="key">The identity public key.</param>
+        /// <param name="account">The XMPP account the fingerprint belongs to.</param>
+        /// <returns>A string representation of the fingerprint concatenated with JID and device id.</returns>
         public static string generateOmemoQrCodeFingerprint(IdentityKey key, XMPPAccount account)
         {
+            return generateOmemoQrCodeFingerprint(key, account.getBareJid(), account.omemoDeviceId);
+        }
+
+        /// <summary>
+        /// Generates the OMEMO fingerprint for displaying as a QR code.
+        /// </summary>
+        /// <param name="key">The identity public key.</param>
+        /// <param name="bareJid">The bare JID the fingerprint belongs to.</param>
+        /// <param name="deviceId">The OMEMO device id the fingerprint belongs to.</param>
+        /// <returns>A string representation of the fingerprint concatenated with JID and device id.</returns>
+        public static string generateOmemoQrCodeFingerprint(IdentityKey key, string bareJid, uint deviceId)
+        {
             StringBuilder sb = new StringBuilder("xmpp:");
-            sb.Append(account.getBareJid());
+            sb.Append(bareJid);
             sb.Append("?omemo-sid-");
-            sb.Append(account.omemoDeviceId);
+            sb.Append(deviceId);
             sb.Append('=');
             sb.Append(byteArrayToHexString(key.serialize()));
             return sb.ToString();

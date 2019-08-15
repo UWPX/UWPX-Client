@@ -1,10 +1,14 @@
-﻿namespace UWPX_UI_Context.Classes.DataContext.Controls
+﻿using libsignal.ecc;
+using XMPP_API.Classes.Crypto;
+
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class ContactOmemoControlContext
+    public class OmemoFingerprint
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public bool trusted;
+        public ECPublicKey publicKey;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -14,7 +18,10 @@
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public byte[] getByteArrayFingerprint()
+        {
+            return CryptoUtils.getRawFromECPublicKey(publicKey);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
