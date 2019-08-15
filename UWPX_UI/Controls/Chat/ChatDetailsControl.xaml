@@ -14,6 +14,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
@@ -127,15 +128,10 @@
                                                   OmemoEnabled="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=TwoWay}"
                                                   Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoVisibility, Mode=OneWay}"/>
                 <Button Grid.Column="3"
-                        Height="35"
                         Margin="0,0,10,0"
                         VerticalAlignment="Center"
-                        Background="Transparent"
                         Content="&#xE712;"
-                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="20"
-                        FontWeight="Bold"
-                        Style="{ThemeResource ButtonRevealStyle}"
+                        Style="{ThemeResource TransparentIconButtonStyle}"
                         ToolTipService.ToolTip="More">
                     <Button.Flyout>
                         <MenuFlyout>

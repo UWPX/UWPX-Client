@@ -8,19 +8,19 @@
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
-        <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
+            <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <Button Grid.Column="2"
-            Height="35"
-            Background="Transparent"
             Content="{x:Bind OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolGlyphTextValueConverter}}"
-            FontFamily="{ThemeResource SymbolThemeFontFamily}"
-            FontSize="20"
-            FontWeight="Bold"
             Foreground="{x:Bind OmemoEnabled, Mode=OneWay, Converter={StaticResource OmemoBoolBrushValueConverter}}"
-            Style="{ThemeResource ButtonRevealStyle}"
+            Style="{ThemeResource TransparentIconButtonStyle}"
             ToolTipService.ToolTip="Enable/Disable Encryption">
         <Button.Flyout>
             <Flyout>
