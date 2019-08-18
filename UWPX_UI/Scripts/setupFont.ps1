@@ -1,5 +1,7 @@
 $solPath = $args[0]
 
+tree
+
 if (Test-Path "env:windir") {
 	$segoeUiPath = "$env:windir\Fonts\seguiemj.ttf"
     if([System.IO.File]::Exists($segoeUiPath)) {
