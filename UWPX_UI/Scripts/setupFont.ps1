@@ -1,6 +1,6 @@
 $solPath = $args[0]
 
-tree
+tree $solPath
 
 if (Test-Path "env:windir") {
 	$segoeUiPath = "$env:windir\Fonts\seguiemj.ttf"
