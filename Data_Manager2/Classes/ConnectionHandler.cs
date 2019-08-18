@@ -1,4 +1,9 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Threading;
+using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.Omemo;
@@ -6,11 +11,6 @@ using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes.Collections;
 using Shared.Classes.Network;
-using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Threading;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Events;
@@ -802,6 +802,7 @@ namespace Data_Manager2.Classes
                 chat.chatType = ChatType.MUC;
                 chat.inRoster = true;
                 chat.presence = Presence.Unavailable;
+                chat.isChatActive = true;
 
                 ChatDBManager.INSTANCE.setChat(chat, false, true);
 
