@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using libsignal.state;
+﻿using libsignal;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public interface IOmemoStore: SignalProtocolStore, IOmemoDeviceStore, IOmemoFingerprintStore
+    public interface IOmemoFingerprintStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -12,14 +11,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        bool IsFingerprintTrusted(OmemoFingerprint fingerprint);
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        IList<PreKeyRecord> LoadPreKeys();
+        bool StoreFingerprint(OmemoFingerprint fingerprint);
 
-        void StorePreKeys(IList<PreKeyRecord> preKeys);
+        OmemoFingerprint LoadFingerprint(SignalProtocolAddress address);
 
         #endregion
 

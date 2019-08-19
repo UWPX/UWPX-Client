@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using libsignal;
 using libsignal.state;
 
@@ -36,6 +37,15 @@ namespace Component_Tests.Classes.Crypto.Libsignal
             return CLIENT_REG_ID;
         }
 
+        /// <summary>
+        /// DO NOT USE!
+        /// Will always return true.
+        /// ---
+        /// XEP-0384 (OMEMO Encryption) recommends to disable trust management provided by the signal library.
+        /// Source: https://xmpp.org/extensions/xep-0384.html#impl
+        /// </summary>
+        /// <returns>Always true.</returns>
+        [Obsolete]
         public bool IsTrustedIdentity(string name, IdentityKey identityKey)
         {
             return true;

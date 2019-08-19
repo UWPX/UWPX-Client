@@ -1,16 +1,16 @@
-﻿using Data_Manager2.Classes.DBManager.Omemo;
+﻿using System;
+using System.Collections.Generic;
+using Data_Manager2.Classes.DBManager.Omemo;
 using libsignal;
 using libsignal.protocol;
 using libsignal.state;
 using Logging;
-using System;
-using System.Collections.Generic;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Data_Manager2.Classes.Omemo
 {
-    public class OmemoStore : IOmemoStore
+    public class OmemoStore: IOmemoStore
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -43,10 +43,17 @@ namespace Data_Manager2.Classes.Omemo
             return ACCOUNT.omemoDeviceId;
         }
 
+        /// <summary>
+        /// DO NOT USE!
+        /// Will always return true.
+        /// ---
+        /// XEP-0384 (OMEMO Encryption) recommends to disable trust management provided by the signal library.
+        /// Source: https://xmpp.org/extensions/xep-0384.html#impl
+        /// </summary>
+        /// <returns>Always true.</returns>
+        [Obsolete]
         public bool IsTrustedIdentity(string name, IdentityKey identityKey)
         {
-            // XEP-0384 (OMEMO Encryption) recommends to disable trust management provided by the signal library:
-            // Source: https://xmpp.org/extensions/xep-0384.html#impl
             return true;
         }
 
@@ -185,6 +192,21 @@ namespace Data_Manager2.Classes.Omemo
         public Tuple<OmemoDeviceListSubscriptionState, DateTime> LoadDeviceListSubscription(string name)
         {
             return OmemoDeviceDBManager.INSTANCE.getOmemoDeviceListSubscription(name, ACCOUNT.getBareJid());
+        }
+
+        public bool IsFingerprintTrusted(OmemoFingerprint fingerprint)
+        {
+            return true; // TODO: implement
+        }
+
+        public bool StoreFingerprint(OmemoFingerprint fingerprint)
+        {
+            return false; // TODO: implement
+        }
+
+        public OmemoFingerprint LoadFingerprint(SignalProtocolAddress address)
+        {
+            return null; // TODO: implement
         }
 
         #endregion

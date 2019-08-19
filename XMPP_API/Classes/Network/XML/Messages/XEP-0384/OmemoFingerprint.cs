@@ -1,4 +1,7 @@
-﻿using libsignal.ecc;
+﻿using System;
+using System.Linq;
+using libsignal;
+using libsignal.ecc;
 using XMPP_API.Classes.Crypto;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
@@ -7,26 +10,39 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly ECPublicKey IDENTITY_PUB_KEY;
+        public readonly SignalProtocolAddress ADDRESS;
+        public DateTime lastSeen;
         public bool trusted;
-        public ECPublicKey publicKey;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public OmemoFingerprint(ECPublicKey identityPubKey, SignalProtocolAddress address, DateTime lastSeen, bool trusted)
+        {
+            IDENTITY_PUB_KEY = identityPubKey;
+            ADDRESS = address;
+            this.lastSeen = lastSeen;
+            this.trusted = trusted;
+        }
 
+        public OmemoFingerprint(ECPublicKey identityPubKey, SignalProtocolAddress address) : this(identityPubKey, address, DateTime.Now, false) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         public byte[] getByteArrayFingerprint()
         {
-            return CryptoUtils.getRawFromECPublicKey(publicKey);
+            return CryptoUtils.getRawFromECPublicKey(IDENTITY_PUB_KEY);
         }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public bool checkIdentityKey(ECPublicKey other)
+        {
+            return other.serialize().SequenceEqual(IDENTITY_PUB_KEY.serialize());
+        }
 
         #endregion
 

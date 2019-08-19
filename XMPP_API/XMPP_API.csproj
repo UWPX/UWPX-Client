@@ -304,6 +304,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadSlot.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoDeviceStore.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoFingerprintStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\IOmemoStore.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0384\OmemoBundleInformationResultMessage.cs" />

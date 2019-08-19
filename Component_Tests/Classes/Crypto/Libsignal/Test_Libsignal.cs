@@ -1,11 +1,11 @@
-﻿using libsignal;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using libsignal;
 using libsignal.ecc;
 using libsignal.protocol;
 using libsignal.state;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using XMPP_API.Classes.Crypto;
 
 namespace Component_Tests.Classes.Crypto.Libsignal

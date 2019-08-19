@@ -1,20 +1,21 @@
-﻿using libsignal;
-using libsignal.protocol;
-using Logging;
-using Strilanc.Value;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using System.Xml.Linq;
+using libsignal;
+using libsignal.ecc;
+using libsignal.protocol;
+using Logging;
+using Strilanc.Value;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0334;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoMessageMessage : MessageMessage
+    public class OmemoMessageMessage: MessageMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -98,6 +99,36 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             return null;
         }
 
+        /// <summary>
+        /// Validates if the given identity public key should be trusted.
+        /// </summary>
+        /// <param name="address">The signal protocol address corresponding to the given public identity key.</param>
+        /// <param name="publicKey">The public identity key we want to validate.</param>
+        /// <param name="omemoStore">The OMEMO store that keeps all OMEMO related keys.</param>
+        /// <returns>True if we trust else false.</returns>
+        private Task<bool> isFingerprintTrustedAsync(SignalProtocolAddress address, ECPublicKey publicKey, IOmemoStore omemoStore)
+        {
+            return Task.Run(() =>
+            {
+                OmemoFingerprint fingerprint = omemoStore.LoadFingerprint(address);
+                if (!(fingerprint is null))
+                {
+                    if (!fingerprint.checkIdentityKey(publicKey))
+                    {
+                        Logger.Warn("Received not OMEMO encrypted message with a not matching public identity key from: " + address.ToString());
+                        return false;
+                    }
+                }
+                else
+                {
+                    // Create a new fingerprint and store it:
+                    fingerprint = new OmemoFingerprint(publicKey, address);
+                    omemoStore.StoreFingerprint(fingerprint);
+                }
+                return omemoStore.IsFingerprintTrusted(fingerprint);
+            });
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -146,7 +177,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public async Task<bool> decryptAsync(OmemoHelper helper, uint localeDeciceId)
         {
             SignalProtocolAddress remoteAddress = new SignalProtocolAddress(Utils.getBareJidFromFullJid(FROM), SOURCE_DEVICE_ID);
-            return await decryptAsync(helper.loadCipher(remoteAddress), localeDeciceId, helper);
+            return await decryptAsync(helper.loadCipher(remoteAddress), remoteAddress, localeDeciceId, helper);
         }
 
         /// <summary>
@@ -154,10 +185,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// Sets ENCRYPTED to false.
         /// </summary>
         /// <param name="cipher">The SessionCipher for decrypting the content of BASE_64_PAYLOAD.</param>
+        /// <param name="senderAddress">The senders signal protocol address.</param>
         /// <param name="localeDeciceId">The local device id.</param>
         /// <param name="helper">The current OmemoHelper object of the current account. If null, won't remove used PreKey.</param>
         /// <returns>True on success.</returns>
-        public async Task<bool> decryptAsync(SessionCipher cipher, uint localeDeciceId, OmemoHelper helper)
+        public async Task<bool> decryptAsync(SessionCipher cipher, SignalProtocolAddress senderAddress, uint localeDeciceId, OmemoHelper helper)
         {
             try
             {
@@ -175,6 +207,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 if (key.IS_PRE_KEY)
                 {
                     PreKeySignalMessage preKeySignalMessage = new PreKeySignalMessage(encryptedKeyAuthTag);
+
+                    // 3. a) Validate if we trust the fingerprint of the sender:
+                    if (!await isFingerprintTrustedAsync(senderAddress, preKeySignalMessage.getSignalMessage().getSenderRatchetKey(), helper.OMEMO_STORE))
+                    {
+                        Logger.Info("Discarded received OMEMO message - fingerprint not trusted!");
+                        return false;
+                    }
+
                     decryptedKeyAuthTag = cipher.decrypt(preKeySignalMessage);
                     if (!(helper is null))
                     {
@@ -192,17 +232,24 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 }
                 else
                 {
-                    decryptedKeyAuthTag = cipher.decrypt(new SignalMessage(encryptedKeyAuthTag));
+                    SignalMessage signalMessage = new SignalMessage(encryptedKeyAuthTag);
+                    // 3. b) Validate if we trust the fingerprint of the sender:
+                    if (!await isFingerprintTrustedAsync(senderAddress, signalMessage.getSenderRatchetKey(), helper.OMEMO_STORE))
+                    {
+                        Logger.Info("Discarded received OMEMO message - fingerprint not trusted!");
+                        return false;
+                    }
+                    decryptedKeyAuthTag = cipher.decrypt(signalMessage);
                 }
 
-                // 3. Check if the cipher got loaded successfully:
+                // 4. Check if the cipher got loaded successfully:
                 if (decryptedKeyAuthTag is null)
                 {
                     Logger.Info("Discarded received OMEMO message - failed to decrypt keyAuthTag is null!");
                     return false;
                 }
 
-                // 4. Decrypt the payload:
+                // 5. Decrypt the payload:
                 byte[] aesIv = Convert.FromBase64String(BASE_64_IV);
                 byte[] aesKey = new byte[16];
                 byte[] aesAuthTag = new byte[decryptedKeyAuthTag.Length - aesKey.Length];
@@ -218,7 +265,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 byte[] encryptedData = Convert.FromBase64String(BASE_64_PAYLOAD);
                 byte[] decryptedData = aes128Gcm.decrypt(encryptedData);
 
-                // 5. Convert decrypted data to an Unicode string:
+                // 6. Convert decrypted data to an Unicode string:
                 MESSAGE = Encoding.UTF8.GetString(decryptedData);
 
                 ENCRYPTED = false;
