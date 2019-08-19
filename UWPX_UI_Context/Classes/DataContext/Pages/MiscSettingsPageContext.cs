@@ -80,12 +80,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task DeleteLogsAsync(ConfirmDialogContext viewModel)
         {
-            await Logger.DeleteLogsAsync();
+            if (viewModel.MODEL.Confirmed)
+            {
+                await Logger.DeleteLogsAsync();
+            }
         }
 
         public async Task ClearImageCacheAsync(ConfirmDialogContext viewModel)
         {
-            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.ClearImageCacheAsync();
+            if (viewModel.MODEL.Confirmed)
+            {
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.ClearImageCacheAsync();
+            }
         }
 
         #endregion
