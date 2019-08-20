@@ -1,6 +1,6 @@
 ﻿namespace Data_Manager2.Classes.DBTables
 {
-    static class DBTableConsts
+    internal static class DBTableConsts
     {
         public const string ACCOUNT_TABLE = "AccountTable_2";
         public const string CHAT_MESSAGE_TABLE = "ChatMessageTable";
@@ -20,6 +20,7 @@
         public const string OMEMO_PRE_KEY_TABLE = "OmemoPreKeyTable";
         public const string OMEMO_IDENTITY_KEY_TABLE = "OmemoIdentityKeyTable";
         public const string OMEMO_SESSION_STORE_TABLE = "OmemoSessionStoreTable";
+        public const string OMEMO_FINGERPRINT_TABLE = "OmemoFingerprintTable";
 
         public const string OMEMO_DEVICE_TABLE = "OmemoDeviceTable";
         public const string OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE = "OmemoDeviceListSubscriptionTable";

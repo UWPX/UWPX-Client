@@ -1,11 +1,11 @@
-﻿using SQLite;
-using System;
+﻿using System;
+using SQLite;
 using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.DBTables
 {
     [Table(DBTableConsts.CHAT_TABLE)]
-    public class ChatTable : IComparable
+    public class ChatTable: IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -40,6 +40,8 @@ namespace Data_Manager2.Classes.DBTables
         public ChatType chatType { get; set; }
         // Whether XEP-0384 (OMEMO Encryption) is enable for the chat
         public bool omemoEnabled { get; set; }
+        // Allow messages to be send to and received from trusted keys only
+        public bool omemoTrustedKeysOnly { get; set; }
         // Whether there are chat messages for the chat available/the chat has been started
         public bool isChatActive { get; set; }
 
@@ -66,6 +68,7 @@ namespace Data_Manager2.Classes.DBTables
             inRoster = false;
             muted = false;
             omemoEnabled = Settings.getSettingBoolean(SettingsConsts.ENABLE_OMEMO_BY_DEFAULT_FOR_NEW_CHATS);
+            omemoTrustedKeysOnly = false;
             presence = Presence.Unavailable;
             status = null;
             subscription = null;

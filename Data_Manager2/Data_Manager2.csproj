@@ -155,6 +155,7 @@
     <Compile Include="Classes\DBTables\MUCOccupantTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoDeviceListSubscriptionTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoDeviceTable.cs" />
+    <Compile Include="Classes\DBTables\Omemo\OmemoFingerprintTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoIdentityKeyTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoPreKeyTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSessionStoreTable.cs" />

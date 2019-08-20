@@ -1,13 +1,14 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using System.Collections.Generic;
+using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
 using libsignal;
 using libsignal.state;
 using Shared.Classes.SQLite;
-using System.Collections.Generic;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace Data_Manager2.Classes.DBManager.Omemo
 {
-    public class OmemoSignalKeyDBManager : AbstractDBManager
+    public class OmemoSignalKeyDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -95,11 +96,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
         public SessionRecord getSession(SignalProtocolAddress address, string accountId)
         {
             List<OmemoSessionStoreTable> list = dB.Query<OmemoSessionStoreTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE id = ?;", OmemoSessionStoreTable.generateId(address, accountId));
-            if (list.Count <= 0)
-            {
-                return null;
-            }
-            return new SessionRecord(list[0].session);
+            return list.Count <= 0 ? null : new SessionRecord(list[0].session);
         }
 
         public List<uint> getDeviceIds(string name, string accountId)
@@ -111,6 +108,20 @@ namespace Data_Manager2.Classes.DBManager.Omemo
                 deviceIds.Add(session.deviceId);
             }
             return deviceIds;
+        }
+
+        public OmemoFingerprint getFingerprint(SignalProtocolAddress address, string accountId)
+        {
+            string chatId = ChatTable.generateId(address.getName(), accountId);
+            string id = OmemoFingerprintTable.generateId(chatId, address);
+            List<OmemoFingerprintTable> list = dB.Query<OmemoFingerprintTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_FINGERPRINT_TABLE + " WHERE id = ?;", id);
+            return list.Count <= 0 ? null : list[0].toOmemoFingerprint();
+        }
+
+        public void setFingerprint(OmemoFingerprint fingerprint, string accountId)
+        {
+            string chatId = ChatTable.generateId(fingerprint.ADDRESS.getName(), accountId);
+            dB.InsertOrReplace(new OmemoFingerprintTable(fingerprint, chatId));
         }
 
         public void setSignedPreKey(uint signedPreKeyId, SignedPreKeyRecord signedPreKey, string accountId)
@@ -274,6 +285,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             dB.CreateTable<OmemoSignedPreKeyTable>();
             dB.CreateTable<OmemoPreKeyTable>();
             dB.CreateTable<OmemoSessionStoreTable>();
+            dB.CreateTable<OmemoFingerprintTable>();
         }
 
         protected override void DropTables()
@@ -282,6 +294,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             dB.DropTable<OmemoSignedPreKeyTable>();
             dB.DropTable<OmemoPreKeyTable>();
             dB.DropTable<OmemoSessionStoreTable>();
+            dB.DropTable<OmemoFingerprintTable>();
         }
 
         #endregion

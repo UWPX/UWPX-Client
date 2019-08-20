@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBManager.Omemo;
+using Data_Manager2.Classes.DBTables;
 using libsignal;
 using libsignal.protocol;
 using libsignal.state;
@@ -49,6 +51,8 @@ namespace Data_Manager2.Classes.Omemo
         /// ---
         /// XEP-0384 (OMEMO Encryption) recommends to disable trust management provided by the signal library.
         /// Source: https://xmpp.org/extensions/xep-0384.html#impl
+        /// ---
+        /// Use <see cref="IsFingerprintTrusted(OmemoFingerprint)"/> instead.
         /// </summary>
         /// <returns>Always true.</returns>
         [Obsolete]
@@ -194,19 +198,28 @@ namespace Data_Manager2.Classes.Omemo
             return OmemoDeviceDBManager.INSTANCE.getOmemoDeviceListSubscription(name, ACCOUNT.getBareJid());
         }
 
+        /// <summary>
+        /// Checks if the fingerprint is trusted by the following mechanism:
+        /// 1. Does a chat exist for the fingerprint? Yes -> 2. No. -> false
+        /// 2. Is "trusted keys only" activated for chats? Yes -> 3. No -> true
+        /// 3. Is the key trusted? Yes -> true No -> false
+        /// </summary>
+        /// <param name="fingerprint">The fingerprint we want to check if it's valid.</param>
         public bool IsFingerprintTrusted(OmemoFingerprint fingerprint)
         {
-            return true; // TODO: implement
+            string chatId = ChatTable.generateId(fingerprint.ADDRESS.getName(), ACCOUNT.getBareJid());
+            ChatTable chat = ChatDBManager.INSTANCE.getChat(chatId);
+            return !(chat is null) && (!chat.omemoTrustedKeysOnly || fingerprint.trusted);
         }
 
-        public bool StoreFingerprint(OmemoFingerprint fingerprint)
+        public void StoreFingerprint(OmemoFingerprint fingerprint)
         {
-            return false; // TODO: implement
+            OmemoSignalKeyDBManager.INSTANCE.setFingerprint(fingerprint, ACCOUNT.getBareJid());
         }
 
         public OmemoFingerprint LoadFingerprint(SignalProtocolAddress address)
         {
-            return null; // TODO: implement
+            return OmemoSignalKeyDBManager.INSTANCE.getFingerprint(address, ACCOUNT.getBareJid());
         }
 
         #endregion

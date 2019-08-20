@@ -16,7 +16,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        bool StoreFingerprint(OmemoFingerprint fingerprint);
+        void StoreFingerprint(OmemoFingerprint fingerprint);
 
         OmemoFingerprint LoadFingerprint(SignalProtocolAddress address);
 
