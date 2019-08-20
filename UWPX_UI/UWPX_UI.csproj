@@ -226,6 +226,12 @@
     <Compile Include="Controls\OMEMO\OmemoFingerprintControl.xaml.cs">
       <DependentUpon>OmemoFingerprintControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OMEMO\OmemoOwnFingerprintControl.xaml.cs">
+      <DependentUpon>OmemoOwnFingerprintControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OMEMO\OmemoTrustFingerprintControl.xaml.cs">
+      <DependentUpon>OmemoTrustFingerprintControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\QrCodeControl.xaml.cs">
       <DependentUpon>QrCodeControl.xaml</DependentUpon>
     </Compile>
@@ -632,6 +638,14 @@
     <Page Include="Controls\OMEMO\OmemoFingerprintControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\OMEMO\OmemoOwnFingerprintControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OMEMO\OmemoTrustFingerprintControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\QrCodeControl.xaml">
       <Generator>MSBuild:Compile</Generator>

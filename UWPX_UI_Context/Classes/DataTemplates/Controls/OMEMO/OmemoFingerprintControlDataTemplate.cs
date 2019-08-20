@@ -1,37 +1,19 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using libsignal.ecc;
 using Shared.Classes;
-using Shared.Classes.Collections;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+using XMPP_API.Classes.Crypto;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
-    public class ContactOmemoControlDataTemplate: AbstractDataTemplate
+    public sealed class OmemoFingerprintControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _Loading;
-        public bool Loading
+        private byte[] _Fingerprint;
+        public byte[] Fingerprint
         {
-            get => _Loading;
-            set => SetProperty(ref _Loading, value);
+            get => _Fingerprint;
+            set => SetProperty(ref _Fingerprint, value);
         }
-
-        private ChatTable _Chat;
-        public ChatTable Chat
-        {
-            get => _Chat;
-            set => SetProperty(ref _Chat, value);
-        }
-
-        private XMPPClient _Client;
-        public XMPPClient Client
-        {
-            get => _Client;
-            set => SetProperty(ref _Client, value);
-        }
-
-        public readonly CustomObservableCollection<OmemoFingerprint> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprint>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,7 +28,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void UpdateView(ECPublicKey identityPubKey)
+        {
+            Fingerprint = !(identityPubKey is null) ? CryptoUtils.getRawFromECPublicKey(identityPubKey) : null;
+        }
 
         #endregion
 

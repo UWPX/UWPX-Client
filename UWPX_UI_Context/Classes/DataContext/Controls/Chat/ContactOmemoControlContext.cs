@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using Windows.UI.Xaml;
@@ -74,7 +75,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             MODEL.FINGERPRINTS.Clear();
             if (!(helper is null))
             {
-
+                MODEL.FINGERPRINTS.AddRange(OmemoSignalKeyDBManager.INSTANCE.getFingerprints(MODEL.Chat.id));
             }
         }
 

@@ -90,7 +90,6 @@ namespace Shared.Classes.SQLite
             try
             {
                 return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj));
-                ;
             }
             catch (Exception e)
             {

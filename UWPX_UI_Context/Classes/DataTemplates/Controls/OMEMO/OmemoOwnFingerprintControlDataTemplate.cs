@@ -1,18 +1,19 @@
 ﻿using libsignal;
+using libsignal.ecc;
 using Shared.Classes;
 using XMPP_API.Classes.Crypto;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
-    public sealed class OmemoFingerprintControlDataTemplate: AbstractDataTemplate
+    public class OmemoOwnFingerprintControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private byte[] _Fingerprint;
-        public byte[] Fingerprint
+        private ECPublicKey _IdentPubKey;
+        public ECPublicKey IdentPubKey
         {
-            get => _Fingerprint;
-            set => SetProperty(ref _Fingerprint, value);
+            get => _IdentPubKey;
+            set => SetProperty(ref _IdentPubKey, value);
         }
         private string _QrCodeFingerprint;
         public string QrCodeFingerprint
@@ -39,19 +40,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (!(account is null))
             {
                 IdentityKey key = account.Account.omemoIdentityKeyPair?.getPublicKey();
-                if (!(key is null))
-                {
-                    Fingerprint = CryptoUtils.getRawFromECPublicKey(key.getPublicKey());
-                    QrCodeFingerprint = CryptoUtils.generateOmemoQrCodeFingerprint(key, account.Account);
-                }
-                else
-                {
-                    Fingerprint = null;
-                    QrCodeFingerprint = null;
-                }
+                IdentPubKey = key.getPublicKey();
+                QrCodeFingerprint = !(key is null) ? CryptoUtils.generateOmemoQrCodeFingerprint(key, account.Account) : null;
                 return;
             }
-            Fingerprint = null;
+            IdentPubKey = null;
             QrCodeFingerprint = null;
         }
 

@@ -1,37 +1,14 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
-using Shared.Classes.Collections;
-using XMPP_API.Classes;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+﻿using libsignal.ecc;
+using Windows.UI.Xaml;
+using XMPP_API.Classes.Crypto;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
-    public class ContactOmemoControlDataTemplate: AbstractDataTemplate
+    public sealed class OmemoFingerprintControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _Loading;
-        public bool Loading
-        {
-            get => _Loading;
-            set => SetProperty(ref _Loading, value);
-        }
-
-        private ChatTable _Chat;
-        public ChatTable Chat
-        {
-            get => _Chat;
-            set => SetProperty(ref _Chat, value);
-        }
-
-        private XMPPClient _Client;
-        public XMPPClient Client
-        {
-            get => _Client;
-            set => SetProperty(ref _Client, value);
-        }
-
-        public readonly CustomObservableCollection<OmemoFingerprint> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprint>(true);
+        public readonly OmemoFingerprintControlDataTemplate MODEL = new OmemoFingerprintControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -46,7 +23,22 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is ECPublicKey identityPubKey)
+            {
+                MODEL.UpdateView(identityPubKey);
+            }
+            else
+            {
+                MODEL.UpdateView(null);
+            }
+        }
 
+        public void CopyFingerprintToClipboard()
+        {
+            UiUtils.SetClipboardText(CryptoUtils.generateOmemoFingerprint(MODEL.Fingerprint));
+        }
 
         #endregion
 

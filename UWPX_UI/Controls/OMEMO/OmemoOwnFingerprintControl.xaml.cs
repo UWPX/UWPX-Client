@@ -1,33 +1,27 @@
-﻿using libsignal.ecc;
-using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.OMEMO
 {
-    public sealed partial class OmemoFingerprintControl: UserControl
+    public sealed partial class OmemoOwnFingerprintControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public ECPublicKey IdentityPubKey
+        public AccountDataTemplate Account
         {
-            get { return (ECPublicKey)GetValue(IdentityPubKeyProperty); }
-            set { SetValue(IdentityPubKeyProperty, value); }
+            get => (AccountDataTemplate)GetValue(AccountProperty);
+            set => SetValue(AccountProperty, value);
         }
-        public static readonly DependencyProperty IdentityPubKeyProperty = DependencyProperty.Register(nameof(IdentityPubKey), typeof(ECPublicKey), typeof(OmemoFingerprintControl), new PropertyMetadata(null, OnIdentityPubKeyChanged));
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoOwnFingerprintControl), new PropertyMetadata(null, OnAccountChanged));
 
-        public Visibility CopyButtonVisibility
-        {
-            get { return (Visibility)GetValue(CopyButtonVisibilityProperty); }
-            set { SetValue(CopyButtonVisibilityProperty, value); }
-        }
-        public static readonly DependencyProperty CopyButtonVisibilityProperty = DependencyProperty.Register(nameof(CopyButtonVisibility), typeof(Visibility), typeof(OmemoFingerprintControl), new PropertyMetadata(Visibility.Visible));
+        public readonly OmemoOwnFingerprintControlContext VIEW_MODEL = new OmemoOwnFingerprintControlContext();
 
-        public readonly OmemoFingerprintControlContext VIEW_MODEL = new OmemoFingerprintControlContext();
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public OmemoFingerprintControl()
+        public OmemoOwnFingerprintControl()
         {
             InitializeComponent();
         }
@@ -58,17 +52,12 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnIdentityPubKeyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is OmemoFingerprintControl omemoFingerprintControl)
+            if (d is OmemoOwnFingerprintControl omemoFingerprintControl)
             {
                 omemoFingerprintControl.UpdateView(e);
             }
-        }
-
-        private void CopyFingerprint_btn_Click(object sender, RoutedEventArgs e)
-        {
-            VIEW_MODEL.CopyFingerprintToClipboard();
         }
 
         #endregion

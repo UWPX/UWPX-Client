@@ -65,7 +65,7 @@ namespace Data_Manager2.Classes.DBTables.Omemo
         public OmemoFingerprint toOmemoFingerprint()
         {
             SignalProtocolAddress address = new SignalProtocolAddress(bareJid, deviceId);
-            DjbECPublicKey pubKey = new DjbECPublicKey(identityPubKey);
+            ECPublicKey pubKey = Curve.decodePoint(identityPubKey, 0);
             return new OmemoFingerprint(pubKey, address, lastSeen, trusted);
         }
 

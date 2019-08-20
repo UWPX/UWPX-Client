@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.DBTables.Omemo;
 using libsignal;
@@ -66,11 +67,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
         public SignedPreKeyRecord getSignedPreKey(uint signedPreKeyId, string accountId)
         {
             List<OmemoSignedPreKeyTable> list = dB.Query<OmemoSignedPreKeyTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_SIGNED_PRE_KEY_TABLE + " WHERE id = ?;", OmemoSignedPreKeyTable.generateId(signedPreKeyId, accountId));
-            if (list.Count <= 0)
-            {
-                return null;
-            }
-            return new SignedPreKeyRecord(list[0].signedPreKey);
+            return list.Count <= 0 ? null : new SignedPreKeyRecord(list[0].signedPreKey);
         }
 
         public PreKeyRecord getPreKeyRecord(uint preKeyId, string accountId)
@@ -116,6 +113,12 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             string id = OmemoFingerprintTable.generateId(chatId, address);
             List<OmemoFingerprintTable> list = dB.Query<OmemoFingerprintTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_FINGERPRINT_TABLE + " WHERE id = ?;", id);
             return list.Count <= 0 ? null : list[0].toOmemoFingerprint();
+        }
+
+        public IEnumerable<OmemoFingerprint> getFingerprints(string chatId)
+        {
+            List<OmemoFingerprintTable> list = dB.Query<OmemoFingerprintTable>(true, "SELECT * FROM " + DBTableConsts.OMEMO_FINGERPRINT_TABLE + " WHERE chatId = ?;", chatId);
+            return list.Select(x => x.toOmemoFingerprint());
         }
 
         public void setFingerprint(OmemoFingerprint fingerprint, string accountId)

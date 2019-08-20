@@ -1,38 +1,29 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.OMEMO.OmemoFingerprintControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:extensions="using:UWPX_UI.Extensions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <Grid HorizontalAlignment="Stretch">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock HorizontalAlignment="Left"
-                       extensions:TextBlockOmemoFingerprintFormatExtension.Fingerprint="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"
-                       FontFamily="Consolas"
-                       IsTextSelectionEnabled="True"
-                       TextWrapping="WrapWholeWords"/>
-            <Button x:Name="cpyFingerprint_btn"
-                    Grid.Column="1"
-                    Margin="10,0,0,0"
-                    VerticalAlignment="Center"
-                    Click="CpyFingerprint_btn_Click"
-                    Content="&#xE8C8;"
-                    FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                    ToolTipService.ToolTip="Copy fingerprint"/>
-        </Grid>
-        <controls:QrCodeControl Grid.Row="1"
-                                Margin="0,10,0,0"
-                                QrCodeText="{x:Bind VIEW_MODEL.MODEL.QrCodeFingerprint, Mode=OneWay}"/>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <TextBlock HorizontalAlignment="Left"
+                   extensions:TextBlockOmemoFingerprintFormatExtension.Fingerprint="{x:Bind VIEW_MODEL.MODEL.Fingerprint, Mode=OneWay}"
+                   FontFamily="Consolas"
+                   IsTextSelectionEnabled="True"
+                   TextWrapping="WrapWholeWords"/>
+        <Button x:Name="copyFingerprint_btn"
+                Grid.Column="1"
+                Margin="10,0,0,0"
+                VerticalAlignment="Center"
+                Click="CopyFingerprint_btn_Click"
+                Content="&#xE8C8;"
+                FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                ToolTipService.ToolTip="Copy fingerprint"
+                Visibility="{x:Bind CopyButtonVisibility, Mode=OneWay}"/>
     </Grid>
 </UserControl>

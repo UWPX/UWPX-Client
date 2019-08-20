@@ -40,7 +40,7 @@ namespace XMPP_API.Classes.Crypto
         {
             byte[] keySerialized = key.serialize();
             byte[] keyRaw = new byte[32];
-            System.Buffer.BlockCopy(keySerialized, 1, keyRaw, 0, keySerialized.Length - 1);
+            System.Buffer.BlockCopy(keySerialized, keySerialized.Length - keyRaw.Length, keyRaw, 0, keyRaw.Length);
 
             return keyRaw;
         }

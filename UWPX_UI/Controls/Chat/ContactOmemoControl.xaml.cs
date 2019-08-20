@@ -75,6 +75,15 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private void ScanQrCode_mfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ShowOwnFingerprint_mfo_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
     }
 }

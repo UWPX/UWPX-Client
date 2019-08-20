@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.OMEMO.OmemoOwnFingerprintControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="using:UWPX_UI.Controls.OMEMO"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <Grid HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <local:OmemoFingerprintControl Grid.Row="0"
+                                       IdentityPubKey="{x:Bind VIEW_MODEL.MODEL.IdentPubKey, Mode=OneWay}"/>
+        <controls:QrCodeControl Grid.Row="1"
+                                Margin="0,10,0,0"
+                                QrCodeText="{x:Bind VIEW_MODEL.MODEL.QrCodeFingerprint, Mode=OneWay}"/>
+    </Grid>
+</UserControl>

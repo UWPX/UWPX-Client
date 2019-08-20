@@ -5,6 +5,8 @@
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:omemo="using:UWPX_UI.Controls.OMEMO"
+             xmlns:xep_0384="using:XMPP_API.Classes.Network.XML.Messages.XEP_0384"
              MinHeight="100"
              mc:Ignorable="d">
 
@@ -14,6 +16,11 @@
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
+
+            <DataTemplate x:Name="FingerprintTemplate"
+                          x:DataType="xep_0384:OmemoFingerprint">
+                <omemo:OmemoTrustFingerprintControl Fingerprint="{x:Bind}"/>
+            </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -39,10 +46,28 @@
                                Text="Fingerprints (OMEMO):"/>
                     <Button Grid.Column="1"
                             HorizontalAlignment="Right"
-                            Content="&#xE722;"
-                            FontWeight="Normal"
+                            Content="&#xE712;"
                             Style="{ThemeResource TransparentIconButtonStyle}"
-                            ToolTipService.ToolTip="Scan QR Code"/>
+                            ToolTipService.ToolTip="More">
+                        <Button.Flyout>
+                            <MenuFlyout>
+                                <MenuFlyoutItem x:Name="scanQrCode_mfo"
+                                                Click="ScanQrCode_mfo_Click"
+                                                Text="Scan QR Code">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE722;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                                <MenuFlyoutItem x:Name="showOwnFingerprint_mfo"
+                                                Click="ShowOwnFingerprint_mfo_Click"
+                                                Text="Show your fingerprint">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE779;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
+                            </MenuFlyout>
+                        </Button.Flyout>
+                    </Button>
                 </Grid>
                 <controls1:SeperatorControl Grid.Row="1"/>
 
@@ -67,7 +92,18 @@
                         <ToggleSwitch Header="Trusted keys only"/>
                         <Button Style="{ThemeResource InfoButtonStyle}"/>
                     </StackPanel>
-                    <ListView Grid.Row="1"/>
+                    <ListView Grid.Row="1"
+                              ItemTemplate="{StaticResource FingerprintTemplate}"
+                              ItemsSource="{x:Bind VIEW_MODEL.MODEL.FINGERPRINTS}"
+                              SelectionMode="None"
+                              Visibility="{x:Bind VIEW_MODEL.MODEL.Loading, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                <Setter Property="Padding" Value="0,5,0,5"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
                 </Grid>
             </Grid>
         </Border>

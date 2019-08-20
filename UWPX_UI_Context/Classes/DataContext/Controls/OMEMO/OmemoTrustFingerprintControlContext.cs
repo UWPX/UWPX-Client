@@ -1,15 +1,12 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
-using Windows.UI.Xaml;
-using XMPP_API.Classes.Crypto;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls
+namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
 {
-    public sealed class OmemoFingerprintControlContext
+    public class OmemoTrustFingerprintControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoFingerprintControlDataTemplate MODEL = new OmemoFingerprintControlDataTemplate();
+        public readonly OmemoTrustFingerprintControlDataTemplate MODEL = new OmemoTrustFingerprintControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,22 +21,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is AccountDataTemplate account)
-            {
-                MODEL.UpdateView(account);
-            }
-            else
-            {
-                MODEL.UpdateView(null);
-            }
-        }
 
-        public void CopyFingerprintToClipboard()
-        {
-            UiUtils.SetClipboardText(CryptoUtils.generateOmemoFingerprint(MODEL.Fingerprint));
-        }
 
         #endregion
 
