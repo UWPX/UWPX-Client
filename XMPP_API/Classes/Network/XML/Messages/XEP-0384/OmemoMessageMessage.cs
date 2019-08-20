@@ -118,13 +118,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                         Logger.Warn("Received not OMEMO encrypted message with a not matching public identity key from: " + address.ToString());
                         return false;
                     }
+                    fingerprint.lastSeen = DateTime.Now;
                 }
                 else
                 {
                     // Create a new fingerprint and store it:
                     fingerprint = new OmemoFingerprint(publicKey, address);
-                    omemoStore.StoreFingerprint(fingerprint);
                 }
+                omemoStore.StoreFingerprint(fingerprint);
                 return omemoStore.IsFingerprintTrusted(fingerprint);
             });
         }
