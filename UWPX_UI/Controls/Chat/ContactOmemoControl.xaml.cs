@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
+using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes;
@@ -83,6 +84,11 @@ namespace UWPX_UI.Controls.Chat
         private void ShowOwnFingerprint_mfo_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void OmemoTrustFingerprintControl_OmemoFingerprintTrustChanged(object sender, OmemoFingerprintTrustChangedEventArgs args)
+        {
+            VIEW_MODEL.OnFingerprintTrustedChanged(args.FINGERPRINT);
         }
         #endregion
     }

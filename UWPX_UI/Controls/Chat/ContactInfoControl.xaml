@@ -87,7 +87,7 @@
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
                                 Content="&#xE70F;"
-                                Foreground="{ThemeResource SystemAccentColor}"
+                                FontWeight="Normal"
                                 IsEnabled="False"
                                 Style="{ThemeResource TransparentIconButtonStyle}"
                                 ToolTipService.ToolTip="Change Nickname"/>
@@ -116,13 +116,12 @@
                                 Margin="10,10,0,0"
                                 Click="Mute_btn_Click"
                                 Content="{x:Bind VIEW_MODEL.MODEL.MuteGlyph, Mode=OneWay}"
-                                Foreground="{ThemeResource SystemAccentColor}"
+                                FontWeight="Normal"
                                 Style="{ThemeResource TransparentIconButtonStyle}"
                                 ToolTipService.ToolTip="{x:Bind VIEW_MODEL.MODEL.MuteTooltip, Mode=OneWay}"/>
                         <Button Grid.Column="2"
                                 Margin="10,10,0,0"
                                 Content="&#xE712;"
-                                Foreground="{ThemeResource SystemAccentColor}"
                                 Style="{ThemeResource TransparentIconButtonStyle}"
                                 ToolTipService.ToolTip="More">
                             <Button.Flyout>

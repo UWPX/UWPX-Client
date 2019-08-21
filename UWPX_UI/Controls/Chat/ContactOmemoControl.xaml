@@ -19,7 +19,8 @@
 
             <DataTemplate x:Name="FingerprintTemplate"
                           x:DataType="xep_0384:OmemoFingerprint">
-                <omemo:OmemoTrustFingerprintControl Fingerprint="{x:Bind}"/>
+                <omemo:OmemoTrustFingerprintControl Fingerprint="{x:Bind}"
+                                                    OmemoFingerprintTrustChanged="OmemoTrustFingerprintControl_OmemoFingerprintTrustChanged"/>
             </DataTemplate>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -89,7 +90,8 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0"
                                 Orientation="Horizontal">
-                        <ToggleSwitch Header="Trusted keys only"/>
+                        <ToggleSwitch Header="Trusted keys only"
+                                      IsOn="{x:Bind VIEW_MODEL.MODEL.TrustedOnly, Mode=TwoWay}"/>
                         <Button Style="{ThemeResource InfoButtonStyle}"/>
                     </StackPanel>
                     <ListView Grid.Row="1"
