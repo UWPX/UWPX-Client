@@ -20,7 +20,7 @@ namespace UWPX_UI.Controls
             get => (Frame)GetValue(FrameProperty);
             set => SetValue(FrameProperty, value);
         }
-        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomTitleBarControl), new PropertyMetadata(null, OnFrameChanged));
 
         public MasterDetailsView MasterDetailsView
         {
@@ -175,6 +175,26 @@ namespace UWPX_UI.Controls
             }
         }
 
+        private void Frame_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(Frame).Properties.IsXButton1Pressed)
+            {
+                e.Handled = OnGoBackRequested();
+            }
+        }
+
+        private void OnFrameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is Frame oldFrame)
+            {
+                oldFrame.PointerPressed -= Frame_PointerPressed;
+            }
+            if (e.NewValue is Frame newFrame)
+            {
+                newFrame.PointerPressed += Frame_PointerPressed;
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -209,6 +229,14 @@ namespace UWPX_UI.Controls
             if (d is CustomTitleBarControl titleBarControl)
             {
                 titleBarControl.OnIsActiveChanged(e.NewValue is bool b && b);
+            }
+        }
+
+        private static void OnFrameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is CustomTitleBarControl titleBarControl)
+            {
+                titleBarControl.OnFrameChanged(e);
             }
         }
 

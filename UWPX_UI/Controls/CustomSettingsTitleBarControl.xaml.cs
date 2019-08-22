@@ -20,7 +20,7 @@ namespace UWPX_UI.Controls
             get => (Frame)GetValue(FrameProperty);
             set => SetValue(FrameProperty, value);
         }
-        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty FrameProperty = DependencyProperty.Register(nameof(Frame), typeof(Frame), typeof(CustomSettingsTitleBarControl), new PropertyMetadata(null, OnFrameChanged));
 
         public string Glyph
         {
@@ -186,6 +186,18 @@ namespace UWPX_UI.Controls
             }
         }
 
+        private void OnFrameChanged(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.OldValue is Frame oldFrame)
+            {
+                oldFrame.PointerPressed -= Frame_PointerPressed;
+            }
+            if (e.NewValue is Frame newFrame)
+            {
+                newFrame.PointerPressed += Frame_PointerPressed;
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -217,6 +229,22 @@ namespace UWPX_UI.Controls
             if (d is CustomSettingsTitleBarControl titleBarControl)
             {
                 titleBarControl.OnIsActiveChanged(e.NewValue is bool b && b);
+            }
+        }
+
+        private void Frame_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (e.GetCurrentPoint(Frame).Properties.IsXButton1Pressed)
+            {
+                e.Handled = OnGoBackRequested();
+            }
+        }
+
+        private static void OnFrameChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is CustomSettingsTitleBarControl titleBarControl)
+            {
+                titleBarControl.OnFrameChanged(e);
             }
         }
 
