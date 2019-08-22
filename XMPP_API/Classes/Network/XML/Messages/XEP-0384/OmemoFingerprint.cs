@@ -6,7 +6,7 @@ using XMPP_API.Classes.Crypto;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoFingerprint
+    public class OmemoFingerprint: IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -26,7 +26,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             this.trusted = trusted;
         }
 
-        public OmemoFingerprint(ECPublicKey identityPubKey, SignalProtocolAddress address) : this(identityPubKey, address, DateTime.Now, false) { }
+        public OmemoFingerprint(ECPublicKey identityPubKey, SignalProtocolAddress address) : this(identityPubKey, address, DateTime.MinValue, false) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -42,6 +42,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public bool checkIdentityKey(ECPublicKey other)
         {
             return other.serialize().SequenceEqual(IDENTITY_PUB_KEY.serialize());
+        }
+
+        public int CompareTo(object obj)
+        {
+            return ADDRESS.getName().GetHashCode() ^ ADDRESS.getDeviceId().GetHashCode();
         }
 
         #endregion

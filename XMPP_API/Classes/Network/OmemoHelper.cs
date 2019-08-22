@@ -1,10 +1,10 @@
-﻿using libsignal;
-using libsignal.state;
-using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using libsignal;
+using libsignal.state;
+using Logging;
 using XMPP_API.Classes.Crypto;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -14,7 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Network
 {
-    public class OmemoHelper : IDisposable
+    public class OmemoHelper: IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -326,7 +326,7 @@ namespace XMPP_API.Classes.Network
         private async Task onOmemoDeviceListEventMessageAsync(OmemoDeviceListEventMessage msg)
         {
             string senderBareJid = Utils.getBareJidFromFullJid(msg.getFrom());
-            if(string.Equals(senderBareJid, CONNECTION.account.getBareJid()))
+            if (string.Equals(senderBareJid, CONNECTION.account.getBareJid()))
             {
                 if (!msg.DEVICES.IDS.Contains(CONNECTION.account.omemoDeviceId))
                 {

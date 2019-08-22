@@ -1,8 +1,8 @@
-﻿using libsignal;
-using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using libsignal;
+using Logging;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
@@ -86,7 +86,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                 devicesRemote = OMEMO_HELPER.OMEMO_STORE.LoadDevices(CHAT_JID);
             }
 
-            if(devicesRemote is null || devicesRemote.Count <= 0)
+            if (devicesRemote is null || devicesRemote.Count <= 0)
             {
                 // Request devices and try to subscribe to list:
                 devicesRemote = await requestDeviceListAsync();
@@ -141,20 +141,52 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
             else
             {
+                OmemoFingerprint fingerprint = OMEMO_HELPER.OMEMO_STORE.LoadFingerprint(device);
+                if (!(fingerprint is null) && !OMEMO_HELPER.OMEMO_STORE.IsFingerprintTrusted(fingerprint))
+                {
+                    Logger.Warn("[OmemoSessionBuildHelper] Not building a session with " + device.ToString() + " - key not trusted.");
+                }
+
                 // Else try to build a new one by requesting the devices bundle information:
                 OmemoBundleInformationResultMessage bundleMsg = await requestBundleInformationAsync(device);
 
                 if (!(bundleMsg is null))
                 {
-                    SignalProtocolAddress address = OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
-                    SessionCipher cipher = OMEMO_HELPER.loadCipher(address);
-                    sessions.Add(device.getDeviceId(), cipher);
+                    OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
 
-                    Logger.Info("[OmemoSessionBuildHelper] Session with " + device.ToString() + " established.");
+                    // Validate fingerprints:
+                    if (fingerprint is null)
+                    {
+                        fingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.PUBLIC_IDENTITY_KEY.getPublicKey(), device);
+                        OMEMO_HELPER.OMEMO_STORE.StoreFingerprint(fingerprint);
+                    }
+                    else
+                    {
+                        OmemoFingerprint receivedFingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.PUBLIC_IDENTITY_KEY.getPublicKey(), device);
+                        // Make sure the fingerprint did not change or somebody is doing an attack:
+                        if (!fingerprint.checkIdentityKey(receivedFingerprint.IDENTITY_PUB_KEY))
+                        {
+                            Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with " + device.ToString() + " - other fingerprint received than stored locally.");
+                            return;
+                        }
+                    }
+
+                    // Check if the fingerprint is trusted:
+                    if (OMEMO_HELPER.OMEMO_STORE.IsFingerprintTrusted(fingerprint))
+                    {
+                        SessionCipher cipher = OMEMO_HELPER.loadCipher(device);
+                        sessions.Add(device.getDeviceId(), cipher);
+
+                        Logger.Info("[OmemoSessionBuildHelper] Session with " + device.ToString() + " established.");
+                    }
+                    else
+                    {
+                        Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with " + device.ToString() + " - key not trusted.");
+                    }
                 }
                 else
                 {
-                    Logger.Info("[OmemoSessionBuildHelper] Unable to establish session with: " + device.ToString());
+                    Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with: " + device.ToString());
                 }
             }
 

@@ -1,4 +1,5 @@
-﻿using libsignal;
+﻿using System.Collections.Generic;
+using libsignal;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
@@ -19,6 +20,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         void StoreFingerprint(OmemoFingerprint fingerprint);
 
         OmemoFingerprint LoadFingerprint(SignalProtocolAddress address);
+
+        IEnumerable<OmemoFingerprint> LoadFingerprints(string bareJid);
 
         #endregion
 

@@ -123,7 +123,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
                 else
                 {
                     // Create a new fingerprint and store it:
-                    fingerprint = new OmemoFingerprint(publicKey, address);
+                    fingerprint = new OmemoFingerprint(publicKey, address, DateTime.Now, false);
                 }
                 omemoStore.StoreFingerprint(fingerprint);
                 return omemoStore.IsFingerprintTrusted(fingerprint);

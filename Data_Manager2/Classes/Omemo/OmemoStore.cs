@@ -222,6 +222,12 @@ namespace Data_Manager2.Classes.Omemo
             return OmemoSignalKeyDBManager.INSTANCE.getFingerprint(address, ACCOUNT.getBareJid());
         }
 
+        public IEnumerable<OmemoFingerprint> LoadFingerprints(string bareJid)
+        {
+            string chat = ChatTable.generateId(bareJid, ACCOUNT.getBareJid());
+            return OmemoSignalKeyDBManager.INSTANCE.getFingerprints(chat);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

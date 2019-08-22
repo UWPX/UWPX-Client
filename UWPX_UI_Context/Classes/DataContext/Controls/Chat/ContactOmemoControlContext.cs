@@ -4,7 +4,6 @@ using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
-using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
@@ -67,22 +66,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             {
                 return;
             }
-            Task.Run(async () =>
+            Task.Run(() =>
             {
                 MODEL.Loading = true;
-                await LoadFingerprintsAsync();
+                MODEL.FINGERPRINTS.Clear();
+                MODEL.FINGERPRINTS.AddRange(OmemoSignalKeyDBManager.INSTANCE.getFingerprints(MODEL.Chat.id));
                 MODEL.Loading = false;
             });
-        }
-
-        private async Task LoadFingerprintsAsync()
-        {
-            OmemoHelper helper = MODEL.Client.getOmemoHelper();
-            MODEL.FINGERPRINTS.Clear();
-            if (!(helper is null))
-            {
-                MODEL.FINGERPRINTS.AddRange(OmemoSignalKeyDBManager.INSTANCE.getFingerprints(MODEL.Chat.id));
-            }
         }
 
         #endregion
