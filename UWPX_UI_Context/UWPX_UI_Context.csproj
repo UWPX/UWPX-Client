@@ -170,6 +170,7 @@
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoOwnFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OMEMO\OmemoTrustFingerprintControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\QrCodeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\QrCodeScannerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleContentControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\SpeechBubbleImageContentControlContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\AccountSelectionControlContext.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="Classes\DataContext\Dialogs\InitialStartDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\MucSuggestionsControlContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\OmemoOwnFingerprintDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\QrCodeScannerDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AddAccountPageContext.cs" />
@@ -230,6 +232,7 @@
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoOwnFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OMEMO\OmemoTrustFingerprintControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\QrCodeControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\QrCodeScannerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleContentControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\SpeechBubbleImageContentControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\AccountSelectionControlDataTemplate.cs" />
@@ -246,6 +249,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\InitialStartDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\MucSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\OmemoOwnFingerprintDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\QrCodeScannerDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\WhatsNewDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\FilterChangedDeferrer.cs" />
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />

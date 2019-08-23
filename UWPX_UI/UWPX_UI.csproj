@@ -235,6 +235,9 @@
     <Compile Include="Controls\QrCodeControl.xaml.cs">
       <DependentUpon>QrCodeControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\QrCodeScannerControl.xaml.cs">
+      <DependentUpon>QrCodeScannerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
     </Compile>
@@ -327,6 +330,9 @@
     </Compile>
     <Compile Include="Dialogs\OmemoOwnFingerprintDialog.xaml.cs">
       <DependentUpon>OmemoOwnFingerprintDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogs\QrCodeScannerDialog.xaml.cs">
+      <DependentUpon>QrCodeScannerDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
       <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
@@ -654,6 +660,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Controls\QrCodeScannerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\SeperatorControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -775,6 +785,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Dialogs\OmemoOwnFingerprintDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Dialogs\QrCodeScannerDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
