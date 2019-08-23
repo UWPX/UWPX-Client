@@ -15,7 +15,7 @@ namespace UWPX_UI.Controls.OMEMO
             get { return (OmemoFingerprint)GetValue(FingerprintProperty); }
             set { SetValue(FingerprintProperty, value); }
         }
-        public static readonly DependencyProperty FingerprintProperty = DependencyProperty.Register(nameof(Fingerprint), typeof(OmemoFingerprint), typeof(OmemoTrustFingerprintControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty FingerprintProperty = DependencyProperty.Register(nameof(Fingerprint), typeof(OmemoFingerprint), typeof(OmemoTrustFingerprintControl), new PropertyMetadata(null, OnFingerprintChanged));
 
         public delegate void OmemoFingerprintTrustChangedEventHandler(object sender, OmemoFingerprintTrustChangedEventArgs e);
         public event OmemoFingerprintTrustChangedEventHandler OmemoFingerprintTrustChanged;
@@ -42,7 +42,10 @@ namespace UWPX_UI.Controls.OMEMO
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
@@ -56,6 +59,14 @@ namespace UWPX_UI.Controls.OMEMO
         {
             Fingerprint.trusted = trust_tgls.IsOn;
             OmemoFingerprintTrustChanged?.Invoke(this, new OmemoFingerprintTrustChangedEventArgs(Fingerprint));
+        }
+
+        private static void OnFingerprintChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is OmemoTrustFingerprintControl fingerprintControl)
+            {
+                fingerprintControl.UpdateView(e);
+            }
         }
 
         #endregion

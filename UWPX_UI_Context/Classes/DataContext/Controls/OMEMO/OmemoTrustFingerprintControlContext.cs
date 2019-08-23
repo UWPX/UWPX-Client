@@ -1,4 +1,6 @@
 ﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
+using Windows.UI.Xaml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
 {
@@ -21,7 +23,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is OmemoFingerprint fingerprint)
+            {
+                MODEL.Trusted = fingerprint.trusted;
+            }
+        }
 
         #endregion
 

@@ -62,7 +62,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                 // Fallback:
                 return date.ToString("dd.MM.yyyy");
             }
-            return "A long time ago";
+            return "Never";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

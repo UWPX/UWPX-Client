@@ -1,4 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
 using Shared.Classes.Collections;
 using XMPP_API.Classes;
@@ -21,7 +22,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         public ChatTable Chat
         {
             get => _Chat;
-            set => SetProperty(ref _Chat, value);
+            set => SetChatProperty(value);
         }
 
         private XMPPClient _Client;
@@ -35,7 +36,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         public bool TrustedOnly
         {
             get => _TrustedOnly;
-            set => SetProperty(ref _TrustedOnly, value);
+            set => SetTrustedOnlyPropery(value);
         }
 
         public readonly CustomObservableCollection<OmemoFingerprint> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprint>(true);
@@ -58,7 +59,22 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
+        private void SetTrustedOnlyPropery(bool value)
+        {
+            if (SetProperty(ref _TrustedOnly, value, nameof(TrustedOnly)) && !(Chat is null) && Chat.omemoTrustedKeysOnly != value)
+            {
+                Chat.omemoTrustedKeysOnly = value;
+                ChatDBManager.INSTANCE.setChatTableValue(nameof(Chat.id), Chat.id, nameof(Chat.omemoTrustedKeysOnly), Chat.omemoTrustedKeysOnly);
+            }
+        }
 
+        private void SetChatProperty(ChatTable value)
+        {
+            if (SetProperty(ref _Chat, value, nameof(Chat)))
+            {
+                TrustedOnly = !(Chat is null) && Chat.omemoTrustedKeysOnly;
+            }
+        }
 
         #endregion
 

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
@@ -55,6 +57,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             {
                 MODEL.TrustedOnly = true;
             }
+
+            if (!(MODEL.Client is null))
+            {
+                OmemoSignalKeyDBManager.INSTANCE.setFingerprint(fingerprint, MODEL.Client.getXMPPAccount().getBareJid());
+            }
         }
 
         #endregion
@@ -69,8 +76,27 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             Task.Run(() =>
             {
                 MODEL.Loading = true;
+                List<OmemoFingerprint> fingerprints = OmemoSignalKeyDBManager.INSTANCE.getFingerprints(MODEL.Chat.id).ToList();
+                // Sort based on the last seen date. If it's the same prefer trusted ones:
+                fingerprints.Sort((x, y) =>
+                {
+                    int dateComp = y.lastSeen.CompareTo(x.lastSeen);
+                    if (dateComp == 0)
+                    {
+                        if (x.trusted == y.trusted)
+                        {
+                            return 0;
+                        }
+                        else if (y.trusted)
+                        {
+                            return 1;
+                        }
+                        return -1;
+                    }
+                    return dateComp;
+                });
                 MODEL.FINGERPRINTS.Clear();
-                MODEL.FINGERPRINTS.AddRange(OmemoSignalKeyDBManager.INSTANCE.getFingerprints(MODEL.Chat.id));
+                MODEL.FINGERPRINTS.AddRange(fingerprints);
                 MODEL.Loading = false;
             });
         }
