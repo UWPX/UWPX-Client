@@ -134,6 +134,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         public void UpdateView(ChatTable chat)
         {
+            Presence = chat.presence;
+
             // Subscription state:
             ProbePresenceVisibility = Visibility.Collapsed;
             RequestPresenceSubscriptionVisibility = Visibility.Collapsed;
