@@ -15,6 +15,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
+
             <CaptureElement x:Name="cameraPreview_ce"
                             Grid.Row="0"/>
             <!--  TODO: Camera Controls e.g. flash  -->
