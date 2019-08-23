@@ -91,6 +91,8 @@
                                                            Content="OMEMO Signed Pre keys"/>
                                     <controls:TreeViewNode x:Name="omemoSessions_tvn"
                                                            Content="OMEMO Sessions"/>
+                                    <controls:TreeViewNode x:Name="omemoFingerprints_tvn"
+                                                           Content="OMEMO Fingerprints"/>
                                 </controls:TreeViewNode.Children>
                             </controls:TreeViewNode>
                         </controls:TreeViewNode.Children>

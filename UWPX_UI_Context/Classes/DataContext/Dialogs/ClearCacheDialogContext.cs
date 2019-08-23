@@ -119,6 +119,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     {
                         AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
                     }
+                    if (MODEL.OmemoFingerprints)
+                    {
+                        AbstractDBManager.dB.RecreateTable<OmemoFingerprintTable>();
+                    }
 
                     // Clients:
                     if (MODEL.ReloadClients)

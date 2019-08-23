@@ -136,6 +136,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             get => _OmemoSessions;
             set => SetProperty(ref _OmemoSessions, value);
         }
+        private bool _OmemoFingerprints;
+        public bool OmemoFingerprints
+        {
+            get => _OmemoFingerprints;
+            set => SetProperty(ref _OmemoFingerprints, value);
+        }
 
         // Clients:
         private bool _ReloadClients;

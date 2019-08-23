@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class ClearCacheDialog : ContentDialog
+    public sealed partial class ClearCacheDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -66,6 +66,7 @@ namespace UWPX_UI.Dialogs
             VIEW_MODEL.MODEL.OmemoPreKeys = tree_tv.SelectedNodes.Contains(omemoPreKeys_tvn);
             VIEW_MODEL.MODEL.OmemoSignedPreKeys = tree_tv.SelectedNodes.Contains(omemoSignedPreKeys_tvn);
             VIEW_MODEL.MODEL.OmemoSessions = tree_tv.SelectedNodes.Contains(omemoSessions_tvn);
+            VIEW_MODEL.MODEL.OmemoFingerprints = tree_tv.SelectedNodes.Contains(omemoFingerprints_tvn);
 
             // Clients:
             VIEW_MODEL.MODEL.ReloadClients = tree_tv.SelectedNodes.Contains(reloadClients_tvn);
