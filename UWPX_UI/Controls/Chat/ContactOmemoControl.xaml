@@ -90,7 +90,8 @@
                     </Grid.RowDefinitions>
                     <StackPanel Grid.Row="0"
                                 Orientation="Horizontal">
-                        <ToggleSwitch Header="Trusted keys only"
+                        <ToggleSwitch Margin="0,0,-20,0"
+                                      Header="Trusted only"
                                       IsOn="{x:Bind VIEW_MODEL.MODEL.TrustedOnly, Mode=TwoWay}"/>
                         <Button Style="{ThemeResource InfoButtonStyle}"/>
                     </StackPanel>
@@ -106,6 +107,16 @@
                             </Style>
                         </ListView.ItemContainerStyle>
                     </ListView>
+                    <TextBlock Grid.Row="1"
+                               Margin="0,10,0,0"
+                               IsTextSelectionEnabled="True"
+                               TextWrapping="WrapWholeWords"
+                               Visibility="{x:Bind VIEW_MODEL.MODEL.NoFingerprintsFound, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                        <Run FontWeight="Bold"
+                             Text="No fingerprints found!"/>
+                        <LineBreak/>
+                        <Run Text="Either your contact has no supported devices, or you have never send/received an OMEMO encrypted message from him."/>
+                    </TextBlock>
                 </Grid>
             </Grid>
         </Border>

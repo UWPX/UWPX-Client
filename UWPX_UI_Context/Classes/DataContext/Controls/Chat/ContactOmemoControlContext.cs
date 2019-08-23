@@ -97,6 +97,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
                 });
                 MODEL.FINGERPRINTS.Clear();
                 MODEL.FINGERPRINTS.AddRange(fingerprints);
+                MODEL.NoFingerprintsFound = fingerprints.Count <= 0;
                 MODEL.Loading = false;
             });
         }

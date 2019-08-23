@@ -39,6 +39,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetTrustedOnlyPropery(value);
         }
 
+        private bool _NoFingerprintsFound;
+        public bool NoFingerprintsFound
+        {
+            get => _NoFingerprintsFound;
+            set => SetProperty(ref _NoFingerprintsFound, value);
+        }
+
         public readonly CustomObservableCollection<OmemoFingerprint> FINGERPRINTS = new CustomObservableCollection<OmemoFingerprint>(true);
 
         #endregion
