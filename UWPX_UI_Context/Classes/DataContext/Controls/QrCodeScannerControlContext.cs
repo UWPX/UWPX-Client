@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
+﻿using System.Text.RegularExpressions;
+using UWPX_UI_Context.Classes.DataTemplates.Controls;
+using Windows.UI.Xaml;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -21,7 +23,23 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is string s)
+            {
+                MODEL.ValidQrCodeRegex = new Regex(s);
+            }
+            else
+            {
+                // Fall back to every QR Code is valid:
+                MODEL.ValidQrCodeRegex = new Regex(".*");
+            }
+        }
 
+        public bool IsValidQrCode(string text)
+        {
+            return MODEL.ValidQrCodeRegex.IsMatch(text);
+        }
 
         #endregion
 

@@ -82,6 +82,7 @@ namespace UWPX_UI.Controls.Chat
         {
             QrCodeScannerDialog dialog = new QrCodeScannerDialog();
             await UiUtils.ShowDialogAsync(dialog);
+            VIEW_MODEL.OnQrCodeScannerShown(dialog.VIEW_MODEL.MODEL);
         }
 
         private async void ShowOwnFingerprint_mfo_Click(object sender, RoutedEventArgs e)

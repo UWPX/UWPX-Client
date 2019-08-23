@@ -1,17 +1,20 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using System;
 
-namespace UWPX_UI_Context.Classes.DataContext.Dialogs
+namespace UWPX_UI_Context.Classes.Events
 {
-    public class QrCodeScannerDialogContext
+    public class NewQrCodeEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly QrCodeScannerDialogDataTemplate MODEL = new QrCodeScannerDialogDataTemplate();
+        public readonly string QR_CODE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public NewQrCodeEventArgs(string qrCode)
+        {
+            QR_CODE = qrCode;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -21,16 +24,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void OnValidQrCode(string qrCode)
-        {
-            MODEL.QrCode = qrCode;
-            MODEL.Success = true;
-        }
 
-        public void OnCancel()
-        {
-            MODEL.Success = false;
-        }
 
         #endregion
 

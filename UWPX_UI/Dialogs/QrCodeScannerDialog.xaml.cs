@@ -1,4 +1,9 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using System.Threading.Tasks;
+using Shared.Classes;
+using UWPX_UI.Controls;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using UWPX_UI_Context.Classes.Events;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
@@ -7,7 +12,7 @@ namespace UWPX_UI.Dialogs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly QrCodeScannerDialogDataTemplate VIEW_MODEL = new QrCodeScannerDialogDataTemplate();
+        public readonly QrCodeScannerDialogContext VIEW_MODEL = new QrCodeScannerDialogContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,14 +45,34 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void QrCodeScannerControl_NewInvalidQrCode(QrCodeScannerControl sender, NewQrCodeEventArgs args)
         {
+            await SharedUtils.CallDispatcherAsync(async () =>
+            {
+                invalidQrCode_grid.Visibility = Visibility.Visible;
+                await Task.Delay(5000);
+                invalidQrCode_grid.Visibility = Visibility.Collapsed;
+            });
+        }
+
+        private async void QrCodeScannerControl_NewValidQrCode(QrCodeScannerControl sender, NewQrCodeEventArgs args)
+        {
+            VIEW_MODEL.OnValidQrCode(args.QR_CODE);
+            await SharedUtils.CallDispatcherAsync(async () =>
+            {
+                IsSecondaryButtonEnabled = false;
+                invalidQrCode_grid.Visibility = Visibility.Collapsed;
+                validQrCode_grid.Visibility = Visibility.Visible;
+                await Task.Delay(1500);
+                Hide();
+            });
         }
 
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
+            VIEW_MODEL.OnCancel();
+            Hide();
         }
-
         #endregion
     }
 }

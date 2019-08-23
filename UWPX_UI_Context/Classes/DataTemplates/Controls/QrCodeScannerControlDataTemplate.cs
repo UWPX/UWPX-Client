@@ -1,4 +1,5 @@
-﻿using Shared.Classes;
+﻿using System.Text.RegularExpressions;
+using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -18,6 +19,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _HasAccess;
             set => SetProperty(ref _HasAccess, value);
         }
+        private Regex _ValidQrCodeRegex;
+        public Regex ValidQrCodeRegex
+        {
+            get => _ValidQrCodeRegex;
+            set => SetProperty(ref _ValidQrCodeRegex, value);
+        }
+        private string _QrCode;
+        public string QrCode
+        {
+            get => _QrCode;
+            set => SetProperty(ref _QrCode, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,6 +39,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             HasAccess = true;
             Loading = true;
+
+            // By default every QR Code is valid:
+            ValidQrCodeRegex = new Regex(".*");
         }
 
         #endregion

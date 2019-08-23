@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -62,6 +63,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             {
                 OmemoSignalKeyDBManager.INSTANCE.setFingerprint(fingerprint, MODEL.Client.getXMPPAccount().getBareJid());
             }
+        }
+
+        public void OnQrCodeScannerShown(QrCodeScannerDialogDataTemplate model)
+        {
+            // TODO: Analyze QR Code text and set the right fingerprint to valid.
         }
 
         #endregion

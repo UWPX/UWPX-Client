@@ -7,6 +7,7 @@ using Microsoft.Toolkit.Uwp.Helpers;
 using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
+using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
 using Windows.UI.Xaml;
@@ -30,6 +31,19 @@ namespace UWPX_UI.Controls
         private SoftwareBitmap qrCodeBitmap = null;
         private bool shouldQrCodeScannerTaskRun = false;
         private Task qrCodeScannerTask = null;
+
+        public string QrCodeResultFilterRegex
+        {
+            get { return (string)GetValue(QrCodeResultFilterRegexProperty); }
+            set { SetValue(QrCodeResultFilterRegexProperty, value); }
+        }
+        public static readonly DependencyProperty QrCodeResultFilterRegexProperty = DependencyProperty.Register(nameof(QrCodeResultFilterRegex), typeof(string), typeof(QrCodeScannerControl), new PropertyMetadata(".*", OnQrCodeResultFilterRegexChanged));
+
+        public delegate void NewInvalidQrCodeEventHandler(QrCodeScannerControl sender, NewQrCodeEventArgs args);
+        public event NewInvalidQrCodeEventHandler NewInvalidQrCode;
+
+        public delegate void NewValidQrCodeEventHandler(QrCodeScannerControl sender, NewQrCodeEventArgs args);
+        public event NewValidQrCodeEventHandler NewValidQrCode;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -90,10 +104,11 @@ namespace UWPX_UI.Controls
             VIEW_MODEL.MODEL.Loading = false;
         }
 
-        public void StopCamera()
+        public async Task StopCameraAsync()
         {
             Logger.Info("Stopping QR Code scanner camera...");
             StopQrCodeTask();
+            await cameraHelper.CleanUpAsync();
             cameraPreview_cp.Stop();
             Logger.Info("Stopped QR Code scanner camera.");
         }
@@ -138,6 +153,11 @@ namespace UWPX_UI.Controls
             shouldQrCodeScannerTaskRun = false;
         }
 
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -151,14 +171,14 @@ namespace UWPX_UI.Controls
             await StartCameraAsync();
         }
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            StopCamera();
+            await StopCameraAsync();
         }
 
-        private void Current_Suspending(object sender, SuspendingEventArgs e)
+        private async void Current_Suspending(object sender, SuspendingEventArgs e)
         {
-            StopCamera();
+            await StopCameraAsync();
         }
 
         private async void Current_Resuming(object sender, object e)
@@ -168,7 +188,19 @@ namespace UWPX_UI.Controls
 
         private void QR_CODE_READER_ResultFound(Result result)
         {
-            Logger.Debug("Read QR Code: " + result.Text);
+            Logger.Debug("Scanned QR Code: " + result.Text);
+            if (!string.Equals(result.Text, VIEW_MODEL.MODEL.QrCode))
+            {
+                VIEW_MODEL.MODEL.QrCode = result.Text;
+                if (VIEW_MODEL.IsValidQrCode(result.Text))
+                {
+                    NewValidQrCode?.Invoke(this, new NewQrCodeEventArgs(result.Text));
+                }
+                else
+                {
+                    NewInvalidQrCode?.Invoke(this, new NewQrCodeEventArgs(result.Text));
+                }
+            }
         }
 
         private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
@@ -187,6 +219,14 @@ namespace UWPX_UI.Controls
             VIEW_MODEL.MODEL.HasAccess = false;
             VIEW_MODEL.MODEL.Loading = false;
             Logger.Error("Unable to start the QR Code scanner camera - " + e.Error);
+        }
+
+        private static void OnQrCodeResultFilterRegexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is QrCodeScannerControl qrCodeScannerControl)
+            {
+                qrCodeScannerControl.UpdateView(e);
+            }
         }
         #endregion
     }

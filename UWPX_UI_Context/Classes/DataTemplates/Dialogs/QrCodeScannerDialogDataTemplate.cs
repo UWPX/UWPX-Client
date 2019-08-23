@@ -13,11 +13,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _Success, value);
         }
 
-        private string _QrCodeText;
-        public string QrCodeText
+        private string _QrCode;
+        public string QrCode
         {
-            get => _QrCodeText;
-            set => SetProperty(ref _QrCodeText, value);
+            get => _QrCode;
+            set => SetProperty(ref _QrCode, value);
         }
 
         #endregion
