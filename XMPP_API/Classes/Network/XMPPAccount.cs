@@ -175,7 +175,7 @@ namespace XMPP_API.Classes.Network
             {
                 pubPreKeys.Add(new Tuple<uint, ECPublicKey>(key.getId(), key.getKeyPair().getPublicKey()));
             }
-            return new OmemoBundleInformation(omemoIdentityKeyPair.getPublicKey(), omemoSignedPreKeyPair.getKeyPair().getPublicKey(), omemoSignedPreKeyId, omemoSignedPreKeyPair.getSignature(), pubPreKeys);
+            return new OmemoBundleInformation(omemoIdentityKeyPair.getPublicKey().getPublicKey(), omemoSignedPreKeyPair.getKeyPair().getPublicKey(), omemoSignedPreKeyId, omemoSignedPreKeyPair.getSignature(), pubPreKeys);
         }
 
         private void setXMPPUserProperty(XMPPUser value)

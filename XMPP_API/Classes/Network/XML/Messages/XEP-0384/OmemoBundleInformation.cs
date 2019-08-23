@@ -1,19 +1,19 @@
-﻿using libsignal;
-using libsignal.ecc;
-using libsignal.state;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using libsignal;
+using libsignal.ecc;
+using libsignal.state;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoBundleInformation : AbstractPubSubItem
+    public class OmemoBundleInformation: AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public IdentityKey PUBLIC_IDENTITY_KEY { get; private set; }
+        public ECPublicKey PUBLIC_IDENTITY_KEY { get; private set; }
         public ECPublicKey PUBLIC_SIGNED_PRE_KEY { get; private set; }
         public readonly IList<Tuple<uint, ECPublicKey>> PUBLIC_PRE_KEYS;
         public byte[] SIGNED_PRE_KEY_SIGNATURE { get; private set; }
@@ -33,7 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
         }
 
-        public OmemoBundleInformation(IdentityKey publicIdentityKey, ECPublicKey publicSignedPreKey, uint signedPreKeyId, byte[] signedPreKeySignature, IList<Tuple<uint, ECPublicKey>> publicPreKeys)
+        public OmemoBundleInformation(ECPublicKey publicIdentityKey, ECPublicKey publicSignedPreKey, uint signedPreKeyId, byte[] signedPreKeySignature, IList<Tuple<uint, ECPublicKey>> publicPreKeys)
         {
             id = null;
             PUBLIC_IDENTITY_KEY = publicIdentityKey;
@@ -55,7 +55,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             Random r = new Random();
             Tuple<uint, ECPublicKey> publicPreKey = PUBLIC_PRE_KEYS[r.Next(0, PUBLIC_PRE_KEYS.Count)];
 
-            return new PreKeyBundle(remoteDeviceId, remoteDeviceId, publicPreKey.Item1, publicPreKey.Item2, SIGNED_PRE_KEY_ID, PUBLIC_SIGNED_PRE_KEY, SIGNED_PRE_KEY_SIGNATURE, PUBLIC_IDENTITY_KEY);
+            IdentityKey pubIdentityKey = new IdentityKey(PUBLIC_IDENTITY_KEY);
+            return new PreKeyBundle(remoteDeviceId, remoteDeviceId, publicPreKey.Item1, publicPreKey.Item2, SIGNED_PRE_KEY_ID, PUBLIC_SIGNED_PRE_KEY, SIGNED_PRE_KEY_SIGNATURE, pubIdentityKey);
         }
 
         protected override XElement getContent(XNamespace ns)
@@ -125,7 +126,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 
                                 case "identityKey":
                                     byte[] identPubKey = Convert.FromBase64String(n.InnerText);
-                                    PUBLIC_IDENTITY_KEY = new IdentityKey(identPubKey, 0);
+                                    PUBLIC_IDENTITY_KEY = Curve.decodePoint(identPubKey, 0);
                                     break;
 
                                 case "prekeys":

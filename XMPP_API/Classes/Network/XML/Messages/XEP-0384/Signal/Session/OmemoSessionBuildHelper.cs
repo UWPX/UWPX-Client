@@ -157,12 +157,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                     // Validate fingerprints:
                     if (fingerprint is null)
                     {
-                        fingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.PUBLIC_IDENTITY_KEY.getPublicKey(), device);
+                        fingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.PUBLIC_IDENTITY_KEY, device);
                         OMEMO_HELPER.OMEMO_STORE.StoreFingerprint(fingerprint);
                     }
                     else
                     {
-                        OmemoFingerprint receivedFingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.PUBLIC_IDENTITY_KEY.getPublicKey(), device);
+                        OmemoFingerprint receivedFingerprint = new OmemoFingerprint(bundleMsg.BUNDLE_INFO.PUBLIC_IDENTITY_KEY, device);
                         // Make sure the fingerprint did not change or somebody is doing an attack:
                         if (!fingerprint.checkIdentityKey(receivedFingerprint.IDENTITY_PUB_KEY))
                         {

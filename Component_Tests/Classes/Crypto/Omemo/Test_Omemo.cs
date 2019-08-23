@@ -338,7 +338,7 @@ namespace Component_Tests.Classes.Crypto.Omemo
             {
                 publicPreKeys.Add(new Tuple<uint, ECPublicKey>(pk.getId(), pk.getKeyPair().getPublicKey()));
             }
-            OmemoBundleInformation bundleInfo = new OmemoBundleInformation(identKey.getPublicKey(), signedPreKey.getKeyPair().getPublicKey(), signedPreKey.getId(), signedPreKey.getSignature(), publicPreKeys);
+            OmemoBundleInformation bundleInfo = new OmemoBundleInformation(identKey.getPublicKey().getPublicKey(), signedPreKey.getKeyPair().getPublicKey(), signedPreKey.getId(), signedPreKey.getSignature(), publicPreKeys);
 
             StringBuilder sb = new StringBuilder("<iq xml:lang='en' to='");
             sb.Append(ALICE_ADDRESS.getName());
