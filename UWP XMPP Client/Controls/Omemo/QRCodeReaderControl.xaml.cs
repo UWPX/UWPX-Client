@@ -1,9 +1,9 @@
-﻿using Logging;
-using Microsoft.Toolkit.Uwp.Helpers;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Logging;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
@@ -15,7 +15,7 @@ using ZXing;
 
 namespace UWP_XMPP_Client.Controls.Omemo
 {
-    public sealed partial class QRCodeReaderControl : UserControl
+    public sealed partial class QRCodeReaderControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -50,7 +50,13 @@ namespace UWPX_UI.Controls
             try
             {
                 camera = new MediaCapture();
-                await camera.InitializeAsync();
+
+                MediaCaptureInitializationSettings settings = new MediaCaptureInitializationSettings()
+                {
+                    StreamingCaptureMode = StreamingCaptureMode.Video
+                };
+
+                await camera.InitializeAsync(settings);
 
                 displayRequest.RequestActive();
             }
