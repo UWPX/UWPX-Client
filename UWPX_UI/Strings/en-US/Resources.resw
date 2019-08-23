@@ -186,6 +186,15 @@ Sends your current chat state to your contacts (e.g. `online`, `typin`, ...).
 **Off**  
 Does not send your current chat state to your contacts (e.g. `online`, `typin`, ...).</value>
   </data>
+  <data name="ContactOmemoControl_trusted_fingerprints_only_tooltip.Text" xml:space="preserve">
+    <value>**On**  
+Messages will be send only to devices their fingerprint is trusted by you.  
+Messages received from devices with an untrusted fingerprint will be silently discarded.
+
+**Off**  
+Messages will be send to all devices even if their fingerprint is not trusted by you.  
+Messages received from devices with an untrusted fingerprint will be accepted and decrypted.</value>
+  </data>
   <data name="CreditsPage_code_markdown.Text" xml:space="preserve">
     <value>* [**App Center Crashes/Push/Analytics**](https://github.com/Microsoft/AppCenter-SDK-DotNet) Allows me to collect crash reports ([UWPX Privacy Policy](https://github.com/UWPX/UWPX-Client/blob/master/PRIVACY_POLICY.md#crash-reporting)).
 * [**libsignal-protocol-pcl**](https://github.com/langboost/libsignal-protocol-pcl) A port of the [libsignal-protocol-java](https://github.com/signalapp/libsignal-protocol-java) library for C# UWP.

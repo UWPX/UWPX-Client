@@ -93,7 +93,15 @@
                         <ToggleSwitch Margin="0,0,-20,0"
                                       Header="Trusted only"
                                       IsOn="{x:Bind VIEW_MODEL.MODEL.TrustedOnly, Mode=TwoWay}"/>
-                        <Button Style="{ThemeResource InfoButtonStyle}"/>
+                        <Button Style="{ThemeResource InfoButtonStyle}">
+                            <Button.Flyout>
+                                <Flyout>
+                                    <controls:MarkdownTextBlock x:Uid="ContactOmemoControl_trusted_fingerprints_only_tooltip"
+                                                                MaxWidth="400"
+                                                                TextWrapping="Wrap"/>
+                                </Flyout>
+                            </Button.Flyout>
+                        </Button>
                     </StackPanel>
                     <ListView Grid.Row="1"
                               ItemTemplate="{StaticResource FingerprintTemplate}"
