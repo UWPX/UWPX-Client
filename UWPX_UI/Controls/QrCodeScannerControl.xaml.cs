@@ -1,17 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
+using Microsoft.Toolkit.Uwp.Helpers;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.ApplicationModel;
 using Windows.Graphics.Imaging;
-using Windows.Media.Capture;
-using Windows.Media.Capture.Frames;
-using Windows.System.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using ZXing;
@@ -25,13 +22,10 @@ namespace UWPX_UI.Controls
         public readonly QrCodeScannerControlContext VIEW_MODEL = new QrCodeScannerControlContext();
 
         // Camera:
-        private MediaCapture camera;
-        private DisplayRequest displayRequest = new DisplayRequest();
-        private bool previewRunning;
+        private CameraHelper cameraHelper;
 
         // QR Code reader:
         private readonly BarcodeReader QR_CODE_READER;
-        private MediaFrameReader frameReader;
         private readonly SemaphoreSlim QR_CODE_IMAGE_SEMA = new SemaphoreSlim(1);
         private SoftwareBitmap qrCodeBitmap = null;
         private bool shouldQrCodeScannerTaskRun = false;
@@ -75,121 +69,43 @@ namespace UWPX_UI.Controls
         #region --Misc Methods (Public)--
         public async Task StartCameraAsync()
         {
+            Logger.Info("Starting QR Code scanner camera...");
             VIEW_MODEL.MODEL.Loading = true;
-            try
+
+            cameraHelper = new CameraHelper();
+            CameraHelperResult result = await cameraHelper.InitializeAndStartCaptureAsync();
+            if (result == CameraHelperResult.Success)
             {
-                camera = new MediaCapture();
-
-                // Make sure we only access the video but not the audio stream for scanning QR Codes:
-                MediaCaptureInitializationSettings settings = new MediaCaptureInitializationSettings()
-                {
-                    StreamingCaptureMode = StreamingCaptureMode.Video,
-                    MemoryPreference = MediaCaptureMemoryPreference.Cpu
-                };
-
-                await camera.InitializeAsync(settings);
-
-                displayRequest.RequestActive();
-            }
-            catch (UnauthorizedAccessException)
-            {
-                Logger.Error("Failed to access camera for scanning a QR Code!");
-                VIEW_MODEL.MODEL.Loading = false;
-                VIEW_MODEL.MODEL.HasAccess = false;
-                return;
-            }
-
-            try
-            {
-                cameraPreview_ce.Source = camera;
-                await camera.StartPreviewAsync();
-                previewRunning = true;
+                await cameraPreview_cp.StartAsync(cameraHelper);
+                cameraHelper.FrameArrived += CameraHelper_FrameArrived;
+                StartQrCodeTask();
                 VIEW_MODEL.MODEL.HasAccess = true;
+                Logger.Info("Started QR Code scanner camera.");
             }
-            catch (FileLoadException)
+            else
             {
-                Logger.Error("Can to access camera feed for the QR Code scanner. An other app has exclusive control!");
-                camera.CaptureDeviceExclusiveControlStatusChanged += Camera_CaptureDeviceExclusiveControlStatusChanged;
+                Logger.Error("Unable to start the QR Code scanner camera - " + result.ToString());
                 VIEW_MODEL.MODEL.HasAccess = false;
             }
             VIEW_MODEL.MODEL.Loading = false;
-
-            await StartFrameListenerAsync();
         }
 
-        public async Task StopCameraAsync()
+        public void StopCamera()
         {
-            if (!(camera is null))
-            {
-                await SharedUtils.CallDispatcherAsync(async () =>
-                {
-                    await StopFrameListenerAsync();
-
-                    if (previewRunning)
-                    {
-                        previewRunning = false;
-
-                        await camera.StopPreviewAsync();
-                        displayRequest.RequestRelease();
-                    }
-                    cameraPreview_ce.Source = null;
-
-                    camera.Dispose();
-                    camera = null;
-                });
-            }
+            Logger.Info("Stopping QR Code scanner camera...");
+            StopQrCodeTask();
+            cameraPreview_cp.Stop();
+            Logger.Info("Stopped QR Code scanner camera.");
         }
-
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task StartFrameListenerAsync()
-        {
-            try
-            {
-                if (camera.FrameSources.Count > 0)
-                {
-                    MediaFrameSource frameSource = camera.FrameSources.First().Value;
-                    if (!(frameSource is null))
-                    {
-                        frameReader = await camera.CreateFrameReaderAsync(frameSource);
-                        frameReader.FrameArrived += FrameReader_FrameArrived;
-                        await frameReader.StartAsync();
-                        StartQrCodeTask();
-                    }
-                    else
-                    {
-                        Logger.Error("QR Code scanner MediaFrameSource is null!");
-                    }
-                }
-                else
-                {
-                    Logger.Error("QR Code scanner MediaFrameReader creation failed with: No camera available!");
-                }
-            }
-            catch (Exception e)
-            {
-                Logger.Error("QR Code scanner MediaFrameReader creation failed with:", e);
-            }
-        }
-
-        private async Task StopFrameListenerAsync()
-        {
-            StopQrCodeTask();
-            if (!(frameReader is null))
-            {
-                frameReader.FrameArrived -= FrameReader_FrameArrived;
-                await frameReader.StopAsync();
-                frameReader.Dispose();
-                frameReader = null;
-            }
-        }
-
         private void StartQrCodeTask()
         {
             shouldQrCodeScannerTaskRun = true;
             qrCodeScannerTask = Task.Run(async () =>
             {
+                Logger.Info("Started QR Code scanner task.");
                 while (shouldQrCodeScannerTaskRun)
                 {
                     QR_CODE_IMAGE_SEMA.Wait();
@@ -213,6 +129,7 @@ namespace UWPX_UI.Controls
                         QR_CODE_IMAGE_SEMA.Release();
                     }
                 }
+                Logger.Info("Ended QR Code scanner task.");
             });
         }
 
@@ -234,16 +151,14 @@ namespace UWPX_UI.Controls
             await StartCameraAsync();
         }
 
-        private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            await StopCameraAsync();
+            StopCamera();
         }
 
-        private async void Current_Suspending(object sender, SuspendingEventArgs e)
+        private void Current_Suspending(object sender, SuspendingEventArgs e)
         {
-            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
-            await StopCameraAsync();
-            deferral.Complete();
+            StopCamera();
         }
 
         private async void Current_Resuming(object sender, object e)
@@ -251,37 +166,27 @@ namespace UWPX_UI.Controls
             await StartCameraAsync();
         }
 
-        private async void Camera_CaptureDeviceExclusiveControlStatusChanged(MediaCapture sender, MediaCaptureDeviceExclusiveControlStatusChangedEventArgs args)
-        {
-            switch (args.Status)
-            {
-                case MediaCaptureDeviceExclusiveControlStatus.ExclusiveControlAvailable when !previewRunning:
-                    await SharedUtils.CallDispatcherAsync(async () => await StartCameraAsync());
-                    break;
-
-                case MediaCaptureDeviceExclusiveControlStatus.SharedReadOnlyAvailable:
-                    Logger.Error("Can to access camera feed for the QR Code scanner. An other app has exclusive control!");
-                    VIEW_MODEL.MODEL.HasAccess = false;
-                    break;
-            }
-        }
-
         private void QR_CODE_READER_ResultFound(Result result)
         {
             Logger.Debug("Read QR Code: " + result.Text);
         }
 
-        private void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
+        private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
         {
-            MediaFrameReference frameRef = sender.TryAcquireLatestFrame();
-            VideoMediaFrame frame = frameRef?.VideoMediaFrame;
-            SoftwareBitmap softwareBitmap = frame?.SoftwareBitmap;
+            SoftwareBitmap softwareBitmap = e.VideoFrame?.SoftwareBitmap;
             if (!(softwareBitmap is null) && QR_CODE_IMAGE_SEMA.CurrentCount >= 1)
             {
                 // Swap the process frame to qrCodeBitmap and dispose the unused image:
                 softwareBitmap = Interlocked.Exchange(ref qrCodeBitmap, softwareBitmap);
                 softwareBitmap?.Dispose();
             }
+        }
+
+        private void CameraPreview_cp_PreviewFailed(object sender, PreviewFailedEventArgs e)
+        {
+            VIEW_MODEL.MODEL.HasAccess = false;
+            VIEW_MODEL.MODEL.Loading = false;
+            Logger.Error("Unable to start the QR Code scanner camera - " + e.Error);
         }
         #endregion
     }

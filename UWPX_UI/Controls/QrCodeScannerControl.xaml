@@ -16,8 +16,10 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
-            <CaptureElement x:Name="cameraPreview_ce"
-                            Grid.Row="0"/>
+            <controls:CameraPreview x:Name="cameraPreview_cp"
+                                    Grid.Row="0"
+                                    IsFrameSourceGroupButtonVisible="True"
+                                    PreviewFailed="CameraPreview_cp_PreviewFailed"/>
             <!--  TODO: Camera Controls e.g. flash  -->
         </Grid>
 
