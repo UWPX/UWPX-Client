@@ -1,0 +1,15 @@
+﻿<ContentDialog x:Class="UWPX_UI.Dialogs.OmemoOwnFingerprintDialog"
+               xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+               xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+               xmlns:controlsOmemo="using:UWPX_UI.Controls.OMEMO"
+               xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+               xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+               Title="Your OMEMO Fingerprint"
+               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+               SecondaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
+               SecondaryButtonText="Close"
+               mc:Ignorable="d">
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <controlsOmemo:OmemoOwnFingerprintControl Account="{x:Bind Account, Mode=OneWay}"/>
+    </ScrollViewer>
+</ContentDialog>

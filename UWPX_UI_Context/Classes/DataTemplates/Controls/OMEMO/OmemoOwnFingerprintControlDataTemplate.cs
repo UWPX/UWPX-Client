@@ -2,6 +2,7 @@
 using libsignal.ecc;
 using Shared.Classes;
 using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
 {
@@ -35,13 +36,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(AccountDataTemplate account)
+        public void UpdateView(XMPPAccount account)
         {
             if (!(account is null))
             {
-                IdentityKey key = account.Account.omemoIdentityKeyPair?.getPublicKey();
+                IdentityKey key = account.omemoIdentityKeyPair?.getPublicKey();
                 IdentPubKey = key.getPublicKey();
-                QrCodeFingerprint = !(key is null) ? CryptoUtils.generateOmemoQrCodeFingerprint(key, account.Account) : null;
+                QrCodeFingerprint = !(key is null) ? CryptoUtils.generateOmemoQrCodeFingerprint(key, account) : null;
                 return;
             }
             IdentPubKey = null;

@@ -1,19 +1,30 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
+﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
+namespace UWPX_UI.Dialogs
 {
-    public class OmemoOwnFingerprintControlContext
+    public sealed partial class OmemoOwnFingerprintDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoOwnFingerprintControlDataTemplate MODEL = new OmemoOwnFingerprintControlDataTemplate();
+        public readonly OmemoOwnFingerprintDialogContext VIEW_MODEL = new OmemoOwnFingerprintDialogContext();
+
+        public XMPPAccount Account
+        {
+            get { return (XMPPAccount)GetValue(AccountProperty); }
+            set { SetValue(AccountProperty, value); }
+        }
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(OmemoOwnFingerprintDialog), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public OmemoOwnFingerprintDialog()
+        {
+            InitializeComponent();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -23,17 +34,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is XMPPAccount account)
-            {
-                MODEL.UpdateView(account);
-            }
-            else
-            {
-                MODEL.UpdateView(null);
-            }
-        }
+
 
         #endregion
 

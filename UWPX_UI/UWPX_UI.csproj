@@ -325,6 +325,9 @@
     <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
       <DependentUpon>InitialStartDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\OmemoOwnFingerprintDialog.xaml.cs">
+      <DependentUpon>OmemoOwnFingerprintDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\WhatsNewDialog.xaml.cs">
       <DependentUpon>WhatsNewDialog.xaml</DependentUpon>
     </Compile>
@@ -770,6 +773,10 @@
     <Page Include="Dialogs\InitialStartDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Dialogs\OmemoOwnFingerprintDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Dialogs\WhatsNewDialog.xaml">
       <SubType>Designer</SubType>

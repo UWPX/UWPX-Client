@@ -1,7 +1,7 @@
 ﻿using UWPX_UI_Context.Classes.DataContext.Controls.OMEMO;
-using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network;
 
 namespace UWPX_UI.Controls.OMEMO
 {
@@ -9,12 +9,12 @@ namespace UWPX_UI.Controls.OMEMO
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public AccountDataTemplate Account
+        public XMPPAccount Account
         {
-            get => (AccountDataTemplate)GetValue(AccountProperty);
+            get => (XMPPAccount)GetValue(AccountProperty);
             set => SetValue(AccountProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(OmemoOwnFingerprintControl), new PropertyMetadata(null, OnAccountChanged));
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(OmemoOwnFingerprintControl), new PropertyMetadata(null, OnAccountChanged));
 
         public readonly OmemoOwnFingerprintControlContext VIEW_MODEL = new OmemoOwnFingerprintControlContext();
 

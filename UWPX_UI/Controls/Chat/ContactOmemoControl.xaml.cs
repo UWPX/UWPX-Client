@@ -1,4 +1,6 @@
 ﻿using Data_Manager2.Classes.DBTables;
+using UWPX_UI.Dialogs;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
@@ -78,12 +80,15 @@ namespace UWPX_UI.Controls.Chat
 
         private void ScanQrCode_mfo_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
-        private void ShowOwnFingerprint_mfo_Click(object sender, RoutedEventArgs e)
+        private async void ShowOwnFingerprint_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            OmemoOwnFingerprintDialog dialog = new OmemoOwnFingerprintDialog()
+            {
+                Account = Client.getXMPPAccount()
+            };
+            await UiUtils.ShowDialogAsync(dialog);
         }
 
         private void OmemoTrustFingerprintControl_OmemoFingerprintTrustChanged(object sender, OmemoFingerprintTrustChangedEventArgs args)

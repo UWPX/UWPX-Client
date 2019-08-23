@@ -1,14 +1,12 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.OMEMO;
-using Windows.UI.Xaml;
-using XMPP_API.Classes.Network;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
+namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
-    public class OmemoOwnFingerprintControlContext
+    public class OmemoOwnFingerprintDialogContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly OmemoOwnFingerprintControlDataTemplate MODEL = new OmemoOwnFingerprintControlDataTemplate();
+        public readonly OmemoOwnFingerprintDialogDataTemplate MODEL = new OmemoOwnFingerprintDialogDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,17 +21,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.OMEMO
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(DependencyPropertyChangedEventArgs e)
-        {
-            if (e.NewValue is XMPPAccount account)
-            {
-                MODEL.UpdateView(account);
-            }
-            else
-            {
-                MODEL.UpdateView(null);
-            }
-        }
+
 
         #endregion
 

@@ -23,6 +23,7 @@
                 Click="CopyFingerprint_btn_Click"
                 Content="&#xE8C8;"
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                Style="{ThemeResource ButtonRevealStyle}"
                 ToolTipService.ToolTip="Copy fingerprint"
                 Visibility="{x:Bind CopyButtonVisibility, Mode=OneWay}"/>
     </Grid>
