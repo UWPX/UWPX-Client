@@ -130,6 +130,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             SignalProtocolAddress device = devices[0];
             devices.RemoveAt(0);
 
+            // Validate the device fingerprint:
+            OmemoFingerprint fingerprint = OMEMO_HELPER.OMEMO_STORE.LoadFingerprint(device);
+            if (!(fingerprint is null) && !OMEMO_HELPER.OMEMO_STORE.IsFingerprintTrusted(fingerprint))
+            {
+                Logger.Warn("[OmemoSessionBuildHelper] Not building a session with " + device.ToString() + " - key not trusted.");
+                await buildSessionForDevicesAsync(sessions, devices);
+                return;
+            }
+
             // Check if there exists already a session for this device:
             if (OMEMO_HELPER.OMEMO_STORE.ContainsSession(device))
             {
@@ -141,18 +150,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
             }
             else
             {
-                OmemoFingerprint fingerprint = OMEMO_HELPER.OMEMO_STORE.LoadFingerprint(device);
-                if (!(fingerprint is null) && !OMEMO_HELPER.OMEMO_STORE.IsFingerprintTrusted(fingerprint))
-                {
-                    Logger.Warn("[OmemoSessionBuildHelper] Not building a session with " + device.ToString() + " - key not trusted.");
-                }
-
                 // Else try to build a new one by requesting the devices bundle information:
                 OmemoBundleInformationResultMessage bundleMsg = await requestBundleInformationAsync(device);
 
                 if (!(bundleMsg is null))
                 {
-                    OMEMO_HELPER.newSession(CHAT_JID, bundleMsg);
+                    OMEMO_HELPER.newSession(device.getName(), bundleMsg);
 
                     // Validate fingerprints:
                     if (fingerprint is null)
@@ -167,6 +170,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
                         if (!fingerprint.checkIdentityKey(receivedFingerprint.IDENTITY_PUB_KEY))
                         {
                             Logger.Warn("[OmemoSessionBuildHelper] Unable to establish session with " + device.ToString() + " - other fingerprint received than stored locally.");
+                            await buildSessionForDevicesAsync(sessions, devices);
                             return;
                         }
                     }

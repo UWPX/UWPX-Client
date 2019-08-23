@@ -167,7 +167,7 @@ namespace XMPP_API.Classes.Network
                 await CONNECTION.sendAsync(msg, false);
             }
             MESSAGE_CACHE.Remove(omemoSession.CHAT_JID);
-            Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSession.CHAT_JID + " to " + cache.Item1.Count + " recipient(s).");
+            Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSession.CHAT_JID + " to " + omemoSession.DEVICE_SESSIONS_OWN.Count + " own and " + omemoSession.DEVICE_SESSIONS_REMOTE.Count + " remote recipient(s).");
         }
 
         private async Task requestDeviceListAsync()

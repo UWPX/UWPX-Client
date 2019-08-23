@@ -207,9 +207,19 @@ namespace Data_Manager2.Classes.Omemo
         /// <param name="fingerprint">The fingerprint we want to check if it's valid.</param>
         public bool IsFingerprintTrusted(OmemoFingerprint fingerprint)
         {
-            string chatId = ChatTable.generateId(fingerprint.ADDRESS.getName(), ACCOUNT.getBareJid());
-            ChatTable chat = ChatDBManager.INSTANCE.getChat(chatId);
-            return !(chat is null) && (!chat.omemoTrustedKeysOnly || fingerprint.trusted);
+            // Check for own devices:
+            if (string.Equals(fingerprint.ADDRESS.getName(), ACCOUNT.getBareJid()))
+            {
+                // No trust management for own devices right now.
+                return true;
+            }
+            // Check for contact devices:
+            else
+            {
+                string chatId = ChatTable.generateId(fingerprint.ADDRESS.getName(), ACCOUNT.getBareJid());
+                ChatTable chat = ChatDBManager.INSTANCE.getChat(chatId);
+                return !(chat is null) && (!chat.omemoTrustedKeysOnly || fingerprint.trusted);
+            }
         }
 
         public void StoreFingerprint(OmemoFingerprint fingerprint)
