@@ -61,11 +61,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public async Task SwitchCameraAsync()
-        {
-
-        }
-
         #endregion
 
         #region --Misc Methods (Private)--

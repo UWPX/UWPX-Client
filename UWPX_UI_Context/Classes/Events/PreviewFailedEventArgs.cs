@@ -12,6 +12,10 @@ namespace UWPX_UI_Context.Classes.Events
         /// The camera is in use by an other app.
         /// </summary>
         ACCESS_DENIED_OTHER_APP,
+        /// <summary>
+        /// No camera was found.
+        /// </summary>
+        NO_CAMERA,
 
         /// <summary>
         /// MediaFrame creation result is null.

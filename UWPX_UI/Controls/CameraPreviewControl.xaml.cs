@@ -7,6 +7,7 @@ using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
+using Windows.Devices.Enumeration;
 using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
@@ -32,6 +33,7 @@ namespace UWPX_UI.Controls
         private bool previewRunning = false;
         private MediaCapture cameraCapture = null;
         private DisplayRequest displayRequest = new DisplayRequest();
+        private int cameraIndex = -1;
 
         // Frame Reader:
         private bool frameListenerRunning = false;
@@ -58,7 +60,7 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task StartPreviewAsync()
+        public async Task StartPreviewAsync(string videoDeviceId)
         {
             if (previewRunning)
             {
@@ -66,6 +68,7 @@ namespace UWPX_UI.Controls
                 return;
             }
             UpdateViewState(Loading_State.Name);
+
             try
             {
                 cameraCapture = new MediaCapture();
@@ -73,7 +76,9 @@ namespace UWPX_UI.Controls
                 MediaCaptureInitializationSettings settings = new MediaCaptureInitializationSettings()
                 {
                     StreamingCaptureMode = StreamingCaptureMode.Video,
-                    MemoryPreference = MediaCaptureMemoryPreference.Cpu
+                    MemoryPreference = MediaCaptureMemoryPreference.Cpu,
+                    VideoDeviceId = videoDeviceId,
+                    MediaCategory = MediaCategory.Other
                 };
 
                 await cameraCapture.InitializeAsync(settings);
@@ -103,29 +108,68 @@ namespace UWPX_UI.Controls
             await StartFrameListenerAsync();
         }
 
+        public async Task StartPreviewAsync()
+        {
+            DeviceInformation device;
+            try
+            {
+                // Find all available cameras:
+                DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
+                VIEW_MODEL.MODEL.MultipleCamerasAvailable = devices.Count > 1;
+                if (devices.Count <= 0)
+                {
+                    await OnErrorAsync(PreviewError.NO_CAMERA);
+                    Logger.Info("No camera found.");
+                    return;
+                }
+                if (cameraIndex < 0)
+                {
+                    // Try to get the rear camera by default:
+                    for (int i = 0; i < devices.Count; i++)
+                    {
+                        if (devices[i].EnclosureLocation.Panel == Windows.Devices.Enumeration.Panel.Back)
+                        {
+                            cameraIndex = i;
+                            break;
+                        }
+                    }
+                }
+                // Fall back to camera 0:
+                if (devices.Count <= cameraIndex || cameraIndex < 0)
+                {
+                    cameraIndex = 0;
+                }
+                device = devices[cameraIndex];
+            }
+            catch (Exception e)
+            {
+                Logger.Error("Failed to load cameras.", e);
+                return;
+            }
+            // Start the preview with the selected camera:
+            await StartPreviewAsync(device.Id);
+        }
+
         public async Task StopPreviewAsync()
         {
-            await SharedUtils.CallDispatcherAsync(async () =>
+            previewRunning = false;
+            await StopFrameListenerAsync();
+
+            if (!(cameraCapture is null))
             {
-                previewRunning = false;
-                await StopFrameListenerAsync();
-
-                if (!(cameraCapture is null))
+                try
                 {
-                    try
-                    {
-                        await cameraCapture.StopPreviewAsync();
-                    }
-                    catch (Exception)
-                    {
-                    }
-                    displayRequest.RequestRelease();
-                    camera_ce.Source = null;
-
-                    cameraCapture.Dispose();
-                    cameraCapture = null;
+                    await cameraCapture.StopPreviewAsync();
                 }
-            });
+                catch (Exception)
+                {
+                }
+                displayRequest.RequestRelease();
+                camera_ce.Source = null;
+
+                cameraCapture.Dispose();
+                cameraCapture = null;
+            }
         }
 
         #endregion
@@ -149,6 +193,7 @@ namespace UWPX_UI.Controls
                 if (cameraCapture.FrameSources.Count > 0)
                 {
                     MediaFrameSource frameSource = cameraCapture.FrameSources.First().Value;
+                    int count = cameraCapture.FrameSources.Count;
                     if (!(frameSource is null))
                     {
                         frameReader = await cameraCapture.CreateFrameReaderAsync(frameSource);
@@ -199,6 +244,13 @@ namespace UWPX_UI.Controls
             PreviewFailed?.Invoke(this, new PreviewFailedEventArgs(error));
         }
 
+        private async Task NextCameraAsync()
+        {
+            await StopPreviewAsync();
+            cameraIndex++;
+            await StartPreviewAsync();
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -215,7 +267,7 @@ namespace UWPX_UI.Controls
         private async void Current_Suspending(object sender, SuspendingEventArgs e)
         {
             SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
-            await StopPreviewAsync();
+            await SharedUtils.CallDispatcherAsync(async () => await StopPreviewAsync());
             deferral.Complete();
         }
 
@@ -227,7 +279,7 @@ namespace UWPX_UI.Controls
 
         private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            await StopPreviewAsync();
+            await SharedUtils.CallDispatcherAsync(async () => await StopPreviewAsync());
             VIEW_MODEL.DisposeLamp();
         }
 
@@ -246,7 +298,7 @@ namespace UWPX_UI.Controls
 
         private async void SwitchCamera_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SwitchCameraAsync();
+            await NextCameraAsync();
         }
 
         private void Flashlight_btn_Click(object sender, RoutedEventArgs e)
