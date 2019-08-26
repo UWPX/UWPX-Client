@@ -201,6 +201,14 @@ namespace UWPX_UI_Context.Classes
                         }
                         Logger.Info("Update to version 0.16.0.0 done.");
                     }
+
+                    // There was a bug in the way OMEMO session were created for own devices in versions pre v.0.19.0.0 so we need to reset the session table:
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 19)
+                    {
+                        Logger.Info("Started the 0.19.0.0 update...");
+                        AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
+                        Logger.Info("Update to version 0.19.0.0 done.");
+                    }
                 }
             }
             SetVersion(GetPackageVersion());
