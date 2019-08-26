@@ -158,13 +158,19 @@ namespace UWPX_UI.Controls
                 MasterDetailsView.ClearSelectedItem();
                 return true;
             }
-            else if (!UiUtils.OnGoBackRequested(Frame) && !(NavigationFallbackPage is null))
+
+            if (UiUtils.OnGoBackRequested(Frame))
+            {
+                return true;
+            }
+
+            if (!(NavigationFallbackPage is null))
             {
                 bool b = UiUtils.NavigateToPage(NavigationFallbackPage);
                 UiUtils.RemoveLastBackStackEntry();
                 return b;
             }
-            return false;
+            return true;
         }
 
         private void OnIsActiveChanged(bool newValue)
