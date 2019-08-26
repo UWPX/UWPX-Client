@@ -29,7 +29,7 @@
                               HorizontalContentAlignment="Stretch">
         <Border HorizontalAlignment="Stretch"
                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
-            <Grid Padding="30,20,30,10"
+            <Grid Padding="30,20,30,30"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
