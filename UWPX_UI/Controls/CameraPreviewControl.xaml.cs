@@ -1,0 +1,247 @@
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Logging;
+using Shared.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls;
+using UWPX_UI_Context.Classes.Events;
+using Windows.ApplicationModel;
+using Windows.Graphics.Imaging;
+using Windows.Media.Capture;
+using Windows.Media.Capture.Frames;
+using Windows.System.Display;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+
+namespace UWPX_UI.Controls
+{
+    public sealed partial class CameraPreviewControl: UserControl
+    {
+        //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
+        #region --Attributes--
+        public readonly CameraPreviewControlContext VIEW_MODEL = new CameraPreviewControlContext();
+
+        public delegate void PreviewFailedEventHandler(CameraPreviewControl sender, PreviewFailedEventArgs args);
+        public event PreviewFailedEventHandler PreviewFailed;
+
+        public delegate void FrameArrivedEventHandler(CameraPreviewControl sender, FrameArrivedEventArgs args);
+        public event FrameArrivedEventHandler FrameArrived;
+
+        // Preview:
+        private bool previewRunning = false;
+        private MediaCapture cameraCapture = null;
+        private DisplayRequest displayRequest = new DisplayRequest();
+
+        // Frame Reader:
+        private bool frameListenerRunning = false;
+        private MediaFrameReader frameReader;
+
+        #endregion
+        //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
+        #region --Constructors--
+        public CameraPreviewControl()
+        {
+            InitializeComponent();
+
+            // Make sure we stop the preview when the app gets suspended:
+            Application.Current.Suspending += Current_Suspending;
+            // Resume the camera preview when the app gets resumed:
+            Application.Current.Resuming += Current_Resuming;
+        }
+
+        #endregion
+        //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
+        #region --Set-, Get- Methods--
+
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+        public async Task StartPreviewAsync()
+        {
+            if (previewRunning)
+            {
+                Logger.Info("Camera preview already started.");
+                return;
+            }
+            UpdateViewState(Loading_State.Name);
+            try
+            {
+                cameraCapture = new MediaCapture();
+                // Make sure we only access the video but not the audio stream for scanning QR Codes:
+                MediaCaptureInitializationSettings settings = new MediaCaptureInitializationSettings()
+                {
+                    StreamingCaptureMode = StreamingCaptureMode.Video,
+                    MemoryPreference = MediaCaptureMemoryPreference.Cpu
+                };
+
+                await cameraCapture.InitializeAsync(settings);
+                displayRequest.RequestActive();
+                camera_ce.Source = cameraCapture;
+            }
+            catch (UnauthorizedAccessException)
+            {
+                Logger.Error("Camera access denied.");
+                await OnErrorAsync(PreviewError.ACCESS_DENIED);
+                return;
+            }
+
+            try
+            {
+                await cameraCapture.StartPreviewAsync();
+                previewRunning = true;
+                UpdateViewState(Preview_State.Name);
+            }
+            catch (FileLoadException)
+            {
+                Logger.Error("Camera access denied. An other app has exclusive access. Try again later.");
+                await StopPreviewAsync();
+                await OnErrorAsync(PreviewError.ACCESS_DENIED_OTHER_APP);
+            }
+
+            await StartFrameListenerAsync();
+        }
+
+        public async Task StopPreviewAsync()
+        {
+            await SharedUtils.CallDispatcherAsync(async () =>
+            {
+                previewRunning = false;
+                await StopFrameListenerAsync();
+
+                if (!(cameraCapture is null))
+                {
+                    try
+                    {
+                        await cameraCapture.StopPreviewAsync();
+                    }
+                    catch (Exception)
+                    {
+                    }
+                    displayRequest.RequestRelease();
+                    camera_ce.Source = null;
+
+                    cameraCapture.Dispose();
+                    cameraCapture = null;
+                }
+            });
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
+        }
+
+        private async Task StartFrameListenerAsync()
+        {
+            if (frameListenerRunning)
+            {
+                Logger.Info("Frame listener already running. Restarting it...");
+                await StopFrameListenerAsync();
+            }
+
+            try
+            {
+                if (cameraCapture.FrameSources.Count > 0)
+                {
+                    MediaFrameSource frameSource = cameraCapture.FrameSources.First().Value;
+                    if (!(frameSource is null))
+                    {
+                        frameReader = await cameraCapture.CreateFrameReaderAsync(frameSource);
+                        frameReader.FrameArrived += FrameReader_FrameArrived;
+                        await frameReader.StartAsync();
+                        frameListenerRunning = true;
+                    }
+                    else
+                    {
+                        Logger.Info("MediaFrameSource is null.");
+                        await OnErrorAsync(PreviewError.MEDIA_FRAME_IS_NULL);
+                    }
+                }
+                else
+                {
+                    Logger.Info("MediaFrameReader creation failed with: No camera available.");
+                    await OnErrorAsync(PreviewError.MEDIA_FRAME_NO_CAMERA);
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Error("MediaFrameReader creation failed with:", e);
+                await OnErrorAsync(PreviewError.MEDIA_FRAME_CREATION_FAILED);
+            }
+        }
+
+        private async Task StopFrameListenerAsync()
+        {
+            if (!(frameReader is null))
+            {
+                frameReader.FrameArrived -= FrameReader_FrameArrived;
+                try
+                {
+                    await frameReader.StopAsync();
+                }
+                catch (Exception)
+                {
+                }
+                frameReader.Dispose();
+                frameReader = null;
+            }
+        }
+
+        private async Task OnErrorAsync(PreviewError error)
+        {
+            await StopPreviewAsync();
+            UpdateViewState(Error_State.Name);
+            PreviewFailed?.Invoke(this, new PreviewFailedEventArgs(error));
+        }
+
+        #endregion
+
+        #region --Misc Methods (Protected)--
+
+
+        #endregion
+        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
+        #region --Events--
+        private async void Current_Resuming(object sender, object e)
+        {
+            await StartPreviewAsync();
+        }
+
+        private async void Current_Suspending(object sender, SuspendingEventArgs e)
+        {
+            SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
+            await StopPreviewAsync();
+            deferral.Complete();
+        }
+
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            await StartPreviewAsync();
+        }
+
+        private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+            await StopPreviewAsync();
+        }
+
+        private void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
+        {
+            MediaFrameReference frameRef = sender.TryAcquireLatestFrame();
+            VideoMediaFrame frame = frameRef?.VideoMediaFrame;
+            SoftwareBitmap softwareBitmap = frame?.SoftwareBitmap;
+            if (!(softwareBitmap is null))
+            {
+                FrameArrivedEventArgs frameArgs = new FrameArrivedEventArgs();
+                frameArgs.SetSoftwareBitmap(ref softwareBitmap);
+                FrameArrived?.Invoke(this, frameArgs);
+            }
+        }
+
+        #endregion
+    }
+}

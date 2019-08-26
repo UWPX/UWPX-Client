@@ -1,32 +1,44 @@
-﻿using System.Text.RegularExpressions;
-using Shared.Classes;
+﻿using System;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI_Context.Classes.Events
 {
-    public class QrCodeScannerControlDataTemplate: AbstractDataTemplate
+    public enum PreviewError
+    {
+        /// <summary>
+        /// The user denied the access to the camera.
+        /// </summary>
+        ACCESS_DENIED,
+        /// <summary>
+        /// The camera is in use by an other app.
+        /// </summary>
+        ACCESS_DENIED_OTHER_APP,
+
+        /// <summary>
+        /// MediaFrame creation result is null.
+        /// </summary>
+        MEDIA_FRAME_IS_NULL,
+        /// <summary>
+        /// No camera available.
+        /// </summary>
+        MEDIA_FRAME_NO_CAMERA,
+        /// <summary>
+        /// An error occurred during the MediaFrame creation.
+        /// </summary>
+        MEDIA_FRAME_CREATION_FAILED,
+    };
+
+    public class PreviewFailedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private Regex _ValidQrCodeRegex;
-        public Regex ValidQrCodeRegex
-        {
-            get => _ValidQrCodeRegex;
-            set => SetProperty(ref _ValidQrCodeRegex, value);
-        }
-        private string _QrCode;
-        public string QrCode
-        {
-            get => _QrCode;
-            set => SetProperty(ref _QrCode, value);
-        }
+        public readonly PreviewError ERROR;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QrCodeScannerControlDataTemplate()
+        public PreviewFailedEventArgs(PreviewError error)
         {
-            // By default every QR Code is valid:
-            ValidQrCodeRegex = new Regex(".*");
+            ERROR = error;
         }
 
         #endregion

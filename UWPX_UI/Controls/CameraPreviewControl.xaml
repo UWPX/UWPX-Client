@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.CameraPreviewControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controls1="using:UWPX_UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Loaded="UserControl_Loaded"
+             Unloaded="UserControl_Unloaded"
+             mc:Ignorable="d">
+
+    <Grid>
+        <!--  Preview:  -->
+        <Grid x:Name="preview_grid">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <CaptureElement x:Name="camera_ce"
+                            Grid.Row="0"/>
+            <!--  TODO add camera controls  -->
+        </Grid>
+
+        <!--  Loading:  -->
+        <controls:Loading x:Name="loading_grid"
+                          Margin="0,10,0,0"
+                          IsLoading="True">
+            <controls1:LoadingContentControl Text="Loading camera..."/>
+        </controls:Loading>
+
+        <!--  Error:  -->
+        <Grid x:Name="error_grid"
+              Margin="0,10,0,0"
+              HorizontalAlignment="Stretch">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                       FontSize="50"
+                       Foreground="Red"
+                       Text="&#xE783;"/>
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Text="Camera access denied!"/>
+        </Grid>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="States">
+                <VisualState x:Name="Loading_State">
+                    <VisualState.Setters>
+                        <Setter Target="loading_grid.Visibility" Value="Visible"/>
+                        <Setter Target="error_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="preview_grid.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Preview_State">
+                    <VisualState.Setters>
+                        <Setter Target="loading_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="error_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="preview_grid.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Error_State">
+                    <VisualState.Setters>
+                        <Setter Target="loading_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="error_grid.Visibility" Value="Visible"/>
+                        <Setter Target="preview_grid.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+    </Grid>
+</UserControl>

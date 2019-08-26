@@ -1,43 +1,46 @@
-﻿using System.Text.RegularExpressions;
-using Shared.Classes;
+﻿using System;
+using System.Threading;
+using Windows.Graphics.Imaging;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI_Context.Classes.Events
 {
-    public class QrCodeScannerControlDataTemplate: AbstractDataTemplate
+    public class FrameArrivedEventArgs: EventArgs, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private Regex _ValidQrCodeRegex;
-        public Regex ValidQrCodeRegex
-        {
-            get => _ValidQrCodeRegex;
-            set => SetProperty(ref _ValidQrCodeRegex, value);
-        }
-        private string _QrCode;
-        public string QrCode
-        {
-            get => _QrCode;
-            set => SetProperty(ref _QrCode, value);
-        }
+        private SoftwareBitmap softwareBitmap;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QrCodeScannerControlDataTemplate()
-        {
-            // By default every QR Code is valid:
-            ValidQrCodeRegex = new Regex(".*");
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public void SetSoftwareBitmap(ref SoftwareBitmap softwareBitmap)
+        {
+            // Swap the process frame to qrCodeBitmap and dispose the unused image:
+            softwareBitmap = Interlocked.Exchange(ref this.softwareBitmap, softwareBitmap);
+            softwareBitmap?.Dispose();
+        }
 
+        public void GetSoftwareBitmap(ref SoftwareBitmap softwareBitmap)
+        {
+            // Swap the process frame to qrCodeBitmap and dispose the unused image:
+            this.softwareBitmap = Interlocked.Exchange(ref softwareBitmap, this.softwareBitmap);
+            this.softwareBitmap?.Dispose();
+            this.softwareBitmap = null;
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void Dispose()
+        {
+            softwareBitmap?.Dispose();
+            softwareBitmap = null;
+        }
 
         #endregion
 

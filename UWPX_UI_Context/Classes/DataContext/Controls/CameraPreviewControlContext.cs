@@ -1,33 +1,17 @@
-﻿using System.Text.RegularExpressions;
-using Shared.Classes;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls
+namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
-    public class QrCodeScannerControlDataTemplate: AbstractDataTemplate
+    public class CameraPreviewControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private Regex _ValidQrCodeRegex;
-        public Regex ValidQrCodeRegex
-        {
-            get => _ValidQrCodeRegex;
-            set => SetProperty(ref _ValidQrCodeRegex, value);
-        }
-        private string _QrCode;
-        public string QrCode
-        {
-            get => _QrCode;
-            set => SetProperty(ref _QrCode, value);
-        }
+        public readonly CameraPreviewControlDataTemplate MODEL = new CameraPreviewControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QrCodeScannerControlDataTemplate()
-        {
-            // By default every QR Code is valid:
-            ValidQrCodeRegex = new Regex(".*");
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
-using Microsoft.Toolkit.Uwp.Helpers;
-using Microsoft.Toolkit.Uwp.UI.Controls;
 using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
@@ -21,9 +19,6 @@ namespace UWPX_UI.Controls
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly QrCodeScannerControlContext VIEW_MODEL = new QrCodeScannerControlContext();
-
-        // Camera:
-        private CameraHelper cameraHelper;
 
         // QR Code reader:
         private readonly BarcodeReader QR_CODE_READER;
@@ -81,37 +76,8 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task StartCameraAsync()
-        {
-            Logger.Info("Starting QR Code scanner camera...");
-            VIEW_MODEL.MODEL.Loading = true;
 
-            cameraHelper = new CameraHelper();
-            CameraHelperResult result = await cameraHelper.InitializeAndStartCaptureAsync();
-            if (result == CameraHelperResult.Success)
-            {
-                await cameraPreview_cp.StartAsync(cameraHelper);
-                cameraHelper.FrameArrived += CameraHelper_FrameArrived;
-                StartQrCodeTask();
-                VIEW_MODEL.MODEL.HasAccess = true;
-                Logger.Info("Started QR Code scanner camera.");
-            }
-            else
-            {
-                Logger.Error("Unable to start the QR Code scanner camera - " + result.ToString());
-                VIEW_MODEL.MODEL.HasAccess = false;
-            }
-            VIEW_MODEL.MODEL.Loading = false;
-        }
 
-        public async Task StopCameraAsync()
-        {
-            Logger.Info("Stopping QR Code scanner camera...");
-            StopQrCodeTask();
-            await cameraHelper.CleanUpAsync();
-            cameraPreview_cp.Stop();
-            Logger.Info("Stopped QR Code scanner camera.");
-        }
         #endregion
 
         #region --Misc Methods (Private)--
@@ -166,24 +132,24 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            await StartCameraAsync();
+            StartQrCodeTask();
         }
 
-        private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            await StopCameraAsync();
+            StopQrCodeTask();
         }
 
-        private async void Current_Suspending(object sender, SuspendingEventArgs e)
+        private void Current_Suspending(object sender, SuspendingEventArgs e)
         {
-            await StopCameraAsync();
+            StopQrCodeTask();
         }
 
-        private async void Current_Resuming(object sender, object e)
+        private void Current_Resuming(object sender, object e)
         {
-            await StartCameraAsync();
+            StartQrCodeTask();
         }
 
         private void QR_CODE_READER_ResultFound(Result result)
@@ -203,29 +169,19 @@ namespace UWPX_UI.Controls
             }
         }
 
-        private void CameraHelper_FrameArrived(object sender, FrameEventArgs e)
-        {
-            SoftwareBitmap softwareBitmap = e.VideoFrame?.SoftwareBitmap;
-            if (!(softwareBitmap is null) && QR_CODE_IMAGE_SEMA.CurrentCount >= 1)
-            {
-                // Swap the process frame to qrCodeBitmap and dispose the unused image:
-                softwareBitmap = Interlocked.Exchange(ref qrCodeBitmap, softwareBitmap);
-                softwareBitmap?.Dispose();
-            }
-        }
-
-        private void CameraPreview_cp_PreviewFailed(object sender, PreviewFailedEventArgs e)
-        {
-            VIEW_MODEL.MODEL.HasAccess = false;
-            VIEW_MODEL.MODEL.Loading = false;
-            Logger.Error("Unable to start the QR Code scanner camera - " + e.Error);
-        }
-
         private static void OnQrCodeResultFilterRegexChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             if (d is QrCodeScannerControl qrCodeScannerControl)
             {
                 qrCodeScannerControl.UpdateView(e);
+            }
+        }
+
+        private void CameraPreviewControl_FrameArrived(CameraPreviewControl sender, FrameArrivedEventArgs args)
+        {
+            if (QR_CODE_IMAGE_SEMA.CurrentCount >= 1)
+            {
+                args.GetSoftwareBitmap(ref qrCodeBitmap);
             }
         }
         #endregion

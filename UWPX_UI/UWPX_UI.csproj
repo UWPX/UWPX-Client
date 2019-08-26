@@ -146,6 +146,9 @@
     <Compile Include="Controls\BareJidInputControl.xaml.cs">
       <DependentUpon>BareJidInputControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\CameraPreviewControl.xaml.cs">
+      <DependentUpon>CameraPreviewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\ChatBackgroundControl.xaml.cs">
       <DependentUpon>ChatBackgroundControl.xaml</DependentUpon>
     </Compile>
@@ -541,6 +544,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\BareJidInputControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\CameraPreviewControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
