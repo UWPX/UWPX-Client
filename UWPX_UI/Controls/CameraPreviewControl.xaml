@@ -9,6 +9,14 @@
              Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+
     <Grid>
         <!--  Preview:  -->
         <Grid x:Name="preview_grid">
@@ -18,7 +26,27 @@
             </Grid.RowDefinitions>
             <CaptureElement x:Name="camera_ce"
                             Grid.Row="0"/>
-            <!--  TODO add camera controls  -->
+            <Grid Grid.Row="1"
+                  HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="switchCamera_btn"
+                        Grid.Column="0"
+                        Click="SwitchCamera_btn_Click"
+                        Content="&#xE89E;"
+                        FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        Style="{ThemeResource ButtonRevealStyle}"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.MultipleCamerasAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                <ToggleButton x:Name="flashlight_btn"
+                              Grid.Column="1"
+                              Click="Flashlight_btn_Click"
+                              Content="&#xE754;"
+                              FontFamily="{StaticResource SymbolThemeFontFamily}"
+                              Style="{ThemeResource ToggleButtonRevealStyle}"
+                              Visibility="{x:Bind VIEW_MODEL.MODEL.LampAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+            </Grid>
         </Grid>
 
         <!--  Loading:  -->

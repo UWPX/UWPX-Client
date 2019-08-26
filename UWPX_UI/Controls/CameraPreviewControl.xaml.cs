@@ -222,11 +222,13 @@ namespace UWPX_UI.Controls
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             await StartPreviewAsync();
+            // await VIEW_MODEL.InitLampAsync();
         }
 
         private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
             await StopPreviewAsync();
+            VIEW_MODEL.DisposeLamp();
         }
 
         private void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
@@ -240,6 +242,16 @@ namespace UWPX_UI.Controls
                 frameArgs.SetSoftwareBitmap(ref softwareBitmap);
                 FrameArrived?.Invoke(this, frameArgs);
             }
+        }
+
+        private async void SwitchCamera_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.SwitchCameraAsync();
+        }
+
+        private void Flashlight_btn_Click(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.SetLampEnabled((bool)flashlight_btn.IsChecked);
         }
 
         #endregion
