@@ -85,8 +85,7 @@ namespace UWPX_UI.Controls
                 };
 
                 await cameraCapture.InitializeAsync(settings);
-                SetPropperPreviewRotation(cameraCapture, device);
-                VIEW_MODEL.MODEL.LampAvailable = cameraCapture.VideoDeviceController.TorchControl.Supported;
+                await SetupCameraAsync(cameraCapture, device);
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
                 displayRequest.RequestActive();
                 camera_ce.Source = cameraCapture;
@@ -266,7 +265,7 @@ namespace UWPX_UI.Controls
             {
                 if (device.EnclosureLocation.InDock)
                 {
-                    // 
+                    // Don't know what rotation is required for docked cameras.
                 }
                 else if (device.EnclosureLocation.InLid)
                 {
@@ -293,6 +292,28 @@ namespace UWPX_UI.Controls
                             break;
                     }
                 }
+            }
+        }
+
+        private async Task SetupCameraAsync(MediaCapture cameraCapture, DeviceInformation device)
+        {
+            VIEW_MODEL.MODEL.LampAvailable = cameraCapture.VideoDeviceController.TorchControl.Supported;
+            SetPropperPreviewRotation(cameraCapture, device);
+            if (cameraCapture.VideoDeviceController.FocusControl.Supported)
+            {
+                cameraCapture.VideoDeviceController.FocusControl.Configure(new Windows.Media.Devices.FocusSettings
+                {
+                    Mode = Windows.Media.Devices.FocusMode.Continuous
+                });
+                await cameraCapture.VideoDeviceController.FocusControl.FocusAsync();
+            }
+        }
+
+        private async Task FocusAsync()
+        {
+            if (cameraCapture.VideoDeviceController.FocusControl.Supported)
+            {
+                await cameraCapture.VideoDeviceController.FocusControl.FocusAsync();
             }
         }
 
@@ -355,6 +376,11 @@ namespace UWPX_UI.Controls
         private void Flashlight_btn_Click(object sender, RoutedEventArgs e)
         {
             SetCameraTorchEnabled((bool)flashlight_btn.IsChecked);
+        }
+
+        private async void Camera_ce_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            await FocusAsync();
         }
 
         #endregion

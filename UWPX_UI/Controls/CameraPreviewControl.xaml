@@ -25,6 +25,7 @@
             </Grid.RowDefinitions>
             <CaptureElement x:Name="camera_ce"
                             Grid.Row="0"
+                            Tapped="Camera_ce_Tapped"
                             Stretch="UniformToFill"/>
             <Grid Grid.Row="0"
                   HorizontalAlignment="Center"
