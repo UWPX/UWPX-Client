@@ -28,14 +28,14 @@ namespace UWPX_UI.Controls
             get => (Brush)GetValue(GlyphForegroundProperty);
             set => SetValue(GlyphForegroundProperty, value);
         }
-        public static readonly DependencyProperty GlyphForegroundProperty = DependencyProperty.Register(nameof(GlyphForeground), typeof(Brush), typeof(IconButtonControl), new PropertyMetadata(new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"])));
+        public static readonly DependencyProperty GlyphForegroundProperty = DependencyProperty.Register(nameof(GlyphForeground), typeof(Brush), typeof(IconTextBlockControl), new PropertyMetadata(new SolidColorBrush((Color)Application.Current.Resources["SystemAccentColor"])));
 
         public Style TextBlockStyle
         {
             get => (Style)GetValue(TextBlockStyleProperty);
             set => SetValue(TextBlockStyleProperty, value);
         }
-        public static readonly DependencyProperty TextBlockStyleProperty = DependencyProperty.Register(nameof(TextBlockStyle), typeof(Style), typeof(IconButtonControl), new PropertyMetadata(null));
+        public static readonly DependencyProperty TextBlockStyleProperty = DependencyProperty.Register(nameof(TextBlockStyle), typeof(Style), typeof(IconTextBlockControl), new PropertyMetadata(null));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

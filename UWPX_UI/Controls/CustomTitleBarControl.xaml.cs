@@ -84,6 +84,33 @@ namespace UWPX_UI.Controls
             IsActive = false;
         }
 
+        public bool OnGoBackRequested()
+        {
+            if (!IsActive)
+            {
+                return false;
+            }
+
+            if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
+            {
+                MasterDetailsView.ClearSelectedItem();
+                return true;
+            }
+
+            if (UiUtils.OnGoBackRequested(Frame))
+            {
+                return true;
+            }
+
+            if (!(NavigationFallbackPage is null))
+            {
+                bool b = UiUtils.NavigateToPage(NavigationFallbackPage);
+                UiUtils.RemoveLastBackStackEntry();
+                return b;
+            }
+            return true;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -144,33 +171,6 @@ namespace UWPX_UI.Controls
                     KeyboardAccelerators.Add(accelerator);
                 }
             }
-        }
-
-        private bool OnGoBackRequested()
-        {
-            if (!IsActive)
-            {
-                return false;
-            }
-
-            if (!(MasterDetailsView is null) && MasterDetailsView.ViewState == MasterDetailsViewState.Details)
-            {
-                MasterDetailsView.ClearSelectedItem();
-                return true;
-            }
-
-            if (UiUtils.OnGoBackRequested(Frame))
-            {
-                return true;
-            }
-
-            if (!(NavigationFallbackPage is null))
-            {
-                bool b = UiUtils.NavigateToPage(NavigationFallbackPage);
-                UiUtils.RemoveLastBackStackEntry();
-                return b;
-            }
-            return true;
         }
 
         private void OnIsActiveChanged(bool newValue)

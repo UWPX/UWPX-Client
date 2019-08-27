@@ -193,6 +193,14 @@
                                         <FontIcon Glyph="&#xE902;"/>
                                     </MenuFlyoutItem.Icon>
                                 </MenuFlyoutItem>
+                                <MenuFlyoutSeparator/>
+                                <MenuFlyoutItem x:Name="registerIoTDevice_mfoi"
+                                                Click="RegisterIoTDevice_mfoi_Click"
+                                                Text="Register IoT Device">
+                                    <MenuFlyoutItem.Icon>
+                                        <FontIcon Glyph="&#xE957;"/>
+                                    </MenuFlyoutItem.Icon>
+                                </MenuFlyoutItem>
                             </MenuFlyout>
                         </AppBarButton.ContextFlyout>
                     </AppBarButton>

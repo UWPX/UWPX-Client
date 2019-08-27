@@ -73,9 +73,14 @@ namespace UWPX_UI.Pages
             await VIEW_MODEL.OnAddMucAsync(dialog.VIEW_MODEL.MODEL);
         }
 
+        private void RegisterIoTDevice_mfoi_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.NavigateToPage(typeof(RegisterIoTDevicePage));
+        }
+
         private void Settings_abb_Click(object sender, RoutedEventArgs e)
         {
-            (Window.Current.Content as Frame).Navigate(typeof(SettingsPage));
+            UiUtils.NavigateToPage(typeof(SettingsPage));
         }
 
         private async void ChangePresence_abb_Click(object sender, RoutedEventArgs e)
@@ -117,7 +122,6 @@ namespace UWPX_UI.Pages
             VIEW_MODEL.OnNavigatedTo(e.Parameter);
             titleBar.OnPageNavigatedTo();
         }
-
         #endregion
     }
 }

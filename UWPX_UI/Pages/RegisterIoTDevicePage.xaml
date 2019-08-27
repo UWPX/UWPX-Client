@@ -1,0 +1,113 @@
+﻿<Page x:Class="UWPX_UI.Pages.RegisterIoTDevicePage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
+      xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      mc:Ignorable="d">
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+
+            <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
+            <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
+            <x:String x:Key="AnimationPositionShowSource">600,0,0</x:String>
+            <x:String x:Key="AnimationPositionShowTarget">0</x:String>
+            <x:String x:Key="AnimationPositionHideSource">0,0,0</x:String>
+            <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
+            <x:String x:Key="AnimationOpacityMin">0</x:String>
+            <x:String x:Key="AnimationOpacityMax">1</x:String>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <!--  Header:  -->
+        <controls:CustomTitleBarControl x:Name="titleBar"
+                                        Grid.Row="0"
+                                        Frame="{x:Bind Frame, Mode=OneWay}"/>
+
+        <!--  Content:  -->
+        <ScrollViewer Grid.Row="1"
+                      HorizontalScrollMode="Disabled">
+            <Grid Padding="10"
+                  VerticalAlignment="Center">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!--  Header:  -->
+                <controls:IconTextBlockControl Grid.Row="0"
+                                               Grid.Column="0"
+                                               Margin="0,0,0,10"
+                                               HorizontalAlignment="Center"
+                                               Glyph="&#xE957;"
+                                               Text="Register IoT Device:"
+                                               TextBlockStyle="{ThemeResource TitleTextBlockStyle}"/>
+
+                <!--  Step 1:  -->
+                <controls1:DropShadowPanel x:Name="step1ScanQrCode_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Visible">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBlock Text="Scan a QR Code to continue"/>
+                            <controls:QrCodeScannerControl Margin="0,10,0,0"
+                                                           NewValidQrCode="QrCodeScannerControl_NewValidQrCode"/>
+                            <HyperlinkButton x:Name="whatIsAnIoTDevice_link"
+                                             Margin="0,10,0,0"
+                                             Click="WhatIsAnIoTDevice_link_Click"
+                                             Content="What's an IoT device?"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl x:Name="cancel_ibtn"
+                                                            Grid.Column="0"
+                                                            Margin="0,0,0,1"
+                                                            Click="Cancel_ibtn_Click"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -343,6 +343,9 @@ For more up to date information visit:
   <data name="PersonalizeSettingsPage_change_theme_tooltip.Text" xml:space="preserve">
     <value>Requires an app restart to work properly once changed.</value>
   </data>
+  <data name="RegisterIoTDevicePage_what_is_an_iot_device_url" xml:space="preserve">
+    <value>https://www.xmpp-iot.org/</value>
+  </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
     <value># [August 2019] New "Add Group Chat (MUC)" dialog
 
