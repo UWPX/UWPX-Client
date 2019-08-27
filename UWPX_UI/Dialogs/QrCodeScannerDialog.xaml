@@ -12,9 +12,9 @@
                SecondaryButtonText="Close"
                mc:Ignorable="d">
 
-    <Grid VerticalAlignment="Center">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <controls:QrCodeScannerControl Grid.Row="0"
                                        NewInvalidQrCode="QrCodeScannerControl_NewInvalidQrCode"

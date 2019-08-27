@@ -71,7 +71,6 @@ namespace UWPX_UI.Dialogs
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             VIEW_MODEL.OnCancel();
-            Hide();
         }
         #endregion
     }

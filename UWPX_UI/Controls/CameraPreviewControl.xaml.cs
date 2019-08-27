@@ -8,6 +8,7 @@ using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
+using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
@@ -62,7 +63,7 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task StartPreviewAsync(string videoDeviceId)
+        public async Task StartPreviewAsync(DeviceInformation device)
         {
             if (previewRunning)
             {
@@ -79,13 +80,14 @@ namespace UWPX_UI.Controls
                 {
                     StreamingCaptureMode = StreamingCaptureMode.Video,
                     MemoryPreference = MediaCaptureMemoryPreference.Cpu,
-                    VideoDeviceId = videoDeviceId,
+                    VideoDeviceId = device.Id,
                     MediaCategory = MediaCategory.Other
                 };
 
                 await cameraCapture.InitializeAsync(settings);
-                cameraCapture.SetPreviewRotation(VideoRotation.None);
+                SetPropperPreviewRotation(cameraCapture, device);
                 VIEW_MODEL.MODEL.LampAvailable = cameraCapture.VideoDeviceController.TorchControl.Supported;
+                DisplayInformation.AutoRotationPreferences = DisplayOrientations.Portrait;
                 displayRequest.RequestActive();
                 camera_ce.Source = cameraCapture;
             }
@@ -151,7 +153,7 @@ namespace UWPX_UI.Controls
                 return;
             }
             // Start the preview with the selected camera:
-            await StartPreviewAsync(device.Id);
+            await StartPreviewAsync(device);
         }
 
         public async Task StopPreviewAsync()
@@ -169,6 +171,7 @@ namespace UWPX_UI.Controls
                 catch (Exception)
                 {
                 }
+                DisplayInformation.AutoRotationPreferences = DisplayOrientations.None;
                 displayRequest.RequestRelease();
                 camera_ce.Source = null;
                 VIEW_MODEL.MODEL.LampAvailable = false;
@@ -255,6 +258,42 @@ namespace UWPX_UI.Controls
             await StopPreviewAsync();
             cameraIndex++;
             await StartPreviewAsync();
+        }
+
+        private void SetPropperPreviewRotation(MediaCapture cameraCapture, DeviceInformation device)
+        {
+            if (!(device.EnclosureLocation is null))
+            {
+                if (device.EnclosureLocation.InDock)
+                {
+                    // 
+                }
+                else if (device.EnclosureLocation.InLid)
+                {
+                    camera_ce.FlowDirection = FlowDirection.RightToLeft;
+                }
+                else
+                {
+                    switch (device.EnclosureLocation.Panel)
+                    {
+                        case Windows.Devices.Enumeration.Panel.Front:
+                            camera_ce.FlowDirection = FlowDirection.RightToLeft;
+                            cameraCapture.SetPreviewRotation(VideoRotation.Clockwise270Degrees);
+                            break;
+                        case Windows.Devices.Enumeration.Panel.Back:
+                            cameraCapture.SetPreviewRotation(VideoRotation.Clockwise90Degrees);
+                            camera_ce.FlowDirection = FlowDirection.LeftToRight;
+                            break;
+                        case Windows.Devices.Enumeration.Panel.Top:
+                        case Windows.Devices.Enumeration.Panel.Bottom:
+                        case Windows.Devices.Enumeration.Panel.Left:
+                        case Windows.Devices.Enumeration.Panel.Right:
+                        default:
+                            camera_ce.FlowDirection = FlowDirection.LeftToRight;
+                            break;
+                    }
+                }
+            }
         }
 
         #endregion
