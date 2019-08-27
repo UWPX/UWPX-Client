@@ -1,7 +1,6 @@
 ﻿<ContentDialog x:Class="UWPX_UI.Dialogs.QrCodeScannerDialog"
                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-               xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
                xmlns:controls="using:UWPX_UI.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -69,5 +68,27 @@
                        HorizontalAlignment="Center"
                        Text="Success!"/>
         </Grid>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="States">
+                <VisualState x:Name="Scanning_State">
+                    <VisualState.Setters>
+                        <Setter Target="invalidQrCode_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="validQrCode_grid.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Valid_State">
+                    <VisualState.Setters>
+                        <Setter Target="invalidQrCode_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="validQrCode_grid.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="Invalid_State">
+                    <VisualState.Setters>
+                        <Setter Target="invalidQrCode_grid.Visibility" Value="Visible"/>
+                        <Setter Target="validQrCode_grid.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </ContentDialog>

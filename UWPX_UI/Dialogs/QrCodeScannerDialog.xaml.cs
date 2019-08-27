@@ -20,6 +20,7 @@ namespace UWPX_UI.Dialogs
         public QrCodeScannerDialog()
         {
             InitializeComponent();
+            UpdateViewState(Invalid_State.Name);
         }
 
         #endregion
@@ -49,9 +50,9 @@ namespace UWPX_UI.Dialogs
         {
             await SharedUtils.CallDispatcherAsync(async () =>
             {
-                invalidQrCode_grid.Visibility = Visibility.Visible;
+                UpdateViewState(Invalid_State.Name);
                 await Task.Delay(5000);
-                invalidQrCode_grid.Visibility = Visibility.Collapsed;
+                UpdateViewState(Scanning_State.Name);
             });
         }
 
@@ -61,8 +62,7 @@ namespace UWPX_UI.Dialogs
             await SharedUtils.CallDispatcherAsync(async () =>
             {
                 IsSecondaryButtonEnabled = false;
-                invalidQrCode_grid.Visibility = Visibility.Collapsed;
-                validQrCode_grid.Visibility = Visibility.Visible;
+                UpdateViewState(Valid_State.Name);
                 await Task.Delay(1500);
                 Hide();
             });
@@ -71,6 +71,11 @@ namespace UWPX_UI.Dialogs
         private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
             VIEW_MODEL.OnCancel();
+        }
+
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
         }
         #endregion
     }
