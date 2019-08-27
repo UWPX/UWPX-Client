@@ -15,6 +15,7 @@
                   Content="Default QR-Code"
                   IsChecked="{x:Bind VIEW_MODEL.MODEL.DefaultQrCode, Mode=TwoWay}"/>
         <Image Grid.Row="1"
+               MaxHeight="280"
                Source="{x:Bind VIEW_MODEL.MODEL.QrCodeImage, Mode=OneWay}"/>
         <ProgressRing Grid.Row="1"
                       IsActive="True"
