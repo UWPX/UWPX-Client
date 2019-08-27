@@ -1,10 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Threading.Tasks;
-using Logging;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
-using Windows.Devices.Enumeration;
-using Windows.Devices.Lights;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -27,39 +21,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task InitLampAsync()
-        {
-            Logger.Info("Loading camera lamp...");
-            string selector = Lamp.GetDeviceSelector();
-            DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(selector);
-            DeviceInformation deviceInfo = devices.FirstOrDefault(di => di.EnclosureLocation != null && di.EnclosureLocation.Panel == Panel.Back);
-            if (deviceInfo is null)
-            {
-                Logger.Info("No camera lamp found.");
-                MODEL.Lamp = null;
-                return;
-            }
-            Logger.Info("Found camera lamp.");
-            MODEL.Lamp = await Lamp.FromIdAsync(deviceInfo.Id);
-        }
 
-        public void DisposeLamp()
-        {
-            if (!(MODEL.Lamp is null))
-            {
-                MODEL.Lamp.IsEnabled = false;
-                MODEL.Lamp.Dispose();
-                MODEL.Lamp = null;
-            }
-        }
-
-        public void SetLampEnabled(bool isEnabled)
-        {
-            if (!(MODEL.Lamp is null))
-            {
-                MODEL.Lamp.IsEnabled = isEnabled;
-            }
-        }
 
         #endregion
 

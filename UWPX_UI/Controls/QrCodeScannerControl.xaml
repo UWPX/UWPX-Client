@@ -8,7 +8,6 @@
              Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
-    <Grid>
-        <controls1:CameraPreviewControl FrameArrived="CameraPreviewControl_FrameArrived"/>
-    </Grid>
+    <controls1:CameraPreviewControl VerticalAlignment="Center"
+                                    FrameArrived="CameraPreviewControl_FrameArrived"/>
 </UserControl>

@@ -12,7 +12,7 @@
                SecondaryButtonText="Close"
                mc:Ignorable="d">
 
-    <Grid>
+    <Grid VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>

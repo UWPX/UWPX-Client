@@ -45,17 +45,19 @@ namespace UWPX_UI.Controls
         public CameraPreviewControl()
         {
             InitializeComponent();
-
-            // Make sure we stop the preview when the app gets suspended:
-            Application.Current.Suspending += Current_Suspending;
-            // Resume the camera preview when the app gets resumed:
-            Application.Current.Resuming += Current_Resuming;
+            UpdateViewState(Loading_State.Name);
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private void SetCameraTorchEnabled(bool enabled)
+        {
+            if (!(cameraCapture is null) && cameraCapture.VideoDeviceController.TorchControl.Supported)
+            {
+                cameraCapture.VideoDeviceController.TorchControl.Enabled = enabled;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -82,6 +84,8 @@ namespace UWPX_UI.Controls
                 };
 
                 await cameraCapture.InitializeAsync(settings);
+                cameraCapture.SetPreviewRotation(VideoRotation.None);
+                VIEW_MODEL.MODEL.LampAvailable = cameraCapture.VideoDeviceController.TorchControl.Supported;
                 displayRequest.RequestActive();
                 camera_ce.Source = cameraCapture;
             }
@@ -153,6 +157,7 @@ namespace UWPX_UI.Controls
         public async Task StopPreviewAsync()
         {
             previewRunning = false;
+            flashlight_btn.IsChecked = false;
             await StopFrameListenerAsync();
 
             if (!(cameraCapture is null))
@@ -166,6 +171,7 @@ namespace UWPX_UI.Controls
                 }
                 displayRequest.RequestRelease();
                 camera_ce.Source = null;
+                VIEW_MODEL.MODEL.LampAvailable = false;
 
                 cameraCapture.Dispose();
                 cameraCapture = null;
@@ -273,14 +279,20 @@ namespace UWPX_UI.Controls
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            // Make sure we stop the preview when the app gets suspended:
+            Application.Current.Suspending += Current_Suspending;
+            // Resume the camera preview when the app gets resumed:
+            Application.Current.Resuming += Current_Resuming;
             await StartPreviewAsync();
-            // await VIEW_MODEL.InitLampAsync();
         }
 
         private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
+            // Make sure we stop the preview when the app gets suspended:
+            Application.Current.Suspending -= Current_Suspending;
+            // Resume the camera preview when the app gets resumed:
+            Application.Current.Resuming -= Current_Resuming;
             await SharedUtils.CallDispatcherAsync(async () => await StopPreviewAsync());
-            VIEW_MODEL.DisposeLamp();
         }
 
         private void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
@@ -303,7 +315,7 @@ namespace UWPX_UI.Controls
 
         private void Flashlight_btn_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.SetLampEnabled((bool)flashlight_btn.IsChecked);
+            SetCameraTorchEnabled((bool)flashlight_btn.IsChecked);
         }
 
         #endregion

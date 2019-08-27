@@ -1,5 +1,4 @@
 ﻿using Shared.Classes;
-using Windows.Devices.Lights;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -21,13 +20,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _MultipleCamerasAvailable, value);
         }
 
-        private Lamp _Lamp;
-        public Lamp Lamp
-        {
-            get => _Lamp;
-            set => SetLampProperty(value);
-        }
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -36,13 +28,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetLampProperty(Lamp value)
-        {
-            if (SetProperty(ref _Lamp, value, nameof(Lamp)))
-            {
-                LampAvailable = !(value is null);
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

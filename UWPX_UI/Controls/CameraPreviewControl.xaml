@@ -22,29 +22,36 @@
         <Grid x:Name="preview_grid">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <CaptureElement x:Name="camera_ce"
-                            Grid.Row="0"/>
-            <Grid Grid.Row="1"
-                  HorizontalAlignment="Center">
+                            Grid.Row="0"
+                            Stretch="Uniform"/>
+            <Grid Grid.Row="0"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Bottom">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Button x:Name="switchCamera_btn"
                         Grid.Column="0"
+                        Margin="5"
                         Click="SwitchCamera_btn_Click"
                         Content="&#xE89E;"
                         FontFamily="{StaticResource SymbolThemeFontFamily}"
+                        FontSize="20"
                         Style="{ThemeResource ButtonRevealStyle}"
+                        ToolTipService.ToolTip="Next camera"
                         Visibility="{x:Bind VIEW_MODEL.MODEL.MultipleCamerasAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                 <ToggleButton x:Name="flashlight_btn"
                               Grid.Column="1"
+                              Margin="5"
                               Click="Flashlight_btn_Click"
                               Content="&#xE754;"
                               FontFamily="{StaticResource SymbolThemeFontFamily}"
+                              FontSize="20"
                               Style="{ThemeResource ToggleButtonRevealStyle}"
+                              ToolTipService.ToolTip="Toggle Flashlight"
                               Visibility="{x:Bind VIEW_MODEL.MODEL.LampAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
             </Grid>
         </Grid>
