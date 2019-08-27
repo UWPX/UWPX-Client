@@ -24,7 +24,8 @@
     <controls:DropShadowPanel x:Name="mainShadow"
                               HorizontalContentAlignment="Stretch">
         <Border Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
-            <Grid Padding="30"
+            <Grid x:Name="main_grid"
+                  Padding="30"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -36,7 +37,8 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <controls1:AccountImagePresenceControl Grid.Row="0"
+                    <controls1:AccountImagePresenceControl x:Name="accountImage_aipc"
+                                                           Grid.Row="0"
                                                            Width="150"
                                                            Height="150"
                                                            BareJid="{x:Bind VIEW_MODEL.MODEL.ChatBareJid, Mode=OneWay}"
@@ -61,7 +63,8 @@
                                TextTrimming="CharacterEllipsis"
                                Visibility="{x:Bind VIEW_MODEL.MODEL.ChatState, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
                 </Grid>
-                <Grid Grid.Column="1"
+                <Grid x:Name="details_grid"
+                      Grid.Column="1"
                       Margin="30,0,0,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
@@ -181,5 +184,32 @@
                 </Grid>
             </Grid>
         </Border>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Uid="Large">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="accountImage_aipc.Height" Value="150"/>
+                        <Setter Target="accountImage_aipc.Width" Value="150"/>
+                        <Setter Target="main_grid.Padding" Value="30"/>
+                        <Setter Target="details_grid.Margin" Value="30,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Uid="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="accountImage_aipc.Height" Value="70"/>
+                        <Setter Target="accountImage_aipc.Width" Value="70"/>
+                        <Setter Target="main_grid.Padding" Value="10"/>
+                        <Setter Target="details_grid.Margin" Value="10,0,0,0"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </controls:DropShadowPanel>
 </UserControl>

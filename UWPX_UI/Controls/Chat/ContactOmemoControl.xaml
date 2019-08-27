@@ -29,7 +29,8 @@
                               HorizontalContentAlignment="Stretch">
         <Border HorizontalAlignment="Stretch"
                 Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
-            <Grid Padding="30,20,30,30"
+            <Grid x:Name="main_grid"
+                  Padding="30,20,30,30"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -128,5 +129,26 @@
                 </Grid>
             </Grid>
         </Border>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState x:Uid="Large">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="500"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="main_grid.Padding" Value="30,20,30,30"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Uid="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="main_grid.Padding" Value="10,20,10,30"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </controls:DropShadowPanel>
 </UserControl>
