@@ -30,22 +30,6 @@
               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
               CornerRadius="5"
               Visibility="Collapsed">
-            <animations:Implicit.ShowAnimations>
-                <animations:OpacityAnimation From="0"
-                                             To="1"
-                                             Duration="0:0:0.3"/>
-                <animations:TranslationAnimation From="0, -500, 0"
-                                                 To="0,0,0"
-                                                 Duration="0:0:0.3"/>
-            </animations:Implicit.ShowAnimations>
-
-            <animations:Implicit.HideAnimations>
-                <animations:OpacityAnimation From="1"
-                                             To="0"
-                                             Duration="0:0:0.3"/>
-                <animations:TranslationAnimation To="0, -500, 0"
-                                                 Duration="0:0:0.3"/>
-            </animations:Implicit.HideAnimations>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -71,22 +55,6 @@
               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
               CornerRadius="5"
               Visibility="Collapsed">
-            <animations:Implicit.ShowAnimations>
-                <animations:OpacityAnimation From="0"
-                                             To="1"
-                                             Duration="0:0:0.3"/>
-                <animations:TranslationAnimation From="0, -500, 0"
-                                                 To="0,0,0"
-                                                 Duration="0:0:0.3"/>
-            </animations:Implicit.ShowAnimations>
-
-            <animations:Implicit.HideAnimations>
-                <animations:OpacityAnimation From="1"
-                                             To="0"
-                                             Duration="0:0:0.3"/>
-                <animations:TranslationAnimation To="0, -500, 0"
-                                                 Duration="0:0:0.3"/>
-            </animations:Implicit.HideAnimations>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>

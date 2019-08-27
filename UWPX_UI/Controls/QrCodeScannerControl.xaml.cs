@@ -93,7 +93,7 @@ namespace UWPX_UI.Controls
                     if (qrCodeBitmap is null)
                     {
                         QR_CODE_IMAGE_SEMA.Release();
-                        await Task.Delay(100).ConfAwaitFalse();
+                        await Task.Delay(200).ConfAwaitFalse();
                     }
                     else
                     {
