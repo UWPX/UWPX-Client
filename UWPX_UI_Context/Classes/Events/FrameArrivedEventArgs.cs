@@ -1,46 +1,37 @@
 ﻿using System;
-using System.Threading;
 using Windows.Graphics.Imaging;
+using Windows.Media.Capture.Frames;
 
 namespace UWPX_UI_Context.Classes.Events
 {
-    public class FrameArrivedEventArgs: EventArgs, IDisposable
+    public class FrameArrivedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private SoftwareBitmap softwareBitmap;
+        private MediaFrameReader frameReader;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public FrameArrivedEventArgs(MediaFrameReader frameReader)
+        {
+            this.frameReader = frameReader;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void SetSoftwareBitmap(ref SoftwareBitmap softwareBitmap)
-        {
-            // Swap the process frame to qrCodeBitmap and dispose the unused image:
-            softwareBitmap = Interlocked.Exchange(ref this.softwareBitmap, softwareBitmap);
-            softwareBitmap?.Dispose();
-        }
-
         public void GetSoftwareBitmap(ref SoftwareBitmap softwareBitmap)
         {
-            // Swap the process frame to qrCodeBitmap and dispose the unused image:
-            this.softwareBitmap = Interlocked.Exchange(ref softwareBitmap, this.softwareBitmap);
-            this.softwareBitmap?.Dispose();
-            this.softwareBitmap = null;
+            MediaFrameReference frameRef = frameReader.TryAcquireLatestFrame();
+            VideoMediaFrame frame = frameRef?.VideoMediaFrame;
+            softwareBitmap = frame?.SoftwareBitmap;
         }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void Dispose()
-        {
-            softwareBitmap?.Dispose();
-            softwareBitmap = null;
-        }
+
 
         #endregion
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
-using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
@@ -89,13 +88,9 @@ namespace UWPX_UI.Controls
                 Logger.Info("Started QR Code scanner task.");
                 while (shouldQrCodeScannerTaskRun)
                 {
+                    await Task.Delay(250);
                     QR_CODE_IMAGE_SEMA.Wait();
-                    if (qrCodeBitmap is null)
-                    {
-                        QR_CODE_IMAGE_SEMA.Release();
-                        await Task.Delay(200).ConfAwaitFalse();
-                    }
-                    else
+                    if (!(qrCodeBitmap is null))
                     {
                         try
                         {
@@ -107,8 +102,8 @@ namespace UWPX_UI.Controls
                         }
                         qrCodeBitmap.Dispose();
                         qrCodeBitmap = null;
-                        QR_CODE_IMAGE_SEMA.Release();
                     }
+                    QR_CODE_IMAGE_SEMA.Release();
                 }
                 Logger.Info("Ended QR Code scanner task.");
             });
@@ -179,7 +174,7 @@ namespace UWPX_UI.Controls
 
         private void CameraPreviewControl_FrameArrived(CameraPreviewControl sender, FrameArrivedEventArgs args)
         {
-            if (QR_CODE_IMAGE_SEMA.CurrentCount >= 1)
+            if (QR_CODE_IMAGE_SEMA.CurrentCount >= 1 && qrCodeBitmap is null)
             {
                 args.GetSoftwareBitmap(ref qrCodeBitmap);
             }

@@ -9,7 +9,6 @@ using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
 using Windows.Devices.Enumeration;
 using Windows.Graphics.Display;
-using Windows.Graphics.Imaging;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
 using Windows.System.Display;
@@ -357,15 +356,8 @@ namespace UWPX_UI.Controls
 
         private void FrameReader_FrameArrived(MediaFrameReader sender, MediaFrameArrivedEventArgs args)
         {
-            MediaFrameReference frameRef = sender.TryAcquireLatestFrame();
-            VideoMediaFrame frame = frameRef?.VideoMediaFrame;
-            SoftwareBitmap softwareBitmap = frame?.SoftwareBitmap;
-            if (!(softwareBitmap is null))
-            {
-                FrameArrivedEventArgs frameArgs = new FrameArrivedEventArgs();
-                frameArgs.SetSoftwareBitmap(ref softwareBitmap);
-                FrameArrived?.Invoke(this, frameArgs);
-            }
+            FrameArrivedEventArgs frameArgs = new FrameArrivedEventArgs(sender);
+            FrameArrived?.Invoke(this, frameArgs);
         }
 
         private async void SwitchCamera_btn_Click(object sender, RoutedEventArgs e)
