@@ -84,7 +84,8 @@
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBlock Text="Scan a QR Code to continue"/>
-                            <controls:QrCodeScannerControl Margin="0,10,0,0"
+                            <controls:QrCodeScannerControl x:Uid="RegisterIoTDevicePage_qr_code_scanner"
+                                                           Margin="0,10,0,0"
                                                            NewValidQrCode="QrCodeScannerControl_NewValidQrCode"/>
                             <HyperlinkButton x:Name="whatIsAnIoTDevice_link"
                                              Margin="0,10,0,0"
