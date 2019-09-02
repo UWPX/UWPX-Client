@@ -266,12 +266,18 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_SESSION_STORE_TABLE + " WHERE accountId = ?;", accountId);
         }
 
+        public void deleteFingerprints(string chatId)
+        {
+            dB.Execute("DELETE FROM " + DBTableConsts.OMEMO_FINGERPRINT_TABLE + " WHERE chatId = ?;", chatId);
+        }
+
         public void deleteAllForAccount(string accountId)
         {
             deleteIdentityKey(accountId);
             deletePreKey(accountId);
             deleteSignedPreKey(accountId);
             deleteSessions(accountId);
+            deleteFingerprints(ChatTable.generateId(accountId, accountId));
         }
 
         #endregion

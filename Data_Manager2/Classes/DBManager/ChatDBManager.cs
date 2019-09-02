@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Shared.Classes.SQLite;
@@ -134,6 +135,7 @@ namespace Data_Manager2.Classes.DBManager
             if (delete)
             {
                 dB.Delete(chat);
+                OmemoSignalKeyDBManager.INSTANCE.deleteFingerprints(chat.id);
             }
             else
             {
@@ -256,6 +258,10 @@ namespace Data_Manager2.Classes.DBManager
 
         public void deleteAllChatsForAccount(string userAccountId)
         {
+            foreach (ChatTable chat in getAllChatsForClient(userAccountId))
+            {
+                OmemoSignalKeyDBManager.INSTANCE.deleteFingerprints(chat.id);
+            }
             dB.Execute("DELETE FROM " + DBTableConsts.CHAT_TABLE + " WHERE userAccountId = ?;", userAccountId);
         }
 
