@@ -350,46 +350,43 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [August 2019] New "Add Group Chat (MUC)" dialog
+    <value># [September 2019] OMEMO Fingerprints 🔑🐠
 
-Time goes by and I finally managed to have some free time to work on UWPX.
-This months release includes the new "Add Group Chat (MUC)" dialog and a first work in progress preview of new "Contact Info" page. Other than that there are only minor changes in the release.
+Here we go again. A brand new releases with a bunch of fixes and a couple new features is here. This month the feature that took the most time and effort is **OMEMO fingerprint trust management**.  It adds the option to trust OMEMO fingerprints by just scanning other peoples QR Codes. Other UI related changes include the addition of info buttons for the chat settings page.  
+Other than that there are no big UI related changes since I'm working on adding [XMPP IoT](https://www.xmpp-iot.org/) support and trying to come up with a robust [XEP](https://xmpp.org/extensions/) for that.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
-### Future plans
-
-#### August to November 2019
-Between August to November 2019 I will spend a lot of time developing UWPX. This is caused by me writing my Bachelor's thesis about UWPX. In detail I'm writing it about [XMPP for IoT](https://xmpp.org/uses/internet-of-things.html). Because of this UWPX will get an extension for IoT support.  
-Don't worry, if you are not interested in [XMPP for IoT](https://xmpp.org/uses/internet-of-things.html), all of it will be encapsulated in an [app extension](https://docs.microsoft.com/en-us/windows/uwp/launch-resume/how-to-create-an-extension) so only people who are interested in it can install and use it.
-
-#### Windows Mobile in 2020
+### Windows Mobile in 2020
 Since Microsoft will shutdown the MS Store for all Windows 10 Mobile devices by 2020 there won't be a way for me to publish any new updates for all users who still stick with there Windows Phone (besides sideloading apps).  
-##### So the last update for all devices running Windows 10 (Mobile) &lt; 10.0.16299.0 will be made available roughly around the 20.12.2019.
+
+**So the last update for all devices running Windows 10 (Mobile) &lt; 10.0.16299.0 will be made available roughly around the 20.12.2019.**
+
 If you still wan't to continue using your Windows Phone and get "regular" UWPX updates I suggest having a look at [Windows 10 ARM for Lumia 950](https://github.com/WOA-Project/WOA-Deployer-Lumia).  
 Battery life is not that great while you use it but beside that it's quiet usable on my Lumia 950 XL 😄 
 
 ### Want more up to date news?
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
 
-### Known bugs:
+### Known bugs
 * Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27)
 * MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29)
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
-* Fix Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40)
-* Support for gtalk [#54](https://github.com/UWPX/UWPX-Client/issues/54)
+* MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
 
 ### Changes:
-* Added the new "Add Group Chat (MUC)" dialog
-* Added a placeholder text if no accounts are available in the account selection control
-* Added a first prototype of the new "Contact Info" page
-* Updated the chat messages container
-* Only loading and showing the last 100 messages until incremental chat message loading is done
-* Updated the app icons with higher resolution ones based on an SVG version of the original
-* Slightly changed the light and dark window and element colors
-* Fixed the color picker not updating color on the add/change account page
+* Added OMEMO fingerprint trust management for chats only at the moment
+* Added chat settings info buttons
+* Added a chat option to change when the account color block is shown
+* Added mouse back button support
+* Updated the content dialog background to a blur brush
+* Hiding the vibration setting if no vibration is available
+* Fixed hardware back button behavior 
+* Fixed only clearing logs and image cache if you actuality confirmed it 🙃
+* Fixed Main Thread async [#40](https://github.com/UWPX/UWPX-Client/issues/40)
+* Fixed JID case sensitivity issue [#67](https://github.com/UWPX/UWPX-Client/issues/67)
 
 
-[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.18.0.0)</value>
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.19.0.0)</value>
   </data>
 </root>
