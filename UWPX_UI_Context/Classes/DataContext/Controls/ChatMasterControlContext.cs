@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Microsoft.Toolkit.Uwp.UI.Helpers;
@@ -158,9 +157,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
                         ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
                         Logger.Info("Marked chat as not active: " + chat.Chat.id);
                     }
-
-                    // Delete all fingerprints:
-                    OmemoSignalKeyDBManager.INSTANCE.deletePreKey()
                 });
             }
         }
