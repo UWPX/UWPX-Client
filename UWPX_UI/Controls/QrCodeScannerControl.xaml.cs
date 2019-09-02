@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
+using Shared.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
@@ -94,7 +95,7 @@ namespace UWPX_UI.Controls
                     {
                         try
                         {
-                            Result result = QR_CODE_READER.Decode(qrCodeBitmap);
+                            QR_CODE_READER.Decode(qrCodeBitmap);
                         }
                         catch (Exception e)
                         {
@@ -149,12 +150,13 @@ namespace UWPX_UI.Controls
 
         private void QR_CODE_READER_ResultFound(Result result)
         {
-            Logger.Debug("Scanned QR Code: " + result.Text);
+            Logger.Info("Scanned QR Code: " + result.Text);
             if (!string.Equals(result.Text, VIEW_MODEL.MODEL.QrCode))
             {
                 VIEW_MODEL.MODEL.QrCode = result.Text;
                 if (VIEW_MODEL.IsValidQrCode(result.Text))
                 {
+                    SharedUtils.VibratePress(TimeSpan.FromMilliseconds(150));
                     NewValidQrCode?.Invoke(this, new NewQrCodeEventArgs(result.Text));
                 }
                 else

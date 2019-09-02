@@ -1,15 +1,20 @@
-﻿namespace XMPP_API.Classes.XmppUri
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
+
+namespace XMPP_API.Classes.XmppUri
 {
-    public abstract class AbstractUriAction
+    public class OmemoFingerprintUriAction: IUriAction
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly OmemoFingerprint FINGERPRINT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public OmemoFingerprintUriAction(OmemoFingerprint fingerprint)
+        {
+            FINGERPRINT = fingerprint;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

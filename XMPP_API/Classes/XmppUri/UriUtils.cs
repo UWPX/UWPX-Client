@@ -3,8 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using libsignal;
+using libsignal.ecc;
 using Logging;
 using Windows.Foundation;
+using XMPP_API.Classes.Crypto;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.XmppUri
 {
@@ -87,19 +91,20 @@ namespace XMPP_API.Classes.XmppUri
         }
 
         /// <summary>
-        /// TODO: Not done yet.
+        /// [WIP]<para/>
+        /// Parses XMPP IRIs and URIs based on RFC 5122 and returns the result.
         /// </summary>
-        /// <param name="uri"></param>
-        /// <returns></returns>
-        public static AbstractUriAction parse(Uri uri)
+        /// <param name="uri">The URI or IRI that should get parsed.</param>
+        /// <returns>The URI or IRI result or null if an error occurred.</returns>
+        public static IUriAction parse(Uri uri)
         {
             if (!string.IsNullOrEmpty(uri?.OriginalString))
             {
-                string tmp = uri.OriginalString;
-
-                // 1. 'xmpp:'
-                if (tmp.StartsWith("xmpp:"))
+                if (string.Equals(uri.Scheme.ToLowerInvariant(), "xmpp"))
                 {
+                    string tmp = uri.OriginalString;
+
+                    // 1. remove 'xmpp:'
                     tmp = tmp.Substring(5);
 
                     // 2. Authority
@@ -124,11 +129,37 @@ namespace XMPP_API.Classes.XmppUri
                         }
                     }
 
-                    // 3.
+                    // Check if is OMEMO fingerprint URI:
+                    WwwFormUrlDecoder query = parseUriQuery(uri);
+                    IWwwFormUrlDecoderEntry entry = query.FirstOrDefault(x => x.Name.StartsWith("omemo-sid-"));
+                    if (!(entry is null))
+                    {
+                        ECPublicKey pubKey = null;
+                        try
+                        {
+                            byte[] fingerprintBytes = CryptoUtils.hexStringToByteArray(entry.Value);
+                            pubKey = Curve.decodePoint(fingerprintBytes, 0);
+                        }
+                        catch (Exception e)
+                        {
+                            Logger.Error("Failed to parse XMPP URI. Parsing fingerprint failed: " + entry.Value, e);
+                            return null;
+                        }
+
+                        if (uint.TryParse(entry.Name.Replace("omemo-sid-", "").Trim(), out uint deviceId))
+                        {
+                            SignalProtocolAddress address = new SignalProtocolAddress(uri.LocalPath, deviceId);
+                            return new OmemoFingerprintUriAction(new OmemoFingerprint(pubKey, address));
+                        }
+                        else
+                        {
+                            Logger.Warn("Failed to parse XMPP URI. Invalid device ID: " + entry.Name);
+                        }
+                    }
                 }
                 else
                 {
-                    Logger.Warn("Unable to parse XMPP URI - 'xmpp:' missing.");
+                    Logger.Warn("Failed to parse XMPP URI. No 'xmpp' scheme.");
                 }
             }
             return null;

@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.XmppUri
 {
-    public class SendMessageUriAction: AbstractUriAction
+    public class SendMessageUriAction: IUriAction
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

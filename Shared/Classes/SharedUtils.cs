@@ -4,6 +4,7 @@ using Logging;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.Phone.Devices.Notification;
 using Windows.UI.Core;
 
 namespace Shared.Classes
@@ -89,7 +90,7 @@ namespace Shared.Classes
         /// <returns>The return value of the given function.</returns>
         public static T RetryOnException<T>(Func<T> funct)
         {
-            return RetryOnException<T>(funct, 1);
+            return RetryOnException(funct, 1);
         }
 
         /// <summary>
@@ -135,6 +136,19 @@ namespace Shared.Classes
             };
             player.Play();
             return player;
+        }
+
+        /// <summary>
+        /// Vibrates the device for the given timespan if the device supports phone vibration.
+        /// </summary>
+        /// <param name="duration">How long should the vibration persist. Max 5 seconds.</param>
+        public static void VibratePress(TimeSpan duration)
+        {
+            if (DeviceFamilyHelper.SupportsVibration())
+            {
+                VibrationDevice.GetDefault().Vibrate(duration);
+            }
+            Logger.Debug("Vibration not supported.");
         }
 
         #endregion

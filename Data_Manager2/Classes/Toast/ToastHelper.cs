@@ -5,7 +5,6 @@ using Logging;
 using Microsoft.Toolkit.Uwp.Notifications;
 using Shared.Classes;
 using Windows.Data.Xml.Dom;
-using Windows.Phone.Devices.Notification;
 using Windows.UI.Notifications;
 
 namespace Data_Manager2.Classes.Toast
@@ -230,7 +229,7 @@ namespace Data_Manager2.Classes.Toast
             // Vibrate:
             if (DeviceFamilyHelper.SupportsVibration() && !Settings.getSettingBoolean(SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES))
             {
-                VibrationDevice.GetDefault().Vibrate(VIBRATE_TS);
+                SharedUtils.VibratePress(VIBRATE_TS);
             }
 
             // Play sound:
