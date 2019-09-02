@@ -94,6 +94,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #region --Set-, Get- Methods--
         private void SetChatBareJidProperty(string value)
         {
+            // Make sure we only allow lower case JIDs:
+            value = value?.ToLowerInvariant();
+
             if (SetProperty(ref _ChatBareJid, value, nameof(ChatBareJid)))
             {
                 if (Client is null || string.IsNullOrEmpty(value))

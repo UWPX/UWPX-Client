@@ -46,7 +46,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         public string RoomBareJid
         {
             get => _RoomBareJid;
-            set => SetProperty(ref _RoomBareJid, value);
+            set => SetRoomBareJidProperty(value);
         }
 
         private string _Password;
@@ -89,16 +89,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetRoomBareJidProperty(string value)
+        {
+            // Make sure we only allow lower case JIDs:
+            value = value?.ToLowerInvariant();
+            SetProperty(ref _RoomBareJid, value, nameof(RoomBareJid));
+        }
 
-
-        #endregion
-        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
-        #region --Misc Methods (Public)--
-
-
-        #endregion
-
-        #region --Misc Methods (Private)--
         private void SetIsRoomBareJidValidProperty(bool value)
         {
             if (SetProperty(ref _IsRoomBareJidValid, value, nameof(IsRoomBareJidValid)))
@@ -115,11 +112,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             }
         }
 
-        private void UpdateIsInputValid()
-        {
-            IsInputValid = IsRoomBareJidValid && IsNicknameValid;
-        }
-
         private void SetNicknameProperty(string value)
         {
             if (SetProperty(ref _Nickname, value, nameof(Nickname)))
@@ -134,6 +126,18 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             {
                 Nickname = value.getXMPPAccount().user.localPart;
             }
+        }
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
+
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private void UpdateIsInputValid()
+        {
+            IsInputValid = IsRoomBareJidValid && IsNicknameValid;
         }
 
         #endregion
