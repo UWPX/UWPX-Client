@@ -374,7 +374,6 @@ namespace UWPX_UI.Controls
         {
             await FocusAsync();
         }
-
         #endregion
     }
 }
