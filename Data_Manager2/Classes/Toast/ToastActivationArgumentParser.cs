@@ -1,8 +1,8 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Linq;
+using Logging;
 using Windows.Foundation;
-using XMPP_API.Classes;
+using XMPP_API.Classes.XmppUri;
 
 namespace Data_Manager2.Classes.Toast
 {

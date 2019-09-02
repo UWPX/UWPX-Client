@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Windows.Foundation;
-using XMPP_API.Classes;
+using XMPP_API.Classes.XmppUri;
 
 namespace Data_Manager2.Classes.Toast
 {
-    public class ChatToastActivation : AbstractToastActivation
+    public class ChatToastActivation: AbstractToastActivation
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

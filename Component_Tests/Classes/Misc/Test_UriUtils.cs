@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Windows.Foundation;
-using XMPP_API.Classes;
+using XMPP_API.Classes.XmppUri;
 
 namespace Component_Tests.Classes.Misc
 {

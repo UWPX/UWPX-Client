@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
+using Logging;
 using Windows.Foundation;
 
-namespace XMPP_API.Classes
+namespace XMPP_API.Classes.XmppUri
 {
     public static class UriUtils
     {
@@ -83,6 +84,54 @@ namespace XMPP_API.Classes
         public static WwwFormUrlDecoder parseUriQuery(Uri uri)
         {
             return new WwwFormUrlDecoder(uri.Query);
+        }
+
+        /// <summary>
+        /// TODO: Not done yet.
+        /// </summary>
+        /// <param name="uri"></param>
+        /// <returns></returns>
+        public static AbstractUriAction parse(Uri uri)
+        {
+            if (!string.IsNullOrEmpty(uri?.OriginalString))
+            {
+                string tmp = uri.OriginalString;
+
+                // 1. 'xmpp:'
+                if (tmp.StartsWith("xmpp:"))
+                {
+                    tmp = tmp.Substring(5);
+
+                    // 2. Authority
+                    string authority = null;
+                    if (tmp.StartsWith("//"))
+                    {
+                        tmp.Substring(2);
+                        int authEnd = tmp.IndexOf('/');
+                        if (authEnd < 0)
+                        {
+                            authEnd = tmp.IndexOf('?');
+                            if (authEnd < 0)
+                            {
+                                authEnd = tmp.IndexOf('#');
+                                if (authEnd < 0)
+                                {
+                                    authEnd = tmp.Length <= 0 ? 0 : tmp.Length - 1;
+                                }
+                            }
+                            authority = tmp.Substring(0, authEnd);
+                            tmp = tmp.Substring(authEnd + 1);
+                        }
+                    }
+
+                    // 3.
+                }
+                else
+                {
+                    Logger.Warn("Unable to parse XMPP URI - 'xmpp:' missing.");
+                }
+            }
+            return null;
         }
 
         #endregion

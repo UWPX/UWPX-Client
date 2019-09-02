@@ -339,7 +339,9 @@
     <Compile Include="Classes\OmemoCommandHelper.cs" />
     <Compile Include="Classes\Presence.cs" />
     <Compile Include="Classes\PubSubCommandHelper.cs" />
-    <Compile Include="Classes\UriUtils.cs" />
+    <Compile Include="Classes\XmppUri\UriUtils.cs" />
+    <Compile Include="Classes\XmppUri\AbstractUriAction.cs" />
+    <Compile Include="Classes\XmppUri\SendMessageUriAction.cs" />
     <Compile Include="Classes\Utils.cs" />
     <Compile Include="Classes\XMPPClient.cs" />
     <Compile Include="Classes\XMPPUser.cs" />

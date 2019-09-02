@@ -15,6 +15,7 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes.XmppUri;
 using BackgroundTaskHelper = UWPX_UI_Context.Classes.BackgroundTaskHelper;
 
 namespace UWPX_UI.Pages
@@ -226,13 +227,13 @@ namespace UWPX_UI.Pages
             {
                 Logger.Info("App activated by protocol activation with: " + protocolActivationArgs.Uri.ToString());
 
-                // If we're currently not on a page, navigate to the main page
-                ROOT_FRAME.Navigate(typeof(ChatPage), protocolActivationArgs); // ToDo add arguments
+                // If we're currently not on a page, navigate to the main page:
+                ROOT_FRAME.Navigate(typeof(ChatPage), UriUtils.parse(protocolActivationArgs.Uri));
             }
             else if (ACTIVATION_ARGS is ToastNotificationActivatedEventArgs toastActivationArgs)
             {
                 Logger.Info("App activated by toast with: " + toastActivationArgs.Argument);
-                // If empty args, no specific action (just launch the app)
+                // If empty args, no specific action (just launch the app):
                 if (string.IsNullOrEmpty(toastActivationArgs.Argument))
                 {
                     Logger.Warn("Toast activation with no argument!");
