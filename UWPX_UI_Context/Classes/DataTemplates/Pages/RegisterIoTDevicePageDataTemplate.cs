@@ -2,7 +2,7 @@
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 {
-    public class AddIoTDevicePageDataTemplate: AbstractDataTemplate
+    public class RegisterIoTDevicePageDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

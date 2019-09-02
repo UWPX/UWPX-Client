@@ -2,11 +2,11 @@
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
-    public class AddIoTDevicePageContext
+    public class RegisterIoTDevicePageContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly AddIoTDevicePageDataTemplate VIEW_MODEL = new AddIoTDevicePageDataTemplate();
+        public readonly RegisterIoTDevicePageDataTemplate VIEW_MODEL = new RegisterIoTDevicePageDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

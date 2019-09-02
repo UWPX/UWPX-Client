@@ -191,7 +191,7 @@
     <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AddAccountPageContext.cs" />
-    <Compile Include="Classes\DataContext\Pages\AddIoTDevicePageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\RegisterIoTDevicePageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatsPageContext.cs" />
@@ -258,7 +258,7 @@
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\AddAccountPageDataTemplate.cs" />
-    <Compile Include="Classes\DataTemplates\Pages\AddIoTDevicePageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\RegisterIoTDevicePageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatSettingsPageDataTemplate.cs" />

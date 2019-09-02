@@ -13,7 +13,7 @@ namespace UWPX_UI.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly AddIoTDevicePageContext VIEW_MODEL = new AddIoTDevicePageContext();
+        public readonly RegisterIoTDevicePageContext VIEW_MODEL = new RegisterIoTDevicePageContext();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
