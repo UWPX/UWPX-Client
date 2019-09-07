@@ -293,7 +293,7 @@
                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         FontSize="27"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Emojis"
+                        ToolTipService.ToolTip="Emoji"
                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                     <Button.Flyout>
                         <Flyout>
