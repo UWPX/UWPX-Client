@@ -206,7 +206,8 @@
                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                         FontSize="27"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
-                        ToolTipService.ToolTip="Send images/files">
+                        ToolTipService.ToolTip="Send images/files"
+                        Visibility="Collapsed">
                     <Button.Flyout>
                         <Flyout>
                             <StackPanel>
