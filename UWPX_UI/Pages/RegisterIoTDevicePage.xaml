@@ -149,11 +149,17 @@
                                 </Grid.ColumnDefinitions>
                                 <controls:IconButtonControl x:Name="cancel2_ibtn"
                                                             Grid.Column="0"
-                                                            Margin="0,0,0,1"
+                                                            Margin="0,0,1,0"
                                                             Click="Cancel_ibtn_Click"
                                                             Glyph="&#xE711;"
                                                             GlyphForeground="Red"
                                                             Text="Cancel"/>
+                                <controls:IconButtonControl x:Name="retry_ibtn"
+                                                            Grid.Column="2"
+                                                            Margin="1,0,0,0"
+                                                            Click="Retry_ibtn_Click"
+                                                            Glyph="&#xE777;"
+                                                            Text="Retry"/>
                             </Grid>
                         </StackPanel>
                     </Border>

@@ -40,6 +40,11 @@ namespace UWPX_UI.Controls.IoT
             await VIEW_MODEL.StartAsync(RegisterIoTUriAction.MAC);
         }
 
+        public void Stop()
+        {
+            VIEW_MODEL.Stop();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -55,15 +60,22 @@ namespace UWPX_UI.Controls.IoT
         #region --Events--
         private async static void OnRegisterIoTUriActionChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is BluetoothScannerControl bluetoothScannerControl && e.NewValue is RegisterIoTUriAction)
+            if (d is BluetoothScannerControl bluetoothScannerControl)
             {
-                await bluetoothScannerControl.StartAsync();
+                if (e.NewValue is RegisterIoTUriAction)
+                {
+                    await bluetoothScannerControl.StartAsync();
+                }
+                else
+                {
+                    bluetoothScannerControl.Stop();
+                }
             }
         }
 
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.Stop();
+            Stop();
         }
 
         #endregion

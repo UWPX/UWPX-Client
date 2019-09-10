@@ -85,6 +85,7 @@ namespace UWPX_UI.Controls
                 return;
             }
             isRunning = true;
+            VIEW_MODEL.MODEL.QrCode = "";
             StartQrCodeTask();
             await camera_pvc.StartPreviewAsync();
         }

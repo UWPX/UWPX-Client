@@ -6,7 +6,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        private string _ErrorMsg;
+        public string ErrorMsg
+        {
+            get => _ErrorMsg;
+            set => SetProperty(ref _ErrorMsg, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

@@ -83,6 +83,13 @@ namespace UWPX_UI.Pages
             }
         }
 
+        private async void Retry_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        {
+            VIEW_MODEL.MODEL.RegisterIoTUriAction = null;
+            UpdateViewState(State_1.Name);
+            await qrCodeScanner.StartAsync();
+        }
+
         #endregion
     }
 }

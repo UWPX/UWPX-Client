@@ -83,12 +83,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
                     break;
 
                 case BLEScannerState.ERROR_BLE_NOT_SUPPORTED:
+                    MODEL.ErrorMsg = "Your device does not support Bluetooth LE!";
                     break;
 
                 case BLEScannerState.ERROR_BLUETOOTH_NOT_SUPPORTED:
+                    MODEL.ErrorMsg = "No Bluetooth radio available!";
                     break;
 
                 case BLEScannerState.ERROR_BLUETOOTH_DISABLED:
+                    MODEL.ErrorMsg = "Bluetooth disabled!";
                     break;
             }
         }
