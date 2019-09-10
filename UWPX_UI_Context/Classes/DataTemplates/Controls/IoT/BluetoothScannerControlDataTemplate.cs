@@ -1,18 +1,12 @@
 ﻿using Shared.Classes;
-using XMPP_API.Classes.XmppUri;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Pages
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 {
-    public class RegisterIoTDevicePageDataTemplate: AbstractDataTemplate
+    public class BluetoothScannerControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private RegisterIoTUriAction _RegisterIoTUriAction;
-        public RegisterIoTUriAction RegisterIoTUriAction
-        {
-            get => _RegisterIoTUriAction;
-            set => SetProperty(ref _RegisterIoTUriAction, value);
-        }
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

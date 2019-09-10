@@ -32,6 +32,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMPP_API_IoT", "XMPP_API_IoT\XMPP_API_IoT.csproj", "{85CE85C2-F71E-4F58-9631-95D3B99EAC69}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -294,6 +296,26 @@ Global
 		{0E93F94C-A663-4EB6-A6DE-6A853D162375}.Release|x64.Build.0 = Release|x64
 		{0E93F94C-A663-4EB6-A6DE-6A853D162375}.Release|x86.ActiveCfg = Release|x86
 		{0E93F94C-A663-4EB6-A6DE-6A853D162375}.Release|x86.Build.0 = Release|x86
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|ARM.ActiveCfg = Debug|ARM
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|ARM.Build.0 = Debug|ARM
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|ARM64.ActiveCfg = Debug|ARM64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|ARM64.Build.0 = Debug|ARM64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|x64.ActiveCfg = Debug|x64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|x64.Build.0 = Debug|x64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|x86.ActiveCfg = Debug|x86
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Debug|x86.Build.0 = Debug|x86
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|ARM.ActiveCfg = Release|ARM
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|ARM.Build.0 = Release|ARM
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|ARM64.ActiveCfg = Release|ARM64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|ARM64.Build.0 = Release|ARM64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|x64.ActiveCfg = Release|x64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|x64.Build.0 = Release|x64
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|x86.ActiveCfg = Release|x86
+		{85CE85C2-F71E-4F58-9631-95D3B99EAC69}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

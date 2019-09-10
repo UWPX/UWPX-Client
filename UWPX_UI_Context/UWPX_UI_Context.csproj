@@ -164,6 +164,7 @@
     <Compile Include="Classes\DataContext\Controls\CustomBackgroundImageSelectionControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\EmojiPickerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\IoT\BluetoothScannerControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoButtonControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
@@ -228,6 +229,7 @@
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothScannerControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoButtonControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
@@ -382,6 +384,10 @@
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
       <Name>XMPP_API</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMPP_API_IoT\XMPP_API_IoT.csproj">
+      <Project>{85ce85c2-f71e-4f58-9631-95d3b99eac69}</Project>
+      <Name>XMPP_API_IoT</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

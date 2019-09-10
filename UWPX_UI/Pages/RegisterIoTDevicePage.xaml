@@ -5,6 +5,7 @@
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:iot="using:UWPX_UI.Controls.IoT"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
@@ -84,7 +85,8 @@
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBlock Text="Scan a QR Code to continue"/>
-                            <controls:QrCodeScannerControl x:Uid="RegisterIoTDevicePage_qr_code_scanner"
+                            <controls:QrCodeScannerControl x:Name="qrCodeScanner"
+                                                           x:Uid="RegisterIoTDevicePage_qr_code_scanner"
                                                            Margin="0,10,0,0"
                                                            NewValidQrCode="QrCodeScannerControl_NewValidQrCode"/>
                             <HyperlinkButton x:Name="whatIsAnIoTDevice_link"
@@ -108,7 +110,72 @@
                         </StackPanel>
                     </Border>
                 </controls1:DropShadowPanel>
+
+                <!--  Step 2:  -->
+                <controls1:DropShadowPanel x:Name="step2Bluetooth_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBlock Text="Scanning for device"/>
+                            <iot:BluetoothScannerControl x:Name="btScanner_btsc"
+                                                         RegisterIoTUriAction="{x:Bind VIEW_MODEL.MODEL.RegisterIoTUriAction, Mode=OneWay}"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl x:Name="cancel2_ibtn"
+                                                            Grid.Column="0"
+                                                            Margin="0,0,0,1"
+                                                            Click="Cancel_ibtn_Click"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
             </Grid>
         </ScrollViewer>
+
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="States">
+                <VisualState x:Name="State_1">
+                    <VisualState.Setters>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_2">
+                    <VisualState.Setters>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
     </Grid>
 </Page>

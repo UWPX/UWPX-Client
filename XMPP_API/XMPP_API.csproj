@@ -340,6 +340,7 @@
     <Compile Include="Classes\Presence.cs" />
     <Compile Include="Classes\PubSubCommandHelper.cs" />
     <Compile Include="Classes\XmppUri\OmemoFingerprintUriAction.cs" />
+    <Compile Include="Classes\XmppUri\RegisterIoTUriAction.cs" />
     <Compile Include="Classes\XmppUri\UriUtils.cs" />
     <Compile Include="Classes\XmppUri\IUriAction.cs" />
     <Compile Include="Classes\XmppUri\SendMessageUriAction.cs" />

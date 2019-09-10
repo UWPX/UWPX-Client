@@ -1,9 +1,10 @@
 ﻿using System;
-using Logging;
+using Shared.Classes;
 using UWPX_UI.Controls;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.Events;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
 
@@ -21,6 +22,7 @@ namespace UWPX_UI.Pages
         public RegisterIoTDevicePage()
         {
             InitializeComponent();
+            UpdateViewState(State_1.Name);
         }
 
         #endregion
@@ -36,7 +38,10 @@ namespace UWPX_UI.Pages
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
+        }
 
         #endregion
 
@@ -56,19 +61,26 @@ namespace UWPX_UI.Pages
             titleBar.OnPageNavigatedFrom();
         }
 
-        private async void WhatIsAnIoTDevice_link_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        private async void WhatIsAnIoTDevice_link_Click(object sender, RoutedEventArgs e)
         {
             await UiUtils.LaunchUriAsync(new Uri(Localisation.GetLocalizedString("RegisterIoTDevicePage_what_is_an_iot_device_url")));
         }
 
-        private void Cancel_ibtn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        private void Cancel_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
             titleBar.OnGoBackRequested();
         }
 
-        private void QrCodeScannerControl_NewValidQrCode(QrCodeScannerControl sender, NewQrCodeEventArgs args)
+        private async void QrCodeScannerControl_NewValidQrCode(QrCodeScannerControl sender, NewQrCodeEventArgs args)
         {
-            Logger.Info("Scanned QR Code: " + args.QR_CODE);
+            if (VIEW_MODEL.TryParseUri(args.QR_CODE))
+            {
+                await SharedUtils.CallDispatcherAsync(async () =>
+                {
+                    await qrCodeScanner.StopAsync();
+                    UpdateViewState(State_2.Name);
+                });
+            }
         }
 
         #endregion

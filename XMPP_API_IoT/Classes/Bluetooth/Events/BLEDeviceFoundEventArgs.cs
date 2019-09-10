@@ -1,23 +1,20 @@
-﻿using Shared.Classes;
-using XMPP_API.Classes.XmppUri;
+﻿using System;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Pages
+namespace XMPP_API_IoT.Classes.Bluetooth.Events
 {
-    public class RegisterIoTDevicePageDataTemplate: AbstractDataTemplate
+    public class BLEDeviceFoundEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private RegisterIoTUriAction _RegisterIoTUriAction;
-        public RegisterIoTUriAction RegisterIoTUriAction
-        {
-            get => _RegisterIoTUriAction;
-            set => SetProperty(ref _RegisterIoTUriAction, value);
-        }
+        public readonly BLEDevice DEVICE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public BLEDeviceFoundEventArgs(BLEDevice device)
+        {
+            DEVICE = device;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

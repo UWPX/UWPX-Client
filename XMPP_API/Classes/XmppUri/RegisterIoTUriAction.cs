@@ -1,23 +1,22 @@
-﻿using Shared.Classes;
-using XMPP_API.Classes.XmppUri;
-
-namespace UWPX_UI_Context.Classes.DataTemplates.Pages
+﻿namespace XMPP_API.Classes.XmppUri
 {
-    public class RegisterIoTDevicePageDataTemplate: AbstractDataTemplate
+    public class RegisterIoTUriAction: IUriAction
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private RegisterIoTUriAction _RegisterIoTUriAction;
-        public RegisterIoTUriAction RegisterIoTUriAction
-        {
-            get => _RegisterIoTUriAction;
-            set => SetProperty(ref _RegisterIoTUriAction, value);
-        }
+        public readonly string MAC;
+        public readonly string ALGORITHM;
+        public readonly string KEY;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public RegisterIoTUriAction(string mac, string algo, string key)
+        {
+            MAC = mac;
+            ALGORITHM = algo;
+            KEY = key;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

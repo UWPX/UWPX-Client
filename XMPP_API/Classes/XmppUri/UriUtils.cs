@@ -129,31 +129,57 @@ namespace XMPP_API.Classes.XmppUri
                         }
                     }
 
-                    // Check if is OMEMO fingerprint URI:
-                    WwwFormUrlDecoder query = parseUriQuery(uri);
-                    IWwwFormUrlDecoderEntry entry = query.FirstOrDefault(x => x.Name.StartsWith("omemo-sid-"));
-                    if (!(entry is null))
+                    if (string.Equals(uri.AbsolutePath, "iot-register"))
                     {
-                        ECPublicKey pubKey = null;
-                        try
+                        WwwFormUrlDecoder query = parseUriQuery(uri);
+                        IWwwFormUrlDecoderEntry macEntry = query.FirstOrDefault(x => x.Name.StartsWith("mac"));
+                        if (macEntry is null || string.IsNullOrEmpty(macEntry.Value))
                         {
-                            byte[] fingerprintBytes = CryptoUtils.hexStringToByteArray(entry.Value);
-                            pubKey = Curve.decodePoint(fingerprintBytes, 0);
-                        }
-                        catch (Exception e)
-                        {
-                            Logger.Error("Failed to parse XMPP URI. Parsing fingerprint failed: " + entry.Value, e);
+                            Logger.Error("None or invalid IoT MAC address: " + uri.OriginalString);
                             return null;
                         }
-
-                        if (uint.TryParse(entry.Name.Replace("omemo-sid-", "").Trim(), out uint deviceId))
+                        IWwwFormUrlDecoderEntry algoEntry = query.FirstOrDefault(x => x.Name.StartsWith("algo"));
+                        if (algoEntry is null || string.IsNullOrEmpty(algoEntry.Value))
                         {
-                            SignalProtocolAddress address = new SignalProtocolAddress(uri.LocalPath, deviceId);
-                            return new OmemoFingerprintUriAction(new OmemoFingerprint(pubKey, address));
+                            Logger.Error("None or invalid IoT key algorithm: " + uri.OriginalString);
+                            return null;
                         }
-                        else
+                        IWwwFormUrlDecoderEntry keyEntry = query.FirstOrDefault(x => x.Name.StartsWith("key"));
+                        if (keyEntry is null || string.IsNullOrEmpty(keyEntry.Value))
                         {
-                            Logger.Warn("Failed to parse XMPP URI. Invalid device ID: " + entry.Name);
+                            Logger.Error("None or invalid IoT key: " + uri.OriginalString);
+                            return null;
+                        }
+                        return new RegisterIoTUriAction(macEntry.Value, algoEntry.Value, keyEntry.Value);
+                    }
+                    else
+                    {
+                        // Check if is OMEMO fingerprint URI:
+                        WwwFormUrlDecoder query = parseUriQuery(uri);
+                        IWwwFormUrlDecoderEntry entry = query.FirstOrDefault(x => x.Name.StartsWith("omemo-sid-"));
+                        if (!(entry is null))
+                        {
+                            ECPublicKey pubKey = null;
+                            try
+                            {
+                                byte[] fingerprintBytes = CryptoUtils.hexStringToByteArray(entry.Value);
+                                pubKey = Curve.decodePoint(fingerprintBytes, 0);
+                            }
+                            catch (Exception e)
+                            {
+                                Logger.Error("Failed to parse XMPP URI. Parsing fingerprint failed: " + entry.Value, e);
+                                return null;
+                            }
+
+                            if (uint.TryParse(entry.Name.Replace("omemo-sid-", "").Trim(), out uint deviceId))
+                            {
+                                SignalProtocolAddress address = new SignalProtocolAddress(uri.LocalPath, deviceId);
+                                return new OmemoFingerprintUriAction(new OmemoFingerprint(pubKey, address));
+                            }
+                            else
+                            {
+                                Logger.Warn("Failed to parse XMPP URI. Invalid device ID: " + entry.Name);
+                            }
                         }
                     }
                 }

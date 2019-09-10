@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Pages;
+﻿using System;
+using UWPX_UI_Context.Classes.DataTemplates.Pages;
+using XMPP_API.Classes.XmppUri;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
 {
@@ -6,7 +8,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly RegisterIoTDevicePageDataTemplate VIEW_MODEL = new RegisterIoTDevicePageDataTemplate();
+        public readonly RegisterIoTDevicePageDataTemplate MODEL = new RegisterIoTDevicePageDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -21,7 +23,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public bool TryParseUri(string uri)
+        {
+            IUriAction action = UriUtils.parse(new Uri(uri));
+            if (action is RegisterIoTUriAction registerIoTUriAction)
+            {
+                MODEL.RegisterIoTUriAction = registerIoTUriAction;
+                return true;
+            }
+            return false;
+        }
 
         #endregion
 
