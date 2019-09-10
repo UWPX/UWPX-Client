@@ -27,6 +27,8 @@ namespace UWPX_UI.Controls
         private bool shouldQrCodeScannerTaskRun = false;
         private Task qrCodeScannerTask = null;
 
+        public bool isRunning { get; private set; }
+
         public string QrCodeResultFilterRegex
         {
             get { return (string)GetValue(QrCodeResultFilterRegexProperty); }
@@ -76,7 +78,27 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public async Task StartAsync()
+        {
+            if (isRunning)
+            {
+                return;
+            }
+            isRunning = true;
+            StartQrCodeTask();
+            await camera_pvc.StartPreviewAsync();
+        }
 
+        public async Task StopAsync()
+        {
+            if (!isRunning)
+            {
+                return;
+            }
+            isRunning = false;
+            StopQrCodeTask();
+            await camera_pvc.StopPreviewAsync();
+        }
 
         #endregion
 
@@ -128,29 +150,29 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            StartQrCodeTask();
+            await StartAsync();
         }
 
-        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        private async void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
-            StopQrCodeTask();
+            await StopAsync();
         }
 
-        private void Current_Suspending(object sender, SuspendingEventArgs e)
+        private async void Current_Suspending(object sender, SuspendingEventArgs e)
         {
-            StopQrCodeTask();
+            await StopAsync();
         }
 
-        private void Current_Resuming(object sender, object e)
+        private async void Current_Resuming(object sender, object e)
         {
-            StartQrCodeTask();
+            await StartAsync();
         }
 
         private void QR_CODE_READER_ResultFound(Result result)
         {
-            Logger.Info("Scanned QR Code: " + result.Text);
+            Logger.Debug("Scanned QR Code: " + result.Text);
             if (!string.Equals(result.Text, VIEW_MODEL.MODEL.QrCode))
             {
                 VIEW_MODEL.MODEL.QrCode = result.Text;

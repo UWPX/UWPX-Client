@@ -69,6 +69,7 @@ namespace UWPX_UI.Controls
                 Logger.Info("Camera preview already started.");
                 return;
             }
+            previewRunning = true;
             UpdateViewState(Loading_State.Name);
 
             try
@@ -93,13 +94,13 @@ namespace UWPX_UI.Controls
             {
                 Logger.Error("Camera access denied.");
                 await OnErrorAsync(PreviewError.ACCESS_DENIED);
+                previewRunning = false;
                 return;
             }
 
             try
             {
                 await cameraCapture.StartPreviewAsync();
-                previewRunning = true;
                 UpdateViewState(Preview_State.Name);
             }
             catch (FileLoadException)
@@ -107,6 +108,7 @@ namespace UWPX_UI.Controls
                 Logger.Error("Camera access denied. An other app has exclusive access. Try again later.");
                 await StopPreviewAsync();
                 await OnErrorAsync(PreviewError.ACCESS_DENIED_OTHER_APP);
+                previewRunning = false;
             }
 
             await StartFrameListenerAsync();
@@ -156,6 +158,10 @@ namespace UWPX_UI.Controls
 
         public async Task StopPreviewAsync()
         {
+            if (!previewRunning)
+            {
+                return;
+            }
             previewRunning = false;
             flashlight_btn.IsChecked = false;
             await StopFrameListenerAsync();
@@ -174,7 +180,7 @@ namespace UWPX_UI.Controls
                 camera_ce.Source = null;
                 VIEW_MODEL.MODEL.LampAvailable = false;
 
-                cameraCapture.Dispose();
+                cameraCapture?.Dispose();
                 cameraCapture = null;
             }
         }

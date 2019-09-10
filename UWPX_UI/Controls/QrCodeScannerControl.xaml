@@ -8,6 +8,7 @@
              Unloaded="UserControl_Unloaded"
              mc:Ignorable="d">
 
-    <controls1:CameraPreviewControl VerticalAlignment="Center"
+    <controls1:CameraPreviewControl x:Name="camera_pvc"
+                                    VerticalAlignment="Center"
                                     FrameArrived="CameraPreviewControl_FrameArrived"/>
 </UserControl>
