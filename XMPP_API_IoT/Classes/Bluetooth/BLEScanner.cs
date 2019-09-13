@@ -19,7 +19,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         private string targetMac;
 
         public delegate void BLEScannerStateChangedEventHandler(BLEScanner scanner, BLEScannerStateChangedEventArgs args);
-        public delegate void BLEDeviceFoundEventHandler(BLEScanner scanner, BLEDeviceFoundEventArgs args);
+        public delegate void BLEDeviceFoundEventHandler(BLEScanner scanner, BLEDeviceEventArgs args);
 
         public event BLEScannerStateChangedEventHandler StateChanged;
         public event BLEDeviceFoundEventHandler DeviceFound;
@@ -82,18 +82,21 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             if (!await IsBluetoothSupportedAsync())
             {
                 SetState(BLEScannerState.ERROR_BLUETOOTH_NOT_SUPPORTED);
+                Logger.Warn("No Bluetooth radio available.");
                 return;
             }
 
             if (!await IsBluetoothEnabledAsync())
             {
                 SetState(BLEScannerState.ERROR_BLUETOOTH_DISABLED);
+                Logger.Warn("Bluetooth disabled. Can't use it.");
                 return;
             }
 
             if (!BluetoothLEHelper.IsBluetoothLESupported)
             {
                 SetState(BLEScannerState.ERROR_BLE_NOT_SUPPORTED);
+                Logger.Warn("No Bluetooth radio supports BLE.");
                 return;
             }
 
@@ -144,8 +147,13 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                     BLEDevice bleDevice = await BLEDevice.FromIdAsync(device.DeviceInfo.Id);
                     if (!(bleDevice is null))
                     {
-                        DeviceFound?.Invoke(this, new BLEDeviceFoundEventArgs(bleDevice));
-                        return;
+                        // Try to connect to the device:
+                        if (await bleDevice.ConnectAsync())
+                        {
+                            // Invoke event:
+                            DeviceFound?.Invoke(this, new BLEDeviceEventArgs(bleDevice));
+                            return;
+                        }
                     }
                 }
             }

@@ -26,6 +26,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         private BLEDevice(BluetoothLEDevice device)
         {
             DEVICE = device;
+            DEVICE.ConnectionStatusChanged += DEVICE_ConnectionStatusChanged;
             OBSERVALBLE_DEVICE = new ObservableBluetoothLEDevice(device.DeviceInformation);
         }
 
@@ -51,19 +52,41 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             {
                 CancellationTokenSource cancellation = new CancellationTokenSource(1000);
                 BluetoothLEDevice device = await BluetoothLEDevice.FromIdAsync(deviceId).AsTask(cancellation.Token);
-                Logger.Info("Bluetooth connection successful with: ");
+                Logger.Info("BLE device found.");
                 return new BLEDevice(device);
             }
             catch (TaskCanceledException)
             {
-                Logger.Error("Bluetooth device connection failed. Timeout!");
+                Logger.Error("BLE device connection failed. Timeout!");
                 return null;
             }
             catch (Exception e)
             {
-                Logger.Error("Bluetooth device connection failed.", e);
+                Logger.Error("BLE device connection failed.", e);
                 return null;
             }
+        }
+
+        public async Task<bool> ConnectAsync()
+        {
+            if (!OBSERVALBLE_DEVICE.IsConnected)
+            {
+                try
+                {
+                    await OBSERVALBLE_DEVICE.ConnectAsync();
+                    Logger.Info("BLE device connection established.");
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("BLE device connection failed", e);
+                    return false;
+                }
+            }
+            else
+            {
+                Logger.Info("Unable to connect to BLE device. Already connected.");
+            }
+            return true;
         }
 
         #endregion
@@ -79,7 +102,19 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void DEVICE_ConnectionStatusChanged(BluetoothLEDevice sender, object args)
+        {
+            switch (sender.ConnectionStatus)
+            {
+                case BluetoothConnectionStatus.Disconnected:
+                    SetState(BLEDeviceState.DISCONNECTED);
+                    break;
 
+                case BluetoothConnectionStatus.Connected:
+                    SetState(BLEDeviceState.CONNECTED);
+                    break;
+            }
+        }
 
         #endregion
     }

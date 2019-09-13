@@ -1,12 +1,15 @@
 ﻿using System;
 using Shared.Classes;
 using UWPX_UI.Controls;
+using UWPX_UI.Controls.IoT;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes.XmppUri;
+using XMPP_API_IoT.Classes.Bluetooth.Events;
 
 namespace UWPX_UI.Pages
 {
@@ -73,12 +76,15 @@ namespace UWPX_UI.Pages
 
         private async void QrCodeScannerControl_NewValidQrCode(QrCodeScannerControl sender, NewQrCodeEventArgs args)
         {
-            if (VIEW_MODEL.TryParseUri(args.QR_CODE))
+            IUriAction action = UriUtils.parse(new Uri(args.QR_CODE));
+            if (action is RegisterIoTUriAction registerIoTUriAction)
             {
                 await SharedUtils.CallDispatcherAsync(async () =>
                 {
                     await qrCodeScanner.StopAsync();
+
                     UpdateViewState(State_2.Name);
+                    VIEW_MODEL.MODEL.RegisterIoTUriAction = registerIoTUriAction;
                 });
             }
         }
@@ -87,7 +93,16 @@ namespace UWPX_UI.Pages
         {
             VIEW_MODEL.MODEL.RegisterIoTUriAction = null;
             UpdateViewState(State_1.Name);
+
             await qrCodeScanner.StartAsync();
+        }
+
+        private void BtScanner_btsc_DeviceChanged(BluetoothScannerControl sender, BLEDeviceEventArgs args)
+        {
+            if (!(args.DEVICE is null))
+            {
+                UpdateViewState(State_3.Name);
+            }
         }
 
         #endregion

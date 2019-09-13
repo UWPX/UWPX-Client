@@ -1,19 +1,29 @@
-﻿using System;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls.IoT;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using XMPP_API_IoT.Classes.Bluetooth;
 
-namespace XMPP_API_IoT.Classes.Bluetooth.Events
+namespace UWPX_UI.Controls.IoT
 {
-    public class BLEDeviceFoundEventArgs: EventArgs
+    public sealed partial class BluetoothDeviceInfoControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly BLEDevice DEVICE;
+        public readonly BluetoothDeviceInfoControlContext VIEW_MODEL = new BluetoothDeviceInfoControlContext();
+
+        public BLEDevice Device
+        {
+            get { return (BLEDevice)GetValue(DeviceProperty); }
+            set { SetValue(DeviceProperty, value); }
+        }
+        public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(nameof(Device), typeof(BLEDevice), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(null, OnDeviceChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public BLEDeviceFoundEventArgs(BLEDevice device)
+        public BluetoothDeviceInfoControl()
         {
-            DEVICE = device;
+            InitializeComponent();
         }
 
         #endregion
@@ -39,7 +49,9 @@ namespace XMPP_API_IoT.Classes.Bluetooth.Events
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnDeviceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+        }
 
         #endregion
     }

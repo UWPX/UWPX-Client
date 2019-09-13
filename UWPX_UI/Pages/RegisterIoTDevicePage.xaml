@@ -12,10 +12,6 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-
             <x:String x:Key="TranslationAnimationDuration">0:0:0.5</x:String>
             <x:String x:Key="OpacityAnimationDuration">0:0:0.5</x:String>
             <x:String x:Key="AnimationPositionShowSource">600,0,0</x:String>
@@ -138,8 +134,8 @@
                             Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
-                            <TextBlock Text="Scanning for device"/>
                             <iot:BluetoothScannerControl x:Name="btScanner_btsc"
+                                                         DeviceChanged="BtScanner_btsc_DeviceChanged"
                                                          RegisterIoTUriAction="{x:Bind VIEW_MODEL.MODEL.RegisterIoTUriAction, Mode=OneWay}"/>
                             <Grid Margin="0,10,0,0">
                                 <Grid.ColumnDefinitions>
@@ -154,7 +150,61 @@
                                                             Glyph="&#xE711;"
                                                             GlyphForeground="Red"
                                                             Text="Cancel"/>
-                                <controls:IconButtonControl x:Name="retry_ibtn"
+                                <controls:IconButtonControl x:Name="retry2_ibtn"
+                                                            Grid.Column="2"
+                                                            Margin="1,0,0,0"
+                                                            Click="Retry_ibtn_Click"
+                                                            Glyph="&#xE777;"
+                                                            Text="Retry"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <!--  Step 3:  -->
+                <controls1:DropShadowPanel x:Name="step3BtInfo_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <TextBlock Text="Loading information..."/>
+                            <iot:BluetoothDeviceInfoControl x:Name="btDeviceInfo_btdic"
+                                                            Device="{x:Bind btScanner_btsc.Device, Mode=OneWay}"/>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl x:Name="cancel3_ibtn"
+                                                            Grid.Column="0"
+                                                            Margin="0,0,1,0"
+                                                            Click="Cancel_ibtn_Click"
+                                                            Glyph="&#xE711;"
+                                                            GlyphForeground="Red"
+                                                            Text="Cancel"/>
+                                <controls:IconButtonControl x:Name="retry3_ibtn"
                                                             Grid.Column="2"
                                                             Margin="1,0,0,0"
                                                             Click="Retry_ibtn_Click"
@@ -173,12 +223,21 @@
                     <VisualState.Setters>
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_2">
                     <VisualState.Setters>
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_3">
+                    <VisualState.Setters>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

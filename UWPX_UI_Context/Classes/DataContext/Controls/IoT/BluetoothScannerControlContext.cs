@@ -11,7 +11,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #region --Attributes--
         public readonly BluetoothScannerControlDataTemplate MODEL = new BluetoothScannerControlDataTemplate();
 
-        private BLEScanner scanner;
+        public BLEScanner scanner { get; private set; }
+
+        public delegate void BLEScannerStateChangedEventHandler(BluetoothScannerControlContext ctx, BLEScannerStateChangedEventArgs args);
+        public delegate void BLEDeviceFoundEventHandler(BluetoothScannerControlContext ctx, BLEDeviceEventArgs args);
+
+        public event BLEScannerStateChangedEventHandler ScannerStateChanged;
+        public event BLEDeviceFoundEventHandler ScannerDeviceFound;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -67,13 +73,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Scanner_DeviceFound(BLEScanner scanner, BLEDeviceFoundEventArgs args)
+        private void Scanner_DeviceFound(BLEScanner scanner, BLEDeviceEventArgs args)
         {
+            ScannerDeviceFound?.Invoke(this, args);
+
             Stop();
         }
 
         private void Scanner_StateChanged(BLEScanner scanner, BLEScannerStateChangedEventArgs args)
         {
+            ScannerStateChanged?.Invoke(this, args);
+
             switch (args.NEW_STATE)
             {
                 case BLEScannerState.DISABLED:

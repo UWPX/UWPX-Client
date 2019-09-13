@@ -12,7 +12,7 @@
         <!--  Loading:  -->
         <controls:Loading x:Name="loading_grid"
                           IsLoading="True">
-            <controls1:LoadingContentControl Text="Scanning for device..."/>
+            <controls1:LoadingContentControl Text="Connecting..."/>
         </controls:Loading>
 
         <!--  Error:  -->
@@ -24,7 +24,7 @@
               VerticalAlignment="Center"
               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
               CornerRadius="5"
-              Visibility="Visible">
+              Visibility="Collapsed">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -40,18 +40,54 @@
                        Text="{x:Bind VIEW_MODEL.MODEL.ErrorMsg, Mode=OneWay}"
                        TextWrapping="Wrap"/>
         </Grid>
+
+        <!--  Success:  -->
+        <Grid x:Name="success_grid"
+              Grid.Row="0"
+              Margin="0,10,0,0"
+              Padding="20"
+              HorizontalAlignment="Center"
+              VerticalAlignment="Center"
+              Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+              CornerRadius="5"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0"
+                       HorizontalAlignment="Center"
+                       FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                       FontSize="50"
+                       Foreground="Green"
+                       Text="&#xE73E;"/>
+            <TextBlock Grid.Row="1"
+                       HorizontalAlignment="Center"
+                       Text="Success"
+                       TextWrapping="Wrap"/>
+        </Grid>
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="States">
                 <VisualState x:Name="State_Scanning">
                     <VisualState.Setters>
-                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
-                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="loading_grid.Visibility" Value="Visible"/>
+                        <Setter Target="error_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="success_grid.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_Error">
                     <VisualState.Setters>
-                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="loading_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="error_grid.Visibility" Value="Visible"/>
+                        <Setter Target="success_grid.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_Success">
+                    <VisualState.Setters>
+                        <Setter Target="loading_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="error_grid.Visibility" Value="Collapsed"/>
+                        <Setter Target="success_grid.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

@@ -1,17 +1,20 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Pages;
+﻿using System;
 
-namespace UWPX_UI_Context.Classes.DataContext.Pages
+namespace XMPP_API_IoT.Classes.Bluetooth.Events
 {
-    public class RegisterIoTDevicePageContext
+    public class BLEDeviceEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly RegisterIoTDevicePageDataTemplate MODEL = new RegisterIoTDevicePageDataTemplate();
+        public readonly BLEDevice DEVICE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public BLEDeviceEventArgs(BLEDevice device)
+        {
+            DEVICE = device;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\

@@ -1,12 +1,12 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Pages;
+﻿using Shared.Classes;
 
-namespace UWPX_UI_Context.Classes.DataContext.Pages
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 {
-    public class RegisterIoTDevicePageContext
+    public class BluetoothDeviceInfoControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly RegisterIoTDevicePageDataTemplate MODEL = new RegisterIoTDevicePageDataTemplate();
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

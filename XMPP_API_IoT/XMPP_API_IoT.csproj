@@ -124,7 +124,7 @@
     <Compile Include="Classes\Bluetooth\BLEDeviceState.cs" />
     <Compile Include="Classes\Bluetooth\BLEScanner.cs" />
     <Compile Include="Classes\Bluetooth\BLEScannerState.cs" />
-    <Compile Include="Classes\Bluetooth\Events\BLEDeviceFoundEventArgs.cs" />
+    <Compile Include="Classes\Bluetooth\Events\BLEDeviceEventArgs.cs" />
     <Compile Include="Classes\Bluetooth\Events\BLEDeviceStateChangedEventArgs.cs" />
     <Compile Include="Classes\Bluetooth\Events\BLEScannerStateChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
