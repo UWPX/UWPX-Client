@@ -124,9 +124,12 @@
     <Compile Include="Classes\Bluetooth\BLEDeviceState.cs" />
     <Compile Include="Classes\Bluetooth\BLEScanner.cs" />
     <Compile Include="Classes\Bluetooth\BLEScannerState.cs" />
+    <Compile Include="Classes\Bluetooth\BTUtils.cs" />
+    <Compile Include="Classes\Bluetooth\CharacteristicsCache.cs" />
     <Compile Include="Classes\Bluetooth\Events\BLEDeviceEventArgs.cs" />
     <Compile Include="Classes\Bluetooth\Events\BLEDeviceStateChangedEventArgs.cs" />
     <Compile Include="Classes\Bluetooth\Events\BLEScannerStateChangedEventArgs.cs" />
+    <Compile Include="Classes\Bluetooth\Events\CharacteristicChangedEventArgs.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\XMPP_API_IoT.rd.xml" />
   </ItemGroup>

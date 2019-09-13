@@ -1,4 +1,6 @@
 ﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
+using Windows.UI.Xaml;
+using XMPP_API_IoT.Classes.Bluetooth;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
 {
@@ -21,12 +23,22 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void UpdateView(DependencyPropertyChangedEventArgs args)
+        {
+            if (args.NewValue is BLEDevice device)
+            {
+                MODEL.Device = device;
+                StartRequest();
+            }
+        }
 
         #endregion
 
         #region --Misc Methods (Private)--
+        private void StartRequest()
+        {
 
+        }
 
         #endregion
 

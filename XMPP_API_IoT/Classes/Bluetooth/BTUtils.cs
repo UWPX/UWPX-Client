@@ -1,25 +1,13 @@
-﻿using Shared.Classes;
-using XMPP_API_IoT.Classes.Bluetooth;
+﻿using System;
+using System.Linq;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace XMPP_API_IoT.Classes.Bluetooth
 {
-    public class BluetoothDeviceInfoControlDataTemplate: AbstractDataTemplate
+    public static class BTUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private BLEDevice _Device;
-        public BLEDevice Device
-        {
-            get => _Device;
-            set => SetProperty(ref _Device, value);
-        }
 
-        private string _ErrorMsg;
-        public string ErrorMsg
-        {
-            get => _ErrorMsg;
-            set => SetProperty(ref _ErrorMsg, value);
-        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,7 +22,21 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public static byte[] HexStringToByteArray(string hex)
+        {
+            return Enumerable.Range(0, hex.Length)
+                             .Where(x => x % 2 == 0)
+                             .Select(x => Convert.ToByte(hex.Substring(x, 2), 16))
+                             .ToArray();
+        }
 
+        public static void ReverseByteOrderIfNeeded(byte[] data)
+        {
+            if (!(data is null) && BitConverter.IsLittleEndian)
+            {
+                Array.Reverse(data);
+            }
+        }
 
         #endregion
 

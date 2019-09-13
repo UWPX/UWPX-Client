@@ -39,7 +39,10 @@ namespace UWPX_UI.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs args)
+        {
+            VIEW_MODEL.UpdateView(args);
+        }
 
         #endregion
 
@@ -51,8 +54,16 @@ namespace UWPX_UI.Controls.IoT
         #region --Events--
         private static void OnDeviceChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            if (d is BluetoothDeviceInfoControl bluetoothDeviceInfoControl)
+            {
+                bluetoothDeviceInfoControl.UpdateView(e);
+            }
         }
 
+        private void UserControl_Unloaded(object sender, RoutedEventArgs e)
+        {
+
+        }
         #endregion
     }
 }

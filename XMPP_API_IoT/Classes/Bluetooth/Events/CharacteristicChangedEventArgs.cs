@@ -1,30 +1,24 @@
-﻿using Shared.Classes;
-using XMPP_API_IoT.Classes.Bluetooth;
+﻿using System;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace XMPP_API_IoT.Classes.Bluetooth.Events
 {
-    public class BluetoothDeviceInfoControlDataTemplate: AbstractDataTemplate
+    public class CharacteristicChangedEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private BLEDevice _Device;
-        public BLEDevice Device
-        {
-            get => _Device;
-            set => SetProperty(ref _Device, value);
-        }
-
-        private string _ErrorMsg;
-        public string ErrorMsg
-        {
-            get => _ErrorMsg;
-            set => SetProperty(ref _ErrorMsg, value);
-        }
+        public readonly Guid UUID;
+        public readonly byte[] NEW_VALUE;
+        public readonly byte[] OLD_VALUE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public CharacteristicChangedEventArgs(Guid uuid, byte[] old_value, byte[] new_value)
+        {
+            UUID = uuid;
+            NEW_VALUE = new_value;
+            OLD_VALUE = old_value;
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
