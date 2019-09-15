@@ -10,21 +10,25 @@ pool:
   vmImage: 'vs2017-win2016'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatform: 'x86|x64|ARM'
-  buildConfiguration: 'Release'
-  appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  Build.Solution: '**/*.sln'
+  Build.BuildPlatform: 'x86|x64|ARM'
+  Build.BuildConfiguration: 'Release'
+  Build.AppxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
 
 steps:
 - task: NuGetToolInstaller@1
 
 - task: NuGetCommand@2
   inputs:
-    restoreSolution: '$(solution)'
+    restoreSolution: '$(Build.Solution)'
 
 - task: VSBuild@1
   inputs:
-    platform: 'x86'
+    platform: 'x64'
     solution: '$(solution)'
-    configuration: '$(buildConfiguration)'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(buildPlatform)" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+    configuration: '$(Build.BuildConfiguration)'
+    msbuildArgs: '/p:AppxBundlePlatforms="$(Build.BuildPlatform)"
+                  /p:AppxPackageDir="$(Build.AppxPackageDir)"
+                  /p:AppxBundle=Always
+                  /p:UapAppxPackageBuildMode=StoreUpload
+                  /p:AppxPackageSigningEnabled=true'
