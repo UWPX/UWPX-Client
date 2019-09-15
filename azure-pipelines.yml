@@ -13,7 +13,7 @@ variables:
   Build.Solution: '**/*.sln'
   Build.BuildPlatform: 'x86|x64|ARM'
   Build.BuildConfiguration: 'Release'
-  Build.AppxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  Build.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -32,3 +32,12 @@ steps:
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true'
+
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: 'UWPX'
+    vstsFeedPackagePublish: 'uwpx'
+    versionOption: 'patch'
