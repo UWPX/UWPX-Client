@@ -23,6 +23,7 @@ steps:
     restoreSolution: '$(Build.Solution)'
 
 - task: VSBuild@1
+  timeoutInMinutes: 180
   inputs:
     platform: 'x64'
     solution: '$(Build.Solution)'
