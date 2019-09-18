@@ -105,6 +105,11 @@ namespace UWPX_UI.Pages
             }
         }
 
+        private void Send3_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        {
+
+        }
+
         #endregion
     }
 }

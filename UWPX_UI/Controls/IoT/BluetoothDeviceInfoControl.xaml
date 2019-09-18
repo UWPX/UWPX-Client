@@ -42,29 +42,79 @@
         </Grid>
 
         <!--  Result:  -->
-        <ListView x:Name="result_lv"/>
+        <StackPanel x:Name="result_stckp">
+
+            <TextBlock HorizontalAlignment="Center"
+                       Style="{ThemeResource HeaderTextBlockStyle}"
+                       Text="{x:Bind VIEW_MODEL.MODEL.DeviceName, Mode=OneWay}"
+                       TextWrapping="Wrap"/>
+            <TextBlock Margin="0,10,0,0"
+                       TextWrapping="Wrap">
+                <Run FontWeight="Bold"
+                     Text="Manufacturer:"/>
+                <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceManufacturer, Mode=OneWay}"/>
+            </TextBlock>
+            <controls:Expander Margin="0,10,0,0"
+                               HorizontalContentAlignment="Left"
+                               Background="Transparent"
+                               Header="Advanced">
+                <StackPanel Padding="10">
+                    <TextBlock TextWrapping="Wrap">
+                        <Run FontWeight="Bold"
+                             Text="Language:"/>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceLanguage, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Margin="0,10,0,0"
+                               TextWrapping="Wrap">
+                        <Run FontWeight="Bold"
+                             Text="Serial Number:"/>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceSerialNumber, Mode=OneWay}"/>
+                    </TextBlock>
+                    <TextBlock Margin="0,10,0,0"
+                               TextWrapping="Wrap">
+                        <Run FontWeight="Bold"
+                             Text="Hardware Revision:"/>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.DeviceHardwareRevision, Mode=OneWay}"/>
+                    </TextBlock>
+                </StackPanel>
+            </controls:Expander>
+            <TextBox Margin="0,10,0,0"
+                     Header="WiFi SSID"
+                     PlaceholderText="HomeWifi"
+                     Text="{x:Bind VIEW_MODEL.MODEL.WifiSsid, Mode=TwoWay}"/>
+            <PasswordBox Margin="0,10,0,0"
+                         Header="WiFi Password"
+                         Password="{x:Bind VIEW_MODEL.MODEL.WifiPassword, Mode=TwoWay}"/>
+            <controls1:BareJidInputControl Margin="0,10,0,0"
+                                           Header="JID"
+                                           IsValid="{x:Bind InputValid, Mode=TwoWay}"
+                                           Text="{x:Bind VIEW_MODEL.MODEL.Jid, Mode=TwoWay}"/>
+            <PasswordBox Margin="0,10,0,0"
+                         Header="JID Password"
+                         Password="{x:Bind VIEW_MODEL.MODEL.JidPassword, Mode=TwoWay}"/>
+        </StackPanel>
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="States">
-                <VisualState x:Name="State_Scanning">
+                <VisualState x:Name="State_Loading">
                     <VisualState.Setters>
                         <Setter Target="loading_grid.Visibility" Value="Visible"/>
                         <Setter Target="error_grid.Visibility" Value="Collapsed"/>
-                        <Setter Target="result_lv.Visibility" Value="Collapsed"/>
+                        <Setter Target="result_stckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_Error">
                     <VisualState.Setters>
                         <Setter Target="loading_grid.Visibility" Value="Collapsed"/>
                         <Setter Target="error_grid.Visibility" Value="Visible"/>
-                        <Setter Target="result_lv.Visibility" Value="Collapsed"/>
+                        <Setter Target="result_stckp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_Success">
                     <VisualState.Setters>
                         <Setter Target="loading_grid.Visibility" Value="Collapsed"/>
                         <Setter Target="error_grid.Visibility" Value="Collapsed"/>
-                        <Setter Target="result_lv.Visibility" Value="Visible"/>
+                        <Setter Target="result_stckp.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

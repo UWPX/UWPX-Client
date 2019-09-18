@@ -188,7 +188,6 @@
                             Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
-                            <TextBlock Text="Loading information..."/>
                             <iot:BluetoothDeviceInfoControl x:Name="btDeviceInfo_btdic"
                                                             Device="{x:Bind btScanner_btsc.Device, Mode=OneWay}"/>
                             <Grid Margin="0,10,0,0">
@@ -205,11 +204,19 @@
                                                             GlyphForeground="Red"
                                                             Text="Cancel"/>
                                 <controls:IconButtonControl x:Name="retry3_ibtn"
-                                                            Grid.Column="2"
-                                                            Margin="1,0,0,0"
+                                                            Grid.Column="1"
+                                                            Margin="1,0,1,0"
                                                             Click="Retry_ibtn_Click"
                                                             Glyph="&#xE777;"
                                                             Text="Retry"/>
+                                <controls:IconButtonControl x:Name="send3_ibtn"
+                                                            Grid.Column="2"
+                                                            Margin="1,0,0,0"
+                                                            Click="Send3_ibtn_Click"
+                                                            Glyph="&#xE703;"
+                                                            GlyphForeground="Green"
+                                                            IsEnabled="{x:Bind btDeviceInfo_btdic.InputValid, Mode=OneWay}"
+                                                            Text="Send"/>
                             </Grid>
                         </StackPanel>
                     </Border>

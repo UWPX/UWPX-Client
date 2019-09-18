@@ -99,14 +99,12 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         public async Task<string> ReadStringAsync(GattCharacteristic c)
         {
             byte[] data = await ReadBytesAsync(c);
-            BTUtils.ReverseByteOrderIfNeeded(data);
             return !(data is null) ? BitConverter.ToString(data) : null;
         }
 
         public async Task<short> ReadShortAsync(GattCharacteristic c)
         {
             byte[] data = await ReadBytesAsync(c);
-            BTUtils.ReverseByteOrderIfNeeded(data);
             return !(data is null) ? BitConverter.ToInt16(data, 0) : (short)-1;
         }
 
@@ -141,6 +139,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                         foreach (GattCharacteristic c in cResult.Characteristics)
                         {
                             CHARACTERISTICS.Add(c.Uuid, c);
+                            await LoadCharacteristicValueAsync(c);
                         }
                     }
                 }
@@ -263,8 +262,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
 
                     if (!(data is null))
                     {
-                        // Convert to little endian:
-                        BTUtils.ReverseByteOrderIfNeeded(data);
                         CACHE.AddToDictionary(c.Uuid, data);
                     }
                 }
@@ -272,6 +269,10 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                 {
                     Logger.Error("Loading value from characteristic " + c.Uuid + " failed!", e);
                 }
+            }
+            else
+            {
+                Logger.Debug("Unable to load value for characteristic " + c.Uuid + " - no READ property!");
             }
         }
 
@@ -314,9 +315,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         {
             // Read bytes:
             byte[] data = ReadBytesFromBuffer(args.CharacteristicValue);
-
-            // Convert to little endian:
-            BTUtils.ReverseByteOrderIfNeeded(data);
 
             // Insert characteristic and its value into a dictionary:
             CACHE.AddToDictionary(sender.Uuid, data, args.Timestamp.DateTime);

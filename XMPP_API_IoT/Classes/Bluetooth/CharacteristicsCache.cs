@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using XMPP_API_IoT.Classes.Bluetooth.Events;
 
 namespace XMPP_API_IoT.Classes.Bluetooth
@@ -124,6 +125,10 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                 {
                     oldValue = CHARACTERISTICS[uuid];
                     CHARACTERISTICS[uuid] = value;
+                    if (!oldValue.SequenceEqual(value))
+                    {
+                        CharacteristicChanged?.Invoke(this, new CharacteristicChangedEventArgs(uuid, oldValue, value));
+                    }
                 }
                 else
                 {

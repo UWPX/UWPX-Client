@@ -7,7 +7,11 @@ namespace XMPP_API_IoT.Classes.Bluetooth
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public static readonly Guid CHARACTERISTIC_SERIAL_NUMBER = Guid.Parse("00002A25-0000-1000-8000-00805F9B34FB");
+        public static readonly Guid CHARACTERISTIC_HARDWARE_REVISION = Guid.Parse("00002A27-0000-1000-8000-00805F9B34FB");
+        public static readonly Guid CHARACTERISTIC_DEVICE_NAME = Guid.Parse("00002A00-0000-1000-8000-00805F9B34FB");
+        public static readonly Guid CHARACTERISTIC_LANGUAGE = Guid.Parse("00002AA2-0000-1000-8000-00805F9B34FB");
+        public static readonly Guid CHARACTERISTIC_MANUFACTURER_NAME = Guid.Parse("00002A29-0000-1000-8000-00805F9B34FB");
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

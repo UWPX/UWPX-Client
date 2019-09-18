@@ -18,12 +18,20 @@ namespace UWPX_UI.Controls.IoT
         }
         public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(nameof(Device), typeof(BLEDevice), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(null, OnDeviceChanged));
 
+        public bool InputValid
+        {
+            get { return (bool)GetValue(InputValidProperty); }
+            set { SetValue(InputValidProperty, value); }
+        }
+        public static readonly DependencyProperty InputValidProperty = DependencyProperty.Register(nameof(InputValid), typeof(bool), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(false));
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public BluetoothDeviceInfoControl()
         {
             InitializeComponent();
+            UpdateViewState(State_Loading.Name);
         }
 
         #endregion
@@ -39,9 +47,19 @@ namespace UWPX_UI.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(DependencyPropertyChangedEventArgs args)
+        private void LoadInfos(BLEDevice device)
         {
-            VIEW_MODEL.UpdateView(args);
+            UpdateViewState(State_Loading.Name);
+            if (!(device is null))
+            {
+                VIEW_MODEL.LoadInfos(device);
+                UpdateViewState(State_Success.Name);
+            }
+        }
+
+        private void UpdateViewState(string state)
+        {
+            VisualStateManager.GoToState(this, state, true);
         }
 
         #endregion
@@ -56,7 +74,14 @@ namespace UWPX_UI.Controls.IoT
         {
             if (d is BluetoothDeviceInfoControl bluetoothDeviceInfoControl)
             {
-                bluetoothDeviceInfoControl.UpdateView(e);
+                if (e.NewValue is BLEDevice device)
+                {
+                    bluetoothDeviceInfoControl.LoadInfos(device);
+                }
+                else
+                {
+                    bluetoothDeviceInfoControl.LoadInfos(null);
+                }
             }
         }
 
