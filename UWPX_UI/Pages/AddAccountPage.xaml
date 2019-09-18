@@ -88,12 +88,11 @@
                             Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
-                            <TextBox x:Name="jid1_tbx"
-                                     Header="Jabber ID"
-                                     InputScope="EmailNameOrAddress"
-                                     KeyUp="Jid1_tbx_KeyUp"
-                                     PlaceholderText="alice@example.com"
-                                     Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <controls:BareJidInputControl x:Name="jid1_tbx"
+                                                          Header="Jabber ID"
+                                                          IsValid="{x:Bind VIEW_MODEL.MODEL.IsValidBareJid, Mode=TwoWay}"
+                                                          KeyUp="Jid1_tbx_KeyUp"
+                                                          Text="{x:Bind VIEW_MODEL.MODEL.BareJidText, Mode=TwoWay}"/>
                             <HyperlinkButton x:Name="whatIsAJid_link"
                                              Margin="0,10,0,0"
                                              Click="WhatIsAJid_link_Click"

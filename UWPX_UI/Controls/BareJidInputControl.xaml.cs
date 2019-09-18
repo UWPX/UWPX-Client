@@ -1,5 +1,4 @@
 ﻿using System.Text.RegularExpressions;
-using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -104,10 +103,10 @@ namespace UWPX_UI.Controls
         {
             if (d is BareJidInputControl control && e.NewValue is string s)
             {
-                string trimmed = Regex.Replace(s, @"\s", "");
+                string trimmed = Regex.Replace(s, @"\s", "").ToLowerInvariant();
                 if (!string.Equals(s, trimmed))
                 {
-                    control.Text = s.Trim(UiUtils.TRIM_CHARS);
+                    control.Text = trimmed;
                 }
                 else
                 {

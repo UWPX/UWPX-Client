@@ -12,7 +12,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public string BareJidText
         {
             get => _BareJidText;
-            set => SetBareJidText(value);
+            set => SetProperty(ref _BareJidText, value);
         }
         private bool _IsValidBareJid;
         public bool IsValidBareJid
@@ -35,32 +35,26 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private void SetBareJidText(string value)
-        {
-            value = value.ToLowerInvariant();
-            if (SetProperty(ref _BareJidText, value, nameof(BareJidText)))
-            {
-                IsValidBareJid = Utils.isBareJid(value);
-
-                // Update domain and local part if needed:
-                if (IsValidBareJid && !(Account is null))
-                {
-                    string domainPart = Utils.getJidDomainPart(value);
-                    if (string.Equals(Account.serverAddress, Account.user.domainPart))
-                    {
-                        Account.serverAddress = domainPart;
-                    }
-                    Account.user.domainPart = domainPart;
-                    Account.user.localPart = Utils.getJidLocalPart(value);
-                }
-            }
-        }
-
         private void SetAccountProperty(XMPPAccount value)
         {
             if (SetProperty(ref _Account, value, nameof(Account)))
             {
                 BareJidText = Account.getBareJid();
+            }
+        }
+
+        private void SetIsValidBareJidProperty(bool value)
+        {
+            if (SetProperty(ref _IsValidBareJid, value, nameof(IsValidBareJid)) && value && !(Account is null))
+            {
+                // Update domain and local part if needed:
+                string domainPart = Utils.getJidDomainPart(BareJidText);
+                if (string.Equals(Account.serverAddress, Account.user.domainPart))
+                {
+                    Account.serverAddress = domainPart;
+                }
+                Account.user.domainPart = domainPart;
+                Account.user.localPart = Utils.getJidLocalPart(BareJidText);
             }
         }
 
