@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using System.Text.RegularExpressions;
+using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -100,9 +102,25 @@ namespace UWPX_UI.Controls
 
         private static void OnTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is BareJidInputControl control)
+            if (d is BareJidInputControl control && e.NewValue is string s)
             {
-                control.UpdateText();
+                string trimmed = Regex.Replace(s, @"\s", "");
+                if (!string.Equals(s, trimmed))
+                {
+                    control.Text = s.Trim(UiUtils.TRIM_CHARS);
+                }
+                else
+                {
+                    control.UpdateText();
+                }
+            }
+        }
+
+        private void AutoSuggestBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+            if (args.SelectedItem is string s)
+            {
+                Text = s;
             }
         }
 

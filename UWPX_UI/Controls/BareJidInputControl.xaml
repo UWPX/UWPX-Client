@@ -20,7 +20,9 @@
                         PlaceholderText="{x:Bind PlaceholderText, Mode=OneWay}"
                         Style="{StaticResource BareJidAutoSuggestBoxStyle}"
                         Text="{x:Bind VIEW_MODEL.MODEL.Text, Mode=TwoWay}"
-                        TextChanged="AutoSuggestBox_TextChanged"/>
+                        TextChanged="AutoSuggestBox_TextChanged"
+                        SuggestionChosen="AutoSuggestBox_SuggestionChosen"
+                        UpdateTextOnSelect="False"/>
         <controls:IconTextBlockControl Margin="0,5,0,0"
                                        Glyph="&#xE783;"
                                        GlyphForeground="Red"
