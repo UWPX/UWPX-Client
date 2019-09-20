@@ -139,10 +139,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.8</Version>
+      <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="NLog">
-      <Version>4.6.6</Version>
+      <Version>4.6.7</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
