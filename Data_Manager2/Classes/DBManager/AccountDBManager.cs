@@ -1,16 +1,16 @@
-﻿using Data_Manager2.Classes.DBManager.Omemo;
+﻿using System.Collections.Generic;
+using System.Threading;
+using Data_Manager2.Classes.DBManager.Omemo;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Logging;
 using Shared.Classes.SQLite;
-using System.Collections.Generic;
-using System.Threading;
 using Windows.Security.Cryptography.Certificates;
 using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class AccountDBManager : AbstractDBManager
+    public class AccountDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -42,28 +42,33 @@ namespace Data_Manager2.Classes.DBManager
         /// Adds the given XMPPAccount to the db or replaces it, if it already exists.
         /// </summary>
         /// <param name="account">The account which should get inserted or replaced.</param>
-        public void setAccount(XMPPAccount account, bool triggerAccountChanged)
+        /// <param name="updateOmemoKeys">Replaces all OMEMO keys in the DB.</param>
+        /// /// <param name="triggerAccountChanged">Triggers the AccountChanged event once the DB has been updated.</param>
+        public void setAccount(XMPPAccount account, bool updateOmemoKeys, bool triggerAccountChanged)
         {
             dB.InsertOrReplace(new AccountTable(account));
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
 
-            if (account.OMEMO_PRE_KEYS != null)
+            if (updateOmemoKeys)
             {
-                OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.OMEMO_PRE_KEYS, account.getBareJid());
-            }
-            else
-            {
-                OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getBareJid());
-            }
-            if (account.omemoSignedPreKeyPair != null)
-            {
-                OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getBareJid());
-            }
-            else
-            {
-                OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getBareJid());
+                if (account.OMEMO_PRE_KEYS != null)
+                {
+                    OmemoSignalKeyDBManager.INSTANCE.setPreKeys(account.OMEMO_PRE_KEYS, account.getBareJid());
+                }
+                else
+                {
+                    OmemoSignalKeyDBManager.INSTANCE.deletePreKeys(account.getBareJid());
+                }
+                if (account.omemoSignedPreKeyPair != null)
+                {
+                    OmemoSignalKeyDBManager.INSTANCE.setSignedPreKey(account.omemoSignedPreKeyId, account.omemoSignedPreKeyPair, account.getBareJid());
+                }
+                else
+                {
+                    OmemoSignalKeyDBManager.INSTANCE.deleteSignedPreKey(account.omemoSignedPreKeyId, account.getBareJid());
+                }
             }
 
             if (triggerAccountChanged)
@@ -200,7 +205,7 @@ namespace Data_Manager2.Classes.DBManager
             try
             {
                 deleteAccount(oldAccount, true, false);
-                setAccount(account, true);
+                setAccount(account, true, true);
             }
             catch (System.Exception e)
             {

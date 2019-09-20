@@ -67,7 +67,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task SaveAccountAsync()
         {
-            await Task.Run(() => AccountDBManager.INSTANCE.setAccount(MODEL.Account, true));
+            await Task.Run(() => AccountDBManager.INSTANCE.setAccount(MODEL.Account, true, true));
         }
 
         public void ColorSelected(ColorPickerDialogDataTemplate dataTemplate)

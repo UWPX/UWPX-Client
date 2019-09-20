@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using Data_Manager2.Classes.DBManager;
 using Logging;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
@@ -35,8 +34,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 MODEL.Client.getXMPPAccount().status = MODEL.Status;
                 try
                 {
-                    AccountDBManager.INSTANCE.setAccount(MODEL.Client.getXMPPAccount(), false);
-
                     // Send the updated presence and status to the server:
                     await MODEL.Client.GENERAL_COMMAND_HELPER.setPreseceAsync(MODEL.SelectedItem.Presence, MODEL.Status);
                 }

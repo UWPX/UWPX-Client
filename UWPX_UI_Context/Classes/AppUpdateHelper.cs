@@ -117,7 +117,7 @@ namespace UWPX_UI_Context.Classes
                         {
                             Logger.Info("Generating OMEMO keys for: " + account.getBareJid());
                             account.generateOmemoKeys();
-                            AccountDBManager.INSTANCE.setAccount(account, false);
+                            AccountDBManager.INSTANCE.setAccount(account, true, false);
                         }
                         Logger.Info("Finished generating OMEMO keys for accounts. Update to version 0.9.0.0 done.");
                     }
@@ -139,7 +139,7 @@ namespace UWPX_UI_Context.Classes
                             account.omemoDeviceId = 0;
                             account.omemoKeysGenerated = false;
                             account.omemoSignedPreKeyId = 0;
-                            AccountDBManager.INSTANCE.setAccount(account, false);
+                            AccountDBManager.INSTANCE.setAccount(account, true, false);
                         }
                         Logger.Info("Finished dropping OMEMO tables. Update to version 0.11.0.0 done.");
                     }
@@ -232,7 +232,7 @@ namespace UWPX_UI_Context.Classes
                             account.omemoDeviceId = 0;
                             account.omemoKeysGenerated = false;
                             account.omemoSignedPreKeyId = 0;
-                            AccountDBManager.INSTANCE.setAccount(account, false);
+                            AccountDBManager.INSTANCE.setAccount(account, true, false);
                             Logger.Info("Finished generating new OMEMO keys for: " + account.getBareJid());
                         }
                         Logger.Info("Finished generating new OMEMO keys.");

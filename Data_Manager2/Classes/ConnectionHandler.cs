@@ -220,7 +220,7 @@ namespace Data_Manager2.Classes
             if (!acc.omemoKeysGenerated)
             {
                 acc.generateOmemoKeys();
-                AccountDBManager.INSTANCE.setAccount(acc, false);
+                AccountDBManager.INSTANCE.setAccount(acc, true, false);
             }
             c.enableOmemo(signalProtocolStore);
 
@@ -232,7 +232,7 @@ namespace Data_Manager2.Classes
                 acc.OMEMO_PRE_KEYS.Clear();
                 acc.OMEMO_PRE_KEYS.AddRange(CryptoUtils.generateOmemoPreKeys());
                 acc.omemoBundleInfoAnnounced = false;
-                AccountDBManager.INSTANCE.setAccount(acc, false);
+                AccountDBManager.INSTANCE.setAccount(acc, true, false);
             }
 
             // Ensure no event gets bound multiple times:
@@ -850,11 +850,14 @@ namespace Data_Manager2.Classes
         {
             if (sender is XMPPAccount account)
             {
-                AccountDBManager.INSTANCE.setAccount(account, false);
+                // Check if an OMEMO related account property changed.
+                // If so also update the OMEMO keys.
+                bool updateOmemoKeys = e.PropertyName.ToLowerInvariant().Contains("omemo");
+                AccountDBManager.INSTANCE.setAccount(account, updateOmemoKeys, false);
             }
         }
 
-        private void C_OmemoSessionBuildError(XMPPClient client, XMPP_API.Classes.Events.OmemoSessionBuildErrorEventArgs args)
+        private void C_OmemoSessionBuildError(XMPPClient client, OmemoSessionBuildErrorEventArgs args)
         {
             Task.Run(() =>
             {

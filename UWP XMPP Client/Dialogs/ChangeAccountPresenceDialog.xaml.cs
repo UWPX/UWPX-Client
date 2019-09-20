@@ -1,5 +1,4 @@
 ﻿using System;
-using Data_Manager2.Classes.DBManager;
 using System.Threading.Tasks;
 using UWP_XMPP_Client.DataTemplates;
 using Windows.UI.Xaml;
@@ -8,7 +7,7 @@ using XMPP_API.Classes;
 
 namespace UWP_XMPP_Client.Dialogs
 {
-    public sealed partial class ChangeAccountPresenceDialog : ContentDialog
+    public sealed partial class ChangeAccountPresenceDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -75,8 +74,6 @@ namespace UWP_XMPP_Client.Dialogs
                     // Save presence and status:
                     client.getXMPPAccount().presence = templateItem.presence;
                     client.getXMPPAccount().status = status;
-
-                    AccountDBManager.INSTANCE.setAccount(client.getXMPPAccount(), false);
 
                     // Send the updated presence and status to the server:
                     await client.GENERAL_COMMAND_HELPER.setPreseceAsync(templateItem.presence, status);
