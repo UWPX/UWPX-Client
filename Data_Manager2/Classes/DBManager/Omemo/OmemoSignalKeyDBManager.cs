@@ -144,7 +144,7 @@ namespace Data_Manager2.Classes.DBManager.Omemo
             deletePreKeys(accountId);
             foreach (PreKeyRecord key in preKeys)
             {
-                dB.Insert(new OmemoPreKeyTable
+                dB.InsertOrReplace(new OmemoPreKeyTable
                 {
                     id = OmemoPreKeyTable.generateId(key.getId(), accountId),
                     preKeyId = key.getId(),

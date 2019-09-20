@@ -44,7 +44,7 @@ namespace Shared.Classes.SQLite
         #region --Misc Methods (Public)--
         public SQLiteCommand CreateCommand(string cmdText, params object[] args)
         {
-            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.CreateCommand(cmdText, args));
+            return DB_CONNECTIONS[DB_PATH].Item3.CreateCommand(cmdText, args);
         }
 
         public void BeginTransaction()
@@ -53,7 +53,7 @@ namespace Shared.Classes.SQLite
             connection.Item2.WaitOne();
             if (connection.Item1)
             {
-                SharedUtils.RetryOnException(() => connection.Item3.BeginTransaction());
+                connection.Item3.BeginTransaction();
                 DB_CONNECTIONS[DB_PATH] = new Tuple<bool, Mutex, SQLiteConnection>(true, connection.Item2, connection.Item3);
             }
             connection.Item2.ReleaseMutex();
@@ -63,7 +63,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>());
+                return DB_CONNECTIONS[DB_PATH].Item3.DeleteAll<T>();
             }
             catch (Exception e)
             {
@@ -76,7 +76,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => cmd.ExecuteQuery<T>());
+                return cmd.ExecuteQuery<T>();
             }
             catch (Exception e)
             {
@@ -89,7 +89,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj));
+                return DB_CONNECTIONS[DB_PATH].Item3.InsertOrReplace(obj);
             }
             catch (Exception e)
             {
@@ -102,7 +102,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Insert(obj));
+                return DB_CONNECTIONS[DB_PATH].Item3.Insert(obj);
             }
             catch (Exception e)
             {
@@ -115,7 +115,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects));
+                return DB_CONNECTIONS[DB_PATH].Item3.InsertAll(objects);
             }
             catch (Exception e)
             {
@@ -128,7 +128,7 @@ namespace Shared.Classes.SQLite
         {
             DB_CONNECTION_MUTEX.WaitOne();
             Tuple<bool, Mutex, SQLiteConnection> connection = DB_CONNECTIONS[DB_PATH];
-            SharedUtils.RetryOnException(() => connection.Item3.Close());
+            connection.Item3.Close();
             connection.Item2.Dispose();
             DB_CONNECTIONS.Remove(DB_PATH);
             DB_CONNECTION_MUTEX.ReleaseMutex();
@@ -138,7 +138,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Execute(query, args));
+                return DB_CONNECTIONS[DB_PATH].Item3.Execute(query, args);
             }
             catch (Exception e)
             {
@@ -153,7 +153,7 @@ namespace Shared.Classes.SQLite
             connection.Item2.WaitOne();
             if (connection.Item1)
             {
-                SharedUtils.RetryOnException(() => connection.Item3.Commit());
+                connection.Item3.Commit();
                 DB_CONNECTIONS[DB_PATH] = new Tuple<bool, Mutex, SQLiteConnection>(false, connection.Item2, connection.Item3);
             }
             connection.Item2.ReleaseMutex();
@@ -164,7 +164,7 @@ namespace Shared.Classes.SQLite
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args));
+                return DB_CONNECTIONS[DB_PATH].Item3.Query<T>(query, args);
             }
             catch (Exception e)
             {
@@ -175,25 +175,25 @@ namespace Shared.Classes.SQLite
 
         public CreateTableResult CreateTable<T>() where T : new()
         {
-            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>());
+            return DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>();
         }
 
         public int DropTable<T>() where T : new()
         {
-            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>());
+            return DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>();
         }
 
         public CreateTableResult RecreateTable<T>() where T : new()
         {
-            SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>());
-            return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>());
+            DB_CONNECTIONS[DB_PATH].Item3.DropTable<T>();
+            return DB_CONNECTIONS[DB_PATH].Item3.CreateTable<T>();
         }
 
         public int Delete(object objectToDelete)
         {
             try
             {
-                return SharedUtils.RetryOnException(() => DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete));
+                return DB_CONNECTIONS[DB_PATH].Item3.Delete(objectToDelete);
             }
             catch (Exception e)
             {

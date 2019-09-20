@@ -75,7 +75,7 @@ namespace UWPX_UI_Context.Classes
             PackageVersion versionLastStart = GetLastStartedVersion();
 
             // Check if version != 0.0.0.0 => first ever start of the app:
-            if (!(versionLastStart.Major == versionLastStart.Minor && versionLastStart.Build == versionLastStart.Revision && versionLastStart.Minor == versionLastStart.Build && versionLastStart.Major == 0) || Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
+            if (!(versionLastStart.Major == 0 && versionLastStart.Major == versionLastStart.Minor && versionLastStart.Minor == versionLastStart.Revision && versionLastStart.Revision == versionLastStart.Build) || Settings.getSettingBoolean(SettingsConsts.INITIALLY_STARTED))
             {
                 if (!Compare(versionLastStart, GetPackageVersion()))
                 {
@@ -208,6 +208,35 @@ namespace UWPX_UI_Context.Classes
                         Logger.Info("Started the 0.19.0.0 update...");
                         AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
                         Logger.Info("Update to version 0.19.0.0 done.");
+                    }
+
+                    // SQLite got an update which should fix the DB loosing OMEMO keys.
+                    // To fix all accounts we recreate all OMEMO keys and sessions.
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 20)
+                    {
+                        Logger.Info("Started the 0.20.0.0 update...");
+                        Logger.Info("Recreating all OMEMO tables...");
+                        AbstractDBManager.dB.RecreateTable<OmemoSessionStoreTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoDeviceTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoDeviceListSubscriptionTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoFingerprintTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoIdentityKeyTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoPreKeyTable>();
+                        AbstractDBManager.dB.RecreateTable<OmemoSignedPreKeyTable>();
+                        Logger.Info("All OMEMO tables recreated.");
+                        Logger.Info("Generating new OMEMO keys...");
+                        foreach (XMPPAccount account in AccountDBManager.INSTANCE.loadAllAccounts())
+                        {
+                            Logger.Info("Generating new OMEMO keys for: " + account.getBareJid());
+                            account.omemoBundleInfoAnnounced = false;
+                            account.omemoDeviceId = 0;
+                            account.omemoKeysGenerated = false;
+                            account.omemoSignedPreKeyId = 0;
+                            AccountDBManager.INSTANCE.setAccount(account, false);
+                            Logger.Info("Finished generating new OMEMO keys for: " + account.getBareJid());
+                        }
+                        Logger.Info("Finished generating new OMEMO keys.");
+                        Logger.Info("Update to version 0.20.0.0 done.");
                     }
                 }
             }
