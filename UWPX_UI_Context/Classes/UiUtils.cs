@@ -178,7 +178,7 @@ namespace UWPX_UI_Context.Classes
 
         public static bool IsVirtualKeyDown(VirtualKey key)
         {
-            return GetVirtualKeyState(key) != CoreVirtualKeyStates.None;
+            return GetVirtualKeyState(key).HasFlag(CoreVirtualKeyStates.Down);
         }
 
         #endregion

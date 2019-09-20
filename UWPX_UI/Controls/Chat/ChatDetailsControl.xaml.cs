@@ -7,6 +7,7 @@ using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Input;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -93,7 +94,7 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void HeaderInfo_grid_RightTapped(object sender, Windows.UI.Xaml.Input.RightTappedRoutedEventArgs e)
+        private void HeaderInfo_grid_RightTapped(object sender, RightTappedRoutedEventArgs e)
         {
             if (sender is FrameworkElement element)
             {
@@ -203,9 +204,9 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.MarkAsRead(Chat);
         }
 
-        private void Message_tbx_EnterKeyDown(object sender, Windows.UI.Xaml.Input.KeyRoutedEventArgs e)
+        private void Message_tbx_EnterKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            VIEW_MODEL.OnChatMessageKeyDown(e, Chat);
+            VIEW_MODEL.OnEnterKeyDown(e, Chat);
         }
 
         private void Header_grid_SizeChanged(object sender, SizeChangedEventArgs e)

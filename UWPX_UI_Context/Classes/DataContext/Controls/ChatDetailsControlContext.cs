@@ -130,14 +130,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        public void OnChatMessageKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
+        public void OnEnterKeyDown(KeyRoutedEventArgs args, ChatDataTemplate chat)
         {
-            if (args.Key == VirtualKey.Enter && Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
+            if (Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES))
             {
                 if (UiUtils.IsVirtualKeyDown(VirtualKey.Shift))
                 {
+                    Logger.Info("Enter + Shift down.");
                     return;
                 }
+                Logger.Info("Enter down.");
 
                 args.Handled = true;
                 if (!string.IsNullOrWhiteSpace(MODEL.MessageText))
