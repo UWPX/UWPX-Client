@@ -500,7 +500,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 return;
             }
 
-            var x = _transform.TranslateX;
+            double x = _transform.TranslateX;
             _contentAnimation.From = x;
             _commandContainerClipTranslateAnimation.From = 0;
             _commandContainerClipTranslateAnimation.To = -x;
@@ -530,7 +530,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                 return;
             }
 
-            var newTranslationX = _transform.TranslateX + e.Delta.Translation.X;
+            double newTranslationX = _transform.TranslateX + e.Delta.Translation.X;
             bool swipingInDisabledArea = false;
             SwipeStatus newSwipeStatus = SwipeStatus.Idle;
 
@@ -556,7 +556,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                     // If offset is limited, there will be a limit how much swipe is possible.
                     // This will be the value of the command panel plus some threshold.
                     // This value can't be less than the ActivationWidth.
-                    var swipeThreshold = _leftCommandPanel.ActualWidth + ExtraSwipeThreshold;
+                    double swipeThreshold = _leftCommandPanel.ActualWidth + ExtraSwipeThreshold;
                     if (swipeThreshold < ActivationWidth)
                     {
                         swipeThreshold = ActivationWidth;
@@ -597,7 +597,7 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
                     // If offset is limited, there will be a limit how much swipe is possible.
                     // This will be the value of the command panel plus some threshold.
                     // This value can't be less than the ActivationWidth.
-                    var swipeThreshold = _rightCommandPanel.ActualWidth + ExtraSwipeThreshold;
+                    double swipeThreshold = _rightCommandPanel.ActualWidth + ExtraSwipeThreshold;
                     if (swipeThreshold < ActivationWidth)
                     {
                         swipeThreshold = ActivationWidth;
@@ -921,13 +921,13 @@ namespace UWPX_UI.Controls.Toolkit.SlidableListItem
 
             private set
             {
-                var oldValue = SwipeStatus;
+                SwipeStatus oldValue = SwipeStatus;
 
                 if (value != oldValue)
                 {
                     SetValue(SwipeStatusProperty, value);
 
-                    var eventArguments = new SwipeStatusChangedEventArgs
+                    SwipeStatusChangedEventArgs eventArguments = new SwipeStatusChangedEventArgs
                     {
                         OldValue = oldValue,
                         NewValue = value

@@ -50,14 +50,14 @@ namespace NeoSmart.Unicode
         public IEnumerable<byte> AsUtf32Bytes()
         {
             //from highest to lowest
-            var utf32 = AsUtf32();
-            var b1 = (byte)(utf32 >> 24);
+            uint utf32 = AsUtf32();
+            byte b1 = (byte)(utf32 >> 24);
             yield return b1;
-            var b2 = (byte)((utf32 & 0x00FFFFFF) >> 16);
+            byte b2 = (byte)((utf32 & 0x00FFFFFF) >> 16);
             yield return b2;
-            var b3 = (byte)(((UInt16)utf32) >> 8);
+            byte b3 = (byte)(((UInt16)utf32) >> 8);
             yield return b3;
-            var b4 = (byte)utf32;
+            byte b4 = (byte)utf32;
             yield return b4;
         }
 
@@ -92,12 +92,12 @@ namespace NeoSmart.Unicode
         /// </summary>
         public IEnumerable<byte> AsUtf16Bytes()
         {
-            var utf16 = AsUtf16();
-            foreach (var u16 in utf16)
+            IEnumerable<ushort> utf16 = AsUtf16();
+            foreach (ushort u16 in utf16)
             {
-                var high = (byte)(u16 >> 8);
+                byte high = (byte)(u16 >> 8);
                 yield return high;
-                var low = (byte)u16;
+                byte low = (byte)u16;
                 yield return low;
             }
         }
@@ -243,7 +243,7 @@ namespace NeoSmart.Unicode
 
         public bool Equals(char other)
         {
-            var s = AsString();
+            string s = AsString();
             return s.Count() == 1 && s[0] == other;
         }
 

@@ -115,8 +115,8 @@ namespace BackgroundSocket.Classes
         #region --Misc Methods (Private)--
         private void showToast(string text)
         {
-            var tost = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText01);
-            var childUpdate = tost?.GetElementsByTagName("text");
+            Windows.Data.Xml.Dom.XmlDocument tost = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText01);
+            Windows.Data.Xml.Dom.XmlNodeList childUpdate = tost?.GetElementsByTagName("text");
             if (childUpdate != null) childUpdate[0].InnerText = text;
             ToastNotification titleNotification = new ToastNotification(tost) { Group = "NetUpdate" };
             ToastNotificationManager.CreateToastNotifier().Show(titleNotification);

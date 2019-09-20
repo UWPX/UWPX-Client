@@ -125,7 +125,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </remarks>
         private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            MasterDetailsView view = (MasterDetailsView)d;
 
             // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
             if (!view.ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && view.Items.Contains(e.OldValue))
@@ -152,7 +152,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <param name="e">The event args</param>
         private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            MasterDetailsView view = (MasterDetailsView)d;
             view.SetMasterHeaderVisibility();
         }
 
@@ -163,7 +163,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <param name="e">The event args</param>
         private static void OnDetailsCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            MasterDetailsView view = (MasterDetailsView)d;
             view.OnDetailsCommandBarChanged();
         }
 
@@ -179,7 +179,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            MasterDetailsView view = (MasterDetailsView)d;
             view.SetBackButtonVisibility();
         }
 
@@ -190,7 +190,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <param name="e">The event args</param>
         private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            var view = (MasterDetailsView)d;
+            MasterDetailsView view = (MasterDetailsView)d;
             view.OnMasterCommandBarChanged();
         }
 
@@ -342,7 +342,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                 else if (BackButtonBehavior == BackButtonBehavior.Automatic)
                 {
                     // Continue to support the system back button if it is being used
-                    var navigationManager = SystemNavigationManager.GetForCurrentView();
+                    SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
                     if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
                     {
                         // Setting this indicates that the system back button is being used
@@ -361,7 +361,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                 }
                 else if (BackButtonBehavior != BackButtonBehavior.Manual)
                 {
-                    var navigationManager = SystemNavigationManager.GetForCurrentView();
+                    SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
                     _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
 
                     navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
@@ -399,7 +399,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void UpdateViewState()
         {
-            var previousState = ViewState;
+            MasterDetailsViewState previousState = ViewState;
 
             if (ActualWidth < CompactModeThresholdWidth)
             {
@@ -442,15 +442,15 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)
         {
-            var navType = _navigationView.GetType();
-            var visibleProperty = navType.GetProperty("IsBackButtonVisible");
+            System.Type navType = _navigationView.GetType();
+            PropertyInfo visibleProperty = navType.GetProperty("IsBackButtonVisible");
             if (visibleProperty != null)
             {
                 _previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(_navigationView);
                 visibleProperty.SetValue(_navigationView, visible);
             }
 
-            var enabledProperty = navType.GetProperty("IsBackEnabled");
+            PropertyInfo enabledProperty = navType.GetProperty("IsBackEnabled");
             if (enabledProperty != null)
             {
                 _previousNavigationViewBackEnabled = (bool)enabledProperty.GetValue(_navigationView);
@@ -480,7 +480,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 
         private void OnCommandBarChanged(string panelName, CommandBar commandbar)
         {
-            var panel = GetTemplateChild(panelName) as Panel;
+            Panel panel = GetTemplateChild(panelName) as Panel;
             if (panel == null)
             {
                 return;
@@ -558,7 +558,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         {
             if (GetTemplateChild(PartDetailsPanel) is DependencyObject details)
             {
-                var focusableElement = FocusManager.FindFirstFocusableElement(details);
+                DependencyObject focusableElement = FocusManager.FindFirstFocusableElement(details);
                 (focusableElement as Control)?.Focus(FocusState.Programmatic);
             }
         }

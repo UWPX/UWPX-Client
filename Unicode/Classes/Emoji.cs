@@ -115,14 +115,14 @@ namespace NeoSmart.Unicode
         /// <returns></returns>
         public static bool IsEmoji(string message, int maxSymbolCount = int.MaxValue)
         {
-            var codepoints = message.Codepoints();
+            IEnumerable<Codepoint> codepoints = message.Codepoints();
 
             bool nextMustBeVS = false;
             string zwj = ZeroWidthJoiner.AsString();
             string variationSelector = VariationSelector.AsString();
             bool ignoreNext = false;
             int count = 0;
-            foreach (var cp in codepoints)
+            foreach (Codepoint cp in codepoints)
             {
                 //we used to have message = message.trim() previously. This avoids the extra allocation, hepful in case of long messages.
                 //this was not premature optimization, it came out of necessity.

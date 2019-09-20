@@ -46,22 +46,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
         #region --Set-, Get- Methods--
         protected static IList<double[]> GetBounds(double L)
         {
-            var result = new List<double[]>();
+            List<double[]> result = new List<double[]>();
 
             double sub1 = Math.Pow(L + 16, 3) / 1560896;
             double sub2 = sub1 > Epsilon ? sub1 : L / Kappa;
 
             for (int c = 0; c < 3; ++c)
             {
-                var m1 = M[c][0];
-                var m2 = M[c][1];
-                var m3 = M[c][2];
+                double m1 = M[c][0];
+                double m2 = M[c][1];
+                double m3 = M[c][2];
 
                 for (int t = 0; t < 2; ++t)
                 {
-                    var top1 = (284517 * m1 - 94839 * m3) * sub2;
-                    var top2 = (838422 * m3 + 769860 * m2 + 731718 * m1) * L * sub2 - 769860 * t * L;
-                    var bottom = (632260 * m3 - 126452 * m2) * sub2 + 126452 * t;
+                    double top1 = (284517 * m1 - 94839 * m3) * sub2;
+                    double top2 = (838422 * m3 + 769860 * m2 + 731718 * m1) * L * sub2 - 769860 * t * L;
+                    double bottom = (632260 * m3 - 126452 * m2) * sub2 + 126452 * t;
 
                     result.Add(new double[] { top1 / bottom, top2 / bottom });
                 }
@@ -85,7 +85,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
 
         public static IList<double> RgbToXyz(IList<double> tuple)
         {
-            var rgbl = new double[]
+            double[] rgbl = new double[]
             {
                 ToLinear(tuple[0]),
                 ToLinear(tuple[1]),
@@ -116,8 +116,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
                 return new double[] { 0, 0, 0 };
             }
 
-            var U = 13 * L * (varU - RefU);
-            var V = 13 * L * (varV - RefV);
+            double U = 13 * L * (varU - RefU);
+            double V = 13 * L * (varV - RefV);
 
             return new double[] { L, U, V };
         }
@@ -367,14 +367,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
 
         protected static double MaxSafeChromaForL(double L)
         {
-            var bounds = GetBounds(L);
+            IList<double[]> bounds = GetBounds(L);
             double min = double.MaxValue;
 
             for (int i = 0; i < 2; ++i)
             {
-                var m1 = bounds[i][0];
-                var b1 = bounds[i][1];
-                var line = new double[] { m1, b1 };
+                double m1 = bounds[i][0];
+                double b1 = bounds[i][1];
+                double[] line = new double[] { m1, b1 };
 
                 double x = IntersectLineLine(line, new double[] { -1 / m1, 0 });
                 double length = DistanceFromPole(new double[] { x, b1 + x * m1 });
@@ -389,10 +389,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
         {
             double hrad = H / 360 * Math.PI * 2;
 
-            var bounds = GetBounds(L);
+            IList<double[]> bounds = GetBounds(L);
             double min = double.MaxValue;
 
-            foreach (var bound in bounds)
+            foreach (double[] bound in bounds)
             {
 
                 if (LengthOfRayUntilIntersect(hrad, bound, out double length))
@@ -466,7 +466,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0392
                 }
             }
 
-            var results = new int[tuple.Count];
+            int[] results = new int[tuple.Count];
 
             for (int i = 0; i < tuple.Count; ++i)
             {

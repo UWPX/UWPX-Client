@@ -72,8 +72,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                         if (!(folder is null))
                         {
                             StorageFileQueryResult result = folder.CreateFileQuery(CommonFileQuery.OrderByName);
-                            var fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
-                            var fileSizes = await Task.WhenAll(fileSizeTasks);
+                            System.Collections.Generic.IEnumerable<Task<ulong>> fileSizeTasks = (await result.GetFilesAsync()).Select(async file => (await file.GetBasicPropertiesAsync()).Size);
+                            ulong[] fileSizes = await Task.WhenAll(fileSizeTasks);
 
                             // Sum up and convert to kilo byte:
                             size = fileSizes.Sum(l => (long)l) / 1024;

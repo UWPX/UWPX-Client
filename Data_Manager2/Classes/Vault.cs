@@ -123,7 +123,7 @@ namespace Data_Manager2.Classes
         /// </summary>
         public static void deleteAllVaults()
         {
-            foreach (var item in PASSWORD_VAULT.RetrieveAll())
+            foreach (PasswordCredential item in PASSWORD_VAULT.RetrieveAll())
             {
                 PASSWORD_VAULT.Remove(item);
             }

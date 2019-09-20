@@ -67,7 +67,7 @@ namespace XMPP_API.Classes.Network
                 if (socketInfo.ServerIntermediateCertificates.Count > 0)
                 {
                     stringBuilder.AppendLine("\tCertificate chain: ");
-                    foreach (var cert in socketInfo.ServerIntermediateCertificates)
+                    foreach (Windows.Security.Cryptography.Certificates.Certificate cert in socketInfo.ServerIntermediateCertificates)
                     {
                         stringBuilder.AppendLine("\t\tIntermediate Certificate Subject: " + cert.Subject);
                     }

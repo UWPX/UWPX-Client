@@ -62,7 +62,7 @@ namespace UWP_XMPP_Client.Classes.Collections
             CheckReentrancy();
 
             int startIndex = Count;
-            foreach (var i in collection)
+            foreach (T i in collection)
             {
                 Items.Add(i);
             }

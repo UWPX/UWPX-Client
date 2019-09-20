@@ -57,7 +57,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
         {
             XNamespace ns1 = Consts.XML_XEP_0048_NAMESPACE;
             XElement storageNode = new XElement(ns1 + "storage");
-            foreach (var item in CONFERENCES)
+            foreach (ConferenceItem item in CONFERENCES)
             {
                 storageNode.Add(item.toXElement(ns1));
             }

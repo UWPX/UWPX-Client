@@ -274,7 +274,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         /// <exception cref="NotImplementedException">Not implemented yet...</exception>
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
-            var sil = _source as ISupportIncrementalLoading;
+            ISupportIncrementalLoading sil = _source as ISupportIncrementalLoading;
             return sil?.LoadMoreItemsAsync(count);
         }
 
@@ -385,8 +385,8 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         {
             if (!_sortProperties.Any())
             {
-                var type = x.GetType();
-                foreach (var sd in _sortDescriptions)
+                Type type = x.GetType();
+                foreach (SortDescription sd in _sortDescriptions)
                 {
                     if (!string.IsNullOrEmpty(sd.PropertyName))
                     {
@@ -395,7 +395,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 }
             }
 
-            foreach (var sd in _sortDescriptions)
+            foreach (SortDescription sd in _sortDescriptions)
             {
                 object cx, cy;
 
@@ -406,13 +406,13 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 }
                 else
                 {
-                    var pi = _sortProperties[sd.PropertyName];
+                    PropertyInfo pi = _sortProperties[sd.PropertyName];
 
                     cx = pi.GetValue(x);
                     cy = pi.GetValue(y);
                 }
 
-                var cmp = sd.Comparer.Compare(cx, cy);
+                int cmp = sd.Comparer.Compare(cx, cy);
 
                 if (cmp != 0)
                 {
@@ -456,25 +456,25 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 return;
             }
 
-            var filterResult = _filter?.Invoke(item);
+            bool? filterResult = _filter?.Invoke(item);
 
             if (filterResult.HasValue && _observedFilterProperties.Contains(e.PropertyName))
             {
-                var viewIndex = _view.IndexOf(item);
+                int viewIndex = _view.IndexOf(item);
                 if (viewIndex != -1 && !filterResult.Value)
                 {
                     RemoveFromView(viewIndex, item);
                 }
                 else if (viewIndex == -1 && filterResult.Value)
                 {
-                    var index = _source.IndexOf(item);
+                    int index = _source.IndexOf(item);
                     HandleItemAdded(index, item);
                 }
             }
 
             if ((filterResult ?? true) && SortDescriptions.Any(sd => sd.PropertyName == e.PropertyName))
             {
-                var oldIndex = _view.IndexOf(item);
+                int oldIndex = _view.IndexOf(item);
 
                 // Check if item is in view:
                 if (oldIndex < 0)
@@ -483,7 +483,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 }
 
                 _view.RemoveAt(oldIndex);
-                var targetIndex = _view.BinarySearch(item, this);
+                int targetIndex = _view.BinarySearch(item, this);
                 if (targetIndex < 0)
                 {
                     targetIndex = ~targetIndex;
@@ -516,7 +516,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 return;
             }
 
-            foreach (var item in items.OfType<INotifyPropertyChanged>())
+            foreach (INotifyPropertyChanged item in items.OfType<INotifyPropertyChanged>())
             {
                 item.PropertyChanged += ItemOnPropertyChanged;
             }
@@ -529,7 +529,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 return;
             }
 
-            foreach (var item in items.OfType<INotifyPropertyChanged>())
+            foreach (INotifyPropertyChanged item in items.OfType<INotifyPropertyChanged>())
             {
                 item.PropertyChanged -= ItemOnPropertyChanged;
             }
@@ -547,9 +547,9 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         {
             if (_filter != null)
             {
-                for (var index = 0; index < _view.Count; index++)
+                for (int index = 0; index < _view.Count; index++)
                 {
-                    var item = _view.ElementAt(index);
+                    object item = _view.ElementAt(index);
                     if (_filter(item))
                     {
                         continue;
@@ -560,11 +560,11 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 }
             }
 
-            var viewHash = new HashSet<object>(_view);
-            var viewIndex = 0;
-            for (var index = 0; index < _source.Count; index++)
+            HashSet<object> viewHash = new HashSet<object>(_view);
+            int viewIndex = 0;
+            for (int index = 0; index < _source.Count; index++)
             {
-                var item = _source[index];
+                object item = _source[index];
                 if (viewHash.Contains(item))
                 {
                     viewIndex++;
@@ -581,9 +581,9 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         private void HandleSourceChanged()
         {
             _sortProperties.Clear();
-            var currentItem = CurrentItem;
+            object currentItem = CurrentItem;
             _view.Clear();
-            foreach (var item in Source)
+            foreach (object item in Source)
             {
                 if (_filter != null && !_filter(item))
                 {
@@ -592,7 +592,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
 
                 if (_sortDescriptions.Any())
                 {
-                    var targetIndex = _view.BinarySearch(item, this);
+                    int targetIndex = _view.BinarySearch(item, this);
                     if (targetIndex < 0)
                     {
                         targetIndex = ~targetIndex;
@@ -665,7 +665,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 return false;
             }
 
-            var newViewIndex = _view.Count;
+            int newViewIndex = _view.Count;
 
             if (_sortDescriptions.Any())
             {
@@ -720,7 +720,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 CurrentPosition++;
             }
 
-            var e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex, newItem);
+            VectorChangedEventArgs e = new VectorChangedEventArgs(CollectionChange.ItemInserted, newViewIndex, newItem);
             OnVectorChanged(e);
             return true;
         }
@@ -753,7 +753,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 CurrentPosition--;
             }
 
-            var e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item);
+            VectorChangedEventArgs e = new VectorChangedEventArgs(CollectionChange.ItemRemoved, itemIndex, item);
             OnVectorChanged(e);
         }
 
@@ -779,7 +779,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
                 return false;
             }
 
-            var e = new CurrentChangingEventArgs();
+            CurrentChangingEventArgs e = new CurrentChangingEventArgs();
             OnCurrentChanging(e);
             if (e.Cancel)
             {

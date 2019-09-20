@@ -108,7 +108,7 @@ namespace UWP_XMPP_Client.Classes.Collections
                 return;
             }
 
-            foreach (var i in list)
+            foreach (ChatTemplate i in list)
             {
                 int index = InternalAdd(i);
                 if(!callCollectionReset)
@@ -124,7 +124,7 @@ namespace UWP_XMPP_Client.Classes.Collections
 
         public void CopyTo(Array array, int index)
         {
-            foreach (var item in LIST)
+            foreach (ChatTemplate item in LIST)
             {
                 array.SetValue(item, index);
             }
@@ -132,7 +132,7 @@ namespace UWP_XMPP_Client.Classes.Collections
 
         public void Dispose()
         {
-            foreach (var item in LIST)
+            foreach (ChatTemplate item in LIST)
             {
                 item.PropertyChanged -= Item_PropertyChanged;
             }
@@ -148,7 +148,7 @@ namespace UWP_XMPP_Client.Classes.Collections
         public void Clear()
         {
             DICTIONARY.Clear();
-            foreach (var item in LIST)
+            foreach (ChatTemplate item in LIST)
             {
                 item.PropertyChanged -= Item_PropertyChanged;
             }

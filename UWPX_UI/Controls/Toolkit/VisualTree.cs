@@ -35,10 +35,10 @@ namespace UWPX_UI.Controls.Toolkit
                 return element as FrameworkElement;
             }
 
-            var childCount = VisualTreeHelper.GetChildrenCount(element);
+            int childCount = VisualTreeHelper.GetChildrenCount(element);
             for (int i = 0; i < childCount; i++)
             {
-                var result = VisualTreeHelper.GetChild(element, i).FindDescendantByName(name);
+                FrameworkElement result = VisualTreeHelper.GetChild(element, i).FindDescendantByName(name);
                 if (result != null)
                 {
                     return result;
@@ -58,12 +58,12 @@ namespace UWPX_UI.Controls.Toolkit
             where T : DependencyObject
         {
             T retValue = null;
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
-            for (var i = 0; i < childrenCount; i++)
+            for (int i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+                T type = child as T;
                 if (type != null)
                 {
                     retValue = type;
@@ -90,11 +90,11 @@ namespace UWPX_UI.Controls.Toolkit
         public static object FindDescendant(this DependencyObject element, Type type)
         {
             object retValue = null;
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
-            for (var i = 0; i < childrenCount; i++)
+            for (int i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(element, i);
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
                 if (child.GetType() == type)
                 {
                     retValue = child;
@@ -121,12 +121,12 @@ namespace UWPX_UI.Controls.Toolkit
         public static IEnumerable<T> FindDescendants<T>(this DependencyObject element)
             where T : DependencyObject
         {
-            var childrenCount = VisualTreeHelper.GetChildrenCount(element);
+            int childrenCount = VisualTreeHelper.GetChildrenCount(element);
 
-            for (var i = 0; i < childrenCount; i++)
+            for (int i = 0; i < childrenCount; i++)
             {
-                var child = VisualTreeHelper.GetChild(element, i);
-                var type = child as T;
+                DependencyObject child = VisualTreeHelper.GetChild(element, i);
+                T type = child as T;
                 if (type != null)
                 {
                     yield return type;
@@ -152,7 +152,7 @@ namespace UWPX_UI.Controls.Toolkit
                 return null;
             }
 
-            var parent = VisualTreeHelper.GetParent(element);
+            DependencyObject parent = VisualTreeHelper.GetParent(element);
 
             if (parent == null)
             {
@@ -176,7 +176,7 @@ namespace UWPX_UI.Controls.Toolkit
         public static T FindAscendant<T>(this DependencyObject element)
             where T : DependencyObject
         {
-            var parent = VisualTreeHelper.GetParent(element);
+            DependencyObject parent = VisualTreeHelper.GetParent(element);
 
             if (parent == null)
             {
@@ -199,7 +199,7 @@ namespace UWPX_UI.Controls.Toolkit
         /// <returns>Ascendant control or null if not found.</returns>
         public static object FindAscendant(this DependencyObject element, Type type)
         {
-            var parent = VisualTreeHelper.GetParent(element);
+            DependencyObject parent = VisualTreeHelper.GetParent(element);
 
             if (parent == null)
             {
@@ -221,7 +221,7 @@ namespace UWPX_UI.Controls.Toolkit
         /// <returns>A collection of parent elements or null if none found.</returns>
         public static IEnumerable<DependencyObject> FindAscendants(this DependencyObject element)
         {
-            var parent = VisualTreeHelper.GetParent(element);
+            DependencyObject parent = VisualTreeHelper.GetParent(element);
 
             while (parent != null)
             {

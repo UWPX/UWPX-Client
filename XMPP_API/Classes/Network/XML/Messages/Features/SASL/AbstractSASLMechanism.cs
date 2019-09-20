@@ -50,7 +50,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
         #region --Misc Methods (Protected)--
         protected static long nextInt64()
         {
-            var bytes = new byte[sizeof(long)];
+            byte[] bytes = new byte[sizeof(long)];
             IBuffer buffer = CryptographicBuffer.GenerateRandom(sizeof(long));
             CryptographicBuffer.CopyToByteArray(buffer, out bytes);
             return BitConverter.ToInt64(bytes, 0);

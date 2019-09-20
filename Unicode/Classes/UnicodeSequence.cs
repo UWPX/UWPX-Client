@@ -28,7 +28,7 @@ namespace NeoSmart.Unicode
         {
             if (sequence.Contains("-"))
             {
-                var values = sequence.Split('-');
+                string[] values = sequence.Split('-');
 
                 if (values.Length == 2)
                 {
@@ -51,7 +51,7 @@ namespace NeoSmart.Unicode
             }
             else
             {
-                var values = sequence.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] values = sequence.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
                 _codepoints = values.Select(x => new Codepoint(x)).ToArray();
             }
         }
@@ -73,7 +73,7 @@ namespace NeoSmart.Unicode
 
         public IEnumerable<uint> AsUtf32()
         {
-            foreach (var cp in _codepoints)
+            foreach (Codepoint cp in _codepoints)
             {
                 yield return cp.AsUtf32();
             }
@@ -81,7 +81,7 @@ namespace NeoSmart.Unicode
 
         public IEnumerable<byte> AsUtf32Bytes()
         {
-            foreach (var u32 in AsUtf32())
+            foreach (uint u32 in AsUtf32())
             {
                 //little endian byte order
                 yield return (byte)(u32 & 0xFF);
@@ -93,9 +93,9 @@ namespace NeoSmart.Unicode
 
         public IEnumerable<ushort> AsUtf16()
         {
-            foreach (var cp in _codepoints)
+            foreach (Codepoint cp in _codepoints)
             {
-                foreach (var us in cp.AsUtf16())
+                foreach (ushort us in cp.AsUtf16())
                 {
                     yield return us;
                 }
@@ -104,7 +104,7 @@ namespace NeoSmart.Unicode
 
         public IEnumerable<byte> AsUtf16Bytes()
         {
-            foreach (var us in AsUtf16())
+            foreach (ushort us in AsUtf16())
             {
                 //little endian byte order
                 yield return (byte)(us & 0xFF);
@@ -114,9 +114,9 @@ namespace NeoSmart.Unicode
 
         public IEnumerable<byte> AsUtf8()
         {
-            foreach (var cp in _codepoints)
+            foreach (Codepoint cp in _codepoints)
             {
-                foreach (var b in cp.AsUtf8())
+                foreach (byte b in cp.AsUtf8())
                 {
                     yield return b;
                 }

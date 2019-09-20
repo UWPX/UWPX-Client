@@ -54,7 +54,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             IList<MUCChatInfoTable> list = dB.Query<MUCChatInfoTable>(true, "SELECT i.*, c.chatJabberId AS chatId FROM " + DBTableConsts.MUC_CHAT_INFO_TABLE + " i JOIN " + DBTableConsts.CHAT_TABLE + " c ON i.chatId = c.id WHERE c.inRoster = ? AND c.userAccountId = ?;", true, userAccountId);
             List<ConferenceItem> conferences = new List<ConferenceItem>();
-            foreach (var mucInfo in list)
+            foreach (MUCChatInfoTable mucInfo in list)
             {
                 conferences.Add(mucInfo.toConferenceItem());
             }

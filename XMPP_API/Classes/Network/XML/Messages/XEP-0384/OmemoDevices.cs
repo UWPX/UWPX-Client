@@ -1,14 +1,14 @@
-﻿using libsignal;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using libsignal;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoDevices : AbstractPubSubItem
+    public class OmemoDevices: AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -92,7 +92,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         public IList<SignalProtocolAddress> toSignalProtocolAddressList(string name)
         {
             List<SignalProtocolAddress> ret = new List<SignalProtocolAddress>();
-            foreach (var d in IDS)
+            foreach (uint d in IDS)
             {
                 ret.Add(new SignalProtocolAddress(name, d));
             }

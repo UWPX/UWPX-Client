@@ -134,10 +134,10 @@ namespace UWP_XMPP_Client.Dialogs
             // Get TextBox from AutoSuggestBox:
             // Source: https://github.com/Koopakiller/Samples/blob/master/UWP%20AutoSuggestBox%20set%20SelectionStart/UWP%20AutoSuggestBox%20set%20SelectionStart/MainPage.xaml.cs
             // Get the type of the control:
-            var type = typeof(AutoSuggestBox);
+            Type type = typeof(AutoSuggestBox);
 
             // Get Method from Type:
-            var method = type.GetMethod("GetTemplateChild", BindingFlags.Instance | BindingFlags.NonPublic);
+            MethodInfo method = type.GetMethod("GetTemplateChild", BindingFlags.Instance | BindingFlags.NonPublic);
 
             // Call method of the object "Asb" and pass parameter "TextBox" (name of the control to obtain):
             tbx = (TextBox)method.Invoke(user_asbox, new object[] { "TextBox" });

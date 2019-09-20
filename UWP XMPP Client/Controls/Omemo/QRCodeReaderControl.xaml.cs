@@ -76,7 +76,7 @@ namespace UWP_XMPP_Client.Controls.Omemo
                 return;
             }
 
-            var settings = new MediaCaptureInitializationSettings()
+            MediaCaptureInitializationSettings settings = new MediaCaptureInitializationSettings()
             {
                 MemoryPreference = MediaCaptureMemoryPreference.Cpu,
                 StreamingCaptureMode = StreamingCaptureMode.Video
@@ -183,7 +183,7 @@ namespace UWP_XMPP_Client.Controls.Omemo
 
         private async void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
         {
-            var deferral = e.SuspendingOperation.GetDeferral();
+            Windows.ApplicationModel.SuspendingDeferral deferral = e.SuspendingOperation.GetDeferral();
             await stopCameraAsync();
             deferral.Complete();
         }
