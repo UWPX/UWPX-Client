@@ -23,11 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
         /// <history>
         /// 04/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoDevices()
-        {
-            IDS = new HashSet<uint>();
-            id = "current";
-        }
+        public OmemoDevices() : this("current") { }
 
         public OmemoDevices(string id)
         {
@@ -59,6 +55,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
             }
             Random r = new Random();
             return IDS.ToArray()[r.Next(0, IDS.Count)];
+        }
+
+        /// <summary>
+        /// Sets the item id to "current". <para/>
+        /// Reference: https://xmpp.org/extensions/xep-0384.html#usecases-announcing
+        /// </summary>
+        public void setId()
+        {
+            id = "current";
         }
 
         #endregion

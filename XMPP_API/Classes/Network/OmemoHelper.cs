@@ -273,6 +273,9 @@ namespace XMPP_API.Classes.Network
         {
             setState(OmemoHelperState.UPDATING_DEVICE_LIST);
 
+            // Make sure we set the item ID to "current":
+            devices.setId();
+
             Logger.Info("[OMEMO HELPER](" + CONNECTION.account.getBareJid() + ") Updating device list.");
             MessageResponseHelperResult<IQMessage> result = await CONNECTION.OMEMO_COMMAND_HELPER.setDeviceListAsync(devices);
 

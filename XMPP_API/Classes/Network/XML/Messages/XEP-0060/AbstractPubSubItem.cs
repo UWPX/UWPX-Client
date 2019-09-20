@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class AbstractPubSubItem : IXElementable
+    public abstract class AbstractPubSubItem: IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -32,12 +32,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public XElement toXElement(XNamespace ns)
         {
             XElement item = new XElement(ns + "item");
-            if(id != null)
+            if (!(id is null))
             {
                 item.Add(new XAttribute("id", id));
             }
             XElement cont = getContent(ns);
-            if (cont != null)
+            if (!(cont is null))
             {
                 item.Add(cont);
             }
