@@ -145,7 +145,6 @@ namespace UWPX_UI.Controls.Chat
         {
             if (!IsDummy)
             {
-
             }
         }
 

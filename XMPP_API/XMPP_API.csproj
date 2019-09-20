@@ -272,9 +272,11 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRetractMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubAffiliation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDeleteNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeItemsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubRequestAffiliationsMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDiscoverNodeMetadataMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubNodeMetadataResultMessage.cs" />
@@ -285,6 +287,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscribeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscription.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubAffiliationsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubSubscriptionState.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0085\ChatState.cs" />

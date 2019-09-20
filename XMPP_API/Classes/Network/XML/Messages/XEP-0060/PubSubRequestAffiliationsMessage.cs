@@ -1,13 +1,12 @@
 ﻿using System.Xml.Linq;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubDiscoverNodeMetadataMessage: DiscoRequestMessage
+    public class PubSubRequestAffiliationsMessage: AbstractPubSubMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string NODE;
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -16,12 +15,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         /// Basic Constructor
         /// </summary>
         /// <history>
-        /// 17/07/2018 Created [Fabian Sauter]
+        /// 20/09/2019 Created [Fabian Sauter]
         /// </history>
-        public PubSubDiscoverNodeMetadataMessage(string from, string to, string node) : base(from, to, DiscoType.INFO)
-        {
-            NODE = node;
-        }
+        public PubSubRequestAffiliationsMessage(string from, string to) : base(from, to) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -31,11 +27,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        protected override XElement getQuery()
+        protected override void addContent(XElement node, XNamespace ns)
         {
-            XElement query = base.getQuery();
-            query.Add(new XAttribute("node", NODE));
-            return query;
+            node.Add(new XElement(ns + "affiliations"));
         }
 
         #endregion

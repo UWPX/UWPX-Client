@@ -231,6 +231,22 @@ namespace XMPP_API.Classes
             return helper;
         }
 
+        /// <summary>
+        /// Sends a PubSubRequestAffiliationsMessage to request all node affiliations from the given target.
+        /// https://xmpp.org/extensions/xep-0060.html#entity-affiliations
+        /// </summary>
+        /// <param name="to">The target pubsub server.</param>
+        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message (can be null).</param>
+        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered (can be null).</param>
+        /// <returns>Returns a MessageResponseHelper listening for PubSubRequestAffiliationsMessage answers.</returns>
+        public MessageResponseHelper<IQMessage> requestAffiliations(string to, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        {
+            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
+            PubSubRequestAffiliationsMessage msg = new PubSubRequestAffiliationsMessage(CONNECTION.account.getFullJid(), to);
+            helper.start(msg);
+            return helper;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
