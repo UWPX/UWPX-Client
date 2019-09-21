@@ -19,13 +19,14 @@ namespace UWPX_UI_Context.Classes
             get => _RootTheme;
             set
             {
+                _RootTheme = value;
+                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
+
                 if (Window.Current.Content is FrameworkElement rootElement)
                 {
                     rootElement.RequestedTheme = value;
                     UiUtils.SetupWindow(Application.Current);
                 }
-                _RootTheme = value;
-                Settings.setSetting(SettingsConsts.APP_REQUESTED_THEME, value.ToString());
             }
         }
         private static ElementTheme _RootTheme;
