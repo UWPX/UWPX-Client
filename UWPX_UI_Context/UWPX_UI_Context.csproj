@@ -193,6 +193,7 @@
     <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AccountSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\AddAccountPageContext.cs" />
+    <Compile Include="Classes\DataContext\Pages\MucInfoPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\RegisterIoTDevicePageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\BackgroundTaskSettingsPageContext.cs" />
     <Compile Include="Classes\DataContext\Pages\ChatSettingsPageContext.cs" />
@@ -262,6 +263,7 @@
     <Compile Include="Classes\DataTemplates\LogLevelDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\AccountSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\AddAccountPageDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Pages\MucInfoPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\RegisterIoTDevicePageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\BackgroundTaskSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\ChatPageDataTemplate.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />
+    <Compile Include="Classes\Events\NavigatedToMucInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToContactInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NewQrCodeEventArgs.cs" />
     <Compile Include="Classes\Events\OmemoFingerprintTrustChangedEventArgs.cs" />

@@ -352,6 +352,9 @@
     <Compile Include="Pages\AddAccountPage.xaml.cs">
       <DependentUpon>AddAccountPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\MucInfoPage.xaml.cs">
+      <DependentUpon>MucInfoPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\RegisterIoTDevicePage.xaml.cs">
       <DependentUpon>RegisterIoTDevicePage.xaml</DependentUpon>
     </Compile>
@@ -821,6 +824,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AddAccountPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\MucInfoPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
