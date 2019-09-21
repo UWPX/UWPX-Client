@@ -31,7 +31,11 @@
                 </Grid.RowDefinitions>
 
                 <!--  Info:  -->
-
+                <chat:MucInfoControl Grid.Row="0"
+                                     HorizontalAlignment="Stretch"
+                                     Chat="{x:Bind Chat, Mode=OneWay}"
+                                     Client="{x:Bind Client, Mode=OneWay}"
+                                     MucInfo="{x:Bind MucInfo, Mode=OneWay}"/>
 
                 <!--  Members:  -->
 

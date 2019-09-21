@@ -109,12 +109,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             UpdateView(newChat);
         }
 
-        public async Task SwitchChatInRosterAsync(ChatDataTemplate chat)
+        public async Task ToggleChatInRosterAsync(ChatDataTemplate chat)
         {
             await SetChatInRosterAsync(chat, !chat.Chat.inRoster);
         }
 
-        public void SwitchChatBookmarked(ChatDataTemplate chat)
+        public void ToggleChatBookmarked(ChatDataTemplate chat)
         {
             SetChatBookmarked(chat, !chat.Chat.inRoster);
         }

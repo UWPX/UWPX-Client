@@ -177,6 +177,9 @@
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\EnterTextBox.cs" />
+    <Compile Include="Controls\Chat\MucInfoControl.xaml.cs">
+      <DependentUpon>MucInfoControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\MucSuggestionsControl.xaml.cs">
       <DependentUpon>MucSuggestionsControl.xaml</DependentUpon>
     </Compile>
@@ -596,6 +599,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\EmojiPickerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\MucInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

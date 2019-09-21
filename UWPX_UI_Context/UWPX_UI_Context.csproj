@@ -159,6 +159,7 @@
     <Compile Include="Classes\DataContext\Controls\ChatMessageListControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ChatSuggestionsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\ContactOmemoControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\Chat\MucInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ContactInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\ContactMediaControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\CustomBackgroundImageSelectionControlContext.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="Classes\DataTemplates\Controls\ChatMessageListControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ChatSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\ContactOmemoControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\Chat\MucInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ContactInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\EmojiPickerControlDataTemplate.cs" />
@@ -300,6 +302,9 @@
     <Compile Include="Classes\ValueConverter\BoolInvertedVisibilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\ChatTypeFontFamilyConverter.cs" />
     <Compile Include="Classes\ValueConverter\DoubleGridLengthValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateForegroundBrushValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateStringValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\MucStateBrushValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\NullableBoolBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolInverterValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\BoolVisibilityValueConverter.cs" />

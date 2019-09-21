@@ -82,14 +82,18 @@ namespace UWPX_UI.Pages
                 Chat = args.CHAT;
                 MucInfo = args.MUC_INFO;
             }
+
             ChatDBManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
             ChatDBManager.INSTANCE.ChatChanged += INSTANCE_ChatChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged += INSTANCE_MUCInfoChanged;
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
             ChatDBManager.INSTANCE.ChatChanged -= INSTANCE_ChatChanged;
+            MUCDBManager.INSTANCE.MUCInfoChanged -= INSTANCE_MUCInfoChanged;
         }
 
         private static void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -105,6 +109,14 @@ namespace UWPX_UI.Pages
             if (!(args.CHAT is null) && string.Equals(args.CHAT.id, chatId))
             {
                 await SharedUtils.CallDispatcherAsync(() => Chat = args.CHAT).ConfAwaitFalse();
+            }
+        }
+
+        private async void INSTANCE_MUCInfoChanged(MUCDBManager handler, MUCInfoChangedEventArgs args)
+        {
+            if (!(args.MUC_INFO is null) && string.Equals(args.MUC_INFO.chatId, chatId))
+            {
+                await SharedUtils.CallDispatcherAsync(() => MucInfo = args.MUC_INFO).ConfAwaitFalse();
             }
         }
 

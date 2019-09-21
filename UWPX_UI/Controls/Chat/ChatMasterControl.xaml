@@ -115,7 +115,7 @@
             <MenuFlyout.Items>
                 <MenuFlyoutItem x:Name="showInfo_mfo"
                                 Click="ShowInfo_mfo_Click"
-                                Text="Show info">
+                                Text="Info">
                     <MenuFlyoutItem.Icon>
                         <FontIcon Glyph="&#xEA4A;"/>
                     </MenuFlyoutItem.Icon>

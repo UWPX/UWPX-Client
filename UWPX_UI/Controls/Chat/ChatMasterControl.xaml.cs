@@ -1,7 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
-using UWP_XMPP_Client.Classes.Events;
-using UWP_XMPP_Client.Pages;
 using UWPX_UI.Controls.Toolkit.SlidableListItem;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
@@ -118,7 +116,7 @@ namespace UWPX_UI.Controls.Chat
 
         private async void RemoveFromRoster_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.SwitchChatInRosterAsync(Chat);
+            await VIEW_MODEL.ToggleChatInRosterAsync(Chat);
         }
 
         private async void DeleteChat_mfo_Click(object sender, RoutedEventArgs e)
@@ -128,7 +126,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void ShowInfo_mfo_Click(object sender, RoutedEventArgs e)
         {
-
+            UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat.Client, Chat.Chat, Chat.MucInfo));
         }
 
         private async void Enter_mfo_Click(object sender, RoutedEventArgs e)
@@ -143,7 +141,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void Bookmark_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.SwitchChatBookmarked(Chat);
+            VIEW_MODEL.ToggleChatBookmarked(Chat);
         }
 
         private async void MuteMUC_tmfo_Click(object sender, RoutedEventArgs e)
@@ -168,11 +166,11 @@ namespace UWPX_UI.Controls.Chat
                 {
                     if (Chat.Chat.chatType == ChatType.MUC)
                     {
-                        VIEW_MODEL.SwitchChatBookmarked(Chat);
+                        VIEW_MODEL.ToggleChatBookmarked(Chat);
                     }
                     else
                     {
-                        await VIEW_MODEL.SwitchChatInRosterAsync(Chat);
+                        await VIEW_MODEL.ToggleChatInRosterAsync(Chat);
                     }
                 }
             }
@@ -180,14 +178,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void ShowProfile_mfo_Click(object sender, RoutedEventArgs e)
         {
-            if (Chat.Chat.chatType == ChatType.MUC)
-            {
-                UiUtils.NavigateToPage(typeof(MUCInfoPage), new NavigatedToMUCInfoEventArgs(Chat.Chat, Chat.Client, Chat.MucInfo));
-            }
-            else
-            {
-                UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat.Client, Chat.Chat));
-            }
+            UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat.Client, Chat.Chat));
         }
 
         private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
