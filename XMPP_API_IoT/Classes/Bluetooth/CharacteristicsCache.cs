@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Logging;
+using XMPP_API.Classes.Crypto;
 using XMPP_API_IoT.Classes.Bluetooth.Events;
 
 namespace XMPP_API_IoT.Classes.Bluetooth
@@ -9,7 +11,15 @@ namespace XMPP_API_IoT.Classes.Bluetooth
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public static readonly Guid[] SUBSCRIBE_TO_CHARACTERISTICS = new Guid[] { };
+        public static readonly Guid[] SUBSCRIBE_TO_CHARACTERISTICS = new Guid[] {
+            BTUtils.CHARACTERISTIC_LANGUAGE,
+            BTUtils.CHARACTERISTIC_HARDWARE_REVISION,
+            BTUtils.CHARACTERISTIC_SERIAL_NUMBER,
+            BTUtils.CHARACTERISTIC_MANUFACTURER_NAME,
+
+            BTUtils.CHARACTERISTIC_CHALLENGE_RESPONSE_READ,
+            BTUtils.CHARACTERISTIC_CHALLENGE_RESPONSE_UNLOCKED
+        };
 
         private readonly Dictionary<Guid, byte[]> CHARACTERISTICS = new Dictionary<Guid, byte[]>();
         private readonly object CHARACTERISTICS_LOCK = new object();
@@ -127,6 +137,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                     CHARACTERISTICS[uuid] = value;
                     if (!oldValue.SequenceEqual(value))
                     {
+                        Logger.Debug("Bluetooth characteristic " + uuid.ToString() + " has a new value: " + CryptoUtils.byteArrayToHexString(value));
                         CharacteristicChanged?.Invoke(this, new CharacteristicChangedEventArgs(uuid, oldValue, value));
                     }
                 }

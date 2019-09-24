@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Logging;
 using Microsoft.Toolkit.Uwp.Connectivity;
 using Windows.Devices.Bluetooth;
 using Windows.Devices.Bluetooth.GenericAttributeProfile;
+using Windows.Security.Cryptography;
 using Windows.Storage.Streams;
 using XMPP_API_IoT.Classes.Bluetooth.Events;
 
@@ -16,6 +18,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private BLEDeviceState state = BLEDeviceState.DISCONNECTED;
+        private readonly BLEUnlockHelper UNLOCK_HELPER;
         public readonly BluetoothLEDevice DEVICE;
         public readonly ObservableBluetoothLEDevice OBSERVALBLE_DEVICE;
 
@@ -31,6 +34,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         private BLEDevice(BluetoothLEDevice device)
         {
             DEVICE = device;
+            UNLOCK_HELPER = new BLEUnlockHelper(this);
             DEVICE.ConnectionStatusChanged += DEVICE_ConnectionStatusChanged;
             OBSERVALBLE_DEVICE = new ObservableBluetoothLEDevice(device.DeviceInformation);
         }
@@ -120,6 +124,11 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             return c != null ? await ReadBytesAsync(c) : null;
         }
 
+        public Task<bool> UnlockAsync()
+        {
+            return UNLOCK_HELPER.UnlockAsync();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -196,7 +205,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             {
                 status = await c.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
             }
-            catch (UnauthorizedAccessException)
+            catch (Exception)
             {
                 return false;
             }
@@ -287,6 +296,32 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             byte[] data = new byte[reader.UnconsumedBufferLength];
             reader.ReadBytes(data);
             return data;
+        }
+
+        public async Task<GattWriteResult> WriteStringAsync(Guid uuid, string data)
+        {
+            return await WriteBytesAsync(uuid, Encoding.UTF8.GetBytes(data));
+        }
+
+        public async Task<GattWriteResult> WriteBytesAsync(Guid uuid, byte[] data)
+        {
+            CHARACTERISTICS.TryGetValue(uuid, out GattCharacteristic c);
+            if (c != null)
+            {
+                IBuffer buffer = CryptographicBuffer.CreateFromByteArray(data);
+                GattWriteResult result = await c.WriteValueWithResultAsync(buffer);
+                if (result.Status == GattCommunicationStatus.Success)
+                {
+                    // Convert to little endian:
+                    CACHE.AddToDictionary(uuid, data);
+                }
+                return result;
+            }
+            else
+            {
+                Logger.Warn("Failed to write to write bytes to: " + uuid.ToString() + " - not loaded.");
+            }
+            return null;
         }
 
         #endregion

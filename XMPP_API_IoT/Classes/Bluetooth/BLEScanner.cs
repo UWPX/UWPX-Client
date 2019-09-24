@@ -140,7 +140,8 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         #region --Misc Methods (Private)--
         private async Task OnDevicesChangedAsync()
         {
-            foreach (ObservableBluetoothLEDevice device in BLE_HELPER.BluetoothLeDevices)
+            List<ObservableBluetoothLEDevice> devices = new List<ObservableBluetoothLEDevice>(BLE_HELPER.BluetoothLeDevices);
+            foreach (ObservableBluetoothLEDevice device in devices)
             {
                 if (string.Equals(device.BluetoothAddressAsString.ToLowerInvariant(), targetMac))
                 {
@@ -150,9 +151,13 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                         // Try to connect to the device:
                         if (await bleDevice.ConnectAsync())
                         {
-                            // Invoke event:
-                            DeviceFound?.Invoke(this, new BLEDeviceEventArgs(bleDevice));
-                            return;
+                            // Execute the challenge response mechanism:
+                            if (await bleDevice.UnlockAsync())
+                            {
+                                // Invoke event:
+                                DeviceFound?.Invoke(this, new BLEDeviceEventArgs(bleDevice));
+                                return;
+                            }
                         }
                     }
                 }
