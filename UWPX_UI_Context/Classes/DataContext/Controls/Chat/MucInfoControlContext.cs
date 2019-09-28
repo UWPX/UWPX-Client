@@ -111,6 +111,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
             MODEL.MucState = mucInfo.state;
             MODEL.EnterMucAvailable = mucInfo.state != MUCState.ENTERD && mucInfo.state != MUCState.ENTERING;
             MODEL.AutoJoin = mucInfo.autoEnterRoom;
+            MODEL.Nickname = mucInfo.nickname;
             if (!string.IsNullOrEmpty(mucInfo.name))
             {
                 MODEL.MucName = mucInfo.name;

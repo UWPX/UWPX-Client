@@ -77,6 +77,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _AutoJoin, value);
         }
 
+        private string _Nickname;
+        public string Nickname
+        {
+            get => _Nickname;
+            set => SetProperty(ref _Nickname, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
