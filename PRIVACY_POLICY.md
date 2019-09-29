@@ -46,3 +46,9 @@ Passwords for [MUC](https://xmpp.org/extensions/xep-0045.html)s and all [OMEMO](
 The App accesses your picture library to store downloaded images.<br>
 This can be disabled via `Settings` -> `Chat` -> `Store images in library`.<br>
 If disabled, the app will store all newly downloaded images in the local app directory.
+
+## Bluetooth
+Since version [`0.20.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.20.0.0) UWPX uses Bluetooth to connect and register new experimental XMPP IoT devices.
+
+## Webcam
+Since version [`0.20.0.0`](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.20.0.0) UWPX can use your webcam to scan XMPP realted Qr-Codes. This is used for scanning/validating OMEMO fingerprints and experimental XMPP IoT setup QR-Codes.
