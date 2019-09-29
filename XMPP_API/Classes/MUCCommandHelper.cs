@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -113,6 +116,29 @@ namespace XMPP_API.Classes
             MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CONNECTION.account.getFullJid(), roomJid, newNickname);
             helper.start(msg);
             return helper;
+        }
+
+        /// <summary>
+        /// Sends a MUCChangeNicknameMessage for changing your own MUC nickname.
+        /// </summary>
+        /// <param name="roomJid">The bare JID if the room you would like to change your nickname for. e.g. 'witches@conference.jabber.org'</param>
+        /// <param name="newNickname">The new nickname for the given room.</param>
+        /// <returns>Returns a MessageResponseHelper listening for MUCChangeNicknameMessage answers.</returns>
+        public async Task<MessageResponseHelperResult<MUCMemberPresenceMessage>> changeNicknameAsync(string roomJid, string newNickname)
+        {
+            Predicate<MUCMemberPresenceMessage> predicate = (x) =>
+            {
+                return x.getFrom().Contains(roomJid) &&
+                    ((x.STATUS_CODES.Contains(MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE) && x.STATUS_CODES.Contains(MUCPresenceStatusCode.MEMBER_NICK_CHANGED)) ||
+                        (x.STATUS_CODES.Contains(MUCPresenceStatusCode.PRESENCE_SELFE_REFERENCE) && x.STATUS_CODES.Contains(MUCPresenceStatusCode.ROOM_NICK_CHANGED)) ||
+                        !string.IsNullOrEmpty(x.ERROR_TYPE));
+            };
+            AsyncMessageResponseHelper<MUCMemberPresenceMessage> helper = new AsyncMessageResponseHelper<MUCMemberPresenceMessage>(CONNECTION, predicate)
+            {
+                matchId = false
+            };
+            MUCChangeNicknameMessage msg = new MUCChangeNicknameMessage(CONNECTION.account.getFullJid(), roomJid, newNickname);
+            return await helper.startAsync(msg);
         }
 
         /// <summary>

@@ -108,7 +108,12 @@ namespace UWPX_UI.Pages
         {
             if (!(args.CHAT is null) && string.Equals(args.CHAT.id, chatId))
             {
-                await SharedUtils.CallDispatcherAsync(() => Chat = args.CHAT).ConfAwaitFalse();
+                await SharedUtils.CallDispatcherAsync(() =>
+                {
+                    // Force update property:
+                    Chat = null;
+                    Chat = args.CHAT;
+                }).ConfAwaitFalse();
             }
         }
 
@@ -116,7 +121,12 @@ namespace UWPX_UI.Pages
         {
             if (!(args.MUC_INFO is null) && string.Equals(args.MUC_INFO.chatId, chatId))
             {
-                await SharedUtils.CallDispatcherAsync(() => MucInfo = args.MUC_INFO).ConfAwaitFalse();
+                await SharedUtils.CallDispatcherAsync(() =>
+                {
+                    // Force update property:
+                    MucInfo = null;
+                    MucInfo = args.MUC_INFO;
+                }).ConfAwaitFalse();
             }
         }
 

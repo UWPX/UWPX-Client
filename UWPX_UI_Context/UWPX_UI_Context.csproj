@@ -181,6 +181,7 @@
     <Compile Include="Classes\DataContext\Dialogs\AddChatDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\AddMucDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\CertificateRequirementsDialogContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\ChangeNicknameDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ChangePresenceDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ClearCacheDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\ColorPickerDialogContext.cs" />
@@ -250,6 +251,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\AddMucDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\CertificateRequirementsDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\ChangeNicknameDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ChangePresenceDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ClearCacheDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\ColorPickerDialogDataTemplate.cs" />

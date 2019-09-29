@@ -1,8 +1,8 @@
-﻿using Logging;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Xml;
 using System.Xml.Linq;
+using Logging;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Features;
 using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
@@ -65,10 +65,10 @@ namespace XMPP_API.Classes.Network.XML
 
         #region --Misc Methods (Private)--
         /// <summary>
-        /// Reads all root nodes from a given xml string and returns them.
+        /// Reads all root nodes from a given XML string and returns them.
         /// </summary>
-        /// <param name="msg">A valid xml string.</param>
-        /// <returns>A list of XmlNodes read from the given xml string.</returns>
+        /// <param name="msg">A valid XML string.</param>
+        /// <returns>A list of XmlNodes read from the given XML string.</returns>
         private List<XmlNode> parseToXmlNodes(in string msg)
         {
             List<XmlNode> nodes = new List<XmlNode>();
@@ -117,7 +117,7 @@ namespace XMPP_API.Classes.Network.XML
                 }
             }
 
-            // Fix non valid xml strings:
+            // Fix non valid XML strings:
             bool hasCloseStream = msg.Contains(Consts.XML_STREAM_CLOSE);
             if (!hasCloseStream)
             {
@@ -163,11 +163,11 @@ namespace XMPP_API.Classes.Network.XML
                             {
                                 switch (n1.NamespaceURI)
                                 {
-                                    case "http://jabber.org/protocol/muc#user":
+                                    case Consts.XML_XEP_0045_NAMESPACE_USER:
                                         messages.Add(new MUCMemberPresenceMessage(n));
                                         continue;
 
-                                    case "http://jabber.org/protocol/muc":
+                                    case Consts.XML_XEP_0045_NAMESPACE:
                                         // messages.Add(new MUCErrorMessage(n)); // Issue #58
                                         continue;
 

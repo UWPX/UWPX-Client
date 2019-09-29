@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class MUCMemberPresenceMessage : PresenceMessage
+    public class MUCMemberPresenceMessage: PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -29,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         {
             FROM_NICKNAME = Utils.getJidResourcePart(FROM);
             STATUS_CODES = new List<MUCPresenceStatusCode>();
-            XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, "http://jabber.org/protocol/muc#user");
+            XmlNode xNode = XMLUtils.getChildNode(node, "x", Consts.XML_XMLNS, Consts.XML_XEP_0045_NAMESPACE_USER);
             if (xNode != null)
             {
                 foreach (XmlNode n in xNode.ChildNodes)

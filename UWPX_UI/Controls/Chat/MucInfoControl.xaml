@@ -57,27 +57,12 @@
                                        Text="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateStringValueConverter}}"/>
                         </Border>
                     </controls:DropShadowPanel>
-                    <Grid Grid.Row="2"
-                          Margin="0,10,0,0"
-                          HorizontalAlignment="Center">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0"
-                                   VerticalAlignment="Center"
-                                   Foreground="{ThemeResource CaptionTextBrush}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=OneWay}"
-                                   TextTrimming="CharacterEllipsis"/>
-                        <Button Grid.Column="1"
-                                Margin="5,0,0,0"
-                                VerticalAlignment="Center"
-                                Content="&#xE70F;"
-                                FontSize="15"
-                                FontWeight="Normal"
-                                Style="{ThemeResource TransparentIconButtonStyle}"
-                                ToolTipService.ToolTip="Change Nickname"/>
-                    </Grid>
+                    <TextBlock Grid.Row="2"
+                               Margin="0,10,0,0"
+                               HorizontalAlignment="Center"
+                               Foreground="{ThemeResource CaptionTextBrush}"
+                               Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=OneWay}"
+                               TextTrimming="CharacterEllipsis"/>
                 </Grid>
                 <Grid x:Name="details_grid"
                       Grid.Column="1"
@@ -164,6 +149,13 @@
                                         <MenuFlyoutItem.Icon>
                                             <FontIcon Foreground="{ThemeResource GoldBrush}"
                                                       Glyph="&#xE734;"/>
+                                        </MenuFlyoutItem.Icon>
+                                    </MenuFlyoutItem>
+                                    <MenuFlyoutItem x:Name="changeNickname_mfo"
+                                                    Click="ChangeNickname_mfo_Click"
+                                                    Text="Change Nickname">
+                                        <MenuFlyoutItem.Icon>
+                                            <FontIcon Glyph="&#xE70F;"/>
                                         </MenuFlyoutItem.Icon>
                                     </MenuFlyoutItem>
                                     <ToggleMenuFlyoutItem x:Name="autoJoin_tmfo"

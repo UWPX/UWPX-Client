@@ -1,5 +1,7 @@
 ﻿using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using UWPX_UI.Dialogs;
+using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -115,6 +117,12 @@ namespace UWPX_UI.Controls.Chat
         private async void AutoJoin_tmfo_Click(object sender, RoutedEventArgs e)
         {
             await VIEW_MODEL.ToggleMucAutoJoinAsync(MucInfo).ConfAwaitFalse();
+        }
+
+        private async void ChangeNickname_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            ChangeNicknameDialog dialog = new ChangeNicknameDialog(Chat, MucInfo, Client);
+            await UiUtils.ShowDialogAsync(dialog);
         }
 
         #endregion
