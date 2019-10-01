@@ -57,6 +57,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Instant Messaging Intelligence Quotient (IM IQ) | [XEP-0148](https://xmpp.org/extensions/xep-0148.html "XEP-0148") |
 | Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html) |
 | Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
+|  Jingle Encrypted Transports | [XEP-0391](https://xmpp.org/extensions/xep-0391.html)
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") |
 | Message Archive Management | [XEP-0313](https://xmpp.org/extensions/xep-0313.html "XEP-0313") |
 | HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
