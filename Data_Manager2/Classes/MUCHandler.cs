@@ -1,9 +1,10 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes.Collections;
-using System;
-using System.Threading.Tasks;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
@@ -18,6 +19,8 @@ namespace Data_Manager2.Classes
 
         public static readonly MUCHandler INSTANCE = new MUCHandler();
         private readonly TSTimedList<MUCJoinHelper> TIMED_LIST;
+        private readonly TimeSpan JOIN_DELAY = TimeSpan.FromSeconds(5);
+        private CancellationTokenSource joinDelayToken;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -61,13 +64,20 @@ namespace Data_Manager2.Classes
 
         public void onClientDisconnected(XMPPClient client)
         {
-
         }
 
         public void onClientDisconnecting(XMPPClient client)
         {
             client.NewMUCMemberPresenceMessage -= C_NewMUCMemberPresenceMessage;
             client.NewValidMessage -= Client_NewValidMessage;
+
+            // Cancel the join delay:
+            if (!(joinDelayToken is null) && !joinDelayToken.IsCancellationRequested)
+            {
+                joinDelayToken.Cancel();
+            }
+
+            // Set all MUCs to disconnected:
             MUCDBManager.INSTANCE.resetMUCState(client.getXMPPAccount().getBareJid(), true);
         }
 
@@ -119,10 +129,42 @@ namespace Data_Manager2.Classes
             await client.sendAsync(msg);
         }
 
+        private async Task<bool> delayAsync()
+        {
+            if (!(joinDelayToken is null))
+            {
+                if (!joinDelayToken.IsCancellationRequested)
+                {
+                    joinDelayToken.Cancel();
+                }
+                joinDelayToken.Dispose();
+            }
+            joinDelayToken = new CancellationTokenSource();
+
+            Logger.Info("Delaying MUC joining for " + JOIN_DELAY.TotalSeconds + " seconds.");
+            try
+            {
+                await Task.Delay(JOIN_DELAY, joinDelayToken.Token);
+                Logger.Info("MUC join delay elapsed. Joining MUCs...");
+                return true;
+            }
+            catch (TaskCanceledException) { }
+            catch (ObjectDisposedException) { }
+            Logger.Info("MUC joining has been canceled.");
+            return false;
+        }
+
         private void enterAllMUCs(XMPPClient client)
         {
             Task.Run(async () =>
             {
+                // Delay joining MUCs for a couple of seconds to prevent a message overload:
+                if (!await delayAsync())
+                {
+                    // Delay has been canceled:
+                    return;
+                }
+
                 foreach (ChatTable muc in ChatDBManager.INSTANCE.getAllMUCs(client.getXMPPAccount().getBareJid()))
                 {
                     MUCChatInfoTable info = MUCDBManager.INSTANCE.getMUCInfo(muc.id);
