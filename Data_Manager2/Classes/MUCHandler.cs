@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
@@ -20,7 +21,7 @@ namespace Data_Manager2.Classes
         public static readonly MUCHandler INSTANCE = new MUCHandler();
         private readonly TSTimedList<MUCJoinHelper> TIMED_LIST;
         private readonly TimeSpan JOIN_DELAY = TimeSpan.FromSeconds(5);
-        private CancellationTokenSource joinDelayToken;
+        private Dictionary<string, CancellationTokenSource> joinDelayToken = new Dictionary<string, CancellationTokenSource>();
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -72,9 +73,11 @@ namespace Data_Manager2.Classes
             client.NewValidMessage -= Client_NewValidMessage;
 
             // Cancel the join delay:
-            if (!(joinDelayToken is null) && !joinDelayToken.IsCancellationRequested)
+            string bareJid = client.getXMPPAccount().getBareJid();
+            if (joinDelayToken.TryGetValue(bareJid, out CancellationTokenSource token) && !(token is null) && !token.IsCancellationRequested)
             {
-                joinDelayToken.Cancel();
+                token.Cancel();
+                joinDelayToken.Remove(bareJid);
             }
 
             // Set all MUCs to disconnected:
@@ -129,22 +132,23 @@ namespace Data_Manager2.Classes
             await client.sendAsync(msg);
         }
 
-        private async Task<bool> delayAsync()
+        private async Task<bool> delayAsync(string bareJid)
         {
-            if (!(joinDelayToken is null))
+            if (joinDelayToken.TryGetValue(bareJid, out CancellationTokenSource token) && !(token is null))
             {
-                if (!joinDelayToken.IsCancellationRequested)
+                if (!token.IsCancellationRequested)
                 {
-                    joinDelayToken.Cancel();
+                    token.Cancel();
                 }
-                joinDelayToken.Dispose();
+                token.Dispose();
             }
-            joinDelayToken = new CancellationTokenSource();
+            token = new CancellationTokenSource();
+            joinDelayToken[bareJid] = token;
 
             Logger.Info("Delaying MUC joining for " + JOIN_DELAY.TotalSeconds + " seconds.");
             try
             {
-                await Task.Delay(JOIN_DELAY, joinDelayToken.Token);
+                await Task.Delay(JOIN_DELAY, token.Token);
                 Logger.Info("MUC join delay elapsed. Joining MUCs...");
                 return true;
             }
@@ -159,7 +163,7 @@ namespace Data_Manager2.Classes
             Task.Run(async () =>
             {
                 // Delay joining MUCs for a couple of seconds to prevent a message overload:
-                if (!await delayAsync())
+                if (!await delayAsync(client.getXMPPAccount().getBareJid()))
                 {
                     // Delay has been canceled:
                     return;
