@@ -4,9 +4,9 @@
 
 | Platform | Branch | Build Status | Latest Version - Store | Latest Version - Sideload |
 | :---: | :---: | :---: | :---: | :---: |
-| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x64%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=5) | [v.0.19.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.19.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.19.0.0/UWPX_UI_0.19.0.0.zip) |
-| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x86%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=6) | [v.0.19.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.19.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.19.0.0/UWPX_UI_0.19.0.0.zip) |
-| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20ARM%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=7) | [v.0.19.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.19.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.19.0.0/UWPX_UI_0.19.0.0.zip) |
+| x64 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x64%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=5) | [v.0.20.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge)  | [v.0.20.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.20.0.0/UWPX_UI_0.20.0.0.zip) |
+| x86 | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20x86%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=6) | [v.0.20.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.20.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.20.0.0/UWPX_UI_0.20.0.0.zip) |
+| ARM | [master](https://github.com/UWPX/UWPX-Client/tree/master) | [![Build Status](https://dev.azure.com/uwpx/UWPX/_apis/build/status/CI/UWPX%20ARM%20CI)](https://dev.azure.com/uwpx/UWPX/_build/latest?definitionId=7) | [v.0.20.0.0](https://www.microsoft.com/store/apps/9NW16X9JB5WV?ocid=badge) | [v.0.20.0.0](https://github.com/UWPX/UWPX-Client/releases/download/v.0.20.0.0/UWPX_UI_0.20.0.0.zip) |
 
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/551476163f8f4784bd1017bf2e8f3db1)](https://www.codacy.com/app/COM8/UWPX-Client?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=UWPX/UWPX-Client&amp;utm_campaign=Badge_Grade)
 
@@ -57,6 +57,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Instant Messaging Intelligence Quotient (IM IQ) | [XEP-0148](https://xmpp.org/extensions/xep-0148.html "XEP-0148") |
 | Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html) |
 | Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
+|  Jingle Encrypted Transports | [XEP-0391](https://xmpp.org/extensions/xep-0391.html)
 | Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") |
 | Message Archive Management | [XEP-0313](https://xmpp.org/extensions/xep-0313.html "XEP-0313") |
 | HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
