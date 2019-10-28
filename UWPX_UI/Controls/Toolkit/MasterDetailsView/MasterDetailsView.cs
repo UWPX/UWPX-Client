@@ -435,9 +435,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                 hasSelectionState = HasSelectionWideState;
             }
 
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
             VisualStateManager.GoToState(this, state, animate);
-            VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, animate);
+            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
         }
 
         private void SetNavigationViewBackButtonState(int visible, bool enabled)
