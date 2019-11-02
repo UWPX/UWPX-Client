@@ -350,16 +350,10 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [October 2019] OMEMO Breakthrough 🐠
+    <value># [November 2019] Minor Improvements
 
-The latest update to [SQLite-net](https://github.com/praeclarum/sqlite-net) by @praeclarum fixed some critical issues. Before that the database backend of [UWPX](https://uwpx.org) was loosing entries (**especially OMEMO keys!**) from time to time. **This has now finally been fixed** (https://github.com/praeclarum/sqlite-net/issues/761).  
-With those fixes I was able to remove **a lot** of DB overhead that was reducing the data loss to a minimum. So you can expect a noticeable bump in performance in some cases from that!  
-OMEMO now should finally work like expected.  
-**With this update all OMEMO keys are getting regenerated to compensate for potential losses in earlier version of UWPX. So make sure you send all your buddies a short message. This will then replace all existing old (and broken) OMEMO sessions with a new one.**
-
-Other than that I'm still working on a revamp for [XMPP-IoT](https://www.xmpp-iot.org/). Not to much cool stuff to report here since I'm working on a lot of background stuff for that at the moment (e.g. Bluetooth helper, ...).
-
-Oh, right one more thing: I started working on replacing the old MUC info dialog with a new one that matches the current app style. It's far from being done but the basics should be done so stay tuned for further updates on that
+Not that much happening right now in the world of UWPX (besides IoT stuff) since I'm still actively working on my thesis.
+This will probably change for next month's release - let's see.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -381,20 +375,9 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Chat image downloads not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
 
 ### Changes:
-* Added a first version of the new MUC info dialog
-* Added XEP-0060 Affiliation request support
-* Added experimental XMPP IoT Bluetooth registration support
-* Improved JID input control usability
-* Fixed DB loosing entries (OMEMO keys)
-* Fixed "Enter to send" not working [#70](https://github.com/UWPX/UWPX-Client/issues/70)
-* MUC nickname changing not working [#29](https://github.com/UWPX/UWPX-Client/issues/29)
-* Fixed changing the application theme changes to the wrong theme until the next restart
-* Fixed not setting the item ID to "current" for OMEMO device publish
-* Drastic QR-Code scanner performance improvements
-* Improved the DB performance
-* Removed the "Clip" button from the chat window since it is not implemented  yet
-
-
+* Added a 5 second MUC join delay
+* Fixed master details view no selection content showing on resize
+* Fixed [#73](https://github.com/UWPX/UWPX-Client/issues/73)
 
 [Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.20.0.0)</value>
   </data>
