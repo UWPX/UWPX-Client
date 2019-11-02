@@ -12,13 +12,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public string BareJidText
         {
             get => _BareJidText;
-            set => SetProperty(ref _BareJidText, value);
+            set => SetBareJidProperty(value);
         }
         private bool _IsValidBareJid;
         public bool IsValidBareJid
         {
             get => _IsValidBareJid;
-            set => SetProperty(ref _IsValidBareJid, value);
+            set => SetIsValidBareJidProperty(value);
         }
         private XMPPAccount _Account;
         public XMPPAccount Account
@@ -40,6 +40,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             if (SetProperty(ref _Account, value, nameof(Account)))
             {
                 BareJidText = Account.getBareJid();
+            }
+        }
+
+        private void SetBareJidProperty(string value)
+        {
+            if (SetProperty(ref _BareJidText, value, nameof(BareJidText)))
+            {
+                IsValidBareJid = Utils.isBareJid(value);
             }
         }
 
