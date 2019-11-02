@@ -306,7 +306,7 @@
       <Version>1.0.1.6</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net">
-      <Version>0.16.4</Version>
+      <Version>0.16.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
