@@ -292,7 +292,7 @@
                         VerticalAlignment="Bottom"
                         Content="&#xE76E;"
                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                        FontSize="27"
+                        FontSize="25"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Emoji"
                         Visibility="{x:Bind VIEW_MODEL.MODEL.IsEmojiFlyoutEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
@@ -304,6 +304,7 @@
                 </Button>
                 <chat:EnterTextBox x:Name="message_tbx"
                                    Grid.Column="2"
+                                   VerticalAlignment="Center"
                                    EnterKeyDown="Message_tbx_EnterKeyDown"
                                    Style="{ThemeResource MessageTextBoxStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.MessageText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -312,7 +313,7 @@
                         VerticalAlignment="Bottom"
                         AllowFocusOnInteraction="False"
                         Click="Send_btn_Click"
-                        FontSize="27"
+                        FontSize="25"
                         IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Send message">

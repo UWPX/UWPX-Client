@@ -11,7 +11,7 @@
         <Setter Property="AcceptsReturn" Value="True"/>
         <Setter Property="IsFocusEngagementEnabled" Value="True"/>
         <Setter Property="PlaceholderText" Value="Message..."/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="14"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="InputScope" Value="Chat"/>
         <Setter Property="Foreground" Value="{ThemeResource TextControlForeground}"/>
