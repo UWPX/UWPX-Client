@@ -81,7 +81,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
 
         public static bool GetBool(byte[] value)
         {
-            return value != null && value.Length == 1 ? BitConverter.ToBoolean(value, 0) : false;
+            return value != null && value.Length >= 1 ? BitConverter.ToBoolean(value, 0) : false;
         }
 
         public bool GetBool(Guid uuid)

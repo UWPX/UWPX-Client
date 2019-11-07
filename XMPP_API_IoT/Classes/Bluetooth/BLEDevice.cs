@@ -148,7 +148,10 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                         foreach (GattCharacteristic c in cResult.Characteristics)
                         {
                             CHARACTERISTICS.Add(c.Uuid, c);
-                            await LoadCharacteristicValueAsync(c);
+                            if (c.CharacteristicProperties.HasFlag(GattCharacteristicProperties.Read))
+                            {
+                                await LoadCharacteristicValueAsync(c);
+                            }
                         }
                     }
                 }
