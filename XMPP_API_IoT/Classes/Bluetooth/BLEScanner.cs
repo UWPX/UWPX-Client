@@ -145,6 +145,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             {
                 if (string.Equals(device.BluetoothAddressAsString.ToLowerInvariant(), targetMac))
                 {
+                    SetState(BLEScannerState.CONNECTING);
                     BLEDevice bleDevice = await BLEDevice.FromIdAsync(device.DeviceInfo.Id);
                     if (!(bleDevice is null))
                     {
@@ -160,6 +161,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                             }
                         }
                     }
+                    SetState(BLEScannerState.SCANNING);
                 }
             }
         }

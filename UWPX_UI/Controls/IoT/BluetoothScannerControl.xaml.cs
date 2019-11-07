@@ -110,6 +110,7 @@ namespace UWPX_UI.Controls.IoT
                     break;
 
                 case BLEScannerState.SCANNING:
+                case BLEScannerState.CONNECTING:
                     UpdateViewState(State_Scanning.Name);
                     break;
 

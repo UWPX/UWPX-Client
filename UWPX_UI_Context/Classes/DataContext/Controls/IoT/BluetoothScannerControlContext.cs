@@ -76,7 +76,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         private void Scanner_DeviceFound(BLEScanner scanner, BLEDeviceEventArgs args)
         {
             ScannerDeviceFound?.Invoke(this, args);
-
             Stop();
         }
 
@@ -90,6 +89,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
                     break;
 
                 case BLEScannerState.SCANNING:
+                    break;
+
+                case BLEScannerState.CONNECTING:
                     break;
 
                 case BLEScannerState.ERROR_BLE_NOT_SUPPORTED:

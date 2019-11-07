@@ -208,8 +208,9 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             {
                 status = await c.WriteClientCharacteristicConfigurationDescriptorAsync(cccdValue);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Logger.Warn("Failed to subscribe to characteristic " + c.Uuid + " with " + e.ToString());
                 return false;
             }
 
