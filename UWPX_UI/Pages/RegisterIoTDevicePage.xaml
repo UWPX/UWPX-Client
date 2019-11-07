@@ -4,7 +4,9 @@
       xmlns:animations="using:Microsoft.Toolkit.Uwp.UI.Animations"
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+      xmlns:controlsSettings="using:UWPX_UI.Controls.Settings"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
       xmlns:iot="using:UWPX_UI.Controls.IoT"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
@@ -20,6 +22,23 @@
             <x:String x:Key="AnimationPositionHideTarget">-600,0,0</x:String>
             <x:String x:Key="AnimationOpacityMin">0</x:String>
             <x:String x:Key="AnimationOpacityMax">1</x:String>
+
+            <DataTemplate x:Key="DeviceTypeLargeControl"
+                          x:DataType="datatemplates:SettingsPageButtonDataTemplate">
+                <controlsSettings:SettingsSelectionLargeControl Click="SettingsSelectionLargeControl_Click"
+                                                                EnableNavigationOnClick="False"
+                                                                Model="{x:Bind}"
+                                                                PointerEntered="SettingsSelectionControl_PointerEntered"
+                                                                PointerExited="SettingsSelectionControl_PointerExited"/>
+            </DataTemplate>
+            <DataTemplate x:Key="DeviceTypeSmallControl"
+                          x:DataType="datatemplates:SettingsPageButtonDataTemplate">
+                <controlsSettings:SettingsSelectionSmallControl Click="SettingsSelectionSmallControl_Click"
+                                                                EnableNavigationOnClick="False"
+                                                                Model="{x:Bind}"
+                                                                PointerEntered="SettingsSelectionControl_PointerEntered"
+                                                                PointerExited="SettingsSelectionControl_PointerExited"/>
+            </DataTemplate>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -53,12 +72,107 @@
                                                Text="Register IoT Device:"
                                                TextBlockStyle="{ThemeResource TitleTextBlockStyle}"/>
 
+                <!--  Step 0:  -->
+                <controls1:DropShadowPanel x:Name="step0DeviceType_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Visible">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <Grid Padding="10"
+                              Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <GridView x:Name="large_gridv"
+                                      Grid.Row="0"
+                                      Grid.ColumnSpan="3"
+                                      MaxWidth="750"
+                                      Margin="0,10,0,0"
+                                      HorizontalAlignment="Center"
+                                      animations:ReorderGridAnimation.Duration="800"
+                                      ItemTemplate="{StaticResource DeviceTypeLargeControl}"
+                                      ItemsSource="{x:Bind DEVICE_TYPES}"
+                                      SelectionMode="None"
+                                      Visibility="Collapsed">
+                                <GridView.ItemContainerTransitions>
+                                    <TransitionCollection>
+                                        <EntranceThemeTransition/>
+                                        <RepositionThemeTransition/>
+                                        <AddDeleteThemeTransition/>
+                                    </TransitionCollection>
+                                </GridView.ItemContainerTransitions>
+                                <GridView.ItemContainerStyle>
+                                    <Style TargetType="FrameworkElement">
+                                        <Setter Property="Margin" Value="10,5,10,15"/>
+                                    </Style>
+                                </GridView.ItemContainerStyle>
+                            </GridView>
+                            <!--  Small:  -->
+                            <ListView x:Name="small_gridv"
+                                      Grid.Row="0"
+                                      Grid.ColumnSpan="3"
+                                      Margin="0,10,0,0"
+                                      ItemTemplate="{StaticResource DeviceTypeSmallControl}"
+                                      ItemsSource="{x:Bind DEVICE_TYPES}"
+                                      SelectionMode="None">
+                                <ListView.ItemContainerStyle>
+                                    <Style TargetType="ListViewItem">
+                                        <Setter Property="Margin" Value="10,5,10,5"/>
+                                        <Setter Property="Padding" Value="0"/>
+                                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    </Style>
+                                </ListView.ItemContainerStyle>
+                            </ListView>
+                            <HyperlinkButton Grid.Row="1"
+                                             Grid.ColumnSpan="3"
+                                             Click="WhatIsAnIoTDevice_link_Click"
+                                             Content="What's an IoT device?"/>
+
+                            <controls:IconButtonControl x:Name="cancel0_ibtn"
+                                                        Grid.Row="2"
+                                                        Grid.Column="0"
+                                                        Margin="0,0,0,1"
+                                                        Click="Cancel_ibtn_Click"
+                                                        Glyph="&#xE711;"
+                                                        GlyphForeground="Red"
+                                                        Text="Cancel"/>
+                        </Grid>
+                    </Border>
+                </controls1:DropShadowPanel>
+
                 <!--  Step 1:  -->
                 <controls1:DropShadowPanel x:Name="step1ScanQrCode_dsp"
                                            Grid.Row="1"
                                            MaxWidth="400"
                                            HorizontalContentAlignment="Stretch"
-                                           Visibility="Visible">
+                                           Visibility="Collapsed">
                     <animations:Implicit.ShowAnimations>
                         <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
                                                      To="{StaticResource AnimationOpacityMax}"
@@ -85,8 +199,7 @@
                                                            x:Uid="RegisterIoTDevicePage_qr_code_scanner"
                                                            Margin="0,10,0,0"
                                                            NewValidQrCode="QrCodeScannerControl_NewValidQrCode"/>
-                            <HyperlinkButton x:Name="whatIsAnIoTDevice_link"
-                                             Margin="0,10,0,0"
+                            <HyperlinkButton Margin="0,10,0,0"
                                              Click="WhatIsAnIoTDevice_link_Click"
                                              Content="What's an IoT device?"/>
                             <Grid Margin="0,10,0,0">
@@ -102,6 +215,12 @@
                                                             Glyph="&#xE711;"
                                                             GlyphForeground="Red"
                                                             Text="Cancel"/>
+                                <controls:IconButtonControl x:Name="retry_ibtn"
+                                                            Grid.Column="2"
+                                                            Margin="1,0,0,0"
+                                                            Click="Retry_ibtn_Click"
+                                                            Glyph="&#xE777;"
+                                                            Text="Retry"/>
                             </Grid>
                         </StackPanel>
                     </Border>
@@ -228,13 +347,23 @@
             <VisualStateGroup x:Name="States">
                 <VisualState x:Name="State_1">
                     <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_0">
+                    <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_2">
                     <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Visible"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
@@ -242,9 +371,31 @@
                 </VisualState>
                 <VisualState x:Name="State_3">
                     <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+
+            <VisualStateGroup x:Name="Size">
+                <VisualState x:Uid="Large">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="430"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="small_gridv.Visibility" Value="Collapsed"/>
+                        <Setter Target="large_gridv.Visibility" Value="Visible"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Uid="Small">
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="0"/>
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="small_gridv.Visibility" Value="Visible"/>
+                        <Setter Target="large_gridv.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

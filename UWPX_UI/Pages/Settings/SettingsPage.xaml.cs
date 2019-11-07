@@ -2,7 +2,6 @@
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
-using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -111,14 +110,6 @@ namespace UWPX_UI.Pages.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void AdaptiveGridView_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            if (e.ClickedItem is SettingsPageButtonDataTemplate page)
-            {
-                UiUtils.NavigateToPage(page.NavTarget);
-            }
-        }
-
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
             if (!(DeviceFamilyHelper.IsMouseInteractionMode() && sender is FrameworkElement settingsSelection))

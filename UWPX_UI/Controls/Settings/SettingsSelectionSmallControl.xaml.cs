@@ -22,6 +22,16 @@ namespace UWPX_UI.Controls.Settings
             NavTarget = null
         }));
 
+        public bool EnableNavigationOnClick
+        {
+            get { return (bool)GetValue(EnableNavigationOnClickProperty); }
+            set { SetValue(EnableNavigationOnClickProperty, value); }
+        }
+        public static readonly DependencyProperty EnableNavigationOnClickProperty = DependencyProperty.Register(nameof(EnableNavigationOnClick), typeof(bool), typeof(SettingsSelectionSmallControl), new PropertyMetadata(true));
+
+        public delegate void ClickHandler(SettingsSelectionSmallControl sender, RoutedEventArgs args);
+        public event ClickHandler Click;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -55,7 +65,11 @@ namespace UWPX_UI.Controls.Settings
         #region --Events--
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(Model?.NavTarget);
+            Click?.Invoke(this, e);
+            if (EnableNavigationOnClick)
+            {
+                UiUtils.NavigateToPage(Model?.NavTarget);
+            }
         }
 
         #endregion

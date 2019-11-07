@@ -64,11 +64,9 @@
                           Margin="0,10,0,10"
                           HorizontalAlignment="Center"
                           animations:ReorderGridAnimation.Duration="800"
-                          IsItemClickEnabled="True"
-                          ItemClick="AdaptiveGridView_ItemClick"
                           ItemTemplate="{StaticResource SettingsSelectionLargeControl}"
                           ItemsSource="{x:Bind SETTINGS_PAGES}"
-                          SelectionMode="Single"
+                          SelectionMode="None"
                           Visibility="Collapsed">
                     <GridView.ItemContainerTransitions>
                         <TransitionCollection>
@@ -87,8 +85,6 @@
                 <ListView x:Name="small_gridv"
                           Grid.Row="1"
                           Margin="0,10,0,10"
-                          IsItemClickEnabled="True"
-                          ItemClick="AdaptiveGridView_ItemClick"
                           ItemTemplate="{StaticResource SettingsSelectionSmallControl}"
                           ItemsSource="{x:Bind SETTINGS_PAGES}"
                           SelectionMode="None">
