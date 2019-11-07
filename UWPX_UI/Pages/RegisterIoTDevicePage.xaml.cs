@@ -8,7 +8,6 @@ using UWPX_UI.Controls.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
-using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -92,21 +91,6 @@ namespace UWPX_UI.Pages
             titleBar.OnGoBackRequested();
         }
 
-        private async void QrCodeScannerControl_NewValidQrCode(QrCodeScannerControl sender, NewQrCodeEventArgs args)
-        {
-            IUriAction action = UriUtils.parse(new Uri(args.QR_CODE));
-            if (action is RegisterIoTUriAction registerIoTUriAction)
-            {
-                await SharedUtils.CallDispatcherAsync(async () =>
-                {
-                    await qrCodeScanner.StopAsync();
-
-                    UpdateViewState(State_2.Name);
-                    VIEW_MODEL.MODEL.RegisterIoTUriAction = registerIoTUriAction;
-                });
-            }
-        }
-
         private async void Retry_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
             if (string.Equals(curViewState, State_1.Name))
@@ -167,6 +151,21 @@ namespace UWPX_UI.Pages
             UpdateViewState(State_1.Name);
             VIEW_MODEL.MODEL.RegisterIoTUriAction = null;
             await qrCodeScanner.StartAsync();
+        }
+
+        private async void QrCodeScanner_NewValidQrCode(QrCodeScannerControl sender, UWPX_UI_Context.Classes.Events.NewQrCodeEventArgs args)
+        {
+            IUriAction action = UriUtils.parse(new Uri(args.QR_CODE));
+            if (action is RegisterIoTUriAction registerIoTUriAction)
+            {
+                await SharedUtils.CallDispatcherAsync(async () =>
+                {
+                    await qrCodeScanner.StopAsync();
+
+                    UpdateViewState(State_2.Name);
+                    VIEW_MODEL.MODEL.RegisterIoTUriAction = registerIoTUriAction;
+                });
+            }
         }
 
         #endregion

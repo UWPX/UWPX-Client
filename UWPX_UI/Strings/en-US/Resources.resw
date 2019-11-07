@@ -344,7 +344,7 @@ For more up to date information visit:
     <value>Requires an app restart to work properly once changed.</value>
   </data>
   <data name="RegisterIoTDevicePage_qr_code_scanner.QrCodeResultFilterRegex" xml:space="preserve">
-    <value>(xmpp)\:(iot-register)\?(mac)=(([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))&amp;(algo)=([a-z]+)&amp;(key)=(.+)</value>
+    <value>(xmpp)\:(iot-register)\?(mac)=(([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2}))&amp;(algo)=([0-9a-z-]+)&amp;(key)=(.+)</value>
   </data>
   <data name="RegisterIoTDevicePage_what_is_an_iot_device_url" xml:space="preserve">
     <value>https://www.xmpp-iot.org/</value>

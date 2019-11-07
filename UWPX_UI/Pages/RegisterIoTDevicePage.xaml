@@ -198,7 +198,7 @@
                             <controls:QrCodeScannerControl x:Name="qrCodeScanner"
                                                            x:Uid="RegisterIoTDevicePage_qr_code_scanner"
                                                            Margin="0,10,0,0"
-                                                           NewValidQrCode="QrCodeScannerControl_NewValidQrCode"/>
+                                                           NewValidQrCode="QrCodeScanner_NewValidQrCode"/>
                             <HyperlinkButton Margin="0,10,0,0"
                                              Click="WhatIsAnIoTDevice_link_Click"
                                              Content="What's an IoT device?"/>
