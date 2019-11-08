@@ -350,10 +350,9 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [November 2019] Minor Improvements
+    <value># [November 2019 #2] Chats List Fix
 
-Not that much happening right now in the world of UWPX (besides IoT stuff) since I'm still actively working on my thesis.
-This will probably change for next month's release - let's see.
+Fix for a critical bug which resulted in the chats list not being shown.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -375,10 +374,10 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * Chat image downloads not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
 
 ### Changes:
-* Added a 5 second MUC join delay
-* Fixed master details view no selection content showing on resize
-* Fixed [#73](https://github.com/UWPX/UWPX-Client/issues/73)
+* Added an IoT device type selection screen
+* Fixed unable to save changed account settings
+* Fixed the BLE unlock helper not continuing
 
-[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.20.0.0)</value>
+[Click to view/read on on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.21.1.0)</value>
   </data>
 </root>
