@@ -78,6 +78,9 @@
                     </TextBlock>
                 </StackPanel>
             </controls:Expander>
+            <controls1:AccountSelectionControl AccountSelectionChanged="AccountSelectionControl_AccountSelectionChanged"
+                                               AddAccountClicked="AccountSelectionControl_AddAccountClicked"
+                                               Header="Select account"/>
             <TextBox Margin="0,10,0,0"
                      Header="WiFi SSID"
                      PlaceholderText="HomeWifi"
@@ -87,7 +90,6 @@
                          Password="{x:Bind VIEW_MODEL.MODEL.WifiPassword, Mode=TwoWay}"/>
             <controls1:BareJidInputControl Margin="0,10,0,0"
                                            Header="JID"
-                                           IsValid="{x:Bind InputValid, Mode=TwoWay}"
                                            Text="{x:Bind VIEW_MODEL.MODEL.Jid, Mode=TwoWay}"/>
             <PasswordBox Margin="0,10,0,0"
                          Header="JID Password"

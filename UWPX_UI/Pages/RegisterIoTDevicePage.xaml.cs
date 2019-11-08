@@ -109,9 +109,11 @@ namespace UWPX_UI.Pages
             }
         }
 
-        private void Send3_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
+        private async void Send3_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
-
+            UpdateViewState(State_4.Name);
+            await VIEW_MODEL.SendAsync(btDeviceInfo_btdic.VIEW_MODEL.MODEL);
+            UpdateViewState(State_5.Name);
         }
 
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
@@ -166,6 +168,13 @@ namespace UWPX_UI.Pages
                     VIEW_MODEL.MODEL.RegisterIoTUriAction = registerIoTUriAction;
                 });
             }
+        }
+
+        private void Done5_ibtn_Click(object sender, RoutedEventArgs args)
+        {
+            UiUtils.NavigateToPage(typeof(ChatPage));
+            // Prevent navigating back to this page:
+            UiUtils.RemoveLastBackStackEntry();
         }
 
         #endregion

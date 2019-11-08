@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
+﻿using Microsoft.Toolkit.Uwp.Connectivity;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using XMPP_API_IoT.Classes.Bluetooth;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
@@ -17,7 +18,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private string GetCurrentWiFiSsid()
+        {
+            if (NetworkHelper.Instance.ConnectionInformation.ConnectionType == ConnectionType.WiFi)
+            {
+                if (NetworkHelper.Instance.ConnectionInformation.NetworkNames.Count >= 1)
+                {
+                    return NetworkHelper.Instance.ConnectionInformation.NetworkNames[0];
+                }
+            }
+            return "";
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -30,6 +41,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             MODEL.DeviceLanguage = device.CACHE.GetString(BTUtils.CHARACTERISTIC_LANGUAGE) ?? "";
             MODEL.DeviceManufacturer = device.CACHE.GetString(BTUtils.CHARACTERISTIC_MANUFACTURER_NAME) ?? "";
             MODEL.DeviceSerialNumber = device.CACHE.GetString(BTUtils.CHARACTERISTIC_SERIAL_NUMBER) ?? "";
+            MODEL.WifiSsid = GetCurrentWiFiSsid();
+            MODEL.Jid = "testiot0@xmpp.uwpx.org";
+            MODEL.JidPassword = "not a real password";
         }
 
         #endregion

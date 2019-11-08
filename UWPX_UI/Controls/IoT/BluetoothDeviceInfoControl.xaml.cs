@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls.IoT;
+﻿using System.ComponentModel;
+using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API_IoT.Classes.Bluetooth;
@@ -18,12 +20,12 @@ namespace UWPX_UI.Controls.IoT
         }
         public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(nameof(Device), typeof(BLEDevice), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(null, OnDeviceChanged));
 
-        public bool InputValid
+        public bool IsInputValid
         {
-            get { return (bool)GetValue(InputValidProperty); }
-            set { SetValue(InputValidProperty, value); }
+            get { return (bool)GetValue(IsInputValidProperty); }
+            set { SetValue(IsInputValidProperty, value); }
         }
-        public static readonly DependencyProperty InputValidProperty = DependencyProperty.Register(nameof(InputValid), typeof(bool), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty IsInputValidProperty = DependencyProperty.Register(nameof(IsInputValid), typeof(bool), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(false));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -32,6 +34,8 @@ namespace UWPX_UI.Controls.IoT
         {
             InitializeComponent();
             UpdateViewState(State_Loading.Name);
+            VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
+            IsInputValid = VIEW_MODEL.MODEL.IsInputValid;
         }
 
         #endregion
@@ -88,6 +92,25 @@ namespace UWPX_UI.Controls.IoT
         private void UserControl_Unloaded(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void MODEL_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (string.Equals(e.PropertyName, nameof(VIEW_MODEL.MODEL.IsInputValid)))
+            {
+                IsInputValid = VIEW_MODEL.MODEL.IsInputValid;
+            }
+        }
+
+        private void AccountSelectionControl_AccountSelectionChanged(AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
+        {
+            VIEW_MODEL.MODEL.Client = args.CLIENT;
+        }
+
+        private void AccountSelectionControl_AddAccountClicked(AccountSelectionControl sender, CancelEventArgs args)
+        {
+            // Remove the current page from the back stack to prevent the user from navigating back to it:
+            UiUtils.RemoveLastBackStackEntry();
         }
         #endregion
     }

@@ -1,4 +1,5 @@
 ﻿using Shared.Classes;
+using XMPP_API.Classes;
 using XMPP_API_IoT.Classes.Bluetooth;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
@@ -56,7 +57,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         public string Jid
         {
             get => _Jid;
-            set => SetProperty(ref _Jid, value);
+            set => SetJidProperty(value);
         }
         private string _JidPassword;
         public string JidPassword
@@ -70,13 +71,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         public string WifiSsid
         {
             get => _WifiSsid;
-            set => SetProperty(ref _WifiSsid, value);
+            set => SetWiFiSsidProperty(value);
         }
         private string _WifiPassword;
         public string WifiPassword
         {
             get => _WifiPassword;
             set => SetProperty(ref _WifiPassword, value);
+        }
+
+        // Client:
+        private XMPPClient _Client;
+        public XMPPClient Client
+        {
+            get => _Client;
+            set => SetClientProperty(value);
+        }
+
+        // Input valid:
+        private bool _IsInputValid;
+        public bool IsInputValid
+        {
+            get => _IsInputValid;
+            set => SetProperty(ref _IsInputValid, value);
         }
 
         #endregion
@@ -87,7 +104,29 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetJidProperty(string value)
+        {
+            if (SetProperty(ref _Jid, value, nameof(Jid)))
+            {
+                ValidateInput();
+            }
+        }
 
+        private void SetWiFiSsidProperty(string value)
+        {
+            if (SetProperty(ref _WifiSsid, value, nameof(WifiSsid)))
+            {
+                ValidateInput();
+            }
+        }
+
+        private void SetClientProperty(XMPPClient value)
+        {
+            if (SetProperty(ref _Client, value, nameof(Client)))
+            {
+                ValidateInput();
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -97,7 +136,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void ValidateInput()
+        {
+            IsInputValid = !string.IsNullOrEmpty(WifiSsid) && !string.IsNullOrEmpty(Jid) && Utils.isBareJid(Jid) && !(Client is null);
+        }
 
         #endregion
 

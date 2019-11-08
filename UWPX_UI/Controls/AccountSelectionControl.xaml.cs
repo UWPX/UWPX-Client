@@ -22,7 +22,16 @@ namespace UWPX_UI.Controls
         public static readonly DependencyProperty HeaderProperty = DependencyProperty.Register(nameof(Header), typeof(string), typeof(AccountSelectionControl), new PropertyMetadata(""));
 
         public delegate void AddAccountClickHandler(AccountSelectionControl sender, CancelEventArgs args);
+        /// <summary>
+        /// Triggered once the user clicked on the "+" button for adding a new account.
+        /// Will be triggered before the actual navigation happens.
+        /// </summary>
         public event AddAccountClickHandler AddAccountClick;
+        /// <summary>
+        /// Triggered once the user clicked on the "+" button for adding a new account.
+        /// Will be triggered after the actual navigation happened.
+        /// </summary>
+        public event AddAccountClickHandler AddAccountClicked;
 
         public delegate void AccountSelectionChangedHandler(AccountSelectionControl sender, AccountSelectionChangedEventArgs args);
         public event AccountSelectionChangedHandler AccountSelectionChanged;
@@ -66,6 +75,7 @@ namespace UWPX_UI.Controls
             {
                 UiUtils.NavigateToPage(typeof(AccountsSettingsPage));
             }
+            AddAccountClicked?.Invoke(this, cancelArgs);
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)

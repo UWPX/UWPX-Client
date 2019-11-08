@@ -334,8 +334,106 @@
                                                             Click="Send3_ibtn_Click"
                                                             Glyph="&#xE703;"
                                                             GlyphForeground="Green"
-                                                            IsEnabled="{x:Bind btDeviceInfo_btdic.InputValid, Mode=OneWay}"
+                                                            IsEnabled="{x:Bind btDeviceInfo_btdic.IsInputValid, Mode=OneWay}"
                                                             Text="Send"/>
+                            </Grid>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <!--  Step 4:  -->
+                <controls1:DropShadowPanel x:Name="step4SendingInfo_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <controls1:Loading x:Name="loading_grid"
+                                               IsLoading="True">
+                                <controls:LoadingContentControl Text="Sending information..."/>
+                            </controls1:Loading>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <!--  Step 4:  -->
+                <controls1:DropShadowPanel x:Name="step5done_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <Grid Margin="0,10,0,0"
+                                  Padding="20"
+                                  HorizontalAlignment="Center"
+                                  VerticalAlignment="Center">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <TextBlock Grid.Row="0"
+                                           HorizontalAlignment="Center"
+                                           FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                           FontSize="50"
+                                           Foreground="Green"
+                                           Text="&#xE73E;"/>
+                                <TextBlock Grid.Row="1"
+                                           HorizontalAlignment="Center"
+                                           Text="Success!"/>
+                            </Grid>
+                            <Grid Margin="0,10,0,0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <controls:IconButtonControl x:Name="done5_ibtn"
+                                                            Grid.Column="2"
+                                                            Margin="1,0,0,0"
+                                                            Click="Done5_ibtn_Click"
+                                                            Glyph="&#xE8FB;"
+                                                            GlyphForeground="Green"
+                                                            Text="Done"/>
                             </Grid>
                         </StackPanel>
                     </Border>
@@ -351,6 +449,8 @@
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_0">
@@ -359,6 +459,8 @@
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_2">
@@ -367,6 +469,8 @@
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Visible"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_3">
@@ -375,6 +479,28 @@
                         <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_4">
+                    <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_5">
+                    <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5done_dsp.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>
