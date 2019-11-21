@@ -188,6 +188,24 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             new PropertyMetadata(BackButtonBehavior.System, OnBackButtonBehaviorChanged));
 
         /// <summary>
+        /// Identifies the <see cref="MasterItemTemplateSelector"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty MasterItemTemplateSelectorProperty = DependencyProperty.Register(
+            nameof(MasterItemTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
+        /// Identifies the <see cref="DetailsContentTemplateSelector"/> dependency property
+        /// </summary>
+        public static readonly DependencyProperty DetailsContentTemplateSelectorProperty = DependencyProperty.Register(
+            nameof(DetailsContentTemplateSelector),
+            typeof(DataTemplateSelector),
+            typeof(MasterDetailsView),
+            new PropertyMetadata(null));
+
+        /// <summary>
         /// Gets or sets the selected item.
         /// </summary>
         /// <returns>The selected item. The default is null.</returns>
@@ -367,6 +385,26 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         {
             get { return (BackButtonBehavior)GetValue(BackButtonBehaviorProperty); }
             set { SetValue(BackButtonBehaviorProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the template selector for the master pane
+        /// </summary>
+        /// <returns>The current MasterItemTemplateSelector.</returns>
+        public DataTemplateSelector MasterItemTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(MasterItemTemplateSelectorProperty); }
+            set { SetValue(MasterItemTemplateSelectorProperty, value); }
+        }
+
+        /// <summary>
+        /// Gets or sets the template selector for the details pane
+        /// </summary>
+        /// <returns>The current DetailsContentTemplateSelector.</returns>
+        public DataTemplateSelector DetailsContentTemplateSelector
+        {
+            get { return (DataTemplateSelector)GetValue(DetailsContentTemplateSelectorProperty); }
+            set { SetValue(DetailsContentTemplateSelectorProperty, value); }
         }
 
         /// <summary>

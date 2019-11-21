@@ -463,9 +463,16 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         {
             if (_detailsPresenter != null)
             {
+                // Update the content template:
+                if (!(_detailsPresenter.ContentTemplateSelector is null))
+                {
+                    _detailsPresenter.ContentTemplate = _detailsPresenter.ContentTemplateSelector.SelectTemplate(SelectedItem, _detailsPresenter);
+                }
+                // Update the content:
                 _detailsPresenter.Content = MapDetails == null
                     ? SelectedItem
                     : SelectedItem != null ? MapDetails(SelectedItem) : null;
+
             }
         }
 
