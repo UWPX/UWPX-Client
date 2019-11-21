@@ -3,6 +3,8 @@
     public enum ChatType
     {
         CHAT,
-        MUC
+        MUC,
+        IOT_DEVICE,
+        IOT_HUB
     }
 }

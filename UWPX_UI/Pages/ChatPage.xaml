@@ -6,8 +6,10 @@
       xmlns:controls="using:UWPX_UI.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:datatemplates="using:UWPX_UI_Context.Classes.DataTemplates"
+      xmlns:iot="using:UWPX_UI.Controls.IoT"
       xmlns:masterdetailsview="using:UWPX_UI.Controls.Toolkit.MasterDetailsView"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
       mc:Ignorable="d">
 
@@ -22,10 +24,19 @@
                 <chat:ChatMasterControl Chat="{x:Bind}"/>
             </DataTemplate>
 
-            <DataTemplate x:Key="DetailsTemplate"
+            <DataTemplate x:Key="DetailsChatTemplate"
                           x:DataType="datatemplates:ChatDataTemplate">
                 <chat:ChatDetailsControl Chat="{x:Bind}"/>
             </DataTemplate>
+
+            <DataTemplate x:Key="DetailsIotTemplate"
+                          x:DataType="datatemplates:ChatDataTemplate">
+                <iot:IoTChatDetailsControl Chat="{x:Bind}"/>
+            </DataTemplate>
+
+            <selectors:ChatDetailsDataTemplateSelector x:Key="ChatDetailsDataTemplateSelector"
+                                                       ChatsTemplate="{StaticResource DetailsChatTemplate}"
+                                                       IotTemplate="{StaticResource DetailsIotTemplate}"/>
 
             <DataTemplate x:Key="NoItemsTemplate">
                 <Grid>
@@ -103,7 +114,7 @@
                                              BackButtonBehavior="Manual"
                                              Background="Transparent"
                                              BorderBrush="{ThemeResource TextControlBorderBrush}"
-                                             DetailsTemplate="{StaticResource DetailsTemplate}"
+                                             DetailsContentTemplateSelector="{StaticResource ChatDetailsDataTemplateSelector}"
                                              ItemTemplate="{StaticResource MasterTemplate}"
                                              ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHATS_ACV}"
                                              MasterPaneBackground="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"

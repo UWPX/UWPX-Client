@@ -1,11 +1,8 @@
-﻿using System;
-using Data_Manager2.Classes;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
+﻿using Shared.Classes;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 {
-    public sealed class ChatTypeFontFamilyConverter: IValueConverter
+    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,19 +21,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is ChatType chatType && chatType == ChatType.CHAT)
-            {
-                return ThemeUtils.GetThemeResource<FontFamily>("ContentControlThemeFontFamily");
-            }
-            return ThemeUtils.GetThemeResource<FontFamily>("SymbolThemeFontFamily");
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 

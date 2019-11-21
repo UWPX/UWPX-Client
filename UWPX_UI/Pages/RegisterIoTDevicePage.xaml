@@ -376,8 +376,42 @@
                     </Border>
                 </controls1:DropShadowPanel>
 
-                <!--  Step 4:  -->
-                <controls1:DropShadowPanel x:Name="step5done_dsp"
+                <!--  Step 5:  -->
+                <controls1:DropShadowPanel x:Name="step5waitingForMessages_dsp"
+                                           Grid.Row="1"
+                                           MaxWidth="400"
+                                           HorizontalContentAlignment="Stretch"
+                                           Visibility="Collapsed">
+                    <animations:Implicit.ShowAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMin}"
+                                                     To="{StaticResource AnimationOpacityMax}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionShowSource}"
+                                                         To="{StaticResource AnimationPositionShowTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.ShowAnimations>
+
+                    <animations:Implicit.HideAnimations>
+                        <animations:OpacityAnimation From="{StaticResource AnimationOpacityMax}"
+                                                     To="{StaticResource AnimationOpacityMin}"
+                                                     Duration="{StaticResource OpacityAnimationDuration}"/>
+                        <animations:TranslationAnimation From="{StaticResource AnimationPositionHideSource}"
+                                                         To="{StaticResource AnimationPositionHideTarget}"
+                                                         Duration="{StaticResource TranslationAnimationDuration}"/>
+                    </animations:Implicit.HideAnimations>
+                    <Border HorizontalAlignment="Stretch"
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                        <StackPanel Padding="10"
+                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
+                            <controls1:Loading IsLoading="True">
+                                <controls:LoadingContentControl Text="Waiting for confirmation..."/>
+                            </controls1:Loading>
+                        </StackPanel>
+                    </Border>
+                </controls1:DropShadowPanel>
+
+                <!--  Step 6:  -->
+                <controls1:DropShadowPanel x:Name="step6done_dsp"
                                            Grid.Row="1"
                                            MaxWidth="400"
                                            HorizontalContentAlignment="Stretch"
@@ -443,16 +477,6 @@
 
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="States">
-                <VisualState x:Name="State_1">
-                    <VisualState.Setters>
-                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
-                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
-                    </VisualState.Setters>
-                </VisualState>
                 <VisualState x:Name="State_0">
                     <VisualState.Setters>
                         <Setter Target="step0DeviceType_dsp.Visibility" Value="Visible"/>
@@ -460,7 +484,19 @@
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_1">
+                    <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_2">
@@ -470,7 +506,8 @@
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Visible"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_3">
@@ -480,7 +517,8 @@
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Visible"/>
                         <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_4">
@@ -490,7 +528,8 @@
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step4SendingInfo_dsp.Visibility" Value="Visible"/>
-                        <Setter Target="step5done_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Collapsed"/>
                     </VisualState.Setters>
                 </VisualState>
                 <VisualState x:Name="State_5">
@@ -500,7 +539,19 @@
                         <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
                         <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
-                        <Setter Target="step5done_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Visible"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Collapsed"/>
+                    </VisualState.Setters>
+                </VisualState>
+                <VisualState x:Name="State_6">
+                    <VisualState.Setters>
+                        <Setter Target="step0DeviceType_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step1ScanQrCode_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step2Bluetooth_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step3BtInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step4SendingInfo_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step5waitingForMessages_dsp.Visibility" Value="Collapsed"/>
+                        <Setter Target="step6done_dsp.Visibility" Value="Visible"/>
                     </VisualState.Setters>
                 </VisualState>
             </VisualStateGroup>

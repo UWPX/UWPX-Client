@@ -167,6 +167,7 @@
     <Compile Include="Classes\DataContext\Controls\FolderSizeControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\IoT\BluetoothDeviceInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\IoT\BluetoothScannerControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\IoT\IoTChatDetailsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\LogLevelControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoButtonControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\OmemoDeviceListControlContext.cs" />
@@ -236,6 +237,7 @@
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothDeviceInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothScannerControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\IoT\IoTChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoButtonControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoDeviceListControlDataTemplate.cs" />
@@ -281,6 +283,7 @@
     <Compile Include="Classes\DataTemplates\Pages\MiscSettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Pages\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\PresenceDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Selectors\ChatDetailsDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />

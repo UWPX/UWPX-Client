@@ -38,6 +38,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 case ChatType.MUC:
                     Initials = "\uE902";
                     break;
+
+                case ChatType.IOT_DEVICE:
+                    Initials = "\uE957";
+                    break;
+
+                case ChatType.IOT_HUB:
+                    Initials = "\uF22C";
+                    break;
             }
         }
 

@@ -1,20 +1,29 @@
-﻿using System;
-using Data_Manager2.Classes;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls.IoT;
+using UWPX_UI_Context.Classes.DataTemplates;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWPX_UI.Controls.IoT
 {
-    public sealed class ChatTypeFontFamilyConverter: IValueConverter
+    public sealed partial class IoTChatDetailsControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public ChatDataTemplate Chat
+        {
+            get => (ChatDataTemplate)GetValue(ChatProperty);
+            set => SetValue(ChatProperty, value);
+        }
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(ChatDataTemplate), typeof(ChatDataTemplate), typeof(IoTChatDetailsControl), new PropertyMetadata(null, ChatPropertyChanged));
 
-
+        public readonly IoTChatDetailsControlContext VIEW_MODEL = new IoTChatDetailsControlContext();
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public IoTChatDetailsControl()
+        {
+            InitializeComponent();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -24,19 +33,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is ChatType chatType && chatType == ChatType.CHAT)
-            {
-                return ThemeUtils.GetThemeResource<FontFamily>("ContentControlThemeFontFamily");
-            }
-            return ThemeUtils.GetThemeResource<FontFamily>("SymbolThemeFontFamily");
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 
@@ -51,7 +48,13 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private static void ChatPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is IoTChatDetailsControl control)
+            {
 
+            }
+        }
 
         #endregion
     }

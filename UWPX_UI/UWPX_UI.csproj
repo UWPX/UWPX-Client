@@ -226,6 +226,9 @@
     <Compile Include="Controls\IoT\BluetoothScannerControl.xaml.cs">
       <DependentUpon>BluetoothScannerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IoT\IoTChatDetailsControl.xaml.cs">
+      <DependentUpon>IoTChatDetailsControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
     </Compile>
@@ -666,6 +669,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\IoT\BluetoothScannerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\IoT\IoTChatDetailsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

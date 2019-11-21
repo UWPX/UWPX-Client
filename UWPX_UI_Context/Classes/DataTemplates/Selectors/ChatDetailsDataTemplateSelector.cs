@@ -1,15 +1,14 @@
-﻿using System;
-using Data_Manager2.Classes;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI_Context.Classes.ValueConverter
+namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
 {
-    public sealed class ChatTypeFontFamilyConverter: IValueConverter
+    public sealed class ChatDetailsDataTemplateSelector: DataTemplateSelector
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public DataTemplate ChatsTemplate { get; set; }
+        public DataTemplate IotTemplate { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,19 +23,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public object Convert(object value, Type targetType, object parameter, string language)
-        {
-            if (value is ChatType chatType && chatType == ChatType.CHAT)
-            {
-                return ThemeUtils.GetThemeResource<FontFamily>("ContentControlThemeFontFamily");
-            }
-            return ThemeUtils.GetThemeResource<FontFamily>("SymbolThemeFontFamily");
-        }
 
-        public object ConvertBack(object value, Type targetType, object parameter, string language)
-        {
-            throw new NotImplementedException();
-        }
 
         #endregion
 
@@ -46,7 +33,27 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #endregion
 
         #region --Misc Methods (Protected)--
+        protected override DataTemplate SelectTemplateCore(object item)
+        {
+            return SelectTemplateCore(item);
+        }
 
+        protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
+        {
+            if (item is ChatDataTemplate chat)
+            {
+                switch (chat.Chat.chatType)
+                {
+                    case Data_Manager2.Classes.ChatType.IOT_DEVICE:
+                    case Data_Manager2.Classes.ChatType.IOT_HUB:
+                        return IotTemplate;
+
+                    default:
+                        return ChatsTemplate;
+                }
+            }
+            return ChatsTemplate;
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

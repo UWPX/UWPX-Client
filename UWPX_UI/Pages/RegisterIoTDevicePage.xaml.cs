@@ -12,6 +12,8 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.XmppUri;
 using XMPP_API_IoT.Classes.Bluetooth.Events;
 
@@ -58,7 +60,16 @@ namespace UWPX_UI.Pages
         {
             if (VisualStateManager.GoToState(this, state, true))
             {
+                if (string.Equals(curViewState, State_5.Name))
+                {
+                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage -= Client_NewChatMessage;
+                }
                 curViewState = state;
+                if (string.Equals(curViewState, State_5.Name) || string.Equals(curViewState, State_4.Name))
+                {
+                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage -= Client_NewChatMessage;
+                    btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage += Client_NewChatMessage;
+                }
             }
         }
 
@@ -175,6 +186,14 @@ namespace UWPX_UI.Pages
             UiUtils.NavigateToPage(typeof(ChatPage));
             // Prevent navigating back to this page:
             UiUtils.RemoveLastBackStackEntry();
+        }
+
+        private async void Client_NewChatMessage(XMPPClient client, NewChatMessageEventArgs args)
+        {
+            if (await VIEW_MODEL.OnNewChatMessage(args.getMessage(), btDeviceInfo_btdic.VIEW_MODEL.MODEL.Jid, client))
+            {
+                await SharedUtils.CallDispatcherAsync(() => UpdateViewState(State_6.Name));
+            }
         }
 
         #endregion
