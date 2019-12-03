@@ -264,7 +264,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubDiscoverNodeItemsResultMessagePubSubDiscoverNodeItemsResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubDiscoverNodeItemsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubMessage.cs" />
