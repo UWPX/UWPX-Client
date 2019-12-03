@@ -19,6 +19,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
+using XMPP_API.Classes.Network.XML.Messages.XEP_IoT;
 
 namespace XMPP_API.Classes.Network.XML
 {
@@ -313,6 +314,12 @@ namespace XMPP_API.Classes.Network.XML
                                                         else if (nodeAttr.Equals(Consts.XML_XEP_0402_NAMESPACE))
                                                         {
                                                             messages.Add(new BookmarksResultMessage(n));
+                                                            fondNode = true;
+                                                        }
+                                                        // XEP-IoT:
+                                                        else if (nodeAttr.Equals(IoTConsts.NODE_NAME_UI))
+                                                        {
+                                                            messages.Add(new UiNodeItemsResponseMessage(n));
                                                             fondNode = true;
                                                         }
                                                     }

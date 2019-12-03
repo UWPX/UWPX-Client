@@ -342,6 +342,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTConsts.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\UiNodeItemsResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />

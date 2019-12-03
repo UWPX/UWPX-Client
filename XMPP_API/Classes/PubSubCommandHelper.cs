@@ -287,6 +287,21 @@ namespace XMPP_API.Classes
             return await helper.startAsync(msg);
         }
 
+        /// <summary>
+        /// Sends a PubSubRequestNodeMessage to retreive the content of the given node.
+        /// https://xmpp.org/extensions/xep-0060.html#subscriber-retrieve
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
+        /// <param name="nodeName">The name of the node, you want retreive the items for.</param>
+        /// <param name="maxItems">The maximum number of items returned (if maxItems > 0, else unsepcified).</param>
+        /// <returns>Returns a MessageResponseHelperResult listening for PubSubRequestNodeMessage answers.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestNodeAsync(string to, string nodeName, uint maxItems)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            PubSubRequestNodeMessage msg = new PubSubRequestNodeMessage(CONNECTION.account.getFullJid(), to, nodeName, maxItems);
+            return await helper.startAsync(msg);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
