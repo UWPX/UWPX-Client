@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
 {
@@ -14,6 +15,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         public FieldType type;
         public List<FieldOption> options;
         public List<FieldOption> selectedOptions;
+        /// <summary>
+        /// XEP-0336 (Data Forms - Dynamic Forms) configuration.
+        /// </summary>
+        public DynamicFormsConfiguration dfConfiguration;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -86,6 +91,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     type = FieldType.NONE;
                     break;
             }
+            dfConfiguration = new DynamicFormsConfiguration(node);
         }
 
         #endregion
@@ -179,6 +185,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     });
                     break;
             }
+
+            // Add the XEP-0336 (Data Forms - Dynamic Forms) configuration:
+            dfConfiguration.addToNode(fieldNode);
             return fieldNode;
         }
 

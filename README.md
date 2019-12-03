@@ -46,6 +46,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
 | Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |
 | Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") |
+| Data Forms - Dynamic Forms | [XEP-0336](https://xmpp.org/extensions/xep-0336.html) |
 | Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) |
 
 

@@ -81,5 +81,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0280_NAMESPACE_FORWARDED = "urn:xmpp:forward:0";
         // XEP-0334 (Message Processing Hints):
         public const string XML_XEP_0334_NAMESPACE = "urn:xmpp:hints";
+        // XEP-0336: (Data Forms - Dynamic Forms):
+        public const string XML_XEP_0336_NAMESPACE = "urn:xmpp:xdata:dynamic";
     }
 }

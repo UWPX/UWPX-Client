@@ -61,6 +61,9 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             XElement xNode = new XElement(ns + "x");
             xNode.Add(new XAttribute("type", type.ToString().ToLowerInvariant()));
 
+            // Add the XEP-0336 (Data Forms - Dynamic Forms) namespace even if we do not need it:
+            xNode.Add(new XAttribute(XNamespace.Xmlns + "xdd", Consts.XML_XEP_0336_NAMESPACE));
+
             foreach (Field f in FIELDS)
             {
                 xNode.Add(f.toXElement(ns));

@@ -15,6 +15,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
@@ -190,6 +191,17 @@ namespace XMPP_API.Classes.Network.XML
                                 {
                                     messages.Add(new RosterResultMessage(n));
                                 }
+                                // XEP-0336 (Data Forms - Dynamic Forms):
+                                else if (XMLUtils.getChildNode(n, "submit", Consts.XML_XMLNS, Consts.XML_XEP_0336_NAMESPACE) != null)
+                                {
+                                    messages.Add(new ServerPostBackMessage(n));
+                                }
+                                // XEP-0336 (Data Forms - Dynamic Forms):
+                                else if (XMLUtils.getChildNode(n, "cancel", Consts.XML_XMLNS, Consts.XML_XEP_0336_NAMESPACE) != null)
+                                {
+                                    messages.Add(new CancelFormMessage(n));
+                                }
+                                // Fallback to a default IQ Message:
                                 else
                                 {
                                     messages.Add(new IQMessage(n));
@@ -451,6 +463,11 @@ namespace XMPP_API.Classes.Network.XML
             else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)
             {
                 messages.Add(new DirectMUCInvitationMessage(n));
+            }
+            // XEP-0336 (Data Forms - Dynamic Forms):
+            else if (XMLUtils.getChildNode(n, "updated", Consts.XML_XMLNS, Consts.XML_XEP_0336_NAMESPACE) != null)
+            {
+                messages.Add(new AsynchronousUpdateMessage(n));
             }
             // Message:
             else if (XMLUtils.getChildNode(n, "body") != null)
