@@ -272,6 +272,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubRetractMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0060\DiscoNodeItemsRequestMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubAffiliation.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubCreateNodeMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\PubSubDeleteNodeMessage.cs" />
@@ -335,6 +336,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\ConferenceItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTConsts.cs" />
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />

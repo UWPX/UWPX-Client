@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Helper
 {
-    public class AsyncMessageResponseHelper<T> : IDisposable where T : AbstractAddressableMessage
+    public class AsyncMessageResponseHelper<T>: IDisposable where T : AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -29,6 +29,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public AsyncMessageResponseHelper(IMessageSender messageSender) : this(messageSender, (x) => { return true; }) { }
+
         public AsyncMessageResponseHelper(IMessageSender messageSender, Predicate<T> isValidAnswer)
         {
             MESSAGE_SENDER = messageSender;

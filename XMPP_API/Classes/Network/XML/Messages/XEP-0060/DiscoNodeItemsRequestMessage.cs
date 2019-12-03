@@ -1,32 +1,20 @@
-﻿using System.Xml;
+﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
-namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class DiscoItem: IDiscoItem
+    public class DiscoNodeItemsRequestMessage: DiscoRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string JID;
-        public readonly string NAME;
-        public readonly string NODE;
+        public readonly string NODE_NAME;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 01/01/2018 Created [Fabian Sauter]
-        /// </history>
-        public DiscoItem(XmlNode n)
+        public DiscoNodeItemsRequestMessage(string from, string to, string nodeName) : base(from, to, DiscoType.ITEMS)
         {
-            if (n != null)
-            {
-                JID = n.Attributes["jid"]?.Value;
-                NAME = n.Attributes["name"]?.Value;
-                NODE = n.Attributes["node"]?.Value;
-            }
+            NODE_NAME = nodeName;
         }
 
         #endregion
@@ -47,7 +35,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override XElement getQuery()
+        {
+            XElement queryNode = base.getQuery();
+            if (!(NODE_NAME is null))
+            {
+                queryNode.Add(new XAttribute("node", NODE_NAME));
+            }
+            return queryNode;
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

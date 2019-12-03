@@ -38,7 +38,10 @@ namespace UWPX_UI.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView()
+        {
+            VIEW_MODEL.UpdateView(Chat);
+        }
 
         #endregion
 
@@ -52,7 +55,7 @@ namespace UWPX_UI.Controls.IoT
         {
             if (d is IoTChatDetailsControl control)
             {
-
+                control.UpdateView();
             }
         }
 

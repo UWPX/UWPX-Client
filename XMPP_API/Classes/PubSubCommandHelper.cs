@@ -5,6 +5,7 @@ using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0402;
 
@@ -79,8 +80,7 @@ namespace XMPP_API.Classes
         /// <returns>The XEP-0048 SetBookmarksMessage result.</returns>
         public async Task<MessageResponseHelperResult<IQMessage>> setBookmars_xep_0048Async(IList<Network.XML.Messages.XEP_0048.ConferenceItem> conferences)
         {
-            Predicate<IQMessage> predicate = (x) => { return true; };
-            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             Network.XML.Messages.XEP_0048.SetBookmarksMessage msg = new Network.XML.Messages.XEP_0048.SetBookmarksMessage(CONNECTION.account.getFullJid(), conferences);
             return await helper.startAsync(msg);
         }
@@ -151,6 +151,7 @@ namespace XMPP_API.Classes
 
         /// <summary>
         /// Sends a PubSubSubscribeMessage to subscribe to the given node.
+        /// https://xmpp.org/extensions/xep-0060.html#subscriber-subscribe
         /// </summary>
         /// <param name="to">The target pubsub server (can be null).</param>
         /// <param name="nodeName">The name of the node, you want to subscribe to.</param>
@@ -163,6 +164,20 @@ namespace XMPP_API.Classes
             PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid(), to, nodeName);
             helper.start(msg);
             return helper;
+        }
+
+        /// <summary>
+        /// Sends a PubSubSubscribeMessage to subscribe to the given node.
+        /// https://xmpp.org/extensions/xep-0060.html#subscriber-subscribe
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
+        /// <param name="nodeName">The name of the node, you want to subscribe to.</param>
+        /// <returns>Returns a MessageResponseHelperResult listening for DiscoNodeItemsRequestMessage answers.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestNodeSubscriptionAsync(string to, string nodeName)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            PubSubSubscribeMessage msg = new PubSubSubscribeMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid(), to, nodeName);
+            return await helper.startAsync(msg);
         }
 
         /// <summary>
@@ -209,8 +224,7 @@ namespace XMPP_API.Classes
         /// <returns>The result of the PubSubDeleteNodeMessage.</returns>
         public async Task<MessageResponseHelperResult<IQMessage>> deleteNodeAsync(string toBareJid, string nodeName)
         {
-            Predicate<IQMessage> predicate = (x) => { return true; };
-            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
             PubSubDeleteNodeMessage msg = new PubSubDeleteNodeMessage(CONNECTION.account.getFullJid(), toBareJid, nodeName);
             return await helper.startAsync(msg);
         }
@@ -245,6 +259,32 @@ namespace XMPP_API.Classes
             PubSubRequestAffiliationsMessage msg = new PubSubRequestAffiliationsMessage(CONNECTION.account.getFullJid(), to);
             helper.start(msg);
             return helper;
+        }
+
+        /// <summary>
+        /// Sends a DiscoRequestMessage to the given target to query all PubSub nodes.
+        /// https://xmpp.org/extensions/xep-0060.html#entity-nodes
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
+        /// <returns>Returns a MessageResponseHelperResult listening for DiscoRequestMessage answers.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> discoNodesAsync(string to)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            DiscoRequestMessage msg = new DiscoRequestMessage(CONNECTION.account.getFullJid(), to, DiscoType.ITEMS);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a DiscoRequestMessage to the given target to query all PubSub nodes.
+        /// https://xmpp.org/extensions/xep-0060.html#entity-discoveritems
+        /// </summary>
+        /// <param name="to">The target e.g. 'witches@conference.jabber.org' or 'pubsub.example.org'.</param>
+        /// <returns>Returns a MessageResponseHelperResult listening for DiscoNodeItemsRequestMessage answers.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> discoNodesItemsAsync(string to, string nodeName)
+        {
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION);
+            DiscoNodeItemsRequestMessage msg = new DiscoNodeItemsRequestMessage(CONNECTION.account.getFullJid(), to, nodeName);
+            return await helper.startAsync(msg);
         }
 
         #endregion

@@ -1,6 +1,6 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
@@ -149,6 +149,20 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
+        /// Sends a DiscoRequestMessage to the given target.
+        /// </summary>
+        /// <param name="target">The target e.g. 'witches@conference.jabber.org'.</param>
+        /// <param name="type">The disco type</param>
+        /// <returns>Returns a MessageResponseHelperResult listening for DiscoRequestMessage answers.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> discoAsync(string target, DiscoType type)
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            DiscoRequestMessage msg = new DiscoRequestMessage(CONNECTION.account.getFullJid(), target, type);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
         /// Sends a PresenceMessage to request a presence subscription from the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the target e.g. 'witches@conference.jabber.org'.</param>
@@ -159,7 +173,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PresenceMessage to unsubscribe form the given bare Jid.
+        /// Sends a PresenceMessage to unsubscribe form the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the target e.g. 'witches@conference.jabber.org'.</param>
         public async Task unsubscribeFromPresenceAsync(string bareJid)
