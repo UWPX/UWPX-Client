@@ -284,6 +284,7 @@
     <Compile Include="Classes\DataTemplates\Pages\SettingsPageDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\PresenceDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\ChatDetailsDataTemplateSelector.cs" />
+    <Compile Include="Classes\DataTemplates\Selectors\DataFormsFieldTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleConentDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\Selectors\SpeechBubbleDataTemplateSelector.cs" />
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />

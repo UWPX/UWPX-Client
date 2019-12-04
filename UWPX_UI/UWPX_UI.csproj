@@ -211,6 +211,36 @@
     <Compile Include="Controls\CustomTitleBarControl.xaml.cs">
       <DependentUpon>CustomTitleBarControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataForms\BooleanFieldControl.xaml.cs">
+      <DependentUpon>BooleanFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\DataFormsControl.xaml.cs">
+      <DependentUpon>DataFormsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\FixedFieldControl.xaml.cs">
+      <DependentUpon>FixedFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\HiddenFieldControl.xaml.cs">
+      <DependentUpon>HiddenFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\LabelFieldControl.xaml.cs">
+      <DependentUpon>LabelFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\ListMultiFieldControl.xaml.cs">
+      <DependentUpon>ListMultiFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\ListSingleFieldControl.xaml.cs">
+      <DependentUpon>ListSingleFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\TextMultiFieldControl.xaml.cs">
+      <DependentUpon>TextMultiFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\TextPrivateFieldControl.xaml.cs">
+      <DependentUpon>TextPrivateFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\TextSingleFieldControl.xaml.cs">
+      <DependentUpon>TextSingleFieldControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\IconButtonControl.xaml.cs">
       <DependentUpon>IconButtonControl.xaml</DependentUpon>
     </Compile>
@@ -651,6 +681,46 @@
     <Page Include="Controls\CustomTitleBarControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\DataForms\BooleanFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\DataFormsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\FixedFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\HiddenFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\LabelFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\ListMultiFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\ListSingleFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\TextMultiFieldControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\DataForms\TextPrivateFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\TextSingleFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\IconButtonControl.xaml">
       <Generator>MSBuild:Compile</Generator>

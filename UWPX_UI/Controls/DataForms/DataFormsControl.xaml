@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.DataForms.DataFormsControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="TextSingleFieldTemplate">
+            <dataforms:TextSingleFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="TextMultiFieldTemplate">
+            <dataforms:TextMultiFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="TextPrivateFieldTemplate">
+            <dataforms:TextPrivateFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="FixedFieldTemplate">
+            <dataforms:FixedFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="BooleanFieldTemplate">
+            <dataforms:BooleanFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="ListSingleFieldTemplate">
+            <dataforms:ListSingleFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="ListMultiFieldTemplate">
+            <dataforms:ListMultiFieldControl/>
+        </DataTemplate>
+        <DataTemplate x:Key="HiddenFieldTemplate">
+            <dataforms:HiddenFieldControl/>
+        </DataTemplate>
+
+        <selectors:DataFormsFieldTemplateSelector x:Key="DataFormsFieldTemplateSelector"
+                                                  BooleanFieldTemplate="{StaticResource BooleanFieldTemplate}"
+                                                  FixedFieldTemplate="{StaticResource FixedFieldTemplate}"
+                                                  HiddenFieldTemplate="{StaticResource HiddenFieldTemplate}"
+                                                  ListMultiFieldTemplate="{StaticResource ListMultiFieldTemplate}"
+                                                  ListSingleFieldTemplate="{StaticResource ListSingleFieldTemplate}"
+                                                  TextMultiFieldTemplate="{StaticResource TextMultiFieldTemplate}"
+                                                  TextPrivateFieldTemplate="{StaticResource TextPrivateFieldTemplate}"
+                                                  TextSingleFieldTemplate="{StaticResource TextSingleFieldTemplate}"/>
+    </UserControl.Resources>
+
+    <ListView x:Name="fields_lstv"
+              IsItemClickEnabled="False"
+              ItemTemplateSelector="{StaticResource DataFormsFieldTemplateSelector}"
+              ItemsSource="{x:Bind FIELDS}"
+              SelectionMode="None"/>
+</UserControl>

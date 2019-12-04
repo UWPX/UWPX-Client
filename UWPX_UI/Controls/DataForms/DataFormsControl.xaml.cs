@@ -1,32 +1,29 @@
-﻿using Shared.Classes;
+﻿using Shared.Classes.Collections;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace UWPX_UI.Controls.DataForms
 {
-    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
+    public sealed partial class DataFormsControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsLoading;
-        public bool IsLoading
-        {
-            get => _IsLoading;
-            set => SetProperty(ref _IsLoading, value);
-        }
-
-        private DataForm _Form;
         public DataForm Form
         {
-            get => _Form;
-            set => SetProperty(ref _Form, value);
+            get { return (DataForm)GetValue(FormProperty); }
+            set { SetValue(FormProperty, value); }
         }
+        public static readonly DependencyProperty FormProperty = DependencyProperty.Register(nameof(Form), typeof(DataForm), typeof(DataFormsControl), new PropertyMetadata(null, OnFormChanged));
+
+        public readonly CustomObservableCollection<Field> FIELDS = new CustomObservableCollection<Field>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IoTChatDetailsControlDataTemplate()
+        public DataFormsControl()
         {
-            IsLoading = true;
+            InitializeComponent();
         }
 
         #endregion
@@ -42,7 +39,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView()
+        {
+            FIELDS.Clear();
+            if (!(Form is null))
+            {
+                FIELDS.AddRange(Form.FIELDS);
+            }
+        }
 
         #endregion
 
@@ -52,7 +56,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnFormChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is DataFormsControl control)
+            {
+                control.UpdateView();
+            }
+        }
 
         #endregion
     }

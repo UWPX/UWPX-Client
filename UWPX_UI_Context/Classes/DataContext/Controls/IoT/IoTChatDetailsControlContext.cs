@@ -41,6 +41,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is DiscoResponseMessage discoResponse)
             {
                 await SubscribeToIoTNodesAsync(discoResponse.ITEMS, chat.Client, pubSubServer);
+                await RequestUiNodeAsync(chat.Client, pubSubServer);
             }
             else
             {
@@ -63,6 +64,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
+        private async Task RequestUiNodeAsync(XMPPClient client, string pubSubServer)
+        {
+            MessageResponseHelperResult<IQMessage> result = await client.PUB_SUB_COMMAND_HELPER.requestNodeAsync(pubSubServer, IoTConsts.NODE_NAME_UI, 0);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is UiNodeItemsResponseMessage uiResponse)
+            {
+                MODEL.Form = uiResponse.form;
+            }
+        }
+
         private async Task SubscribeToIoTNodesAsync(List<DiscoItem> items, XMPPClient client, string pubSubServer)
         {
             bool foundUiNode = false;

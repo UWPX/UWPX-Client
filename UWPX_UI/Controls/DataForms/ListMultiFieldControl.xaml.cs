@@ -1,32 +1,26 @@
-﻿using Shared.Classes;
+﻿using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace UWPX_UI.Controls.DataForms
 {
-    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
+    public sealed partial class ListMultiFieldControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsLoading;
-        public bool IsLoading
+        public Field Field
         {
-            get => _IsLoading;
-            set => SetProperty(ref _IsLoading, value);
+            get { return (Field)GetValue(FieldProperty); }
+            set { SetValue(FieldProperty, value); }
         }
-
-        private DataForm _Form;
-        public DataForm Form
-        {
-            get => _Form;
-            set => SetProperty(ref _Form, value);
-        }
+        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(Field), typeof(ListMultiFieldControl), new PropertyMetadata(null, OnFieldChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IoTChatDetailsControlDataTemplate()
+        public ListMultiFieldControl()
         {
-            IsLoading = true;
+            InitializeComponent();
         }
 
         #endregion
@@ -42,7 +36,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView()
+        {
+            Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
+            if (!(Field is null))
+            {
+            }
+        }
 
         #endregion
 
@@ -52,7 +52,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is ListMultiFieldControl control)
+            {
+                control.UpdateView();
+            }
+        }
 
         #endregion
     }

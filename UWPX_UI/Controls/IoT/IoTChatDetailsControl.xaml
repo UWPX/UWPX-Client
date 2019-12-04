@@ -4,19 +4,22 @@
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:controls1="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
-    <Grid VerticalAlignment="Center">
+    <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <!--  Loading:  -->
         <controls:Loading Grid.Row="0"
+                          VerticalAlignment="Center"
                           IsLoading="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}">
             <controls1:LoadingContentControl Text="Loading..."/>
         </controls:Loading>
 
         <!--  Content:  -->
+        <dataforms:DataFormsControl Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=OneWay}"/>
     </Grid>
 </UserControl>
