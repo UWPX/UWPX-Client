@@ -24,19 +24,19 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0336
             {
                 switch (n.Name)
                 {
-                    case "xdd:readOnly":
+                    case "readOnly":
                         flags |= DynamicFormsFlags.READ_ONLY;
                         break;
 
-                    case "xdd:postBack":
+                    case "postBack":
                         flags |= DynamicFormsFlags.POST_BACK;
                         break;
 
-                    case "xdd:notSame":
+                    case "notSame":
                         flags |= DynamicFormsFlags.NOT_SAME;
                         break;
 
-                    case "xdd:error":
+                    case "error":
                         flags |= DynamicFormsFlags.ERROR;
                         errorMessage = n.InnerText;
                         break;

@@ -83,5 +83,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0334_NAMESPACE = "urn:xmpp:hints";
         // XEP-0336: (Data Forms - Dynamic Forms):
         public const string XML_XEP_0336_NAMESPACE = "urn:xmpp:xdata:dynamic";
+        // XEP-IoT:
+        public const string XML_XEP_IOT_NAMESPACE = "urn:xmpp:uwpx:iot";
     }
 }

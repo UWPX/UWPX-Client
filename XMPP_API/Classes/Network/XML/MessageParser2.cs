@@ -518,6 +518,21 @@ namespace XMPP_API.Classes.Network.XML
                     {
                         messages.Add(new OmemoDeviceListEventMessage(n));
                     }
+                    // XEP-IoT sensor changed:
+                    else if (XMLUtils.getChildNode(eventNode, "items", "node", IoTConsts.NODE_NAME_SENSORS) != null)
+                    {
+                        messages.Add(new SensorsNodeEventMessage(n));
+                    }
+                    // XEP-IoT actuator changed:
+                    else if (XMLUtils.getChildNode(eventNode, "items", "node", IoTConsts.NODE_NAME_ACTUATORS) != null)
+                    {
+                        messages.Add(new ActuatorsNodeEventMessage(n));
+                    }
+                    // XEP-IoT UI changed:
+                    else if (XMLUtils.getChildNode(eventNode, "items", "node", IoTConsts.NODE_NAME_UI) != null)
+                    {
+                        messages.Add(new UiNodeEventMessage(n));
+                    }
                 }
             }
         }

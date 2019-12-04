@@ -154,6 +154,7 @@
     <Compile Include="Classes\Network\Events\NewChatMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewChatStateEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDataReceivedEventArgs.cs" />
+    <Compile Include="Classes\Network\Events\NewPubSubEventEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDeliveryReceiptEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewDiscoResponseMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
@@ -342,6 +343,12 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTConsts.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTValue.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTValueTypes.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\ActuatorsNodeEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\AbstractValueNodeEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\UiNodeEventMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\SensorsNodeEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\UiNodeItemsResponseMessage.cs" />
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />

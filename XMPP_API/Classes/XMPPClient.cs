@@ -1,20 +1,21 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
 {
-    public class XMPPClient : IMessageSender
+    public class XMPPClient: IMessageSender
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -32,6 +33,7 @@ namespace XMPP_API.Classes
         public delegate void NewBookmarksResultMessageEventHandler(XMPPClient client, NewBookmarksResultMessageEventArgs args);
         public delegate void NewMUCMemberPresenceMessageEventHandler(XMPPClient client, NewMUCMemberPresenceMessageEventArgs args);
         public delegate void NewDeliveryReceiptHandler(XMPPClient client, NewDeliveryReceiptEventArgs args);
+        public delegate void NewPubSubEventHandler(XMPPClient client, NewPubSubEventEventArgs args);
         public delegate void OmemoSessionBuildErrorEventHandler(XMPPClient client, OmemoSessionBuildErrorEventArgs args);
 
         public event NewValidMessageEventHandler NewRoosterMessage;
@@ -44,6 +46,7 @@ namespace XMPP_API.Classes
         public event NewValidMessageEventHandler NewValidMessage;
         public event NewBookmarksResultMessageEventHandler NewBookmarksResultMessage;
         public event NewDeliveryReceiptHandler NewDeliveryReceipt;
+        public event NewPubSubEventHandler NewPubSubEvent;
         public event OmemoSessionBuildErrorEventHandler OmemoSessionBuildError;
 
         public GeneralCommandHelper GENERAL_COMMAND_HELPER => connection.GENERAL_COMMAND_HELPER;
@@ -250,6 +253,10 @@ namespace XMPP_API.Classes
             else if (msg is DeliveryReceiptMessage dRMsg)
             {
                 NewDeliveryReceipt?.Invoke(this, new NewDeliveryReceiptEventArgs(dRMsg));
+            }
+            else if (msg is AbstractPubSubEventMessage pubSubEventMsg)
+            {
+                NewPubSubEvent?.Invoke(this, new NewPubSubEventEventArgs(pubSubEventMsg));
             }
 
             NewValidMessage?.Invoke(this, args);

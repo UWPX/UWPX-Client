@@ -4,8 +4,10 @@ using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_IoT;
@@ -34,6 +36,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         public async Task LoadAsync(ChatDataTemplate chat)
         {
             MODEL.IsLoading = true;
+            // Unsubscribe while we are loading:
+            chat.Client.NewPubSubEvent -= Client_NewPubSubEvent;
+
+            // TODO: Use DISCO to figure out the pubsub server
             string pubSubServer = "pubsub." + chat.Client.getXMPPAccount().user.domainPart;
 
             // Request nodes:
@@ -70,6 +76,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is UiNodeItemsResponseMessage uiResponse)
             {
                 MODEL.Form = uiResponse.form;
+                client.NewPubSubEvent -= Client_NewPubSubEvent;
+                client.NewPubSubEvent += Client_NewPubSubEvent;
             }
         }
 
@@ -161,7 +169,33 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void Client_NewPubSubEvent(XMPPClient client, NewPubSubEventEventArgs args)
+        {
+            if (args.MSG is SensorsNodeEventMessage sensorsNodeEvent)
+            {
+                Logger.Debug("New PubSub sensors node changed event message.");
+                DataForm form = MODEL.Form;
+                foreach (Field f in form.FIELDS)
+                {
+                    if (string.Equals(sensorsNodeEvent.VALUES.ID, f.var))
+                    {
+                        f.value = sensorsNodeEvent.VALUES.VALUE;
+                        MODEL.Form = null;
+                        MODEL.Form = form;
+                        break;
+                    }
+                }
+            }
+            else if (args.MSG is ActuatorsNodeEventMessage actuatorsNodeEvent)
+            {
+                Logger.Debug("New PubSub actuators node changed event message.");
+            }
+            else if (args.MSG is UiNodeEventMessage uiNodeEvent)
+            {
+                Logger.Debug("New PubSub UI node changed event message.");
+                MODEL.Form = uiNodeEvent.FORM;
+            }
+        }
 
         #endregion
     }
