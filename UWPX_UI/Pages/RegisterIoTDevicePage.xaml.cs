@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Logging;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
 using UWPX_UI.Controls;
@@ -60,6 +61,7 @@ namespace UWPX_UI.Pages
         {
             if (VisualStateManager.GoToState(this, state, true))
             {
+                Logger.Debug(nameof(RegisterIoTDevicePage) + " state changed: " + curViewState + " -> " + state);
                 if (string.Equals(curViewState, State_5.Name))
                 {
                     btDeviceInfo_btdic.VIEW_MODEL.MODEL.Client.NewChatMessage -= Client_NewChatMessage;
@@ -124,10 +126,7 @@ namespace UWPX_UI.Pages
         {
             UpdateViewState(State_4.Name);
             await VIEW_MODEL.SendAsync(btDeviceInfo_btdic.VIEW_MODEL.MODEL);
-            if (string.Equals(curViewState, State_4.Name))
-            {
-                UpdateViewState(State_5.Name);
-            }
+            UpdateViewState(State_5.Name);
         }
 
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
