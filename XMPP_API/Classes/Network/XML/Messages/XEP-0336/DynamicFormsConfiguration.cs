@@ -16,6 +16,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0336
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
+        public DynamicFormsConfiguration() { }
+
         public DynamicFormsConfiguration(XmlNode node)
         {
             foreach (XmlNode n in node.ChildNodes)

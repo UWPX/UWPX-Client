@@ -5,32 +5,41 @@
              xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
+             xmlns:xep_0004="using:XMPP_API.Classes.Network.XML.Messages.XEP_0004"
              mc:Ignorable="d">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="TextSingleFieldTemplate">
-            <dataforms:TextSingleFieldControl/>
+        <DataTemplate x:Key="TextSingleFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:TextSingleFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="TextMultiFieldTemplate">
-            <dataforms:TextMultiFieldControl/>
+        <DataTemplate x:Key="TextMultiFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:TextMultiFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="TextPrivateFieldTemplate">
-            <dataforms:TextPrivateFieldControl/>
+        <DataTemplate x:Key="TextPrivateFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:TextPrivateFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="FixedFieldTemplate">
-            <dataforms:FixedFieldControl/>
+        <DataTemplate x:Key="FixedFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:FixedFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="BooleanFieldTemplate">
-            <dataforms:BooleanFieldControl/>
+        <DataTemplate x:Key="BooleanFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:BooleanFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="ListSingleFieldTemplate">
-            <dataforms:ListSingleFieldControl/>
+        <DataTemplate x:Key="ListSingleFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:ListSingleFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="ListMultiFieldTemplate">
-            <dataforms:ListMultiFieldControl/>
+        <DataTemplate x:Key="ListMultiFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:ListMultiFieldControl Field="{x:Bind}"/>
         </DataTemplate>
-        <DataTemplate x:Key="HiddenFieldTemplate">
-            <dataforms:HiddenFieldControl/>
+        <DataTemplate x:Key="HiddenFieldTemplate"
+                      x:DataType="xep_0004:Field">
+            <dataforms:HiddenFieldControl Field="{x:Bind}"/>
         </DataTemplate>
 
         <selectors:DataFormsFieldTemplateSelector x:Key="DataFormsFieldTemplateSelector"
@@ -44,9 +53,34 @@
                                                   TextSingleFieldTemplate="{StaticResource TextSingleFieldTemplate}"/>
     </UserControl.Resources>
 
-    <ListView x:Name="fields_lstv"
-              IsItemClickEnabled="False"
-              ItemTemplateSelector="{StaticResource DataFormsFieldTemplateSelector}"
-              ItemsSource="{x:Bind FIELDS}"
-              SelectionMode="None"/>
+
+    <ScrollViewer HorizontalScrollMode="Disabled">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="title_tblck"
+                       Grid.Row="0"
+                       Margin="10,0,10,10"
+                       Style="{StaticResource HeaderTextBlockStyle}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed"/>
+            <TextBlock x:Name="instructions_tblck"
+                       Grid.Row="1"
+                       Margin="10,0,10,10"
+                       Style="{StaticResource BodyTextBlockStyle}"
+                       TextWrapping="Wrap"
+                       Visibility="Collapsed"/>
+            <ListView x:Name="fields_lstv"
+                      Grid.Row="2"
+                      IsItemClickEnabled="False"
+                      ItemTemplateSelector="{StaticResource DataFormsFieldTemplateSelector}"
+                      ItemsSource="{x:Bind FIELDS}"
+                      ScrollViewer.HorizontalScrollMode="Disabled"
+                      ScrollViewer.VerticalScrollMode="Disabled"
+                      SelectionMode="None"/>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

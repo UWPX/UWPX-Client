@@ -5,6 +5,5 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
     <TextBlock x:Name="label_tblck"
-               Style="{StaticResource HeaderTextBlockStyle}"
                TextWrapping="Wrap"/>
 </UserControl>

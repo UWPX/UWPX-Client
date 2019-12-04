@@ -36,6 +36,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             value = null;
             var = null;
             label = null;
+            dfConfiguration = new DynamicFormsConfiguration();
         }
 
         public Field(XmlNode node)

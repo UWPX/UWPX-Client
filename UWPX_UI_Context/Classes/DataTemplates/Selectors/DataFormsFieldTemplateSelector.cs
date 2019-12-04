@@ -40,11 +40,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override DataTemplate SelectTemplateCore(object item)
-        {
-            return SelectTemplateCore(item);
-        }
-
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
             if (item is Field field)

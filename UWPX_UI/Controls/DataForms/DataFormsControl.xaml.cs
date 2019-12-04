@@ -29,7 +29,31 @@ namespace UWPX_UI.Controls.DataForms
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        private void SetTitle()
+        {
+            if (!(Form is null) && !string.IsNullOrEmpty(Form.titel))
+            {
+                title_tblck.Visibility = Visibility.Visible;
+                title_tblck.Text = Form.titel;
+            }
+            else
+            {
+                title_tblck.Visibility = Visibility.Collapsed;
+            }
+        }
 
+        private void SetInstructions()
+        {
+            if (!(Form is null) && !string.IsNullOrEmpty(Form.instructions))
+            {
+                instructions_tblck.Visibility = Visibility.Visible;
+                instructions_tblck.Text = Form.instructions;
+            }
+            else
+            {
+                instructions_tblck.Visibility = Visibility.Collapsed;
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -46,6 +70,8 @@ namespace UWPX_UI.Controls.DataForms
             {
                 FIELDS.AddRange(Form.FIELDS);
             }
+            SetTitle();
+            SetInstructions();
         }
 
         #endregion
