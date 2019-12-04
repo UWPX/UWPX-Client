@@ -124,7 +124,10 @@ namespace UWPX_UI.Pages
         {
             UpdateViewState(State_4.Name);
             await VIEW_MODEL.SendAsync(btDeviceInfo_btdic.VIEW_MODEL.MODEL);
-            UpdateViewState(State_5.Name);
+            if (string.Equals(curViewState, State_4.Name))
+            {
+                UpdateViewState(State_5.Name);
+            }
         }
 
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)

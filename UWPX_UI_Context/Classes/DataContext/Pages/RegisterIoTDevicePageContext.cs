@@ -54,7 +54,8 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
                 // Add to DB:
                 ChatTable chat = new ChatTable(deviceBareJid, client.getXMPPAccount().getBareJid())
                 {
-                    chatType = ChatType.IOT_DEVICE
+                    chatType = ChatType.IOT_DEVICE,
+                    isChatActive = true
                 };
                 ChatDBManager.INSTANCE.setChat(chat, false, true);
 
