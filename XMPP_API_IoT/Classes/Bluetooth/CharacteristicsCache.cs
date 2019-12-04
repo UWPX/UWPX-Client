@@ -15,10 +15,7 @@ namespace XMPP_API_IoT.Classes.Bluetooth
             BTUtils.CHARACTERISTIC_LANGUAGE,
             BTUtils.CHARACTERISTIC_HARDWARE_REVISION,
             BTUtils.CHARACTERISTIC_SERIAL_NUMBER,
-            BTUtils.CHARACTERISTIC_MANUFACTURER_NAME,
-
-            BTUtils.CHARACTERISTIC_CHALLENGE_RESPONSE_READ,
-            BTUtils.CHARACTERISTIC_CHALLENGE_RESPONSE_UNLOCKED
+            BTUtils.CHARACTERISTIC_MANUFACTURER_NAME
         };
 
         private readonly Dictionary<Guid, byte[]> CHARACTERISTICS = new Dictionary<Guid, byte[]>();

@@ -124,7 +124,6 @@
     <Compile Include="Classes\Bluetooth\BLEDeviceState.cs" />
     <Compile Include="Classes\Bluetooth\BLEScanner.cs" />
     <Compile Include="Classes\Bluetooth\BLEScannerState.cs" />
-    <Compile Include="Classes\Bluetooth\BLEUnlockHelper.cs" />
     <Compile Include="Classes\Bluetooth\BTUtils.cs" />
     <Compile Include="Classes\Bluetooth\CharacteristicsCache.cs" />
     <Compile Include="Classes\Bluetooth\Events\BLEDeviceEventArgs.cs" />

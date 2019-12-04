@@ -18,9 +18,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         public static readonly Guid CHARACTERISTIC_JID_PASSWORD = Guid.Parse("00000004-0000-0000-0000-000000000002");
         public static readonly Guid CHARACTERISTIC_JID_SENDER = Guid.Parse("00000005-0000-0000-0000-000000000002");
         public static readonly Guid CHARACTERISTIC_SETTINGS_DONE = Guid.Parse("00000006-0000-0000-0000-000000000002");
-        public static readonly Guid CHARACTERISTIC_CHALLENGE_RESPONSE_READ = Guid.Parse("00000007-0000-0000-0000-000000000002");
-        public static readonly Guid CHARACTERISTIC_CHALLENGE_RESPONSE_WRITE = Guid.Parse("00000008-0000-0000-0000-000000000002");
-        public static readonly Guid CHARACTERISTIC_CHALLENGE_RESPONSE_UNLOCKED = Guid.Parse("00000009-0000-0000-0000-000000000002");
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

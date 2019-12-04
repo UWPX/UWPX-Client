@@ -18,7 +18,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private BLEDeviceState state = BLEDeviceState.DISCONNECTED;
-        private readonly BLEUnlockHelper UNLOCK_HELPER;
         public readonly BluetoothLEDevice DEVICE;
         public readonly ObservableBluetoothLEDevice OBSERVALBLE_DEVICE;
 
@@ -34,7 +33,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         private BLEDevice(BluetoothLEDevice device)
         {
             DEVICE = device;
-            UNLOCK_HELPER = new BLEUnlockHelper(this);
             DEVICE.ConnectionStatusChanged += DEVICE_ConnectionStatusChanged;
             OBSERVALBLE_DEVICE = new ObservableBluetoothLEDevice(device.DeviceInformation);
         }
@@ -122,11 +120,6 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         {
             CHARACTERISTICS.TryGetValue(uuid, out GattCharacteristic c);
             return c != null ? await ReadBytesAsync(c) : null;
-        }
-
-        public Task<bool> UnlockAsync()
-        {
-            return UNLOCK_HELPER.UnlockAsync();
         }
 
         #endregion

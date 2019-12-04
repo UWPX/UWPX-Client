@@ -152,13 +152,9 @@ namespace XMPP_API_IoT.Classes.Bluetooth
                         // Try to connect to the device:
                         if (await bleDevice.ConnectAsync())
                         {
-                            // Execute the challenge response mechanism:
-                            if (await bleDevice.UnlockAsync())
-                            {
-                                // Invoke event:
-                                DeviceFound?.Invoke(this, new BLEDeviceEventArgs(bleDevice));
-                                return;
-                            }
+                            // Invoke event:
+                            DeviceFound?.Invoke(this, new BLEDeviceEventArgs(bleDevice));
+                            return;
                         }
                     }
                     SetState(BLEScannerState.SCANNING);
