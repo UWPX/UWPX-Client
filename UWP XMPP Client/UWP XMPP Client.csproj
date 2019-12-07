@@ -565,6 +565,10 @@
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\UWPX_UI_Context\UWPX_UI_Context.csproj">
+      <Project>{B4EB6F7E-CB04-4392-87DA-BFC242483065}</Project>
+      <Name>UWPX_UI_Context</Name>
+    </ProjectReference>
     <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
       <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
       <Name>XMPP_API</Name>

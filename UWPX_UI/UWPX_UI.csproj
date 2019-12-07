@@ -180,6 +180,12 @@
     <Compile Include="Controls\Chat\MucInfoControl.xaml.cs">
       <DependentUpon>MucInfoControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\MucMemberControl.xaml.cs">
+      <DependentUpon>MucMemberControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\MucMembersControl.xaml.cs">
+      <DependentUpon>MucMembersControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\MucSuggestionsControl.xaml.cs">
       <DependentUpon>MucSuggestionsControl.xaml</DependentUpon>
     </Compile>
@@ -639,6 +645,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\MucInfoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\MucMemberControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\MucMembersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

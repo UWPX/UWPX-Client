@@ -38,6 +38,12 @@
                                      MucInfo="{x:Bind MucInfo, Mode=OneWay}"/>
 
                 <!--  Members:  -->
+                <chat:MucMembersControl Grid.Row="1"
+                                        Margin="0,10,0,0"
+                                        HorizontalAlignment="Stretch"
+                                        Chat="{x:Bind Chat, Mode=OneWay}"
+                                        Client="{x:Bind Client, Mode=OneWay}"
+                                        MucInfo="{x:Bind MucInfo, Mode=OneWay}"/>
 
 
                 <!--  Settings:  -->

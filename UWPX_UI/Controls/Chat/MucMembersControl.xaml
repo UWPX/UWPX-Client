@@ -1,0 +1,63 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.MucMembersControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:chat="using:UWPX_UI.Controls.Chat"
+             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:dbtables="using:Data_Manager2.Classes.DBTables"
+             xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <DataTemplate x:Key="MucMemberTemplate"
+                      x:DataType="dbtables:MUCOccupantTable">
+            <chat:MucMemberControl Member="{x:Bind}"/>
+        </DataTemplate>
+
+        <DataTemplate x:Key="MemberExpanderHeaderTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"/>
+                <Button Grid.Column="1"
+                        Margin="10,10,0,0"
+                        Content="&#xE712;"
+                        Style="{ThemeResource TransparentIconButtonStyle}"
+                        ToolTipService.ToolTip="More"/>
+                <Button/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
+
+    <controls:DropShadowPanel x:Name="mainShadow"
+                              HorizontalContentAlignment="Stretch">
+        <Border Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+            <controls:Expander HorizontalContentAlignment="Stretch"
+                               Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
+                               Header="{x:Bind VIEW_MODEL.MODEL.HeaderText, Mode=OneWay}"
+                               IsEnabled="{x:Bind VIEW_MODEL.MODEL.MembersFound, Mode=OneWay}">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <ListView extensions:ListViewExtensions.AlternateColor="#33AAAAAA"
+                              IsItemClickEnabled="False"
+                              ItemTemplate="{StaticResource MucMemberTemplate}"
+                              ItemsSource="{x:Bind VIEW_MODEL.MODEL.MEMBERS}"
+                              ScrollViewer.HorizontalScrollMode="Disabled"
+                              SelectionMode="None">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                    </ListView>
+                </Grid>
+            </controls:Expander>
+        </Border>
+    </controls:DropShadowPanel>
+</UserControl>
