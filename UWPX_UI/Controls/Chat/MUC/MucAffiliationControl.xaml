@@ -1,0 +1,11 @@
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.MUC.MucAffiliationControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             ToolTipService.ToolTip="{x:Bind VIEW_MODEL.MODEL.ToolTip, Mode=OneWay}"
+             mc:Ignorable="d">
+
+    <FontIcon FontFamily="Segoe UI Symbol"
+              Glyph="{x:Bind VIEW_MODEL.MODEL.Glyph, Mode=OneWay}"/>
+</UserControl>

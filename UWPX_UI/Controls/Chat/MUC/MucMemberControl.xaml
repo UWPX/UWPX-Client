@@ -4,6 +4,7 @@
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muc="using:UWPX_UI.Controls.Chat.MUC"
              mc:Ignorable="d">
 
     <Grid>
@@ -53,15 +54,10 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <controls:IconTextBlockControl x:Name="affiliation_itblck"
-                                           Grid.Row="0"
-                                           VerticalAlignment="Center"
-                                           Glyph=""
-                                           GlyphForeground="Gold"/>
-            <controls:IconTextBlockControl x:Name="role_itblck"
-                                           Grid.Row="1"
-                                           VerticalAlignment="Center"
-                                           Glyph=""/>
+            <muc:MucAffiliationControl Grid.Row="0"
+                                       Affiliation="{x:Bind VIEW_MODEL.MODEL.Affiliation, Mode=OneWay}"/>
+            <muc:MucRoleControl Grid.Row="1"
+                                Role="{x:Bind VIEW_MODEL.MODEL.Role, Mode=OneWay}"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -177,6 +177,9 @@
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\EnterTextBox.cs" />
+    <Compile Include="Controls\Chat\MUC\MucAffiliationControl.xaml.cs">
+      <DependentUpon>MucAffiliationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\MUC\MucInfoControl.xaml.cs">
       <DependentUpon>MucInfoControl.xaml</DependentUpon>
     </Compile>
@@ -185,6 +188,9 @@
     </Compile>
     <Compile Include="Controls\Chat\MUC\MucMembersControl.xaml.cs">
       <DependentUpon>MucMembersControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\MUC\MucRoleControl.xaml.cs">
+      <DependentUpon>MucRoleControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\MUC\MucSuggestionsControl.xaml.cs">
       <DependentUpon>MucSuggestionsControl.xaml</DependentUpon>
@@ -644,6 +650,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Chat\MUC\MucAffiliationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\MUC\MucInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -653,6 +663,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Controls\Chat\MUC\MucMembersControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\Chat\MUC\MucRoleControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
