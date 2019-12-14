@@ -1,11 +1,10 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -15,26 +14,12 @@ namespace UWPX_UI.Controls.Chat
         #region --Attributes--
         public readonly MucInfoControlContext VIEW_MODEL = new MucInfoControlContext();
 
-        public ChatTable Chat
+        public ChatDataTemplate Chat
         {
-            get { return (ChatTable)GetValue(ChatProperty); }
+            get { return (ChatDataTemplate)GetValue(ChatProperty); }
             set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(MucInfoControl), new PropertyMetadata(null, OnChatChanged));
-
-        public MUCChatInfoTable MucInfo
-        {
-            get { return (MUCChatInfoTable)GetValue(MucInfoProperty); }
-            set { SetValue(MucInfoProperty, value); }
-        }
-        public static readonly DependencyProperty MucInfoProperty = DependencyProperty.Register(nameof(MucInfo), typeof(MUCChatInfoTable), typeof(MucInfoControl), new PropertyMetadata(null, OnMucInfoChanged));
-
-        public XMPPClient Client
-        {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set { SetValue(ClientProperty, value); }
-        }
-        public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(MucInfoControl), new PropertyMetadata(null, OnClientChanged));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucInfoControl), new PropertyMetadata(null, OnChatChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -96,32 +81,32 @@ namespace UWPX_UI.Controls.Chat
 
         private async void Mute_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ToggleChatMutedAsync(Chat).ConfAwaitFalse();
+            await VIEW_MODEL.ToggleChatMutedAsync(Chat.Chat).ConfAwaitFalse();
         }
 
         private async void Enter_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.EnterMucAsync(Chat, MucInfo, Client).ConfAwaitFalse();
+            await VIEW_MODEL.EnterMucAsync(Chat.Chat, Chat.MucInfo, Chat.Client).ConfAwaitFalse();
         }
 
         private async void Leave_mfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.LeaveMucAsync(Chat, MucInfo, Client).ConfAwaitFalse();
+            await VIEW_MODEL.LeaveMucAsync(Chat.Chat, Chat.MucInfo, Chat.Client).ConfAwaitFalse();
         }
 
         private void Bookmark_mfo_Click(object sender, RoutedEventArgs e)
         {
-            VIEW_MODEL.ToggleChatBookmarked(Chat, Client);
+            VIEW_MODEL.ToggleChatBookmarked(Chat.Chat, Chat.Client);
         }
 
         private async void AutoJoin_tmfo_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ToggleMucAutoJoinAsync(MucInfo).ConfAwaitFalse();
+            await VIEW_MODEL.ToggleMucAutoJoinAsync(Chat.MucInfo).ConfAwaitFalse();
         }
 
         private async void ChangeNickname_mfo_Click(object sender, RoutedEventArgs e)
         {
-            ChangeNicknameDialog dialog = new ChangeNicknameDialog(Chat, MucInfo, Client);
+            ChangeNicknameDialog dialog = new ChangeNicknameDialog(Chat);
             await UiUtils.ShowDialogAsync(dialog);
         }
 

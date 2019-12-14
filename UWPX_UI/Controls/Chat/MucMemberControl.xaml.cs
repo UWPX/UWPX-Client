@@ -1,5 +1,5 @@
-﻿using Data_Manager2.Classes.DBTables;
-using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -11,12 +11,12 @@ namespace UWPX_UI.Controls.Chat
         #region --Attributes--
         public readonly MucMemberControlContext VIEW_MODEL = new MucMemberControlContext();
 
-        public MUCOccupantTable Member
+        public MucMemberDataTemplate Member
         {
-            get { return (MUCOccupantTable)GetValue(MemberProperty); }
+            get { return (MucMemberDataTemplate)GetValue(MemberProperty); }
             set { SetValue(MemberProperty, value); }
         }
-        public static readonly DependencyProperty MemberProperty = DependencyProperty.Register(nameof(Member), typeof(MUCOccupantTable), typeof(MucMemberControl), new PropertyMetadata(null, OnMemberChanged));
+        public static readonly DependencyProperty MemberProperty = DependencyProperty.Register(nameof(Member), typeof(MucMemberDataTemplate), typeof(MucMemberControl), new PropertyMetadata(null, OnMemberChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -39,11 +39,11 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UdpateView(MUCOccupantTable member)
+        private void UdpateView(MucMemberDataTemplate member)
         {
             if (!(member is null))
             {
-
+                VIEW_MODEL.UpdateView(member);
             }
         }
 
@@ -57,7 +57,7 @@ namespace UWPX_UI.Controls.Chat
         #region --Events--
         private static void OnMemberChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is MucMemberControl control && e.NewValue is MUCOccupantTable member)
+            if (d is MucMemberControl control && e.NewValue is MucMemberDataTemplate member)
             {
                 control.UdpateView(member);
             }

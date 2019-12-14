@@ -4,14 +4,14 @@
              xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dbtables="using:Data_Manager2.Classes.DBTables"
+             xmlns:dataTemplates="using:UWPX_UI_Context.Classes.DataTemplates.Controls.Chat"
              xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Key="MucMemberTemplate"
-                      x:DataType="dbtables:MUCOccupantTable">
+                      x:DataType="dataTemplates:MucMemberDataTemplate">
             <chat:MucMemberControl Member="{x:Bind}"/>
         </DataTemplate>
 

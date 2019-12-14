@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using Shared.Classes;
 using Shared.Classes.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
@@ -22,7 +21,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
             set => SetProperty(ref _HeaderText, value);
         }
 
-        public readonly CustomObservableCollection<MUCOccupantTable> MEMBERS = new CustomObservableCollection<MUCOccupantTable>(true);
+        public readonly CustomObservableCollection<MucMemberDataTemplate> MEMBERS = new CustomObservableCollection<MucMemberDataTemplate>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

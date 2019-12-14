@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
-using Data_Manager2.Classes.DBTables;
 using Logging;
+using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
@@ -31,10 +31,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(ChatTable chat, MUCChatInfoTable mucInfo)
+        public void UpdateView(ChatDataTemplate chat)
         {
-            MODEL.MucName = string.IsNullOrEmpty(mucInfo.name) ? chat.chatJabberId : mucInfo.name;
-            MODEL.Nickname = mucInfo.nickname;
+            MODEL.MucName = string.IsNullOrEmpty(chat.MucInfo.name) ? chat.Chat.chatJabberId : chat.MucInfo.name;
+            MODEL.Nickname = chat.MucInfo.nickname;
         }
 
         /// <summary>
@@ -42,25 +42,25 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         /// Also updates bookmarks if any exist.
         /// </summary>
         /// <returns>Returns true on success.</returns>
-        public async Task<bool> SaveAsync(ChatTable chat, MUCChatInfoTable mucInfo, XMPPClient client)
+        public async Task<bool> SaveAsync(ChatDataTemplate chat)
         {
             MODEL.IsSaving = true;
             bool success = await Task.Run(async () =>
             {
-                mucInfo.nickname = MODEL.Nickname;
+                chat.MucInfo.nickname = MODEL.Nickname;
 
                 // Try to update the nickname at the chat room:
-                bool result = await UpdateNicknameAsync(chat, mucInfo, client);
+                bool result = await UpdateNicknameAsync(chat);
                 if (!result)
                 {
                     return false;
                 }
 
                 // Update the DB entry since the server could respond with a different nickname:
-                MUCDBManager.INSTANCE.setMUCChatInfo(mucInfo, false, true);
+                MUCDBManager.INSTANCE.setMUCChatInfo(chat.MucInfo, false, true);
 
                 // Update bookmarks:
-                return chat.inRoster ? await UpdateBookmarksAsync(chat, client) : true;
+                return chat.Chat.inRoster ? await UpdateBookmarksAsync(chat) : true;
             });
             MODEL.IsSaving = false;
             MODEL.Error = !success;
@@ -78,10 +78,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task<bool> UpdateBookmarksAsync(ChatTable chat, XMPPClient client)
+        private async Task<bool> UpdateBookmarksAsync(ChatDataTemplate chat)
         {
-            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(client.getXMPPAccount().getBareJid());
-            MessageResponseHelperResult<IQMessage> result = await client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferences);
+            List<ConferenceItem> conferences = MUCDBManager.INSTANCE.getXEP0048ConferenceItemsForAccount(chat.Client.getXMPPAccount().getBareJid());
+            MessageResponseHelperResult<IQMessage> result = await chat.Client.PUB_SUB_COMMAND_HELPER.setBookmars_xep_0048Async(conferences);
             if (string.Equals(result.RESULT.TYPE, IQMessage.RESULT))
             {
                 return true;
@@ -97,12 +97,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
             return false;
         }
 
-        private async Task<bool> UpdateNicknameAsync(ChatTable chat, MUCChatInfoTable mucInfo, XMPPClient client)
+        private async Task<bool> UpdateNicknameAsync(ChatDataTemplate chat)
         {
-            MessageResponseHelperResult<MUCMemberPresenceMessage> result = await client.MUC_COMMAND_HELPER.changeNicknameAsync(chat.chatJabberId, mucInfo.nickname);
+            MessageResponseHelperResult<MUCMemberPresenceMessage> result = await chat.Client.MUC_COMMAND_HELPER.changeNicknameAsync(chat.Chat.chatJabberId, chat.MucInfo.nickname);
             if (!string.IsNullOrEmpty(result.RESULT.ERROR_TYPE))
             {
-                Logger.Warn("Failed to change nickname for room \"" + chat.chatJabberId + "\" to \"" + mucInfo.nickname + "\" with: " + result.RESULT.ERROR_MESSAGE);
+                Logger.Warn("Failed to change nickname for room \"" + chat.Chat.chatJabberId + "\" to \"" + chat.MucInfo.nickname + "\" with: " + result.RESULT.ERROR_MESSAGE);
                 return false;
             }
             // Nickname has been updated successfully:
@@ -118,7 +118,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                     Logger.Error("Expected a full JID as a MUC nickname changed message with status code 210, but received: " + result.RESULT.JID);
                     return false;
                 }
-                mucInfo.nickname = Utils.getJidResourcePart(result.RESULT.JID);
+                chat.MucInfo.nickname = Utils.getJidResourcePart(result.RESULT.JID);
                 return true;
             }
             // Should not happen:

@@ -1,7 +1,6 @@
-﻿using Data_Manager2.Classes.DBTables;
-using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes;
 
 namespace UWPX_UI.Dialogs
 {
@@ -10,19 +9,15 @@ namespace UWPX_UI.Dialogs
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public readonly ChangeNicknameDialogContext VIEW_MODEL = new ChangeNicknameDialogContext();
-        private readonly ChatTable CHAT;
-        private readonly MUCChatInfoTable MUC_INFO;
-        private readonly XMPPClient CLIENT;
+        private readonly ChatDataTemplate CHAT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public ChangeNicknameDialog(ChatTable chat, MUCChatInfoTable mucInfo, XMPPClient client)
+        public ChangeNicknameDialog(ChatDataTemplate chat)
         {
             CHAT = chat;
-            MUC_INFO = mucInfo;
-            CLIENT = client;
-            VIEW_MODEL.UpdateView(chat, mucInfo);
+            VIEW_MODEL.UpdateView(chat);
             InitializeComponent();
         }
 
@@ -56,7 +51,7 @@ namespace UWPX_UI.Dialogs
 
         private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
         {
-            args.Cancel = await VIEW_MODEL.SaveAsync(CHAT, MUC_INFO, CLIENT);
+            args.Cancel = await VIEW_MODEL.SaveAsync(CHAT);
         }
 
         #endregion

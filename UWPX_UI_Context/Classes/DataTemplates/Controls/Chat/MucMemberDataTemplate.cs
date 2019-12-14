@@ -1,30 +1,30 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
-using UWPX_UI_Context.Classes.DataTemplates;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
+﻿using Data_Manager2.Classes.DBTables;
+using Shared.Classes;
 
-namespace UWPX_UI.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
 {
-    public sealed partial class MucMembersControl: UserControl
+    public class MucMemberDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly MucMembersControlContext VIEW_MODEL = new MucMembersControlContext();
+        private MUCOccupantTable _Member;
+        public MUCOccupantTable Member
+        {
+            get => _Member;
+            set => SetProperty(ref _Member, value);
+        }
 
+        private ChatDataTemplate _Chat;
         public ChatDataTemplate Chat
         {
-            get { return (ChatDataTemplate)GetValue(ChatProperty); }
-            set { SetValue(ChatProperty, value); }
+            get => _Chat;
+            set => SetProperty(ref _Chat, value);
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucMembersControl), new PropertyMetadata(null, OnChatChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public MucMembersControl()
-        {
-            InitializeComponent();
-        }
+
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -39,10 +39,7 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(DependencyPropertyChangedEventArgs e)
-        {
-            VIEW_MODEL.UpdateView(e);
-        }
+
 
         #endregion
 
@@ -52,13 +49,7 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is MucMembersControl mucInfoControl)
-            {
-                mucInfoControl.UpdateView(e);
-            }
-        }
+
 
         #endregion
     }

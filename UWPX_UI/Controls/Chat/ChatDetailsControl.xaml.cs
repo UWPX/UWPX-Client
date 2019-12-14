@@ -122,7 +122,7 @@ namespace UWPX_UI.Controls.Chat
             {
                 if (Chat.Chat.chatType == ChatType.MUC)
                 {
-                    UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat.Client, Chat.Chat, Chat.MucInfo));
+                    UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat));
                 }
                 else
                 {

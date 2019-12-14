@@ -1,24 +1,20 @@
-﻿using Data_Manager2.Classes.DBTables;
-using XMPP_API.Classes;
+﻿using System;
+using UWPX_UI_Context.Classes.DataTemplates;
 
 namespace UWPX_UI_Context.Classes.Events
 {
-    public class NavigatedToMucInfoPageEventArgs
+    public class NavigatedToMucInfoPageEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly ChatTable CHAT;
-        public readonly XMPPClient CLIENT;
-        public readonly MUCChatInfoTable MUC_INFO;
+        public readonly ChatDataTemplate CHAT;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public NavigatedToMucInfoPageEventArgs(XMPPClient client, ChatTable chat, MUCChatInfoTable mucInfo)
+        public NavigatedToMucInfoPageEventArgs(ChatDataTemplate chat)
         {
             CHAT = chat;
-            CLIENT = client;
-            MUC_INFO = mucInfo;
         }
 
         #endregion

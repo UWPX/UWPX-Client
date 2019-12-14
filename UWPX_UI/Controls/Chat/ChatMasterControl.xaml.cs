@@ -126,7 +126,7 @@ namespace UWPX_UI.Controls.Chat
 
         private void ShowInfo_mfo_Click(object sender, RoutedEventArgs e)
         {
-            UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat.Client, Chat.Chat, Chat.MucInfo));
+            UiUtils.NavigateToPage(typeof(MucInfoPage), new NavigatedToMucInfoPageEventArgs(Chat));
         }
 
         private async void Enter_mfo_Click(object sender, RoutedEventArgs e)

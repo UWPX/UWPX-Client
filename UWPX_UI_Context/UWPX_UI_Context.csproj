@@ -234,6 +234,7 @@
     <Compile Include="Classes\DataTemplates\Controls\Chat\ContactOmemoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MucInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MucMemberControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\Chat\MucMemberDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\Chat\MucMembersControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\ContactInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\CustomBackgroundImageSelectionControlDataTemplate.cs" />

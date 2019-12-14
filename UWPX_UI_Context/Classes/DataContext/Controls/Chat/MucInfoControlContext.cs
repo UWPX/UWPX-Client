@@ -4,6 +4,7 @@ using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
+using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
@@ -34,13 +35,16 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ChatTable chat)
+            if (e.OldValue is ChatDataTemplate oldChat)
             {
-                UpdateView(chat);
+                oldChat.PropertyChanged -= Chat_PropertyChanged;
             }
-            else if (e.NewValue is MUCChatInfoTable mucInfo)
+
+            if (e.NewValue is ChatDataTemplate newChat)
             {
-                UpdateView(mucInfo);
+                UpdateView(newChat.Chat);
+                UpdateView(newChat.MucInfo);
+                newChat.PropertyChanged += Chat_PropertyChanged;
             }
         }
 
@@ -149,7 +153,25 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ChatDataTemplate chat)
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(ChatDataTemplate.MucInfo):
+                        UpdateView(chat.MucInfo);
+                        break;
 
+                    case nameof(ChatDataTemplate.Chat):
+                        UpdateView(chat.Chat);
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
 
         #endregion
     }

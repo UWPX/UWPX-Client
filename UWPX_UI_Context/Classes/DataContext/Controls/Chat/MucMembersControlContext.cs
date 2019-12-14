@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
 using Windows.UI.Xaml;
 
@@ -28,7 +30,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (e.NewValue is ChatTable chat)
+            if (e.NewValue is ChatDataTemplate chat)
             {
                 LoadMembers(chat);
             }
@@ -37,13 +39,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-        private void LoadMembers(ChatTable chat)
+        private void LoadMembers(ChatDataTemplate chat)
         {
             Task.Run(() =>
             {
-                List<MUCOccupantTable> members = MUCDBManager.INSTANCE.getAllMUCMembers(chat.id);
+                List<MUCOccupantTable> members = MUCDBManager.INSTANCE.getAllMUCMembers(chat.Chat.id);
                 MODEL.MEMBERS.Clear();
-                MODEL.MEMBERS.AddRange(members);
+                MODEL.MEMBERS.AddRange(members.Select((x) => new MucMemberDataTemplate() { Member = x, Chat = chat }));
                 MODEL.MembersFound = members.Count > 0;
                 MODEL.HeaderText = "Members (" + members.Count + ')';
             });
