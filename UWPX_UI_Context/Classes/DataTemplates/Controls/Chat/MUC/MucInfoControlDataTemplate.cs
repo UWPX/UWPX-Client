@@ -1,7 +1,7 @@
 ﻿using Data_Manager2.Classes;
 using Shared.Classes;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
     public class MucInfoControlDataTemplate: AbstractDataTemplate
     {

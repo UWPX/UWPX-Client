@@ -4,10 +4,10 @@ using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using UWPX_UI_Context.Classes.DataTemplates;
-using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
 {
     public class MucMembersControlContext
     {

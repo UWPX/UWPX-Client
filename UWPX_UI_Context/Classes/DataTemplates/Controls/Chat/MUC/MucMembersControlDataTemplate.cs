@@ -1,19 +1,35 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
-using Windows.UI.Xaml;
-using XMPP_API.Classes;
+﻿using Shared.Classes;
+using Shared.Classes.Collections;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
-    public class MucMemberControlContext
+    public class MucMembersControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly MucMemberControlDataTemplate MODEL = new MucMemberControlDataTemplate();
+        private bool _MembersFound;
+        public bool MembersFound
+        {
+            get => _MembersFound;
+            set => SetProperty(ref _MembersFound, value);
+        }
+
+        private string _HeaderText;
+        public string HeaderText
+        {
+            get => _HeaderText;
+            set => SetProperty(ref _HeaderText, value);
+        }
+
+        public readonly CustomObservableCollection<MucMemberDataTemplate> MEMBERS = new CustomObservableCollection<MucMemberDataTemplate>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public MucMembersControlDataTemplate()
+        {
+            HeaderText = "Members (0)";
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -23,13 +39,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(MucMemberDataTemplate member)
-        {
-            MODEL.BareJid = Utils.getBareJidFromFullJid(member.Member.jid);
-            MODEL.Nickname = member.Member.nickname;
-            MODEL.ImageBareJid = string.IsNullOrEmpty(MODEL.BareJid) ? MODEL.Nickname : MODEL.BareJid;
-            MODEL.YouVisible = string.Equals(member.Chat.Client.getXMPPAccount().getBareJid(), MODEL.BareJid) ? Visibility.Visible : Visibility.Collapsed;
-        }
+
 
         #endregion
 

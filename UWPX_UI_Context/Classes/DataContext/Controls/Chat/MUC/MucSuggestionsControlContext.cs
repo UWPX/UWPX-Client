@@ -1,25 +1,12 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
 {
-    public class MucMemberDataTemplate: AbstractDataTemplate
+    public sealed class MucSuggestionsControlContext
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private MUCOccupantTable _Member;
-        public MUCOccupantTable Member
-        {
-            get => _Member;
-            set => SetProperty(ref _Member, value);
-        }
-
-        private ChatDataTemplate _Chat;
-        public ChatDataTemplate Chat
-        {
-            get => _Chat;
-            set => SetProperty(ref _Chat, value);
-        }
+        public readonly MucSuggestionsControlDataTemplate MODEL = new MucSuggestionsControlDataTemplate();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

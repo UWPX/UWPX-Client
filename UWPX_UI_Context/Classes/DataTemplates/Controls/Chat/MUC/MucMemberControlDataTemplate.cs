@@ -1,7 +1,8 @@
 ﻿using Shared.Classes;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
     public class MucMemberControlDataTemplate: AbstractDataTemplate
     {
@@ -33,6 +34,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat
         {
             get => _YouVisible;
             set => SetProperty(ref _YouVisible, value);
+        }
+
+        private MUCRole _Role;
+        public MUCRole Role
+        {
+            get => _Role;
+            set => SetProperty(ref _Role, value);
+        }
+
+        private MUCAffiliation _Affiliation;
+        public MUCAffiliation Affiliation
+        {
+            get => _Affiliation;
+            set => SetProperty(ref _Affiliation, value);
         }
 
         #endregion

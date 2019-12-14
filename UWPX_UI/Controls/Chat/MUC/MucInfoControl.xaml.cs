@@ -1,12 +1,12 @@
 ﻿using Shared.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI_Context.Classes;
-using UWPX_UI_Context.Classes.DataContext.Controls.Chat;
+using UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI.Controls.Chat
+namespace UWPX_UI.Controls.Chat.MUC
 {
     public sealed partial class MucInfoControl: UserControl
     {

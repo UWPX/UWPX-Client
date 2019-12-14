@@ -1,18 +1,18 @@
-﻿<UserControl x:Class="UWPX_UI.Controls.Chat.MucMembersControl"
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.MUC.MucMembersControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:dataTemplates="using:UWPX_UI_Context.Classes.DataTemplates.Controls.Chat"
+             xmlns:dataTemplates="using:UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC"
              xmlns:extensions="using:Microsoft.Toolkit.Uwp.UI.Extensions"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:muc="using:UWPX_UI.Controls.Chat.MUC"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Key="MucMemberTemplate"
                       x:DataType="dataTemplates:MucMemberDataTemplate">
-            <chat:MucMemberControl Member="{x:Bind}"/>
+            <muc:MucMemberControl Member="{x:Bind}"/>
         </DataTemplate>
 
         <DataTemplate x:Key="MemberExpanderHeaderTemplate">

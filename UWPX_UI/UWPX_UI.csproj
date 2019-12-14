@@ -177,16 +177,16 @@
       <DependentUpon>EmojiPickerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\EnterTextBox.cs" />
-    <Compile Include="Controls\Chat\MucInfoControl.xaml.cs">
+    <Compile Include="Controls\Chat\MUC\MucInfoControl.xaml.cs">
       <DependentUpon>MucInfoControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\MucMemberControl.xaml.cs">
+    <Compile Include="Controls\Chat\MUC\MucMemberControl.xaml.cs">
       <DependentUpon>MucMemberControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\MucMembersControl.xaml.cs">
+    <Compile Include="Controls\Chat\MUC\MucMembersControl.xaml.cs">
       <DependentUpon>MucMembersControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Chat\MucSuggestionsControl.xaml.cs">
+    <Compile Include="Controls\Chat\MUC\MucSuggestionsControl.xaml.cs">
       <DependentUpon>MucSuggestionsControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\Content\IShowFlyoutSpeechBubbleContent.cs" />
@@ -644,19 +644,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Chat\MucInfoControl.xaml">
+    <Page Include="Controls\Chat\MUC\MucInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Chat\MucMemberControl.xaml">
+    <Page Include="Controls\Chat\MUC\MucMemberControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Chat\MucMembersControl.xaml">
+    <Page Include="Controls\Chat\MUC\MucMembersControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\Chat\MucSuggestionsControl.xaml">
+    <Page Include="Controls\Chat\MUC\MucSuggestionsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

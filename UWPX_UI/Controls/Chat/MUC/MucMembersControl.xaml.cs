@@ -1,33 +1,27 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC;
+using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
-namespace UWPX_UI.Controls.Chat
+namespace UWPX_UI.Controls.Chat.MUC
 {
-    public sealed partial class MucSuggestionsControl: UserControl
+    public sealed partial class MucMembersControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly MucSuggestionsControlContext VIEW_MODEL = new MucSuggestionsControlContext();
+        public readonly MucMembersControlContext VIEW_MODEL = new MucMembersControlContext();
 
-        public string RoomBareJid
+        public ChatDataTemplate Chat
         {
-            get => (string)GetValue(RoomBareJidProperty);
-            set => SetValue(RoomBareJidProperty, value);
+            get { return (ChatDataTemplate)GetValue(ChatProperty); }
+            set { SetValue(ChatProperty, value); }
         }
-        public static readonly DependencyProperty RoomBareJidProperty = DependencyProperty.Register(nameof(RoomBareJid), typeof(string), typeof(MucSuggestionsControl), new PropertyMetadata(""));
-
-        public bool IsValid
-        {
-            get => (bool)GetValue(IsValidProperty);
-            set => SetValue(IsValidProperty, value);
-        }
-        public static readonly DependencyProperty IsValidProperty = DependencyProperty.Register(nameof(IsValid), typeof(bool), typeof(MucSuggestionsControl), new PropertyMetadata(false));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucMembersControl), new PropertyMetadata(null, OnChatChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public MucSuggestionsControl()
+        public MucMembersControl()
         {
             InitializeComponent();
         }
@@ -45,7 +39,10 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            VIEW_MODEL.UpdateView(e);
+        }
 
         #endregion
 
@@ -55,7 +52,13 @@ namespace UWPX_UI.Controls.Chat
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            if (d is MucMembersControl mucInfoControl)
+            {
+                mucInfoControl.UpdateView(e);
+            }
+        }
 
         #endregion
     }

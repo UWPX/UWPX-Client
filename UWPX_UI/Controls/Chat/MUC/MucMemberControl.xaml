@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="UWPX_UI.Controls.Chat.MucMemberControl"
+﻿<UserControl x:Class="UWPX_UI.Controls.Chat.MUC.MucMemberControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:controls="using:UWPX_UI.Controls"

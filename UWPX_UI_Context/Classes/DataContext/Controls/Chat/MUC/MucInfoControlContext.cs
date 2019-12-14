@@ -5,13 +5,13 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
-using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
-namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat
+namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
 {
     public class MucInfoControlContext
     {
