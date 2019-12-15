@@ -21,6 +21,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
             set => SetProperty(ref _HeaderText, value);
         }
 
+        private bool _IsLoading;
+        public bool IsLoading
+        {
+            get => _IsLoading;
+            set => SetProperty(ref _IsLoading, value);
+        }
+
         public readonly CustomObservableCollection<MucMemberDataTemplate> MEMBERS = new CustomObservableCollection<MucMemberDataTemplate>(true);
 
         #endregion

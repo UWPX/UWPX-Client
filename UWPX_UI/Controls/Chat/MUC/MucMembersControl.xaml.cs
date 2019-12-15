@@ -60,6 +60,16 @@ namespace UWPX_UI.Controls.Chat.MUC
             }
         }
 
+        private void Link_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Add_btn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         #endregion
     }
 }

@@ -43,11 +43,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         {
             Task.Run(() =>
             {
+                MODEL.IsLoading = true;
                 List<MUCOccupantTable> members = MUCDBManager.INSTANCE.getAllMUCMembers(chat.Chat.id);
                 MODEL.MEMBERS.Clear();
                 MODEL.MEMBERS.AddRange(members.Select((x) => new MucMemberDataTemplate() { Member = x, Chat = chat }));
                 MODEL.MembersFound = members.Count > 0;
                 MODEL.HeaderText = "Members (" + members.Count + ')';
+                MODEL.IsLoading = false;
             });
         }
 
