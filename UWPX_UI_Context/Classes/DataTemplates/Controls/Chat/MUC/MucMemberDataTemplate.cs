@@ -1,9 +1,10 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using System;
+using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
-    public class MucMemberDataTemplate: AbstractDataTemplate
+    public class MucMemberDataTemplate: AbstractDataTemplate, IComparable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -34,7 +35,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public int CompareTo(object obj)
+        {
+            return obj is MucMemberDataTemplate other ? Member.nickname.CompareTo(other.Member.nickname) : -1;
+        }
 
         #endregion
 

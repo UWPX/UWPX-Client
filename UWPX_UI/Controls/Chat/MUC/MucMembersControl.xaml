@@ -367,7 +367,7 @@
                                   extensions:ListViewExtensions.AlternateColor="{ThemeResource SystemControlBackgroundListLowBrush}"
                                   IsItemClickEnabled="False"
                                   ItemTemplate="{StaticResource MucMemberTemplate}"
-                                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.MEMBERS}"
+                                  ItemsSource="{x:Bind VIEW_MODEL.MODEL.MEMBERS_SORTED}"
                                   ScrollViewer.HorizontalScrollMode="Disabled"
                                   SelectionMode="None">
                             <ListView.ItemContainerStyle>
