@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes;
+using Shared.Classes.Collections;
 using Windows.Networking.Sockets;
 using Windows.Security.Cryptography.Certificates;
 using Windows.Storage;
@@ -51,7 +51,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _SocketInfo, value);
         }
 
-        public readonly ObservableCollection<CertificateDetailDataTemplate> DETAILS = new ObservableCollection<CertificateDetailDataTemplate>();
+        public readonly CustomObservableCollection<CertificateDetailDataTemplate> DETAILS = new CustomObservableCollection<CertificateDetailDataTemplate>(true);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
