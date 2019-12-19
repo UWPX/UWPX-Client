@@ -3,6 +3,7 @@
                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                xmlns:controls="using:Microsoft.UI.Xaml.Controls"
                xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+               xmlns:controls2="using:UWPX_UI.Controls"
                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Title="Clear cache:"
@@ -116,48 +117,22 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-
-                <Button x:Name="clear_btn"
-                        Grid.Column="0"
-                        Margin="0,0,1,0"
-                        HorizontalAlignment="Stretch"
-                        Click="Clear_btn_Click"
-                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-                        Style="{ThemeResource ButtonRevealStyle}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   Foreground="{ThemeResource SystemAccentColor}"
-                                   Text="&#xED62;"/>
-                        <TextBlock Margin="10,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Text="Clear"/>
-                        <ProgressRing x:Name="clear_prgr"
-                                      Grid.Row="0"
-                                      Margin="10,0,0,0"
-                                      HorizontalAlignment="Center"
-                                      VerticalAlignment="Center"
-                                      IsActive="True"
-                                      Visibility="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-                    </StackPanel>
-                </Button>
-                <Button x:Name="cancel_btn"
-                        Grid.Column="1"
-                        Margin="1,0,0,0"
-                        HorizontalAlignment="Stretch"
-                        Click="Cancel_btn_Click"
-                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-                        Style="{ThemeResource ButtonRevealStyle}">
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock VerticalAlignment="Center"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   Foreground="Red"
-                                   Text="&#xE711;"/>
-                        <TextBlock Margin="10,0,0,0"
-                                   VerticalAlignment="Center"
-                                   Text="Cancel"/>
-                    </StackPanel>
-                </Button>
+                <controls2:IconProgressButtonControl x:Name="clear_btn"
+                                                     Grid.Column="0"
+                                                     Margin="0,0,1,0"
+                                                     Click="Clear_btn_Click"
+                                                     Glyph="&#xED62;"
+                                                     IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                                     ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
+                                                     Text="Clear"/>
+                <controls2:IconButtonControl x:Name="cancel_btn"
+                                             Grid.Column="1"
+                                             Margin="1,0,0,0"
+                                             Click="Cancel_btn_Click"
+                                             Glyph="&#xE711;"
+                                             GlyphForeground="Red"
+                                             IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsCleaningCache, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                             Text="Cancel"/>
             </Grid>
         </Grid>
         <controls1:InAppNotification x:Name="done_notification"
