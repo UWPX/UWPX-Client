@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC;
+﻿using UWPX_UI.Dialogs;
+using UWPX_UI_Context.Classes;
+using UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -65,9 +67,10 @@ namespace UWPX_UI.Controls.Chat.MUC
 
         }
 
-        private void Add_btn_Click(object sender, RoutedEventArgs e)
+        private async void Add_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            MucInviteDialog dialog = new MucInviteDialog(Chat);
+            await UiUtils.ShowDialogAsync(dialog);
         }
 
         #endregion

@@ -195,6 +195,7 @@
     <Compile Include="Classes\DataContext\Dialogs\DeleteChatConfirmDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\InitialStartDialogContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucSuggestionsControlContext.cs" />
+    <Compile Include="Classes\DataContext\Dialogs\MucInviteDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\OmemoOwnFingerprintDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\QrCodeScannerDialogContext.cs" />
     <Compile Include="Classes\DataContext\Dialogs\WhatsNewDialogContext.cs" />
@@ -270,6 +271,7 @@
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteAccountConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\DeleteChatConfirmDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\InitialStartDialogDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Dialogs\MucInviteDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\MucSuggestionsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\OmemoOwnFingerprintDialogDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Dialogs\QrCodeScannerDialogDataTemplate.cs" />
