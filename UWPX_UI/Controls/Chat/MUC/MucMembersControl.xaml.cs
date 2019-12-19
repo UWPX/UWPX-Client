@@ -64,7 +64,7 @@ namespace UWPX_UI.Controls.Chat.MUC
 
         private void Link_btn_Click(object sender, RoutedEventArgs e)
         {
-
+            VIEW_MODEL.CopyLink(Chat);
         }
 
         private async void Add_btn_Click(object sender, RoutedEventArgs e)

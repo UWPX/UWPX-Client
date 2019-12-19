@@ -56,8 +56,7 @@ namespace XMPP_API.Classes.XmppUri
         public static Uri buildUri(string bareJid, Dictionary<string, string> queryPairs)
         {
             string query = string.Join("&",
-                queryPairs.Keys.Where(key => !string.IsNullOrWhiteSpace(queryPairs[key]))
-                .Select(key => string.Format("{0}={1}", WebUtility.UrlEncode(key), WebUtility.UrlEncode(queryPairs[key]))));
+                queryPairs.Keys.Select(key => !string.IsNullOrWhiteSpace(queryPairs[key]) ? string.Format("{0}={1}", WebUtility.UrlEncode(key), WebUtility.UrlEncode(queryPairs[key])) : WebUtility.UrlEncode(key)));
 
             UriBuilder builder = new UriBuilder
             {
@@ -67,6 +66,15 @@ namespace XMPP_API.Classes.XmppUri
             };
 
             return builder.Uri;
+        }
+
+        public static string toXmppUriString(Uri uri)
+        {
+            StringBuilder sb = new StringBuilder(uri.Scheme);
+            sb.Append(':');
+            sb.Append(uri.Host);
+            sb.Append(uri.Query);
+            return sb.ToString();
         }
 
         /// <summary>

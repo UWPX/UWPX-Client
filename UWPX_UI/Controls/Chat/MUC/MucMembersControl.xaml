@@ -96,7 +96,7 @@
                                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="20"
                                         Style="{ThemeResource TransparentThemeButtonStyle}"
-                                        ToolTipService.ToolTip="Send Link"/>
+                                        ToolTipService.ToolTip="Copy Link"/>
 
                                 <!--  Added the add button  -->
                                 <Button x:Name="add_btn"

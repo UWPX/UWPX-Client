@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
@@ -7,6 +8,7 @@ using Shared.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using Windows.UI.Xaml;
+using XMPP_API.Classes.XmppUri;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
 {
@@ -35,6 +37,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
             {
                 LoadMembers(chat);
             }
+        }
+
+        public void CopyLink(ChatDataTemplate chat)
+        {
+            Uri uri = UriUtils.buildUri(chat.Chat.chatJabberId, new Dictionary<string, string>() { { "join", null } });
+            UiUtils.SetClipboardText(UriUtils.toXmppUriString(uri));
         }
 
         #endregion
