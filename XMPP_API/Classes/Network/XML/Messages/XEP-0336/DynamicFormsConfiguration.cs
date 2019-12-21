@@ -57,21 +57,22 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0336
         #region --Misc Methods (Public)--
         public void addToNode(XElement node)
         {
+            XNamespace ns = Consts.XML_XEP_0336_NAMESPACE;
             if (flags.HasFlag(DynamicFormsFlags.READ_ONLY))
             {
-                node.Add(new XElement("xdd:readOnly"));
+                node.Add(new XElement(ns + "readOnly"));
             }
             if (flags.HasFlag(DynamicFormsFlags.POST_BACK))
             {
-                node.Add(new XElement("xdd:postBack"));
+                node.Add(new XElement(ns + "postBack"));
             }
             if (flags.HasFlag(DynamicFormsFlags.NOT_SAME))
             {
-                node.Add(new XElement("xdd:notSame"));
+                node.Add(new XElement(ns + "notSame"));
             }
             if (flags.HasFlag(DynamicFormsFlags.ERROR))
             {
-                XElement errorNode = new XElement("xdd:error");
+                XElement errorNode = new XElement(ns + "error");
                 errorNode.SetValue(errorMessage);
                 node.Add(errorNode);
             }
