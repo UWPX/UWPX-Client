@@ -15,7 +15,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
         public DataTemplate SpeechBubbleErrorTemplate { get; set; }
         public DataTemplate SpeechBubbleInfoTemplate { get; set; }
         public DataTemplate SpeechBubbleHeadlineTemplate { get; set; }
-        public DataTemplate SpeechBubbleMUCDirectInviteTemplate { get; set; }
+        public DataTemplate SpeechBubbleMucDirectInvitationTemplate { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -55,30 +55,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
                         return SpeechBubbleErrorTemplate;
 
                     case MessageMessage.TYPE_GROUPCHAT:
-                        if (string.Equals(model.MUC?.nickname, model.Message.fromUser))
-                        {
-                            return SpeechBubbleDownTemplate;
-                        }
-                        else
-                        {
-                            return SpeechBubbleTopTemplate;
-                        }
+                        return string.Equals(model.MUC?.nickname, model.Message.fromUser) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
 
                     case DirectMUCInvitationMessage.TYPE_MUC_DIRECT_INVITATION:
-                        return SpeechBubbleMUCDirectInviteTemplate;
+                        return SpeechBubbleMucDirectInvitationTemplate;
 
                     case MUCHandler.TYPE_CHAT_INFO:
                         return SpeechBubbleInfoTemplate;
 
                     default:
-                        if (string.Equals(model.Chat.userAccountId, model.Message.fromUser))
-                        {
-                            return SpeechBubbleDownTemplate;
-                        }
-                        else
-                        {
-                            return SpeechBubbleTopTemplate;
-                        }
+                        return string.Equals(model.Chat.userAccountId, model.Message.fromUser) ? SpeechBubbleDownTemplate : SpeechBubbleTopTemplate;
                 }
             }
             return base.SelectTemplateCore(item, container);

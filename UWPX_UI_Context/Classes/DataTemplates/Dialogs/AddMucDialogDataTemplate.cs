@@ -77,6 +77,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
             set => SetProperty(ref _AutoJoin, value);
         }
 
+        private bool _IsAdding;
+        public bool IsAdding
+        {
+            get => _IsAdding;
+            set => SetProperty(ref _IsAdding, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--

@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
+﻿using System.Linq;
+using UWPX_UI_Context.Classes.DataTemplates.Dialogs;
 
 namespace UWPX_UI_Context.Classes.DataContext.Dialogs
 {
@@ -21,7 +22,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void SelectAccount(string accountBareJid)
+        {
+            MODEL.SelectedItem = MODEL.CLIENTS.FirstOrDefault((x) => string.Equals(accountBareJid, x.Account.getBareJid()));
+        }
 
         #endregion
 

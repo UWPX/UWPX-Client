@@ -214,6 +214,9 @@
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleErrorControl.xaml.cs">
       <DependentUpon>SpeechBubbleErrorControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControl.xaml.cs">
+      <DependentUpon>SpeechBubbleMucDirectInvitationControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml.cs">
       <DependentUpon>SpeechBubbleTopControl.xaml</DependentUpon>
     </Compile>
@@ -700,6 +703,10 @@
     <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleErrorControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleMucDirectInvitationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\Chat\SpeechBubbles\SpeechBubbleTopControl.xaml">
       <Generator>MSBuild:Compile</Generator>

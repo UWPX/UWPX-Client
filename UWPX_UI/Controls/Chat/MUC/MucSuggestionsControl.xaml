@@ -38,7 +38,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <controls:BareJidInputControl Grid.Row="0"
-                                      IsValid="{x:Bind IsValid, Mode=TwoWay}"
+                                      IsValid="{x:Bind IsValid, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                       PlaceholderText="room@chat.example.com"
                                       Text="{x:Bind RoomBareJid, Mode=TwoWay}"/>
         <ScrollViewer Grid.Row="1"

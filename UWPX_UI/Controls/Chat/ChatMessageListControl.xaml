@@ -31,9 +31,14 @@
                           x:DataType="templates:ChatMessageDataTemplate">
                 <speechbubbles:SpeechBubbleErrorControl ChatMessage="{x:Bind}"/>
             </DataTemplate>
+            <DataTemplate x:Name="SpeechBubbleMucDirectInvitationTemplate"
+                          x:DataType="templates:ChatMessageDataTemplate">
+                <speechbubbles:SpeechBubbleMucDirectInvitationControl ChatMessage="{x:Bind}"/>
+            </DataTemplate>
             <selectors:SpeechBubbleDataTemplateSelector x:Key="SpeechBubbleDataTemplateSelector"
                                                         SpeechBubbleDownTemplate="{StaticResource SpeechBubbleDownTemplate}"
                                                         SpeechBubbleErrorTemplate="{StaticResource SpeechBubbleErrorTemplate}"
+                                                        SpeechBubbleMucDirectInvitationTemplate="{StaticResource SpeechBubbleMucDirectInvitationTemplate}"
                                                         SpeechBubbleTopTemplate="{StaticResource SpeechBubbleTopTemplate}"/>
         </ResourceDictionary>
     </UserControl.Resources>

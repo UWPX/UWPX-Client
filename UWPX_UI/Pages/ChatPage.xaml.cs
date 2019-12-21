@@ -70,7 +70,6 @@ namespace UWPX_UI.Pages
         {
             AddMucDialog dialog = new AddMucDialog();
             await UiUtils.ShowDialogAsync(dialog);
-            await VIEW_MODEL.OnAddMucAsync(dialog.VIEW_MODEL.MODEL);
         }
 
         private void RegisterIoTDevice_mfoi_Click(object sender, RoutedEventArgs e)

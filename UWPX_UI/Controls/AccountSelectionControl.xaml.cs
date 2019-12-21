@@ -52,7 +52,10 @@ namespace UWPX_UI.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public void SelectAccount(string accountBareJid)
+        {
+            VIEW_MODEL.SelectAccount(accountBareJid);
+        }
 
         #endregion
 
