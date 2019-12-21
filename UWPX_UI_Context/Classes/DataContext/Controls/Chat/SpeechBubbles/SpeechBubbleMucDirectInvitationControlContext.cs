@@ -72,7 +72,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.SpeechBubbles
 
         public async Task DeclineAsync(ChatMessageDataTemplate msg)
         {
-            await Task.Run(() => ChatDBManager.INSTANCE.setMUCDirectInvitationState(msg.Message.id, MUCDirectInvitationState.DECLINED));
+            await Task.Run(async () => await ChatDBManager.INSTANCE.deleteChatMessageAsync(msg.Message, true));
         }
 
         #endregion
