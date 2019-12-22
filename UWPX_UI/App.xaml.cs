@@ -201,8 +201,7 @@ namespace UWPX_UI
             switch (args.TaskInstance.Task.Name)
             {
                 case BackgroundTaskHelper.TOAST_BACKGROUND_TASK_NAME:
-                    ToastNotificationActionTriggerDetail details = args.TaskInstance.TriggerDetails as ToastNotificationActionTriggerDetail;
-                    if (details != null)
+                    if (args.TaskInstance.TriggerDetails is ToastNotificationActionTriggerDetail details)
                     {
                         InitLogger();
 
@@ -316,7 +315,7 @@ namespace UWPX_UI
             }
         }
 
-        private void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             Logger.Error("Unhanded exception: ", e.Exception);
         }
