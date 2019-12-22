@@ -147,12 +147,6 @@
     <Compile Include="Controls\BackgroundImageSelectionControl.xaml.cs">
       <DependentUpon>BackgroundImageSelectionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\BrowseMUCRoomsDetailsControl.xaml.cs">
-      <DependentUpon>BrowseMUCRoomsDetailsControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\BrowseMUCRoomsMasterControl.xaml.cs">
-      <DependentUpon>BrowseMUCRoomsMasterControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\DonateControl.xaml.cs">
       <DependentUpon>DonateControl.xaml</DependentUpon>
     </Compile>
@@ -198,12 +192,6 @@
     <Compile Include="Controls\MultiSelectControl.xaml.cs">
       <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Omemo\QRCodeReaderControl.xaml.cs">
-      <DependentUpon>QRCodeReaderControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\PasswordCredentialControl.xaml.cs">
-      <DependentUpon>PasswordCredentialControl.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Controls\SeperatorControl.xaml.cs">
       <DependentUpon>SeperatorControl.xaml</DependentUpon>
     </Compile>
@@ -222,7 +210,6 @@
     <Compile Include="DataTemplates\MUCInfoFieldTemplate.cs" />
     <Compile Include="DataTemplates\MUCOccupantTemplate.cs" />
     <Compile Include="DataTemplates\MUCRoomTemplate.cs" />
-    <Compile Include="DataTemplates\PasswordCredentialTemplate.cs" />
     <Compile Include="DataTemplates\PresenceBrushValueConverter.cs" />
     <Compile Include="DataTemplates\PresenceTemplate.cs" />
     <Compile Include="DataTemplates\RTTValueConverter.cs" />
@@ -232,50 +219,11 @@
     <Compile Include="DataTemplates\StringEmptyVisibilityValueConverter.cs" />
     <Compile Include="DataTemplates\TLSConnectionModeToIntValueConverter.cs" />
     <Compile Include="DataTemplates\UintTemplate.cs" />
-    <Compile Include="Dialogs\AddBookmarkDialog.xaml.cs">
-      <DependentUpon>AddBookmarkDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\AddMUCDialog.xaml.cs">
-      <DependentUpon>AddMUCDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ChangeAccountPresenceDialog.xaml.cs">
-      <DependentUpon>ChangeAccountPresenceDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\ConfirmDialog.xaml.cs">
-      <DependentUpon>ConfirmDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\InitialStartDialog.xaml.cs">
-      <DependentUpon>InitialStartDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\InviteUserMUCDialog.xaml.cs">
-      <DependentUpon>InviteUserMUCDialog.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\MUCKickBanOccupantDialog.xaml.cs">
       <DependentUpon>MUCKickBanOccupantDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ReadQRCodeDialog.xaml.cs">
-      <DependentUpon>ReadQRCodeDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\TextDialog.xaml.cs">
-      <DependentUpon>TextDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\BrowseMUCRoomsPage.xaml.cs">
-      <DependentUpon>BrowseMUCRoomsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ManageBookmarksPage.xaml.cs">
-      <DependentUpon>ManageBookmarksPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\MUCInfoPage.xaml.cs">
       <DependentUpon>MUCInfoPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml.cs">
-      <DependentUpon>PersonalizeSettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\SettingsPages\SecuritySettingsPage.xaml.cs">
-      <DependentUpon>SecuritySettingsPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\UserProfilePage.xaml.cs">
-      <DependentUpon>UserProfilePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\UWP_XMPP_Client.rd.xml" />
@@ -285,25 +233,25 @@
       <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.1.190606001</Version>
+      <Version>2.3.191211002</Version>
     </PackageReference>
     <PackageReference Include="Telerik.UI.for.UniversalWindowsPlatform">
-      <Version>1.0.1.6</Version>
+      <Version>1.0.1.7</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net">
       <Version>0.16.5</Version>
@@ -407,14 +355,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\BrowseMUCRoomsDetailsControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\BrowseMUCRoomsMasterControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\DonateControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -475,14 +415,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Omemo\QRCodeReaderControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\PasswordCredentialControl.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Controls\SeperatorControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -491,63 +423,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\AddBookmarkDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\AddMUCDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\ChangeAccountPresenceDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\ConfirmDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\InitialStartDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\InviteUserMUCDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\MUCKickBanOccupantDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Dialogs\ReadQRCodeDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Dialogs\TextDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\BrowseMUCRoomsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\ManageBookmarksPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Pages\MUCInfoPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SettingsPages\PersonalizeSettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\SettingsPages\SecuritySettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\UserProfilePage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
