@@ -16,7 +16,6 @@ using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using XMPP_API.Classes.XmppUri;
-using BackgroundTaskHelper = UWPX_UI_Context.Classes.BackgroundTaskHelper;
 
 namespace UWPX_UI.Pages
 {
