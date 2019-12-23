@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
+using UWPX_UI.Controls.Settings;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -112,7 +113,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Events--
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (!(DeviceFamilyHelper.IsMouseInteractionMode() && sender is FrameworkElement settingsSelection))
+            if (!(DeviceFamilyHelper.IsMouseInteractionMode() && sender is SettingsSelectionLargeControl settingsSelection))
             {
                 return;
             }

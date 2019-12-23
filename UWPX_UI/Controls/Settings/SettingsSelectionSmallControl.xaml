@@ -7,45 +7,46 @@
              Height="60"
              mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/SettingsButtonStyle.xaml"/>
+    </UserControl.Resources>
+
     <composition1:DropShadowPanel HorizontalContentAlignment="Stretch"
                                   VerticalContentAlignment="Stretch">
-        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
-            <Button HorizontalAlignment="Stretch"
-                    HorizontalContentAlignment="Left"
-                    Background="Transparent"
-                    Click="Button_Click"
-                    Style="{ThemeResource ButtonRevealStyle}">
-                <Grid Margin="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="Auto"/>
-                    </Grid.RowDefinitions>
+        <Button HorizontalContentAlignment="Left"
+                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                Click="Button_Click"
+                Style="{ThemeResource SettingsButtonStyle}">
+            <Grid Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
 
-                    <FontIcon Grid.Row="0"
-                              Grid.RowSpan="2"
-                              Grid.Column="0"
-                              Margin="10"
-                              VerticalAlignment="Center"
-                              FontSize="30"
-                              Foreground="{ThemeResource SystemAccentColor}"
-                              Glyph="{x:Bind Model.Glyph, Mode=OneWay}"/>
-                    <TextBlock Grid.Row="0"
-                               Grid.Column="1"
-                               Style="{ThemeResource BodyTextBlockStyle}"
-                               Text="{x:Bind Model.Name, Mode=OneWay}"/>
-                    <TextBlock Grid.Row="1"
-                               Grid.Column="1"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               MaxLines="5"
-                               Style="{ThemeResource CaptionTextBlockStyle}"
-                               Text="{x:Bind Model.Description, Mode=OneWay}"
-                               TextWrapping="Wrap"/>
-                </Grid>
-            </Button>
-        </Grid>
+                <FontIcon Grid.Row="0"
+                          Grid.RowSpan="2"
+                          Grid.Column="0"
+                          Margin="10"
+                          VerticalAlignment="Center"
+                          FontSize="30"
+                          Foreground="{ThemeResource SystemAccentColor}"
+                          Glyph="{x:Bind Model.Glyph, Mode=OneWay}"/>
+                <TextBlock Grid.Row="0"
+                           Grid.Column="1"
+                           Style="{ThemeResource BodyTextBlockStyle}"
+                           Text="{x:Bind Model.Name, Mode=OneWay}"/>
+                <TextBlock Grid.Row="1"
+                           Grid.Column="1"
+                           Foreground="{ThemeResource CaptionTextBrush}"
+                           MaxLines="5"
+                           Style="{ThemeResource CaptionTextBlockStyle}"
+                           Text="{x:Bind Model.Description, Mode=OneWay}"
+                           TextWrapping="Wrap"/>
+            </Grid>
+        </Button>
     </composition1:DropShadowPanel>
 </UserControl>

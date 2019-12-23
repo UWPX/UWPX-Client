@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

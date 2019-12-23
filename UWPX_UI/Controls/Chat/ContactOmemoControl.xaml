@@ -14,7 +14,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <DataTemplate x:Name="FingerprintTemplate"
