@@ -50,31 +50,6 @@ namespace UWPX_UI.Pages.Settings
             }
         }
 
-        private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender is SettingsPageDataTemplate settingsPageDataTemplate)
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(settingsPageDataTemplate.DebugSettingsEnabled):
-                        if (settingsPageDataTemplate.DebugSettingsEnabled)
-                        {
-                            debugSettings_notification.Show("Debug settings enabled.", 5000);
-                            if (!SETTINGS_PAGES.Contains(DEBUG_SETTINGS))
-                            {
-                                SETTINGS_PAGES.Add(DEBUG_SETTINGS);
-                            }
-                        }
-                        else
-                        {
-                            debugSettings_notification.Show("Debug settings disabled.", 5000);
-                            SETTINGS_PAGES.Remove(DEBUG_SETTINGS);
-                        }
-                        break;
-                }
-            }
-        }
-
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -148,6 +123,31 @@ namespace UWPX_UI.Pages.Settings
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
+        }
+
+        private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is SettingsPageDataTemplate settingsPageDataTemplate)
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(settingsPageDataTemplate.DebugSettingsEnabled):
+                        if (settingsPageDataTemplate.DebugSettingsEnabled)
+                        {
+                            debugSettings_notification.Show("Debug settings enabled.", 5000);
+                            if (!SETTINGS_PAGES.Contains(DEBUG_SETTINGS))
+                            {
+                                SETTINGS_PAGES.Add(DEBUG_SETTINGS);
+                            }
+                        }
+                        else
+                        {
+                            debugSettings_notification.Show("Debug settings disabled.", 5000);
+                            SETTINGS_PAGES.Remove(DEBUG_SETTINGS);
+                        }
+                        break;
+                }
+            }
         }
 
         #endregion
