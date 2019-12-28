@@ -501,8 +501,6 @@
     <Content Include="Assets\Badge\Badge.scale-400.png" />
     <Content Include="Assets\Fonts\seguiemj.ttf" />
     <Content Include="Assets\Fonts\segmdl2.ttf" />
-    <None Include="UWPX_UI_StoreKey.pfx" />
-    <None Include="UWPX_UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BackgroundImages\cat.jpeg" />
@@ -565,7 +563,6 @@
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
-    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Assets\uri_activation_icon.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />

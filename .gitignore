@@ -198,10 +198,6 @@ ClientBin/
 *.jfm
 *.pfx
 
-# Do not ignore the temp keys - needed for test release builds:
-!Component_Tests_TemporaryKey.pfx
-!UWPX_UI_TemporaryKey.pfx
-
 *.publishsettings
 orleans.codegen.cs
 
@@ -290,5 +286,7 @@ __pycache__/
 *.btm.cs
 *.odx.cs
 *.xsd.cs
+
+# Fonts are copied during build time
 /UWPX_UI/Assets/Fonts/seguiemj.ttf
 /UWPX_UI/Assets/Fonts/segmdl2.ttf

@@ -57,8 +57,8 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\UWPX_UI\UWPX_UI.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateKeyFile>F:\Sonstiges\Git-Repositorys\UWPX-Client\UWPX_UI\UWPX_UI_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>9726159359E2435B4F9B2462108EBBDBE6778005</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>Packaging_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>42EAA2A552629449FBB7D8F58F11144E0CACCBCD</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
@@ -173,6 +173,7 @@
     <Content Include="Assests\Wide\Wide310x150Logo.scale-150.png" />
     <Content Include="Assests\Wide\Wide310x150Logo.scale-200.png" />
     <Content Include="Assests\Wide\Wide310x150Logo.scale-400.png" />
+    <None Include="Packaging_TemporaryKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
   <Import Project="$(WapProjPath)\Microsoft.DesktopBridge.targets" />
