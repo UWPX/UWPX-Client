@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class InitialStartDialog : ContentDialog
+    public sealed partial class InitialStartDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -45,6 +45,11 @@ namespace UWPX_UI.Dialogs
         private async void Content_mdc_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
             await UiUtils.LaunchUriAsync(new Uri(e.Link));
+        }
+
+        private void Close_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        {
+
         }
 
         #endregion
