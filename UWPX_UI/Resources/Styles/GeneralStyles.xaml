@@ -27,4 +27,8 @@
         <Setter Property="Color" Value="{ThemeResource DropShadowColor}"/>
     </Style>
 
+    <Style TargetType="controls:MarkdownTextBlock">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
 </ResourceDictionary>
