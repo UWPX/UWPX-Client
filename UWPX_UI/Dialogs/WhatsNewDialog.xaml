@@ -13,21 +13,28 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
 
-        <ScrollViewer Grid.Row="0"
-                      HorizontalScrollMode="Disabled"
-                      VerticalScrollMode="Auto">
-            <controls:MarkdownTextBlock x:Name="content_mdc"
-                                        x:Uid="WhatsNewDialog_markdown"
-                                        LinkClicked="Content_mdc_LinkClicked"/>
-        </ScrollViewer>
-        <CheckBox Grid.Row="1"
-                  Margin="0,10,0,0"
-                  Content="Show on startup"
-                  IsChecked="{x:Bind VIEW_MODEL.MODEL.ShowOnStartup, Mode=TwoWay}"/>
-        <Grid Grid.Row="2"
+            <ScrollViewer Grid.Row="0"
+                          HorizontalScrollMode="Disabled"
+                          VerticalScrollMode="Auto">
+                <controls:MarkdownTextBlock x:Name="content_mdc"
+                                            x:Uid="WhatsNewDialog_markdown"
+                                            LinkClicked="Content_mdc_LinkClicked"/>
+            </ScrollViewer>
+            <CheckBox Grid.Row="1"
+                      Margin="0,10,0,0"
+                      Content="Show on startup"
+                      IsChecked="{x:Bind VIEW_MODEL.MODEL.ShowOnStartup, Mode=TwoWay}"/>
+        </Grid>
+
+        <Grid x:Name="buttons_grid"
+              Grid.Row="1"
               Margin="0,10,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>

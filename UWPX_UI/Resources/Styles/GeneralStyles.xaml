@@ -31,4 +31,18 @@
         <Setter Property="Background" Value="Transparent"/>
     </Style>
 
+    <Style BasedOn="{StaticResource ButtonRevealStyle}"
+           TargetType="Button"/>
+
+    <Style BasedOn="{StaticResource ToggleButtonRevealStyle}"
+           TargetType="ToggleButton"/>
+
+    <Style BasedOn="{StaticResource AppBarButtonRevealStyle}"
+           TargetType="AppBarButton"/>
+
+    <Style BasedOn="{StaticResource AppBarToggleButtonRevealStyle}"
+           TargetType="AppBarToggleButton"/>
+
+    <Style BasedOn="{StaticResource RepeatButtonRevealStyle}"
+           TargetType="RepeatButton"/>
 </ResourceDictionary>

@@ -40,17 +40,15 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void save_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
-            args.Cancel = true;
-            bool result = await VIEW_MODEL.SavePresenceAsync();
-            if (result)
+            if (await VIEW_MODEL.SavePresenceAsync())
             {
                 Hide();
             }
         }
 
-        private void AccountSelectionControl_AddAccountClick(Controls.AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)
+        private void cancel_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
             Hide();
         }
@@ -58,6 +56,11 @@ namespace UWPX_UI.Dialogs
         private void AccountSelectionControl_AccountSelectionChanged(Controls.AccountSelectionControl sender, Classes.Events.AccountSelectionChangedEventArgs args)
         {
             VIEW_MODEL.MODEL.Client = args.CLIENT;
+        }
+
+        private void AccountSelectionControl_AddAccountClick(Controls.AccountSelectionControl sender, System.ComponentModel.CancelEventArgs args)
+        {
+            Hide();
         }
 
         #endregion

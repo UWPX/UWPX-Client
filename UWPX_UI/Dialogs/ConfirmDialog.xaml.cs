@@ -1,4 +1,5 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using Shared.Classes;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -64,19 +65,21 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
-        {
-            VIEW_MODEL.OnNegative();
-        }
-
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void positive_btn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
         {
             VIEW_MODEL.OnPositive();
+            Hide();
+        }
+
+        private void negative_btn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
+        {
+            VIEW_MODEL.OnNegative();
+            Hide();
         }
 
         private async void Text_mrkdwn_LinkClicked(object sender, Microsoft.Toolkit.Uwp.UI.Controls.LinkClickedEventArgs e)
         {
-            await VIEW_MODEL.OnLinkClickedAsync(e.Link);
+            await VIEW_MODEL.OnLinkClickedAsync(e.Link).ConfAwaitFalse();
         }
 
         #endregion

@@ -44,14 +44,17 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void cancel_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
             Hide();
         }
 
-        private async void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private async void save_btn_Click(Controls.IconProgressButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
-            args.Cancel = await VIEW_MODEL.SaveAsync(CHAT);
+            if (await VIEW_MODEL.SaveAsync(CHAT))
+            {
+                Hide();
+            }
         }
 
         #endregion

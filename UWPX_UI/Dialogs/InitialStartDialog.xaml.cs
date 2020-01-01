@@ -47,9 +47,9 @@ namespace UWPX_UI.Dialogs
             await UiUtils.LaunchUriAsync(new Uri(e.Link));
         }
 
-        private void Close_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        private void close_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
-
+            Hide();
         }
 
         #endregion

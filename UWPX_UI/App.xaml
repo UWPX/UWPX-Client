@@ -16,13 +16,6 @@
 
                 <!--  Styles:  -->
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/GeneralStyles.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/DefaultButtonStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/AcceptButtonStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/DeclineButtonStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/SaveButtonStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/AcceptButtonRevealStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/DeclineButtonRevealStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/SaveButtonRevealStyle.xaml"/>
 
 
                 <!--  Value Converters:  -->

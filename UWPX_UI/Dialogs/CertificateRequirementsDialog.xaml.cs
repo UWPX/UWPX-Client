@@ -1,10 +1,12 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Dialogs;
+﻿using UWPX_UI.Controls;
+using UWPX_UI_Context.Classes.DataContext.Dialogs;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class CertificateRequirementsDialog : ContentDialog
+    public sealed partial class CertificateRequirementsDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -42,15 +44,15 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void accept_btn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
-            VIEW_MODEL.Cancel();
+            VIEW_MODEL.Confirm();
             Hide();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void cancel_btn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
-            VIEW_MODEL.Confirm();
+            VIEW_MODEL.Cancel();
             Hide();
         }
 
