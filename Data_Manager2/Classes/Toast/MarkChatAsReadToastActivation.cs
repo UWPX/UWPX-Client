@@ -26,6 +26,11 @@ namespace Data_Manager2.Classes.Toast
         public MarkChatAsReadToastActivation(Uri uri)
         {
             WwwFormUrlDecoder query = UriUtils.parseUriQuery(uri);
+            if (query is null)
+            {
+                IS_VALID = false;
+                return;
+            }
 
             CHAT_ID = query.Where(x => string.Equals(x.Name, CHAT_QUERY)).Select(x => x.Value).FirstOrDefault();
             IS_VALID = !string.IsNullOrEmpty(CHAT_ID);

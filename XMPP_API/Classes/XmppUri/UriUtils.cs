@@ -95,7 +95,16 @@ namespace XMPP_API.Classes.XmppUri
         /// <returns>A list of attributes and values font in the given <see cref="System.Uri"/>.</returns>
         public static WwwFormUrlDecoder parseUriQuery(Uri uri)
         {
-            return new WwwFormUrlDecoder(uri.Query);
+            // Throws a NullReferenceException if the given Uri is only "xmpp:"
+            try
+            {
+                return new WwwFormUrlDecoder(uri.Query);
+            }
+            catch (NullReferenceException e)
+            {
+                Logger.Error("Failed to decode XMPP Uri: " + uri.ToString(), e);
+                return null;
+            }
         }
 
         /// <summary>
@@ -140,6 +149,11 @@ namespace XMPP_API.Classes.XmppUri
                     if (string.Equals(uri.AbsolutePath, "iot-register"))
                     {
                         WwwFormUrlDecoder query = parseUriQuery(uri);
+                        if (query is null)
+                        {
+                            return null;
+                        }
+
                         IWwwFormUrlDecoderEntry macEntry = query.FirstOrDefault(x => x.Name.StartsWith("mac"));
                         if (macEntry is null || string.IsNullOrEmpty(macEntry.Value))
                         {
@@ -164,6 +178,11 @@ namespace XMPP_API.Classes.XmppUri
                     {
                         // Check if is OMEMO fingerprint URI:
                         WwwFormUrlDecoder query = parseUriQuery(uri);
+                        if (query is null)
+                        {
+                            return null;
+                        }
+
                         IWwwFormUrlDecoderEntry entry = query.FirstOrDefault(x => x.Name.StartsWith("omemo-sid-"));
                         if (!(entry is null))
                         {

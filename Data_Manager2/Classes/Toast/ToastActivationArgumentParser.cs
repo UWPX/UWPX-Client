@@ -39,6 +39,10 @@ namespace Data_Manager2.Classes.Toast
             }
 
             WwwFormUrlDecoder query = UriUtils.parseUriQuery(result);
+            if (query is null)
+            {
+                return null;
+            }
 
             string type = query.Where(x => string.Equals(x.Name, AbstractToastActivation.TYPE_QUERY)).Select(x => x.Value).FirstOrDefault();
             if (string.IsNullOrEmpty(type))

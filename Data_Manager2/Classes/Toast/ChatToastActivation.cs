@@ -29,6 +29,11 @@ namespace Data_Manager2.Classes.Toast
         public ChatToastActivation(Uri uri)
         {
             WwwFormUrlDecoder query = UriUtils.parseUriQuery(uri);
+            if (query is null)
+            {
+                IS_VALID = false;
+                return;
+            }
 
             CHAT_ID = query.Where(x => string.Equals(x.Name, CHAT_QUERY)).Select(x => x.Value).FirstOrDefault();
             CHAT_MESSAGE_ID = query.Where(x => string.Equals(x.Name, CHAT_MESSAGE_QUERY)).Select(x => x.Value).FirstOrDefault();
