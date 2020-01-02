@@ -2,6 +2,7 @@
 using System.Text;
 using Microsoft.Toolkit.Uwp.UI.Animations;
 using Shared.Classes;
+using UWPX_UI.Controls.Settings;
 using UWPX_UI_Context.Classes.DataContext.Pages;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
@@ -49,31 +50,6 @@ namespace UWPX_UI.Pages.Settings
             }
         }
 
-        private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            if (sender is SettingsPageDataTemplate settingsPageDataTemplate)
-            {
-                switch (e.PropertyName)
-                {
-                    case nameof(settingsPageDataTemplate.DebugSettingsEnabled):
-                        if (settingsPageDataTemplate.DebugSettingsEnabled)
-                        {
-                            debugSettings_notification.Show("Debug settings enabled.", 5000);
-                            if (!SETTINGS_PAGES.Contains(DEBUG_SETTINGS))
-                            {
-                                SETTINGS_PAGES.Add(DEBUG_SETTINGS);
-                            }
-                        }
-                        else
-                        {
-                            debugSettings_notification.Show("Debug settings disabled.", 5000);
-                            SETTINGS_PAGES.Remove(DEBUG_SETTINGS);
-                        }
-                        break;
-                }
-            }
-        }
-
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
@@ -112,7 +88,7 @@ namespace UWPX_UI.Pages.Settings
         #region --Events--
         private void SettingsSelectionControl_PointerEntered(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
         {
-            if (!(DeviceFamilyHelper.IsMouseInteractionMode() && sender is FrameworkElement settingsSelection))
+            if (!(DeviceFamilyHelper.IsMouseInteractionMode() && sender is SettingsSelectionLargeControl settingsSelection))
             {
                 return;
             }
@@ -147,6 +123,31 @@ namespace UWPX_UI.Pages.Settings
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
+        }
+
+        private void MODEL_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is SettingsPageDataTemplate settingsPageDataTemplate)
+            {
+                switch (e.PropertyName)
+                {
+                    case nameof(settingsPageDataTemplate.DebugSettingsEnabled):
+                        if (settingsPageDataTemplate.DebugSettingsEnabled)
+                        {
+                            debugSettings_notification.Show("Debug settings enabled.", 5000);
+                            if (!SETTINGS_PAGES.Contains(DEBUG_SETTINGS))
+                            {
+                                SETTINGS_PAGES.Add(DEBUG_SETTINGS);
+                            }
+                        }
+                        else
+                        {
+                            debugSettings_notification.Show("Debug settings disabled.", 5000);
+                            SETTINGS_PAGES.Remove(DEBUG_SETTINGS);
+                        }
+                        break;
+                }
+            }
         }
 
         #endregion

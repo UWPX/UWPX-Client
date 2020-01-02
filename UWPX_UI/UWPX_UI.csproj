@@ -11,8 +11,8 @@
     <AssemblyName>UWPX_UI</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
-    <TargetPlatformMinVersion>10.0.15063.0</TargetPlatformMinVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -345,9 +345,6 @@
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsViewState.cs" />
-    <Compile Include="Controls\Toolkit\SlidableListItem\SlidableListItem.cs" />
-    <Compile Include="Controls\Toolkit\SlidableListItem\SwipeStatus.cs" />
-    <Compile Include="Controls\Toolkit\SlidableListItem\SwipeStatusChangedEventArgs.cs" />
     <Compile Include="Controls\Toolkit\VisualTree.cs" />
     <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
       <DependentUpon>AccountInfoDialog.xaml</DependentUpon>
@@ -504,8 +501,6 @@
     <Content Include="Assets\Badge\Badge.scale-400.png" />
     <Content Include="Assets\Fonts\seguiemj.ttf" />
     <Content Include="Assets\Fonts\segmdl2.ttf" />
-    <None Include="UWPX_UI_StoreKey.pfx" />
-    <None Include="UWPX_UI_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\BackgroundImages\cat.jpeg" />
@@ -568,7 +563,7 @@
     <Content Include="Assets\Store\StoreLogo.scale-150.png" />
     <Content Include="Assets\Store\StoreLogo.scale-200.png" />
     <Content Include="Assets\Store\StoreLogo.scale-400.png" />
-    <None Include="Package.StoreAssociation.xml" />
+    <Content Include="Assets\uri_activation_icon.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-100.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide\Wide310x150Logo.scale-150.png" />
@@ -581,22 +576,28 @@
       <Version>6.2.9</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Animations">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Controls.DataGrid">
-      <Version>4.0.0</Version>
+      <Version>6.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Toolkit.Uwp.UI.Media">
+      <Version>6.0.0</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.UI.Xaml">
-      <Version>2.1.190606001</Version>
+      <Version>2.3.191211002</Version>
+    </PackageReference>
+    <PackageReference Include="ZXing.Net">
+      <Version>0.16.5</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -876,14 +877,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\Toolkit\SlidableListItem\SlidableListItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Controls\Toolkit\SlidableListItem\SlidableListItemSwipeControlTemplate.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Dialogs\AccountInfoDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -1036,13 +1029,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Styles\SaveButtonStyle.xaml">
+    <Page Include="Resources\Styles\Button\SettingsButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\AcceptButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\BareJidAutoSuggestBoxStyle.xaml">
       <SubType>Designer</SubType>
@@ -1057,14 +1046,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Resources\Styles\CustomTitleBarButtonStyle.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Resources\Styles\DeclineButtonStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Resources\Styles\DefaultButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1088,11 +1069,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Styles\TransparentIconButtonStyle.xaml">
+    <Page Include="Resources\Styles\Button\TransparentIconButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Resources\Styles\TransparentThemeButtonStyle.xaml">
+    <Page Include="Resources\Styles\Button\TransparentThemeButtonStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1113,10 +1094,6 @@
     <ProjectReference Include="..\Unicode\Unicode.csproj">
       <Project>{0e93f94c-a663-4eb6-a6de-6a853d162375}</Project>
       <Name>Unicode</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\UWP XMPP Client\UWP XMPP Client.csproj">
-      <Project>{A89D7282-BA49-4E70-B39E-7DD3DAFAD0BB}</Project>
-      <Name>UWP XMPP Client</Name>
     </ProjectReference>
     <ProjectReference Include="..\UWPX_UI_Context\UWPX_UI_Context.csproj">
       <Project>{b4eb6f7e-cb04-4392-87da-bfc242483065}</Project>

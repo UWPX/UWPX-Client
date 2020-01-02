@@ -13,8 +13,8 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/MessageTextBoxStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>

@@ -13,8 +13,8 @@ namespace UWPX_UI.Dialogs
 
         public XMPPAccount Account
         {
-            get { return (XMPPAccount)GetValue(AccountProperty); }
-            set { SetValue(AccountProperty, value); }
+            get => (XMPPAccount)GetValue(AccountProperty);
+            set => SetValue(AccountProperty, value);
         }
         public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(XMPPAccount), typeof(OmemoOwnFingerprintDialog), new PropertyMetadata(null));
 
@@ -49,7 +49,10 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void close_btn_Click(Controls.IconButtonControl sender, RoutedEventArgs args)
+        {
+            Hide();
+        }
 
         #endregion
     }

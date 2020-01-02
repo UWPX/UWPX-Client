@@ -41,7 +41,10 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void close_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
+        {
+            Hide();
+        }
 
         #endregion
     }

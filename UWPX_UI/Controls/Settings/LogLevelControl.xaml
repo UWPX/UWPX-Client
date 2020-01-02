@@ -46,7 +46,6 @@
                 Margin="10,0,0,0"
                 VerticalAlignment="Center"
                 Background="Transparent"
-                Click="LogLevelDebug_btn_Click"
                 Content="&#xE7BA;"
                 FontFamily="{ThemeResource SymbolThemeFontFamily}"
                 FontSize="15"

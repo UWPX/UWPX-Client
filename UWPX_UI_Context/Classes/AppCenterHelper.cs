@@ -67,6 +67,7 @@ namespace UWPX_UI_Context.Classes
         {
             try
             {
+#if DEBUG
                 Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
                 if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
                 {
@@ -80,7 +81,6 @@ namespace UWPX_UI_Context.Classes
                     Analytics.SetEnabledAsync(false);
                     Logger.Info("AppCenter analytics are disabled.");
                 }
-#if DEBUG
                 // Only enable push for debug builds:
                 Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push));
 #endif

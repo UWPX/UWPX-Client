@@ -31,8 +31,8 @@ namespace UWPX_UI.Controls
 
         public string QrCodeResultFilterRegex
         {
-            get { return (string)GetValue(QrCodeResultFilterRegexProperty); }
-            set { SetValue(QrCodeResultFilterRegexProperty, value); }
+            get => (string)GetValue(QrCodeResultFilterRegexProperty);
+            set => SetValue(QrCodeResultFilterRegexProperty, value);
         }
         public static readonly DependencyProperty QrCodeResultFilterRegexProperty = DependencyProperty.Register(nameof(QrCodeResultFilterRegex), typeof(string), typeof(QrCodeScannerControl), new PropertyMetadata(".*", OnQrCodeResultFilterRegexChanged));
 

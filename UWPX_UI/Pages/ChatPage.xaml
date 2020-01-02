@@ -357,14 +357,6 @@
                                           Glyph="&#xEDAF;"/>
                             </AppBarButton.Icon>
                         </AppBarButton>
-                        <AppBarButton x:Name="manageBookmarks_abb"
-                                      Click="ManageBookmarks_abb_Click"
-                                      Label="Manage bookmarks">
-                            <AppBarButton.Icon>
-                                <FontIcon Foreground="{ThemeResource GoldBrush}"
-                                          Glyph="&#xE734;"/>
-                            </AppBarButton.Icon>
-                        </AppBarButton>
                     </CommandBar.SecondaryCommands>
                 </CommandBar>
             </masterdetailsview:MasterDetailsView.MasterCommandBar>

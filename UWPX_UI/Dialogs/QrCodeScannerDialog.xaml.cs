@@ -70,7 +70,7 @@ namespace UWPX_UI.Dialogs
             });
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void close_btn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
             VIEW_MODEL.OnCancel();
         }

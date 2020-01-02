@@ -194,7 +194,7 @@ namespace UWPX_UI_Context.Classes
                 R = 0xD6,
                 G = 0xD6,
                 B = 0xD6,
-            }), ElementTheme.Dark);
+            }), ElementTheme.Light);
             SetThemeResource("AppBackgroundAcrylicElementBrush", new SolidColorBrush(new Color()
             {
                 A = 0xFF,

@@ -1,6 +1,5 @@
 ﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
-using UWPX_UI.Controls.Toolkit.SlidableListItem;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
@@ -154,28 +153,6 @@ namespace UWPX_UI.Controls.Chat
             await DeleteChatAsync();
         }
 
-        private async void SlideListItem_sli_SwipeStatusChanged(SlidableListItem sender, SwipeStatusChangedEventArgs args)
-        {
-            if (args.NewValue == SwipeStatus.Idle)
-            {
-                if (args.OldValue == SwipeStatus.SwipingPassedLeftThreshold)
-                {
-                    await DeleteChatAsync();
-                }
-                else if (args.OldValue == SwipeStatus.SwipingPassedRightThreshold)
-                {
-                    if (Chat.Chat.chatType == ChatType.MUC)
-                    {
-                        VIEW_MODEL.ToggleChatBookmarked(Chat);
-                    }
-                    else
-                    {
-                        await VIEW_MODEL.ToggleChatInRosterAsync(Chat);
-                    }
-                }
-            }
-        }
-
         private void ShowProfile_mfo_Click(object sender, RoutedEventArgs e)
         {
             UiUtils.NavigateToPage(typeof(ContactInfoPage), new NavigatedToContactInfoPageEventArgs(Chat.Client, Chat.Chat));
@@ -189,12 +166,13 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void VIEW_MODEL_OnError(ChatMasterControlContext sender, OnErrorEventArgs args)
+        private async void VIEW_MODEL_OnError(ChatMasterControlContext sender, OnErrorEventArgs args)
         {
             InfoDialog dialog = new InfoDialog(args.TITLE, args.MESSAGE)
             {
                 Foreground = new SolidColorBrush(Colors.Red)
             };
+            await UiUtils.ShowDialogAsync(dialog);
         }
 
         private async void AccountActionAccept_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
@@ -210,6 +188,23 @@ namespace UWPX_UI.Controls.Chat
         private void MarkAsRead_tmfo_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.MarkAsRead(Chat);
+        }
+
+        private async void SwipeLeftItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            await DeleteChatAsync();
+        }
+
+        private async void SwipeRightItem_Invoked(SwipeItem sender, SwipeItemInvokedEventArgs args)
+        {
+            if (Chat.Chat.chatType == ChatType.MUC)
+            {
+                VIEW_MODEL.ToggleChatBookmarked(Chat);
+            }
+            else
+            {
+                await VIEW_MODEL.ToggleChatInRosterAsync(Chat);
+            }
         }
 
         #endregion

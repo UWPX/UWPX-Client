@@ -10,7 +10,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentIconButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
             <valueconverter:OmemoBoolGlyphTextValueConverter x:Key="OmemoBoolGlyphTextValueConverter"/>
             <valueconverter:OmemoBoolBrushValueConverter x:Key="OmemoBoolBrushValueConverter"/>

@@ -8,12 +8,14 @@
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         <Setter Property="MaxLines" Value="1"/>
     </Style>
+
     <Style x:Key="BodyLineTextBlockStyle"
            BasedOn="{StaticResource BodyTextBlockStyle}"
            TargetType="TextBlock">
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         <Setter Property="MaxLines" Value="1"/>
     </Style>
+
     <Style x:Key="CaptionLineTextBlockStyle"
            BasedOn="{StaticResource CaptionTextBlockStyle}"
            TargetType="TextBlock">
@@ -25,4 +27,22 @@
         <Setter Property="Color" Value="{ThemeResource DropShadowColor}"/>
     </Style>
 
+    <Style TargetType="controls:MarkdownTextBlock">
+        <Setter Property="Background" Value="Transparent"/>
+    </Style>
+
+    <Style BasedOn="{StaticResource ButtonRevealStyle}"
+           TargetType="Button"/>
+
+    <Style BasedOn="{StaticResource ToggleButtonRevealStyle}"
+           TargetType="ToggleButton"/>
+
+    <Style BasedOn="{StaticResource AppBarButtonRevealStyle}"
+           TargetType="AppBarButton"/>
+
+    <Style BasedOn="{StaticResource AppBarToggleButtonRevealStyle}"
+           TargetType="AppBarToggleButton"/>
+
+    <Style BasedOn="{StaticResource RepeatButtonRevealStyle}"
+           TargetType="RepeatButton"/>
 </ResourceDictionary>

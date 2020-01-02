@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/TransparentThemeButtonStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentThemeButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <!--  Based on: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/v6.0.0/Microsoft.Toolkit.Uwp.UI.Controls/Expander/Expander.xaml  -->

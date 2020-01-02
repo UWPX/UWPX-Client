@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Dialogs
 {
-    public sealed partial class AddChatDialog : ContentDialog
+    public sealed partial class AddChatDialog: ContentDialog
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -42,15 +42,15 @@ namespace UWPX_UI.Dialogs
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void ContentDialog_PrimaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void add_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
-            VIEW_MODEL.OnCancel();
+            VIEW_MODEL.OnConfirm();
             Hide();
         }
 
-        private void ContentDialog_SecondaryButtonClick(ContentDialog sender, ContentDialogButtonClickEventArgs args)
+        private void cancel_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
-            VIEW_MODEL.OnConfirm();
+            VIEW_MODEL.OnCancel();
             Hide();
         }
 

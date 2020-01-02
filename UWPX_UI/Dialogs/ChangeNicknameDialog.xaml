@@ -6,28 +6,50 @@
                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                Title="Change Nickname"
                Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
-               IsPrimaryButtonEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-               IsSecondaryButtonEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaveEnabled, Mode=OneWay}"
-               PrimaryButtonClick="ContentDialog_PrimaryButtonClick"
-               PrimaryButtonStyle="{ThemeResource DeclineButtonRevealStyle}"
-               PrimaryButtonText="Cancel"
-               SecondaryButtonClick="ContentDialog_SecondaryButtonClick"
-               SecondaryButtonStyle="{ThemeResource SaveButtonRevealStyle}"
-               SecondaryButtonText="Save"
                mc:Ignorable="d">
-    <StackPanel>
-        <ProgressBar IsIndeterminate="True"
-                     Visibility="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-        <controls:IconTextBlockControl Foreground="Red"
-                                       GlyphForeground="Red"
-                                       Text="Changing nickname failed!"
-                                       Visibility="{x:Bind VIEW_MODEL.MODEL.Error, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-        <TextBox IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
-                 PlaceholderText="Nickname"
-                 Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <TextBlock Margin="0,10,0,0"
-                   Foreground="{ThemeResource CaptionTextBrush}"
-                   Text="{x:Bind VIEW_MODEL.MODEL.MucName, Mode=OneWay}"
-                   TextTrimming="CharacterEllipsis"/>
-    </StackPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0">
+            <TextBox IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                     PlaceholderText="Nickname"
+                     Text="{x:Bind VIEW_MODEL.MODEL.Nickname, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Margin="0,10,0,0"
+                       Foreground="{ThemeResource CaptionTextBrush}"
+                       Text="{x:Bind VIEW_MODEL.MODEL.MucName, Mode=OneWay}"
+                       TextTrimming="CharacterEllipsis"/>
+            <controls:IconTextBlockControl Margin="0,10,0,0"
+                                           Foreground="Red"
+                                           GlyphForeground="Red"
+                                           Text="Changing nickname failed!"
+                                           Visibility="{x:Bind VIEW_MODEL.MODEL.Error, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+        </StackPanel>
+
+        <Grid x:Name="buttons_grid"
+              Grid.Row="1"
+              Margin="0,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <controls:IconButtonControl x:Name="cancel_btn"
+                                        Grid.Column="0"
+                                        Margin="0,0,1,0"
+                                        Click="cancel_btn_Click"
+                                        Glyph="&#xE711;"
+                                        GlyphForeground="Red"
+                                        IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolInverterValueConverter}}"
+                                        Text="Cancel"/>
+            <controls:IconProgressButtonControl x:Name="save_btn"
+                                                Grid.Column="1"
+                                                Margin="1,0,0,0"
+                                                Click="save_btn_Click"
+                                                Glyph="&#xE74E;"
+                                                IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsSaveEnabled, Mode=OneWay}"
+                                                ProgressRingVisibility="{x:Bind VIEW_MODEL.MODEL.IsSaving, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
+                                                Text="Save"/>
+        </Grid>
+    </Grid>
 </ContentDialog>

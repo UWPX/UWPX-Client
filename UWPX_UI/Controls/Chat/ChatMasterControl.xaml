@@ -1,111 +1,117 @@
-﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatMasterControl"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:UWPX_UI.Controls"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:slidablelistitem="using:UWPX_UI.Controls.Toolkit.SlidableListItem"
-             xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
-             d:DesignHeight="120"
-             d:DesignWidth="500"
-             RightTapped="UserControl_RightTapped"
-             mc:Ignorable="d">
+﻿<UserControl
+    x:Class="UWPX_UI.Controls.Chat.ChatMasterControl"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:UWPX_UI.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:valueconverter="using:UWPX_UI_Context.Classes.ValueConverter"
+    d:DesignHeight="120"
+    d:DesignWidth="500"
+    RightTapped="UserControl_RightTapped"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <valueconverter:MessageStateBrushValueConverter x:Key="MessageStateBrushValueConverter">
             <valueconverter:MessageStateBrushValueConverter.Resources>
-                <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/MyBrushes.xaml" />
             </valueconverter:MessageStateBrushValueConverter.Resources>
         </valueconverter:MessageStateBrushValueConverter>
-        <valueconverter:MucStateMucJoinVisibilityValueConverter x:Key="MucStateMucJoinVisibilityValueConverter"/>
-        <valueconverter:MucStateMucLeaveVisibilityValueConverter x:Key="MucStateMucLeaveVisibilityValueConverter"/>
+        <valueconverter:MucStateMucJoinVisibilityValueConverter x:Key="MucStateMucJoinVisibilityValueConverter" />
+        <valueconverter:MucStateMucLeaveVisibilityValueConverter x:Key="MucStateMucLeaveVisibilityValueConverter" />
         <MenuFlyout x:Name="chat_mfo">
             <MenuFlyout.Items>
-                <MenuFlyoutItem x:Name="showProfile_mfo"
-                                Click="ShowProfile_mfo_Click"
-                                Text="Info">
+                <MenuFlyoutItem
+                    x:Name="showProfile_mfo"
+                    Click="ShowProfile_mfo_Click"
+                    Text="Info">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xEA4A;"/>
+                        <FontIcon Glyph="&#xEA4A;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutSubItem x:Name="presenceSubscription_mfo"
-                                   IsEnabled="{x:Bind VIEW_MODEL.MODEL.PresenceFlyoutEnabled, Mode=OneWay}"
-                                   Text="Presence subscription">
-                    <MenuFlyoutItem x:Name="requestPresenceSubscription_mfo"
-                                    Click="RequestPresenceSubscription_mfo_Click"
-                                    Text="Request subscription"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RequestPresenceSubscriptionVisibility, Mode=OneWay}">
+                <MenuFlyoutSeparator />
+                <MenuFlyoutSubItem
+                    x:Name="presenceSubscription_mfo"
+                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.PresenceFlyoutEnabled, Mode=OneWay}"
+                    Text="Presence subscription">
+                    <MenuFlyoutItem
+                        x:Name="requestPresenceSubscription_mfo"
+                        Click="RequestPresenceSubscription_mfo_Click"
+                        Text="Request subscription"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.RequestPresenceSubscriptionVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Foreground="Green"
-                                      Glyph="&#xE109;"/>
+                            <FontIcon Foreground="Green" Glyph="&#xE109;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Name="cancelPresenceSubscription_mfo"
-                                    Click="CancelPresenceSubscription_mfo_Click"
-                                    Text="Cancel subscription"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.CancelPresenceSubscriptionVisibility, Mode=OneWay}">
+                    <MenuFlyoutItem
+                        x:Name="cancelPresenceSubscription_mfo"
+                        Click="CancelPresenceSubscription_mfo_Click"
+                        Text="Cancel subscription"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.CancelPresenceSubscriptionVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Foreground="Red"
-                                      Glyph="&#xE738;"/>
+                            <FontIcon Foreground="Red" Glyph="&#xE738;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Name="rejectPresenceSubscription_mfo"
-                                    Click="RejectPresenceSubscription_mfo_Click"
-                                    Text="Reject subscription"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.RejectPresenceSubscriptionVisibility, Mode=OneWay}">
+                    <MenuFlyoutItem
+                        x:Name="rejectPresenceSubscription_mfo"
+                        Click="RejectPresenceSubscription_mfo_Click"
+                        Text="Reject subscription"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.RejectPresenceSubscriptionVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Foreground="Red"
-                                      Glyph="&#xE711;"/>
+                            <FontIcon Foreground="Red" Glyph="&#xE711;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
-                    <MenuFlyoutItem x:Name="probePresence_mfo"
-                                    Click="ProbePresence_mfo_Click"
-                                    Text="Probe presence"
-                                    Visibility="{x:Bind VIEW_MODEL.MODEL.ProbePresenceVisibility, Mode=OneWay}">
+                    <MenuFlyoutItem
+                        x:Name="probePresence_mfo"
+                        Click="ProbePresence_mfo_Click"
+                        Text="Probe presence"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.ProbePresenceVisibility, Mode=OneWay}">
                         <MenuFlyoutItem.Icon>
-                            <FontIcon Glyph="&#xEA62;"/>
+                            <FontIcon Glyph="&#xEA62;" />
                         </MenuFlyoutItem.Icon>
                     </MenuFlyoutItem>
                 </MenuFlyoutSubItem>
-                <MenuFlyoutSeparator/>
-                <ToggleMenuFlyoutItem x:Name="mute_tmfo"
-                                      Click="Mute_tmfo_Click"
-                                      IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
-                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}">
+                <MenuFlyoutSeparator />
+                <ToggleMenuFlyoutItem
+                    x:Name="mute_tmfo"
+                    Click="Mute_tmfo_Click"
+                    IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
+                    Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE74F;"/>
+                        <FontIcon Glyph="&#xE74F;" />
                     </MenuFlyoutItem.Icon>
                 </ToggleMenuFlyoutItem>
-                <MenuFlyoutItem x:Name="markChatAsRead_tmfo"
-                                Click="MarkAsRead_tmfo_Click"
-                                Text="Mark as read">
+                <MenuFlyoutItem
+                    x:Name="markChatAsRead_tmfo"
+                    Click="MarkAsRead_tmfo_Click"
+                    Text="Mark as read">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8C3;"/>
+                        <FontIcon Glyph="&#xE8C3;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Name="block_tmfo"
-                                IsEnabled="False"
-                                Text="Block (WIP)">
+                <MenuFlyoutItem
+                    x:Name="block_tmfo"
+                    IsEnabled="False"
+                    Text="Block (WIP)">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8F8;"/>
+                        <FontIcon Glyph="&#xE8F8;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutItem x:Name="removeFromRoster_mfo"
-                                Click="RemoveFromRoster_mfo_Click"
-                                Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    x:Name="removeFromRoster_mfo"
+                    Click="RemoveFromRoster_mfo_Click"
+                    Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="{ThemeResource GoldBrush}"
-                                  Glyph="&#xE734;"/>
+                        <FontIcon Foreground="{ThemeResource GoldBrush}" Glyph="&#xE734;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Name="deleteChat_mfo"
-                                Click="DeleteChat_mfo_Click"
-                                Text="Delete">
+                <MenuFlyoutItem
+                    x:Name="deleteChat_mfo"
+                    Click="DeleteChat_mfo_Click"
+                    Text="Delete">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="Red"
-                                  Glyph="&#xE74D;"/>
+                        <FontIcon Foreground="Red" Glyph="&#xE74D;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyout.Items>
@@ -113,222 +119,254 @@
 
         <MenuFlyout x:Name="muc_mfo">
             <MenuFlyout.Items>
-                <MenuFlyoutItem x:Name="showInfo_mfo"
-                                Click="ShowInfo_mfo_Click"
-                                Text="Info">
+                <MenuFlyoutItem
+                    x:Name="showInfo_mfo"
+                    Click="ShowInfo_mfo_Click"
+                    Text="Info">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xEA4A;"/>
+                        <FontIcon Glyph="&#xEA4A;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Name="enter_mfo"
-                                Click="Enter_mfo_Click"
-                                Text="Enter room"
-                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisibilityValueConverter}}">
+                <MenuFlyoutItem
+                    x:Name="enter_mfo"
+                    Click="Enter_mfo_Click"
+                    Text="Enter room"
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucJoinVisibilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="Green"
-                                  Glyph="&#xE8BD;"/>
+                        <FontIcon Foreground="Green" Glyph="&#xE8BD;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutItem x:Name="leave_mfo"
-                                Click="Leave_mfo_Click"
-                                Text="Leave room"
-                                Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisibilityValueConverter}}">
+                <MenuFlyoutItem
+                    x:Name="leave_mfo"
+                    Click="Leave_mfo_Click"
+                    Text="Leave room"
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.MucState, Mode=OneWay, Converter={StaticResource MucStateMucLeaveVisibilityValueConverter}}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="Red"
-                                  Glyph="&#xE89B;"/>
+                        <FontIcon Foreground="Red" Glyph="&#xE89B;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutItem x:Name="bookmark_tmfo"
-                                Click="Bookmark_tmfo_Click"
-                                Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    x:Name="bookmark_tmfo"
+                    Click="Bookmark_tmfo_Click"
+                    Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="{ThemeResource GoldBrush}"
-                                  Glyph="&#xE734;"/>
+                        <FontIcon Foreground="{ThemeResource GoldBrush}" Glyph="&#xE734;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <ToggleMenuFlyoutItem x:Name="muteMUC_tmfo"
-                                      Click="MuteMUC_tmfo_Click"
-                                      IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
-                                      Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}">
+                <ToggleMenuFlyoutItem
+                    x:Name="muteMUC_tmfo"
+                    Click="MuteMUC_tmfo_Click"
+                    IsChecked="{x:Bind Chat.Chat.muted, Mode=OneWay}"
+                    Text="{x:Bind VIEW_MODEL.MODEL.MuteText, Mode=OneWay}">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE74F;"/>
+                        <FontIcon Glyph="&#xE74F;" />
                     </MenuFlyoutItem.Icon>
                 </ToggleMenuFlyoutItem>
-                <MenuFlyoutItem x:Name="markMucAsRead_tmfo"
-                                Click="MarkAsRead_tmfo_Click"
-                                Text="Mark as read">
+                <MenuFlyoutItem
+                    x:Name="markMucAsRead_tmfo"
+                    Click="MarkAsRead_tmfo_Click"
+                    Text="Mark as read">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Glyph="&#xE8C3;"/>
+                        <FontIcon Glyph="&#xE8C3;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
-                <MenuFlyoutSeparator/>
-                <MenuFlyoutItem x:Name="deleteMUC_mfo"
-                                Click="DeleteMUC_mfo_Click"
-                                Text="Delete">
+                <MenuFlyoutSeparator />
+                <MenuFlyoutItem
+                    x:Name="deleteMUC_mfo"
+                    Click="DeleteMUC_mfo_Click"
+                    Text="Delete">
                     <MenuFlyoutItem.Icon>
-                        <FontIcon Foreground="Red"
-                                  Glyph="&#xE74D;"/>
+                        <FontIcon Foreground="Red" Glyph="&#xE74D;" />
                     </MenuFlyoutItem.Icon>
                 </MenuFlyoutItem>
             </MenuFlyout.Items>
         </MenuFlyout>
     </UserControl.Resources>
 
-    <slidablelistitem:SlidableListItem x:Name="slideListItem_sli"
-                                       LeftBackground="{ThemeResource SystemControlBackgroundAltMediumHighBrush}"
-                                       LeftForeground="{ThemeResource GoldBrush}"
-                                       LeftIcon="OutlineStar"
-                                       LeftLabel="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}"
-                                       MouseSlidingEnabled="True"
-                                       RightBackground="OrangeRed"
-                                       RightForeground="White"
-                                       RightIcon="Delete"
-                                       RightLabel="Delete"
-                                       SwipeStatusChanged="SlideListItem_sli_SwipeStatusChanged">
+    <SwipeControl>
+        <SwipeControl.LeftItems>
+            <SwipeItems Mode="Execute">
+                <SwipeItem
+                    BehaviorOnInvoked="Close"
+                    Foreground="{ThemeResource GoldBrush}"
+                    Invoked="SwipeLeftItem_Invoked"
+                    Text="{x:Bind VIEW_MODEL.MODEL.RemoveFromRosterText, Mode=OneWay}">
+                    <SwipeItem.IconSource>
+                        <FontIconSource Glyph="&#xE734;" />
+                    </SwipeItem.IconSource>
+                </SwipeItem>
+            </SwipeItems>
+        </SwipeControl.LeftItems>
+        <SwipeControl.RightItems>
+            <SwipeItems Mode="Execute">
+                <SwipeItem
+                    BehaviorOnInvoked="Close"
+                    Foreground="OrangeRed"
+                    Invoked="SwipeRightItem_Invoked"
+                    Text="Delete">
+                    <SwipeItem.IconSource>
+                        <FontIconSource Glyph="&#xE74D;" />
+                    </SwipeItem.IconSource>
+                </SwipeItem>
+            </SwipeItems>
+        </SwipeControl.RightItems>
         <Grid Margin="0,5,0,5">
 
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
             <Grid Grid.Row="0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <Rectangle x:Name="color_rcta"
-                           Grid.Column="0"
-                           Width="5"
-                           Margin="5,0,0,0"
-                           Fill="{x:Bind VIEW_MODEL.MODEL.AccountColorBrush, Mode=OneWay}"
-                           Visibility="{x:Bind VIEW_MODEL.MODEL.ShowAccountColor, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-                <controls:AccountImagePresenceControl x:Name="image_aciwp"
-                                                      Grid.Column="1"
-                                                      Margin="5,0,0,0"
-                                                      BadgeCount="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"
-                                                      BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
-                                                      ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
-                                                      PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}"/>
-                <StackPanel Grid.Column="2"
-                            HorizontalAlignment="Stretch">
-                    <TextBlock x:Name="name_tblck"
-                               Margin="10,0,0,0"
-                               Style="{ThemeResource BodyLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"/>
+                <Rectangle
+                    x:Name="color_rcta"
+                    Grid.Column="0"
+                    Width="5"
+                    Margin="5,0,0,0"
+                    Fill="{x:Bind VIEW_MODEL.MODEL.AccountColorBrush, Mode=OneWay}"
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.ShowAccountColor, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}" />
+                <controls:AccountImagePresenceControl
+                    x:Name="image_aciwp"
+                    Grid.Column="1"
+                    Margin="5,0,0,0"
+                    BadgeCount="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"
+                    BareJid="{x:Bind VIEW_MODEL.MODEL.BareJid, Mode=OneWay}"
+                    ChatType="{x:Bind VIEW_MODEL.MODEL.ChatType, Mode=OneWay}"
+                    PresenceProp="{x:Bind VIEW_MODEL.MODEL.AccountPresence, Mode=OneWay}" />
+                <StackPanel Grid.Column="2" HorizontalAlignment="Stretch">
+                    <TextBlock
+                        x:Name="name_tblck"
+                        Margin="10,0,0,0"
+                        Style="{ThemeResource BodyLineTextBlockStyle}"
+                        Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis" />
                     <Grid Margin="10,0,10,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="lastActionIcon_tblck"
-                                   Grid.Column="0"
-                                   Margin="0,0,5,0"
-                                   VerticalAlignment="Center"
-                                   FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                                   Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
-                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"
-                                   Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
-                        <TextBlock x:Name="lastAction_tblck"
-                                   Grid.Column="1"
-                                   VerticalAlignment="Center"
-                                   Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
-                                   MaxLines="1"
-                                   Style="{ThemeResource CaptionLineTextBlockStyle}"
-                                   Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
-                                   TextTrimming="CharacterEllipsis"/>
+                        <TextBlock
+                            x:Name="lastActionIcon_tblck"
+                            Grid.Column="0"
+                            Margin="0,0,5,0"
+                            VerticalAlignment="Center"
+                            FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                            Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
+                            Style="{ThemeResource CaptionLineTextBlockStyle}"
+                            Text="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay}"
+                            Visibility="{x:Bind VIEW_MODEL.MODEL.LastActionIconText, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}" />
+                        <TextBlock
+                            x:Name="lastAction_tblck"
+                            Grid.Column="1"
+                            VerticalAlignment="Center"
+                            Foreground="{x:Bind VIEW_MODEL.MODEL.LastActionState, Converter={StaticResource MessageStateBrushValueConverter}, Mode=OneWay}"
+                            MaxLines="1"
+                            Style="{ThemeResource CaptionLineTextBlockStyle}"
+                            Text="{x:Bind VIEW_MODEL.MODEL.LastActionText, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis" />
                     </Grid>
-                    <TextBlock x:Name="info_tblck"
-                               Grid.Column="0"
-                               Margin="10,0,0,0"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Style="{ThemeResource CaptionLineTextBlockStyle}"
-                               Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
-                               TextTrimming="CharacterEllipsis"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisibility, Mode=OneWay}"/>
+                    <TextBlock
+                        x:Name="info_tblck"
+                        Grid.Column="0"
+                        Margin="10,0,0,0"
+                        Foreground="{ThemeResource CaptionTextBrush}"
+                        Style="{ThemeResource CaptionLineTextBlockStyle}"
+                        Text="{x:Bind VIEW_MODEL.MODEL.InfoText, Mode=OneWay}"
+                        TextTrimming="CharacterEllipsis"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.InfoTextVisibility, Mode=OneWay}" />
                 </StackPanel>
 
-                <Grid Grid.Column="3"
-                      Margin="0,0,10,0"
-                      HorizontalAlignment="Right">
+                <Grid
+                    Grid.Column="3"
+                    Margin="0,0,10,0"
+                    HorizontalAlignment="Right">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="16"/>
-                        <RowDefinition Height="16"/>
-                        <RowDefinition Height="16"/>
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="16" />
+                        <RowDefinition Height="16" />
                     </Grid.RowDefinitions>
-                    <TextBlock x:Name="inRoster_tbck"
-                               Grid.Row="0"
-                               Margin="0,0,1,0"
-                               HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                               FontSize="12"
-                               Foreground="{ThemeResource GoldBrush}"
-                               Text="&#xE734;"
-                               Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisibility, Mode=OneWay}"/>
-                    <TextBlock x:Name="muted_tbck"
-                               Grid.Row="1"
-                               HorizontalAlignment="Right"
-                               VerticalAlignment="Center"
-                               FontFamily="{ThemeResource SymbolThemeFontFamily}"
-                               FontSize="13"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Text="&#xE74F;"
-                               Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
-                    <TextBlock x:Name="lastActionDate_tblck"
-                               Grid.Row="2"
-                               HorizontalAlignment="Right"
-                               FontSize="10"
-                               Foreground="{ThemeResource CaptionTextBrush}"
-                               Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
-                               TextTrimming="CharacterEllipsis"/>
+                    <TextBlock
+                        x:Name="inRoster_tbck"
+                        Grid.Row="0"
+                        Margin="0,0,1,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="12"
+                        Foreground="{ThemeResource GoldBrush}"
+                        Text="&#xE734;"
+                        Visibility="{x:Bind VIEW_MODEL.MODEL.InRosterVisibility, Mode=OneWay}" />
+                    <TextBlock
+                        x:Name="muted_tbck"
+                        Grid.Row="1"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                        FontSize="13"
+                        Foreground="{ThemeResource CaptionTextBrush}"
+                        Text="&#xE74F;"
+                        Visibility="{x:Bind Chat.Chat.muted, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}" />
+                    <TextBlock
+                        x:Name="lastActionDate_tblck"
+                        Grid.Row="2"
+                        HorizontalAlignment="Right"
+                        FontSize="10"
+                        Foreground="{ThemeResource CaptionTextBrush}"
+                        Text="{x:Bind Chat.Chat.lastActive, Mode=OneWay, Converter={StaticResource ChatDateTimeStringValueConverter}}"
+                        TextTrimming="CharacterEllipsis" />
                 </Grid>
             </Grid>
-            <Grid x:Name="accountAction_grid"
-                  Grid.Row="1"
-                  Margin="10,0,10,10"
-                  Visibility="{x:Bind VIEW_MODEL.MODEL.AccountActionsVisibility, Mode=OneWay}">
+            <Grid
+                x:Name="accountAction_grid"
+                Grid.Row="1"
+                Margin="10,0,10,10"
+                Visibility="{x:Bind VIEW_MODEL.MODEL.AccountActionsVisibility, Mode=OneWay}">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
-                <TextBlock x:Name="accountAction_tblck"
-                           Grid.Row="0"
-                           Grid.ColumnSpan="2"
-                           Margin="0,0,0,5"
-                           MaxLines="0"
-                           Style="{ThemeResource BodyTextBlockStyle}"
-                           TextWrapping="Wrap">
+                <TextBlock
+                    x:Name="accountAction_tblck"
+                    Grid.Row="0"
+                    Grid.ColumnSpan="2"
+                    Margin="0,0,0,5"
+                    MaxLines="0"
+                    Style="{ThemeResource BodyTextBlockStyle}"
+                    TextWrapping="Wrap">
                     <Bold>
-                        <Run Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}"/>
+                        <Run Text="{x:Bind VIEW_MODEL.MODEL.NameText, Mode=OneWay}" />
                     </Bold>
-                    <Run Text="has requested to subscribe to your presence!"/>
+                    <Run Text="has requested to subscribe to your presence!" />
                 </TextBlock>
-                <controls:IconButtonControl x:Name="accountActionAccept_ibtn"
-                                            Grid.Row="1"
-                                            Grid.Column="0"
-                                            Margin="0,0,1,0"
-                                            Click="AccountActionAccept_ibtn_Click"
-                                            Glyph="&#xE8FB;"
-                                            GlyphForeground="Green"
-                                            Text="Accept"/>
-                <controls:IconButtonControl x:Name="accountActionRefuse_ibtn"
-                                            Grid.Row="1"
-                                            Grid.Column="1"
-                                            Margin="1,0,0,0"
-                                            Click="AccountActionRefuse_ibtn_Click"
-                                            Glyph="&#xE711;"
-                                            GlyphForeground="Red"
-                                            Text="Refuse"/>
+                <controls:IconButtonControl
+                    x:Name="accountActionAccept_ibtn"
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Margin="0,0,1,0"
+                    Click="AccountActionAccept_ibtn_Click"
+                    Glyph="&#xE8FB;"
+                    GlyphForeground="Green"
+                    Text="Accept" />
+                <controls:IconButtonControl
+                    x:Name="accountActionRefuse_ibtn"
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="1,0,0,0"
+                    Click="AccountActionRefuse_ibtn_Click"
+                    Glyph="&#xE711;"
+                    GlyphForeground="Red"
+                    Text="Refuse" />
             </Grid>
         </Grid>
-    </slidablelistitem:SlidableListItem>
+    </SwipeControl>
 </UserControl>

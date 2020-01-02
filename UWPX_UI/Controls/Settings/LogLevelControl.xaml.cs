@@ -1,5 +1,4 @@
 ﻿using UWPX_UI_Context.Classes.DataContext.Controls;
-using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Settings
@@ -41,10 +40,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void LogLevelDebug_btn_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
 
         #endregion
     }
