@@ -39,19 +39,18 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             // Unsubscribe while we are loading:
             chat.Client.NewPubSubEvent -= Client_NewPubSubEvent;
 
-            // TODO: Use DISCO to figure out the pubsub server
-            string pubSubServer = "pubsub." + chat.Client.getXMPPAccount().user.domainPart;
+            string targetBareJid = chat.Chat.chatJabberId;
 
             // Request nodes:
-            MessageResponseHelperResult<IQMessage> result = await chat.Client.PUB_SUB_COMMAND_HELPER.discoNodesAsync(pubSubServer);
+            MessageResponseHelperResult<IQMessage> result = await chat.Client.PUB_SUB_COMMAND_HELPER.discoNodesAsync(targetBareJid);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is DiscoResponseMessage discoResponse)
             {
-                await SubscribeToIoTNodesAsync(discoResponse.ITEMS, chat.Client, pubSubServer);
-                await RequestUiNodeAsync(chat.Client, pubSubServer);
+                await SubscribeToIoTNodesAsync(discoResponse.ITEMS, chat.Client, targetBareJid);
+                await RequestUiNodeAsync(chat.Client, targetBareJid);
             }
             else
             {
-                Logger.Warn("Failed to request PubSub nodes from: " + pubSubServer);
+                Logger.Warn("Failed to request PubSub nodes from: " + targetBareJid);
             }
             MODEL.IsLoading = false;
         }
