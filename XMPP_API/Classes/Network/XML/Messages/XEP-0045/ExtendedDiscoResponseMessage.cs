@@ -43,7 +43,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
                             string var = node.Attributes["var"]?.Value;
                             if (var != null && !Equals(var, Consts.XML_XEP_0045_NAMESPACE))
                             {
-                                roomConfig.FIELDS.Add(new Field()
+                                roomConfig.fields.Add(new Field()
                                 {
                                     type = FieldType.BOOLEAN,
                                     var = var,

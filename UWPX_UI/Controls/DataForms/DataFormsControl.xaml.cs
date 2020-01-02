@@ -1,7 +1,6 @@
-﻿using Shared.Classes.Collections;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace UWPX_UI.Controls.DataForms
 {
@@ -9,14 +8,12 @@ namespace UWPX_UI.Controls.DataForms
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public DataForm Form
+        public DataFormDataTemplate Form
         {
-            get { return (DataForm)GetValue(FormProperty); }
-            set { SetValue(FormProperty, value); }
+            get => (DataFormDataTemplate)GetValue(FormProperty);
+            set => SetValue(FormProperty, value);
         }
-        public static readonly DependencyProperty FormProperty = DependencyProperty.Register(nameof(Form), typeof(DataForm), typeof(DataFormsControl), new PropertyMetadata(null, OnFormChanged));
-
-        public readonly CustomObservableCollection<Field> FIELDS = new CustomObservableCollection<Field>(true);
+        public static readonly DependencyProperty FormProperty = DependencyProperty.Register(nameof(Form), typeof(DataFormDataTemplate), typeof(DataFormsControl), new PropertyMetadata(null, OnFormChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -31,10 +28,10 @@ namespace UWPX_UI.Controls.DataForms
         #region --Set-, Get- Methods--
         private void SetTitle()
         {
-            if (!(Form is null) && !string.IsNullOrEmpty(Form.titel))
+            if (!(Form is null) && !string.IsNullOrEmpty(Form.Title))
             {
                 title_tblck.Visibility = Visibility.Visible;
-                title_tblck.Text = Form.titel;
+                title_tblck.Text = Form.Title;
             }
             else
             {
@@ -44,10 +41,10 @@ namespace UWPX_UI.Controls.DataForms
 
         private void SetInstructions()
         {
-            if (!(Form is null) && !string.IsNullOrEmpty(Form.instructions))
+            if (!(Form is null) && !string.IsNullOrEmpty(Form.Instructions))
             {
                 instructions_tblck.Visibility = Visibility.Visible;
-                instructions_tblck.Text = Form.instructions;
+                instructions_tblck.Text = Form.Instructions;
             }
             else
             {
@@ -65,11 +62,6 @@ namespace UWPX_UI.Controls.DataForms
         #region --Misc Methods (Private)--
         private void UpdateView()
         {
-            FIELDS.Clear();
-            if (!(Form is null))
-            {
-                FIELDS.AddRange(Form.FIELDS);
-            }
             SetTitle();
             SetInstructions();
         }

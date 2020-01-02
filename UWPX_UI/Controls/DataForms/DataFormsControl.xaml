@@ -3,42 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
+             xmlns:iot="using:UWPX_UI_Context.Classes.DataTemplates.Controls.IoT"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
-             xmlns:xep_0004="using:XMPP_API.Classes.Network.XML.Messages.XEP_0004"
              mc:Ignorable="d">
 
     <UserControl.Resources>
         <DataTemplate x:Key="TextSingleFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:TextSingleFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="TextMultiFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:TextMultiFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="TextPrivateFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:TextPrivateFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="FixedFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:FixedFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="BooleanFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:BooleanFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="ListSingleFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:ListSingleFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="ListMultiFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:ListMultiFieldControl Field="{x:Bind}"/>
         </DataTemplate>
         <DataTemplate x:Key="HiddenFieldTemplate"
-                      x:DataType="xep_0004:Field">
+                      x:DataType="iot:FieldDataTemplate">
             <dataforms:HiddenFieldControl Field="{x:Bind}"/>
         </DataTemplate>
 
@@ -77,7 +77,7 @@
                       Grid.Row="2"
                       IsItemClickEnabled="False"
                       ItemTemplateSelector="{StaticResource DataFormsFieldTemplateSelector}"
-                      ItemsSource="{x:Bind FIELDS}"
+                      ItemsSource="{x:Bind Form.FIELDS, Mode=OneWay}"
                       ScrollViewer.HorizontalScrollMode="Disabled"
                       ScrollViewer.VerticalScrollMode="Disabled"
                       SelectionMode="None"/>

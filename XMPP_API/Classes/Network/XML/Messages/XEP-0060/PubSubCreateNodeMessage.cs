@@ -49,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public DataForm getConfigTemplate()
         {
             DataForm config = new DataForm(DataFormType.SUBMIT);
-            config.FIELDS.Add(new Field
+            config.fields.Add(new Field
             {
                 var = "FORM_TYPE",
                 type = FieldType.HIDDEN,

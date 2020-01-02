@@ -245,6 +245,8 @@
     <Compile Include="Classes\DataTemplates\Controls\FolderSizeControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothDeviceInfoControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\BluetoothScannerControlDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\IoT\DataFormDataTemplate.cs" />
+    <Compile Include="Classes\DataTemplates\Controls\IoT\FieldDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\IoT\IoTChatDetailsControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\LogLevelControlDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\Controls\OmemoButtonControlDataTemplate.cs" />

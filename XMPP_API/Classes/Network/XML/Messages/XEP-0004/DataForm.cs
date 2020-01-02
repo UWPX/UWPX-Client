@@ -10,7 +10,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public DataFormType type;
-        public readonly List<Field> FIELDS;
+        public List<Field> fields;
         public string titel;
         public string instructions;
 
@@ -33,7 +33,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
 
         public DataForm(DataFormType type, List<Field> fields)
         {
-            FIELDS = fields;
+            this.fields = fields;
             this.type = type;
             titel = null;
             instructions = null;
@@ -49,7 +49,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         #region --Set-, Get- Methods--
         public Field getField(string var)
         {
-            return FIELDS.Find((f) => { return Equals(var, f.var); });
+            return fields.Find((f) => { return Equals(var, f.var); });
         }
 
         #endregion
@@ -64,7 +64,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             // Add the XEP-0336 (Data Forms - Dynamic Forms) namespace even if we do not need it:
             xNode.Add(new XAttribute(XNamespace.Xmlns + "xdd", Consts.XML_XEP_0336_NAMESPACE));
 
-            foreach (Field f in FIELDS)
+            foreach (Field f in fields)
             {
                 xNode.Add(f.toXElement(ns));
             }
@@ -98,7 +98,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                 switch (n.Name)
                 {
                     case "field":
-                        FIELDS.Add(new Field(n));
+                        fields.Add(new Field(n));
                         break;
 
                     case "title":

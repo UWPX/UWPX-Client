@@ -1,6 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 
 namespace UWPX_UI.Controls.DataForms
@@ -9,12 +9,12 @@ namespace UWPX_UI.Controls.DataForms
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public Field Field
+        public FieldDataTemplate Field
         {
-            get { return (Field)GetValue(FieldProperty); }
-            set { SetValue(FieldProperty, value); }
+            get => (FieldDataTemplate)GetValue(FieldProperty);
+            set => SetValue(FieldProperty, value);
         }
-        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(Field), typeof(TextPrivateFieldControl), new PropertyMetadata(null, OnFieldChanged));
+        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(FieldDataTemplate), typeof(TextPrivateFieldControl), new PropertyMetadata(null, OnFieldChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -37,17 +37,31 @@ namespace UWPX_UI.Controls.DataForms
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView()
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            // Update subscriptions:
+            if (e.OldValue is FieldDataTemplate oldField)
+            {
+                oldField.PropertyChanged -= Field_PropertyChanged;
+            }
+            if (e.NewValue is FieldDataTemplate newField)
+            {
+                newField.PropertyChanged += Field_PropertyChanged;
+            }
+            UpdateUi();
+        }
+
+        private void UpdateUi()
         {
             Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
             if (!(Field is null))
             {
                 // General:
-                textPrivate_pwbx.Password = (string)(Field.value ?? "");
-                textPrivate_pwbx.Header = Field.label;
+                textPrivate_pwbx.Password = (string)(Field.Value ?? "");
+                textPrivate_pwbx.Header = Field.Label;
 
                 // Options:
-                textPrivate_pwbx.IsEnabled = !Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
+                textPrivate_pwbx.IsEnabled = !Field.Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
             }
         }
 
@@ -63,13 +77,18 @@ namespace UWPX_UI.Controls.DataForms
         {
             if (d is TextPrivateFieldControl control)
             {
-                control.UpdateView();
+                control.UpdateView(e);
             }
         }
 
         private void TextPrivate_pwbx_PasswordChanged(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void Field_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateUi();
         }
 
         #endregion

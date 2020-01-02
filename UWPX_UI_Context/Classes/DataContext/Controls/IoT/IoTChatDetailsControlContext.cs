@@ -7,7 +7,6 @@ using XMPP_API.Classes;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_IoT;
@@ -74,7 +73,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             MessageResponseHelperResult<IQMessage> result = await client.PUB_SUB_COMMAND_HELPER.requestNodeAsync(pubSubServer, IoTConsts.NODE_NAME_UI, 0);
             if (result.STATE == MessageResponseHelperResultState.SUCCESS && result.RESULT is UiNodeItemsResponseMessage uiResponse)
             {
-                MODEL.Form = uiResponse.form;
+                MODEL.Form = new DataFormDataTemplate(uiResponse.form);
                 client.NewPubSubEvent -= Client_NewPubSubEvent;
                 client.NewPubSubEvent += Client_NewPubSubEvent;
             }
@@ -173,14 +172,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             if (args.MSG is SensorsNodeEventMessage sensorsNodeEvent)
             {
                 Logger.Debug("New PubSub sensors node changed event message.");
-                DataForm form = MODEL.Form;
-                foreach (Field f in form.FIELDS)
+                foreach (FieldDataTemplate f in MODEL.Form.FIELDS)
                 {
-                    if (string.Equals(sensorsNodeEvent.VALUES.ID, f.var))
+                    if (string.Equals(sensorsNodeEvent.VALUES.ID, f.Var))
                     {
-                        f.value = sensorsNodeEvent.VALUES.VALUE;
-                        MODEL.Form = null;
-                        MODEL.Form = form;
+                        f.Value = sensorsNodeEvent.VALUES.VALUE;
                         break;
                     }
                 }
@@ -192,7 +188,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             else if (args.MSG is UiNodeEventMessage uiNodeEvent)
             {
                 Logger.Debug("New PubSub UI node changed event message.");
-                MODEL.Form = uiNodeEvent.FORM;
+                MODEL.Form = new DataFormDataTemplate(uiNodeEvent.FORM);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using Windows.UI.Xaml;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
@@ -42,9 +43,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
         #region --Misc Methods (Protected)--
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            if (item is Field field)
+            if (item is FieldDataTemplate field)
             {
-                switch (field.type)
+                switch (field.Type)
                 {
                     case FieldType.HIDDEN:
                         return HiddenFieldTemplate;
