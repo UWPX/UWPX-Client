@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using UWPX_UI_Context.Classes.Collections.Toolkit;
 using Windows.Foundation.Collections;
 using XMPP_API.Classes;
 
