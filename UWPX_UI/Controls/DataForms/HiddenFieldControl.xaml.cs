@@ -1,6 +1,6 @@
-﻿using Windows.UI.Xaml;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace UWPX_UI.Controls.DataForms
 {
@@ -8,12 +8,12 @@ namespace UWPX_UI.Controls.DataForms
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public Field Field
+        public FieldDataTemplate Field
         {
-            get { return (Field)GetValue(FieldProperty); }
-            set { SetValue(FieldProperty, value); }
+            get => (FieldDataTemplate)GetValue(FieldProperty);
+            set => SetValue(FieldProperty, value);
         }
-        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(Field), typeof(HiddenFieldControl), new PropertyMetadata(null, OnFieldChanged));
+        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(FieldDataTemplate), typeof(HiddenFieldControl), new PropertyMetadata(null, OnFieldChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -36,7 +36,21 @@ namespace UWPX_UI.Controls.DataForms
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView()
+        private void UpdateView(DependencyPropertyChangedEventArgs e)
+        {
+            // Update subscriptions:
+            if (e.OldValue is FieldDataTemplate oldField)
+            {
+                oldField.PropertyChanged -= Field_PropertyChanged;
+            }
+            if (e.NewValue is FieldDataTemplate newField)
+            {
+                newField.PropertyChanged += Field_PropertyChanged;
+            }
+            UpdateUi();
+        }
+
+        private void UpdateUi()
         {
             Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
         }
@@ -53,8 +67,13 @@ namespace UWPX_UI.Controls.DataForms
         {
             if (d is HiddenFieldControl control)
             {
-                control.UpdateView();
+                control.UpdateView(e);
             }
+        }
+
+        private void Field_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            UpdateUi();
         }
 
         #endregion

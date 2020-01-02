@@ -1,37 +1,65 @@
 ﻿using Shared.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 {
-    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
+    public class FieldDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsLoading;
-        public bool IsLoading
+        private Field _Field;
+        public Field Field
         {
-            get => _IsLoading;
-            set => SetProperty(ref _IsLoading, value);
+            get => _Field;
+            set => SetFieldProperty(value);
         }
 
-        private DataFormDataTemplate _Form;
-        public DataFormDataTemplate Form
+        public string Label
         {
-            get => _Form;
-            set => SetProperty(ref _Form, value);
+            get => Field?.label;
+            set => SetProperty(ref Field.label, value);
+        }
+
+        public FieldType Type
+        {
+            get => Field is null ? FieldType.NONE : Field.type;
+            set => SetProperty(ref Field.type, value);
+        }
+
+        public object Value
+        {
+            get => Field?.value;
+            set => SetProperty(ref Field.value, value);
+        }
+
+        public string Var
+        {
+            get => Field?.var;
+            set => SetProperty(ref Field.var, value);
         }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IoTChatDetailsControlDataTemplate()
+        public FieldDataTemplate(Field field)
         {
-            IsLoading = true;
+            Field = field;
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        private void SetFieldProperty(Field value)
+        {
+            if (SetProperty(ref _Field, value, nameof(Field)))
+            {
+                // Trigger changed to make sure they get updated:
+                OnPropertyChanged(nameof(Label));
+                OnPropertyChanged(nameof(Type));
+                OnPropertyChanged(nameof(Value));
+                OnPropertyChanged(nameof(Var));
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

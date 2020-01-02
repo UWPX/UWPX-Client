@@ -29,7 +29,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public static PubSubPublishOptions getDefaultPublishOptions()
         {
             DataForm form = new DataForm(DataFormType.SUBMIT);
-            form.FIELDS.Add(new Field()
+            form.fields.Add(new Field()
             {
                 var = "FORM_TYPE",
                 value = "http://jabber.org/protocol/pubsub#publish-options",

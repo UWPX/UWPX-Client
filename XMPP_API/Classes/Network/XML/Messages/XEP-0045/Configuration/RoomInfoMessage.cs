@@ -45,7 +45,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         public RoomInfoMessage(string from, string to, DataForm roomConfig, MUCAffiliation configType) : base(from, to, SET, getRandomId())
         {
             ROOM_CONFIG = roomConfig;
-            ROOM_CONFIG.FIELDS.Add(new Field()
+            ROOM_CONFIG.fields.Add(new Field()
             {
                 type = FieldType.HIDDEN,
                 value = Consts.XML_XEP_0045_NAMESPACE_ROOM_CONFIG,
