@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
+using Microsoft.Toolkit.Uwp.UI;
 using NeoSmart.Unicode;
 using Shared.Classes;
 using Shared.Classes.Collections;
-using UWPX_UI_Context.Classes.Collections.Toolkit;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {

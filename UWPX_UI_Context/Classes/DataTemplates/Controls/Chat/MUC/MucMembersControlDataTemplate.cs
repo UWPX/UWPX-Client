@@ -1,6 +1,6 @@
-﻿using Shared.Classes;
+﻿using Microsoft.Toolkit.Uwp.UI;
+using Shared.Classes;
 using Shared.Classes.Collections;
-using UWPX_UI_Context.Classes.Collections.Toolkit;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {

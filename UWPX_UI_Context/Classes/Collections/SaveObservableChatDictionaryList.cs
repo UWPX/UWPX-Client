@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using Data_Manager2.Classes.DBTables;
+using Shared.Classes;
 using UWPX_UI_Context.Classes.DataTemplates;
 
 namespace UWPX_UI_Context.Classes.Collections
@@ -184,12 +185,18 @@ namespace UWPX_UI_Context.Classes.Collections
         #region --Events--
         private void OnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            PropertyChanged?.Invoke(sender, e);
+            lock (SyncRoot)
+            {
+                SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(sender, e)).Wait();
+            }
         }
 
         private void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            CollectionChanged?.Invoke(sender, e);
+            lock (SyncRoot)
+            {
+                SharedUtils.CallDispatcherAsync(() => CollectionChanged?.Invoke(sender, e)).Wait();
+            }
         }
 
         #endregion

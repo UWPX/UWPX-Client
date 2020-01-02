@@ -5,9 +5,12 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 // See the LICENSE file in the project root for more information.
 
+/**
+ * Changes: Replaced ObservableCollection with CustomObservableCollection
+ **/
+
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading;
@@ -20,7 +23,7 @@ using Windows.UI.Xaml.Data;
 namespace UWPX_UI_Context.Classes.Collections.Toolkit
 {
     /// <summary>
-    /// This class represents an <see cref="ObservableCollection{IType}"/> whose items can be loaded incrementally.
+    /// This class represents an <see cref="CustomObservableCollection{IType}"/> whose items can be loaded incrementally.
     /// </summary>
     /// <typeparam name="IType">
     /// The type of collection items.

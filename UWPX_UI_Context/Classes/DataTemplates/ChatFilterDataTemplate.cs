@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using Data_Manager2.Classes;
+using Microsoft.Toolkit.Uwp.UI;
 using Shared.Classes;
-using UWPX_UI_Context.Classes.Collections.Toolkit;
 using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates
