@@ -84,8 +84,8 @@ Once downloaded, unpack and right click `Add-AppDevPackage.ps1` -> `Execute with
 
 ### 3. Build it by your own
 #### Short version:
-1. Install [Visual Studio 2017](https://www.visualstudio.com/de/downloads)
-2. Clone the repo with Visual Studio 2017
+1. Install [Visual Studio 2019](https://www.visualstudio.com/de/downloads)
+2. Clone the repo with Visual Studio 2019
 3. Build the project for your target platform (e.g. `x64`)
 4. Install the app on your target system:
 [Here](https://docs.microsoft.com/en-us/windows/uwp/get-started/enable-your-device-for-development) you can find more information about: How to install UWP apps, using the developer mode.
