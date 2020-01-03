@@ -1,4 +1,5 @@
 ﻿using Shared.Classes;
+using UWPX_UI_Context.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
@@ -38,6 +39,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
             set => SetProperty(ref Field.var, value);
         }
 
+        public delegate void ValueChangedByUserEventHandler(FieldDataTemplate sender, ValueChangedByUserEventArgs args);
+
+        public event ValueChangedByUserEventHandler ValueChangedByUser;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -64,7 +69,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        /// <summary>
+        /// Should be called once the user has changed the value of the field.
+        /// Triggers the ValueChangedByUser event.
+        /// </summary>
+        public void OnValueChangedByUser()
+        {
+            ValueChangedByUser?.Invoke(this, new ValueChangedByUserEventArgs());
+        }
 
         #endregion
 

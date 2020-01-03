@@ -301,6 +301,7 @@
     <Compile Include="Classes\DataTemplates\SettingsPageButtonDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\UintDataTemplate.cs" />
     <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
+    <Compile Include="Classes\Events\FieldValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMucInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToContactInfoPageEventArgs.cs" />
@@ -308,6 +309,7 @@
     <Compile Include="Classes\Events\OmemoFingerprintTrustChangedEventArgs.cs" />
     <Compile Include="Classes\Events\OnErrorEventArgs.cs" />
     <Compile Include="Classes\Events\PreviewFailedEventArgs.cs" />
+    <Compile Include="Classes\Events\ValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Localisation.cs" />
     <Compile Include="Classes\ThemeUtils.cs" />
     <Compile Include="Classes\UiUtils.cs" />

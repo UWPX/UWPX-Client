@@ -1,38 +1,20 @@
-﻿using Shared.Classes;
+﻿using System;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace UWPX_UI_Context.Classes.Events
 {
-    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
+    public class FieldValueChangedByUserEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsLoading;
-        public bool IsLoading
-        {
-            get => _IsLoading;
-            set => SetProperty(ref _IsLoading, value);
-        }
-
-        private DataFormDataTemplate _Form;
-        public DataFormDataTemplate Form
-        {
-            get => _Form;
-            set => SetProperty(ref _Form, value);
-        }
-
-        private ChatDataTemplate _Chat;
-        public ChatDataTemplate Chat
-        {
-            get => _Chat;
-            set => SetProperty(ref _Chat, value);
-        }
+        public readonly FieldDataTemplate FIELD;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IoTChatDetailsControlDataTemplate()
+        public FieldValueChangedByUserEventArgs(FieldDataTemplate field)
         {
-            IsLoading = true;
+            FIELD = field;
         }
 
         #endregion

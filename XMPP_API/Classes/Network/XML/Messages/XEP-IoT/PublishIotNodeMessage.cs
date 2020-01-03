@@ -1,38 +1,19 @@
-﻿using Shared.Classes;
+﻿using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
 {
-    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
+    public class PublishIoTNodeMessage: AbstractPubSubPublishMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsLoading;
-        public bool IsLoading
-        {
-            get => _IsLoading;
-            set => SetProperty(ref _IsLoading, value);
-        }
-
-        private DataFormDataTemplate _Form;
-        public DataFormDataTemplate Form
-        {
-            get => _Form;
-            set => SetProperty(ref _Form, value);
-        }
-
-        private ChatDataTemplate _Chat;
-        public ChatDataTemplate Chat
-        {
-            get => _Chat;
-            set => SetProperty(ref _Chat, value);
-        }
+        public readonly IoTPubSubItem ITEM;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IoTChatDetailsControlDataTemplate()
+        public PublishIoTNodeMessage(string from, string to, string nodeName, IoTPubSubItem item) : base(from, to, nodeName)
         {
-            IsLoading = true;
+            ITEM = item;
         }
 
         #endregion
@@ -53,7 +34,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
 
         #region --Misc Methods (Protected)--
+        protected override PubSubPublishOptions getPublishOptions()
+        {
+            return null;
+        }
 
+        protected override AbstractPubSubItem getPubSubItem()
+        {
+            return ITEM;
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
