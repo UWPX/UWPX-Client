@@ -1,38 +1,21 @@
-﻿using Shared.Classes;
+﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
-namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
+namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
 {
-    public sealed class IoTChatDetailsControlDataTemplate: AbstractDataTemplate
+    public class IoTPubSubItem: AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private bool _IsLoading;
-        public bool IsLoading
-        {
-            get => _IsLoading;
-            set => SetProperty(ref _IsLoading, value);
-        }
-
-        private DataFormDataTemplate _Form;
-        public DataFormDataTemplate Form
-        {
-            get => _Form;
-            set => SetProperty(ref _Form, value);
-        }
-
-        private ChatDataTemplate _Chat;
-        public ChatDataTemplate Chat
-        {
-            get => _Chat;
-            set => SetProperty(ref _Chat, value);
-        }
+        public readonly IoTValue VALUE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public IoTChatDetailsControlDataTemplate()
+        public IoTPubSubItem(IoTValue value, string id)
         {
-            IsLoading = true;
+            VALUE = value;
+            this.id = id;
         }
 
         #endregion
@@ -53,7 +36,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override XElement getContent(XNamespace ns)
+        {
+            return VALUE.toXElement(ns);
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

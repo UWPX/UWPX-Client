@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Shared.Classes;
 using Shared.Classes.Collections;
+using UWPX_UI_Context.Classes.Events;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
@@ -30,6 +31,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
 
         public readonly CustomObservableCollection<FieldDataTemplate> FIELDS = new CustomObservableCollection<FieldDataTemplate>(true);
 
+        public delegate void FieldValueChangedByUserEventHandler(DataFormDataTemplate sender, FieldValueChangedByUserEventArgs args);
+
+        public event FieldValueChangedByUserEventHandler FieldValueChangedByUser;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -45,10 +50,16 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         {
             if (SetProperty(ref _Form, value, nameof(Form)))
             {
+                UnsubscribeFromAllFields();
                 FIELDS.Clear();
                 if (!(value is null))
                 {
-                    FIELDS.AddRange(value.fields.Select(x => new FieldDataTemplate(x)));
+                    FIELDS.AddRange(value.fields.Select(x =>
+                    {
+                        FieldDataTemplate field = new FieldDataTemplate(x);
+                        field.ValueChangedByUser += Field_ValueChangedByUser;
+                        return field;
+                    }));
                 }
 
                 // Trigger changed to make sure they get updated:
@@ -65,7 +76,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void UnsubscribeFromAllFields()
+        {
+            foreach (FieldDataTemplate field in FIELDS)
+            {
+                field.ValueChangedByUser -= Field_ValueChangedByUser;
+            }
+        }
 
         #endregion
 
@@ -75,7 +92,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void Field_ValueChangedByUser(FieldDataTemplate sender, ValueChangedByUserEventArgs args)
+        {
+            FieldValueChangedByUser?.Invoke(this, new FieldValueChangedByUserEventArgs(sender));
+        }
 
         #endregion
     }
