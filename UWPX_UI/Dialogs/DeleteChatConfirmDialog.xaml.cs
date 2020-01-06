@@ -45,11 +45,13 @@ namespace UWPX_UI.Dialogs
         private void yes_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
             VIEW_MODEL.Confirm();
+            Hide();
         }
 
         private void no_btn_Click(Controls.IconButtonControl sender, Windows.UI.Xaml.RoutedEventArgs args)
         {
             VIEW_MODEL.Cancel();
+            Hide();
         }
 
         #endregion
