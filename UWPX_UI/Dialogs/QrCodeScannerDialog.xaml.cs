@@ -73,6 +73,7 @@ namespace UWPX_UI.Dialogs
         private void close_btn_Click(IconButtonControl sender, RoutedEventArgs args)
         {
             VIEW_MODEL.OnCancel();
+            Hide();
         }
 
         private void UpdateViewState(string state)
