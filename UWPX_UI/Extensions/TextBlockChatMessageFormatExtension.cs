@@ -84,7 +84,7 @@ namespace UWPX_UI.Extensions
         /// <returns>the newest position on the source string for the parsing</returns>
         private static int CreateUrlElement(TextBlock textBlock, Match urlMatch)
         {
-            if (Uri.TryCreate(urlMatch.Value, UriKind.RelativeOrAbsolute, out Uri targetUri))
+            if (Uri.TryCreate(urlMatch.Value, UriKind.RelativeOrAbsolute, out Uri targetUri) && (targetUri.IsAbsoluteUri || Uri.TryCreate(RELATIVE_URI_DEFAULT_PREFIX + targetUri.OriginalString, UriKind.RelativeOrAbsolute, out targetUri)))
             {
                 Hyperlink link = new Hyperlink
                 {
@@ -96,7 +96,7 @@ namespace UWPX_UI.Extensions
                             Foreground = (Brush)Application.Current.Resources["SpeechBubbleForegroundBrush"]
                         }
                     },
-                    NavigateUri = targetUri.IsAbsoluteUri ? targetUri : new Uri(RELATIVE_URI_DEFAULT_PREFIX + targetUri.OriginalString)
+                    NavigateUri = targetUri
                 };
                 textBlock.Inlines.Add(link);
             }
