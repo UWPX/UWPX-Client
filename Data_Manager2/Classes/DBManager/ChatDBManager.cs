@@ -371,7 +371,7 @@ namespace Data_Manager2.Classes.DBManager
 
         private void resetPresences()
         {
-            dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET presence = ? WHERE chatType = ?;", Presence.Unavailable, ChatType.CHAT);
+            dB.Execute("UPDATE " + DBTableConsts.CHAT_TABLE + " SET presence = ? WHERE chatType != ?;", Presence.Unavailable, ChatType.MUC);
         }
 
         #endregion
