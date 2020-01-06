@@ -30,7 +30,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
         public IoTValue(Field field)
         {
             VALUE = field.value.ToString();
-            TYPE = IoTValueType.NONE;
+            if (field.value is bool)
+            {
+                TYPE = IoTValueType.BOOLEAN;
+            }
+            else
+            {
+                TYPE = IoTValueType.NONE;
+            }
             UNIT = null;
         }
 
@@ -44,7 +51,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
         #region --Misc Methods (Public)--
         public XElement toXElement(XNamespace ns)
         {
-            XElement varNode = new XElement(ns + "var");
+            XNamespace iotNs = Consts.XML_XEP_IOT_NAMESPACE;
+            XElement varNode = new XElement(iotNs + "var");
             if (!(UNIT is null))
             {
                 varNode.Add(new XAttribute("unit", UNIT));
