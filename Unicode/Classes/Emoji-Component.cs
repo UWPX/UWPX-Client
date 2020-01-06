@@ -2,7 +2,7 @@ using System.Collections.Generic;
 
 namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/12.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
@@ -15,15 +15,15 @@ namespace NeoSmart.Unicode
 #else
         public static SortedSet<SingleEmoji> Component => new SortedSet<SingleEmoji>() {
 #endif
-            /* 🏻 */ LightSkinTone,
-            /* 🏼 */ MediumLightSkinTone,
-            /* 🏽 */ MediumSkinTone,
-            /* 🏾 */ MediumDarkSkinTone,
-            /* 🏿 */ DarkSkinTone,
-            /* 🦰 */ RedHair,
-            /* 🦱 */ CurlyHair,
-            /* 🦳 */ WhiteHair,
-            /* 🦲 */ Bald,
+            /* 🏻 */ LightSkinTone_E1_0,
+            /* 🏼 */ MediumLightSkinTone_E1_0,
+            /* 🏽 */ MediumSkinTone_E1_0,
+            /* 🏾 */ MediumDarkSkinTone_E1_0,
+            /* 🏿 */ DarkSkinTone_E1_0,
+            /* 🦰 */ RedHair_E11_0,
+            /* 🦱 */ CurlyHair_E11_0,
+            /* 🦳 */ WhiteHair_E11_0,
+            /* 🦲 */ Bald_E11_0,
         };
     }
 }

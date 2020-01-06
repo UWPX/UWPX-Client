@@ -12,7 +12,7 @@ using System.Text;
 
 namespace NeoSmart.Unicode
 {
-    public struct Codepoint : IComparable<Codepoint>, IComparable<UInt32>, IEquatable<Codepoint>,
+    public struct Codepoint: IComparable<Codepoint>, IComparable<UInt32>, IEquatable<Codepoint>,
         IEquatable<string>, IComparable<string>, IEquatable<char>
     {
         public readonly UInt32 Value;
@@ -32,7 +32,7 @@ namespace NeoSmart.Unicode
         /// <param name="hexValue"></param>
         public Codepoint(string hexValue)
         {
-            if ((hexValue.StartsWith("0x") || hexValue.StartsWith("U+") || hexValue.StartsWith("u+")))
+            if (hexValue.StartsWith("0x") || hexValue.StartsWith("U+") || hexValue.StartsWith("u+"))
             {
                 hexValue = hexValue.Substring(2);
             }
@@ -42,7 +42,10 @@ namespace NeoSmart.Unicode
             }
         }
 
-        public UInt32 AsUtf32() => Value;
+        public UInt32 AsUtf32()
+        {
+            return Value;
+        }
 
         /// <summary>
         /// Returns an iterator that will enumerate over the big endian bytes in the UTF32 encoding of this codepoint.
