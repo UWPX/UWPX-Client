@@ -283,7 +283,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 return true;
             }
 
-            emoji = Emoji.Abacus;
+            emoji = Emoji.Abacus_E11_0;
             return false;
         }
 

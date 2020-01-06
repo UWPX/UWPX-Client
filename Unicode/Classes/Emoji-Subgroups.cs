@@ -1,6 +1,6 @@
-namespace NeoSmart.Unicode
+﻿namespace NeoSmart.Unicode
 {
-    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/12.0/emoji-test.txt).
+    // This file is machine-generated based on the official Unicode Consortium publication (https://unicode.org/Public/emoji/13.0/emoji-test.txt).
     // See https://github.com/UWPX/Emoji-List-Parser for the generator.
     public static partial class Emoji
     {
