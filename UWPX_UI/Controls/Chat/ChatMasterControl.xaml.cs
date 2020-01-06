@@ -97,13 +97,12 @@ namespace UWPX_UI.Controls.Chat
             }
             switch (Chat.Chat.chatType)
             {
-                case ChatType.CHAT:
-                    chat_mfo.ShowAt(this, e.GetPosition(this));
-                    break;
                 case ChatType.MUC:
                     muc_mfo.ShowAt(this, e.GetPosition(this));
                     break;
+
                 default:
+                    chat_mfo.ShowAt(this, e.GetPosition(this));
                     break;
             }
         }
