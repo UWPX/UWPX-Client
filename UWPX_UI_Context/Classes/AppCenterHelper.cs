@@ -67,7 +67,7 @@ namespace UWPX_UI_Context.Classes
         {
             try
             {
-#if DEBUG
+#if !DEBUG
                 Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
                 if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
                 {
