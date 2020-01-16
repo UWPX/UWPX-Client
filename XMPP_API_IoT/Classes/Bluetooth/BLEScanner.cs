@@ -30,6 +30,13 @@ namespace XMPP_API_IoT.Classes.Bluetooth
         public BLEScanner(string targetMac)
         {
             this.targetMac = targetMac.ToLowerInvariant();
+            // Temporary workaround for the wrong MAC on the QR Code
+            // ---------------------
+            if (this.targetMac.Equals("a4:cf:12:25:76:98"))
+            {
+                this.targetMac = "a4:cf:12:25:76:9a";
+            }
+            // ---------------------
         }
 
         #endregion
