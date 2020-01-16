@@ -29,14 +29,15 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
 
         public IoTValue(Field field)
         {
-            VALUE = field.value.ToString();
             if (field.value is bool)
             {
                 TYPE = IoTValueType.BOOLEAN;
+                VALUE = field.value is bool b && b ? "1" : "0";
             }
             else
             {
                 TYPE = IoTValueType.NONE;
+                VALUE = field.value.ToString();
             }
             UNIT = null;
         }
@@ -52,20 +53,20 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_IoT
         public XElement toXElement(XNamespace ns)
         {
             XNamespace iotNs = Consts.XML_XEP_IOT_NAMESPACE;
-            XElement varNode = new XElement(iotNs + "var");
+            XElement valNode = new XElement(iotNs + "val");
             if (!(UNIT is null))
             {
-                varNode.Add(new XAttribute("unit", UNIT));
+                valNode.Add(new XAttribute("unit", UNIT));
             }
             if (TYPE != IoTValueType.NONE)
             {
-                varNode.Add(new XAttribute("type", TYPE.ToString().ToLowerInvariant()));
+                valNode.Add(new XAttribute("type", TYPE.ToString().ToLowerInvariant()));
             }
-            if (!(varNode is null))
+            if (!(valNode is null))
             {
-                varNode.Value = VALUE;
+                valNode.Value = VALUE;
             }
-            return varNode;
+            return valNode;
         }
 
         #endregion
