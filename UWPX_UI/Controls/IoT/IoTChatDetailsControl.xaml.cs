@@ -59,6 +59,11 @@ namespace UWPX_UI.Controls.IoT
             }
         }
 
-        #endregion
+        private async void refresh_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.LoadAsync();
+        }
+
+        #endregion        
     }
 }
