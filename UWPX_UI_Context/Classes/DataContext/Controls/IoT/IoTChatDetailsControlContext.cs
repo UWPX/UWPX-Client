@@ -50,6 +50,12 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             }
             else
             {
+                // Workaround since prosody does not allow us to query all nodes:
+                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_UI, MODEL.Chat.Client, targetBareJid);
+                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_SENSORS, MODEL.Chat.Client, targetBareJid);
+                await SubscribeToNodeAsync(IoTConsts.NODE_NAME_ACTUATORS, MODEL.Chat.Client, targetBareJid);
+                await RequestUiNodeAsync(MODEL.Chat.Client, targetBareJid);
+
                 Logger.Warn("Failed to request PubSub nodes from: " + targetBareJid);
             }
             MODEL.IsLoading = false;
