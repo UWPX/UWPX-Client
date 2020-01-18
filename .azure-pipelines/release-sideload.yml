@@ -60,7 +60,7 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: '.azure-pipelines\scripts\Setup_Installer_Resources.ps1'
-    arguments: '$(Build.ArtifactStagingDirectory)\$(ArtifactName) UWPX-Installer\UWPX-Installer\Resources'
+    arguments: '"$(Build.ArtifactStagingDirectory)" "UWPX-Installer\UWPX-Installer\Resources"'
 
 - task: PowerShell@2
   displayName: 'Tree'
@@ -68,6 +68,8 @@ steps:
     targetType: 'inline'
     script: |
       tree
+
+
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
