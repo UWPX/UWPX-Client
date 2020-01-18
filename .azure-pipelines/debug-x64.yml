@@ -79,4 +79,4 @@ steps:
 - task: PublishTestResults@2
   inputs:
     testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TEST-*.trx'
+    testResultsFiles: '**/*.trx'
