@@ -107,7 +107,7 @@ steps:
       New-Item -Path "$(Build.ArtifactStagingDirectory)" -Name "Installer" -ItemType "directory"
       Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\Installer\UWPX-Installer-x64.exe"
       Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\Installer\UWPX-Installer-x86.exe"
-      Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
+      # Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
