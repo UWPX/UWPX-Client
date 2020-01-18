@@ -20,8 +20,6 @@ variables:
 
   Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
   Build.Installer.BuildConfiguration: 'Debug'
-  Build.Installer.OutDir: '$(Build.ArtifactStagingDirectory)\Installer\\'
-
 
   Build.ArtifactName: 'UWPX-$(Build.Uwpx.BuildConfiguration)'
 
