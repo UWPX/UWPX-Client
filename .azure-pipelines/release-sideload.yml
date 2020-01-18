@@ -42,7 +42,7 @@ steps:
     msbuildArgs: '/p:AppxBundlePlatforms="$(BuildPlatform)"
                   /p:AppxPackageDir="$(AppxPackageDir)"
                   /p:AppxBundle=Always
-                  /p:UapAppxPackageBuildMode=StoreUpload
+                  /p:UapAppxPackageBuildMode=SideloadOnly
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
@@ -60,7 +60,7 @@ steps:
 - task: PowerShell@2
   inputs:
     filePath: '.azure-pipelines\scripts\Setup_Installer_Resources.ps1'
-    arguments: '"$(Build.ArtifactStagingDirectory)" "UWPX-Installer\UWPX-Installer\Resources"'
+    arguments: '"$(AppxPackageDir)" "UWPX-Installer\UWPX-Installer\Resources"'
 
 - task: PowerShell@2
   displayName: 'Tree'
@@ -69,7 +69,16 @@ steps:
     script: |
       tree
 
+- task: UseDotNet@2
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
 
+- task: DotNetCoreCLI@2
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
