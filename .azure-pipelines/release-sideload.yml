@@ -14,12 +14,12 @@ pool:
 
 variables:
   Build.Uwpx.Solution: 'UWPX-Client.sln'
-  Build.Uwpx.BuildConfiguration: 'Debug'
-  Build.Uwpx.BuildPlatform: 'x86'
+  Build.Uwpx.BuildConfiguration: 'Release'
+  Build.Uwpx.BuildPlatform: 'x86|x64|ARM'
   Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
 
   Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
-  Build.Installer.BuildConfiguration: 'Debug'
+  Build.Installer.BuildConfiguration: 'Release'
 
   Build.ArtifactName: 'UWPX-$(Build.Uwpx.BuildConfiguration)'
 
