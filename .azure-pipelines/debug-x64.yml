@@ -25,8 +25,14 @@ steps:
   inputs:
     restoreSolution: '$(Solution)'
 
+- task: DownloadSecureFile@1
+  name: 'signingCert'
+  displayName: 'Download Signing Certificate'
+  inputs:
+    secureFile: 'Component_Tests_TemporaryKey.pfx'
+
 - task: VSBuild@1
-  displayName: 'Build x64 Debug'
+  displayName: 'Build $(BuildPlatform) Debug'
   inputs:
     solution: '$(Solution)'
     vsVersion: '16.0'
@@ -34,7 +40,9 @@ steps:
                   /p:AppxPackageDir="$(AppxPackageDir)"
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
-                  /p:AppxPackageSigningEnabled=false
+                  /p:AppxPackageSigningEnabled=true
+                  /p:PackageCertificateThumbprint="" 
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
                   /t:Component_Tests'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
@@ -44,6 +52,10 @@ steps:
     testSelector: 'testAssemblies'
     testAssemblyVer2: |
       **\*.appx
-      !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
 
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: $(ArtifactName)'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(ArtifactName)'
