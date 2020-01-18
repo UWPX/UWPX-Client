@@ -12,7 +12,7 @@ pool:
 variables:
   Solution: 'UWPX-Client.sln'
   BuildConfiguration: 'Debug'
-  BuildPlatform: 'x64'
+  BuildPlatform: 'x86'
   AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
   ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
 
@@ -29,7 +29,7 @@ steps:
   name: 'signingCert'
   displayName: 'Download Signing Certificate'
   inputs:
-    secureFile: 'Component_Tests_TemporaryKey.pfx'
+    secureFile: 'UWPX_UI_TemporaryKey.pfx'
 
 - task: VSBuild@1
   displayName: 'Build $(BuildPlatform) Debug'
