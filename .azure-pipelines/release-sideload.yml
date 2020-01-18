@@ -14,8 +14,8 @@ pool:
 
 variables:
   Build.Uwpx.Solution: 'UWPX-Client.sln'
-  Build.Uwpx.BuildConfiguration: 'Debug'
-  Build.Uwpx.BuildPlatforms: 'x64'
+  Build.Uwpx.BuildConfiguration: 'Release'
+  Build.Uwpx.BuildPlatforms: 'x64|x86|ARM'
   Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
 
   Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
