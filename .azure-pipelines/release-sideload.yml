@@ -47,6 +47,7 @@ steps:
                   /p:AppxPackageDir="$(Build.Uwpx.AppxPackageDir)"
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
+                  /p:BuildAppxUploadPackageForUap=true
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
