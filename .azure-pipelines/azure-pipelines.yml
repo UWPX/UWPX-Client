@@ -24,14 +24,26 @@ steps:
   inputs:
     restoreSolution: '$(solution)'
 
+- task: DownloadSecureFile@1
+  name: 'signingCert'
+  displayName: 'Download Signing Certificate'
+  inputs:
+    secureFile: 'Packaging_TemporaryKey.pfx'
+
 - task: VSBuild@1
   displayName: 'Build x64 Debug'
   inputs:
     solution: '$(solution)'
     vsVersion: '16.0'
-    msbuildArgs: '/p:AppxBundlePlatforms="x64" /p:AppxPackageDir="$(appxPackageDir)" /p:AppxBundle=Always /p:UapAppxPackageBuildMode=StoreUpload'
+    msbuildArgs: '/p:AppxBundlePlatforms="x64"
+                  /p:AppxPackageDir="$(appxPackageDir)"
+                  /p:AppxBundle=Always
+                  /p:UapAppxPackageBuildMode=StoreUpload
+                  /p:AppxPackageSigningEnabled=true
+                  /p:PackageCertificateThumbprint="" 
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
     platform: 'x64'
-    configuration: '$(buildConfiguration)'
+    configuration: Debug
 
 - task: VSTest@2
   inputs:
@@ -41,3 +53,15 @@ steps:
       !**\*TestAdapter.dll
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
+
+- task: CopyFiles@2
+  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
+  inputs:
+    SourceFolder: '$(system.defaultworkingdirectory)'
+    Contents: '**\bin\$(BuildConfiguration)\**'
+    TargetFolder: '$(build.artifactstagingdirectory)'
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    PathtoPublish: '$(build.artifactstagingdirectory)'
