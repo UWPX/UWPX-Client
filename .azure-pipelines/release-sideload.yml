@@ -79,19 +79,32 @@ steps:
 
 # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?tabs=netcore21
 - task: DotNetCoreCLI@2
+  displayName: 'Publish x86'
   inputs:
     command: publish
     projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
-    publishWebProjects: True
-    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(InstallerPackageDir)'
-    zipAfterPublish: True
+    publishWebProjects: False
+    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(InstallerPackageDir)/x86'
+    zipAfterPublish: False
+
+- task: DotNetCoreCLI@2
+  displayName: 'Publish x64'
+  inputs:
+    command: publish
+    projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
+    publishWebProjects: False
+    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(InstallerPackageDir)/x64'
+    zipAfterPublish: False
 
 - task: PowerShell@2
-  displayName: 'Tree'
+  displayName: 'Copy Result'
   inputs:
     targetType: 'inline'
     script: |
-      Copy-Item "UWPX-Installer\UWPX-Installer\bin\Release\netcoreapp3.1\publish\UWPX-Installer.exe"
+      Copy-Item "$(InstallerPackageDir)/x64/UWPX-Installer.exe" "$(Build.artifactStagingDirectory)/UWPX-Installer-x64.exe"
+      Copy-Item "$(InstallerPackageDir)/x64/UWPX-Installer.exe" "$(Build.artifactStagingDirectory)/UWPX-Installer-x86.exe"
+      # Remove-Item -Recurse $(InstallerPackageDir)
+      # Remove-Item -Recurse $(AppxPackageDir)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
