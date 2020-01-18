@@ -120,5 +120,5 @@ steps:
     publishDirectory: '$(Build.ArtifactStagingDirectory)'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: '08e81093-8142-486d-95fe-ab43d1781d56'
-    vstsFeedPackagePublish: 'UWPX-Installer'
+    vstsFeedPackagePublish: 'installer'
     versionOption: 'patch'
