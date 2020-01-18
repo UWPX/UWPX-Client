@@ -46,7 +46,7 @@ steps:
     msbuildArgs: '/p:AppxBundlePlatforms="$(Build.Uwpx.BuildPlatforms)"
                   /p:AppxPackageDir="$(Build.Uwpx.AppxPackageDir)"
                   /p:AppxBundle=Always
-                  /p:UapAppxPackageBuildMode=SideloadOnly
+                  /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
@@ -104,8 +104,9 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x64.exe"
-      Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x86.exe"
+      New-Item -Path "$(Build.ArtifactStagingDirectory)" -Name "Installer" -ItemType "directory"
+      Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\Installer\UWPX-Installer-x64.exe"
+      Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\Installer\UWPX-Installer-x86.exe"
       Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
 
 - task: PublishBuildArtifacts@1
@@ -115,10 +116,21 @@ steps:
     ArtifactName: '$(Build.ArtifactName)'
 
 - task: UniversalPackages@0
+  displayName: 'Publish UWPX Installer'
   inputs:
     command: 'publish'
-    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)\Installer'
     feedsToUsePublish: 'internal'
     vstsFeedPublish: '08e81093-8142-486d-95fe-ab43d1781d56'
     vstsFeedPackagePublish: 'installer'
+    versionOption: 'patch'
+
+- task: UniversalPackages@0
+  displayName: 'Publish UWPX'
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '08e81093-8142-486d-95fe-ab43d1781d56'
+    vstsFeedPackagePublish: 'uwpx'
     versionOption: 'patch'
