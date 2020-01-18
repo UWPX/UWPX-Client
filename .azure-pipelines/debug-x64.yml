@@ -26,31 +26,7 @@ steps:
     restoreSolution: '$(Solution)'
 
 - task: VSBuild@1
-  displayName: 'Build $(BuildPlatform) Debug'
-  inputs:
-    solution: '$(Solution)'
-    vsVersion: '16.0'
-    msbuildArgs: '/t:Component_Tests:Rebuild'
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
-
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: |
-      **\*test*.dll
-      !**\*TestAdapter.dll
-      !**\obj\**
-    searchFolder: '$(System.DefaultWorkingDirectory)'
-
-- task: DownloadSecureFile@1
-  name: 'signingCert'
-  displayName: 'Download Signing Certificate'
-  inputs:
-    secureFile: 'UWPX_UI_TemporaryKey.pfx'
-
-- task: VSBuild@1
-  displayName: 'Build $(BuildPlatform) Debug'
+  displayName: 'Build x64 Debug'
   inputs:
     solution: '$(Solution)'
     vsVersion: '16.0'
@@ -58,15 +34,16 @@ steps:
                   /p:AppxPackageDir="$(AppxPackageDir)"
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
-                  /p:AppxPackageSigningEnabled=true
-                  /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-                  /t:Packaging'
+                  /p:AppxPackageSigningEnabled=false
+                  /t:Component_Tests'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
-- task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: $(ArtifactName)'
+- task: VSTest@2
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '$(ArtifactName)'
+    testSelector: 'testAssemblies'
+    testAssemblyVer2: |
+      **\*.appx
+      !**\obj\**
+    searchFolder: '$(System.DefaultWorkingDirectory)'
+
