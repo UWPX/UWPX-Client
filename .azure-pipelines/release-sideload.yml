@@ -18,7 +18,7 @@ variables:
   Build.Uwpx.BuildPlatform: 'x86'
   Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
 
-  Build.Installer.Project: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
+  Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
   Build.Installer.BuildConfiguration: 'Debug'
   Build.Installer.OutDir: '$(Build.ArtifactStagingDirectory)\Installer\\'
 
@@ -89,7 +89,7 @@ steps:
     command: publish
     projects: '$(Build.Installer.Project)'
     publishWebProjects: False
-    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(Build.Installer.OutDir)/x86'
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(Build.Installer.OutDir)\x86'
     zipAfterPublish: False
 
 - task: DotNetCoreCLI@2
@@ -98,7 +98,7 @@ steps:
     command: publish
     projects: '$(Build.Installer.Project)'
     publishWebProjects: False
-    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(Build.Installer.OutDir)/x64'
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(Build.Installer.OutDir)\x64'
     zipAfterPublish: False
 
 - task: PowerShell@2
