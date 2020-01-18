@@ -80,6 +80,14 @@ steps:
     projects: '**/*.csproj'
     feedsToUse: 'select'
 
+# https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?tabs=netcore21
+- task: DotNetCoreCLI@2
+  inputs:
+    command: publish
+    publishWebProjects: True
+    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(Build.artifactStagingDirectory)\Installer\\'
+    zipAfterPublish: True
+
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
