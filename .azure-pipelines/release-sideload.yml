@@ -106,8 +106,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Copy-Item "$(Build.Installer.OutDir)/x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x64.exe"
-      Copy-Item "$(Build.Installer.OutDir)/x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x86.exe"
+      Copy-Item "$(Build.Installer.OutDir)\x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x64.exe"
+      Copy-Item "$(Build.Installer.OutDir)\x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x86.exe"
       # Remove-Item -Recurse $(Build.Installer.OutDir)
       # Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
 
