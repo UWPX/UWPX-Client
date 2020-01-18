@@ -15,7 +15,7 @@ pool:
 variables:
   Solution: 'UWPX-Client.sln'
   BuildConfiguration: 'Debug'
-  BuildPlatform: 'x86|x64|ARM'
+  BuildPlatform: 'x86'
   AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
   ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
 
@@ -51,24 +51,23 @@ steps:
     configuration: '$(BuildConfiguration)'
 
 - task: PowerShell@2
-  displayName: 'Install PFX file'
+  displayName: 'Clone UWPX Installer'
   inputs:
     targetType: 'inline'
     script: |
-      Write-Host "Start adding the PFX file to the certificate store."
+      git clone https://github.com/UWPX/UWPX-Installer.git
 
-      $pfxpath = '$(signingCert.secureFilePath)'
-      
-      Add-Type -AssemblyName System.Security
-      $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
-      $cert.Import($pfxpath, "", [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]"PersistKeySet")
-      $store = new-object system.security.cryptography.X509Certificates.X509Store -argumentlist "MY", CurrentUser
-      $store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]"ReadWrite")
-      $store.Add($cert)
-      $store.Close()
-- task: CmdLine@2
+- task: PowerShell@2
   inputs:
-    script: 'git clone https://github.com/UWPX/UWPX-Installer.git'
+    filePath: '.azure-pipelines\scripts\Setup_Installer_Resources.ps1'
+    arguments: '$(Build.ArtifactStagingDirectory)\$(ArtifactName) UWPX-Installer\UWPX-Installer\Resources'
+
+- task: PowerShell@2
+  displayName: 'Tree'
+  inputs:
+    targetType: 'inline'
+    script: |
+      tree
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
