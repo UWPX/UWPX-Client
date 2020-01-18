@@ -15,7 +15,7 @@ pool:
 variables:
   Build.Uwpx.Solution: 'UWPX-Client.sln'
   Build.Uwpx.BuildConfiguration: 'Release'
-  Build.Uwpx.BuildPlatform: 'x86|x64|ARM'
+  Build.Uwpx.BuildPlatforms: 'x86|x64|ARM'
   Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
 
   Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
@@ -39,11 +39,11 @@ steps:
     secureFile: 'UWPX_UI_TemporaryKey.pfx'
 
 - task: VSBuild@1
-  displayName: 'Build UWPX for $(Build.Uwpx.BuildPlatform) $(Build.Uwpx.BuildConfiguration)'
+  displayName: 'Build UWPX for $(Build.Uwpx.BuildPlatforms) $(Build.Uwpx.BuildConfiguration)'
   inputs:
     solution: '$(Build.Uwpx.Solution)'
     vsVersion: '16.0'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(Build.Uwpx.BuildPlatform)"
+    msbuildArgs: '/p:AppxBundlePlatforms="$(Build.Uwpx.BuildPlatforms)"
                   /p:AppxPackageDir="$(Build.Uwpx.AppxPackageDir)"
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=SideloadOnly
@@ -51,7 +51,7 @@ steps:
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
                   /t:Packaging'
-    platform: '$(Build.Uwpx.BuildPlatform)'
+    platform: x64
     configuration: '$(Build.Uwpx.BuildConfiguration)'
 
 # Installer:
@@ -98,12 +98,6 @@ steps:
     publishWebProjects: False
     arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64'
     zipAfterPublish: False
-
-- task: PowerShell@2
-  displayName: 'Tree'
-  inputs:
-    targetType: 'inline'
-    script: 'tree /F'
 
 - task: PowerShell@2
   displayName: 'Copy Result'
