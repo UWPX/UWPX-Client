@@ -14,8 +14,8 @@ pool:
 
 variables:
   Build.Uwpx.Solution: 'UWPX-Client.sln'
-  Build.Uwpx.BuildConfiguration: 'Release'
-  Build.Uwpx.BuildPlatforms: 'x86|x64|ARM'
+  Build.Uwpx.BuildConfiguration: 'Debug'
+  Build.Uwpx.BuildPlatforms: 'x86'
   Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
 
   Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
@@ -113,3 +113,12 @@ steps:
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '$(Build.ArtifactName)'
+
+- task: UniversalPackages@0
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '08e81093-8142-486d-95fe-ab43d1781d56'
+    vstsFeedPackagePublish: 'UWPX-Installer'
+    versionOption: 'patch'
