@@ -4,7 +4,15 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+  branches:
+    include:
+    - '*' # Trigger for all branches
+
+pr:
+  autoCancel: true
+  branches:
+    include:
+    - '*' # Trigger for all pull requests
 
 pool:
   vmImage: 'windows-2019'
