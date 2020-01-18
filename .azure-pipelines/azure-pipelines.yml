@@ -10,10 +10,10 @@ pool:
   vmImage: 'windows-latest'
 
 variables:
-  solution: '**/*.sln'
-  buildPlatformAll: 'x86|x64|ARM'
-  buildConfiguration: 'Release'
-  appxPackageDir: '$(build.artifactStagingDirectory)\AppxPackages\\'
+  Solution: 'UWPX-Client.sln'
+  BuildConfiguration: 'Debug'
+  BuildPlatform: 'x64'
+  AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -22,7 +22,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet Restore'
   inputs:
-    restoreSolution: '$(solution)'
+    restoreSolution: '$(Solution)'
 
 - task: DownloadSecureFile@1
   name: 'signingCert'
@@ -31,19 +31,19 @@ steps:
     secureFile: 'UWPX_UI_TemporaryKey.pfx'
 
 - task: VSBuild@1
-  displayName: 'Build x64 Debug'
+  displayName: 'Build $(BuildPlatform) Debug'
   inputs:
-    solution: '$(solution)'
+    solution: '$(Solution)'
     vsVersion: '16.0'
-    msbuildArgs: '/p:AppxBundlePlatforms="x64"
-                  /p:AppxPackageDir="$(appxPackageDir)"
+    msbuildArgs: '/p:AppxBundlePlatforms="$(BuildPlatform)"
+                  /p:AppxPackageDir="$(AppxPackageDir)"
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
-    platform: 'x64'
-    configuration: Debug
+    platform: '$(BuildPlatform)'
+    configuration: '$(BuildConfiguration)'
 
 - task: VSTest@2
   inputs:
@@ -54,14 +54,7 @@ steps:
       !**\obj\**
     searchFolder: '$(System.DefaultWorkingDirectory)'
 
-- task: CopyFiles@2
-  displayName: 'Copy Files to: $(build.artifactstagingdirectory)'
-  inputs:
-    SourceFolder: '$(system.defaultworkingdirectory)'
-    Contents: '**\bin\$(BuildConfiguration)\**'
-    TargetFolder: '$(build.artifactstagingdirectory)'
-
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: drop'
   inputs:
-    PathtoPublish: '$(build.artifactstagingdirectory)'
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
