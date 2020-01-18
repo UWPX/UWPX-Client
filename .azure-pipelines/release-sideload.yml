@@ -13,10 +13,13 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
+  Build.UwpxSolution: 'UWPX-Client.sln'
+  Build.UwpxBuildConfiguration: 'x86'
+  
   Solution: 'UWPX-Client.sln'
   BuildConfiguration: 'Debug'
   BuildPlatform: 'x86'
-  AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\'
+  AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
   InstallerPackageDir: '$(Build.artifactStagingDirectory)\Installer\'
   ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
 
@@ -84,7 +87,7 @@ steps:
     command: publish
     projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
     publishWebProjects: False
-    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(InstallerPackageDir)/x86'
+    arguments: '--configuration $(BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(InstallerPackageDir)/x86'
     zipAfterPublish: False
 
 - task: DotNetCoreCLI@2
@@ -93,7 +96,7 @@ steps:
     command: publish
     projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
     publishWebProjects: False
-    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(InstallerPackageDir)/x64'
+    arguments: '--configuration $(BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(InstallerPackageDir)/x64'
     zipAfterPublish: False
 
 - task: PowerShell@2
