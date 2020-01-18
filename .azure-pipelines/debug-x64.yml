@@ -7,7 +7,7 @@ trigger:
 - master
 
 pool:
-  vmImage: 'windows-latest'
+  vmImage: 'windows-2019'
 
 variables:
   Solution: 'UWPX-Client.sln'
@@ -42,7 +42,8 @@ steps:
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+                  /t:Packaging'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
@@ -63,6 +64,7 @@ steps:
       $store.Add($cert)
       $store.Close()
 
+# Does not discover any tests:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
