@@ -42,7 +42,8 @@ steps:
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+                  /t:Packaging'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
