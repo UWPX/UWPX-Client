@@ -28,7 +28,7 @@ steps:
   name: 'signingCert'
   displayName: 'Download Signing Certificate'
   inputs:
-    secureFile: 'Packaging_TemporaryKey.pfx'
+    secureFile: 'UWPX_UI_TemporaryKey.pfx'
 
 - task: VSBuild@1
   displayName: 'Build x64 Debug'
