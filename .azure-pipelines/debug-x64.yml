@@ -42,8 +42,7 @@ steps:
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
-                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
-                  /t:Component_Tests'
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
@@ -67,16 +66,12 @@ steps:
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\Component_Tests_1.0.0.0_$(BuildPlatform)_$(BuildConfiguration).appxbundle'
+    testAssemblyVer2: '**\*_$(BuildPlatform)_$(BuildConfiguration).appxbundle'
     searchFolder: '$(AppxPackageDir)'
+    otherConsoleOptions: '/Logger:trx'
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '$(ArtifactName)'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/*.trx'
