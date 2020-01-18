@@ -31,22 +31,6 @@ steps:
   inputs:
     secureFile: 'Component_Tests_TemporaryKey.pfx'
 
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      Write-Host "Start adding the PFX file to the certificate store."
-
-      $pfxpath = '$(signingCert.secureFilePath)'
-      
-      Add-Type -AssemblyName System.Security
-      $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
-      $cert.Import($pfxpath, "", [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]"PersistKeySet")
-      $store = new-object system.security.cryptography.X509Certificates.X509Store -argumentlist "MY", CurrentUser
-      $store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]"ReadWrite")
-      $store.Add($cert)
-      $store.Close()
-
 - task: VSBuild@1
   displayName: 'Build $(BuildPlatform) Debug'
   inputs:
@@ -63,6 +47,23 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
+- task: PowerShell@2
+  displayName: 'Install PFX file'
+  inputs:
+    targetType: 'inline'
+    script: |
+      Write-Host "Start adding the PFX file to the certificate store."
+
+      $pfxpath = '$(signingCert.secureFilePath)'
+      
+      Add-Type -AssemblyName System.Security
+      $cert = New-Object System.Security.Cryptography.X509Certificates.X509Certificate2
+      $cert.Import($pfxpath, "", [System.Security.Cryptography.X509Certificates.X509KeyStorageFlags]"PersistKeySet")
+      $store = new-object system.security.cryptography.X509Certificates.X509Store -argumentlist "MY", CurrentUser
+      $store.Open([System.Security.Cryptography.X509Certificates.OpenFlags]"ReadWrite")
+      $store.Add($cert)
+      $store.Close()
+
 - task: VSTest@2
   inputs:
     testSelector: 'testAssemblies'
@@ -70,7 +71,12 @@ steps:
     searchFolder: '$(AppxPackageDir)'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: $(ArtifactName)'
+  displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
     ArtifactName: '$(ArtifactName)'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/VssAdministrator*.trx'
