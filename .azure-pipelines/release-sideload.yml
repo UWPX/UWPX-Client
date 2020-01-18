@@ -16,7 +16,8 @@ variables:
   Solution: 'UWPX-Client.sln'
   BuildConfiguration: 'Debug'
   BuildPlatform: 'x86'
-  AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
+  AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\'
+  InstallerPackageDir: '$(Build.artifactStagingDirectory)\Installer\'
   ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
 
 steps:
@@ -50,43 +51,47 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
+# Installer:
 - task: PowerShell@2
   displayName: 'Clone UWPX Installer'
   inputs:
     targetType: 'inline'
-    script: |
-      git clone https://github.com/UWPX/UWPX-Installer.git
+    script: 'git clone https://github.com/UWPX/UWPX-Installer.git'
 
 - task: PowerShell@2
+  displayName: 'Setup Installer Resources'
   inputs:
     filePath: '.azure-pipelines\scripts\Setup_Installer_Resources.ps1'
     arguments: '"$(AppxPackageDir)" "UWPX-Installer\UWPX-Installer\Resources"'
 
-- task: PowerShell@2
-  displayName: 'Tree'
-  inputs:
-    targetType: 'inline'
-    script: |
-      tree
-
 - task: UseDotNet@2
+  displayName: 'Set .net Core SDK to 3.1.x'
   inputs:
     packageType: 'sdk'
     version: '3.1.x'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore'
   inputs:
     command: 'restore'
-    projects: '**/*.csproj'
+    projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
     feedsToUse: 'select'
 
 # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?tabs=netcore21
 - task: DotNetCoreCLI@2
   inputs:
     command: publish
+    projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
     publishWebProjects: True
-    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(Build.artifactStagingDirectory)\Installer\\'
+    arguments: '--configuration Release --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(InstallerPackageDir)'
     zipAfterPublish: True
+
+- task: PowerShell@2
+  displayName: 'Tree'
+  inputs:
+    targetType: 'inline'
+    script: |
+      Copy-Item "UWPX-Installer\UWPX-Installer\bin\Release\netcoreapp3.1\publish\UWPX-Installer.exe"
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
