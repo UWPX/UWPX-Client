@@ -102,6 +102,12 @@ steps:
     zipAfterPublish: False
 
 - task: PowerShell@2
+  displayName: 'Tree'
+  inputs:
+    targetType: 'inline'
+    script: 'tree /F'
+
+- task: PowerShell@2
   displayName: 'Copy Result'
   inputs:
     targetType: 'inline'
