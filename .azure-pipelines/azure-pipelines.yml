@@ -14,6 +14,7 @@ variables:
   BuildConfiguration: 'Debug'
   BuildPlatform: 'x64'
   AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
+  ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -55,6 +56,7 @@ steps:
     searchFolder: '$(System.DefaultWorkingDirectory)'
 
 - task: PublishBuildArtifacts@1
-  displayName: 'Publish Artifact: drop'
+  displayName: 'Publish Artifact: $(ArtifactName)'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(ArtifactName)'
