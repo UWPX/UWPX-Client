@@ -13,15 +13,17 @@ pool:
   vmImage: 'windows-2019'
 
 variables:
-  Build.UwpxSolution: 'UWPX-Client.sln'
-  Build.UwpxBuildConfiguration: 'x86'
-  
-  Solution: 'UWPX-Client.sln'
-  BuildConfiguration: 'Debug'
-  BuildPlatform: 'x86'
-  AppxPackageDir: '$(Build.artifactStagingDirectory)\AppxPackages\\'
-  InstallerPackageDir: '$(Build.artifactStagingDirectory)\Installer\'
-  ArtifactName: 'UWPX-$(BuildPlatform)-$(BuildConfiguration)'
+  Build.Uwpx.Solution: 'UWPX-Client.sln'
+  Build.Uwpx.BuildConfiguration: 'Debug'
+  Build.Uwpx.BuildPlatform: 'x86'
+  Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
+
+  Build.Installer.Project: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
+  Build.Installer.BuildConfiguration: 'Debug'
+  Build.Installer.OutDir: '$(Build.ArtifactStagingDirectory)\Installer\\'
+
+
+  Build.ArtifactName: 'UWPX-$(Build.Uwpx.BuildConfiguration)'
 
 steps:
 - task: NuGetToolInstaller@1
@@ -30,7 +32,7 @@ steps:
 - task: NuGetCommand@2
   displayName: 'NuGet Restore'
   inputs:
-    restoreSolution: '$(Solution)'
+    restoreSolution: '$(Build.Uwpx.Solution)'
 
 - task: DownloadSecureFile@1
   name: 'signingCert'
@@ -39,20 +41,20 @@ steps:
     secureFile: 'UWPX_UI_TemporaryKey.pfx'
 
 - task: VSBuild@1
-  displayName: 'Build $(BuildPlatform) Debug'
+  displayName: 'Build UWPX for $(Build.Uwpx.BuildPlatform) $(Build.Uwpx.BuildConfiguration)'
   inputs:
-    solution: '$(Solution)'
+    solution: '$(Build.Uwpx.Solution)'
     vsVersion: '16.0'
-    msbuildArgs: '/p:AppxBundlePlatforms="$(BuildPlatform)"
-                  /p:AppxPackageDir="$(AppxPackageDir)"
+    msbuildArgs: '/p:AppxBundlePlatforms="$(Build.Uwpx.BuildPlatform)"
+                  /p:AppxPackageDir="$(Build.Uwpx.AppxPackageDir)"
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=SideloadOnly
                   /p:AppxPackageSigningEnabled=true
                   /p:PackageCertificateThumbprint="" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
                   /t:Packaging'
-    platform: '$(BuildPlatform)'
-    configuration: '$(BuildConfiguration)'
+    platform: '$(Build.Uwpx.BuildPlatform)'
+    configuration: '$(Build.Uwpx.BuildConfiguration)'
 
 # Installer:
 - task: PowerShell@2
@@ -65,7 +67,7 @@ steps:
   displayName: 'Setup Installer Resources'
   inputs:
     filePath: '.azure-pipelines\scripts\Setup_Installer_Resources.ps1'
-    arguments: '"$(AppxPackageDir)" "UWPX-Installer\UWPX-Installer\Resources"'
+    arguments: '"$(Build.Uwpx.AppxPackageDir)" "UWPX-Installer\UWPX-Installer\Resources"'
 
 - task: UseDotNet@2
   displayName: 'Set .net Core SDK to 3.1.x'
@@ -77,26 +79,26 @@ steps:
   displayName: 'Restore'
   inputs:
     command: 'restore'
-    projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
+    projects: '$(Build.Installer.Project)'
     feedsToUse: 'select'
 
 # https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?tabs=netcore21
 - task: DotNetCoreCLI@2
-  displayName: 'Publish x86'
+  displayName: 'Build and Publish the UWPX Installer for x86'
   inputs:
     command: publish
-    projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
+    projects: '$(Build.Installer.Project)'
     publishWebProjects: False
-    arguments: '--configuration $(BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(InstallerPackageDir)/x86'
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(Build.Installer.OutDir)/x86'
     zipAfterPublish: False
 
 - task: DotNetCoreCLI@2
-  displayName: 'Publish x64'
+  displayName: 'Build and Publish the UWPX Installer for x64'
   inputs:
     command: publish
-    projects: 'UWPX-Installer/UWPX-Installer/UWPX-Installer.csproj'
+    projects: '$(Build.Installer.Project)'
     publishWebProjects: False
-    arguments: '--configuration $(BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(InstallerPackageDir)/x64'
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(Build.Installer.OutDir)/x64'
     zipAfterPublish: False
 
 - task: PowerShell@2
@@ -104,13 +106,13 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Copy-Item "$(InstallerPackageDir)/x64/UWPX-Installer.exe" "$(Build.artifactStagingDirectory)/UWPX-Installer-x64.exe"
-      Copy-Item "$(InstallerPackageDir)/x64/UWPX-Installer.exe" "$(Build.artifactStagingDirectory)/UWPX-Installer-x86.exe"
-      # Remove-Item -Recurse $(InstallerPackageDir)
-      # Remove-Item -Recurse $(AppxPackageDir)
+      Copy-Item "$(Build.Installer.OutDir)/x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x64.exe"
+      Copy-Item "$(Build.Installer.OutDir)/x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x86.exe"
+      # Remove-Item -Recurse $(Build.Installer.OutDir)
+      # Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact'
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: '$(ArtifactName)'
+    ArtifactName: '$(Build.ArtifactName)'
