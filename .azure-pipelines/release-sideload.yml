@@ -89,7 +89,7 @@ steps:
     command: publish
     projects: '$(Build.Installer.Project)'
     publishWebProjects: False
-    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86 --output $(Build.Installer.OutDir)\x86'
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86'
     zipAfterPublish: False
 
 - task: DotNetCoreCLI@2
@@ -98,7 +98,7 @@ steps:
     command: publish
     projects: '$(Build.Installer.Project)'
     publishWebProjects: False
-    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64 --output $(Build.Installer.OutDir)\x64'
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64'
     zipAfterPublish: False
 
 - task: PowerShell@2
@@ -112,8 +112,8 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      Copy-Item "$(Build.Installer.OutDir)\x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x64.exe"
-      Copy-Item "$(Build.Installer.OutDir)\x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x86.exe"
+      Copy-Item "$UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x64.exe"
+      Copy-Item "$UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\UWPX-Installer-x86.exe"
       # Remove-Item -Recurse $(Build.Installer.OutDir)
       # Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
 
