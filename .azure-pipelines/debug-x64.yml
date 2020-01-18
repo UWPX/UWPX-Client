@@ -63,11 +63,7 @@ steps:
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
 
-- task: VSTest@2
-  inputs:
-    testSelector: 'testAssemblies'
-    testAssemblyVer2: '**\*.appx'
-    searchFolder: '$(AppxPackageDir)'
+
 
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: $(ArtifactName)'
