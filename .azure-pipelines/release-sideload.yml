@@ -1,0 +1,137 @@
+# Universal Windows Platform
+# Build a Universal Windows Platform project using Visual Studio.
+# Add steps that test and distribute an app, save build artifacts, and more:
+# https://aka.ms/yaml
+
+# Disable all commit triggers:
+trigger: none
+
+# Disable PR triggers:
+pr: none
+
+pool:
+  vmImage: 'windows-2019'
+
+variables:
+  Build.Uwpx.Solution: 'UWPX-Client.sln'
+  Build.Uwpx.BuildConfiguration: 'Release'
+  Build.Uwpx.BuildPlatforms: 'x64|x86|ARM'
+  Build.Uwpx.AppxPackageDir: '$(Build.ArtifactStagingDirectory)\AppxPackages\\'
+
+  Build.Installer.Project: 'UWPX-Installer\UWPX-Installer\UWPX-Installer.csproj'
+  Build.Installer.BuildConfiguration: 'Release'
+
+  Build.ArtifactName: 'UWPX-$(Build.Uwpx.BuildConfiguration)'
+
+steps:
+- task: NuGetToolInstaller@1
+  displayName: 'Install NuGet'
+
+- task: NuGetCommand@2
+  displayName: 'NuGet Restore'
+  inputs:
+    restoreSolution: '$(Build.Uwpx.Solution)'
+
+- task: DownloadSecureFile@1
+  name: 'signingCert'
+  displayName: 'Download Signing Certificate'
+  inputs:
+    secureFile: 'UWPX_UI_TemporaryKey.pfx'
+
+- task: VSBuild@1
+  displayName: 'Build UWPX for $(Build.Uwpx.BuildPlatforms) $(Build.Uwpx.BuildConfiguration)'
+  inputs:
+    solution: '$(Build.Uwpx.Solution)'
+    vsVersion: '16.0'
+    msbuildArgs: '/p:AppxBundlePlatforms="$(Build.Uwpx.BuildPlatforms)"
+                  /p:AppxPackageDir="$(Build.Uwpx.AppxPackageDir)"
+                  /p:AppxBundle=Always
+                  /p:UapAppxPackageBuildMode=StoreUpload
+                  /p:BuildAppxUploadPackageForUap=true
+                  /p:AppxPackageSigningEnabled=true
+                  /p:PackageCertificateThumbprint="" 
+                  /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+                  /t:Packaging'
+    platform: x64
+    configuration: '$(Build.Uwpx.BuildConfiguration)'
+
+# Installer:
+- task: PowerShell@2
+  displayName: 'Clone UWPX Installer'
+  inputs:
+    targetType: 'inline'
+    script: 'git clone https://github.com/UWPX/UWPX-Installer.git'
+
+- task: PowerShell@2
+  displayName: 'Setup Installer Resources'
+  inputs:
+    filePath: '.azure-pipelines\scripts\Setup_Installer_Resources.ps1'
+    arguments: '"$(Build.Uwpx.AppxPackageDir)" "UWPX-Installer\UWPX-Installer\Resources"'
+
+- task: UseDotNet@2
+  displayName: 'Set .net Core SDK to 3.1.x'
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Restore'
+  inputs:
+    command: 'restore'
+    projects: '$(Build.Installer.Project)'
+    feedsToUse: 'select'
+
+# https://docs.microsoft.com/en-us/dotnet/core/tools/dotnet-publish?tabs=netcore21
+- task: DotNetCoreCLI@2
+  displayName: 'Build and Publish the UWPX Installer for x86'
+  inputs:
+    command: publish
+    projects: '$(Build.Installer.Project)'
+    publishWebProjects: False
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x86'
+    zipAfterPublish: False
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build and Publish the UWPX Installer for x64'
+  inputs:
+    command: publish
+    projects: '$(Build.Installer.Project)'
+    publishWebProjects: False
+    arguments: '--configuration $(Build.Installer.BuildConfiguration) --framework netcoreapp3.1 --self-contained --runtime win-x64'
+    zipAfterPublish: False
+
+- task: PowerShell@2
+  displayName: 'Copy Result'
+  inputs:
+    targetType: 'inline'
+    script: |
+      New-Item -Path "$(Build.ArtifactStagingDirectory)" -Name "Installer" -ItemType "directory"
+      Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x64\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\Installer\UWPX-Installer-x64.exe"
+      Copy-Item "UWPX-Installer\UWPX-Installer\bin\$(Build.Installer.BuildConfiguration)\netcoreapp3.1\win-x86\UWPX-Installer.exe" "$(Build.ArtifactStagingDirectory)\Installer\UWPX-Installer-x86.exe"
+      # Remove-Item -Recurse $(Build.Uwpx.AppxPackageDir)
+
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact'
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: '$(Build.ArtifactName)'
+
+- task: UniversalPackages@0
+  displayName: 'Publish UWPX Installer'
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)\Installer'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '08e81093-8142-486d-95fe-ab43d1781d56'
+    vstsFeedPackagePublish: 'installer'
+    versionOption: 'patch'
+
+- task: UniversalPackages@0
+  displayName: 'Publish UWPX'
+  inputs:
+    command: 'publish'
+    publishDirectory: '$(Build.ArtifactStagingDirectory)\AppxPackages'
+    feedsToUsePublish: 'internal'
+    vstsFeedPublish: '08e81093-8142-486d-95fe-ab43d1781d56'
+    vstsFeedPackagePublish: 'uwpx'
+    versionOption: 'patch'
