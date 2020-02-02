@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class CloseStreamMessage : AbstractMessage
+    internal class CloseStreamMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public CloseStreamMessage(XmlNode node)
         {
             CLOSE_NODE = node;
-            if(node is null)
+            if (node is null)
             {
                 return;
             }

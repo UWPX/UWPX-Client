@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class StartSessionMessage : IQMessage
+    internal class StartSessionMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

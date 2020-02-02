@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
 {
-    public class SMFailedMessage : AbstractMessage
+    public class SMFailedMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

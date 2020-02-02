@@ -1,6 +1,6 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.Events;
-using System.Threading.Tasks;
 
 namespace Push_App_Server.Classes
 {

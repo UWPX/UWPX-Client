@@ -1,7 +1,7 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Text;
 using System.Threading.Tasks;
+using Logging;
 using Windows.ApplicationModel.Background;
 using Windows.Networking.Sockets;
 using Windows.Storage.Streams;
@@ -9,7 +9,7 @@ using Windows.UI.Notifications;
 
 namespace BackgroundSocket.Classes
 {
-    public sealed class BackgroundSocketHandler : IBackgroundTask
+    public sealed class BackgroundSocketHandler: IBackgroundTask
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -44,7 +44,7 @@ namespace BackgroundSocket.Classes
         {
             Logger.Debug("BackgroundSocketHandler Run():" + (++count));
             deferral = taskInstance.GetDeferral();
-            if(taskInstance.TriggerDetails is SocketActivityTriggerDetails)
+            if (taskInstance.TriggerDetails is SocketActivityTriggerDetails)
             {
                 SocketActivityTriggerDetails socketActivityDetails = taskInstance.TriggerDetails as SocketActivityTriggerDetails;
                 SocketActivityInformation socketInfo = socketActivityDetails.SocketInformation;
@@ -117,7 +117,11 @@ namespace BackgroundSocket.Classes
         {
             Windows.Data.Xml.Dom.XmlDocument tost = ToastNotificationManager.GetTemplateContent(ToastTemplateType.ToastImageAndText01);
             Windows.Data.Xml.Dom.XmlNodeList childUpdate = tost?.GetElementsByTagName("text");
-            if (childUpdate != null) childUpdate[0].InnerText = text;
+            if (childUpdate != null)
+            {
+                childUpdate[0].InnerText = text;
+            }
+
             ToastNotification titleNotification = new ToastNotification(tost) { Group = "NetUpdate" };
             ToastNotificationManager.CreateToastNotifier().Show(titleNotification);
         }

@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubRequestSubscriptionsMessage : AbstractPubSubRequestMessage
+    public class PubSubRequestSubscriptionsMessage: AbstractPubSubRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

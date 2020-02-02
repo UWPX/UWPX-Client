@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML
 {
-    static class XMLUtils
+    internal static class XMLUtils
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network.XML
         /// <returns>Returns null if node does not exist, else the node.</returns>
         public static XElement getNodeFromXElement(XElement node, in string name)
         {
-            if(node != null)
+            if (node != null)
             {
                 foreach (XElement n in node.Elements())
                 {

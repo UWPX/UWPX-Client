@@ -1,5 +1,5 @@
-﻿using Logging;
-using System;
+﻿using System;
+using Logging;
 using Windows.UI;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Media;
@@ -7,7 +7,7 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MessageCarbonsStateSolidColorBrushValueConverter : IValueConverter
+    public sealed class MessageCarbonsStateSolidColorBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

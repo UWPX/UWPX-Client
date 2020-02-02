@@ -211,8 +211,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <returns>The selected item. The default is null.</returns>
         public object SelectedItem
         {
-            get { return GetValue(SelectedItemProperty); }
-            set { SetValue(SelectedItemProperty, value); }
+            get => GetValue(SelectedItemProperty);
+            set => SetValue(SelectedItemProperty, value);
         }
 
         /// <summary>
@@ -220,8 +220,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public DataTemplate DetailsTemplate
         {
-            get { return (DataTemplate)GetValue(DetailsTemplateProperty); }
-            set { SetValue(DetailsTemplateProperty, value); }
+            get => (DataTemplate)GetValue(DetailsTemplateProperty);
+            set => SetValue(DetailsTemplateProperty, value);
         }
 
         /// <summary>
@@ -230,8 +230,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <returns>The Brush to apply to the background of the list area of the control.</returns>
         public Brush MasterPaneBackground
         {
-            get { return (Brush)GetValue(MasterPaneBackgroundProperty); }
-            set { SetValue(MasterPaneBackgroundProperty, value); }
+            get => (Brush)GetValue(MasterPaneBackgroundProperty);
+            set => SetValue(MasterPaneBackgroundProperty, value);
         }
 
         /// <summary>
@@ -242,8 +242,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public object MasterHeader
         {
-            get { return GetValue(MasterHeaderProperty); }
-            set { SetValue(MasterHeaderProperty, value); }
+            get => GetValue(MasterHeaderProperty);
+            set => SetValue(MasterHeaderProperty, value);
         }
 
         /// <summary>
@@ -254,8 +254,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public DataTemplate MasterHeaderTemplate
         {
-            get { return (DataTemplate)GetValue(MasterHeaderTemplateProperty); }
-            set { SetValue(MasterHeaderTemplateProperty, value); }
+            get => (DataTemplate)GetValue(MasterHeaderTemplateProperty);
+            set => SetValue(MasterHeaderTemplateProperty, value);
         }
 
         /// <summary>
@@ -266,8 +266,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public object NoItemsContent
         {
-            get { return GetValue(NoItemsContentProperty); }
-            set { SetValue(NoItemsContentProperty, value); }
+            get => GetValue(NoItemsContentProperty);
+            set => SetValue(NoItemsContentProperty, value);
         }
 
         /// <summary>
@@ -278,8 +278,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public DataTemplate NoItemsContentTemplate
         {
-            get { return (DataTemplate)GetValue(NoItemsContentTemplateProperty); }
-            set { SetValue(NoItemsContentTemplateProperty, value); }
+            get => (DataTemplate)GetValue(NoItemsContentTemplateProperty);
+            set => SetValue(NoItemsContentTemplateProperty, value);
         }
 
         /// <summary>
@@ -290,8 +290,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public object DetailsHeader
         {
-            get { return GetValue(DetailsHeaderProperty); }
-            set { SetValue(DetailsHeaderProperty, value); }
+            get => GetValue(DetailsHeaderProperty);
+            set => SetValue(DetailsHeaderProperty, value);
         }
 
         /// <summary>
@@ -302,8 +302,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public DataTemplate DetailsHeaderTemplate
         {
-            get { return (DataTemplate)GetValue(DetailsHeaderTemplateProperty); }
-            set { SetValue(DetailsHeaderTemplateProperty, value); }
+            get => (DataTemplate)GetValue(DetailsHeaderTemplateProperty);
+            set => SetValue(DetailsHeaderTemplateProperty, value);
         }
 
         /// <summary>
@@ -315,8 +315,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public double MasterPaneWidth
         {
-            get { return (double)GetValue(MasterPaneWidthProperty); }
-            set { SetValue(MasterPaneWidthProperty, value); }
+            get => (double)GetValue(MasterPaneWidthProperty);
+            set => SetValue(MasterPaneWidthProperty, value);
         }
 
         /// <summary>
@@ -324,8 +324,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public object NoSelectionContent
         {
-            get { return GetValue(NoSelectionContentProperty); }
-            set { SetValue(NoSelectionContentProperty, value); }
+            get => GetValue(NoSelectionContentProperty);
+            set => SetValue(NoSelectionContentProperty, value);
         }
 
         /// <summary>
@@ -337,8 +337,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </returns>
         public DataTemplate NoSelectionContentTemplate
         {
-            get { return (DataTemplate)GetValue(NoSelectionContentTemplateProperty); }
-            set { SetValue(NoSelectionContentTemplateProperty, value); }
+            get => (DataTemplate)GetValue(NoSelectionContentTemplateProperty);
+            set => SetValue(NoSelectionContentTemplateProperty, value);
         }
 
         /// <summary>
@@ -346,8 +346,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public MasterDetailsViewState ViewState
         {
-            get { return (MasterDetailsViewState)GetValue(ViewStateProperty); }
-            private set { SetValue(ViewStateProperty, value); }
+            get => (MasterDetailsViewState)GetValue(ViewStateProperty);
+            private set => SetValue(ViewStateProperty, value);
         }
 
         /// <summary>
@@ -355,8 +355,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public CommandBar MasterCommandBar
         {
-            get { return (CommandBar)GetValue(MasterCommandBarProperty); }
-            set { SetValue(MasterCommandBarProperty, value); }
+            get => (CommandBar)GetValue(MasterCommandBarProperty);
+            set => SetValue(MasterCommandBarProperty, value);
         }
 
         /// <summary>
@@ -364,8 +364,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public CommandBar DetailsCommandBar
         {
-            get { return (CommandBar)GetValue(DetailsCommandBarProperty); }
-            set { SetValue(DetailsCommandBarProperty, value); }
+            get => (CommandBar)GetValue(DetailsCommandBarProperty);
+            set => SetValue(DetailsCommandBarProperty, value);
         }
 
         /// <summary>
@@ -373,8 +373,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         public double CompactModeThresholdWidth
         {
-            get { return (double)GetValue(CompactModeThresholdWidthProperty); }
-            set { SetValue(CompactModeThresholdWidthProperty, value); }
+            get => (double)GetValue(CompactModeThresholdWidthProperty);
+            set => SetValue(CompactModeThresholdWidthProperty, value);
         }
 
         /// <summary>
@@ -383,8 +383,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <returns>The current BackButtonBehavior. The default is System.</returns>
         public BackButtonBehavior BackButtonBehavior
         {
-            get { return (BackButtonBehavior)GetValue(BackButtonBehaviorProperty); }
-            set { SetValue(BackButtonBehaviorProperty, value); }
+            get => (BackButtonBehavior)GetValue(BackButtonBehaviorProperty);
+            set => SetValue(BackButtonBehaviorProperty, value);
         }
 
         /// <summary>
@@ -393,8 +393,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <returns>The current MasterItemTemplateSelector.</returns>
         public DataTemplateSelector MasterItemTemplateSelector
         {
-            get { return (DataTemplateSelector)GetValue(MasterItemTemplateSelectorProperty); }
-            set { SetValue(MasterItemTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector)GetValue(MasterItemTemplateSelectorProperty);
+            set => SetValue(MasterItemTemplateSelectorProperty, value);
         }
 
         /// <summary>
@@ -403,8 +403,8 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// <returns>The current DetailsContentTemplateSelector.</returns>
         public DataTemplateSelector DetailsContentTemplateSelector
         {
-            get { return (DataTemplateSelector)GetValue(DetailsContentTemplateSelectorProperty); }
-            set { SetValue(DetailsContentTemplateSelectorProperty, value); }
+            get => (DataTemplateSelector)GetValue(DetailsContentTemplateSelectorProperty);
+            set => SetValue(DetailsContentTemplateSelectorProperty, value);
         }
 
         /// <summary>

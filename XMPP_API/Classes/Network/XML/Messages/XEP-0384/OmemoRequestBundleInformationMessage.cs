@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {
-    public class OmemoRequestBundleInformationMessage : PubSubRequestNodeMessage
+    public class OmemoRequestBundleInformationMessage: PubSubRequestNodeMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

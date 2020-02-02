@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class BoolInvertedVisibilityValueConverter : IValueConverter
+    public sealed class BoolInvertedVisibilityValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

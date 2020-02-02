@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class StringEmptyEnabledBoolValueConverter : IValueConverter
+    public sealed class StringEmptyEnabledBoolValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

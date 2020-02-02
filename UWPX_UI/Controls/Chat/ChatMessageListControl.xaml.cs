@@ -25,8 +25,8 @@ namespace UWPX_UI.Controls.Chat
 
         public double ScrollHeaderMinSize
         {
-            get { return (double)GetValue(ScrollHeaderMinSizeProperty); }
-            set { SetValue(ScrollHeaderMinSizeProperty, value); }
+            get => (double)GetValue(ScrollHeaderMinSizeProperty);
+            set => SetValue(ScrollHeaderMinSizeProperty, value);
         }
         public static readonly DependencyProperty ScrollHeaderMinSizeProperty = DependencyProperty.Register(nameof(ScrollHeaderMinSize), typeof(double), typeof(ChatMessageListControl), new PropertyMetadata(0d));
 

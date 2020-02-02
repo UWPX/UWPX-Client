@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class AbstractPubSubDiscoverNodeItemsResultMessage : DiscoResponseMessage
+    public abstract class AbstractPubSubDiscoverNodeItemsResultMessage: DiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
         public AbstractPubSubDiscoverNodeItemsResultMessage(XmlNode n) : base(n)
         {
             XmlNode queryNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, Consts.XML_XEP_0030_ITEMS_NAMESPACE);
-            if(queryNode != null)
+            if (queryNode != null)
             {
                 NODE_NAME = queryNode.Attributes["node"]?.Value;
             }

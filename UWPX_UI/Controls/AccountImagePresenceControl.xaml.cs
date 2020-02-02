@@ -48,8 +48,8 @@ namespace UWPX_UI.Controls
 
         public Visibility PresenceVisibility
         {
-            get { return (Visibility)GetValue(PresenceVisibilityProperty); }
-            set { SetValue(PresenceVisibilityProperty, value); }
+            get => (Visibility)GetValue(PresenceVisibilityProperty);
+            set => SetValue(PresenceVisibilityProperty, value);
         }
         public static readonly DependencyProperty PresenceVisibilityProperty = DependencyProperty.Register(nameof(PresenceVisibility), typeof(Visibility), typeof(AccountImagePresenceControl), new PropertyMetadata(Visibility.Visible));
 

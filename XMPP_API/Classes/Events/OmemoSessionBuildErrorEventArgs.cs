@@ -5,7 +5,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session;
 
 namespace XMPP_API.Classes.Events
 {
-    public class OmemoSessionBuildErrorEventArgs : CancelEventArgs
+    public class OmemoSessionBuildErrorEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

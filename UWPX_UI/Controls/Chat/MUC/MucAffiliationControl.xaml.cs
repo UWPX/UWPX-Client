@@ -13,8 +13,8 @@ namespace UWPX_UI.Controls.Chat.MUC
 
         public MUCAffiliation Affiliation
         {
-            get { return (MUCAffiliation)GetValue(AffiliationProperty); }
-            set { SetValue(AffiliationProperty, value); }
+            get => (MUCAffiliation)GetValue(AffiliationProperty);
+            set => SetValue(AffiliationProperty, value);
         }
         public static readonly DependencyProperty AffiliationProperty = DependencyProperty.Register(nameof(Affiliation), typeof(MUCAffiliation), typeof(MucAffiliationControl), new PropertyMetadata(MUCAffiliation.NONE, OnAffiliationChanged));
 

@@ -1,7 +1,7 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections;
 using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
@@ -12,7 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    public class SASLConnection : AbstractMessageProcessor
+    public class SASLConnection: AbstractMessageProcessor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

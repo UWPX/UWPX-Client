@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter.OMEMO
 {
-    public sealed class OmemoDeviceIdStringValueConverter : IValueConverter
+    public sealed class OmemoDeviceIdStringValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

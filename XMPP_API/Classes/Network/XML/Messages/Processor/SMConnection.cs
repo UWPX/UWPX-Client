@@ -1,5 +1,5 @@
-﻿using Logging;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
@@ -7,7 +7,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    class SMConnection : AbstractMessageProcessor
+    internal class SMConnection: AbstractMessageProcessor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -75,7 +75,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         #region --Misc Methods (Protected)--
         protected override async Task processMessageAsync(NewValidMessageEventArgs args)
         {
-            if(!STREAM_MANAGEMENT_ENABLED)
+            if (!STREAM_MANAGEMENT_ENABLED)
             {
                 return;
             }

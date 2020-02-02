@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class IQMessage : AbstractAddressableMessage
+    public class IQMessage: AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

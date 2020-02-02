@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class MessageSendEventArgs : EventArgs
+    public class MessageSendEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

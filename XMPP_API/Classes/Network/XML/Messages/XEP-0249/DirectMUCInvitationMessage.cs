@@ -4,7 +4,7 @@ using System.Xml.Linq;
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0249
 {
     // https://xmpp.org/extensions/xep-0249.html
-    public class DirectMUCInvitationMessage : MessageMessage
+    public class DirectMUCInvitationMessage: MessageMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

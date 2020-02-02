@@ -1,5 +1,5 @@
-﻿using SQLite;
-using System;
+﻿using System;
+using SQLite;
 
 namespace Data_Manager2.Classes.DBTables
 {

@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0363
 {
-    public class HTTPUploadErrorMessage : IQErrorMessage
+    public class HTTPUploadErrorMessage: IQErrorMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

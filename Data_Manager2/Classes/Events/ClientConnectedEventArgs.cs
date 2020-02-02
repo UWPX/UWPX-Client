@@ -3,7 +3,7 @@ using XMPP_API.Classes;
 
 namespace Data_Manager2.Classes.Events
 {
-    public class ClientConnectedEventArgs : EventArgs
+    public class ClientConnectedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

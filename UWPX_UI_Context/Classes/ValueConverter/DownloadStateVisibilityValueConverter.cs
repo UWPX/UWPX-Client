@@ -1,12 +1,12 @@
-﻿using Shared.Classes.Network;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Shared.Classes.Network;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class DownloadStateVisibilityValueConverter : IValueConverter
+    public sealed class DownloadStateVisibilityValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.Processor;
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA256
 {
     // https://tools.ietf.org/html/rfc7677
-    public class ScramSHA256SASLMechanism : ScramSHA1SASLMechanism
+    public class ScramSHA256SASLMechanism: ScramSHA1SASLMechanism
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

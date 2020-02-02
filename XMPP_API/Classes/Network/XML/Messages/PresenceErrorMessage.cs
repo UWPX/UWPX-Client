@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class PresenceErrorMessage : PresenceMessage
+    public class PresenceErrorMessage: PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

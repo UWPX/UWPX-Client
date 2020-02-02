@@ -20,7 +20,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         /// </history>
         public ErrorNode(XmlNode n)
         {
-            if(n != null)
+            if (n != null)
             {
                 TYPE = n.Attributes["type"]?.Value;
                 CONTENT = n.InnerXml;

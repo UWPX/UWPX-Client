@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
 {
-    public class SASLFailureMessage : AbstractMessage
+    public class SASLFailureMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -84,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
                 }
             }
 
-            if(ERROR_MESSAGE is null)
+            if (ERROR_MESSAGE is null)
             {
                 ERROR_MESSAGE = node.InnerXml;
             }

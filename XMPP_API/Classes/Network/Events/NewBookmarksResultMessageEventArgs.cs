@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewBookmarksResultMessageEventArgs : EventArgs
+    public class NewBookmarksResultMessageEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class AddToRosterMessage : IQMessage
+    public class AddToRosterMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

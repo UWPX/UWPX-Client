@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class HexColorToSolidColorBrushValueConverter : IValueConverter
+    public sealed class HexColorToSolidColorBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

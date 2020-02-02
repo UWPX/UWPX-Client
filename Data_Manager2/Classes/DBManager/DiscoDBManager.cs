@@ -1,14 +1,14 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Shared.Classes.SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Data_Manager2.Classes.DBTables;
+using Shared.Classes.SQLite;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class DiscoDBManager : AbstractDBManager
+    public class DiscoDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

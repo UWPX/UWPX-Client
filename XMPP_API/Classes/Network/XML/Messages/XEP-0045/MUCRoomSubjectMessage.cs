@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class MUCRoomSubjectMessage : MessageMessage
+    public class MUCRoomSubjectMessage: MessageMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

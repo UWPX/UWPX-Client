@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Exceptions
 {
-    class XMPPGeneralException : Exception
+    internal class XMPPGeneralException: Exception
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

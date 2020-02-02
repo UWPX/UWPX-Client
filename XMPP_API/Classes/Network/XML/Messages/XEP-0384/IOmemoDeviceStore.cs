@@ -1,6 +1,6 @@
-﻿using libsignal;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using libsignal;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384
 {

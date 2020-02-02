@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class SelectSASLMechanismMessage : AbstractMessage
+    public class SelectSASLMechanismMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

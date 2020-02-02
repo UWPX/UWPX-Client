@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
-    public class RequestRoomConfigurationMessage : IQMessage
+    public class RequestRoomConfigurationMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
 {
-    public class ChatStateMessage : AbstractAddressableMessage
+    public class ChatStateMessage: AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
         /// </history>
         public ChatStateMessage(XmlNode node) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, node.Attributes["id"]?.Value)
         {
-            if(XMLUtils.getChildNode(node, "error") != null)
+            if (XMLUtils.getChildNode(node, "error") != null)
             {
                 STATE = ChatState.UNKNOWN;
             }
@@ -51,7 +51,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0085
             }
         }
 
-        public ChatStateMessage(string to, string from, ChatState state) :base(from, to, getRandomId())
+        public ChatStateMessage(string to, string from, ChatState state) : base(from, to, getRandomId())
         {
             STATE = state;
         }

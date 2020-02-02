@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Data_Manager2.Classes.DBTables;
 
 namespace Data_Manager2.Classes.Events
 {
-    public class ChatChangedEventArgs : CancelEventArgs
+    public class ChatChangedEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

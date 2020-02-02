@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0198
 {
-    public class SMAnswerMessage : AbstractMessage
+    public class SMAnswerMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

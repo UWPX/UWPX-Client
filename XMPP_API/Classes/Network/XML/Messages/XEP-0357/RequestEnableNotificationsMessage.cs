@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
 {
-    public class RequestEnableNotificationsMessage : IQMessage
+    public class RequestEnableNotificationsMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

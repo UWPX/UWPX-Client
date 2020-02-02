@@ -3,7 +3,7 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class RemoveFromRosterMessage : IQMessage
+    internal class RemoveFromRosterMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

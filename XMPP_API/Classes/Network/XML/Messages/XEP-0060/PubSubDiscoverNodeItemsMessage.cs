@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubDiscoverNodeItemsMessage : DiscoRequestMessage
+    public class PubSubDiscoverNodeItemsMessage: DiscoRequestMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

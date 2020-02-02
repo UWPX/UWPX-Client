@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class OpenStreamAnswerMessage : AbstractMessage
+    internal class OpenStreamAnswerMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

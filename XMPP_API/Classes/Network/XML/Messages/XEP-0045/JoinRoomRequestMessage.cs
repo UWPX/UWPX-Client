@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class JoinRoomRequestMessage : PresenceMessage
+    public class JoinRoomRequestMessage: PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

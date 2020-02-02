@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class BindResourceMessage : IQMessage
+    public class BindResourceMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

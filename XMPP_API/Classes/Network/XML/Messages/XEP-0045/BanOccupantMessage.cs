@@ -3,7 +3,7 @@
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
     // https://xmpp.org/extensions/xep-0045.html#ban
-    class BanOccupantMessage : IQMessage
+    internal class BanOccupantMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

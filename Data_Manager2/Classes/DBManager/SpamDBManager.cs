@@ -1,14 +1,14 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes.SQLite;
 using SQLite;
-using System;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class SpamDBManager : AbstractDBManager
+    public class SpamDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -27,7 +27,7 @@ namespace Data_Manager2.Classes.DBManager
         #region --Set-, Get- Methods--
         public bool isSpam(string text)
         {
-            if(!(spamRegex is null))
+            if (!(spamRegex is null))
             {
                 return !(getSpam(text) is null) || spamRegex.IsMatch(text);
             }
@@ -52,7 +52,7 @@ namespace Data_Manager2.Classes.DBManager
         public void addSpamMessage(string text, DateTime dateTime)
         {
             SpamMessageTable spam = getSpam(text);
-            if(spam is null)
+            if (spam is null)
             {
                 spam = new SpamMessageTable
                 {

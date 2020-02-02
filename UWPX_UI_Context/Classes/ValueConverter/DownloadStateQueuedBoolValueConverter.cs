@@ -1,10 +1,10 @@
-﻿using Shared.Classes.Network;
-using System;
+﻿using System;
+using Shared.Classes.Network;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class DownloadStateQueuedBoolValueConverter : IValueConverter
+    public sealed class DownloadStateQueuedBoolValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

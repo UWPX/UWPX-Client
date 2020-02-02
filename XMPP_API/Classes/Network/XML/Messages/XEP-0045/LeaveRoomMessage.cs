@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class LeaveRoomMessage : PresenceMessage
+    public class LeaveRoomMessage: PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

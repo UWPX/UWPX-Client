@@ -13,8 +13,8 @@ namespace UWPX_UI.Controls.Chat.MUC
 
         public MUCRole Role
         {
-            get { return (MUCRole)GetValue(RoleProperty); }
-            set { SetValue(RoleProperty, value); }
+            get => (MUCRole)GetValue(RoleProperty);
+            set => SetValue(RoleProperty, value);
         }
         public static readonly DependencyProperty RoleProperty = DependencyProperty.Register(nameof(Role), typeof(MUCRole), typeof(MucRoleControl), new PropertyMetadata(MUCRole.NONE, OnRoleChanged));
 

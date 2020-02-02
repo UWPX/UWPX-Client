@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewValidMessageEventArgs : CancelEventArgs
+    public class NewValidMessageEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

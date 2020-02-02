@@ -75,6 +75,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             foreach (XmlNode n1 in n.ChildNodes)
             {
                 if (string.Equals(n1.NamespaceURI, Consts.XML_ERROR_NAMESPACE))
+                {
                     switch (n1.Name)
                     {
                         case "bad-request":
@@ -146,6 +147,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                         default:
                             break;
                     }
+                }
             }
             return ErrorName.UNKNOWN;
         }

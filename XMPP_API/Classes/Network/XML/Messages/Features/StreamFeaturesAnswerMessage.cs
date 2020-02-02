@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features.SASL;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features
 {
-    class StreamFeaturesMessage : AbstractMessage
+    internal class StreamFeaturesMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

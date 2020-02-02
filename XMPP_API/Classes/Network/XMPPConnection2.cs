@@ -1,9 +1,9 @@
-﻿using Logging;
-using Microsoft.Toolkit.Uwp.Connectivity;
-using Shared.Classes.Collections;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Logging;
+using Microsoft.Toolkit.Uwp.Connectivity;
+using Shared.Classes.Collections;
 using Windows.System.Threading;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network.Events;
@@ -16,7 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network
 {
-    public class XMPPConnection2 : AbstractConnection2, IMessageSender
+    public class XMPPConnection2: AbstractConnection2, IMessageSender
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

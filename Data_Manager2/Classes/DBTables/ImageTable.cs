@@ -4,7 +4,7 @@ using SQLite;
 namespace Data_Manager2.Classes.DBTables
 {
     [Table(DBTableConsts.IMAGE_TABLE)]
-    public class ImageTable : AbstractDownloadableObject
+    public class ImageTable: AbstractDownloadableObject
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

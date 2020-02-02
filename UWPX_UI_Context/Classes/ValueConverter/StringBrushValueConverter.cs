@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0392;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class StringBrushValueConverter : IValueConverter
+    public sealed class StringBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

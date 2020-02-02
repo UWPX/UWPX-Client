@@ -4,7 +4,7 @@ using XMPP_API.Classes;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class PresenceBrushValueConverter : IValueConverter
+    public sealed class PresenceBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

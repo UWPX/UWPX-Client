@@ -12,8 +12,8 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles
         #region --Attributes--
         public ChatMessageDataTemplate ChatMessage
         {
-            get { return (ChatMessageDataTemplate)GetValue(ChatMessageProperty); }
-            set { SetValue(ChatMessageProperty, value); }
+            get => (ChatMessageDataTemplate)GetValue(ChatMessageProperty);
+            set => SetValue(ChatMessageProperty, value);
         }
         public static readonly DependencyProperty ChatMessageProperty = DependencyProperty.Register(nameof(ChatMessage), typeof(ChatMessageDataTemplate), typeof(SpeechBubbleTopControl), new PropertyMetadata(null, OnChatMessageChanged));
 

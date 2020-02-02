@@ -4,11 +4,11 @@ using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public abstract class AbstractPubSubEventMessage : AbstractAddressableMessage
+    public abstract class AbstractPubSubEventMessage: AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        
+
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

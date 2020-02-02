@@ -1,12 +1,12 @@
-﻿using Data_Manager2.Classes.DBTables;
+﻿using System.Collections.Generic;
+using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Events;
 using Shared.Classes.SQLite;
-using System.Collections.Generic;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class MUCDBManager : AbstractDBManager
+    public class MUCDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

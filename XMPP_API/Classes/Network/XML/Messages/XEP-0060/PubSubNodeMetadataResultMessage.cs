@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
 {
-    public class PubSubNodeMetadataResultMessage : ExtendedDiscoResponseMessage
+    public class PubSubNodeMetadataResultMessage: ExtendedDiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

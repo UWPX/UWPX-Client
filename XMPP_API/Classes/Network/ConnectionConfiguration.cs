@@ -5,27 +5,27 @@ using XMPP_API.Classes.Network.TCP;
 
 namespace XMPP_API.Classes.Network
 {
-    public class ConnectionConfiguration : AbstractDataTemplate
+    public class ConnectionConfiguration: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private TLSConnectionMode _tlsMode;
         public TLSConnectionMode tlsMode
         {
-            get { return _tlsMode; }
-            set { SetProperty(ref _tlsMode, value); }
+            get => _tlsMode;
+            set => SetProperty(ref _tlsMode, value);
         }
         private bool _disableStreamManagement;
         public bool disableStreamManagement
         {
-            get { return _disableStreamManagement; }
-            set { SetProperty(ref _disableStreamManagement, value); }
+            get => _disableStreamManagement;
+            set => SetProperty(ref _disableStreamManagement, value);
         }
         private bool _disableMessageCarbons;
         public bool disableMessageCarbons
         {
-            get { return _disableMessageCarbons; }
-            set { SetProperty(ref _disableMessageCarbons, value); }
+            get => _disableMessageCarbons;
+            set => SetProperty(ref _disableMessageCarbons, value);
         }
         public readonly CustomObservableCollection<ChainValidationResult> IGNORED_CERTIFICATE_ERRORS;
 

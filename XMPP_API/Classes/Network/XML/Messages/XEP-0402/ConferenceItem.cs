@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0402
 {
-    public class ConferenceItem : AbstractPubSubItem
+    public class ConferenceItem: AbstractPubSubItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

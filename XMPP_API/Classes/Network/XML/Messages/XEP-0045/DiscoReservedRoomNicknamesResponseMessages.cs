@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
-    public class DiscoReservedRoomNicknamesResponseMessages : DiscoResponseMessage
+    public class DiscoReservedRoomNicknamesResponseMessages: DiscoResponseMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
         public DiscoReservedRoomNicknamesResponseMessages(XmlNode n) : base(n)
         {
             XmlNode qNode = XMLUtils.getChildNode(n, "query", Consts.XML_XMLNS, "http://jabber.org/protocol/disco#info");
-            if(qNode != null)
+            if (qNode != null)
             {
                 NODE = qNode.Attributes["node"]?.Value;
             }

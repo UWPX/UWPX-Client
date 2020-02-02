@@ -10,8 +10,8 @@ namespace UWPX_UI.Controls.OMEMO
         #region --Attributes--
         public bool OmemoEnabled
         {
-            get { return (bool)GetValue(OmemoEnabledProperty); }
-            set { SetValue(OmemoEnabledProperty, value); }
+            get => (bool)GetValue(OmemoEnabledProperty);
+            set => SetValue(OmemoEnabledProperty, value);
         }
         public static readonly DependencyProperty OmemoEnabledProperty = DependencyProperty.Register(nameof(OmemoEnabled), typeof(bool), typeof(OmemoButtonControl), new PropertyMetadata(false));
 

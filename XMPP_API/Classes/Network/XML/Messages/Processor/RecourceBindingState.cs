@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    enum RecourceBindingState
+    internal enum RecourceBindingState
     {
         ERROR,
         UNBOUND,

@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.TLS
 {
-    class RequesStartTLSMessage : AbstractMessage
+    internal class RequesStartTLSMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

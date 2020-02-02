@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes;
-using Logging;
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Data_Manager2.Classes;
+using Logging;
 using Windows.Networking.PushNotifications;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.TCP;

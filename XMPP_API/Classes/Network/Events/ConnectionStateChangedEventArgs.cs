@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class ConnectionStateChangedEventArgs : EventArgs
+    public class ConnectionStateChangedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

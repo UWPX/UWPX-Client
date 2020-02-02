@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    class RecourceBindingConnection : AbstractMessageProcessor
+    internal class RecourceBindingConnection: AbstractMessageProcessor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

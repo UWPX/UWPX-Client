@@ -1,10 +1,10 @@
-﻿using Logging;
-using System;
+﻿using System;
+using Logging;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class LogLevelStringValueConverter : IValueConverter
+    public sealed class LogLevelStringValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

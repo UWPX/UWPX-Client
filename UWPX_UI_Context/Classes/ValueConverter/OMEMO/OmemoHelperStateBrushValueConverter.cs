@@ -6,7 +6,7 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter.OMEMO
 {
-    public sealed class OmemoHelperStateBrushValueConverter : IValueConverter
+    public sealed class OmemoHelperStateBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

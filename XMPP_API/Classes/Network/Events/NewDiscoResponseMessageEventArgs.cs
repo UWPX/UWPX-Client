@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewDiscoResponseMessageEventArgs : EventArgs
+    public class NewDiscoResponseMessageEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

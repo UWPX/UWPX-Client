@@ -11,15 +11,15 @@ namespace UWPX_UI.Controls.OMEMO
         #region --Attributes--
         public ECPublicKey IdentityPubKey
         {
-            get { return (ECPublicKey)GetValue(IdentityPubKeyProperty); }
-            set { SetValue(IdentityPubKeyProperty, value); }
+            get => (ECPublicKey)GetValue(IdentityPubKeyProperty);
+            set => SetValue(IdentityPubKeyProperty, value);
         }
         public static readonly DependencyProperty IdentityPubKeyProperty = DependencyProperty.Register(nameof(IdentityPubKey), typeof(ECPublicKey), typeof(OmemoFingerprintControl), new PropertyMetadata(null, OnIdentityPubKeyChanged));
 
         public Visibility CopyButtonVisibility
         {
-            get { return (Visibility)GetValue(CopyButtonVisibilityProperty); }
-            set { SetValue(CopyButtonVisibilityProperty, value); }
+            get => (Visibility)GetValue(CopyButtonVisibilityProperty);
+            set => SetValue(CopyButtonVisibilityProperty, value);
         }
         public static readonly DependencyProperty CopyButtonVisibilityProperty = DependencyProperty.Register(nameof(CopyButtonVisibility), typeof(Visibility), typeof(OmemoFingerprintControl), new PropertyMetadata(Visibility.Visible));
 

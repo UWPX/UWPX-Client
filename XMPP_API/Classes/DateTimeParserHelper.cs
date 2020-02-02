@@ -1,6 +1,6 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
+using Logging;
 
 namespace XMPP_API.Classes
 {
@@ -43,7 +43,7 @@ namespace XMPP_API.Classes
         #region --Misc Methods (Public)--
         public DateTime parse(string dateString)
         {
-            if(dateString != null)
+            if (dateString != null)
             {
                 if (DATE_TIME_REGEX.IsMatch(dateString))
                 {
@@ -67,7 +67,7 @@ namespace XMPP_API.Classes
 
             dateTime = dateTime.ToUniversalTime();
             string result = dateTime.ToString("yyyy-MM-dd") + 'T' + dateTime.ToString(@"HH\:mm\:ss");
-            if(uTCoffset.TotalHours == 0)
+            if (uTCoffset.TotalHours == 0)
             {
                 result += 'Z';
             }

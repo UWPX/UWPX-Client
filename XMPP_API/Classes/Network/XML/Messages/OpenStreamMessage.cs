@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    class OpenStreamMessage : AbstractAddressableMessage
+    internal class OpenStreamMessage: AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

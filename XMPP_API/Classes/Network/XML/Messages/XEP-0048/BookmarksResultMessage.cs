@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public class BookmarksResultMessage : AbstractPubSubResultMessage
+    public class BookmarksResultMessage: AbstractPubSubResultMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

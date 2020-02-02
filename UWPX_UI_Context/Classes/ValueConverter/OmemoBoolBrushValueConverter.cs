@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class OmemoBoolBrushValueConverter : IValueConverter
+    public sealed class OmemoBoolBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

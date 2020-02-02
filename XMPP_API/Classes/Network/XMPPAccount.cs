@@ -22,56 +22,56 @@ namespace XMPP_API.Classes.Network
         private int _port;
         public int port
         {
-            get { return _port; }
-            set { SetProperty(ref _port, value); }
+            get => _port;
+            set => SetProperty(ref _port, value);
         }
         private XMPPUser _user;
         public XMPPUser user
         {
-            get { return _user; }
-            set { setXMPPUserProperty(value); }
+            get => _user;
+            set => setXMPPUserProperty(value);
         }
         private string _serverAddress;
         public string serverAddress
         {
-            get { return _serverAddress; }
-            set { SetProperty(ref _serverAddress, value); }
+            get => _serverAddress;
+            set => SetProperty(ref _serverAddress, value);
         }
         private int _presencePriorety;
         public int presencePriorety
         {
-            get { return _presencePriorety; }
-            set { SetProperty(ref _presencePriorety, value); }
+            get => _presencePriorety;
+            set => SetProperty(ref _presencePriorety, value);
         }
         private bool _disabled;
         public bool disabled
         {
-            get { return _disabled; }
-            set { SetProperty(ref _disabled, value); }
+            get => _disabled;
+            set => SetProperty(ref _disabled, value);
         }
         private string _color;
         public string color
         {
-            get { return _color; }
-            set { SetProperty(ref _color, value); }
+            get => _color;
+            set => SetProperty(ref _color, value);
         }
         private Presence _presence;
         public Presence presence
         {
-            get { return _presence; }
-            set { SetProperty(ref _presence, value); }
+            get => _presence;
+            set => SetProperty(ref _presence, value);
         }
         private string _status;
         public string status
         {
-            get { return _status; }
-            set { SetProperty(ref _status, value); }
+            get => _status;
+            set => SetProperty(ref _status, value);
         }
         private ConnectionConfiguration _connectionConfiguration;
         public ConnectionConfiguration connectionConfiguration
         {
-            get { return _connectionConfiguration; }
-            set { setConnectionConfigurationProperty(value); }
+            get => _connectionConfiguration;
+            set => setConnectionConfigurationProperty(value);
         }
 
         public readonly ConnectionInformation CONNECTION_INFO;
@@ -80,38 +80,38 @@ namespace XMPP_API.Classes.Network
         private bool _omemoKeysGenerated;
         public bool omemoKeysGenerated
         {
-            get { return _omemoKeysGenerated; }
-            set { SetProperty(ref _omemoKeysGenerated, value); }
+            get => _omemoKeysGenerated;
+            set => SetProperty(ref _omemoKeysGenerated, value);
         }
         private IdentityKeyPair _omemoIdentityKeyPair;
         public IdentityKeyPair omemoIdentityKeyPair
         {
-            get { return _omemoIdentityKeyPair; }
-            set { SetProperty(ref _omemoIdentityKeyPair, value); }
+            get => _omemoIdentityKeyPair;
+            set => SetProperty(ref _omemoIdentityKeyPair, value);
         }
         private uint _omemoSignedPreKeyId;
         public uint omemoSignedPreKeyId
         {
-            get { return _omemoSignedPreKeyId; }
-            set { SetProperty(ref _omemoSignedPreKeyId, value); }
+            get => _omemoSignedPreKeyId;
+            set => SetProperty(ref _omemoSignedPreKeyId, value);
         }
         private SignedPreKeyRecord _omemoSignedPreKeyPair;
         public SignedPreKeyRecord omemoSignedPreKeyPair
         {
-            get { return _omemoSignedPreKeyPair; }
-            set { SetProperty(ref _omemoSignedPreKeyPair, value); }
+            get => _omemoSignedPreKeyPair;
+            set => SetProperty(ref _omemoSignedPreKeyPair, value);
         }
         private uint _omemoDeviceId;
         public uint omemoDeviceId
         {
-            get { return _omemoDeviceId; }
-            set { SetProperty(ref _omemoDeviceId, value); }
+            get => _omemoDeviceId;
+            set => SetProperty(ref _omemoDeviceId, value);
         }
         private bool _omemoBundleInfoAnnounced;
         public bool omemoBundleInfoAnnounced
         {
-            get { return _omemoBundleInfoAnnounced; }
-            set { SetProperty(ref _omemoBundleInfoAnnounced, value); }
+            get => _omemoBundleInfoAnnounced;
+            set => SetProperty(ref _omemoBundleInfoAnnounced, value);
         }
         public readonly CustomObservableCollection<PreKeyRecord> OMEMO_PRE_KEYS;
 

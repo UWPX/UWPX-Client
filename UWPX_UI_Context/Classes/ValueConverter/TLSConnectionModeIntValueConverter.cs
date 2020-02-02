@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.TCP;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class TLSConnectionModeIntValueConverter : IValueConverter
+    public sealed class TLSConnectionModeIntValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

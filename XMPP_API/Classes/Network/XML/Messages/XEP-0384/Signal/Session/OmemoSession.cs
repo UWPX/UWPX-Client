@@ -1,5 +1,5 @@
-﻿using libsignal;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using libsignal;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
 {

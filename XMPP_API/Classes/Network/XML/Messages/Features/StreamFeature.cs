@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features
 {
-    class StreamFeature
+    internal class StreamFeature
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

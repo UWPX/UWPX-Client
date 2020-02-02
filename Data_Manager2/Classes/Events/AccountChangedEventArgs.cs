@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network;
 
 namespace Data_Manager2.Classes.Events
 {
-    public class AccountChangedEventArgs : CancelEventArgs
+    public class AccountChangedEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

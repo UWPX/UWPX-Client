@@ -1,10 +1,10 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Data_Manager2.Classes.DBTables;
 using Windows.UI.Notifications;
 
 namespace Data_Manager2.Classes.Toast
 {
-    public class OnChatMessageToastEventArgs : CancelEventArgs
+    public class OnChatMessageToastEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

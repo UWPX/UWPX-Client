@@ -4,7 +4,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter.Bandwidth
 {
-    public sealed class InboundBitsPerSecondValueConverter : IValueConverter
+    public sealed class InboundBitsPerSecondValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

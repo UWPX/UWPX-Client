@@ -1,6 +1,6 @@
-﻿using SQLite;
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
+using SQLite;
 using XMPP_API.Classes;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;

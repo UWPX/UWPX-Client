@@ -1,16 +1,16 @@
-﻿using Data_Manager2.Classes.DBTables;
-using Logging;
-using Shared.Classes.Network;
-using Shared.Classes.SQLite;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
+using Data_Manager2.Classes.DBTables;
+using Logging;
+using Shared.Classes.Network;
+using Shared.Classes.SQLite;
 using Windows.Storage;
 
 namespace Data_Manager2.Classes.DBManager
 {
-    public class ImageDBManager : AbstractDBManager
+    public class ImageDBManager: AbstractDBManager
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

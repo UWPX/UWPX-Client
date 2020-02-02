@@ -12,8 +12,8 @@ namespace UWPX_UI.Controls.OMEMO
         #region --Attributes--
         public OmemoFingerprint Fingerprint
         {
-            get { return (OmemoFingerprint)GetValue(FingerprintProperty); }
-            set { SetValue(FingerprintProperty, value); }
+            get => (OmemoFingerprint)GetValue(FingerprintProperty);
+            set => SetValue(FingerprintProperty, value);
         }
         public static readonly DependencyProperty FingerprintProperty = DependencyProperty.Register(nameof(Fingerprint), typeof(OmemoFingerprint), typeof(OmemoTrustFingerprintControl), new PropertyMetadata(null, OnFingerprintChanged));
 

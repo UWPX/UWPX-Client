@@ -1,10 +1,10 @@
-﻿using Data_Manager2.Classes;
-using System;
+﻿using System;
+using Data_Manager2.Classes;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MessageStateGlyphTextValueConverter : IValueConverter
+    public sealed class MessageStateGlyphTextValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -1,7 +1,7 @@
-﻿using Logging;
-using Microsoft.Toolkit.Uwp.Helpers;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Logging;
+using Microsoft.Toolkit.Uwp.Helpers;
 using Windows.ApplicationModel.Background;
 
 namespace XMPP_API.Classes

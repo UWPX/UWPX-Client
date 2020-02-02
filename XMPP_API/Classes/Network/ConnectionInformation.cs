@@ -1,30 +1,30 @@
-﻿using Shared.Classes;
-using System.Text;
+﻿using System.Text;
+using Shared.Classes;
 using Windows.Networking.Sockets;
 
 namespace XMPP_API.Classes.Network
 {
-    public class ConnectionInformation : AbstractDataTemplate
+    public class ConnectionInformation: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private bool _tlsConnected;
         public bool tlsConnected
         {
-            get { return _tlsConnected; }
-            set { SetProperty(ref _tlsConnected, value); }
+            get => _tlsConnected;
+            set => SetProperty(ref _tlsConnected, value);
         }
         private StreamSocketInformation _socketInfo;
         public StreamSocketInformation socketInfo
         {
-            get { return _socketInfo; }
-            set { SetProperty(ref _socketInfo, value); }
+            get => _socketInfo;
+            set => SetProperty(ref _socketInfo, value);
         }
         private MessageCarbonsState _msgCarbonsState;
         public MessageCarbonsState msgCarbonsState
         {
-            get { return _msgCarbonsState; }
-            set { SetProperty(ref _msgCarbonsState, value); }
+            get => _msgCarbonsState;
+            set => SetProperty(ref _msgCarbonsState, value);
         }
 
         #endregion

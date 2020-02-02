@@ -1,6 +1,6 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML.Messages.Features;
@@ -8,7 +8,7 @@ using XMPP_API.Classes.Network.XML.Messages.Features.TLS;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Processor
 {
-    class TLSConnection : AbstractMessageProcessor
+    internal class TLSConnection: AbstractMessageProcessor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

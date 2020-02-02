@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class ConnectionErrorCodeTextValueConverter : IValueConverter
+    public sealed class ConnectionErrorCodeTextValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
-    public class RoomInfoMessage : IQMessage
+    public class RoomInfoMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

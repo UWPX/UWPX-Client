@@ -3,7 +3,7 @@ using System.Xml;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL
 {
-    class SASLStreamFeature : StreamFeature
+    internal class SASLStreamFeature: StreamFeature
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using Data_Manager2.Classes.DBTables;
 
 namespace Data_Manager2.Classes.Events
 {
-    public class MUCInfoChangedEventArgs : CancelEventArgs
+    public class MUCInfoChangedEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

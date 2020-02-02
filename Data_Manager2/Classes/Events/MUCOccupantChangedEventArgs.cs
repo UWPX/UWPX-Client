@@ -1,9 +1,9 @@
-﻿using Data_Manager2.Classes.DBTables;
-using System;
+﻿using System;
+using Data_Manager2.Classes.DBTables;
 
 namespace Data_Manager2.Classes.Events
 {
-    public class MUCOccupantChangedEventArgs : EventArgs
+    public class MUCOccupantChangedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

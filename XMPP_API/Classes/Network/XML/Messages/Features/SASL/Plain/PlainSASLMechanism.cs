@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.Plain
 {
-    class PlainSASLMechanism : AbstractSASLMechanism
+    internal class PlainSASLMechanism: AbstractSASLMechanism
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

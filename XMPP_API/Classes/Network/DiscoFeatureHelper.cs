@@ -5,7 +5,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
 
 namespace XMPP_API.Classes.Network
 {
-    class DiscoFeatureHelper
+    internal class DiscoFeatureHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -5,7 +5,7 @@ using XMPP_API.Classes.Network.XML.Messages.Processor;
 
 namespace XMPP_API.Classes.Network.XML.Messages.Features.SASL.SHA1
 {
-    public class ScramSHA1SASLMechanism : AbstractSASLMechanism
+    public class ScramSHA1SASLMechanism: AbstractSASLMechanism
     {
         // https://stackoverflow.com/questions/29298346/xmpp-sasl-scram-sha1-authentication
         // https://xmpp.org/rfcs/rfc6120.html#examples-c2s-sasl

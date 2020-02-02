@@ -10,14 +10,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Dialogs
         private bool _ShowOnStartup;
         public bool ShowOnStartup
         {
-            get { return _ShowOnStartup; }
-            set { SetShowOnStartupProperty(value); }
+            get => _ShowOnStartup;
+            set => SetShowOnStartupProperty(value);
         }
         private bool _ToDonatePageNavigated;
         public bool ToDonatePageNavigated
         {
-            get { return _ToDonatePageNavigated; }
-            set { SetProperty(ref _ToDonatePageNavigated, value); }
+            get => _ToDonatePageNavigated;
+            set => SetProperty(ref _ToDonatePageNavigated, value);
         }
 
         #endregion

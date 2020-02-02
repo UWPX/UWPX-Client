@@ -1,10 +1,10 @@
-﻿using Data_Manager2.Classes.DBManager;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Logging;
 using Shared.Classes.Network;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Storage;
 
 namespace Data_Manager2.Classes

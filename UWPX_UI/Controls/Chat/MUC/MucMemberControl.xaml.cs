@@ -13,8 +13,8 @@ namespace UWPX_UI.Controls.Chat.MUC
 
         public MucMemberDataTemplate Member
         {
-            get { return (MucMemberDataTemplate)GetValue(MemberProperty); }
-            set { SetValue(MemberProperty, value); }
+            get => (MucMemberDataTemplate)GetValue(MemberProperty);
+            set => SetValue(MemberProperty, value);
         }
         public static readonly DependencyProperty MemberProperty = DependencyProperty.Register(nameof(Member), typeof(MucMemberDataTemplate), typeof(MucMemberControl), new PropertyMetadata(null, OnMemberChanged));
 

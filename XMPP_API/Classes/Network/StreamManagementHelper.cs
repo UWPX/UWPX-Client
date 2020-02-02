@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 
 namespace XMPP_API.Classes.Network
 {
-    class StreamManagementHelper
+    internal class StreamManagementHelper
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

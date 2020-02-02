@@ -1,8 +1,8 @@
-﻿using Data_Manager2.Classes;
+﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Shared.Classes;
-using System.Threading.Tasks;
 using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media;
@@ -12,7 +12,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
-    public class ChatMasterControlDataTemplate : AbstractDataTemplate
+    public class ChatMasterControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

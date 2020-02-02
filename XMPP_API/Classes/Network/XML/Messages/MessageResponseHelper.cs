@@ -5,7 +5,7 @@ using Windows.System.Threading;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class MessageResponseHelper<T> : IDisposable where T : AbstractAddressableMessage
+    public class MessageResponseHelper<T>: IDisposable where T : AbstractAddressableMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -95,7 +95,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                 startTimer();
             }
-            if(disposed)
+            if (disposed)
             {
                 return;
             }
@@ -104,7 +104,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         private void startTimer()
         {
-            if(timer != null)
+            if (timer != null)
             {
                 throw new InvalidOperationException("Can not start timer - timer not null!");
             }
@@ -143,7 +143,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         private void stopTimer()
         {
             MESSAGE_SENDER.NewValidMessage -= MESSAGE_SENDER_NewValidMessage;
-            if(timer != null)
+            if (timer != null)
             {
                 timer.Cancel();
                 timer = null;
@@ -168,7 +168,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #region --Events--
         private void MESSAGE_SENDER_NewValidMessage(IMessageSender sender, Events.NewValidMessageEventArgs args)
         {
-            if(disposed)
+            if (disposed)
             {
                 return;
             }

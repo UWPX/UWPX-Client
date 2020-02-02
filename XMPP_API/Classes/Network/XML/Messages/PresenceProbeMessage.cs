@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class PresenceProbeMessage : PresenceMessage
+    public class PresenceProbeMessage: PresenceMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

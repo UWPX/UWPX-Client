@@ -15,15 +15,15 @@ namespace UWPX_UI.Controls.Chat
 
         public ChatTable Chat
         {
-            get { return (ChatTable)GetValue(ChatProperty); }
-            set { SetValue(ChatProperty, value); }
+            get => (ChatTable)GetValue(ChatProperty);
+            set => SetValue(ChatProperty, value);
         }
         public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatTable), typeof(ContactInfoControl), new PropertyMetadata(null, OnChatChanged));
 
         public XMPPClient Client
         {
-            get { return (XMPPClient)GetValue(ClientProperty); }
-            set { SetValue(ClientProperty, value); }
+            get => (XMPPClient)GetValue(ClientProperty);
+            set => SetValue(ClientProperty, value);
         }
         public static readonly DependencyProperty ClientProperty = DependencyProperty.Register(nameof(Client), typeof(XMPPClient), typeof(ContactInfoControl), new PropertyMetadata(null, OnClientChanged));
 

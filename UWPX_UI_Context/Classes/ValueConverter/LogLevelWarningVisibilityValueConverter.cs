@@ -1,12 +1,12 @@
-﻿using Logging;
-using System;
+﻿using System;
+using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class LogLevelWarningVisibilityValueConverter : IValueConverter
+    public sealed class LogLevelWarningVisibilityValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -3,7 +3,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 
 namespace XMPP_API.Classes.Network.Events
 {
-    public class NewChatStateEventArgs : CancelEventArgs
+    public class NewChatStateEventArgs: CancelEventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

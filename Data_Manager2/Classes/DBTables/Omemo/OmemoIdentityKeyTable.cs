@@ -1,5 +1,4 @@
-﻿using Data_Manager2.Classes.DBTables;
-using SQLite;
+﻿using SQLite;
 
 namespace Data_Manager2.Classes.DBTables.Omemo
 {

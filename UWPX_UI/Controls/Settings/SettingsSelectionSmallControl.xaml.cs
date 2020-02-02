@@ -24,8 +24,8 @@ namespace UWPX_UI.Controls.Settings
 
         public bool EnableNavigationOnClick
         {
-            get { return (bool)GetValue(EnableNavigationOnClickProperty); }
-            set { SetValue(EnableNavigationOnClickProperty, value); }
+            get => (bool)GetValue(EnableNavigationOnClickProperty);
+            set => SetValue(EnableNavigationOnClickProperty, value);
         }
         public static readonly DependencyProperty EnableNavigationOnClickProperty = DependencyProperty.Register(nameof(EnableNavigationOnClick), typeof(bool), typeof(SettingsSelectionSmallControl), new PropertyMetadata(true));
 

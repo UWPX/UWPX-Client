@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
 {
-    public class DiscoFeature : IDiscoItem
+    public class DiscoFeature: IDiscoItem
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -19,7 +19,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0030
         /// </history>
         public DiscoFeature(XmlNode n)
         {
-            if(n != null)
+            if (n != null)
             {
                 VAR = n.Attributes["var"]?.Value;
             }

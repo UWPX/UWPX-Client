@@ -2,7 +2,7 @@
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0048
 {
-    public class RequestBookmarksMessage : PubSubRequestNodeMessage
+    public class RequestBookmarksMessage: PubSubRequestNodeMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

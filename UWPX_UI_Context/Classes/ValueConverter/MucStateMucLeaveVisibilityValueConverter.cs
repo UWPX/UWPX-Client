@@ -1,11 +1,11 @@
-﻿using Data_Manager2.Classes;
-using System;
+﻿using System;
+using Data_Manager2.Classes;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MucStateMucLeaveVisibilityValueConverter : IValueConverter
+    public sealed class MucStateMucLeaveVisibilityValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

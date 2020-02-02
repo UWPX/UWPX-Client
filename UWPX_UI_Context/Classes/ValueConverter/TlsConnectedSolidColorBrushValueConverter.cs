@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Media;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class TlsConnectedSolidColorBrushValueConverter : IValueConverter
+    public sealed class TlsConnectedSolidColorBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

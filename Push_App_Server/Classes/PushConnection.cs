@@ -8,7 +8,7 @@ namespace Push_App_Server.Classes
     /// <summary>
     /// This class is a wrapper for the TCPConnection class.
     /// </summary>
-    public class PushConnection : AbstractConnection2
+    public class PushConnection: AbstractConnection2
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

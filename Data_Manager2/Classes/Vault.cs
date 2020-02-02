@@ -1,6 +1,6 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Logging;
 using Windows.Security.Credentials;
 using XMPP_API.Classes.Network;
 

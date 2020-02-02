@@ -15,15 +15,15 @@ namespace UWPX_UI.Controls.IoT
 
         public BLEDevice Device
         {
-            get { return (BLEDevice)GetValue(DeviceProperty); }
-            set { SetValue(DeviceProperty, value); }
+            get => (BLEDevice)GetValue(DeviceProperty);
+            set => SetValue(DeviceProperty, value);
         }
         public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(nameof(Device), typeof(BLEDevice), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(null, OnDeviceChanged));
 
         public bool IsInputValid
         {
-            get { return (bool)GetValue(IsInputValidProperty); }
-            set { SetValue(IsInputValidProperty, value); }
+            get => (bool)GetValue(IsInputValidProperty);
+            set => SetValue(IsInputValidProperty, value);
         }
         public static readonly DependencyProperty IsInputValidProperty = DependencyProperty.Register(nameof(IsInputValid), typeof(bool), typeof(BluetoothDeviceInfoControl), new PropertyMetadata(false));
 

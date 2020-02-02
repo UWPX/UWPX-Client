@@ -2,33 +2,33 @@
 
 namespace XMPP_API.Classes
 {
-    public class XMPPUser : AbstractDataTemplate
+    public class XMPPUser: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private string _localPart;
         public string localPart
         {
-            get { return _localPart; }
-            set { SetProperty(ref _localPart, value); }
+            get => _localPart;
+            set => SetProperty(ref _localPart, value);
         }
         private string _password;
         public string password
         {
-            get { return _password; }
-            set { SetProperty(ref _password, value); }
+            get => _password;
+            set => SetProperty(ref _password, value);
         }
         private string _resourcePart;
         public string resourcePart
         {
-            get { return _resourcePart; }
-            set { SetProperty(ref _resourcePart, value); }
+            get => _resourcePart;
+            set => SetProperty(ref _resourcePart, value);
         }
         private string _domainPart;
         public string domainPart
         {
-            get { return _domainPart; }
-            set { SetProperty(ref _domainPart, value); }
+            get => _domainPart;
+            set => SetProperty(ref _domainPart, value);
         }
 
         #endregion

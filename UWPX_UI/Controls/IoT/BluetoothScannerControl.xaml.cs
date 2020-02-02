@@ -16,15 +16,15 @@ namespace UWPX_UI.Controls.IoT
 
         public RegisterIoTUriAction RegisterIoTUriAction
         {
-            get { return (RegisterIoTUriAction)GetValue(RegisterIoTUriActionProperty); }
-            set { SetValue(RegisterIoTUriActionProperty, value); }
+            get => (RegisterIoTUriAction)GetValue(RegisterIoTUriActionProperty);
+            set => SetValue(RegisterIoTUriActionProperty, value);
         }
         public static readonly DependencyProperty RegisterIoTUriActionProperty = DependencyProperty.Register(nameof(RegisterIoTUriAction), typeof(RegisterIoTUriAction), typeof(BluetoothScannerControl), new PropertyMetadata(null, OnRegisterIoTUriActionChanged));
 
         public BLEDevice Device
         {
-            get { return (BLEDevice)GetValue(DeviceProperty); }
-            set { SetValue(DeviceProperty, value); }
+            get => (BLEDevice)GetValue(DeviceProperty);
+            set => SetValue(DeviceProperty, value);
         }
         public static readonly DependencyProperty DeviceProperty = DependencyProperty.Register(nameof(Device), typeof(BLEDevice), typeof(BluetoothScannerControl), new PropertyMetadata(null, OnDeviceChanged));
 

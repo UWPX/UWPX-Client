@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public abstract class AbstractAddressableMessage : AbstractMessage
+    public abstract class AbstractAddressableMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

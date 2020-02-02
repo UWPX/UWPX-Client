@@ -1,15 +1,15 @@
-﻿using Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Logging;
 using Windows.Storage;
 
 namespace Shared.Classes.Network
 {
-    public class DownloadHandler : IDisposable
+    public class DownloadHandler: IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

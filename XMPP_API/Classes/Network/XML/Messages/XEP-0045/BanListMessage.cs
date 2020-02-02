@@ -5,7 +5,7 @@ using System.Xml.Linq;
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045
 {
     // https://xmpp.org/extensions/xep-0045.html#ban
-    public class BanListMessage : IQMessage
+    public class BanListMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
