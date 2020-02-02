@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+#if !DEBUG
+using Data_Manager2.Classes;
+#endif
 using Logging;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
