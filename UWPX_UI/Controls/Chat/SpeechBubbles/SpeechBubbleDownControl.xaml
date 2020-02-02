@@ -28,26 +28,15 @@
         <converter:MessageStateUnreadVisibilityValueConverter x:Key="MessageStateUnreadVisibilityValueConverter"/>
     </UserControl.Resources>
 
-    <Grid Margin="50,0,0,0">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <Border Grid.Row="0"
-                MinWidth="100"
-                MinHeight="40"
-                Background="{ThemeResource SpeechBubbleBackgroundDarkBrush}">
-            <ContentControl x:Name="content_cp"
-                            Margin="5"
-                            HorizontalContentAlignment="Stretch"
-                            VerticalContentAlignment="Stretch"
-                            ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
-        </Border>
-        <Polygon Grid.Row="1"
-                 Margin="0,0,10,0"
-                 HorizontalAlignment="Right"
-                 Fill="{ThemeResource SpeechBubbleBackgroundDarkBrush}"
-                 Points="0,0 10,10 10,0"/>
-    </Grid>
+    <Border MinWidth="100"
+            MinHeight="40"
+            Margin="50,0,0,0"
+            Background="{ThemeResource SpeechBubbleBackgroundDarkBrush}"
+            CornerRadius="{ThemeResource ControlCornerRadius}">
+        <ContentControl x:Name="content_cp"
+                        Margin="5"
+                        HorizontalContentAlignment="Stretch"
+                        VerticalContentAlignment="Stretch"
+                        ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
+    </Border>
 </UserControl>

@@ -32,18 +32,13 @@
     <Grid Margin="0,0,40,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
-        <Polygon Grid.Row="0"
-                 Fill="{ThemeResource SpeechBubbleBackgroundLightBrush}"
-                 Points="10,0 10,10 20,10"/>
-
-        <Border Grid.Row="1"
+        <Border Grid.Row="0"
                 MinWidth="100"
                 MinHeight="40"
-                Margin="0,0,10,0"
-                Background="{ThemeResource SpeechBubbleBackgroundLightBrush}">
+                Background="{ThemeResource SpeechBubbleBackgroundLightBrush}"
+                CornerRadius="{ThemeResource ControlCornerRadius}">
             <ContentControl x:Name="content_cp"
                             Margin="5"
                             HorizontalContentAlignment="Stretch"
@@ -51,15 +46,16 @@
                             ContentTemplateSelector="{StaticResource SpeechBubbleConentDataTemplateSelector}"/>
         </Border>
 
-        <controls:DropShadowPanel Grid.Row="1"
-                                  Margin="0,-10,0,0"
+        <controls:DropShadowPanel Grid.Row="0"
+                                  Margin="0,-6,-6,0"
                                   HorizontalAlignment="Right"
                                   Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateUnreadVisibilityValueConverter}}">
             <Ellipse x:Name="readStatus_elipse"
-                     Width="20"
-                     Height="20"
+                     Width="12"
+                     Height="12"
                      VerticalAlignment="Top"
-                     Fill="{ThemeResource SpeechBubbleBackgroundLightBrush}"/>
+                     Fill="{ThemeResource SpeechBubbleBackgroundLightBrush}"
+                     ToolTipService.ToolTip="New message"/>
         </controls:DropShadowPanel>
     </Grid>
 </UserControl>

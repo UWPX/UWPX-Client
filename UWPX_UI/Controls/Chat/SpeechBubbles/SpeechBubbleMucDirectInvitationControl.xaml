@@ -33,7 +33,8 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid x:Name="RootGrid"
-                                  Background="{TemplateBinding Background}">
+                                  Background="{TemplateBinding Background}"
+                                  CornerRadius="{ThemeResource ControlCornerRadius}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
