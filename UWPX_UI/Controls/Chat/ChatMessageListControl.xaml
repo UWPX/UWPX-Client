@@ -84,7 +84,13 @@
                 <ItemsPanelTemplate>
                     <ItemsStackPanel Grid.ColumnSpan="1"
                                      VerticalAlignment="Bottom"
-                                     ItemsUpdatingScrollMode="KeepLastItemInView"/>
+                                     ItemsUpdatingScrollMode="KeepLastItemInView">
+                        <ItemsStackPanel.ChildrenTransitions>
+                            <TransitionCollection>
+                                <EntranceThemeTransition IsStaggeringEnabled="True"/>
+                            </TransitionCollection>
+                        </ItemsStackPanel.ChildrenTransitions>
+                    </ItemsStackPanel>
                 </ItemsPanelTemplate>
             </ListView.ItemsPanel>
             <ListView.ItemContainerStyle>
