@@ -57,12 +57,12 @@
     <AppxPackageSigningEnabled>True</AppxPackageSigningEnabled>
     <EntryPointProjectUniqueName>..\UWPX_UI\UWPX_UI.csproj</EntryPointProjectUniqueName>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateKeyFile>Packaging_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>42EAA2A552629449FBB7D8F58F11144E0CACCBCD</PackageCertificateThumbprint>
+    <PackageCertificateKeyFile>UWPX_UI_TemporaryKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>9726159359E2435B4F9B2462108EBBDBE6778005</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
-    <AppxBundlePlatforms>x64</AppxBundlePlatforms>
+    <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
     <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -173,6 +173,7 @@
     <Content Include="Assests\Wide\Wide310x150Logo.scale-150.png" />
     <Content Include="Assests\Wide\Wide310x150Logo.scale-200.png" />
     <Content Include="Assests\Wide\Wide310x150Logo.scale-400.png" />
+    <None Include="UWPX_UI_TemporaryKey.pfx" />
     <None Include="Packaging_TemporaryKey.pfx" />
     <None Include="Package.StoreAssociation.xml" />
   </ItemGroup>
