@@ -28,7 +28,8 @@
     <controls:DropShadowPanel Grid.Row="1"
                               HorizontalContentAlignment="Stretch">
         <Border HorizontalAlignment="Stretch"
-                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid x:Name="main_grid"
                   Padding="30,20,30,30"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">

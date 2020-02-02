@@ -342,7 +342,8 @@
 
     <controls:DropShadowPanel x:Name="mainShadow"
                               HorizontalContentAlignment="Stretch">
-        <Border Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+        <Border Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>

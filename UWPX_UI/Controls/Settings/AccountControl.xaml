@@ -20,7 +20,8 @@
 
     <controls1:DropShadowPanel Height="60"
                                HorizontalContentAlignment="Stretch">
-        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+        <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+              CornerRadius="{ThemeResource ControlCornerRadius}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>

@@ -11,7 +11,8 @@
     <controls:DropShadowPanel Grid.Row="1"
                               HorizontalContentAlignment="Stretch">
         <Border HorizontalAlignment="Stretch"
-                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                CornerRadius="{ThemeResource OverlayCornerRadius}">
             <Grid Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <TextBlock Text="Media"/>
             </Grid>

@@ -85,7 +85,8 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <controls:BareJidInputControl x:Name="jid1_tbx"
@@ -147,7 +148,8 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <StackPanel Padding="10"
                                     Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                             <TextBox x:Name="jid2_tbx"
@@ -250,7 +252,8 @@
                                                          Duration="{StaticResource TranslationAnimationDuration}"/>
                     </animations:Implicit.HideAnimations>
                     <Border HorizontalAlignment="Stretch"
-                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
+                            Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+                            CornerRadius="{ThemeResource OverlayCornerRadius}">
                         <controls1:Expander HorizontalContentAlignment="Stretch"
                                             Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                                             Header="Advanced">
