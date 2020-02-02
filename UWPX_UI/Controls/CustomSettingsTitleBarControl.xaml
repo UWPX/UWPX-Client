@@ -15,14 +15,14 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <controls:DropShadowPanel BlurRadius="10"
+    <controls:DropShadowPanel HorizontalContentAlignment="Stretch"
+                              BlurRadius="10"
                               OffsetX="0"
                               OffsetY="2"
                               ShadowOpacity="0.4">
         <Grid Background="{ThemeResource AppBackgroundAcrylicWindowBrush}">
             <Grid Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
@@ -75,7 +75,6 @@
                         </Grid>
                     </Button>
                 </Grid>
-                <local:SeperatorControl Grid.Row="1"/>
             </Grid>
         </Grid>
     </controls:DropShadowPanel>

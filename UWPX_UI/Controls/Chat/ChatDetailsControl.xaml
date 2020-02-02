@@ -33,23 +33,21 @@
         <Grid Grid.Row="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
             <!--  Messages:  -->
             <chat:ChatMessageListControl x:Name="chatMessages_cmg"
                                          Grid.Row="0"
-                                         Grid.RowSpan="3"
+                                         Grid.RowSpan="2"
                                          Chat="{x:Bind Chat, Mode=OneWay}"
                                          IsDummy="{x:Bind IsDummy, Mode=OneWay}"/>
 
             <!--  Header:  -->
             <Grid x:Name="header_grid"
                   Grid.Row="0"
-                  Background="{ThemeResource MasterPaneBackgroundAcrylicElementBrush}"
+                  Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                   SizeChanged="Header_grid_SizeChanged">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -180,18 +178,16 @@
                     </Button.Flyout>
                 </Button>
             </Grid>
-            <controls:SeperatorControl Grid.Row="1"/>
 
             <!--  Messages Loading:  -->
-            <controls1:Loading Grid.Row="2"
+            <controls1:Loading Grid.Row="1"
                                Background="{ThemeResource SystemControlAcrylicElementBrush}"
                                IsLoading="{x:Bind VIEW_MODEL.MODEL.IsLoadingChatMessages, Mode=OneWay}">
                 <controls:LoadingContentControl Text="Loading chat messages..."/>
             </controls1:Loading>
-            <controls:SeperatorControl Grid.Row="3"/>
 
             <!--  Input:  -->
-            <Grid Grid.Row="4"
+            <Grid Grid.Row="2"
                   Background="{ThemeResource AppBackgroundAcrylicElementBrush}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>

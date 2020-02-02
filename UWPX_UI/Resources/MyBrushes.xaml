@@ -60,7 +60,7 @@
                                 FallbackColor="#FF2A2A2A"
                                 TintColor="#FF2A2A2A"
                                 TintOpacity="0.6"/>
-            <media:AcrylicBrush x:Key="MasterPaneBackgroundAcrylicElementBrush"
+            <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementLightBrush"
                                 BackgroundSource="Backdrop"
                                 FallbackColor="#FF2A2A2A"
                                 Opacity="0.8"
@@ -84,7 +84,7 @@
                                 FallbackColor="#FFEDEDED"
                                 TintColor="#FFEDEDED"
                                 TintOpacity="0.6"/>
-            <media:AcrylicBrush x:Key="MasterPaneBackgroundAcrylicElementBrush"
+            <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementLightBrush"
                                 BackgroundSource="Backdrop"
                                 FallbackColor="#FFEDEDED"
                                 Opacity="0.8"
