@@ -335,7 +335,7 @@ namespace XMPP_API.Classes.Network.TCP
         {
             if (!disposed)
             {
-                connectCTS.Cancel();
+                connectCTS?.Cancel();
             }
         }
 

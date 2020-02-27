@@ -205,6 +205,8 @@ namespace XMPP_API.Classes.Network
         public async Task DisconnectAsync()
         {
             await CONNECT_DISCONNECT_SEMA.WaitAsync();
+            holdConnection = false;
+            reconnectRequested = false;
             await InternalDisconnectAsync();
             CONNECT_DISCONNECT_SEMA.Release();
         }
