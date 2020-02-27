@@ -157,7 +157,7 @@ namespace XMPP_API.Classes.Network.TCP
             try
             {
                 tlsUpgradeCTS = disableTlsUpgradeTimeout ? new CancellationTokenSource() : new CancellationTokenSource(TLS_UPGRADE_TIMEOUT_MS);
-                await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, hostName).AsTask(tlsUpgradeCTS.Token);
+                await socket.UpgradeToSslAsync(SocketProtectionLevel.Tls12, new HostName(account.user.domainPart)).AsTask(tlsUpgradeCTS.Token);
             }
             catch (Exception e)
             {
