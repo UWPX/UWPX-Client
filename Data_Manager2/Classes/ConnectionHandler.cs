@@ -106,7 +106,7 @@ namespace Data_Manager2.Classes
                         case ConnectionState.DISCONNECTED:
                         case ConnectionState.DISCONNECTING:
                         case ConnectionState.ERROR:
-                            Task.Run(() => c.connect()).ContinueWith((Task prev) =>
+                            Task.Run(() => c.connectAsync()).ContinueWith((Task prev) =>
                             {
                                 if (prev.Exception != null)
                                 {
@@ -211,8 +211,8 @@ namespace Data_Manager2.Classes
         private XMPPClient loadAccount(XMPPAccount acc)
         {
             XMPPClient c = new XMPPClient(acc);
-            c.connection.TCP_CONNECTION.disableTcpTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
-            c.connection.TCP_CONNECTION.disableTlsTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
+            c.connection.TCP_CONNECTION.disableConnectionTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TCP_TIMEOUT);
+            c.connection.TCP_CONNECTION.disableTlsUpgradeTimeout = Settings.getSettingBoolean(SettingsConsts.DEBUG_DISABLE_TLS_TIMEOUT);
 
             // Enable OMEMO:
             OmemoStore signalProtocolStore = new OmemoStore(acc);
@@ -343,7 +343,7 @@ namespace Data_Manager2.Classes
                 }
                 else
                 {
-                    await client.sendAsync(msg);
+                    await client.SendAsync(msg);
                 }
             }
         }
@@ -437,7 +437,7 @@ namespace Data_Manager2.Classes
                         break;
                 }
             }
-            await client.sendAsync(answer);
+            await client.SendAsync(answer);
         }
 
         private async void C_NewPresence(XMPPClient client, XMPP_API.Classes.Events.NewPresenceMessageEventArgs args)
@@ -691,7 +691,7 @@ namespace Data_Manager2.Classes
                 await Task.Run(async () =>
                 {
                     DeliveryReceiptMessage receiptMessage = new DeliveryReceiptMessage(client.getXMPPAccount().getFullJid(), from, msg.ID);
-                    await client.sendAsync(receiptMessage);
+                    await client.SendAsync(receiptMessage);
                 });
             }
 
@@ -739,7 +739,7 @@ namespace Data_Manager2.Classes
 
         private async void INSTANCE_AccountChanged(AccountDBManager handler, AccountChangedEventArgs args)
         {
-            CLIENT_SEMA.Wait();
+            await CLIENT_SEMA.WaitAsync();
             for (int i = 0; i < CLIENTS.Count; i++)
             {
                 if (Equals(CLIENTS[i].getXMPPAccount().getBareJid(), args.ACCOUNT.getBareJid()))
@@ -757,7 +757,7 @@ namespace Data_Manager2.Classes
                         CLIENTS[i].setAccount(args.ACCOUNT);
                         if (!CLIENTS[i].getXMPPAccount().disabled)
                         {
-                            CLIENTS[i].connect();
+                            await CLIENTS[i].connectAsync();
                         }
                     }
                     CLIENT_SEMA.Release();
@@ -771,7 +771,7 @@ namespace Data_Manager2.Classes
                 XMPPClient client = loadAccount(args.ACCOUNT);
                 if (!client.getXMPPAccount().disabled)
                 {
-                    client.connect();
+                    await client.connectAsync();
                 }
                 CLIENTS.Add(client);
             }

@@ -140,6 +140,7 @@
     <Compile Include="Classes\GeneralCommandHelper.cs" />
     <Compile Include="Classes\MUCCommandHelper.cs" />
     <Compile Include="Classes\MyBackgroundTaskHelper.cs" />
+    <Compile Include="Classes\Network\AbstractConnection.cs" />
     <Compile Include="Classes\Network\AbstractConnection2.cs" />
     <Compile Include="Classes\Network\AbstractConnectionHandler.cs" />
     <Compile Include="Classes\Network\ConnectionConfiguration.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Classes\Network\OmemoHelper.cs" />
     <Compile Include="Classes\Network\OmemoHelperState.cs" />
     <Compile Include="Classes\Network\StreamManagementHelper.cs" />
-    <Compile Include="Classes\Network\TCP\TCPConnection2.cs" />
+    <Compile Include="Classes\Network\TCP\TcpConnection.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadResult.cs" />
     <Compile Include="Classes\Network\TCP\TCPReadState.cs" />
     <Compile Include="Classes\Network\TCP\TLSConnectionMode.cs" />
@@ -355,7 +356,7 @@
     <Compile Include="Classes\Network\XML\RosterItem.cs" />
     <Compile Include="Classes\Network\XML\XMLUtils.cs" />
     <Compile Include="Classes\Network\XMPPAccount.cs" />
-    <Compile Include="Classes\Network\XMPPConnection2.cs" />
+    <Compile Include="Classes\Network\XmppConnection.cs" />
     <Compile Include="Classes\OmemoCommandHelper.cs" />
     <Compile Include="Classes\Presence.cs" />
     <Compile Include="Classes\PubSubCommandHelper.cs" />

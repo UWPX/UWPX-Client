@@ -10,22 +10,15 @@ namespace Shared.Classes.Collections
         #region --Attributes--
         private bool itemAdded;
         private Timer timer;
-        private int cleanupIntervallInMs;
-        public int itemTimeoutInMs;
-        private readonly List<TimedListEntry<T>> LIST;
+        private int cleanupIntervallInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+        public int itemTimeoutInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
+        private readonly List<TimedListEntry<T>> LIST = new List<TimedListEntry<T>>();
         private static readonly object LOCKER = new object();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public TSTimedList()
-        {
-            LIST = new List<TimedListEntry<T>>();
-            itemAdded = false;
-            cleanupIntervallInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-            itemTimeoutInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
-            timer = null;
-        }
+        public TSTimedList() { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -72,6 +65,19 @@ namespace Shared.Classes.Collections
                 LIST.Add(new TimedListEntry<T>(item));
             }
             OnItemAdded();
+        }
+
+        public void Clear()
+        {
+            lock (LOCKER)
+            {
+                LIST.Clear();
+                if (!(timer is null))
+                {
+                    timer.Dispose();
+                    timer = null;
+                }
+            }
         }
 
         #endregion

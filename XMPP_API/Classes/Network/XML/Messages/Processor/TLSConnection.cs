@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        public TLSConnection(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public TLSConnection(TcpConnection tcpConnection, XmppConnection xmppConnection) : base(tcpConnection, xmppConnection)
         {
             reset();
         }
@@ -84,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         string errorMsg = "TSL is required for server but TLS connection mode is set to prohibit!";
                         Logger.Error(errorMsg);
                         setState(TLSState.ERROR);
-                        await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, errorMsg), true);
+                        await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, errorMsg), true);
                     }
                     else
                     {
@@ -96,7 +96,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 // Starting the TSL process:
                 setMessageProcessed(args);
                 setState(TLSState.CONNECTING);
-                await XMPP_CONNECTION.sendAsync(new RequesStartTLSMessage(), true);
+                await XMPP_CONNECTION.SendAsync(new RequesStartTLSMessage(), true);
                 setState(TLSState.REQUESTED);
             }
             else
@@ -107,7 +107,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                     string errorMsg = "TSL is not available for this server but TLS connection mode is set to force!";
                     Logger.Error(errorMsg);
                     setState(TLSState.ERROR);
-                    await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, errorMsg), true);
+                    await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, errorMsg), true);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         Logger.Debug("Upgrading " + account.getBareJid() + " connection to TLS...");
                         try
                         {
-                            TCP_CONNECTION.upgradeToTLSAsync().Wait();
+                            TCP_CONNECTION.UpgradeToTlsAsync().Wait();
                         }
                         catch (AggregateException e)
                         {
@@ -168,14 +168,14 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             {
                                 Logger.Error("Timeout during upgrading " + account.getBareJid() + " to TLS!", e);
                                 setState(TLSState.ERROR);
-                                await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, "TSL upgrading timeout!"), true);
+                                await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, "TSL upgrading timeout!"), true);
                                 return;
                             }
                             else
                             {
                                 Logger.Error("Error during upgrading " + account.getBareJid() + " to TLS!", e.InnerException);
                                 setState(TLSState.ERROR);
-                                await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, e.InnerException?.Message), true);
+                                await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, e.InnerException?.Message), true);
                                 return;
                             }
                         }
@@ -183,7 +183,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             Logger.Error("Error during upgrading " + account.getBareJid() + " to TLS!", e);
                             setState(TLSState.ERROR);
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, e.Message), true);
+                            await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.TLS_CONNECTION_FAILED, e.Message), true);
                             return;
                         }
 

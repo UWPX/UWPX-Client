@@ -331,7 +331,7 @@ namespace XMPP_API.Classes.Network
         /// <returns>Returns true if the request was successful and the new values differ from the old values.</returns>
         public async Task<bool> dnsSrvLookupAsync()
         {
-            List<SrvRecord> records = await TCPConnection2.dnsSrvLookupAsync(user.domainPart);
+            List<SrvRecord> records = await TcpConnection.DnsSrvLookupAsync(user.domainPart);
             if (records.Count <= 0)
             {
                 return false;

@@ -59,7 +59,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
 
             MESSAGE_SENDER.NewValidMessage += MESSAGE_SENDER_NewValidMessage;
 
-            bool success = await MESSAGE_SENDER.sendAsync(msg);
+            bool success = await MESSAGE_SENDER.SendAsync(msg);
             if (!success)
             {
                 return new MessageResponseHelperResult<T>(MessageResponseHelperResultState.SEND_FAILED);
@@ -99,7 +99,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Helper
 
             // Wait for completion:
             Task resultTask = await Task.WhenAny(new Task[] { completionSource.Task, timeoutTask });
-            MessageResponseHelperResult<T> result = null;
+            MessageResponseHelperResult<T> result;
 
             // Evaluate and return result:
             if (resultTask == completionSource.Task)

@@ -121,7 +121,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates
 
                 if (value && !Client.isConnected())
                 {
-                    Client.connect();
+                    Client.connectAsync();
                 }
                 else if (value && Client.isConnected())
                 {

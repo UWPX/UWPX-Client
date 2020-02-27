@@ -45,7 +45,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Dialogs
                 MODEL.IsInviting = true;
                 Logger.Info("Sending an XEP-0249: Direct MUC Invitation to " + MODEL.TargetBareJid + " for room " + chat.Chat.chatJabberId + ".");
                 string pw = MODEL.IncludePassword ? chat.MucInfo.password : null;
-                await chat.Client.sendAsync(new DirectMUCInvitationMessage(chat.Client.getXMPPAccount().getBareJid(), MODEL.TargetBareJid, chat.Chat.chatJabberId, pw, MODEL.Reason));
+                await chat.Client.SendAsync(new DirectMUCInvitationMessage(chat.Client.getXMPPAccount().getBareJid(), MODEL.TargetBareJid, chat.Chat.chatJabberId, pw, MODEL.Reason));
                 MODEL.IsInviting = false;
             }, inviteCTS.Token);
 

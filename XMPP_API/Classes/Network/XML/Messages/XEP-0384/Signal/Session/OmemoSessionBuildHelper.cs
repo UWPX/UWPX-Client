@@ -14,7 +14,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         #region --Attributes--
         public OmemoSessionBuildHelperState STATE { get; private set; }
 
-        private readonly XMPPConnection2 CONNECTION;
+        private readonly XmppConnection CONNECTION;
         public readonly string CHAT_JID;
         private readonly string BARE_ACCOUNT_JID;
         private readonly string FULL_ACCOUNT_JID;
@@ -30,7 +30,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0384.Signal.Session
         /// <history>
         /// 10/08/2018 Created [Fabian Sauter]
         /// </history>
-        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, XMPPConnection2 connection, OmemoHelper omemoHelper)
+        internal OmemoSessionBuildHelper(string chatJid, string bareAccountJid, string fullAccountJid, XmppConnection connection, OmemoHelper omemoHelper)
         {
             CONNECTION = connection;
             CHAT_JID = chatJid;

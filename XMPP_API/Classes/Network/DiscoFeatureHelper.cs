@@ -9,7 +9,7 @@ namespace XMPP_API.Classes.Network
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPConnection2 CONNECTION;
+        private readonly XmppConnection CONNECTION;
 
         private MessageResponseHelper<IQMessage> discoMessageResponseHelper;
         private MessageResponseHelper<IQMessage> carbonsMessageResponseHelper;
@@ -23,7 +23,7 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 15/08/2018 Created [Fabian Sauter]
         /// </history>
-        public DiscoFeatureHelper(XMPPConnection2 connection)
+        public DiscoFeatureHelper(XmppConnection connection)
         {
             CONNECTION = connection;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
@@ -142,7 +142,7 @@ namespace XMPP_API.Classes.Network
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Connection_ConnectionStateChanged(AbstractConnection2 connection, Events.ConnectionStateChangedEventArgs args)
+        private void Connection_ConnectionStateChanged(AbstractConnection sender, Events.ConnectionStateChangedEventArgs args)
         {
             if (args.newState == ConnectionState.CONNECTED)
             {

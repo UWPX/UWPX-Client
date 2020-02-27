@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network
         public OmemoHelperState STATE { get; private set; }
         public OmemoDevices DEVICES { get; private set; }
 
-        private readonly XMPPConnection2 CONNECTION;
+        private readonly XmppConnection CONNECTION;
 
         private uint tmpDeviceId;
 
@@ -39,7 +39,7 @@ namespace XMPP_API.Classes.Network
         /// <history>
         /// 06/08/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoHelper(XMPPConnection2 connection, IOmemoStore omemoStore)
+        public OmemoHelper(XmppConnection connection, IOmemoStore omemoStore)
         {
             CONNECTION = connection;
             OMEMO_STORE = omemoStore;
@@ -143,7 +143,7 @@ namespace XMPP_API.Classes.Network
                 {
                     OmemoSessionBuildErrorEventArgs args = new OmemoSessionBuildErrorEventArgs(chatJid, result.ERROR, MESSAGE_CACHE[chatJid]?.Item1 ?? new List<OmemoMessageMessage>());
                     MESSAGE_CACHE.Remove(chatJid);
-                    CONNECTION.onOmemoSessionBuildError(args);
+                    CONNECTION.OnOmemoSessionBuildError(args);
                     Logger.Error("Failed to build OMEMO session for: " + chatJid + " with: " + result.ERROR);
                 }
             }
@@ -164,7 +164,7 @@ namespace XMPP_API.Classes.Network
             foreach (OmemoMessageMessage msg in cache.Item1)
             {
                 msg.encrypt(omemoSession, CONNECTION.account.omemoDeviceId);
-                await CONNECTION.sendAsync(msg, false);
+                await CONNECTION.SendAsync(msg, false);
             }
             MESSAGE_CACHE.Remove(omemoSession.CHAT_JID);
             Logger.Info("[OMEMO HELPER] Send all outstanding OMEMO messages for: " + omemoSession.CHAT_JID + " to " + omemoSession.DEVICE_SESSIONS_OWN.Count + " own and " + omemoSession.DEVICE_SESSIONS_REMOTE.Count + " remote recipient(s).");
@@ -335,7 +335,7 @@ namespace XMPP_API.Classes.Network
                 {
                     msg.DEVICES.IDS.Add(CONNECTION.account.omemoDeviceId);
                     OmemoSetDeviceListMessage setMsg = new OmemoSetDeviceListMessage(CONNECTION.account.getFullJid(), msg.DEVICES);
-                    await CONNECTION.sendAsync(setMsg, false);
+                    await CONNECTION.SendAsync(setMsg, false);
                 }
                 DEVICES = msg.DEVICES;
             }
@@ -360,7 +360,7 @@ namespace XMPP_API.Classes.Network
             }
         }
 
-        private async void CONNECTION_ConnectionStateChanged(AbstractConnection2 connection, Events.ConnectionStateChangedEventArgs arg)
+        private async void CONNECTION_ConnectionStateChanged(AbstractConnection sender, Events.ConnectionStateChangedEventArgs arg)
         {
             switch (arg.newState)
             {

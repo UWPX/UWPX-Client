@@ -15,7 +15,7 @@ namespace Push_App_Server.Classes
         /// <summary>
         /// The TCP connection to the push server.
         /// </summary>
-        private TCPConnection2 tCPConnection;
+        private TcpConnection tcpConnection;
 
         /// <summary>
         /// A dummy XMPPAccount its only purpose it is to allow using the TCPConnection.
@@ -37,8 +37,8 @@ namespace Push_App_Server.Classes
         /// </history>
         public PushConnection() : base(DUMMY_XMPP_ACCOUNT)
         {
-            tCPConnection = new TCPConnection2(DUMMY_XMPP_ACCOUNT);
-            tCPConnection.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
+            tcpConnection = new TcpConnection(DUMMY_XMPP_ACCOUNT);
+            tcpConnection.ConnectionStateChanged += TCPConnection_ConnectionStateChanged;
         }
 
         #endregion
@@ -51,22 +51,22 @@ namespace Push_App_Server.Classes
         #region --Misc Methods (Public)--
         public async Task connectAsync()
         {
-            await tCPConnection.connectAsync();
+            await tcpConnection.ConnectAsync();
         }
 
-        public void disconnect()
+        public async Task disconnectAsync()
         {
-            tCPConnection.disconnect();
+            await tcpConnection.DisconnectAsync();
         }
 
         public async Task sendAsync(string msg)
         {
-            await tCPConnection.sendAsync(msg);
+            await tcpConnection.SendAsync(msg);
         }
 
         public async Task<TCPReadResult> readNextString()
         {
-            return await tCPConnection.readAsync();
+            return await tcpConnection.ReadAsync();
         }
 
         #endregion
@@ -82,7 +82,7 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void TCPConnection_ConnectionStateChanged(AbstractConnection2 connection, ConnectionStateChangedEventArgs arg)
+        private void TCPConnection_ConnectionStateChanged(AbstractConnection sender, ConnectionStateChangedEventArgs arg)
         {
             setState(arg.newState);
         }

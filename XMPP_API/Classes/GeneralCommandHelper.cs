@@ -13,7 +13,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPConnection2 CONNECTION;
+        private readonly XmppConnection CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,7 +24,7 @@ namespace XMPP_API.Classes
         /// <history>
         /// 02/11/2018 Created [Fabian Sauter]
         /// </history>
-        public GeneralCommandHelper(XMPPConnection2 connection)
+        public GeneralCommandHelper(XmppConnection connection)
         {
             CONNECTION = connection;
         }
@@ -54,7 +54,7 @@ namespace XMPP_API.Classes
         public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
         {
             PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);
-            await CONNECTION.sendAsync(presenceMessage);
+            await CONNECTION.SendAsync(presenceMessage);
             return presenceMessage.ID;
         }
 
@@ -80,7 +80,7 @@ namespace XMPP_API.Classes
         public async Task<bool> sendRequestRosterMessageAsync()
         {
             RosterRequestMessage msg = new RosterRequestMessage(CONNECTION.account.getFullJid(), CONNECTION.account.getBareJid());
-            return await CONNECTION.sendAsync(msg);
+            return await CONNECTION.SendAsync(msg);
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace XMPP_API.Classes
         public async Task sendPresenceProbeAsync(string fromFullJid, string toBareJid)
         {
             PresenceProbeMessage msg = new PresenceProbeMessage(fromFullJid, toBareJid);
-            await CONNECTION.sendAsync(msg);
+            await CONNECTION.SendAsync(msg);
             Logger.Info("Send presence probe from " + fromFullJid + " to " + toBareJid);
         }
 
@@ -104,7 +104,7 @@ namespace XMPP_API.Classes
         public async Task<string> addToRosterAsync(string bareJid)
         {
             AddToRosterMessage msg = new AddToRosterMessage(CONNECTION.account.getFullJid(), bareJid);
-            await CONNECTION.sendAsync(msg, true);
+            await CONNECTION.SendAsync(msg, true);
             return msg.ID;
         }
 
@@ -117,7 +117,7 @@ namespace XMPP_API.Classes
         public async Task<string> removeFromRosterAsync(string bareJid)
         {
             RemoveFromRosterMessage msg = new RemoveFromRosterMessage(CONNECTION.account.getFullJid(), bareJid);
-            await CONNECTION.sendAsync(msg, true);
+            await CONNECTION.SendAsync(msg, true);
             return msg.ID;
         }
 
@@ -129,7 +129,7 @@ namespace XMPP_API.Classes
         public async Task sendChatStateAsync(string target, ChatState state)
         {
             ChatStateMessage chatStateMessage = new ChatStateMessage(target, CONNECTION.account.getFullJid(), state);
-            await CONNECTION.sendAsync(chatStateMessage);
+            await CONNECTION.SendAsync(chatStateMessage);
         }
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace XMPP_API.Classes
         public async Task requestPresenceSubscriptionAsync(string bareJid)
         {
             PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, "subscribe");
-            await CONNECTION.sendAsync(msg, true);
+            await CONNECTION.SendAsync(msg, true);
         }
 
         /// <summary>
@@ -179,7 +179,7 @@ namespace XMPP_API.Classes
         public async Task unsubscribeFromPresenceAsync(string bareJid)
         {
             PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, "unsubscribe");
-            await CONNECTION.sendAsync(msg, true);
+            await CONNECTION.SendAsync(msg, true);
         }
 
         /// <summary>
@@ -190,7 +190,7 @@ namespace XMPP_API.Classes
         public async Task answerPresenceSubscriptionRequestAsync(string bareJid, bool accept)
         {
             PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, accept ? "subscribed" : "unsubscribed");
-            await CONNECTION.sendAsync(msg, true);
+            await CONNECTION.SendAsync(msg, true);
         }
 
         #endregion

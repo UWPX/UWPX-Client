@@ -15,11 +15,11 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes
 {
-    public class XMPPClient: IMessageSender
+    public class XMPPClient: IMessageSender, IDisposable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public XMPPConnection2 connection
+        public XmppConnection connection
         {
             get;
             private set;
@@ -54,6 +54,8 @@ namespace XMPP_API.Classes
         public PubSubCommandHelper PUB_SUB_COMMAND_HELPER => connection.PUB_SUB_COMMAND_HELPER;
         public OmemoCommandHelper OMEMO_COMMAND_HELPER => connection.OMEMO_COMMAND_HELPER;
 
+        private TaskCompletionSource<bool> connectDisconnectTCS;
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -83,7 +85,7 @@ namespace XMPP_API.Classes
 
         public MessageParserStats getMessageParserStats()
         {
-            return connection?.getMessageParserStats();
+            return connection?.GetMessageParserStats();
         }
 
         public ConnectionError getLastConnectionError()
@@ -124,6 +126,11 @@ namespace XMPP_API.Classes
             init(account);
         }
 
+        public void Dispose()
+        {
+            connectDisconnectTCS?.TrySetResult(false);
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -134,12 +141,20 @@ namespace XMPP_API.Classes
             //await connection?.transferSocketOwnershipAsync();
         }
 
-        public void connect()
+        public async Task connectAsync()
         {
+            if (!(connectDisconnectTCS is null))
+            {
+                connectDisconnectTCS?.SetResult(false);
+                await connectDisconnectTCS.Task;
+            }
+            connectDisconnectTCS = new TaskCompletionSource<bool>();
+
             Logger.Info("Connecting account: " + getXMPPAccount().getBareJid());
             try
             {
-                connection.connectAndHold();
+                await connection.ConnectAndHoldAsync();
+                await connectDisconnectTCS.Task;
             }
             catch (Exception e)
             {
@@ -150,13 +165,13 @@ namespace XMPP_API.Classes
         public async Task reconnectAsync()
         {
             Logger.Info("Reconnecting account: " + getXMPPAccount().getBareJid());
-            await connection.reconnectAsync(true);
+            await connection.ReconnectAsync(true);
         }
 
         public async Task disconnectAsync()
         {
             Logger.Info("Disconnecting account: " + getXMPPAccount().getBareJid());
-            await connection.disconnectAsyncs();
+            await connection.DisconnectAsync();
         }
 
         public async Task sendOmemoMessageAsync(OmemoMessageMessage msg, string chatJid, string accountJid)
@@ -177,9 +192,9 @@ namespace XMPP_API.Classes
             }
         }
 
-        public async Task<bool> sendAsync(AbstractMessage msg)
+        public async Task<bool> SendAsync(AbstractMessage msg)
         {
-            return await connection.sendAsync(msg);
+            return await connection.SendAsync(msg);
         }
 
         public XMPPAccount getXMPPAccount()
@@ -195,14 +210,14 @@ namespace XMPP_API.Classes
         /// <returns>Returns true on success.</returns>
         public bool enableOmemo(IOmemoStore omemoStore)
         {
-            return connection.enableOmemo(omemoStore);
+            return connection.EnableOmemo(omemoStore);
         }
         #endregion
 
         #region --Misc Methods (Private)--
         private void init(XMPPAccount account)
         {
-            connection = new XMPPConnection2(account);
+            connection = new XmppConnection(account);
             connection.NewRoosterMessage += Connection_ConnectionNewRoosterMessage;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
             connection.NewValidMessage += Connection_ConnectionNewValidMessage;
@@ -220,26 +235,32 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void Connection_ConnectionNewRoosterMessage(IMessageSender connection, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewRoosterMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
             NewRoosterMessage?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionStateChanged(AbstractConnection2 connection, ConnectionStateChangedEventArgs args)
+        private void Connection_ConnectionStateChanged(AbstractConnection sender, ConnectionStateChangedEventArgs args)
         {
             if (args.newState == ConnectionState.CONNECTED)
             {
+                connectDisconnectTCS?.TrySetResult(true);
                 Logger.Info("Connected to account: " + getXMPPAccount().getBareJid());
             }
             else if (args.newState == ConnectionState.DISCONNECTED)
             {
+                connectDisconnectTCS?.TrySetResult(false);
                 Logger.Info("Disconnected account: " + getXMPPAccount().getBareJid());
+            }
+            else if (args.newState == ConnectionState.ERROR)
+            {
+                connectDisconnectTCS?.TrySetResult(false);
             }
 
             ConnectionStateChanged?.Invoke(this, args);
         }
 
-        private void Connection_ConnectionNewValidMessage(IMessageSender connection, NewValidMessageEventArgs args)
+        private void Connection_ConnectionNewValidMessage(IMessageSender sender, NewValidMessageEventArgs args)
         {
             AbstractMessage msg = args.MESSAGE;
             if (msg is MessageMessage mMsg)
@@ -275,17 +296,17 @@ namespace XMPP_API.Classes
             }
         }
 
-        private void Connection_MessageSend(XMPPConnection2 connection, MessageSendEventArgs args)
+        private void Connection_MessageSend(XmppConnection sender, MessageSendEventArgs args)
         {
             MessageSend?.Invoke(this, args);
         }
 
-        private void Connection_NewBookmarksResultMessage(XMPPConnection2 connection, NewBookmarksResultMessageEventArgs args)
+        private void Connection_NewBookmarksResultMessage(XmppConnection sender, NewBookmarksResultMessageEventArgs args)
         {
             NewBookmarksResultMessage?.Invoke(this, args);
         }
 
-        private void Connection_OmemoSessionBuildErrorEvent(XMPPConnection2 connection, OmemoSessionBuildErrorEventArgs args)
+        private void Connection_OmemoSessionBuildErrorEvent(XmppConnection sender, OmemoSessionBuildErrorEventArgs args)
         {
             OmemoSessionBuildError?.Invoke(this, args);
         }

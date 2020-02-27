@@ -84,7 +84,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
 
             TIMER_SEMA.Wait();
-            bool success = await MESSAGE_SENDER.sendAsync(msg).ConfigureAwait(false);
+            bool success = await MESSAGE_SENDER.SendAsync(msg).ConfigureAwait(false);
 
             if (ON_TIMEOUT != null)
             {

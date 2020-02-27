@@ -12,7 +12,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPConnection2 CONNECTION;
+        private readonly XmppConnection CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -23,7 +23,7 @@ namespace XMPP_API.Classes
         /// <history>
         /// 17/03/2018 Created [Fabian Sauter]
         /// </history>
-        public OmemoCommandHelper(XMPPConnection2 connection)
+        public OmemoCommandHelper(XmppConnection connection)
         {
             CONNECTION = connection;
         }

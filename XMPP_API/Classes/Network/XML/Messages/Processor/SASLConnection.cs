@@ -30,7 +30,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 22/08/2017 Created [Fabian Sauter]
         /// </history>
-        public SASLConnection(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public SASLConnection(TcpConnection tcpConnection, XmppConnection xmppConnection) : base(tcpConnection, xmppConnection)
         {
             reset();
         }
@@ -107,7 +107,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
             Task.Run(async () =>
             {
                 Logger.Error(errMsg);
-                await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, errMsg), true);
+                await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, errMsg), true);
                 state = newState;
             });
         }
@@ -153,10 +153,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         if (selectedMechanism is null)
                         {
                             state = SASLState.ERROR;
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "selectedMechanism is null"), true);
+                            await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "selectedMechanism is null"), true);
                             return;
                         }
-                        await XMPP_CONNECTION.sendAsync(selectedMechanism.getSelectSASLMechanismMessage(), true);
+                        await XMPP_CONNECTION.SendAsync(selectedMechanism.getSelectSASLMechanismMessage(), true);
                         state = SASLState.REQUESTED;
                     }
                     break;
@@ -170,7 +170,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         AbstractMessage response = selectedMechanism.generateResponse(msg);
                         if (!(response is null))
                         {
-                            await XMPP_CONNECTION.sendAsync(response, true);
+                            await XMPP_CONNECTION.SendAsync(response, true);
                         }
                     }
                     else if (msg is SASLSuccessMessage)
@@ -189,11 +189,11 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         Logger.Error("Error during SASL authentication: " + saslFailureMessage.ERROR_TYPE + "\n" + saslFailureMessage.ERROR_MESSAGE);
                         if (saslFailureMessage.ERROR_TYPE == SASLErrorType.UNKNOWN_ERROR)
                         {
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "SASL: " + saslFailureMessage.ERROR_MESSAGE), true);
+                            await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "SASL: " + saslFailureMessage.ERROR_MESSAGE), true);
                         }
                         else
                         {
-                            await XMPP_CONNECTION.onMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "SASL: " + saslFailureMessage.ERROR_TYPE), true);
+                            await XMPP_CONNECTION.OnMessageProcessorFailedAsync(new ConnectionError(ConnectionErrorCode.SASL_FAILED, "SASL: " + saslFailureMessage.ERROR_TYPE), true);
                         }
                     }
                     break;

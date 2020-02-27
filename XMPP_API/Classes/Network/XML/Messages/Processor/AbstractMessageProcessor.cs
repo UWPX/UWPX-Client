@@ -8,8 +8,8 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        protected readonly TCPConnection2 TCP_CONNECTION;
-        protected readonly XMPPConnection2 XMPP_CONNECTION;
+        protected readonly TcpConnection TCP_CONNECTION;
+        protected readonly XmppConnection XMPP_CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -20,10 +20,10 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 21/08/2017 Created [Fabian Sauter]
         /// </history>
-        protected AbstractMessageProcessor(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection)
+        protected AbstractMessageProcessor(TcpConnection tcpConnection, XmppConnection xmppConnection)
         {
             TCP_CONNECTION = tcpConnection;
-            XMPP_CONNECTION = xMPPConnection;
+            XMPP_CONNECTION = xmppConnection;
         }
 
         #endregion

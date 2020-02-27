@@ -22,7 +22,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        Task<bool> sendAsync(AbstractMessage msg);
+        Task<bool> SendAsync(AbstractMessage msg);
 
         #endregion
 

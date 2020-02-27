@@ -24,7 +24,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 24/08/2017 Created [Fabian Sauter]
         /// </history>
-        public RecourceBindingConnection(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public RecourceBindingConnection(TcpConnection tcpConnection, XmppConnection xmppConnection) : base(tcpConnection, xmppConnection)
         {
             reset();
         }
@@ -59,7 +59,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                 case RecourceBindingState.UNBOUND:
                     if (msg is StreamFeaturesMessage || msg is OpenStreamAnswerMessage)
                     {
-                        StreamFeaturesMessage features = null;
+                        StreamFeaturesMessage features;
                         if (msg is OpenStreamAnswerMessage)
                         {
                             features = (msg as OpenStreamAnswerMessage).getStreamFeaturesMessage();
@@ -78,7 +78,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                             setMessageProcessed(args);
                             BindResourceMessage bindMsg = new BindResourceMessage(XMPP_CONNECTION.account.user.resourcePart);
                             id = bindMsg.ID;
-                            await XMPP_CONNECTION.sendAsync(bindMsg, true);
+                            await XMPP_CONNECTION.SendAsync(bindMsg, true);
                             state = RecourceBindingState.BINDING;
                         }
                     }
@@ -91,7 +91,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             stopListeningForMessages();
                             setMessageProcessed(args);
-                            XMPP_CONNECTION.sendAsync(new StartSessionMessage(), true).Wait();
+                            XMPP_CONNECTION.SendAsync(new StartSessionMessage(), true).Wait();
                             state = RecourceBindingState.BOUND;
                             ResourceBound?.Invoke(this, new EventArgs());
                         }

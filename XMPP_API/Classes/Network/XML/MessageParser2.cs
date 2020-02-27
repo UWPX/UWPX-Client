@@ -102,7 +102,7 @@ namespace XMPP_API.Classes.Network.XML
                 return new List<AbstractMessage> { new StreamFeaturesMessage(null) };
             }
             // Stream close:
-            else if ((msg.Contains(Consts.XML_STREAM_CLOSE)))
+            else if (msg.Contains(Consts.XML_STREAM_CLOSE))
             {
                 string s = msg.Replace(Consts.XML_STREAM_CLOSE, "");
                 if (string.IsNullOrEmpty(s))

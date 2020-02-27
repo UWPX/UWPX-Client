@@ -126,7 +126,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
             else
             {
-                await chat.Client.sendAsync(toSendMsg);
+                await chat.Client.SendAsync(toSendMsg);
             }
         }
 

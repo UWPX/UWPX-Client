@@ -182,7 +182,7 @@ namespace UWPX_UI
                 }
                 else
                 {
-                    await client.sendAsync(toSendMsg);
+                    await client.SendAsync(toSendMsg);
                 }
             }
             else

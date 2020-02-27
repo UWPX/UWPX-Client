@@ -15,7 +15,7 @@ namespace XMPP_API.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private readonly XMPPConnection2 CONNECTION;
+        private readonly XmppConnection CONNECTION;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -26,7 +26,7 @@ namespace XMPP_API.Classes
         /// <history>
         /// 16/06/2018 Created [Fabian Sauter]
         /// </history>
-        public PubSubCommandHelper(XMPPConnection2 connection)
+        public PubSubCommandHelper(XmppConnection connection)
         {
             CONNECTION = connection;
         }

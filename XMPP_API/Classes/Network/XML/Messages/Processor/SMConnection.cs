@@ -32,7 +32,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
         /// <history>
         /// 17/03/2018 Created [Fabian Sauter]
         /// </history>
-        public SMConnection(TCPConnection2 tcpConnection, XMPPConnection2 xMPPConnection) : base(tcpConnection, xMPPConnection)
+        public SMConnection(TcpConnection tcpConnection, XmppConnection xmppConnection) : base(tcpConnection, xmppConnection)
         {
             reset();
         }
@@ -105,7 +105,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.Processor
                         {
                             setMessageProcessed(args);
                             SMEnableMessage enableMsg = new SMEnableMessage();
-                            await XMPP_CONNECTION.sendAsync(enableMsg, true);
+                            await XMPP_CONNECTION.SendAsync(enableMsg, true);
                             serverSMEnabled = true;
                             state = SMState.REQUESTED;
                         }

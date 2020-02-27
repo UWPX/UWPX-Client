@@ -75,7 +75,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             if (string.Equals(fromBareJid, deviceFullJid))
             {
                 MessageMessage response = new MessageMessage(client.getXMPPAccount().getFullJid(), fromBareJid, msg.MESSAGE, MessageMessage.TYPE_CHAT, true);
-                await client.sendAsync(response);
+                await client.SendAsync(response);
                 await AddIoTDevice(fromBareJid, client);
                 return true;
             }

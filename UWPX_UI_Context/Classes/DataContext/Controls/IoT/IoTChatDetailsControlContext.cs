@@ -185,7 +185,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.IoT
             IoTValue value = new IoTValue(field);
             IoTPubSubItem item = new IoTPubSubItem(value, field.var);
             PublishIoTNodeMessage msg = new PublishIoTNodeMessage(MODEL.Chat.Client.getXMPPAccount().getFullJid(), MODEL.Chat.Chat.chatJabberId, IoTConsts.NODE_NAME_ACTUATORS, item);
-            await MODEL.Chat.Client.sendAsync(msg);
+            await MODEL.Chat.Client.SendAsync(msg);
         }
 
         #endregion
