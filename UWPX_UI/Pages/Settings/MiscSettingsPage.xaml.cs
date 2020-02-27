@@ -1,4 +1,7 @@
-﻿using UWPX_UI.Dialogs;
+﻿using System;
+using Logging;
+using Microsoft.AppCenter.Crashes;
+using UWPX_UI.Dialogs;
 using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Pages;
@@ -103,7 +106,26 @@ namespace UWPX_UI.Pages.Settings
 
         private async void ExportLogs_btn_Click(object sender, RoutedEventArgs e)
         {
-            await VIEW_MODEL.ExportLogsAsync();
+            try
+            {
+                // await VIEW_MODEL.ExportLogsAsync();
+                throw new Exception("TEST EXEPTION");
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Failed to export logs:", ex);
+                ConfirmDialog dialog = new ConfirmDialog("Export Failed", "Exporting logs failed with the following issue:\n\n" + ex.Message + "\n\n" + ex.StackTrace + "\n\nWould you like to automatically report this crash?\n\n**Else, please report it here:**\n\n[GitHub#125](https://github.com/UWPX/UWPX-Client/issues/125)");
+                await UiUtils.ShowDialogAsync(dialog);
+                if (dialog.VIEW_MODEL.MODEL.Confirmed)
+                {
+                    Crashes.TrackError(ex);
+                    Logger.Info("Crash in ExportLogsAsync() has been reported.");
+                }
+                else
+                {
+                    Logger.Info("Reporting ExportLogsAsync() crash canceled.");
+                }
+            }
         }
 
         private async void ClearImageCache_btn_Click(object sender, RoutedEventArgs e)

@@ -18,7 +18,8 @@
             <controls:MarkdownTextBlock x:Name="text_mrkdwn"
                                         Margin="10"
                                         LinkClicked="Text_mrkdwn_LinkClicked"
-                                        Text="{x:Bind MarkdownText, Mode=OneWay}"/>
+                                        Text="{x:Bind MarkdownText, Mode=OneWay}"
+                                        TextWrapping="Wrap"/>
         </ScrollViewer>
         <Grid x:Name="buttons_grid"
               Grid.Row="1"

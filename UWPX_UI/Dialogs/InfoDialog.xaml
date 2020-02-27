@@ -13,6 +13,7 @@
         <controls:MarkdownTextBlock x:Name="text_mrkdwn"
                                     Margin="10"
                                     LinkClicked="MarkdownTextBlock_LinkClicked"
-                                    Text="{x:Bind MarkdownText, Mode=OneWay}"/>
+                                    Text="{x:Bind MarkdownText, Mode=OneWay}"
+                                    TextWrapping="Wrap"/>
     </ScrollViewer>
 </ContentDialog>
