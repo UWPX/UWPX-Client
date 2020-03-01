@@ -53,7 +53,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             chatMessageId = null;
         }
 
-        public MessageMessage(XmlNode node, CarbonCopyType ccType) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, (node.Attributes["id"]?.Value) ?? getRandomId())
+        public MessageMessage(XmlNode node, CarbonCopyType ccType) : base(node.Attributes["from"]?.Value, node.Attributes["to"]?.Value, loadMessageId(node))
         {
             CC_TYPE = ccType;
             if (!node.HasChildNodes)
@@ -128,6 +128,30 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public DateTime getDelay()
         {
             return delay;
+        }
+
+        protected static string loadMessageId(XmlNode node)
+        {
+            // Check for the default message ID attribute:
+            string id = node.Attributes["id"]?.Value;
+            if (!(id is null))
+            {
+                return id;
+            }
+
+            // Check for a MAM-ID in the archived node:
+            XmlNode archivedNode = XMLUtils.getChildNode(node, "archived", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE);
+            if (!(archivedNode is null))
+            {
+                id = archivedNode.Attributes["id"]?.Value;
+                if (!(id is null))
+                {
+                    return id;
+                }
+            }
+
+            // Fall back to a new message ID:
+            return getRandomId();
         }
 
         #endregion

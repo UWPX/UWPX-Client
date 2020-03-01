@@ -85,5 +85,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0336_NAMESPACE = "urn:xmpp:xdata:dynamic";
         // XEP-IoT:
         public const string XML_XEP_IOT_NAMESPACE = "urn:xmpp:uwpx:iot";
+        // XEP-0313 (Message Archive Management)
+        public const string XML_XEP_0313_NAMESPACE = "urn:xmpp:mam:tmp";
     }
 }
