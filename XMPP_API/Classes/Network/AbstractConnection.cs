@@ -45,6 +45,7 @@ namespace XMPP_API.Classes.Network
             // Only trigger if the state actually changed:
             if (newState == state)
             {
+                STATE_MUTEX.ReleaseMutex();
                 return;
             }
 
