@@ -145,7 +145,7 @@ namespace XMPP_API.Classes
         {
             if (!(connectDisconnectTCS is null))
             {
-                connectDisconnectTCS?.SetResult(false);
+                connectDisconnectTCS?.TrySetResult(false);
                 await connectDisconnectTCS.Task;
             }
             connectDisconnectTCS = new TaskCompletionSource<bool>();

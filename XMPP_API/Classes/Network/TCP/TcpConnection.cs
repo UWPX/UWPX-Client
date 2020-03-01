@@ -184,11 +184,12 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 try
                 {
+                    await WRITE_SEMA.WaitAsync();
+
                     // Sometimes dataWriter is blocking for an infinite time, so give it a timeout:
                     sendCTS = new CancellationTokenSource(SEND_TIMEOUT_MS);
                     sendCTS.CancelAfter(SEND_TIMEOUT_MS);
 
-                    await WRITE_SEMA.WaitAsync();
                     bool success = true;
                     await Task.Run(async () =>
                     {
@@ -215,7 +216,12 @@ namespace XMPP_API.Classes.Network.TCP
 
                     if (success)
                     {
-                        if (sendCTS.IsCancellationRequested)
+                        if (sendCTS is null)
+                        {
+                            Logger.Error(LOGGER_TAG + "Failed to send - " + nameof(sendCTS) + " is null : " + s);
+                            return false;
+                        }
+                        else if (sendCTS.IsCancellationRequested)
                         {
                             lastConnectionError = new ConnectionError(ConnectionErrorCode.SENDING_FAILED, "IsCancellationRequested");
                             Logger.Error(LOGGER_TAG + "Failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
@@ -285,7 +291,7 @@ namespace XMPP_API.Classes.Network.TCP
             }
 
             // If there is still data left to read, continue until a timeout occurs or a close got requested:
-            while (!readCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
+            while (!(readCTS is null) && !readCTS.IsCancellationRequested && state == ConnectionState.CONNECTED && readCount >= BUFFER_SIZE)
             {
                 try
                 {

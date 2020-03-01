@@ -298,18 +298,21 @@ namespace XMPP_API.Classes.Network
                 // Reset connection error count:
                 errorCount = 0;
                 await OnDisconnectedAsync();
-                return;
             }
+            else
+            {
+                SetState(ConnectionState.DISCONNECTING);
 
-            SetState(ConnectionState.DISCONNECTING);
+                // Send stream close message:
+                await SendStreamCloseMessageAsync();
 
-            // Send stream close message:
-            await SendStreamCloseMessageAsync();
+                // Disconnect the TCPConnection:
+                await TCP_CONNECTION.DisconnectAsync();
 
-            // Disconnect the TCPConnection:
-            await TCP_CONNECTION.DisconnectAsync();
+                await OnDisconnectedAsync();
 
-            SetState(ConnectionState.DISCONNECTED);
+                SetState(ConnectionState.DISCONNECTED);
+            }
         }
 
         /// <summary>
