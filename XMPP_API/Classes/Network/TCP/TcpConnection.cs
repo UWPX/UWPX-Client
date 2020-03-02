@@ -443,7 +443,7 @@ namespace XMPP_API.Classes.Network.TCP
                     OnConnectionError(e, i);
                 }
 
-                if (state == ConnectionState.CONNECTING)
+                if (state == ConnectionState.CONNECTING && i < MAX_CONNECTION_ATTEMPTS)
                 {
                     // Wait between connection attempts:
                     Logger.Info(LOGGER_TAG + "Starting delay between connection attempts...");
