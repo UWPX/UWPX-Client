@@ -443,11 +443,18 @@ namespace XMPP_API.Classes.Network.TCP
                     OnConnectionError(e, i);
                 }
 
-                if (state == ConnectionState.CONNECTING && i < MAX_CONNECTION_ATTEMPTS)
+                if (state == ConnectionState.CONNECTING)
                 {
-                    // Wait between connection attempts:
-                    Logger.Info(LOGGER_TAG + "Starting delay between connection attempts...");
-                    await Task.Delay(CONNECTION_ATTEMPT_DELAY);
+                    if (i < MAX_CONNECTION_ATTEMPTS)
+                    {
+                        // Wait between connection attempts:
+                        Logger.Info(LOGGER_TAG + "Starting delay between connection attempts...");
+                        await Task.Delay(CONNECTION_ATTEMPT_DELAY);
+                    }
+                    else
+                    {
+                        SetState(ConnectionState.ERROR, lastConnectionError);
+                    }
                 }
             }
             return false;

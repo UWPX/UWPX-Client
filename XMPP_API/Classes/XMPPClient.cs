@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logging;
+using Windows.System.Threading;
 using XMPP_API.Classes.Events;
 using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.Events;
@@ -24,6 +25,11 @@ namespace XMPP_API.Classes
             get;
             private set;
         }
+
+        private bool holdConnection = false;
+        private const int RECONNECT_DELAY = 5000;
+        private TimeSpan reconnectDelay = TimeSpan.FromMilliseconds(RECONNECT_DELAY);
+        private ThreadPoolTimer reconnectTimer;
 
         public delegate void ConnectionStateChangedEventHandler(XMPPClient client, ConnectionStateChangedEventArgs args);
         public delegate void NewChatMessageEventHandler(XMPPClient client, NewChatMessageEventArgs args);
@@ -141,7 +147,7 @@ namespace XMPP_API.Classes
             //await connection?.transferSocketOwnershipAsync();
         }
 
-        public async Task connectAsync()
+        public async Task connectAsync(bool holdConnection = true)
         {
             if (!(connectDisconnectTCS is null))
             {
@@ -151,9 +157,10 @@ namespace XMPP_API.Classes
             connectDisconnectTCS = new TaskCompletionSource<bool>();
 
             Logger.Info("Connecting account: " + getXMPPAccount().getBareJid());
+            this.holdConnection = holdConnection;
             try
             {
-                await connection.ConnectAndHoldAsync();
+                await connection.ConnectAsync();
                 await connectDisconnectTCS.Task;
             }
             catch (Exception e)
@@ -165,12 +172,15 @@ namespace XMPP_API.Classes
         public async Task reconnectAsync()
         {
             Logger.Info("Reconnecting account: " + getXMPPAccount().getBareJid());
+            StopReconnectTimer();
             await connection.ReconnectAsync(true);
         }
 
         public async Task disconnectAsync()
         {
             Logger.Info("Disconnecting account: " + getXMPPAccount().getBareJid());
+            holdConnection = false;
+            StopReconnectTimer();
             await connection.DisconnectAsync();
         }
 
@@ -227,6 +237,23 @@ namespace XMPP_API.Classes
             connection.OmemoSessionBuildError += Connection_OmemoSessionBuildErrorEvent;
         }
 
+        private void StopReconnectTimer()
+        {
+            try
+            {
+                reconnectTimer?.Cancel();
+            }
+            catch (Exception) { }
+            reconnectTimer = null;
+        }
+
+        private void StartReconnectTimer()
+        {
+            StopReconnectTimer();
+            reconnectTimer = ThreadPoolTimer.CreateTimer(async (source) => await OnReconnectTimerTimeoutAsync(), reconnectDelay);
+            Logger.Info("Started a reconnect timer for: " + connection.account.getBareJid());
+        }
+
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -251,10 +278,20 @@ namespace XMPP_API.Classes
             {
                 connectDisconnectTCS?.TrySetResult(false);
                 Logger.Info("Disconnected account: " + getXMPPAccount().getBareJid());
+
+                if (holdConnection)
+                {
+                    StartReconnectTimer();
+                }
             }
             else if (args.newState == ConnectionState.ERROR)
             {
                 connectDisconnectTCS?.TrySetResult(false);
+
+                if (holdConnection)
+                {
+                    StartReconnectTimer();
+                }
             }
 
             ConnectionStateChanged?.Invoke(this, args);
@@ -309,6 +346,16 @@ namespace XMPP_API.Classes
         private void Connection_OmemoSessionBuildErrorEvent(XmppConnection sender, OmemoSessionBuildErrorEventArgs args)
         {
             OmemoSessionBuildError?.Invoke(this, args);
+        }
+
+        private Task OnReconnectTimerTimeoutAsync()
+        {
+            if (!holdConnection)
+            {
+                return null;
+            }
+            Logger.Debug("Reconnect timer triggered for:" + connection.account.getBareJid());
+            return connectAsync();
         }
 
         #endregion

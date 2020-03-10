@@ -36,7 +36,6 @@ namespace XMPP_API.Classes.Network
 
         private TSTimedList<string> messageIdCache = new TSTimedList<string>();
 
-        private bool holdConnection;
         private int errorCount;
         private bool reconnectRequested;
         public ConnectionError lastConnectionError;
@@ -182,20 +181,9 @@ namespace XMPP_API.Classes.Network
             return false;
         }
 
-        public async Task ConnectAndHoldAsync()
-        {
-            await CONNECT_DISCONNECT_SEMA.WaitAsync();
-            holdConnection = true;
-            errorCount = 0;
-
-            await ConnectInternalAsync();
-            CONNECT_DISCONNECT_SEMA.Release();
-        }
-
         public async Task ConnectAsync()
         {
             await CONNECT_DISCONNECT_SEMA.WaitAsync();
-            holdConnection = false;
             errorCount = 0;
 
             await ConnectInternalAsync();
@@ -205,7 +193,6 @@ namespace XMPP_API.Classes.Network
         public async Task DisconnectAsync()
         {
             await CONNECT_DISCONNECT_SEMA.WaitAsync();
-            holdConnection = false;
             reconnectRequested = false;
             await InternalDisconnectAsync();
             CONNECT_DISCONNECT_SEMA.Release();
@@ -268,7 +255,7 @@ namespace XMPP_API.Classes.Network
         #region --Misc Methods (Private)--
         private async Task ConnectInternalAsync()
         {
-            if (state == ConnectionState.DISCONNECTED || state != ConnectionState.ERROR)
+            if (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR)
             {
                 if (errorCount < 3)
                 {
@@ -293,7 +280,7 @@ namespace XMPP_API.Classes.Network
         private async Task InternalDisconnectAsync()
         {
             StopConnectionTimer();
-            if (state == ConnectionState.DISCONNECTED)
+            if (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR)
             {
                 // Reset connection error count:
                 errorCount = 0;
@@ -379,7 +366,7 @@ namespace XMPP_API.Classes.Network
         /// </summary>
         private async Task OnDisconnectedAsync()
         {
-            if (reconnectRequested || holdConnection)
+            if (reconnectRequested)
             {
                 await ConnectInternalAsync();
             }
@@ -394,14 +381,13 @@ namespace XMPP_API.Classes.Network
             if (++errorCount >= 3)
             {
                 // Establishing the connection failed for the third time:
-                holdConnection = false;
                 await InternalDisconnectAsync();
                 SetState(ConnectionState.ERROR, lastConnectionError);
             }
             else
             {
                 // Try to reconnect:
-                await ReconnectAsync(false);
+                await ConnectInternalAsync();
             }
         }
 
@@ -589,13 +575,12 @@ namespace XMPP_API.Classes.Network
                     {
                         // Unable to connect to server:
                         errorCount = 3;
-                        await InternalDisconnectAsync();
                         SetState(ConnectionState.ERROR, args.param);
                     }
                     break;
 
-                case ConnectionState.DISCONNECTED when holdConnection:
-                    await ReconnectAsync(false);
+                case ConnectionState.DISCONNECTED:
+                    SetState(ConnectionState.DISCONNECTED);
                     break;
             }
         }
