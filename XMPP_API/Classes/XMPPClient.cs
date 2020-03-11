@@ -278,11 +278,6 @@ namespace XMPP_API.Classes
             {
                 connectDisconnectTCS?.TrySetResult(false);
                 Logger.Info("Disconnected account: " + getXMPPAccount().getBareJid());
-
-                if (holdConnection)
-                {
-                    StartReconnectTimer();
-                }
             }
             else if (args.newState == ConnectionState.ERROR)
             {
