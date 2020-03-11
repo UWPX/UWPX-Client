@@ -350,17 +350,13 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [January 2020] New Year, new Installer
+    <value># [March 2020] Bug Fixes and Refactoring
 
-On January first 2018 I published the [first version](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.1.1.0) of UWPX. About a year before that I read my first XEP and started having a look into XMPP.
-
-Now three years later UWPX is coming along quite nicely. Although I had to reduce time spend developing UWPX during the last year, this months release contains a bunch of improvements related to UI and usability.
-
-Besides that I updated my complete tool chain from VS2017 to VS2019 and reworked the way CI is handled by [Azure Pipelines](https://dev.azure.com/uwpx/UWPX%20Client).
-
-In a continuous effort to make it as easy as possible to install UWPX, I decided to write my own UWP app installer (the [UWPX Installer](https://github.com/UWPX/UWPX-Installer)).
-To sideload UWPX you can just download it and click on install.
-It will handle all the necessary steps like installing the certificate for you!
+This month I've been focusing mostly on refactoring the XMPP and TCP connection.
+The new system is far more reliable and also does not crash the app when you click on `enable`/`disable`/`reconnect` accounts.
+This bug/crash was the single most cause for crashes based on my [AppCenter](https://appcenter.ms) statistics and was existing since the initial release in 2018.
+It affected **almost 10%** (7.8% to be precise) of all users in the last 30 days.
+Now I finally went over it and fixed it 😉.
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -372,27 +368,15 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
 * MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
 * Chat image downloads not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
+* UWPX hangs after receiving contact request [#107](https://github.com/UWPX/UWPX-Client/issues/107)
+* Crash when trying to export logs [#125](https://github.com/UWPX/UWPX-Client/issues/125)
 
-### Changes:
-* Added support for the [UWPX installer](https://github.com/UWPX/UWPX-Installer)
-* Added experimental Unicode 13 support
-* Added support for automated [Azure Pipelines](https://dev.azure.com/uwpx/UWPX%20Client) builds
-* Added a packaging project to be able to package UWPX easier
-* Updated from VS2017 to VS2019
-* Updated TargetPlatformVersion and TargetPlatformMinVersion to `10.0.18362.0` and `10.0.16299.0`
-* Updated all buttons to [Fluent Design](https://docs.microsoft.com/en-us/windows/apps/fluent-design-system) buttons
-* Updated the Microsoft Toolkit to `v.6.0.0`
-* Tighter message layout with rounded edges
-* Updated the chat page style
-* Replaced the SlidableListItem with the SwipeControl
-* Removed the Windows Phone compatibility code and themes
-* Disabled AppCenter crash reporting and analytics for debug builds
-* Switched to [XEP-0163: Personal Eventing Protocol](https://xmpp.org/extensions/xep-0163.html) for IoT nodes
-* Fixed a NLog file mutex crash
-* Fixed some minor theme inconsistencies
-* Fixed missing URI activation icon
-* Fixed a crash if UWPX gets involved with an empty URI (e.g. `xmpp:`)
+### Changes
+* Refactored the XMPP and TCP connection
+* Fixed: TLS certificate name check should depend on JID domain [#113](https://github.com/UWPX/UWPX-Client/issues/113)
+* Fixed: XMPPClient.setAccount(Classes.Network.XMPPAccount account) fails [#79](https://github.com/UWPX/UWPX-Client/issues/79)
+* Fixed: Duplicate MUC messages when archived ([MAM](https://xmpp.org/extensions/xep-0313.html)) messages arrive
 
-[Click to view/read on, on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.23.0.0)</value>
+[Click to view/read on, on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.24.0.0)</value>
   </data>
 </root>
