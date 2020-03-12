@@ -37,7 +37,7 @@ steps:
   name: 'signingCert'
   displayName: 'Download Signing Certificate'
   inputs:
-    secureFile: 'UWPX_UI_TemporaryKey.pfx'
+    secureFile: 'UWPX_TemporaryKey.pfx'
 
 - task: VSBuild@1
   displayName: 'Build $(BuildPlatform) Debug'
@@ -49,8 +49,9 @@ steps:
                   /p:AppxBundle=Always
                   /p:UapAppxPackageBuildMode=StoreUpload
                   /p:AppxPackageSigningEnabled=true
-                  /p:PackageCertificateThumbprint="" 
+                  /p:PackageCertificateThumbprint="CE590AC1C92838F969D0895249013092E64829DD" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
+                  /p:PackageCertificatePassword="$(signingCert.password)"
                   /t:Packaging'
     platform: '$(BuildPlatform)'
     configuration: '$(BuildConfiguration)'
