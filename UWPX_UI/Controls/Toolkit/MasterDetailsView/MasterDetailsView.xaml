@@ -23,8 +23,7 @@
                             <Grid x:Name="MasterPanel"
                                   Width="{TemplateBinding MasterPaneWidth}"
                                   Background="{TemplateBinding MasterPaneBackground}"
-                                  BorderBrush="{TemplateBinding BorderBrush}"
-                                  BorderThickness="0,0,1,0">
+                                  BorderBrush="{TemplateBinding BorderBrush}">
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="Auto"/>
                                     <RowDefinition Height="*"/>
