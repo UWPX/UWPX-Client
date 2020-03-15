@@ -1,71 +1,46 @@
-﻿// Backport of the MasterDetailsView from the Windows Community Toolkit
-// Source: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/master/Microsoft.Toolkit.Uwp.UI.Controls/MasterDetailsView/MasterDetailsView.cs
-// Original license:
-// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-// See the LICENSE file in the project root for more information.
-
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Windows.ApplicationModel;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Navigation;
 
 namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
 {
-    /// <summary>
-    /// Panel that allows for a Master/Details pattern.
-    /// </summary>
-    [TemplatePart(Name = PartDetailsPresenter, Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = NoItemsPresenter, Type = typeof(ContentPresenter))]
-    [TemplatePart(Name = PartDetailsPanel, Type = typeof(FrameworkElement))]
-    [TemplateVisualState(Name = NoSelectionNarrowState, GroupName = SelectionStates)]
-    [TemplateVisualState(Name = NoSelectionWideState, GroupName = SelectionStates)]
-    [TemplateVisualState(Name = HasSelectionWideState, GroupName = SelectionStates)]
-    [TemplateVisualState(Name = HasSelectionNarrowState, GroupName = SelectionStates)]
-    [TemplateVisualState(Name = NarrowState, GroupName = WidthStates)]
-    [TemplateVisualState(Name = WideState, GroupName = WidthStates)]
-    [TemplateVisualState(Name = HasItemsState, GroupName = HasItemsStates)]
-    [TemplateVisualState(Name = HasNoItemsState, GroupName = HasItemsStates)]
     public partial class MasterDetailsView: ItemsControl
     {
-        private const string PartDetailsPresenter = "DetailsPresenter";
-        private const string NoItemsPresenter = "NoItemsPresenter";
-        private const string PartDetailsPanel = "DetailsPanel";
-        private const string PartBackButton = "MasterDetailsBackButton";
-        private const string PartHeaderContentPresenter = "HeaderContentPresenter";
-        private const string NarrowState = "NarrowState";
-        private const string WideState = "WideState";
-        private const string WidthStates = "WidthStates";
-        private const string SelectionStates = "SelectionStates";
-        private const string HasSelectionNarrowState = "HasSelectionNarrow";
-        private const string HasSelectionWideState = "HasSelectionWide";
-        private const string NoSelectionNarrowState = "NoSelectionNarrow";
-        private const string NoSelectionWideState = "NoSelectionWide";
-        private const string HasItemsStates = "HasItemsStates";
-        private const string HasNoItemsState = "HasNoItemsState";
-        private const string HasItemsState = "HasItemsState";
+        //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
+        #region --Attributes--
+        // All view states:
+        private const string SELECTION_STATES = "SelectionStates";
+        private const string NO_SELECTION_WIDE = "NoSelectionWide";
+        private const string HAS_SELECTION_WIDE = "HasSelectionWide";
+        private const string NO_SELECTION_NARROW = "NoSelectionNarrow";
+        private const string HAS_SELECTION_NARROW = "HasSelectionNarrow";
 
-        private AppViewBackButtonVisibility? _previousSystemBackButtonVisibility;
-        private bool _previousNavigationViewBackEnabled;
+        private const string HAS_ITEMS_STATES = "HasItemsStates";
+        private const string HAS_ITEMS_STATE = "HasItemsState";
+        private const string HAS_NO_ITEMS_STATE = "HasNoItemsState";
 
-        // Int used because the underlying type is an enum, but we don't have access to the enum
-        private int _previousNavigationViewBackVisibilty;
-        private ContentPresenter _detailsPresenter;
-        private VisualStateGroup _selectionStateGroup;
-        private Button _inlineBackButton;
-        private object _navigationView;
-        private Frame _frame;
+        // Control names:
+        private const string PART_ROOT_PANE = "RootPane";
+        private const string PART_DETAILS_PRESENTER = "DetailsPresenter";
+        private const string PART_DETAILS_PANE = "DetailsPane";
+        private const string PART_MASTER_LIST = "MasterList";
+        private const string PART_BACK_BUTTON = "MasterDetailsBackButton";
+        private const string PART_HEADER_CONTENT_PRESENTER = "HeaderContentPresenter";
+        private const string PART_MASTER_COMMAND_BAR = "MasterCommandBarPanel";
+        private const string PART_DETAILS_COMMAND_BAR = "DetailsCommandBarPanel";
+
         private bool ignoreClearSelectedItem;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MasterDetailsView"/> class.
-        /// </summary>
+        private ContentPresenter detailsPresenter;
+        private Microsoft.UI.Xaml.Controls.TwoPaneView twoPaneView;
+        private VisualStateGroup selectionStateGroup;
+        #endregion
+        //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
+        #region --Constructors--
         public MasterDetailsView()
         {
             DefaultStyleKey = typeof(MasterDetailsView);
@@ -74,153 +49,58 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             Unloaded += OnUnloaded;
         }
 
-        protected override void OnItemsChanged(object e)
+        #endregion
+        //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
+        #region --Set-, Get- Methods--
+        private void SetVisualState(bool animate)
         {
-            base.OnItemsChanged(e);
-
-            // Update visual state:
-            VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, true);
-        }
-
-        /// <summary>
-        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
-        /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
-        /// in your app. Override this method to influence the default post-template logic of a class.
-        /// </summary>
-        protected override void OnApplyTemplate()
-        {
-            base.OnApplyTemplate();
-
-            if (_inlineBackButton != null)
+            string noSelectionState;
+            string hasSelectionState;
+            if (ViewState == MasterDetailsViewState.Both)
             {
-                _inlineBackButton.Click -= OnInlineBackButtonClicked;
+                noSelectionState = NO_SELECTION_WIDE;
+                hasSelectionState = HAS_SELECTION_WIDE;
+            }
+            else
+            {
+                noSelectionState = NO_SELECTION_NARROW;
+                hasSelectionState = HAS_SELECTION_NARROW;
             }
 
-            _inlineBackButton = (Button)GetTemplateChild(PartBackButton);
-            if (_inlineBackButton != null)
+            VisualStateManager.GoToState(this, SelectedItem is null ? noSelectionState : hasSelectionState, animate);
+            VisualStateManager.GoToState(this, Items.Count > 0 ? HAS_ITEMS_STATE : HAS_NO_ITEMS_STATE, animate);
+        }
+
+        private void SetDetailsContent()
+        {
+            if (detailsPresenter != null)
             {
-                _inlineBackButton.Click += OnInlineBackButtonClicked;
-            }
-
-            _detailsPresenter = (ContentPresenter)GetTemplateChild(PartDetailsPresenter);
-            SetDetailsContent();
-
-            SetMasterHeaderVisibility();
-            OnDetailsCommandBarChanged();
-            OnMasterCommandBarChanged();
-
-            SizeChanged -= MasterDetailsView_SizeChanged;
-            SizeChanged += MasterDetailsView_SizeChanged;
-
-            UpdateView(true);
-        }
-
-        /// <summary>
-        /// Fired when the SelectedItem changes.
-        /// </summary>
-        /// <param name="d">The sender</param>
-        /// <param name="e">The event args</param>
-        /// <remarks>
-        /// Sets up animations for the DetailsPresenter for animating in/out.
-        /// </remarks>
-        private static void OnSelectedItemChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            MasterDetailsView view = (MasterDetailsView)d;
-
-            // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
-            if (!view.ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && view.Items.Contains(e.OldValue))
-            {
-                view.SelectedItem = e.OldValue;
-                return;
-            }
-
-            view.OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
-
-            view.UpdateView(true);
-
-            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
-            if (view.SelectedItem != null)
-            {
-                view.SetDetailsContent();
-            }
-        }
-
-        /// <summary>
-        /// Fired when the <see cref="MasterHeader"/> is changed.
-        /// </summary>
-        /// <param name="d">The sender</param>
-        /// <param name="e">The event args</param>
-        private static void OnMasterHeaderChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            MasterDetailsView view = (MasterDetailsView)d;
-            view.SetMasterHeaderVisibility();
-        }
-
-        /// <summary>
-        /// Fired when the DetailsCommandBar changes.
-        /// </summary>
-        /// <param name="d">The sender</param>
-        /// <param name="e">The event args</param>
-        private static void OnDetailsCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            MasterDetailsView view = (MasterDetailsView)d;
-            view.OnDetailsCommandBarChanged();
-        }
-
-        /// <summary>
-        /// Fired when CompactModeThresholdWIdthChanged
-        /// </summary>
-        /// <param name="d">The sender</param>
-        /// <param name="e">The event args</param>
-        private static void OnCompactModeThresholdWidthChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            ((MasterDetailsView)d).HandleStateChanges();
-        }
-
-        private static void OnBackButtonBehaviorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            MasterDetailsView view = (MasterDetailsView)d;
-            view.SetBackButtonVisibility();
-        }
-
-        /// <summary>
-        /// Fired when the MasterCommandBar changes.
-        /// </summary>
-        /// <param name="d">The sender</param>
-        /// <param name="e">The event args</param>
-        private static void OnMasterCommandBarChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            MasterDetailsView view = (MasterDetailsView)d;
-            view.OnMasterCommandBarChanged();
-        }
-
-        private void OnLoaded(object sender, RoutedEventArgs e)
-        {
-            if (!DesignMode.DesignModeEnabled)
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
-                if (_frame != null)
+                // Update the content template:
+                if (!(detailsPresenter.ContentTemplateSelector is null))
                 {
-                    _frame.Navigating -= OnFrameNavigating;
+                    detailsPresenter.ContentTemplate = detailsPresenter.ContentTemplateSelector.SelectTemplate(SelectedItem, detailsPresenter);
                 }
+                // Update the content:
+                detailsPresenter.Content = MapDetails is null
+                    ? SelectedItem
+                    : !(SelectedItem is null) ? MapDetails(SelectedItem) : null;
 
-                _navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
-                _frame = this.FindAscendant<Frame>();
-                if (_frame != null)
-                {
-                    _frame.Navigating += OnFrameNavigating;
-                }
-
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (_selectionStateGroup != null)
-                {
-                    _selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
-                }
-
-                UpdateView(true);
             }
         }
 
+        private void SetMasterHeaderVisibility()
+        {
+            if (GetTemplateChild(PART_HEADER_CONTENT_PRESENTER) is FrameworkElement headerPresenter)
+            {
+                headerPresenter.Visibility = MasterHeader != null
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+        }
+
+        #endregion
+        //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
+        #region --Misc Methods (Public)--
         public void ClearSelectedItem()
         {
             ignoreClearSelectedItem = true;
@@ -228,86 +108,50 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             ignoreClearSelectedItem = false;
         }
 
-        private void OnUnloaded(object sender, RoutedEventArgs e)
-        {
-            if (!DesignMode.DesignModeEnabled)
-            {
-                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
-                if (_frame != null)
-                {
-                    _frame.Navigating -= OnFrameNavigating;
-                }
+        #endregion
 
-                _selectionStateGroup = (VisualStateGroup)GetTemplateChild(SelectionStates);
-                if (_selectionStateGroup != null)
-                {
-                    _selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
-                    _selectionStateGroup = null;
-                }
+        #region --Misc Methods (Private)--
+        private void OnCommandBarChanged(string panelName, CommandBar commandbar)
+        {
+            if (!(GetTemplateChild(panelName) is Panel panel))
+            {
+                return;
+            }
+
+            panel.Children.Clear();
+            if (commandbar != null)
+            {
+                panel.Children.Add(commandbar);
             }
         }
 
-        private void MasterDetailsView_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void OnMasterCommandBarChanged()
         {
-            // if size is changing
-            if ((e.PreviousSize.Width < CompactModeThresholdWidth && e.NewSize.Width >= CompactModeThresholdWidth) ||
-                (e.PreviousSize.Width >= CompactModeThresholdWidth && e.NewSize.Width < CompactModeThresholdWidth))
+            OnCommandBarChanged(PART_MASTER_COMMAND_BAR, MasterCommandBar);
+        }
+
+        private void OnDetailsCommandBarChanged()
+        {
+            OnCommandBarChanged(PART_DETAILS_COMMAND_BAR, DetailsCommandBar);
+        }
+
+        private void OnSelectedItemChanged(DependencyPropertyChangedEventArgs e)
+        {
+            // Prevent setting the SelectedItem to null if only the order changed (=> collection reset got triggered).
+            if (!ignoreClearSelectedItem && !(e.OldValue is null) && e.NewValue is null && Items.Contains(e.OldValue))
             {
-                HandleStateChanges();
+                SelectedItem = e.OldValue;
+                return;
             }
-        }
 
-        private void OnInlineBackButtonClicked(object sender, RoutedEventArgs e)
-        {
-            SelectedItem = null;
-        }
+            OnSelectionChanged(new SelectionChangedEventArgs(new List<object> { e.OldValue }, new List<object> { e.NewValue }));
 
-        private void HandleStateChanges()
-        {
             UpdateView(true);
-            SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
-        }
 
-        /// <summary>
-        /// Closes the details pane if we are in narrow state
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="args">The event args</param>
-        private void OnFrameNavigating(object sender, NavigatingCancelEventArgs args)
-        {
-            if ((args.NavigationMode == NavigationMode.Back) && (ViewState == MasterDetailsViewState.Details))
+            // If there is no selection, do not remove the DetailsPresenter content but let it animate out.
+            if (!(SelectedItem is null))
             {
-                SelectedItem = null;
-                args.Cancel = true;
-            }
-        }
-
-        /// <summary>
-        /// Closes the details pane if we are in narrow state
-        /// </summary>
-        /// <param name="sender">The sender</param>
-        /// <param name="args">The event args</param>
-        private void OnBackRequested(object sender, BackRequestedEventArgs args)
-        {
-            if (ViewState == MasterDetailsViewState.Details)
-            {
-                // let the OnFrameNavigating method handle it if
-                if (_frame == null || !_frame.CanGoBack)
-                {
-                    SelectedItem = null;
-                }
-
-                args.Handled = true;
-            }
-        }
-
-        private void SetMasterHeaderVisibility()
-        {
-            if (GetTemplateChild(PartHeaderContentPresenter) is FrameworkElement headerPresenter)
-            {
-                headerPresenter.Visibility = MasterHeader != null
-                    ? Visibility.Visible
-                    : Visibility.Collapsed;
+                SetDetailsContent();
             }
         }
 
@@ -317,90 +161,16 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             SetVisualState(animate);
         }
 
-        /// <summary>
-        /// Sets the back button visibility based on the current visual state and selected item
-        /// </summary>
-        private void SetBackButtonVisibility(MasterDetailsViewState? previousState = null)
-        {
-            const int backButtonVisible = 1;
-
-            if (DesignMode.DesignModeEnabled)
-            {
-                return;
-            }
-
-            if (ViewState == MasterDetailsViewState.Details)
-            {
-                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
-                {
-                    _inlineBackButton.Visibility = Visibility.Visible;
-                }
-                else if (BackButtonBehavior == BackButtonBehavior.Automatic)
-                {
-                    // Continue to support the system back button if it is being used
-                    SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
-                    if (navigationManager.AppViewBackButtonVisibility == AppViewBackButtonVisibility.Visible)
-                    {
-                        // Setting this indicates that the system back button is being used
-                        _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
-                    }
-                    else if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
-                    {
-                        // We can only use the new NavigationView if we also have a Frame
-                        // If there is no frame we have to use the inline button
-                        _inlineBackButton.Visibility = Visibility.Visible;
-                    }
-                    else
-                    {
-                        SetNavigationViewBackButtonState(backButtonVisible, true);
-                    }
-                }
-                else if (BackButtonBehavior != BackButtonBehavior.Manual)
-                {
-                    SystemNavigationManager navigationManager = SystemNavigationManager.GetForCurrentView();
-                    _previousSystemBackButtonVisibility = navigationManager.AppViewBackButtonVisibility;
-
-                    navigationManager.AppViewBackButtonVisibility = AppViewBackButtonVisibility.Visible;
-                }
-            }
-            else if (previousState == MasterDetailsViewState.Details)
-            {
-                if ((BackButtonBehavior == BackButtonBehavior.Inline) && (_inlineBackButton != null))
-                {
-                    _inlineBackButton.Visibility = Visibility.Collapsed;
-                }
-                else if (BackButtonBehavior == BackButtonBehavior.Automatic)
-                {
-                    if (!_previousSystemBackButtonVisibility.HasValue)
-                    {
-                        if ((_inlineBackButton != null) && ((_navigationView == null) || (_frame == null)))
-                        {
-                            _inlineBackButton.Visibility = Visibility.Collapsed;
-                        }
-                        else
-                        {
-                            SetNavigationViewBackButtonState(_previousNavigationViewBackVisibilty, _previousNavigationViewBackEnabled);
-                        }
-                    }
-                }
-
-                if (_previousSystemBackButtonVisibility.HasValue)
-                {
-                    // Make sure we show the back button if the stack can navigate back
-                    SystemNavigationManager.GetForCurrentView().AppViewBackButtonVisibility = _previousSystemBackButtonVisibility.Value;
-                    _previousSystemBackButtonVisibility = null;
-                }
-            }
-        }
-
         private void UpdateViewState()
         {
             MasterDetailsViewState previousState = ViewState;
 
-            if (ActualWidth < CompactModeThresholdWidth)
+            // Single pane:
+            if (twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
             {
-                ViewState = SelectedItem == null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
+                ViewState = SelectedItem is null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
             }
+            // Dual pane:
             else
             {
                 ViewState = MasterDetailsViewState.Both;
@@ -413,90 +183,42 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             }
         }
 
-        private void SetVisualState(bool animate)
+        /// <summary>
+        /// Sets focus to the relevant control based on the viewState.
+        /// </summary>
+        /// <param name="viewState">the view state</param>
+        private void SetFocus(MasterDetailsViewState viewState)
         {
-            string state;
-            string noSelectionState;
-            string hasSelectionState;
-            if (ActualWidth < CompactModeThresholdWidth)
+            if (viewState != MasterDetailsViewState.Details)
             {
-                state = NarrowState;
-                noSelectionState = NoSelectionNarrowState;
-                hasSelectionState = HasSelectionNarrowState;
+                FocusItemList();
             }
             else
             {
-                state = WideState;
-                noSelectionState = NoSelectionWideState;
-                hasSelectionState = HasSelectionWideState;
-            }
-
-            VisualStateManager.GoToState(this, state, animate);
-            VisualStateManager.GoToState(this, SelectedItem == null ? noSelectionState : hasSelectionState, animate);
-            VisualStateManager.GoToState(this, Items.Count > 0 ? HasItemsState : HasNoItemsState, animate);
-        }
-
-        private void SetNavigationViewBackButtonState(int visible, bool enabled)
-        {
-            if (_navigationView == null)
-            {
-                return;
-            }
-
-            System.Type navType = _navigationView.GetType();
-            PropertyInfo visibleProperty = navType.GetProperty("IsBackButtonVisible");
-            if (visibleProperty != null)
-            {
-                _previousNavigationViewBackVisibilty = (int)visibleProperty.GetValue(_navigationView);
-                visibleProperty.SetValue(_navigationView, visible);
-            }
-
-            PropertyInfo enabledProperty = navType.GetProperty("IsBackEnabled");
-            if (enabledProperty != null)
-            {
-                _previousNavigationViewBackEnabled = (bool)enabledProperty.GetValue(_navigationView);
-                enabledProperty.SetValue(_navigationView, enabled);
+                FocusFirstFocusableElementInDetails();
             }
         }
 
-        private void SetDetailsContent()
+        /// <summary>
+        /// Sets focus to the first focusable element in the details template
+        /// </summary>
+        private void FocusFirstFocusableElementInDetails()
         {
-            if (_detailsPresenter != null)
+            if (GetTemplateChild(PART_DETAILS_PANE) is DependencyObject details)
             {
-                // Update the content template:
-                if (!(_detailsPresenter.ContentTemplateSelector is null))
-                {
-                    _detailsPresenter.ContentTemplate = _detailsPresenter.ContentTemplateSelector.SelectTemplate(SelectedItem, _detailsPresenter);
-                }
-                // Update the content:
-                _detailsPresenter.Content = MapDetails == null
-                    ? SelectedItem
-                    : SelectedItem != null ? MapDetails(SelectedItem) : null;
-
+                DependencyObject focusableElement = FocusManager.FindFirstFocusableElement(details);
+                (focusableElement as Control)?.Focus(FocusState.Programmatic);
             }
         }
 
-        private void OnMasterCommandBarChanged()
+        /// <summary>
+        /// Sets focus to the item list
+        /// </summary>
+        private void FocusItemList()
         {
-            OnCommandBarChanged("MasterCommandBarPanel", MasterCommandBar);
-        }
-
-        private void OnDetailsCommandBarChanged()
-        {
-            OnCommandBarChanged("DetailsCommandBarPanel", DetailsCommandBar);
-        }
-
-        private void OnCommandBarChanged(string panelName, CommandBar commandbar)
-        {
-            if (!(GetTemplateChild(panelName) is Panel panel))
+            if (GetTemplateChild(PART_MASTER_LIST) is Control masterList)
             {
-                return;
-            }
-
-            panel.Children.Clear();
-            if (commandbar != null)
-            {
-                panel.Children.Add(commandbar);
+                masterList.Focus(FocusState.Programmatic);
             }
         }
 
@@ -521,10 +243,104 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         /// </summary>
         private void SetListSelectionWithKeyboardFocus(bool singleSelectionFollowsFocus)
         {
-            if (GetTemplateChild("MasterList") is ListViewBase masterList)
+            if (GetTemplateChild(PART_MASTER_COMMAND_BAR) is ListViewBase masterList)
             {
                 masterList.SingleSelectionFollowsFocus = singleSelectionFollowsFocus;
             }
+        }
+
+        #endregion
+
+        #region --Misc Methods (Protected)--
+        /// <summary>
+        /// Invoked whenever application code or internal processes (such as a rebuilding layout pass) call
+        /// ApplyTemplate. In simplest terms, this means the method is called just before a UI element displays
+        /// in your app. Override this method to influence the default post-template logic of a class.
+        /// </summary>
+        protected override void OnApplyTemplate()
+        {
+            base.OnApplyTemplate();
+
+            if (!(inlineBackButton is null))
+            {
+                inlineBackButton.Click -= OnInlineBackButtonClicked;
+            }
+
+            inlineBackButton = (Button)GetTemplateChild(PART_BACK_BUTTON);
+            if (!(inlineBackButton is null))
+            {
+                inlineBackButton.Click += OnInlineBackButtonClicked;
+            }
+
+            twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PART_ROOT_PANE);
+            if (!(twoPaneView is null))
+            {
+                twoPaneView.ModeChanged += OnModeChanged;
+            }
+
+            detailsPresenter = (ContentPresenter)GetTemplateChild(PART_DETAILS_PRESENTER);
+
+            SetDetailsContent();
+
+            SetMasterHeaderVisibility();
+            OnDetailsCommandBarChanged();
+            OnMasterCommandBarChanged();
+
+            UpdateView(true);
+        }
+
+        #endregion
+        //--------------------------------------------------------Events:---------------------------------------------------------------------\\
+        #region --Events--
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            if (!DesignMode.DesignModeEnabled)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested -= OnBackRequested;
+                if (!(frame is null))
+                {
+                    frame.Navigating -= OnFrameNavigating;
+                }
+
+                selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+                if (!(selectionStateGroup is null))
+                {
+                    selectionStateGroup.CurrentStateChanged -= OnSelectionStateChanged;
+                    selectionStateGroup = null;
+                }
+            }
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (!DesignMode.DesignModeEnabled)
+            {
+                SystemNavigationManager.GetForCurrentView().BackRequested += OnBackRequested;
+                if (!(frame is null))
+                {
+                    frame.Navigating -= OnFrameNavigating;
+                }
+
+                navigationView = this.FindAscendants().FirstOrDefault(p => p.GetType().FullName == "Microsoft.UI.Xaml.Controls.NavigationView");
+                frame = this.FindAscendant<Frame>();
+                if (!(frame is null))
+                {
+                    frame.Navigating += OnFrameNavigating;
+                }
+
+                selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+                if (!(selectionStateGroup is null))
+                {
+                    selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+                }
+
+                UpdateView(true);
+            }
+        }
+
+        private void OnModeChanged(Microsoft.UI.Xaml.Controls.TwoPaneView sender, object args)
+        {
+            UpdateView(true);
         }
 
         /// <summary>
@@ -542,43 +358,6 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             SetListSelectionWithKeyboardFocusOnVisualStateChanged(ViewState);
         }
 
-        /// <summary>
-        /// Sets focus to the relevant control based on the viewState.
-        /// </summary>
-        /// <param name="viewState">the view state</param>
-        private void SetFocus(MasterDetailsViewState viewState)
-        {
-            if (viewState != MasterDetailsViewState.Details)
-            {
-                FocusItemList();
-            }
-            else
-            {
-                FocusFirstFocusableElementInDetails();
-            }
-        }
-
-        /// <summary>
-        /// Sets focus to the first focusable element in the details template
-        /// </summary>
-        private void FocusFirstFocusableElementInDetails()
-        {
-            if (GetTemplateChild(PartDetailsPanel) is DependencyObject details)
-            {
-                DependencyObject focusableElement = FocusManager.FindFirstFocusableElement(details);
-                (focusableElement as Control)?.Focus(FocusState.Programmatic);
-            }
-        }
-
-        /// <summary>
-        /// Sets focus to the item list
-        /// </summary>
-        private void FocusItemList()
-        {
-            if (GetTemplateChild("MasterList") is Control masterList)
-            {
-                masterList.Focus(FocusState.Programmatic);
-            }
-        }
+        #endregion
     }
 }

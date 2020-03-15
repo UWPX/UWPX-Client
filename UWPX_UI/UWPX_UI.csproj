@@ -341,9 +341,9 @@
       <DependentUpon>SettingsSelectionSmallControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Toolkit\MasterDetailsView\BackButtonBehavior.cs" />
+    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.BackButton.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Events.cs" />
-    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
     <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsViewState.cs" />
     <Compile Include="Controls\Toolkit\VisualTree.cs" />
     <Compile Include="Dialogs\AccountInfoDialog.xaml.cs">
@@ -1108,7 +1108,9 @@
       <Name>XMPP_API_IoT</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Compile Include="Controls\Toolkit\MasterDetailsView\MasterDetailsView.Properties.cs" />
+  </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>
   </PropertyGroup>
