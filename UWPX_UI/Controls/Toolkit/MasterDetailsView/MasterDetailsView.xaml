@@ -32,7 +32,8 @@
                                                       Margin="12,0"
                                                       x:DeferLoadStrategy="Lazy"
                                                       Content="{TemplateBinding MasterHeader}"
-                                                      ContentTemplate="{TemplateBinding MasterHeaderTemplate}"/>
+                                                      ContentTemplate="{TemplateBinding MasterHeaderTemplate}"
+                                                      Visibility="Collapsed"/>
                                     <ContentPresenter x:Name="NoItemsPresenter"
                                                       Grid.Row="1"
                                                       Content="{TemplateBinding NoItemsContent}"
@@ -45,9 +46,13 @@
                                               ItemTemplate="{TemplateBinding ItemTemplate}"
                                               ItemTemplateSelector="{TemplateBinding MasterItemTemplateSelector}"
                                               ItemsSource="{TemplateBinding ItemsSource}"
-                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                              SelectedItem="{Binding SelectedItem, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                              Visibility="Collapsed"/>
                                     <Grid x:Name="MasterCommandBarPanel"
                                           Grid.Row="2"/>
+                                    <Grid.RenderTransform>
+                                        <TranslateTransform x:Name="MasterPresenterTransform"/>
+                                    </Grid.RenderTransform>
                                 </Grid>
                             </muxc:TwoPaneView.Pane1>
                             <muxc:TwoPaneView.Pane2>
@@ -94,6 +99,27 @@
                         </muxc:TwoPaneView>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="NoSelectionWide">
+                                    <VisualState.Setters>
+                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionWide">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="NoSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+                                <VisualState x:Name="HasSelectionNarrow">
+                                    <VisualState.Setters>
+                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
+                                    </VisualState.Setters>
+                                </VisualState>
+
                                 <VisualStateGroup.Transitions>
                                     <VisualTransition From="NoSelectionWide"
                                                       To="HasSelectionWide">
@@ -125,6 +151,16 @@
                                                     <QuarticEase EasingMode="EaseOut"/>
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
+                                            <DoubleAnimation BeginTime="0:0:0"
+                                                             Storyboard.TargetName="NoSelectionPresenter"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="1"
+                                                             To="0"
+                                                             Duration="0:0:0">
+                                                <DoubleAnimation.EasingFunction>
+                                                    <QuarticEase EasingMode="EaseOut"/>
+                                                </DoubleAnimation.EasingFunction>
+                                            </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                     <VisualTransition From="HasSelectionWide"
@@ -138,68 +174,28 @@
                                                       To="NoSelectionNarrow">
                                         <Storyboard>
                                             <DoubleAnimation BeginTime="0:0:0"
-                                                             Storyboard.TargetName="DetailsPresenterTransform"
+                                                             Storyboard.TargetName="MasterPresenterTransform"
                                                              Storyboard.TargetProperty="X"
-                                                             From="0"
-                                                             To="200"
-                                                             Duration="0:0:0.25"/>
-                                            <DoubleAnimation BeginTime="0:0:0.08"
-                                                             Storyboard.TargetName="SelectionDetailsPane"
-                                                             Storyboard.TargetProperty="Opacity"
-                                                             From="1"
+                                                             From="-200"
                                                              To="0"
-                                                             Duration="0:0:0.17">
+                                                             Duration="0:0:0.25">
                                                 <DoubleAnimation.EasingFunction>
                                                     <QuarticEase EasingMode="EaseOut"/>
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
-                                            <DoubleAnimation BeginTime="0:0:0.0"
+                                            <DoubleAnimation BeginTime="0:0:0"
                                                              Storyboard.TargetName="MasterPane"
                                                              Storyboard.TargetProperty="Opacity"
                                                              From="0"
                                                              To="1"
                                                              Duration="0:0:0.25">
                                                 <DoubleAnimation.EasingFunction>
-                                                    <QuarticEase EasingMode="EaseIn"/>
+                                                    <QuarticEase EasingMode="EaseOut"/>
                                                 </DoubleAnimation.EasingFunction>
                                             </DoubleAnimation>
                                         </Storyboard>
                                     </VisualTransition>
                                 </VisualStateGroup.Transitions>
-                                <VisualState x:Name="NoSelectionWide">
-                                    <VisualState.Setters>
-                                        <Setter Target="MasterPane.Visibility" Value="Visible"/>
-                                        <Setter Target="DetailsPane.Visibility" Value="Visible"/>
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Visible"/>
-                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Collapsed"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="HasSelectionWide">
-                                    <VisualState.Setters>
-                                        <Setter Target="MasterPane.Visibility" Value="Visible"/>
-                                        <Setter Target="DetailsPane.Visibility" Value="Visible"/>
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
-                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Visible"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="NoSelectionNarrow">
-                                    <VisualState.Setters>
-                                        <Setter Target="MasterPane.Visibility" Value="Visible"/>
-                                        <Setter Target="DetailsPane.Visibility" Value="Visible"/>
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Visible"/>
-                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Collapsed"/>
-                                        <Setter Target="RootPane.PanePriority" Value="Pane1"/>
-                                    </VisualState.Setters>
-                                </VisualState>
-                                <VisualState x:Name="HasSelectionNarrow">
-                                    <VisualState.Setters>
-                                        <Setter Target="MasterPane.Visibility" Value="Visible"/>
-                                        <Setter Target="DetailsPane.Visibility" Value="Visible"/>
-                                        <Setter Target="NoSelectionPresenter.Visibility" Value="Collapsed"/>
-                                        <Setter Target="SelectionDetailsPane.Visibility" Value="Visible"/>
-                                        <Setter Target="RootPane.PanePriority" Value="Pane2"/>
-                                    </VisualState.Setters>
-                                </VisualState>
                             </VisualStateGroup>
 
                             <VisualStateGroup x:Name="HasItemsStates">

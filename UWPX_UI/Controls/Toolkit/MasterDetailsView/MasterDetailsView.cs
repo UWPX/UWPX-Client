@@ -169,6 +169,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             if (twoPaneView.Mode == Microsoft.UI.Xaml.Controls.TwoPaneViewMode.SinglePane)
             {
                 ViewState = SelectedItem is null ? MasterDetailsViewState.Master : MasterDetailsViewState.Details;
+                twoPaneView.PanePriority = SelectedItem is null ? Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane1 : Microsoft.UI.Xaml.Controls.TwoPaneViewPriority.Pane2;
             }
             // Dual pane:
             else
