@@ -13,7 +13,7 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         public event SelectionChangedEventHandler SelectionChanged;
 
         /// <summary>
-        /// Occurs when the view state changes
+        /// Occurs when the view state changes.
         /// </summary>
         public event EventHandler<MasterDetailsViewState> ViewStateChanged;
 

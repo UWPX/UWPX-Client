@@ -52,6 +52,10 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Updates the visual state of the control.
+        /// </summary>
+        /// <param name="animate">False to skip animations.</param>
         private void SetVisualState(bool animate)
         {
             string noSelectionState;
@@ -71,6 +75,9 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             VisualStateManager.GoToState(this, Items.Count > 0 ? HAS_ITEMS_STATE : HAS_NO_ITEMS_STATE, animate);
         }
 
+        /// <summary>
+        /// Sets the content of the <see cref="SelectedItem"/> based on current <see cref="MapDetails"/> function.
+        /// </summary>
         private void SetDetailsContent()
         {
             if (detailsPresenter != null)
@@ -101,6 +108,9 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        /// <summary>
+        /// Clears the <see cref="SelectedItem"/> and prevent flickering of the UI if only the order of the items changed.
+        /// </summary>
         public void ClearSelectedItem()
         {
             ignoreClearSelectedItem = true;
@@ -273,6 +283,12 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                 inlineBackButton.Click += OnInlineBackButtonClicked;
             }
 
+            selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
+            if (selectionStateGroup != null)
+            {
+                selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
+            }
+
             twoPaneView = (Microsoft.UI.Xaml.Controls.TwoPaneView)GetTemplateChild(PART_ROOT_PANE);
             if (!(twoPaneView is null))
             {
@@ -287,6 +303,15 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
             OnDetailsCommandBarChanged();
             OnMasterCommandBarChanged();
 
+            UpdateView(true);
+        }
+
+        /// <summary>
+        /// Invoked once the items changed and ensures the visual state is constant.
+        /// </summary>
+        protected override void OnItemsChanged(object e)
+        {
+            base.OnItemsChanged(e);
             UpdateView(true);
         }
 
@@ -328,14 +353,6 @@ namespace UWPX_UI.Controls.Toolkit.MasterDetailsView
                 {
                     frame.Navigating += OnFrameNavigating;
                 }
-
-                selectionStateGroup = (VisualStateGroup)GetTemplateChild(SELECTION_STATES);
-                if (!(selectionStateGroup is null))
-                {
-                    selectionStateGroup.CurrentStateChanged += OnSelectionStateChanged;
-                }
-
-                UpdateView(true);
             }
         }
 
