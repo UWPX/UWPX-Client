@@ -40,7 +40,8 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="ToggleButton">
                             <Grid x:Name="RootGrid"
-                                  Background="{TemplateBinding Background}">
+                                  Background="{TemplateBinding Background}"
+                                  CornerRadius="{ThemeResource OverlayCornerRadius}">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -184,6 +185,9 @@
                                                                  To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                                  Duration="0:0:0.1"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="CheckedPointerOver">
                                             <Storyboard>
@@ -200,6 +204,9 @@
                                                                  To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                                  Duration="0:0:0.1"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="CheckedPressed">
                                             <Storyboard>
@@ -216,6 +223,9 @@
                                                                  Duration="0:0:0.1"/>
                                                 <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="CheckedDisabled">
                                             <Storyboard>
@@ -242,11 +252,17 @@
                                                                  To="{Binding ElementName=ArrowRotation, Path=Value}"
                                                                  Duration="0:0:0.1"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="Indeterminate">
                                             <Storyboard>
                                                 <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="IndeterminatePointerOver">
                                             <Storyboard>
@@ -269,6 +285,9 @@
 
                                                 <PointerUpThemeAnimation Storyboard.TargetName="RootGrid"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="IndeterminatePressed">
                                             <Storyboard>
@@ -291,6 +310,9 @@
 
                                                 <PointerDownThemeAnimation Storyboard.TargetName="RootGrid"/>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                         <VisualState x:Name="IndeterminateDisabled">
                                             <Storyboard>
@@ -311,6 +333,9 @@
                                                                             Value="{ThemeResource SystemControlDisabledBaseLowBrush}"/>
                                                 </ObjectAnimationUsingKeyFrames>
                                             </Storyboard>
+                                            <VisualState.Setters>
+                                                <Setter Target="RootGrid.CornerRadius" Value="2,2,0,0"/>
+                                            </VisualState.Setters>
                                         </VisualState>
                                     </VisualStateGroup>
 
