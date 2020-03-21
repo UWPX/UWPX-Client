@@ -134,14 +134,19 @@ namespace Data_Manager2.Classes
 
         private async Task<bool> delayAsync(string bareJid)
         {
-            if (joinDelayToken.TryGetValue(bareJid, out CancellationTokenSource token) && !(token is null))
+            CancellationTokenSource token;
+            try
             {
-                if (!token.IsCancellationRequested)
+                if (joinDelayToken.TryGetValue(bareJid, out token) && !(token is null)) // Sometimes throws a NullReferenceException
                 {
-                    token.Cancel();
+                    if (!token.IsCancellationRequested)
+                    {
+                        token.Cancel();
+                    }
+                    token.Dispose();
                 }
-                token.Dispose();
             }
+            catch (NullReferenceException) { }
             token = new CancellationTokenSource();
             joinDelayToken[bareJid] = token;
 
