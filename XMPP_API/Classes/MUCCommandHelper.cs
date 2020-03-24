@@ -67,36 +67,30 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a RequestRoomConfigurationMessage and requests the current room configuration.
+        /// Sends a <see cref="RequestRoomConfigurationMessage"/> and requests the current room configuration.
         /// </summary>
         /// <param name="roomJid">The bare JID if the room you would like to request the room configuration for. e.g. 'witches@conference.jabber.org'</param>
-        /// <param name="configLevel">The requested configuration level (the senders affiliation).</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for RequestRoomConfigurationMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> requestRoomConfiguration(string roomJid, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <returns>The <see cref="RequestRoomConfigurationMessage"/> result</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> requestRoomConfigurationAsync(string roomJid)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
-            RequestRoomConfigurationMessage msg = new RequestRoomConfigurationMessage(roomJid, configLevel);
-            helper.start(msg);
-            return helper;
+            Predicate<IQMessage> predicate = (x) => { return x is RoomConfigMessage || x is IQErrorMessage; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            RequestRoomConfigurationMessage msg = new RequestRoomConfigurationMessage(roomJid, MUCAffiliation.OWNER);
+            return await helper.startAsync(msg);
         }
 
         /// <summary>
-        /// Sends a RoomInfoMessage and saves the given room configuration.
+        /// Sends a <see cref="RoomConfigMessage"/> and saves the given room configuration.
         /// </summary>
         /// <param name="roomJid">The bare JID if the room you would like to save the room configuration for. e.g. 'witches@conference.jabber.org'</param>
         /// <param name="roomConfiguration">The new room configuration.</param>
-        /// <param name="configLevel">The requested configuration level (the senders affiliation).</param>
-        /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
-        /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for RoomInfoMessage answers.</returns>
-        public MessageResponseHelper<IQMessage> saveRoomConfiguration(string roomJid, DataForm roomConfiguration, MUCAffiliation configLevel, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
+        /// <returns>The <see cref="RoomConfigMessage"/> result</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> saveRoomConfigurationAsync(string roomJid, DataForm roomConfiguration)
         {
-            MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
-            RoomInfoMessage msg = new RoomInfoMessage(CONNECTION.account.getFullJid(), roomJid, roomConfiguration, configLevel);
-            helper.start(msg);
-            return helper;
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            RoomConfigMessage msg = new RoomConfigMessage(CONNECTION.account.getFullJid(), roomJid, roomConfiguration, MUCAffiliation.OWNER);
+            return await helper.startAsync(msg);
         }
 
         /// <summary>

@@ -262,7 +262,7 @@ namespace XMPP_API.Classes.Network.XML
                                                 XmlNode x = XMLUtils.getChildNode(qNode, "x", Consts.XML_XMLNS, Consts.XML_XEP_0004_NAMESPACE);
                                                 if (x != null)
                                                 {
-                                                    messages.Add(new RoomInfoMessage(n));
+                                                    messages.Add(new RoomConfigMessage(n));
                                                     fondNode = true;
                                                     break;
                                                 }

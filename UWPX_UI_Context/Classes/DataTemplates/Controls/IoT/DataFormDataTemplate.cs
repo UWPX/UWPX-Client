@@ -54,7 +54,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.IoT
                 FIELDS.Clear();
                 if (!(value is null))
                 {
-                    FIELDS.AddRange(value.fields.Select(x =>
+                    // Show only all non  hidden fields:
+                    FIELDS.AddRange(value.fields.Where(x => x.type != FieldType.HIDDEN).Select(x =>
                     {
                         FieldDataTemplate field = new FieldDataTemplate(x);
                         field.ValueChangedByUser += Field_ValueChangedByUser;

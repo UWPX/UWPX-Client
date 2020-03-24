@@ -4,7 +4,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
 {
-    public class RoomInfoMessage: IQMessage
+    public class RoomConfigMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -21,7 +21,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
         /// <history>
         /// 07/07/2018 Created [Fabian Sauter]
         /// </history>
-        public RoomInfoMessage(XmlNode node) : base(node)
+        public RoomConfigMessage(XmlNode node) : base(node)
         {
             XmlNode qNode = XMLUtils.getChildNode(node, "query", Consts.XML_XMLNS, Consts.MUC_ROOM_INFO_NAMESPACE_REGEX);
             if (qNode != null)
@@ -42,7 +42,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0045.Configuration
             }
         }
 
-        public RoomInfoMessage(string from, string to, DataForm roomConfig, MUCAffiliation configType) : base(from, to, SET, getRandomId())
+        public RoomConfigMessage(string from, string to, DataForm roomConfig, MUCAffiliation configType) : base(from, to, SET, getRandomId())
         {
             ROOM_CONFIG = roomConfig;
             ROOM_CONFIG.fields.Add(new Field()

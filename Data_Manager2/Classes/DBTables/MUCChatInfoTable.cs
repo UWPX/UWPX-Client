@@ -1,5 +1,6 @@
 ﻿using SQLite;
 using XMPP_API.Classes;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0045;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 
 namespace Data_Manager2.Classes.DBTables
@@ -25,6 +26,10 @@ namespace Data_Manager2.Classes.DBTables
         public MUCState state { get; set; }
         // Whether to automatically enter the room as soon as the client is connected
         public bool autoEnterRoom { get; set; }
+        // The own affiliation
+        public MUCAffiliation affiliation { get; set; }
+        // The own role
+        public MUCRole role { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\

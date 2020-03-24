@@ -55,7 +55,7 @@ namespace Data_Manager2.Classes
         {
             // Update MUC info:
             INFO.state = MUCState.ENTERING;
-            saveMUCEnterState();
+            MUCDBManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
 
             // Clear MUC members:
             MUCDBManager.INSTANCE.deleteAllOccupantsforChat(MUC.id);
@@ -91,10 +91,7 @@ namespace Data_Manager2.Classes
         #endregion
 
         #region --Misc Methods (Private)--
-        private void saveMUCEnterState()
-        {
-            MUCDBManager.INSTANCE.setMUCState(INFO.chatId, INFO.state, true);
-        }
+
 
         #endregion
 
@@ -126,8 +123,10 @@ namespace Data_Manager2.Classes
 
                                 // Update MUC info:
                                 INFO.state = MUCState.ENTERD;
-                                saveMUCEnterState();
-                                Logger.Info("Entered MUC room '" + roomJId + "' as '" + INFO.nickname + '\'');
+                                INFO.affiliation = args.mucMemberPresenceMessage.AFFILIATION;
+                                INFO.role = args.mucMemberPresenceMessage.ROLE;
+                                MUCDBManager.INSTANCE.setMUCChatInfo(INFO, false, true);
+                                Logger.Info("Entered MUC room '" + roomJId + "' as '" + INFO.nickname + "' with role '" + INFO.role + "' and affiliation '" + INFO.affiliation + '\'');
                                 break;
 
                             default:

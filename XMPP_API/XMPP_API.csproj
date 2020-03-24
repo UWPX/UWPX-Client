@@ -244,7 +244,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanListMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\BanOccupantMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RequestRoomConfigurationMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomInfoMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0045\Configuration\RoomConfigMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoField.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesMessages.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0045\DiscoReservedRoomNicknamesResponseMessages.cs" />

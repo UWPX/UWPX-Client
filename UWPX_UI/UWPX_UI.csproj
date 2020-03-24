@@ -136,6 +136,7 @@
     </Compile>
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
     <Compile Include="Classes\Events\EmojiSelectedEventArgs.cs" />
+    <Compile Include="Classes\Events\MultiSelectChangedEventArgs.cs" />
     <Compile Include="Classes\SplashScreenImageScale.cs" />
     <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
       <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
@@ -179,6 +180,9 @@
     <Compile Include="Controls\Chat\EnterTextBox.cs" />
     <Compile Include="Controls\Chat\MUC\MucAffiliationControl.xaml.cs">
       <DependentUpon>MucAffiliationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Chat\MUC\MucConfigurationrControl.xaml.cs">
+      <DependentUpon>MucConfigurationrControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\Chat\MUC\MucInfoControl.xaml.cs">
       <DependentUpon>MucInfoControl.xaml</DependentUpon>
@@ -276,6 +280,9 @@
     </Compile>
     <Compile Include="Controls\LoadingContentControl.xaml.cs">
       <DependentUpon>LoadingContentControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\MultiSelectControl.xaml.cs">
+      <DependentUpon>MultiSelectControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\OMEMO\OmemoButtonControl.xaml.cs">
       <DependentUpon>OmemoButtonControl.xaml</DependentUpon>
@@ -661,6 +668,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\Chat\MUC\MucConfigurationrControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\Chat\MUC\MucInfoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -788,6 +799,10 @@
     <Page Include="Controls\LoadingContentControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\MultiSelectControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\OMEMO\OmemoButtonControl.xaml">
       <SubType>Designer</SubType>
@@ -1056,6 +1071,10 @@
     <Page Include="Resources\Styles\MessageTextBoxStyle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\Styles\RoundedExpanderHeaderStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Resources\Styles\SettingsNavigationViewStyle.xaml">
       <Generator>MSBuild:Compile</Generator>

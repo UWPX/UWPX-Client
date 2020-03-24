@@ -1,6 +1,8 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
+﻿using System.Linq;
+using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 
 namespace UWPX_UI.Controls.DataForms
 {
@@ -55,6 +57,14 @@ namespace UWPX_UI.Controls.DataForms
             Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
             if (!(Field is null))
             {
+                // General:
+                listMulti_msc.Header = Field.Label ?? Field.Var ?? "No description / 'var' given!";
+                listMulti_msc.ItemSource.Clear();
+                listMulti_msc.ItemSource.AddRange(Field.Field.options);
+                listMulti_msc.SetSelectedItems(Field.Field.selectedOptions.ToList<object>());
+
+                // Options:
+                listMulti_msc.IsEnabled = !Field.Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
             }
         }
 
@@ -77,6 +87,11 @@ namespace UWPX_UI.Controls.DataForms
         private void Field_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             UpdateUi();
+        }
+
+        private void MultiSelectControl_SelectionChanged(MultiSelectControl sender, Classes.Events.MultiSelectChangedEventArgs args)
+        {
+
         }
 
         #endregion

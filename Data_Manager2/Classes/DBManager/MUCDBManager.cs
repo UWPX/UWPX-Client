@@ -35,9 +35,9 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public void setMUCChatInfoTableValue(string id, object IdValue, string name, object value)
+        public void setMUCChatInfoTableValue(string id, object idValue, string name, object value)
         {
-            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, IdValue);
+            dB.Execute("UPDATE " + DBTableConsts.MUC_CHAT_INFO_TABLE + " SET " + name + "= ? WHERE " + id + "= ?", value, idValue);
         }
 
         public MUCChatInfoTable getMUCInfo(string chatId)

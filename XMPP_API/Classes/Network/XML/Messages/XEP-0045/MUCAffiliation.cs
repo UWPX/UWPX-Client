@@ -2,8 +2,8 @@
 {
     public enum MUCAffiliation
     {
-        OUTCAST,
         NONE,
+        OUTCAST,
         MEMBER,
         ADMIN,
         OWNER

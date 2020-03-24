@@ -15,6 +15,20 @@ namespace UWPX_UI.Controls.DataForms
         }
         public static readonly DependencyProperty FormProperty = DependencyProperty.Register(nameof(Form), typeof(DataFormDataTemplate), typeof(DataFormsControl), new PropertyMetadata(null, OnFormChanged));
 
+        public bool ShowTitle
+        {
+            get => (bool)GetValue(ShowTitleProperty);
+            set => SetValue(ShowTitleProperty, value);
+        }
+        public static readonly DependencyProperty ShowTitleProperty = DependencyProperty.Register(nameof(ShowTitle), typeof(bool), typeof(DataFormsControl), new PropertyMetadata(true));
+
+        public bool ShowInstructions
+        {
+            get => (bool)GetValue(ShowInstructionsProperty);
+            set => SetValue(ShowInstructionsProperty, value);
+        }
+        public static readonly DependencyProperty ShowInstructionsProperty = DependencyProperty.Register(nameof(ShowInstructions), typeof(bool), typeof(DataFormsControl), new PropertyMetadata(true));
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -30,7 +44,7 @@ namespace UWPX_UI.Controls.DataForms
         {
             if (!(Form is null) && !string.IsNullOrEmpty(Form.Title))
             {
-                title_tblck.Visibility = Visibility.Visible;
+                title_tblck.Visibility = ShowTitle ? Visibility.Visible : Visibility.Collapsed;
                 title_tblck.Text = Form.Title;
             }
             else
@@ -43,7 +57,7 @@ namespace UWPX_UI.Controls.DataForms
         {
             if (!(Form is null) && !string.IsNullOrEmpty(Form.Instructions))
             {
-                instructions_tblck.Visibility = Visibility.Visible;
+                instructions_tblck.Visibility = ShowInstructions ? Visibility.Visible : Visibility.Collapsed;
                 instructions_tblck.Text = Form.Instructions;
             }
             else

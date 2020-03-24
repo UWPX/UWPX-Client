@@ -43,6 +43,10 @@
 
 
                 <!--  Settings:  -->
+                <muc:MucConfigurationrControl Grid.Row="2"
+                                              Margin="0,10,0,0"
+                                              HorizontalAlignment="Stretch"
+                                              Chat="{x:Bind Chat, Mode=OneWay}"/>
 
             </Grid>
         </ScrollViewer>
