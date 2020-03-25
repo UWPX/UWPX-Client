@@ -2,6 +2,7 @@
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 
 namespace UWPX_UI.Controls.DataForms
@@ -17,6 +18,7 @@ namespace UWPX_UI.Controls.DataForms
         }
         public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(FieldDataTemplate), typeof(ListMultiFieldControl), new PropertyMetadata(null, OnFieldChanged));
 
+        private bool supressValueChanged;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -54,6 +56,7 @@ namespace UWPX_UI.Controls.DataForms
 
         private void UpdateUi()
         {
+            supressValueChanged = true;
             Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
             if (!(Field is null))
             {
@@ -66,6 +69,7 @@ namespace UWPX_UI.Controls.DataForms
                 // Options:
                 listMulti_msc.IsEnabled = !Field.Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
             }
+            supressValueChanged = false;
         }
 
         #endregion
@@ -91,7 +95,15 @@ namespace UWPX_UI.Controls.DataForms
 
         private void MultiSelectControl_SelectionChanged(MultiSelectControl sender, Classes.Events.MultiSelectChangedEventArgs args)
         {
-
+            if (!supressValueChanged)
+            {
+                Field.Field.selectedOptions.Clear();
+                foreach (object item in args.SELECTED_ITEMS)
+                {
+                    Field.Field.selectedOptions.Add((FieldOption)item);
+                }
+                Field.OnValueChangedByUser();
+            }
         }
 
         #endregion

@@ -154,7 +154,6 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             }
             switch (type)
             {
-                case FieldType.LIST_SINGLE:
                 case FieldType.TEXT_SINGLE:
                 case FieldType.TEXT_MULTI:
                 case FieldType.TEXT_PRIVATE:
@@ -162,6 +161,16 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     {
                         Value = (value?.ToString()) ?? ""
                     });
+                    break;
+
+                case FieldType.LIST_SINGLE:
+                    if (selectedOptions.Count > 0)
+                    {
+                        fieldNode.Add(new XElement(ns + "value")
+                        {
+                            Value = (selectedOptions[0].value) ?? ""
+                        });
+                    }
                     break;
 
                 case FieldType.LIST_MULTI:

@@ -95,7 +95,8 @@
                                         FontSize="20"
                                         Foreground="Red"
                                         Style="{ThemeResource TransparentThemeButtonStyle}"
-                                        ToolTipService.ToolTip="Failed to request configuration"/>
+                                        ToolTipService.ToolTip="Failed to request configuration"
+                                        Visibility="Collapsed"/>
 
                                 <!--  Added the reload button  -->
                                 <Button x:Name="reload_btn"
@@ -394,7 +395,8 @@
                                    Header="Configuration"
                                    HeaderStyle="{StaticResource CustomHeaderToggleButtonStyle}"
                                    IsEnabled="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay}">
-                    <dataforms:DataFormsControl Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"
+                    <dataforms:DataFormsControl Margin="0,5,0,5"
+                                                Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"
                                                 ShowInstructions="False"
                                                 ShowTitle="False"/>
                 </controls:Expander>

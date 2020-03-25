@@ -1,6 +1,7 @@
 ﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 
 namespace UWPX_UI.Controls.DataForms
@@ -16,6 +17,7 @@ namespace UWPX_UI.Controls.DataForms
         }
         public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(FieldDataTemplate), typeof(ListSingleFieldControl), new PropertyMetadata(null, OnFieldChanged));
 
+        private bool supressValueChanged;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -53,6 +55,7 @@ namespace UWPX_UI.Controls.DataForms
 
         private void UpdateUi()
         {
+            supressValueChanged = true;
             Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
             if (!(Field is null))
             {
@@ -67,6 +70,7 @@ namespace UWPX_UI.Controls.DataForms
                 // Options:
                 listSingle_cmbx.IsEnabled = !Field.Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
             }
+            supressValueChanged = false;
         }
 
         #endregion
@@ -87,7 +91,20 @@ namespace UWPX_UI.Controls.DataForms
 
         private void ListSingle_cmbx_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!supressValueChanged)
+            {
+                if ((Field.Field.selectedOptions.Count <= 0 && listSingle_cmbx.SelectedItem is null) || (Field.Field.selectedOptions[0] == listSingle_cmbx.SelectedItem))
+                {
+                    return;
+                }
 
+                Field.Field.selectedOptions.Clear();
+                if (!(listSingle_cmbx.SelectedItem is null))
+                {
+                    Field.Field.selectedOptions.Add((FieldOption)listSingle_cmbx.SelectedItem);
+                }
+                Field.OnValueChangedByUser();
+            }
         }
 
         private void Field_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
