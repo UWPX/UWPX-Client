@@ -3,7 +3,7 @@ using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
 {
-    public class MucConfigurationrControlDataTemplate: AbstractDataTemplate
+    public class MucConfigurationControlDataTemplate: AbstractDataTemplate
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -33,6 +33,20 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
         {
             get => _Form;
             set => SetProperty(ref _Form, value);
+        }
+
+        private bool _HasError;
+        public bool HasError
+        {
+            get => _HasError;
+            set => SetProperty(ref _HasError, value);
+        }
+
+        private string _ErrorText;
+        public string ErrorText
+        {
+            get => _ErrorText;
+            set => SetProperty(ref _ErrorText, value);
         }
 
         #endregion

@@ -156,7 +156,7 @@
     <Compile Include="Classes\DataContext\Controls\ChatSuggestionsControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\ContactOmemoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucAffiliationControlContext.cs" />
-    <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucConfigurationrControlContext.cs" />
+    <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucConfigurationControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucInfoControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucMemberControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\Chat\MUC\MucMembersControlContext.cs" />
@@ -305,6 +305,7 @@
     <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
     <Compile Include="Classes\Events\FieldValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />
+    <Compile Include="Classes\Events\MucConfigurationErrorEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMucInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToContactInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NewQrCodeEventArgs.cs" />

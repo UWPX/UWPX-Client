@@ -94,6 +94,7 @@
                                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="20"
                                         Foreground="Red"
+                                        Loaded="error_btn_Loaded"
                                         Style="{ThemeResource TransparentThemeButtonStyle}"
                                         ToolTipService.ToolTip="Failed to request configuration"
                                         Visibility="Collapsed"/>
