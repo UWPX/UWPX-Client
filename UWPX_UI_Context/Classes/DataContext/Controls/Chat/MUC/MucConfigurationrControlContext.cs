@@ -83,7 +83,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         {
             Task.Run(async () =>
             {
-                MODEL.Success = false;
+                MODEL.IsEnabled = false;
                 MODEL.IsLoading = true;
                 MessageResponseHelperResult<IQMessage> result = await chat.Client.MUC_COMMAND_HELPER.requestRoomConfigurationAsync(chat.Chat.chatJabberId);
 
@@ -92,7 +92,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
                     if (result.RESULT is RoomConfigMessage configMessage)
                     {
                         MODEL.Form = new DataFormDataTemplate(configMessage.ROOM_CONFIG);
-                        MODEL.Success = true;
+                        MODEL.IsEnabled = true;
                         MODEL.IsLoading = false;
                         return;
                     }
@@ -109,7 +109,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
                 {
                     Logger.Warn("Failed to request the room configuration for '" + chat.Chat.chatJabberId + "': " + result.STATE);
                 }
-                MODEL.Success = false;
+                MODEL.IsEnabled = false;
                 MODEL.IsLoading = false;
             });
         }

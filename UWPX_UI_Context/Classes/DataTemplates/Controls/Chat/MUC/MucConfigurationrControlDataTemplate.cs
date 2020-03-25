@@ -21,11 +21,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
             set => SetProperty(ref _IsAvailable, value);
         }
 
-        private bool _Success;
-        public bool Success
+        private bool _IsEnabled;
+        public bool IsEnabled
         {
-            get => _Success;
-            set => SetProperty(ref _Success, value);
+            get => _IsEnabled;
+            set => SetProperty(ref _IsEnabled, value);
         }
 
         private DataFormDataTemplate _Form;

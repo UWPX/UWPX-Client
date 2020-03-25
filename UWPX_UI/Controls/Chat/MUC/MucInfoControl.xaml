@@ -86,7 +86,8 @@
                                    Style="{StaticResource SubtitleTextBlockStyle}"
                                    Text="{x:Bind VIEW_MODEL.MODEL.MucName, Mode=OneWay}"
                                    TextTrimming="CharacterEllipsis"
-                                   TextWrapping="WrapWholeWords"/>
+                                   TextWrapping="WrapWholeWords"
+                                   ToolTipService.ToolTip="{x:Bind VIEW_MODEL.MODEL.MucName, Mode=OneWay}"/>
                         <Button Grid.Column="1"
                                 Margin="5,0,0,0"
                                 VerticalAlignment="Center"
