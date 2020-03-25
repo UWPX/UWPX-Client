@@ -56,9 +56,9 @@
                                    Chat="{x:Bind Chat, Mode=OneWay}"/>
 
             <!--  Settings:  -->
-            <muc:MucConfigurationrControl MaxWidth="500"
-                                          HorizontalAlignment="Stretch"
-                                          Chat="{x:Bind Chat, Mode=OneWay}"/>
+            <muc:MucConfigurationControl MaxWidth="500"
+                                         HorizontalAlignment="Stretch"
+                                         Chat="{x:Bind Chat, Mode=OneWay}"/>
 
         </GridView>
     </Grid>

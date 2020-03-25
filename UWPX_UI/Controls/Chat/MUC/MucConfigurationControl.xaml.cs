@@ -5,7 +5,7 @@ using Windows.UI.Xaml.Controls;
 
 namespace UWPX_UI.Controls.Chat.MUC
 {
-    public sealed partial class MucConfigurationrControl: UserControl
+    public sealed partial class MucConfigurationControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -16,12 +16,12 @@ namespace UWPX_UI.Controls.Chat.MUC
             get => (ChatDataTemplate)GetValue(ChatProperty);
             set => SetValue(ChatProperty, value);
         }
-        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucConfigurationrControl), new PropertyMetadata(null, OnChatChanged));
+        public static readonly DependencyProperty ChatProperty = DependencyProperty.Register(nameof(Chat), typeof(ChatDataTemplate), typeof(MucConfigurationControl), new PropertyMetadata(null, OnChatChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public MucConfigurationrControl()
+        public MucConfigurationControl()
         {
             InitializeComponent();
         }
@@ -54,7 +54,7 @@ namespace UWPX_UI.Controls.Chat.MUC
         #region --Events--
         private static void OnChatChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is MucConfigurationrControl control)
+            if (d is MucConfigurationControl control)
             {
                 control.UpdateView(e);
             }
