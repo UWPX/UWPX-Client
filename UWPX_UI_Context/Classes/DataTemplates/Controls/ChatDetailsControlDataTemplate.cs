@@ -97,6 +97,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             set => SetProperty(ref _ChatType, value);
         }
 
+        private bool _EnterToSend;
+        public bool EnterToSend
+        {
+            get => _EnterToSend;
+            set => SetEnterToSendProperty(value);
+        }
+
         private ChatTable chat;
         private MUCChatInfoTable muc;
         internal bool isDummy = false;
@@ -121,6 +128,14 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     Task.Run(() => ChatDBManager.INSTANCE.setChat(chat, false, true));
                 }
+            }
+        }
+
+        private void SetEnterToSendProperty(bool value)
+        {
+            if (SetProperty(ref _EnterToSend, value, nameof(EnterToSend)))
+            {
+                Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, value);
             }
         }
 
@@ -200,6 +215,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             IsEmojiFlyoutEnabled = Settings.getSettingBoolean(SettingsConsts.CHAT_ENABLE_EMOJI_BUTTON);
             DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+            EnterToSend = Settings.getSettingBoolean(SettingsConsts.ENTER_TO_SEND_MESSAGES);
         }
 
         #endregion

@@ -1,4 +1,5 @@
 ﻿using Data_Manager2.Classes;
+using UWPX_UI.Controls.Chat;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
@@ -14,6 +15,7 @@ namespace UWPX_UI.Pages
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly ChatsPageContext VIEW_MODEL = new ChatsPageContext();
+        private ChatDetailsControl detailsControl;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -114,6 +116,15 @@ namespace UWPX_UI.Pages
         {
             VIEW_MODEL.OnNavigatedTo(e.Parameter);
             titleBar.OnPageNavigatedTo();
+            detailsControl?.OnPageNavigatedTo();
+        }
+
+        private void ChatDetailsControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (sender is ChatDetailsControl detailsControl)
+            {
+                this.detailsControl = detailsControl;
+            }
         }
         #endregion
     }

@@ -1,5 +1,6 @@
 ﻿using Data_Manager2.Classes;
 using UWPX_UI.Pages;
+using UWPX_UI.Pages.Settings;
 using UWPX_UI_Context.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
@@ -51,6 +52,11 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.UpdateView(args);
         }
 
+        public void OnPageNavigatedTo()
+        {
+            VIEW_MODEL.MODEL.LoadSettings();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -74,6 +80,15 @@ namespace UWPX_UI.Controls.Chat
             if (IsDummy)
             {
                 LoadDummyContent();
+            }
+        }
+
+        private void ShowEnterToSendTip()
+        {
+            if (VIEW_MODEL.MODEL.EnterToSend && !Data_Manager2.Classes.Settings.getSettingBoolean(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN))
+            {
+                enterToSend_tt.IsOpen = true;
+                Data_Manager2.Classes.Settings.setSetting(SettingsConsts.CHAT_ENTER_TO_SEND_TIP_SHOWN, true);
             }
         }
 
@@ -171,6 +186,7 @@ namespace UWPX_UI.Controls.Chat
         private void Send_btn_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.SendChatMessage(Chat);
+            ShowEnterToSendTip();
         }
 
         private static void OnIsDummyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
@@ -211,6 +227,11 @@ namespace UWPX_UI.Controls.Chat
         private void Header_grid_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             chatMessages_cmg.ScrollHeaderMinSize = e.NewSize.Height;
+        }
+
+        private void ChatSettings_link_Click(object sender, RoutedEventArgs e)
+        {
+            UiUtils.NavigateToPage(typeof(ChatSettingsPage));
         }
 
         #endregion

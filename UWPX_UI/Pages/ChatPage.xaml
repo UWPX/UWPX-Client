@@ -26,7 +26,8 @@
 
             <DataTemplate x:Key="DetailsChatTemplate"
                           x:DataType="datatemplates:ChatDataTemplate">
-                <chat:ChatDetailsControl Chat="{x:Bind}"/>
+                <chat:ChatDetailsControl Chat="{x:Bind}"
+                                         Loaded="ChatDetailsControl_Loaded"/>
             </DataTemplate>
 
             <DataTemplate x:Key="DetailsIotTemplate"

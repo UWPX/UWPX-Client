@@ -4,6 +4,7 @@
              xmlns:chat="using:UWPX_UI.Controls.Chat"
              xmlns:controls="using:UWPX_UI.Controls"
              xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:controls2="using:Microsoft.UI.Xaml.Controls"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:omemoControls="using:UWPX_UI.Controls.OMEMO"
@@ -324,6 +325,22 @@
                                    Visibility="{x:Bind VIEW_MODEL.MODEL.OmemoEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     </Grid>
                 </Button>
+                <controls2:TeachingTip x:Name="enterToSend_tt"
+                                       Title="Did you know?"
+                                       Subtitle="By default enter to send is on."
+                                       Target="{x:Bind send_btn}">
+                    <controls2:TeachingTip.Content>
+                        <StackPanel>
+                            <ToggleSwitch x:Name="enterToSend_tgls"
+                                          IsOn="{x:Bind VIEW_MODEL.MODEL.EnterToSend, Mode=TwoWay}"/>
+                            <controls1:MarkdownTextBlock x:Uid="ChatSettingsPage_enter_to_send_tooltip"
+                                                         TextWrapping="Wrap"/>
+                            <HyperlinkButton x:Name="chatSettings_link"
+                                             Click="ChatSettings_link_Click"
+                                             Content="More chat settings..."/>
+                        </StackPanel>
+                    </controls2:TeachingTip.Content>
+                </controls2:TeachingTip>
             </Grid>
         </Grid>
     </Grid>

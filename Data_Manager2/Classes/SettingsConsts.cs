@@ -12,6 +12,7 @@
         public const string CHAT_CUSTOM_BACKGROUND_IMAGE_PATH = "chat_custom_background_image_path";
         public const string CHAT_BACKGROUND_MODE = "chat_background_mode";
         public const string CHAT_RECENT_EMOJI = "chat_recent_emoji";
+        public const string CHAT_ENTER_TO_SEND_TIP_SHOWN = "chat_enter_to_send_tip_shown";
 
         public const string DISABLE_SOCKET_BACKGROUND_TASK = "disable_socket_background_task";
         public const string ENTER_TO_SEND_MESSAGES = "enter_to_send_messages";

@@ -238,6 +238,13 @@ namespace UWPX_UI_Context.Classes
                         Logger.Info("Finished generating new OMEMO keys.");
                         Logger.Info("Update to version 0.20.0.0 done.");
                     }
+
+                    if (versionLastStart.Major <= 0 && versionLastStart.Minor < 24)
+                    {
+                        Logger.Info("Started the 0.24.0.0 update...");
+                        Settings.setSetting(SettingsConsts.ENTER_TO_SEND_MESSAGES, true);
+                        Logger.Info("Update to version 0.24.0.0 done.");
+                    }
                 }
             }
             SetVersion(GetPackageVersion());
