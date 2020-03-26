@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:dataforms="using:UWPX_UI.Controls.DataForms"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Loaded="UserControl_Loaded"
              Visibility="{x:Bind VIEW_MODEL.MODEL.IsAvailable, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"
              mc:Ignorable="d">
 
@@ -96,7 +97,7 @@
                                         Foreground="Red"
                                         Loaded="error_btn_Loaded"
                                         Style="{ThemeResource TransparentThemeButtonStyle}"
-                                        ToolTipService.ToolTip="Failed to request configuration"
+                                        ToolTipService.ToolTip="Show error"
                                         Visibility="Collapsed"/>
 
                                 <!--  Added the reload button  -->
@@ -107,7 +108,7 @@
                                         Content="&#xE72C;"
                                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="20"
-                                        IsEnabled="True"
+                                        Loaded="reload_btn_Loaded"
                                         Style="{ThemeResource TransparentThemeButtonStyle}"
                                         ToolTipService.ToolTip="Reload"/>
 
@@ -120,6 +121,7 @@
                                         FontFamily="{ThemeResource SymbolThemeFontFamily}"
                                         FontSize="20"
                                         Foreground="Green"
+                                        Loaded="save_btn_Loaded"
                                         Style="{ThemeResource TransparentThemeButtonStyle}"
                                         ToolTipService.ToolTip="Save"/>
 
@@ -394,12 +396,32 @@
                                    HorizontalContentAlignment="Stretch"
                                    Background="{ThemeResource AppBackgroundAcrylicElementBrush}"
                                    Header="Configuration"
-                                   HeaderStyle="{StaticResource CustomHeaderToggleButtonStyle}"
-                                   IsEnabled="{x:Bind VIEW_MODEL.MODEL.IsEnabled, Mode=OneWay}">
-                    <dataforms:DataFormsControl Margin="0,5,0,5"
-                                                Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"
-                                                ShowInstructions="False"
-                                                ShowTitle="False"/>
+                                   HeaderStyle="{StaticResource CustomHeaderToggleButtonStyle}">
+                    <Grid Margin="0,5,0,5">
+                        <dataforms:DataFormsControl Form="{x:Bind VIEW_MODEL.MODEL.Form, Mode=TwoWay}"
+                                                    ShowInstructions="False"
+                                                    ShowTitle="False"
+                                                    Visibility="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+
+                        <TextBlock Margin="10,0,10,0"
+                                   IsTextSelectionEnabled="True"
+                                   TextWrapping="Wrap"
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.Success, Mode=OneWay, Converter={StaticResource BoolInvertedVisibilityValueConverter}}">
+                            <Run Text="Something went wrong..."/>
+                            <LineBreak/>
+                            <Run Text="Please try again, by clicking on the"/>
+                            <Run FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                 Foreground="{ThemeResource SystemAccentColor}"
+                                 Text="&#xE72C;"/>
+                            <Run Text="button."/>
+                            <LineBreak/>
+                            <Run Text="For more information click on the"/>
+                            <Run FontFamily="{ThemeResource SymbolThemeFontFamily}"
+                                 Foreground="Red"
+                                 Text="&#xE783;"/>
+                            <Run Text="button."/>
+                        </TextBlock>
+                    </Grid>
                 </controls:Expander>
             </Grid>
         </Border>

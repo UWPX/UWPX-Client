@@ -3,7 +3,6 @@ using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
-using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
@@ -19,10 +18,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Attributes--
         public readonly MucConfigurationControlDataTemplate MODEL = new MucConfigurationControlDataTemplate();
 
-
-        public delegate void OnConfigurationErrorEventHandler(MucConfigurationControlContext sender, MucConfigurationErrorEventArgs args);
-        public event OnConfigurationErrorEventHandler OnError;
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -33,9 +28,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Set-, Get- Methods--
         private void SetError(string errorMessage)
         {
-            MODEL.ErrorText = errorMessage;
-            MODEL.HasError = true;
-            OnError?.Invoke(this, new MucConfigurationErrorEventArgs(errorMessage));
+            MODEL.ErrorMarkdownText = errorMessage;
         }
 
         #endregion
@@ -72,17 +65,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
                 MessageResponseHelperResult<IQMessage> result = await chat.Client.MUC_COMMAND_HELPER.saveRoomConfigurationAsync(chat.Chat.chatJabberId, MODEL.Form.Form);
                 if (result.STATE != MessageResponseHelperResultState.SUCCESS)
                 {
-                    SetError("Failed to save room configuration: " + result.STATE);
+                    SetError("Failed to save room configuration:\n**" + result.STATE + "**");
                     Logger.Warn("Failed to save the room configuration for '" + chat.Chat.chatJabberId + "': " + result.STATE);
                 }
                 else if (result.RESULT is IQErrorMessage errorMessage)
                 {
-                    SetError("Failed to save room configuration: " + errorMessage);
+                    SetError("Failed to save room configuration:\n**" + errorMessage + "**");
                     Logger.Warn("Failed to save the room configuration for '" + chat.Chat.chatJabberId + "': " + errorMessage);
                 }
                 else
                 {
-                    MODEL.HasError = false;
+                    SetError("");
                     Logger.Info("Successfully saved the room configuration for '" + chat.Chat.chatJabberId + '\'');
                 }
                 MODEL.IsLoading = false;
@@ -96,7 +89,6 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         {
             Task.Run(async () =>
             {
-                MODEL.IsEnabled = false;
                 MODEL.IsLoading = true;
                 MessageResponseHelperResult<IQMessage> result = await chat.Client.MUC_COMMAND_HELPER.requestRoomConfigurationAsync(chat.Chat.chatJabberId);
 
@@ -105,29 +97,29 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
                     if (result.RESULT is RoomConfigMessage configMessage)
                     {
                         MODEL.Form = new DataFormDataTemplate(configMessage.ROOM_CONFIG);
-                        MODEL.IsEnabled = true;
                         MODEL.IsLoading = false;
-                        MODEL.HasError = false;
+                        MODEL.Success = true;
+                        SetError("");
                         return;
                     }
                     else if (result.RESULT is IQErrorMessage errorMessage)
                     {
-                        SetError("Failed to request room configuration: " + errorMessage);
+                        SetError("Failed to request room configuration:\n**" + errorMessage + "**");
                         Logger.Warn("Failed to request the room configuration for '" + chat.Chat.chatJabberId + "': " + errorMessage);
                     }
                     else
                     {
-                        SetError("Failed to request room configuration: Unexpected response - " + result.RESULT?.GetType().ToString());
+                        SetError("Failed to request room configuration:\n**Unexpected response - " + result.RESULT?.GetType().ToString() + "**");
                         Logger.Warn("Failed to request the room configuration for '" + chat.Chat.chatJabberId + "': Unexpected response - " + result.RESULT?.GetType().ToString());
                     }
                 }
                 else
                 {
-                    SetError("Failed to request room configuration: " + result.STATE);
+                    SetError("Failed to request room configuration:\n**" + result.STATE + "**");
                     Logger.Warn("Failed to request the room configuration for '" + chat.Chat.chatJabberId + "': " + result.STATE);
                 }
-                MODEL.IsEnabled = false;
                 MODEL.IsLoading = false;
+                MODEL.Success = false;
             });
         }
 

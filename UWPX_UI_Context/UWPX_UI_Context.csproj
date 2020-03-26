@@ -305,7 +305,6 @@
     <Compile Include="Classes\DataTemplates\XMPPClientDataTemplate.cs" />
     <Compile Include="Classes\Events\FieldValueChangedByUserEventArgs.cs" />
     <Compile Include="Classes\Events\FrameArrivedEventArgs.cs" />
-    <Compile Include="Classes\Events\MucConfigurationErrorEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToMucInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NavigatedToContactInfoPageEventArgs.cs" />
     <Compile Include="Classes\Events\NewQrCodeEventArgs.cs" />

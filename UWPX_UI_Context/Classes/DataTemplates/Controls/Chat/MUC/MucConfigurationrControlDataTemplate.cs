@@ -21,11 +21,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
             set => SetProperty(ref _IsAvailable, value);
         }
 
-        private bool _IsEnabled;
-        public bool IsEnabled
+        private bool _Success;
+        public bool Success
         {
-            get => _IsEnabled;
-            set => SetProperty(ref _IsEnabled, value);
+            get => _Success;
+            set => SetProperty(ref _Success, value);
         }
 
         private DataFormDataTemplate _Form;
@@ -35,18 +35,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC
             set => SetProperty(ref _Form, value);
         }
 
-        private bool _HasError;
-        public bool HasError
+        private string _ErrorMarkdownText;
+        public string ErrorMarkdownText
         {
-            get => _HasError;
-            set => SetProperty(ref _HasError, value);
-        }
-
-        private string _ErrorText;
-        public string ErrorText
-        {
-            get => _ErrorText;
-            set => SetProperty(ref _ErrorText, value);
+            get => _ErrorMarkdownText;
+            set => SetProperty(ref _ErrorMarkdownText, value);
         }
 
         #endregion
