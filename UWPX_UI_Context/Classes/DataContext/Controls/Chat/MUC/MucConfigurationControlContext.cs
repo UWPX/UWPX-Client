@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using Data_Manager2.Classes;
 using Logging;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls.Chat.MUC;
@@ -36,13 +37,19 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #region --Misc Methods (Public)--
         public void UpdateView(DependencyPropertyChangedEventArgs e)
         {
-            if (!(e.NewValue is ChatDataTemplate chat) || chat.MucInfo is null || chat.MucInfo.affiliation != MUCAffiliation.OWNER)
+            if (e.OldValue is ChatDataTemplate oldChat)
             {
-                MODEL.IsAvailable = false;
+                oldChat.PropertyChanged -= Chat_PropertyChanged;
+            }
+
+            if (e.NewValue is ChatDataTemplate newChat)
+            {
+                newChat.PropertyChanged -= Chat_PropertyChanged;
+                newChat.PropertyChanged += Chat_PropertyChanged;
+                OnChatChanged(newChat);
                 return;
             }
-            MODEL.IsAvailable = true;
-            RequestConfiguartion(chat);
+            MODEL.IsAvailable = false;
         }
 
         public void Reload(ChatDataTemplate chat)
@@ -85,6 +92,17 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
 
         #region --Misc Methods (Private)--
+        private void OnChatChanged(ChatDataTemplate chat)
+        {
+            if (!(chat.MucInfo is null) && chat.MucInfo.affiliation == MUCAffiliation.OWNER && chat.MucInfo.state == MUCState.ENTERD)
+            {
+                MODEL.IsAvailable = true;
+                RequestConfiguartion(chat);
+                return;
+            }
+            MODEL.IsAvailable = false;
+        }
+
         private void RequestConfiguartion(ChatDataTemplate chat)
         {
             Task.Run(async () =>
@@ -131,7 +149,13 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls.Chat.MUC
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void Chat_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (sender is ChatDataTemplate chat)
+            {
+                OnChatChanged(chat);
+            }
+        }
 
         #endregion
     }
