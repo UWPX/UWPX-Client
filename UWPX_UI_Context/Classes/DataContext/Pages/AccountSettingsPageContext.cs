@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
+using Push.Classes;
 using UWPX_UI_Context.Classes.DataTemplates.Pages;
 
 namespace UWPX_UI_Context.Classes.DataContext.Pages
@@ -13,7 +14,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-
+        public AccountSettingsPageContext()
+        {
+            LoadSettings();
+        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -28,10 +32,28 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             await Task.Run(() => ConnectionHandler.INSTANCE.reconnectAll());
         }
 
+        public void OnLoaded()
+        {
+            PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
+            PushManager.INSTANCE.StateChanged += PushManager_StateChanged;
+            MODEL.PushManagerState = PushManager.INSTANCE.GetState().ToString();
+        }
+
+        public void OnUnloaded()
+        {
+            PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
-
+        private void LoadSettings()
+        {
+            MODEL.DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
+            MODEL.PushEnabled = !Settings.getSettingBoolean(SettingsConsts.PUSH_DISABLED);
+            MODEL.ChannelUri = Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_URI);
+            MODEL.ChannelCreatedDate = Settings.getSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME).ToString("0:MM/dd/yy H:mm:ss");
+        }
 
         #endregion
 
@@ -41,7 +63,10 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private void PushManager_StateChanged(PushManager sender, Push.Classes.Events.PushManagerStateChangedEventArgs args)
+        {
+            MODEL.PushManagerState = args.NEW_STATE.ToString();
+        }
 
         #endregion
     }

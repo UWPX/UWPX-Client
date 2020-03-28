@@ -29,9 +29,6 @@
         public const string DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES = "disable_vibration_for_new_chat_messages";
         public const string DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES = "disable_play_sound_for_new_chat_messages";
 
-        public const string PUSH_CHANNEL_TOKEN_URL = "push_channel_token_url";
-        public const string PUSH_CHANNEL_SEND_SUCCESS = "push_channel_send_success";
-
         public const string VERSION_MAJOR = "version_major";
         public const string VERSION_MINOR = "version_minor";
         public const string VERSION_BUILD = "version_build";
@@ -58,5 +55,10 @@
         public const string SPAM_DETECTION_ENABLED = "spam_detection_enabled";
         public const string SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES = "spam_detection_for_all_chat_messages";
         public const string SPAM_REGEX = "spam_regex";
+
+        public const string PUSH_DISABLED = "push_disabled";
+        public const string PUSH_CHANNEL_URI = "push_channel_uri";
+        public const string PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER = "push_channel_uri_send_to_push_server";
+        public const string PUSH_CHANNEL_CREATED_DATE_TIME = "push_channel_created_date_time";
     }
 }

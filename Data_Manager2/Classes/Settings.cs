@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using Microsoft.Toolkit.Uwp.Helpers;
 
 namespace Data_Manager2.Classes
@@ -26,6 +27,12 @@ namespace Data_Manager2.Classes
         /// <param name="value">The value that should get stored.</param>
         public static void setSetting(string token, object value)
         {
+            if (value is DateTime d)
+            {
+                setSetting(token, d.ToFileTimeUtc());
+                return;
+            }
+
             Windows.Storage.ApplicationData.Current.LocalSettings.Values[token] = value;
             SettingChanged?.Invoke(value, new PropertyChangedEventArgs(token));
         }
@@ -111,6 +118,17 @@ namespace Data_Manager2.Classes
         {
             object obj = getSetting(token);
             return obj is null ? fallBackValue : (double)obj;
+        }
+
+        public static DateTime getSettingDateTime(string token)
+        {
+            return getSettingDateTime(token, DateTime.MinValue);
+        }
+
+        public static DateTime getSettingDateTime(string token, DateTime fallBackValue)
+        {
+            object obj = getSetting(token);
+            return obj is long l ? DateTime.FromFileTimeUtc(l) : fallBackValue;
         }
 
         #endregion

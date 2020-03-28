@@ -7,7 +7,10 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:settings="using:UWPX_UI.Controls.Settings"
       Background="{ThemeResource AppBackgroundAcrylicWindowBrush}"
+      Loaded="Page_Loaded"
+      Unloaded="Page_Unloaded"
       mc:Ignorable="d">
+
     <Page.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -17,6 +20,11 @@
             <Style BasedOn="{StaticResource ButtonRevealStyle}"
                    TargetType="Button">
                 <Setter Property="Margin" Value="0,10,0,0"/>
+            </Style>
+
+            <Style TargetType="TextBlock">
+                <Setter Property="TextWrapping" Value="Wrap"/>
+                <Setter Property="IsTextSelectionEnabled" Value="True"/>
             </Style>
         </ResourceDictionary>
     </Page.Resources>
@@ -40,6 +48,13 @@
                 <controlsComp:NavigationViewItem Content="Accounts"
                                                  Icon="Contact"
                                                  Tag="Accounts"/>
+
+                <controlsComp:NavigationViewItem Content="Push"
+                                                 Tag="Push">
+                    <controlsComp:NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE753;"/>
+                    </controlsComp:NavigationViewItem.Icon>
+                </controlsComp:NavigationViewItem>
             </controlsComp:NavigationView.MenuItems>
             <ScrollViewer x:Name="main_scv"
                           HorizontalScrollMode="Disabled"
@@ -82,6 +97,35 @@
                             <settings:AccountsListControl x:Name="accounts_alc"
                                                           Margin="-10,5,-10,0"
                                                           Loaded="AccountsListControl_Loaded"/>
+                        </settings:SettingsContentControl.MainContent>
+                    </settings:SettingsContentControl>
+
+                    <!--  Push:  -->
+                    <settings:SettingsContentControl x:Name="push_scp"
+                                                     Header="Push:">
+                        <settings:SettingsContentControl.MainContent>
+                            <StackPanel>
+                                <ToggleSwitch Margin="0,10,0,0"
+                                              Header="Push notifications"
+                                              IsOn="{x:Bind VIEW_MODEL.MODEL.PushEnabled, Mode=TwoWay}"
+                                              OffContent="Disabled"
+                                              OnContent="Enabled"/>
+                                <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                                    <Run FontWeight="Bold"
+                                         Text="State:"/>
+                                    <Run Text="{x:Bind VIEW_MODEL.MODEL.PushManagerState, Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                                    <Run FontWeight="Bold"
+                                         Text="Channel URI:"/>
+                                    <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelUri, Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                                    <Run FontWeight="Bold"
+                                         Text="Channel Created:"/>
+                                    <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelCreatedDate, Mode=OneWay}"/>
+                                </TextBlock>
+                            </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
                 </StackPanel>

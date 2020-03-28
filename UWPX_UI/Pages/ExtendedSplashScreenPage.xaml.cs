@@ -258,7 +258,7 @@ namespace UWPX_UI.Pages
             }
             else if (ACTIVATION_ARGS is LaunchActivatedEventArgs launchActivationArgs)
             {
-                Push.CheckLaunchedFromNotification(launchActivationArgs);
+                Microsoft.AppCenter.Push.Push.CheckLaunchedFromNotification(launchActivationArgs);
 
                 // If launched with arguments (not a normal primary tile/applist launch)
                 if (launchActivationArgs.Arguments.Length > 0)

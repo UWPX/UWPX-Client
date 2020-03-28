@@ -27,13 +27,13 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public bool ShowWelcomeDialogOnStartup
         {
             get => _ShowWelcomeDialogOnStartup;
-            set => SetBoolInversedProperty(ref _ShowWelcomeDialogOnStartup, value, SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
+            set => SetBoolInvertedProperty(ref _ShowWelcomeDialogOnStartup, value, SettingsConsts.HIDE_INITIAL_START_DIALOG_ALPHA);
         }
         private bool _ShowWhatsNewDialogOnStartup;
         public bool ShowWhatsNewDialogOnStartup
         {
             get => _ShowWhatsNewDialogOnStartup;
-            set => SetBoolInversedProperty(ref _ShowWhatsNewDialogOnStartup, value, SettingsConsts.HIDE_WHATS_NEW_DIALOG);
+            set => SetBoolInvertedProperty(ref _ShowWhatsNewDialogOnStartup, value, SettingsConsts.HIDE_WHATS_NEW_DIALOG);
         }
 
         private string _LogFolderPath;
@@ -94,7 +94,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
             return false;
         }
 
-        private bool SetBoolInversedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
+        private bool SetBoolInvertedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
             if (SetProperty(ref storage, value, propertyName))
             {

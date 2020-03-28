@@ -1,26 +1,21 @@
-﻿using System.Threading.Tasks;
-using Data_Manager2.Classes;
-using Data_Manager2.Classes.Events;
+﻿using System;
 
-namespace Push_App_Server.Classes
+namespace Push.Classes.Events
 {
-    public class PushManager
+    public class PushManagerStateChangedEventArgs: EventArgs
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-
+        public readonly PushManagerState NEW_STATE;
+        public readonly PushManagerState OLD_STATE;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 19/11/2017 Created [Fabian Sauter]
-        /// </history>
-        public PushManager()
+        public PushManagerStateChangedEventArgs(PushManagerState newState, PushManagerState oldState)
         {
+            NEW_STATE = newState;
+            OLD_STATE = oldState;
         }
 
         #endregion
@@ -31,10 +26,7 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public static void init()
-        {
-            //ConnectionHandler.INSTANCE.ClientConnected += INSTANCE_ClientConnected;
-        }
+
 
         #endregion
 
@@ -49,14 +41,7 @@ namespace Push_App_Server.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void INSTANCE_ClientConnected(ConnectionHandler handler, ClientConnectedEventArgs args)
-        {
-            Task.Run(async () =>
-            {
-                DataWriter dW = new DataWriter(args.CLIENT);
-                await dW.connectAndSendAsync();
-            });
-        }
+
 
         #endregion
     }

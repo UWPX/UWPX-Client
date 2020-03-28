@@ -59,6 +59,10 @@ namespace UWPX_UI.Pages.Settings
                     case "Manage":
                         ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, manage_scp, false);
                         break;
+
+                    case "Push":
+                        ScrollViewerExtensions.ScrollIntoViewVertically(main_scv, push_scp, false);
+                        break;
                 }
             }
         }
@@ -102,6 +106,16 @@ namespace UWPX_UI.Pages.Settings
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             titleBar.OnPageNavigatedFrom();
+        }
+
+        private void Page_Loaded(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.OnLoaded();
+        }
+
+        private void Page_Unloaded(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.OnUnloaded();
         }
 
         #endregion

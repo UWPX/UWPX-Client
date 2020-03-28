@@ -89,8 +89,8 @@ namespace UWPX_UI_Context.Classes
 
                 if (!Microsoft.AppCenter.AppCenter.Configured)
                 {
-                    Push.PushNotificationReceived -= appCenterPushCallback;
-                    Push.PushNotificationReceived += appCenterPushCallback;
+                    Microsoft.AppCenter.Push.Push.PushNotificationReceived -= appCenterPushCallback;
+                    Microsoft.AppCenter.Push.Push.PushNotificationReceived += appCenterPushCallback;
                 }
             }
             catch (Exception e)

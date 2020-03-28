@@ -407,6 +407,10 @@
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Push\Push.csproj">
+      <Project>{e15572a6-ad1a-4ecc-8920-4070dd779516}</Project>
+      <Name>Push</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>

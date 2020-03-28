@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C8F34602-1D87-428C-836A-E4295C4C15D8}</ProjectGuid>
+    <ProjectGuid>{E15572A6-AD1A-4ECC-8920-4070DD779516}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Push_App_Server</RootNamespace>
-    <AssemblyName>Push_App_Server</AssemblyName>
+    <RootNamespace>Push</RootNamespace>
+    <AssemblyName>Push</AssemblyName>
     <DefaultLanguage>en-US</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
     <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.18362.0</TargetPlatformVersion>
@@ -121,11 +121,11 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
-    <Compile Include="Classes\DataWriter.cs" />
-    <Compile Include="Classes\PushConnection.cs" />
+    <Compile Include="Classes\Events\PushManagerStateChangedEventArgs.cs" />
     <Compile Include="Classes\PushManager.cs" />
+    <Compile Include="Classes\PushManagerState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Properties\Push_App_Server.rd.xml" />
+    <EmbeddedResource Include="Properties\Push.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
@@ -140,14 +140,6 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Shared\Shared.csproj">
-      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
-      <Name>Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
-      <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
-      <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

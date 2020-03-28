@@ -6,7 +6,8 @@ using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
-using Microsoft.AppCenter.Push;
+using Push.Classes;
+using Push.Classes.Events;
 using Shared.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
@@ -16,6 +17,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Background;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation.Collections;
+using Windows.Networking.PushNotifications;
 using Windows.UI.Core;
 using Windows.UI.Notifications;
 using Windows.UI.Xaml;
@@ -80,6 +82,13 @@ namespace UWPX_UI
             }
         }
 
+        private void InitPush()
+        {
+            PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
+            PushManager.INSTANCE.StateChanged += PushManager_StateChanged;
+            PushManager.INSTANCE.Init();
+        }
+
         private void OnActivatedOrLaunched(IActivatedEventArgs args)
         {
             // Sets the log level:
@@ -92,6 +101,9 @@ namespace UWPX_UI
             }
 
             isRunning = true;
+
+            // Initialize push:
+            InitPush();
 
             // Do not repeat app initialization when the Window already has content,
             // just ensure that the window is active
@@ -106,7 +118,7 @@ namespace UWPX_UI
                 Window.Current.Content = rootFrame;
             }
 
-            ExtendedSplashScreenPage extendedSplashScreen = new ExtendedSplashScreenPage(args, rootFrame, Push_PushNotificationReceived);
+            ExtendedSplashScreenPage extendedSplashScreen = new ExtendedSplashScreenPage(args, rootFrame, AppCenter_PushNotificationReceived);
             rootFrame.Content = extendedSplashScreen;
 
             Window.Current.Activate();
@@ -277,6 +289,9 @@ namespace UWPX_UI
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
             isRunning = true;
+
+            // Initialize push:
+            InitPush();
         }
 
         private void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
@@ -284,7 +299,7 @@ namespace UWPX_UI
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
         }
 
-        private async void Push_PushNotificationReceived(object sender, PushNotificationReceivedEventArgs e)
+        private async void AppCenter_PushNotificationReceived(object sender, Microsoft.AppCenter.Push.PushNotificationReceivedEventArgs e)
         {
             // Add the notification message and title to the message:
             StringBuilder pushSummary = new StringBuilder("Push notification received:\n");
@@ -318,6 +333,25 @@ namespace UWPX_UI
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
             Logger.Error("Unhanded exception: ", e.Exception);
+        }
+
+        private void PushManager_StateChanged(PushManager sender, PushManagerStateChangedEventArgs args)
+        {
+            if (args.NEW_STATE == PushManagerState.DONE)
+            {
+                PushNotificationChannel channel = PushManager.INSTANCE.GetChannel();
+                channel.PushNotificationReceived -= WNS_PushNotificationReceived;
+                channel.PushNotificationReceived += WNS_PushNotificationReceived;
+            }
+        }
+
+        private void WNS_PushNotificationReceived(PushNotificationChannel sender, PushNotificationReceivedEventArgs args)
+        {
+            if (args.NotificationType == PushNotificationType.Raw)
+            {
+                RawNotification notification = args.RawNotification;
+                Logger.Info("Notification: " + notification.Content);
+            }
         }
 
         #endregion

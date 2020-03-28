@@ -21,7 +21,7 @@ namespace UWPX_UI.Pages.Settings
         public readonly SettingsPageContext VIEW_MODEL = new SettingsPageContext();
         private readonly ObservableCollection<SettingsPageButtonDataTemplate> SETTINGS_PAGES = new ObservableCollection<SettingsPageButtonDataTemplate>
         {
-            new SettingsPageButtonDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts", NavTarget = typeof(AccountsSettingsPage)},
+            new SettingsPageButtonDataTemplate {Glyph = "\xE13D", Name = "Accounts", Description = "Manage Accounts, Push", NavTarget = typeof(AccountsSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE771", Name = "Personalize", Description = "Background, Theme", NavTarget = typeof(PersonalizeSettingsPage)},
             // new SettingsPageButtonDataTemplate {Glyph = "\xE12B", Name = "Data", Description = "Mobile Data, Wifi", NavTarget = typeof(DataSettingsPage)},
             new SettingsPageButtonDataTemplate {Glyph = "\xE15F", Name = "Chat", Description = "Availability, Media, OMEMO", NavTarget = typeof(ChatSettingsPage)},
