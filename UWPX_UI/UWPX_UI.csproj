@@ -1112,6 +1112,10 @@
       <Project>{e15572a6-ad1a-4ecc-8920-4070dd779516}</Project>
       <Name>Push</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Push_BackgroundTask\Push_BackgroundTask.csproj">
+      <Project>{f9da0fea-3d11-452f-8ed0-41befb4651b8}</Project>
+      <Name>Push_BackgroundTask</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Shared\Shared.csproj">
       <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
       <Name>Shared</Name>

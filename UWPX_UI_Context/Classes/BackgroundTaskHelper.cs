@@ -11,6 +11,7 @@ namespace UWPX_UI_Context.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public const string TOAST_BACKGROUND_TASK_NAME = "ToastBackgroundTask";
+        public const string PUSH_BACKGROUND_TASK_NAME = "PushBackgroundTask";
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -28,6 +29,7 @@ namespace UWPX_UI_Context.Classes
         public static async Task RegisterBackgroundTasksAsync()
         {
             await RegisterToastBackgroundTaskAsync();
+            // await RegisterPushBackgroundTaskAsync();
         }
 
         #endregion
@@ -35,29 +37,57 @@ namespace UWPX_UI_Context.Classes
         #region --Misc Methods (Private)--
         private async static Task RegisterToastBackgroundTaskAsync()
         {
-            // If background task is already registered, do nothing
+            // If background task is already registered, do nothing:
             if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(TOAST_BACKGROUND_TASK_NAME)))
             {
                 Logger.Info(TOAST_BACKGROUND_TASK_NAME + " background task already registered.");
                 return;
             }
 
-            // Otherwise request access
+            // Otherwise request access:
             BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
 
-            // Create the background task
+            // Create the background task:
             BackgroundTaskBuilder builder = new BackgroundTaskBuilder
             {
                 Name = TOAST_BACKGROUND_TASK_NAME
             };
 
-            // Assign the toast action trigger
+            // Assign the toast action trigger:
             builder.SetTrigger(new ToastNotificationActionTrigger());
 
-            // And register the task
+            // And register the task:
             builder.Register();
 
             Logger.Info("Registered " + TOAST_BACKGROUND_TASK_NAME + " background task.");
+        }
+
+        private async static Task RegisterPushBackgroundTaskAsync()
+        {
+            // If background task is already registered, do nothing:
+            if (BackgroundTaskRegistration.AllTasks.Any(i => i.Value.Name.Equals(PUSH_BACKGROUND_TASK_NAME)))
+            {
+                Logger.Info(PUSH_BACKGROUND_TASK_NAME + " background task already registered.");
+                return;
+            }
+
+            // Otherwise request access:
+            BackgroundAccessStatus status = await BackgroundExecutionManager.RequestAccessAsync();
+
+            // Create the background task:
+            BackgroundTaskBuilder builder = new BackgroundTaskBuilder
+            {
+                Name = PUSH_BACKGROUND_TASK_NAME
+            };
+
+            // Assign the push notification trigger:
+            builder.SetTrigger(new PushNotificationTrigger());
+            builder.TaskEntryPoint = "Push_BackgroundTask.Classes.PushBackgroundTask";
+
+            // And register the task:
+            builder.Register();
+
+            Logger.Info("Registered " + PUSH_BACKGROUND_TASK_NAME + " background task.");
         }
 
         #endregion

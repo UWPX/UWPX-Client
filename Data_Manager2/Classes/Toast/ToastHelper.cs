@@ -172,6 +172,32 @@ namespace Data_Manager2.Classes.Toast
             SetBadgeNumber(ChatDBManager.INSTANCE.getUnreadCount());
         }
 
+        public static void showSimpleToast(string text)
+        {
+            ToastContent toastContent = new ToastContent
+            {
+                Visual = new ToastVisual
+                {
+                    BindingGeneric = new ToastBindingGeneric
+                    {
+                        Children =
+                        {
+                            new AdaptiveText
+                            {
+                                Text = text
+                            }
+                        }
+                    }
+                },
+            };
+
+            ToastNotification toast = new ToastNotification(toastContent.GetXml());
+            OnChatMessageToastEventArgs args = new OnChatMessageToastEventArgs(toast, null);
+            OnChatMessageToast?.Invoke(args);
+
+            popToast(toast, args);
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
