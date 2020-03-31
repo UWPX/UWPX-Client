@@ -118,6 +118,11 @@ namespace UWPX_UI.Pages.Settings
             VIEW_MODEL.OnUnloaded();
         }
 
+        private async void requestTestPush_btn_Click(object sender, RoutedEventArgs e)
+        {
+            await VIEW_MODEL.RequestTestPushAsync();
+        }
+
         #endregion
     }
 }

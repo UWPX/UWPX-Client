@@ -60,6 +60,16 @@ namespace Push.Classes
             return channel;
         }
 
+        private string GetServerAddress()
+        {
+            return "push.uwpx.org";
+        }
+
+        private ushort GetServerPort()
+        {
+            return 1997;
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -99,6 +109,60 @@ namespace Push.Classes
                 }
                 await SetStateAsync(PushManagerState.ERROR);
             });
+        }
+
+        /// <summary>
+        /// Sends a request to the push server to send a test push notification to the device.
+        /// </summary>
+        /// <returns>True on success.</returns>
+        public async Task<bool> RequestTestPushMessageAsync()
+        {
+            using (TcpConnection connection = new TcpConnection(GetServerAddress(), GetServerPort()))
+            {
+                try
+                {
+                    await connection.ConnectAsync();
+                    RequestTestPushMessage msg = new RequestTestPushMessage();
+                    await connection.SendAsync(msg.ToString());
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to connect and request a test push message.", e);
+                    return false;
+                }
+                Logger.Debug("Request for test push send. Waiting for a response...");
+
+                try
+                {
+                    TcpReadResult result = await connection.ReadAsync();
+                    connection.Disconnect();
+                    if (result.STATE != TcpReadState.SUCCESS)
+                    {
+                        Logger.Error("Failed to read a response from the push server: " + result.STATE);
+                        return false;
+                    }
+                    AbstractMessage message = MessageParser.Parse(result.DATA);
+                    if (message is SuccessResultMessage)
+                    {
+                        Logger.Info("Requested test push successfully.");
+                        return true;
+                    }
+
+                    if (message is ErrorResultMessage errMsg)
+                    {
+                        Logger.Error("Failed request a test push. The server responded: " + errMsg.error);
+                    }
+                    else
+                    {
+                        Logger.Error("Failed request a test push. The server responded with an unexpected answer: " + result.DATA);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to read a response from the push server.", e);
+                }
+                return false;
+            }
         }
 
         #endregion
@@ -159,7 +223,7 @@ namespace Push.Classes
         /// <returns>True on success.</returns>
         private async Task<bool> SendUpdatedChannelUriToPushServerAsync()
         {
-            using (TcpConnection connection = new TcpConnection("push.uwpx.org", 1997))
+            using (TcpConnection connection = new TcpConnection(GetServerAddress(), GetServerPort()))
             {
                 try
                 {
@@ -183,7 +247,7 @@ namespace Push.Classes
                         Logger.Error("Failed to read a response from the push server: " + result.STATE);
                         return false;
                     }
-                    Messages.AbstractMessage message = MessageParser.Parse(result.DATA);
+                    AbstractMessage message = MessageParser.Parse(result.DATA);
                     if (message is SuccessResultMessage)
                     {
                         Logger.Info("Send the push channel to the push server.");

@@ -44,6 +44,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
         }
 
+        public Task RequestTestPushAsync()
+        {
+            return PushManager.INSTANCE.RequestTestPushMessageAsync();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

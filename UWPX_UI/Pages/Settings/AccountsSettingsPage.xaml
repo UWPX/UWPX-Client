@@ -125,6 +125,10 @@
                                          Text="Channel Created:"/>
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelCreatedDate, Mode=OneWay}"/>
                                 </TextBlock>
+                                <Button x:Name="requestTestPush_btn"
+                                        Click="requestTestPush_btn_Click"
+                                        Content="Request test push"/>
+                                <Button Content="Reset push"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>
