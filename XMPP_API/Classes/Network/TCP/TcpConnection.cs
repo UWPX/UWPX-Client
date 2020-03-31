@@ -263,11 +263,11 @@ namespace XMPP_API.Classes.Network.TCP
             return false;
         }
 
-        public async Task<TCPReadResult> ReadAsync()
+        public async Task<TcpReadResult> ReadAsync()
         {
             if (state != ConnectionState.CONNECTED)
             {
-                return new TCPReadResult(TCPReadState.FAILURE, null);
+                return new TcpReadResult(TcpReadState.FAILURE, null);
             }
 
             StringBuilder data = new StringBuilder();
@@ -278,11 +278,11 @@ namespace XMPP_API.Classes.Network.TCP
             // To close a TCP connection, the opponent sends a 0 length message:
             if (readCount <= 0)
             {
-                return new TCPReadResult(TCPReadState.END_OF_STREAM, null);
+                return new TcpReadResult(TcpReadState.END_OF_STREAM, null);
             }
             if (dataReader is null)
             {
-                return new TCPReadResult(TCPReadState.FAILURE, null);
+                return new TcpReadResult(TcpReadState.FAILURE, null);
             }
 
             while (dataReader.UnconsumedBufferLength > 0)
@@ -304,7 +304,7 @@ namespace XMPP_API.Classes.Network.TCP
                 }
                 catch (OperationCanceledException) { }
             }
-            return new TCPReadResult(TCPReadState.SUCCESS, data.ToString());
+            return new TcpReadResult(TcpReadState.SUCCESS, data.ToString());
         }
 
         /// <summary>
@@ -479,7 +479,7 @@ namespace XMPP_API.Classes.Network.TCP
             {
                 Task.Run(async () =>
                 {
-                    TCPReadResult readResult = null;
+                    TcpReadResult readResult = null;
                     int lastReadingFailedCount = 0;
                     int errorCount = 0;
                     DateTime lastReadingFailed = DateTime.MinValue;
@@ -492,7 +492,7 @@ namespace XMPP_API.Classes.Network.TCP
                             // Check if reading failed:
                             switch (readResult.STATE)
                             {
-                                case TCPReadState.SUCCESS:
+                                case TcpReadState.SUCCESS:
                                     lastReadingFailedCount = 0;
                                     errorCount = 0;
                                     Logger.Debug(LOGGER_TAG + "Received from (" + account.serverAddress + "):" + readResult.DATA);
@@ -501,7 +501,7 @@ namespace XMPP_API.Classes.Network.TCP
                                     NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(readResult.DATA));
                                     break;
 
-                                case TCPReadState.FAILURE:
+                                case TcpReadState.FAILURE:
                                     if (lastReadingFailedCount++ <= 0)
                                     {
                                         lastReadingFailed = DateTime.Now;
@@ -517,7 +517,7 @@ namespace XMPP_API.Classes.Network.TCP
                                     }
                                     break;
 
-                                case TCPReadState.END_OF_STREAM:
+                                case TcpReadState.END_OF_STREAM:
                                     Logger.Info(LOGGER_TAG + "Socket closed because received 0-length message from: " + account.serverAddress);
                                     await DisconnectAsync();
                                     break;

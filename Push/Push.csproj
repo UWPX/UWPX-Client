@@ -122,14 +122,27 @@
   <ItemGroup>
     <Compile Include="Classes\Consts.cs" />
     <Compile Include="Classes\Events\PushManagerStateChangedEventArgs.cs" />
+    <Compile Include="Classes\Messages\AbstractMessage.cs" />
+    <Compile Include="Classes\Messages\AbstractResponseMessage.cs" />
+    <Compile Include="Classes\Messages\MessageParser.cs" />
+    <Compile Include="Classes\Messages\RegisterPushMessage.cs" />
+    <Compile Include="Classes\Messages\SetChannelUriMessage.cs" />
+    <Compile Include="Classes\Messages\ErrorResultMessage.cs" />
+    <Compile Include="Classes\Messages\SetPushAccountsMessage.cs" />
+    <Compile Include="Classes\Messages\SuccessResultMessage.cs" />
+    <Compile Include="Classes\Messages\SuccessSetPushAccountsMessage.cs" />
     <Compile Include="Classes\PushManager.cs" />
     <Compile Include="Classes\PushManagerState.cs" />
+    <Compile Include="Classes\TcpConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Properties\Push.rd.xml" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
       <Version>6.2.9</Version>
+    </PackageReference>
+    <PackageReference Include="Newtonsoft.Json">
+      <Version>12.0.3</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -140,6 +153,14 @@
     <ProjectReference Include="..\Logging\Logging.csproj">
       <Project>{0c1fb090-4492-441d-b182-c999df71f917}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Shared\Shared.csproj">
+      <Project>{c4af94da-11cf-4147-b5b7-4b2dc7c624a0}</Project>
+      <Name>Shared</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XMPP_API\XMPP_API.csproj">
+      <Project>{64b9a47f-d404-4d0b-a34a-bec280c5ff6b}</Project>
+      <Name>XMPP_API</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">

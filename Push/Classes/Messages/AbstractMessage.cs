@@ -1,25 +1,26 @@
-﻿namespace XMPP_API.Classes.Network.TCP
+﻿using Newtonsoft.Json.Linq;
+
+namespace Push.Classes.Messages
 {
-    public class TcpReadResult
+    public abstract class AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly TcpReadState STATE;
-        public readonly string DATA;
+        public uint version;
+        public string action;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 05/05/2018 Created [Fabian Sauter]
-        /// </history>
-        public TcpReadResult(TcpReadState state, string data)
+        public AbstractMessage(string action)
         {
-            STATE = state;
-            DATA = data;
+            version = 1;
+            this.action = action;
+        }
+
+        public AbstractMessage(JObject json)
+        {
+            FromJson(json);
         }
 
         #endregion
@@ -30,7 +31,22 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
+        public virtual JObject ToJson()
+        {
+            return new JObject
+            {
+                ["version"] = 1,
+                ["action"] = action
+            };
+        }
 
+        /// <summary>
+        /// Returns the JSON representation of this message as a string.
+        /// </summary>
+        public override string ToString()
+        {
+            return ToJson().ToString();
+        }
 
         #endregion
 
@@ -40,7 +56,11 @@
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected virtual void FromJson(JObject json)
+        {
+            version = json.Value<uint>("version");
+            action = json.Value<string>("action");
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

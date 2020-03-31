@@ -4,7 +4,9 @@ using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Logging;
 using Push.Classes.Events;
+using Push.Classes.Messages;
 using Windows.Networking.PushNotifications;
+using XMPP_API.Classes.Network.TCP;
 
 namespace Push.Classes
 {
@@ -89,8 +91,8 @@ namespace Push.Classes
                     await SetStateAsync(PushManagerState.DONE);
                 }
 
-                await SetStateAsync(PushManagerState.SENDING_CHANNEL_URI_TO_PUSH_SERVER);
-                if (await SendChannelUriToPushServerAsync())
+                await SetStateAsync(PushManagerState.SENDING_UPDATED_CHANNEL_URI_TO_PUSH_SERVER);
+                if (await SendUpdatedChannelUriToPushServerAsync())
                 {
                     await SetStateAsync(PushManagerState.DONE);
                     return;
@@ -151,11 +153,60 @@ namespace Push.Classes
             return false;
         }
 
-        private async Task<bool> SendChannelUriToPushServerAsync()
+        /// <summary>
+        /// Sends the updated channel URI to the push server.
+        /// </summary>
+        /// <returns>True on success.</returns>
+        private async Task<bool> SendUpdatedChannelUriToPushServerAsync()
         {
-            // Mark the channel URI as send to the push server:
-            Settings.setSetting(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER, channel.Uri);
-            return true;
+            using (TcpConnection connection = new TcpConnection("push.uwpx.org", 1997))
+            {
+                try
+                {
+                    await connection.ConnectAsync();
+                    SetChannelUriMessage msg = new SetChannelUriMessage(channel.Uri);
+                    await connection.SendAsync(msg.ToString());
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to connect and send the channel URL to the push server.", e);
+                    return false;
+                }
+                Logger.Debug("Send channel URI update message. Waiting for a response...");
+
+                try
+                {
+                    TcpReadResult result = await connection.ReadAsync();
+                    connection.Disconnect();
+                    if (result.STATE != TcpReadState.SUCCESS)
+                    {
+                        Logger.Error("Failed to read a response from the push server: " + result.STATE);
+                        return false;
+                    }
+                    Messages.AbstractMessage message = MessageParser.Parse(result.DATA);
+                    if (message is SuccessResultMessage)
+                    {
+                        Logger.Info("Send the push channel to the push server.");
+                        // Mark the channel URI as send to the push server:
+                        Settings.setSetting(SettingsConsts.PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER, channel.Uri);
+                        return true;
+                    }
+
+                    if (message is ErrorResultMessage errMsg)
+                    {
+                        Logger.Error("Failed to send the push channel to the server. The server responded: " + errMsg.error);
+                    }
+                    else
+                    {
+                        Logger.Error("Failed to send the push channel to the server. The server responded with an unexpected answer: " + result.DATA);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to read a response from the push server.", e);
+                }
+                return false;
+            }
         }
 
         /// <summary>

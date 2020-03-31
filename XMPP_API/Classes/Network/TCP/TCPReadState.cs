@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.TCP
 {
-    public enum TCPReadState
+    public enum TcpReadState
     {
         FAILURE = 0,
         END_OF_STREAM = 1,

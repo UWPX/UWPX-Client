@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using System.Threading.Tasks;
 using Logging;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Phone.Devices.Notification;
+using Windows.System.Profile;
 using Windows.UI.Core;
 
 namespace Shared.Classes
@@ -23,7 +26,23 @@ namespace Shared.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        /// <summary>
+        /// Returns a hex string representing an unique device ID.
+        /// </summary>
+        public static string GetUniqueDeviceId()
+        {
+            SystemIdentificationInfo systemId = SystemIdentification.GetSystemIdForPublisher();
+            if (systemId.Source != SystemIdentificationSource.None)
+            {
+                return ByteArrayToHexString(systemId.Id.ToArray());
+            }
 
+            // Fall back to generating a unique ID based on the hardware of the system.
+            // This ID will change once the hardware changes.
+            // Based on: https://montemagno.com/unique-device-id-for-mobile-apps/
+            HardwareToken hwToken = HardwareIdentification.GetPackageSpecificToken(null);
+            return ByteArrayToHexString(hwToken.Id.ToArray());
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
@@ -154,7 +173,16 @@ namespace Shared.Classes
         #endregion
 
         #region --Misc Methods (Private)--
+        private static string ByteArrayToHexString(byte[] data)
+        {
+            StringBuilder hex = new StringBuilder(data.Length * 2);
+            foreach (byte b in data)
+            {
+                hex.AppendFormat("{0:x2}", b);
+            }
 
+            return hex.ToString();
+        }
 
         #endregion
 

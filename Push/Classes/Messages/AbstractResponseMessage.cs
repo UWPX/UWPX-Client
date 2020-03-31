@@ -1,25 +1,23 @@
-﻿namespace XMPP_API.Classes.Network.TCP
+﻿using Newtonsoft.Json.Linq;
+
+namespace Push.Classes.Messages
 {
-    public class TcpReadResult
+    public abstract class AbstractResponseMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly TcpReadState STATE;
-        public readonly string DATA;
+        public const string ACTION_CONST = "response";
+
+        public uint status;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 05/05/2018 Created [Fabian Sauter]
-        /// </history>
-        public TcpReadResult(TcpReadState state, string data)
+        public AbstractResponseMessage(JObject json) : base(json) { }
+
+        public AbstractResponseMessage(uint status) : base(ACTION_CONST)
         {
-            STATE = state;
-            DATA = data;
+            this.status = status;
         }
 
         #endregion
@@ -40,7 +38,18 @@
         #endregion
 
         #region --Misc Methods (Protected)--
+        protected override void FromJson(JObject json)
+        {
+            base.FromJson(json);
+            status = json.Value<uint>("status");
+        }
 
+        public override JObject ToJson()
+        {
+            JObject json = base.ToJson();
+            json["status"] = status;
+            return json;
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

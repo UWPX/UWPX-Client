@@ -1,26 +1,25 @@
-﻿namespace XMPP_API.Classes.Network.TCP
+﻿using System.Collections.Generic;
+using System.Linq;
+using Newtonsoft.Json.Linq;
+
+namespace Push.Classes.Messages
 {
-    public class TcpReadResult
+    public class SetPushAccountsMessage: AbstractMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly TcpReadState STATE;
-        public readonly string DATA;
+        public const string ACTION_CONST = "set_push_accounts";
 
+        public List<string> accounts;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 05/05/2018 Created [Fabian Sauter]
-        /// </history>
-        public TcpReadResult(TcpReadState state, string data)
+        public SetPushAccountsMessage(List<string> accounts) : base(ACTION_CONST)
         {
-            STATE = state;
-            DATA = data;
+            this.accounts = accounts;
         }
+
+        public SetPushAccountsMessage(JObject json) : base(json) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -30,7 +29,12 @@
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-
+        public override JObject ToJson()
+        {
+            JObject json = base.ToJson();
+            json["account"] = new JArray(from a in accounts select new JObject(new JProperty("bare_jid", a)));
+            return json;
+        }
 
         #endregion
 
@@ -40,7 +44,15 @@
         #endregion
 
         #region --Misc Methods (Protected)--
-
+        protected override void FromJson(JObject json)
+        {
+            base.FromJson(json);
+            accounts = new List<string>();
+            foreach (JObject item in json.Value<JArray>("accounts"))
+            {
+                accounts.Append(item.Value<string>("bare_jid"));
+            }
+        }
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
