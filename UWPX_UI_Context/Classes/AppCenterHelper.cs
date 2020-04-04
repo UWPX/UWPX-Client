@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 #if !DEBUG
 using Data_Manager2.Classes;
+using Microsoft.AppCenter;
 #endif
 using Logging;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
-using Microsoft.AppCenter.Push;
 
 namespace UWPX_UI_Context.Classes
 {
@@ -15,7 +15,9 @@ namespace UWPX_UI_Context.Classes
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+#if !DEBUG
         private const string APP_CENTER_SECRET = "523e7039-f6cb-4bf1-9000-53277ed97c53";
+#endif
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -65,29 +67,29 @@ namespace UWPX_UI_Context.Classes
         /// <summary>
         /// Sets up App Center crash, analytics and push support.
         /// </summary>
-        public static void SetupAppCenter(EventHandler<PushNotificationReceivedEventArgs> appCenterPushCallback)
+        public static void SetupAppCenter(EventHandler<Microsoft.AppCenter.Push.PushNotificationReceivedEventArgs> appCenterPushCallback)
         {
             try
             {
 #if !DEBUG
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
+                AppCenter.Start(APP_CENTER_SECRET, typeof(Crashes));
                 if (Settings.getSettingBoolean(SettingsConsts.DISABLE_CRASH_REPORTING))
                 {
                     Crashes.Instance.InstanceEnabled = false;
                     Logger.Info("AppCenter crash reporting is disabled.");
                 }
 
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics));
+                AppCenter.Start(APP_CENTER_SECRET, typeof(Analytics));
                 if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ANALYTICS))
                 {
                     Analytics.SetEnabledAsync(false);
                     Logger.Info("AppCenter analytics are disabled.");
                 }
                 // Only enable push for debug builds:
-                Microsoft.AppCenter.AppCenter.Start(APP_CENTER_SECRET, typeof(Push));
+                AppCenter.Start(APP_CENTER_SECRET, typeof(Microsoft.AppCenter.Push.Push));
 #endif
 
-                if (!Microsoft.AppCenter.AppCenter.Configured)
+                if (!AppCenter.Configured)
                 {
                     Microsoft.AppCenter.Push.Push.PushNotificationReceived -= appCenterPushCallback;
                     Microsoft.AppCenter.Push.Push.PushNotificationReceived += appCenterPushCallback;
