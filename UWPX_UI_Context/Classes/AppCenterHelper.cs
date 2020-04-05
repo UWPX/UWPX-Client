@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 #if !DEBUG
 using Data_Manager2.Classes;
-using Microsoft.AppCenter;
 #endif
 using Logging;
+using Microsoft.AppCenter;
 using Microsoft.AppCenter.Analytics;
 using Microsoft.AppCenter.Crashes;
 
