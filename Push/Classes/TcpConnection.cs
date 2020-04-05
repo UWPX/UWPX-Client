@@ -89,7 +89,7 @@ namespace Push.Classes
                     connectTimeoutCTS = new CancellationTokenSource(CONNECTION_TIMEOUT_MS);
 
                     // Start the connection process:
-                    await socket.ConnectAsync(HOSTNAME, PORT.ToString(), SocketProtectionLevel.PlainSocket).AsTask(connectTimeoutCTS.Token);
+                    await socket.ConnectAsync(HOSTNAME, PORT.ToString(), SocketProtectionLevel.Tls12).AsTask(connectTimeoutCTS.Token);
 
                     // Setup stream reader and writer:
                     dataWriter = new DataWriter(socket.OutputStream);
@@ -103,6 +103,7 @@ namespace Push.Classes
                 }
                 catch (Exception e)
                 {
+                    Logger.Error(LOGGER_TAG + i + " try to connect to " + HOSTNAME.ToString() + " failed:", e);
                     lastException = e;
                 }
 
