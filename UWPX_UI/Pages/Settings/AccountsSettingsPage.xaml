@@ -2,6 +2,7 @@
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:controls="using:UWPX_UI.Controls"
+      xmlns:controls1="using:Microsoft.Toolkit.Uwp.UI.Controls"
       xmlns:controlsComp="using:Microsoft.UI.Xaml.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -15,6 +16,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/SettingsNavigationViewStyle.xaml"/>
+                <ResourceDictionary Source="ms-appx:///Resources/Styles/InfoButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style BasedOn="{StaticResource ButtonRevealStyle}"
@@ -105,30 +107,45 @@
                                                      Header="Push:">
                         <settings:SettingsContentControl.MainContent>
                             <StackPanel>
-                                <ToggleSwitch Margin="0,10,0,0"
-                                              Header="Push notifications"
-                                              IsOn="{x:Bind VIEW_MODEL.MODEL.PushEnabled, Mode=TwoWay}"
-                                              OffContent="Disabled"
-                                              OnContent="Enabled"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <ToggleSwitch Margin="0,10,0,0"
+                                                  Header="Push notifications"
+                                                  IsOn="{x:Bind VIEW_MODEL.MODEL.PushEnabled, Mode=TwoWay}"
+                                                  OffContent="Disabled"
+                                                  OnContent="Enabled"/>
+                                    <Button Margin="10,0,0,0"
+                                            VerticalAlignment="Bottom"
+                                            Style="{ThemeResource InfoButtonStyle}">
+                                        <Button.Flyout>
+                                            <Flyout>
+                                                <controls1:MarkdownTextBlock x:Uid="AccountSettingsPage_enable_push_tooltip"
+                                                                             MaxWidth="200"
+                                                                             TextWrapping="Wrap"/>
+                                            </Flyout>
+                                        </Button.Flyout>
+                                    </Button>
+                                </StackPanel>
                                 <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                                     <Run FontWeight="Bold"
                                          Text="State:"/>
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.PushManagerState, Mode=OneWay}"/>
-                                </TextBlock>
-                                <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                                    <LineBreak/>
                                     <Run FontWeight="Bold"
                                          Text="Channel URI:"/>
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelUri, Mode=OneWay}"/>
-                                </TextBlock>
-                                <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                                    <LineBreak/>
                                     <Run FontWeight="Bold"
                                          Text="Channel Created:"/>
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelCreatedDate, Mode=OneWay}"/>
                                 </TextBlock>
                                 <Button x:Name="requestTestPush_btn"
-                                        Click="requestTestPush_btn_Click"
-                                        Content="Request test push"/>
-                                <Button Content="Reset push"/>
+                                        Click="RequestTestPush_btn_Click"
+                                        Content="Request test push"
+                                        Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                                <Button x:Name="initPush_btn"
+                                        Click="InitPush_btn_Click"
+                                        Content="Init push"
+                                        Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

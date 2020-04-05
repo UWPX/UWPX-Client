@@ -86,7 +86,14 @@ namespace UWPX_UI
         {
             PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
             PushManager.INSTANCE.StateChanged += PushManager_StateChanged;
-            PushManager.INSTANCE.Init();
+            if (Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED))
+            {
+                PushManager.INSTANCE.Init();
+            }
+            else
+            {
+                Logger.Info("Skipping push initialization since push is disabled.");
+            }
         }
 
         private void OnActivatedOrLaunched(IActivatedEventArgs args)
@@ -337,7 +344,7 @@ namespace UWPX_UI
 
         private void PushManager_StateChanged(PushManager sender, PushManagerStateChangedEventArgs args)
         {
-            if (args.NEW_STATE == PushManagerState.DONE)
+            if (args.NEW_STATE == PushManagerState.INITIALIZED)
             {
                 PushNotificationChannel channel = PushManager.INSTANCE.GetChannel();
                 channel.PushNotificationReceived -= WNS_PushNotificationReceived;
@@ -350,7 +357,7 @@ namespace UWPX_UI
             if (args.NotificationType == PushNotificationType.Raw)
             {
                 RawNotification notification = args.RawNotification;
-                Logger.Info("Notification: " + notification.Content);
+                ToastHelper.showSimpleToast(notification.Content);
             }
         }
 

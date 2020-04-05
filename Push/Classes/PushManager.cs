@@ -78,7 +78,7 @@ namespace Push.Classes
             Task.Run(async () =>
             {
                 await INIT_SEMA.WaitAsync();
-                if (state != PushManagerState.NOT_INITIALIZED && state != PushManagerState.DONE && state != PushManagerState.ERROR)
+                if (state != PushManagerState.NOT_INITIALIZED && state != PushManagerState.INITIALIZED && state != PushManagerState.ERROR)
                 {
                     INIT_SEMA.Release();
                     Logger.Debug(Consts.LOGGER_TAG + "Init() called, but push service is already initialized.");
@@ -98,13 +98,13 @@ namespace Push.Classes
                 await SetStateAsync(PushManagerState.STORING_CHANNEL);
                 if (StoreAndCompareChannel() && !ShouldSendChannelUriToPushServer())
                 {
-                    await SetStateAsync(PushManagerState.DONE);
+                    await SetStateAsync(PushManagerState.INITIALIZED);
                 }
 
                 await SetStateAsync(PushManagerState.SENDING_UPDATED_CHANNEL_URI_TO_PUSH_SERVER);
                 if (await SendUpdatedChannelUriToPushServerAsync())
                 {
-                    await SetStateAsync(PushManagerState.DONE);
+                    await SetStateAsync(PushManagerState.INITIALIZED);
                     return;
                 }
                 await SetStateAsync(PushManagerState.ERROR);

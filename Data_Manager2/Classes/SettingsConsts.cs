@@ -56,7 +56,7 @@
         public const string SPAM_DETECTION_FOR_ALL_CHAT_MESSAGES = "spam_detection_for_all_chat_messages";
         public const string SPAM_REGEX = "spam_regex";
 
-        public const string PUSH_DISABLED = "push_disabled";
+        public const string PUSH_ENABLED = "push_enabled";
         public const string PUSH_CHANNEL_URI = "push_channel_uri";
         public const string PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER = "push_channel_uri_send_to_push_server";
         public const string PUSH_CHANNEL_CREATED_DATE_TIME = "push_channel_created_date_time";

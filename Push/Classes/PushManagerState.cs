@@ -7,7 +7,7 @@
         REQUESTING_CHANNEL,
         STORING_CHANNEL,
         SENDING_UPDATED_CHANNEL_URI_TO_PUSH_SERVER,
-        DONE,
+        INITIALIZED,
         ERROR,
     }
 }

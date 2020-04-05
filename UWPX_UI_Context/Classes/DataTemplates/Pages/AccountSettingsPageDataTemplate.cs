@@ -12,7 +12,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public bool PushEnabled
         {
             get => _PushEnabled;
-            set => SetBoolInvertedProperty(ref _PushEnabled, value, SettingsConsts.PUSH_DISABLED);
+            set => SetBoolProperty(ref _PushEnabled, value, SettingsConsts.PUSH_ENABLED);
         }
 
         private string _ChannelUri;
@@ -51,11 +51,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private bool SetBoolInvertedProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
+        private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
             if (SetProperty(ref storage, value, propertyName))
             {
-                Settings.setSetting(settingsToken, !value);
+                Settings.setSetting(settingsToken, value);
                 return true;
             }
             return false;
