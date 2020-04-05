@@ -363,13 +363,19 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [March 2020] Bug Fixes and Refactoring
+    <value># [April 2020] Push and Windows 10X support
 
-This month I've been focusing mostly on refactoring the XMPP and TCP connection.
-The new system is far more reliable and also does not crash the app when you click on `enable`/`disable`/`reconnect` accounts.
-This bug/crash was the single most cause for crashes based on my [AppCenter](https://appcenter.ms) statistics and was existing since the initial release in 2018.
-It affected **almost 10%** (7.8% to be precise) of all users in the last 30 days.
-Now I finally went over it and fixed it 😉.
+I've invested **a lot** of time and effort since the last release ([[March 2020] Bug Fixes and Refactoring](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.24.0.0)) into UWPX.  
+The first part of the time I spend into making sure UWPX supports the new [Windows 10X](https://blogs.windows.com/windowsexperience/2019/10/02/introducing-windows-10x-enabling-dual-screen-pcs-in-2020/) dual screen layout.
+To archive this, I had to update the [MasterDetailsView](https://docs.microsoft.com/en-us/windows/communitytoolkit/controls/masterdetailsview) control provided by the [Windows Community Toolkit](https://github.com/windows-toolkit/WindowsCommunityToolkit) ([PR](https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3173)).
+
+All the rest of my time went into adding push support to UWPX.
+Therefor I've started developing my [own push server](https://github.com/UWPX/UWPX-Push-Server#publishing-the-channel-uri) for UWPX, based roughly on the [Conversations Push Proxy](https://github.com/iNPUTmice/p2) by [@iNPUTmice](https://github.com/iNPUTmice).  
+This is still a work in progress topic. If you can't wait for it, you can play around with it by enabling it via `Settings` -> `Accounts` -> `Enable push`. Since it's still work in progress **do not expect it to work all the time, or even at all 😅**.
+
+To get more information about the push setup and how it works, you can continue reading [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
+
+If you enable the debug settings (press 5 times on the app version on the settings page to enable the debug mode) you get even more information about the current push status and can request a test push notification from the server (in case it's running).
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
@@ -382,14 +388,13 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
 * Chat image downloads not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
 * UWPX hangs after receiving contact request [#107](https://github.com/UWPX/UWPX-Client/issues/107)
-* Crash when trying to export logs [#125](https://github.com/UWPX/UWPX-Client/issues/125)
 
 ### Changes
-* Refactored the XMPP and TCP connection
-* Fixed: TLS certificate name check should depend on JID domain [#113](https://github.com/UWPX/UWPX-Client/issues/113)
-* Fixed: XMPPClient.setAccount(Classes.Network.XMPPAccount account) fails [#79](https://github.com/UWPX/UWPX-Client/issues/79)
-* Fixed: Duplicate MUC messages when archived ([MAM](https://xmpp.org/extensions/xep-0313.html)) messages arrive
-
-[Click to view/read on, on GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.24.0.0)</value>
+* [Windows 10X](https://blogs.windows.com/windowsexperience/2019/10/02/introducing-windows-10x-enabling-dual-screen-pcs-in-2020/) support (https://github.com/windows-toolkit/WindowsCommunityToolkit/pull/3173)
+* Added a new MUC configuration control
+* Push support phase 1 (still work in progress)
+* "Enter to send" is now enabled by default
+* Added an "Enter to send" teaching tip
+* Fixed NullReferenceException for the MUC join delay</value>
   </data>
 </root>
