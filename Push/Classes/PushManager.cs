@@ -1,11 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
+using Data_Manager2.Classes.DBManager;
 using Logging;
 using Push.Classes.Events;
 using Push.Classes.Messages;
 using Windows.Networking.PushNotifications;
+using XMPP_API.Classes;
+using XMPP_API.Classes.Network;
 using XMPP_API.Classes.Network.TCP;
 
 namespace Push.Classes
@@ -111,6 +116,81 @@ namespace Push.Classes
             });
         }
 
+        private void UpdatePushForAccounts(List<PushAccount> accounts, string pushServerBareJid)
+        {
+            Logger.Debug("Updating push settings for " + accounts.Count + " accounts.");
+            foreach (PushAccount pushAccount in accounts)
+            {
+                XMPPClient client = ConnectionHandler.INSTANCE.getClient(pushAccount.bareJid);
+                if (!(client is null))
+                {
+                    XMPPAccount account = client.getXMPPAccount();
+                    account.pushNodePublished = account.pushNodePublished && string.Equals(account.pushNode, pushAccount.node) && string.Equals(account.pushNodeSecret, pushAccount.secret);
+                    account.pushNode = pushAccount.node;
+                    account.pushNodeSecret = pushAccount.secret;
+                    account.pushServerBareJid = pushServerBareJid;
+                    account.pushEnabled = true;
+                    AccountDBManager.INSTANCE.setAccount(account, false, true);
+                    Logger.Info("Push node and secret updated for: " + pushAccount.bareJid);
+                    Logger.Debug("Node: '" + pushAccount.node + "', secret: '" + pushAccount.secret + "'");
+                }
+                else
+                {
+                    Logger.Error("Failed to update push for account '" + pushAccount.bareJid + "' - account not found");
+                }
+            }
+        }
+
+        public async Task InitPushForAccountsAsync()
+        {
+            using (TcpConnection connection = new TcpConnection(GetServerAddress(), GetServerPort()))
+            {
+                try
+                {
+                    await connection.ConnectAsync();
+                    // If push is disabled, send an empty list:
+                    SetPushAccountsMessage msg = Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED) ? new SetPushAccountsMessage(ConnectionHandler.INSTANCE.getClients().Select(x => x.getXMPPAccount().getBareJid()).ToList()) : new SetPushAccountsMessage(new List<string>());
+                    await connection.SendAsync(msg.ToString());
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to connect and set push accounts.", e);
+                    return;
+                }
+                Logger.Debug("Set push accounts send. Waiting for a response...");
+
+                try
+                {
+                    TcpReadResult result = await connection.ReadAsync();
+                    connection.Disconnect();
+                    if (result.STATE != TcpReadState.SUCCESS)
+                    {
+                        Logger.Error("Failed to read a response from the push server: " + result.STATE);
+                        return;
+                    }
+                    AbstractMessage message = MessageParser.Parse(result.DATA);
+                    if (message is SuccessSetPushAccountsMessage msg)
+                    {
+                        UpdatePushForAccounts(msg.accounts, msg.pushServerBareJid);
+                        Logger.Info("Setting push accounts successful.");
+                        return;
+                    }
+
+                    if (message is ErrorResultMessage errMsg)
+                    {
+                        Logger.Error("Failed to set push accounts. The server responded: " + errMsg.error);
+                    }
+                    else
+                    {
+                        Logger.Error("Failed to set push accounts. The server responded with an unexpected answer: " + result.DATA);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to read a response from the push server.", e);
+                }
+            }
+        }
         /// <summary>
         /// Sends a request to the push server to send a test push notification to the device.
         /// </summary>

@@ -166,12 +166,6 @@ namespace UWPX_UI.Pages
             // Init the chat background helper:
             ChatBackgroundHelper.INSTANCE.Init();
 
-            // Setup push server connection:
-            /*if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_PUSH))
-            {
-                Push_App_Server.Classes.PushManager.init();
-            }*/
-
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
 

@@ -160,6 +160,7 @@
     <Compile Include="Classes\DBTables\Omemo\OmemoPreKeyTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSessionStoreTable.cs" />
     <Compile Include="Classes\DBTables\Omemo\OmemoSignedPreKeyTable.cs" />
+    <Compile Include="Classes\DBTables\PushTable.cs" />
     <Compile Include="Classes\DBTables\SpamMessageTable.cs" />
     <Compile Include="Classes\Events\AccountChangedEventArgs.cs" />
     <Compile Include="Classes\Events\ChatChangedEventArgs.cs" />

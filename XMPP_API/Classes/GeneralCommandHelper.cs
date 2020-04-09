@@ -50,7 +50,7 @@ namespace XMPP_API.Classes
         /// <param name="to">Who is the target of this message? E.g. 'witches@conference.jabber.org'. Can be null.</param>
         /// <param name="presence">The presence that should get send to the server.</param>
         /// <param name="status">The status message that should get send to the server.</param>
-        /// /// <returns>The id of the send PresenceMessage.</returns>
+        /// <returns>The id of the send PresenceMessage.</returns>
         public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
         {
             PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);

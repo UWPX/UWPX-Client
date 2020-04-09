@@ -1,26 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Newtonsoft.Json.Linq;
-using Shared.Classes;
+﻿using SQLite;
 
-namespace Push.Classes.Messages
+namespace Data_Manager2.Classes.DBTables
 {
-    public class SetPushAccountsMessage: AbstractMessage
+    [Table(DBTableConsts.PUSH_TABLE)]
+    public class PushTable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public const string ACTION_CONST = "set_push_accounts";
+        [PrimaryKey]
+        // The id entry of the AccountTable
+        public string accountId { get; set; }
+        [NotNull]
+        // The name of the PubSub node
+        public string node { get; set; }
+        [NotNull]
+        // The secret for the PubSub node
+        public string secret { get; set; }
+        [NotNull]
+        // The bare JID of the push server e.g. 'push@xmpp.example.com'
+        public string serverBareJid { get; set; }
+        // Has the current node and secret been published to the XMPP server
+        public bool published { get; set; }
 
-        public List<string> accounts;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public SetPushAccountsMessage(List<string> accounts) : base(ACTION_CONST)
-        {
-            this.accounts = accounts;
-        }
 
-        public SetPushAccountsMessage(JObject json) : base(json) { }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
@@ -30,13 +35,7 @@ namespace Push.Classes.Messages
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public override JObject ToJson()
-        {
-            JObject json = base.ToJson();
-            json["device_id"] = SharedUtils.GetUniqueDeviceId();
-            json["accounts"] = new JArray(from a in accounts select new JObject(new JProperty("bare_jid", a)));
-            return json;
-        }
+
 
         #endregion
 
@@ -46,15 +45,7 @@ namespace Push.Classes.Messages
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void FromJson(JObject json)
-        {
-            base.FromJson(json);
-            accounts = new List<string>();
-            foreach (JObject item in json.Value<JArray>("accounts"))
-            {
-                accounts.Append(item.Value<string>("bare_jid"));
-            }
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

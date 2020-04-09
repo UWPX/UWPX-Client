@@ -115,18 +115,42 @@ namespace XMPP_API.Classes.Network
         }
         public readonly CustomObservableCollection<PreKeyRecord> OMEMO_PRE_KEYS;
 
+        // XEP-0357 (Push Notifications):
+        private string _pushNode;
+        public string pushNode
+        {
+            get => _pushNode;
+            set => SetProperty(ref _pushNode, value);
+        }
+        private string _pushNodeSecret;
+        public string pushNodeSecret
+        {
+            get => _pushNodeSecret;
+            set => SetProperty(ref _pushNodeSecret, value);
+        }
+        private string _pushServerBareJid;
+        public string pushServerBareJid
+        {
+            get => _pushServerBareJid;
+            set => SetProperty(ref _pushServerBareJid, value);
+        }
+        private bool _pushNodePublished;
+        public bool pushNodePublished
+        {
+            get => _pushNodePublished;
+            set => SetProperty(ref _pushNodePublished, value);
+        }
+        private bool _pushEnabled;
+        public bool pushEnabled
+        {
+            get => _pushEnabled;
+            set => SetProperty(ref _pushEnabled, value);
+        }
+
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 17/08/2017 Created [Fabian Sauter]
-        /// </history>
-        public XMPPAccount(XMPPUser user) : this(user, user?.domainPart ?? "", 5222, new ConnectionConfiguration())
-        {
-        }
+        public XMPPAccount(XMPPUser user) : this(user, user?.domainPart ?? "", 5222, new ConnectionConfiguration()) { }
 
         public XMPPAccount(XMPPUser user, string serverAddress, int port, ConnectionConfiguration connectionConfiguration)
         {
@@ -148,6 +172,11 @@ namespace XMPP_API.Classes.Network
             OMEMO_PRE_KEYS.CollectionChanged += OMEMO_PRE_KEYS_CollectionChanged;
             omemoDeviceId = 0;
             omemoBundleInfoAnnounced = false;
+            pushNode = null;
+            pushNodeSecret = null;
+            pushServerBareJid = null;
+            pushEnabled = false;
+            pushNodePublished = false;
         }
 
         #endregion
@@ -314,7 +343,12 @@ namespace XMPP_API.Classes.Network
                     Equals(o.omemoIdentityKeyPair.serialize(), omemoIdentityKeyPair.serialize()) &&
                     Equals(o.omemoSignedPreKeyPair.serialize(), omemoSignedPreKeyPair.serialize()) &&
                     Equals(o.OMEMO_PRE_KEYS, OMEMO_PRE_KEYS) &&
-                    o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced;
+                    o.omemoBundleInfoAnnounced == omemoBundleInfoAnnounced &&
+                    string.Equals(o.pushNode, pushNode) &&
+                    string.Equals(o.pushNodeSecret, pushNodeSecret) &&
+                    string.Equals(o.pushServerBareJid, pushServerBareJid) &&
+                    o.pushNodePublished == pushNodePublished &&
+                    o.pushEnabled == pushEnabled;
             }
             return false;
         }

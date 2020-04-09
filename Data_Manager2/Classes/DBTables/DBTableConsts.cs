@@ -24,5 +24,7 @@
 
         public const string OMEMO_DEVICE_TABLE = "OmemoDeviceTable";
         public const string OMEMO_DEVICE_LIST_SUBSCRIPTION_TABLE = "OmemoDeviceListSubscriptionTable";
+
+        public const string PUSH_TABLE = "PushTable";
     }
 }

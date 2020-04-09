@@ -342,13 +342,16 @@ namespace UWPX_UI
             Logger.Error("Unhanded exception: ", e.Exception);
         }
 
-        private void PushManager_StateChanged(PushManager sender, PushManagerStateChangedEventArgs args)
+        private async void PushManager_StateChanged(PushManager sender, PushManagerStateChangedEventArgs args)
         {
             if (args.NEW_STATE == PushManagerState.INITIALIZED)
             {
                 PushNotificationChannel channel = PushManager.INSTANCE.GetChannel();
                 channel.PushNotificationReceived -= WNS_PushNotificationReceived;
                 channel.PushNotificationReceived += WNS_PushNotificationReceived;
+
+                // Setup done, now send an updated list of all push accounts:
+                await PushManager.INSTANCE.InitPushForAccountsAsync();
             }
         }
 

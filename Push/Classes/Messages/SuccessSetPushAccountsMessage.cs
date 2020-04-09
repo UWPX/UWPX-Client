@@ -35,7 +35,7 @@ namespace Push.Classes.Messages
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public string pushBareJid;
+        public string pushServerBareJid;
         public List<PushAccount> accounts;
 
         #endregion
@@ -59,7 +59,7 @@ namespace Push.Classes.Messages
         public override JObject ToJson()
         {
             JObject json = base.ToJson();
-            json["push_bare_jid"] = pushBareJid;
+            json["push_bare_jid"] = pushServerBareJid;
             json["account"] = new JArray(from a in accounts select a.ToJson());
             return json;
         }
@@ -75,7 +75,7 @@ namespace Push.Classes.Messages
         protected override void FromJson(JObject json)
         {
             base.FromJson(json);
-            pushBareJid = json.Value<string>("push_bare_jid");
+            pushServerBareJid = json.Value<string>("push_bare_jid");
             accounts = new List<PushAccount>(from a in json.Value<JArray>("accounts") select PushAccount.FromJson(a.ToObject<JObject>()));
         }
 

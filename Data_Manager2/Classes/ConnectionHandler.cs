@@ -175,6 +175,17 @@ namespace Data_Manager2.Classes
             Parallel.ForEach(CLIENTS, async (c) => await reconnectClientAsync(c));
         }
 
+        /// <summary>
+        /// Reloads all clients from the DB.
+        /// Disconnects all existing clients first.
+        /// </summary>
+        public void reloadClients()
+        {
+            disconnectAll();
+            loadClients();
+            connectAll();
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -190,17 +201,6 @@ namespace Data_Manager2.Classes
                 CLIENTS.Add(loadAccount(acc));
             }
             CLIENT_SEMA.Release();
-        }
-
-        /// <summary>
-        /// Reloads all clients from the DB.
-        /// Disconnects all existing clients first.
-        /// </summary>
-        public void reloadClients()
-        {
-            disconnectAll();
-            loadClients();
-            connectAll();
         }
 
         /// <summary>

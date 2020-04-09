@@ -24,32 +24,24 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 17/11/2017 Created [Fabian Sauter]
-        /// </history>
-        public AccountDBManager()
-        {
 
-        }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
-        /// Adds the given XMPPAccount to the db or replaces it, if it already exists.
+        /// Adds the given <seealso cref="XMPPAccount"/> to the db or replaces it, if it already exists.
         /// </summary>
         /// <param name="account">The account which should get inserted or replaced.</param>
         /// <param name="updateOmemoKeys">Replaces all OMEMO keys in the DB.</param>
-        /// /// <param name="triggerAccountChanged">Triggers the AccountChanged event once the DB has been updated.</param>
+        /// <param name="triggerAccountChanged">Triggers the <seealso cref="AccountChanged"/> event once the DB has been updated.</param>
         public void setAccount(XMPPAccount account, bool updateOmemoKeys, bool triggerAccountChanged)
         {
             dB.InsertOrReplace(new AccountTable(account));
             Vault.storePassword(account);
 
             saveAccountConnectionConfiguration(account);
+            savePushSettings(account);
 
             if (updateOmemoKeys)
             {
@@ -91,9 +83,9 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
-        /// Sets the disabled property of account and triggers the AccountChanged event.
+        /// Sets the disabled property of account and triggers the <seealso cref="AccountChanged"/> event.
         /// </summary>
-        /// <param name="account">The XMPPAccount with updated disabled property.</param>
+        /// <param name="account">The <seealso cref="XMPPAccount"/> with updated disabled property.</param>
         public void setAccountDisabled(XMPPAccount account)
         {
             dB.Execute("UPDATE " + DBTableConsts.ACCOUNT_TABLE + " SET disabled = ? WHERE id = ?;", account.disabled, account.getBareJid());
@@ -101,9 +93,9 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
-        /// Returns the ConnectionOptionsTable matching the given accountId.
+        /// Returns the <seealso cref="ConnectionOptionsTable"/> matching the given accountId.
         /// </summary>
-        /// <param name="accountId">The id of the AccountTable.</param>
+        /// <param name="accountId">The id of the <seealso cref="AccountTable"/>.</param>
         public ConnectionOptionsTable getConnectionOptionsTable(string accountId)
         {
             IList<ConnectionOptionsTable> list = dB.Query<ConnectionOptionsTable>(true, "SELECT * FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", accountId);
@@ -118,9 +110,9 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
-        /// Returns a list of IgnoredCertificateErrorTable object matching the given accountId.
+        /// Returns a list of <seealso cref="IgnoredCertificateErrorTable"/> object matching the given accountId.
         /// </summary>
-        /// <param name="accountId">The id of the AccountTable.</param>
+        /// <param name="accountId">The id of the <seealso cref="AccountTable"/>.</param>
         public IList<IgnoredCertificateErrorTable> getIgnoredCertificateErrorTables(string accountId)
         {
             return dB.Query<IgnoredCertificateErrorTable>(true, "SELECT * FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", accountId);
@@ -155,6 +147,7 @@ namespace Data_Manager2.Classes.DBManager
             dB.Execute("DELETE FROM " + DBTableConsts.ACCOUNT_TABLE + " WHERE id = ?;", account.getBareJid());
             dB.Execute("DELETE FROM " + DBTableConsts.IGNORED_CERTIFICATE_ERROR_TABLE + " WHERE accountId = ?;", account.getBareJid());
             dB.Execute("DELETE FROM " + DBTableConsts.CONNECTION_OPTIONS_TABLE + " WHERE accountId = ?;", account.getBareJid());
+            dB.Execute("DELETE FROM " + DBTableConsts.PUSH_TABLE + " WHERE accountId = ?;", account.getBareJid());
             if (deleteAllKeys)
             {
                 OmemoDeviceDBManager.INSTANCE.deleteAllForAccount(account.getBareJid());
@@ -174,10 +167,10 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
-        /// Returns all XMPPAccounts from the db.
+        /// Returns all <seealso cref="XMPPAccount"/> from the db.
         /// Loads all passwords from their corresponding Vault objects.
         /// </summary>
-        /// <returns>A list of XMPPAccount.</returns>
+        /// <returns>A list of <seealso cref="XMPPAccount"/> objects.</returns>
         public IList<XMPPAccount> loadAllAccounts()
         {
             IList<XMPPAccount> results = new List<XMPPAccount>();
@@ -187,6 +180,7 @@ namespace Data_Manager2.Classes.DBManager
                 XMPPAccount acc = accounts[i].toXMPPAccount();
                 Vault.loadPassword(acc);
                 loadAccountConnectionConfiguration(acc);
+                loadPushSettings(acc);
                 results.Add(acc);
             }
             return results;
@@ -220,7 +214,7 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
-        /// Loads the ConnectionConfiguration of the given XMPPAccount from the db.
+        /// Loads the <seealso cref="ConnectionConfiguration"/> of the given <seealso cref="XMPPAccount"/> from the db.
         /// </summary>
         /// <param name="account">The XMPPAccount you want to load the ConnectionConfiguration for.</param>
         public void loadAccountConnectionConfiguration(XMPPAccount account)
@@ -244,9 +238,9 @@ namespace Data_Manager2.Classes.DBManager
         }
 
         /// <summary>
-        /// Saves the ConnectionConfiguration for the given XMPPAccount in the DB.
+        /// Saves the <seealso cref="ConnectionConfiguration"/> for the given <seealso cref="XMPPAccount"/> in the DB.
         /// </summary>
-        /// <param name="account">The XMPPAccount containing the ConnectionConfiguration you want to save to the db.</param>
+        /// <param name="account">The <seealso cref="XMPPAccount"/> containing the <seealso cref="ConnectionConfiguration"/> you want to save to the db.</param>
         public void saveAccountConnectionConfiguration(XMPPAccount account)
         {
             // Save general options:
@@ -269,6 +263,47 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
+        /// <summary>
+        /// Saves the push settings for the given account. If <seealso cref="XMPPAccount.pushEnabled"/> is set to false, will remove all entries from the <seealso cref="PushTable"/>.
+        /// </summary>
+        public void savePushSettings(XMPPAccount account)
+        {
+            if (account.pushEnabled)
+            {
+                dB.InsertOrReplace(new PushTable { accountId = account.getBareJid(), node = account.pushNode, secret = account.pushNodeSecret, published = account.pushNodePublished });
+            }
+            else
+            {
+                dB.Execute("DELETE FROM " + DBTableConsts.PUSH_TABLE + " WHERE accountId = ?;", account.getBareJid());
+            }
+        }
+
+        /// <summary>
+        /// Loads the push settings for the given account.
+        /// If no configuration is available, <seealso cref="XMPPAccount.pushEnabled"/> will be set to false and <seealso cref="XMPPAccount.pushNode"/>, <seealso cref="XMPPAccount.pushServerBareJid"/> and <seealso cref="XMPPAccount.pushNodeSecret"/> will be set to null.
+        /// <seealso cref="XMPPAccount.pushNodePublished"/> will be set to false.
+        /// </summary>
+        public void loadPushSettings(XMPPAccount account)
+        {
+            IList<PushTable> list = dB.Query<PushTable>(true, "SELECT * FROM " + DBTableConsts.PUSH_TABLE + " WHERE accountId = ?;", account.getBareJid());
+            if (list.Count > 0)
+            {
+                account.pushNode = list[0].node;
+                account.pushNodeSecret = list[0].secret;
+                account.pushNodePublished = list[0].published;
+                account.pushServerBareJid = list[0].serverBareJid;
+                account.pushEnabled = true;
+            }
+            else
+            {
+                account.pushNode = null;
+                account.pushNodeSecret = null;
+                account.pushServerBareJid = null;
+                account.pushNodePublished = false;
+                account.pushEnabled = false;
+            }
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -282,6 +317,7 @@ namespace Data_Manager2.Classes.DBManager
             dB.CreateTable<AccountTable>();
             dB.CreateTable<ConnectionOptionsTable>();
             dB.CreateTable<IgnoredCertificateErrorTable>();
+            dB.CreateTable<PushTable>();
         }
 
         protected override void DropTables()
@@ -289,6 +325,7 @@ namespace Data_Manager2.Classes.DBManager
             dB.DropTable<AccountTable>();
             dB.DropTable<ConnectionOptionsTable>();
             dB.DropTable<IgnoredCertificateErrorTable>();
+            dB.DropTable<PushTable>();
         }
 
         #endregion
