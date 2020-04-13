@@ -7,7 +7,7 @@ using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MessageCarbonsStateSolidColorBrushValueConverter: IValueConverter
+    public sealed class PushStateSolidColorBrushValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -28,23 +28,23 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MessageCarbonsState state)
+            if (value is PushState state)
             {
                 switch (state)
                 {
-                    case MessageCarbonsState.DISABLED:
-                    case MessageCarbonsState.ERROR:
-                    case MessageCarbonsState.NOT_SUPPORTED:
+                    case PushState.DISABLED:
+                    case PushState.ERROR:
+                    case PushState.NOT_SUPPORTED:
                         return new SolidColorBrush(Colors.Red);
 
-                    case MessageCarbonsState.REQUESTED:
+                    case PushState.REQUESTED:
                         return new SolidColorBrush(Colors.Orange);
 
-                    case MessageCarbonsState.ENABLED:
+                    case PushState.ENABLED:
                         return new SolidColorBrush(Colors.Green);
                 }
             }
-            Logger.Warn("Invalid " + nameof(MessageCarbonsState) + ": " + value);
+            Logger.Warn("Invalid " + nameof(PushState) + ": " + value);
             return new SolidColorBrush(Colors.DimGray);
         }
 

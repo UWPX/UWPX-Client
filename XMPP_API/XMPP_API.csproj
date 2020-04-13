@@ -161,6 +161,7 @@
     <Compile Include="Classes\Network\Events\NewMUCMemberPresenceMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventArgs.cs" />
     <Compile Include="Classes\Network\Events\NewValidMessageEventHandler.cs" />
+    <Compile Include="Classes\Network\PushState.cs" />
     <Compile Include="Classes\Network\MessageCarbonsState.cs" />
     <Compile Include="Classes\Network\OmemoHelper.cs" />
     <Compile Include="Classes\Network\OmemoHelperState.cs" />
@@ -309,7 +310,8 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0336\DynamicFormsConfiguration.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0336\DynamicFormsFlags.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0336\ServerPostBackMessage.cs" />
-    <Compile Include="Classes\Network\XML\Messages\XEP-0357\RequestEnableNotificationsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0357\DisablePushNotificationsMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0357\EnablePushNotificationsMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadErrorMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadRequestSlotMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0363\HTTPUploadResponseSlotMessage.cs" />

@@ -26,6 +26,12 @@ namespace XMPP_API.Classes.Network
             get => _msgCarbonsState;
             set => SetProperty(ref _msgCarbonsState, value);
         }
+        private PushState _pushState;
+        public PushState pushState
+        {
+            get => _pushState;
+            set => SetProperty(ref _pushState, value);
+        }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -40,6 +46,7 @@ namespace XMPP_API.Classes.Network
         {
             invokeInUiThread = false;
             msgCarbonsState = MessageCarbonsState.DISABLED;
+            pushState = PushState.DISABLED;
             tlsConnected = false;
             socketInfo = null;
         }

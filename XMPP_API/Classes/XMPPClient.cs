@@ -65,12 +65,6 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 17/08/2017 Created [Fabian Sauter]
-        /// </history>
         public XMPPClient(XMPPAccount account)
         {
             init(account);

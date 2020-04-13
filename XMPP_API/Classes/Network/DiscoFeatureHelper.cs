@@ -1,7 +1,9 @@
-﻿using Logging;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Logging;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
-using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
 
 namespace XMPP_API.Classes.Network
 {
@@ -11,24 +13,14 @@ namespace XMPP_API.Classes.Network
         #region --Attributes--
         private readonly XmppConnection CONNECTION;
 
-        private MessageResponseHelper<IQMessage> discoMessageResponseHelper;
-        private MessageResponseHelper<IQMessage> carbonsMessageResponseHelper;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 15/08/2018 Created [Fabian Sauter]
-        /// </history>
         public DiscoFeatureHelper(XmppConnection connection)
         {
             CONNECTION = connection;
             connection.ConnectionStateChanged += Connection_ConnectionStateChanged;
-            discoMessageResponseHelper = null;
-            carbonsMessageResponseHelper = null;
         }
 
         #endregion
@@ -44,94 +36,105 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private void requestDisoInfo()
+        private void StartDisco()
         {
-            CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
-            if (discoMessageResponseHelper != null)
+            Task.Run(async () =>
             {
-                discoMessageResponseHelper.Dispose();
-            }
-            discoMessageResponseHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onDiscoMessage, onDiscoTimeout);
-            discoMessageResponseHelper.start(new DiscoRequestMessage(CONNECTION.account.getFullJid(), CONNECTION.account.user.domainPart, DiscoType.INFO));
+                await DiscoAsync();
+            });
         }
 
-        private bool onDiscoMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
+        private void StopDisco()
         {
-            if (msg is DiscoResponseMessage disco)
-            {
-                switch (disco.DISCO_TYPE)
-                {
-                    case DiscoType.ITEMS:
-                        break;
 
-                    case DiscoType.INFO:
-                        bool foundCarbons = false;
-                        foreach (DiscoFeature f in disco.FEATURES)
-                        {
-                            if (string.Equals(f.VAR, Consts.XML_XEP_0280_NAMESPACE))
-                            {
-                                foundCarbons = true;
-                                if (CONNECTION.account.connectionConfiguration.disableMessageCarbons)
-                                {
-                                    CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
-                                }
-                                else if (CONNECTION.account.CONNECTION_INFO.msgCarbonsState != MessageCarbonsState.ENABLED)
-                                {
-                                    Logger.Info("Enabling message carbons for " + CONNECTION.account.getBareJid() + " ...");
-                                    carbonsMessageResponseHelper = new MessageResponseHelper<IQMessage>(CONNECTION, onCarbonsMessage, onCarbonsTimeout);
-                                    carbonsMessageResponseHelper.start(new CarbonsEnableMessage(CONNECTION.account.getFullJid()));
-                                }
-                                break;
-                            }
-                        }
-
-                        if (!foundCarbons)
-                        {
-                            Logger.Warn("Unable to enable message carbons for " + CONNECTION.account.getBareJid() + " - not available.");
-                            CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
-                        }
-                        break;
-
-                    default:
-                        break;
-                }
-                return true;
-            }
-            else if (msg is IQErrorMessage errMsg)
-            {
-                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.UNAVAILABLE;
-                Logger.Error("Failed to request initial server disco for " + CONNECTION.account.getBareJid() + ": " + errMsg.ERROR_OBJ.ToString());
-                return true;
-            }
-            return false;
         }
 
-        private void onDiscoTimeout(MessageResponseHelper<IQMessage> helper)
+        private async Task DiscoAsync()
         {
-            Logger.Error("Failed to request initial server disco - timeout!");
-        }
-
-        private bool onCarbonsMessage(MessageResponseHelper<IQMessage> helper, IQMessage msg)
-        {
-            if (msg is IQErrorMessage errMsg)
+            MessageResponseHelperResult<IQMessage> result = await CONNECTION.GENERAL_COMMAND_HELPER.discoAsync(CONNECTION.account.user.domainPart, DiscoType.INFO);
+            if (result.STATE != MessageResponseHelperResultState.SUCCESS)
             {
-                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-                Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getBareJid() + ": " + errMsg.ERROR_OBJ.ToString());
-                return true;
+                Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - " + result.STATE);
             }
-            else if (string.Equals(msg.TYPE, IQMessage.RESULT))
+            else if (result.RESULT is IQErrorMessage errorMessage)
             {
-                Logger.Info("Message carbons enabled for " + CONNECTION.account.getBareJid());
-                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ENABLED;
-                return true;
+                Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
             }
-            return false;
-        }
+            // Success:
+            else if (result.RESULT is DiscoResponseMessage disco)
+            {
+                await OnDiscoResponseMessage(disco);
+                return;
+            }
+            else
+            {
+                Logger.Error("Failed to perform server DISCO for '" + CONNECTION.account.getBareJid() + "' - invalid response.");
+            }
 
-        private void onCarbonsTimeout(MessageResponseHelper<IQMessage> helper)
-        {
             CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
-            Logger.Error("Failed to enable message carbons for " + CONNECTION.account.getBareJid() + " - timeout!");
+            CONNECTION.account.CONNECTION_INFO.pushState = PushState.ERROR;
+        }
+
+        private async Task OnDiscoResponseMessage(DiscoResponseMessage disco)
+        {
+            switch (disco.DISCO_TYPE)
+            {
+                case DiscoType.ITEMS:
+                    break;
+
+                case DiscoType.INFO:
+                    await CheckDiscoFeaturesAsync(disco.FEATURES);
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        private async Task CheckDiscoFeaturesAsync(List<DiscoFeature> features)
+        {
+            bool foundCarbons = false;
+            bool foundPush = !CONNECTION.account.pushEnabled || CONNECTION.account.pushNodePublished;
+            if (!CONNECTION.account.pushEnabled)
+            {
+                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
+            }
+            else if (CONNECTION.account.pushNodePublished)
+            {
+                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ENABLED;
+                Logger.Info("No need to enable to for '" + CONNECTION.account.getBareJid() + "' - already enabled");
+            }
+
+            foreach (DiscoFeature f in features)
+            {
+                // Check if the server supports 'XEP-0280: Message Carbons':
+                if (!foundCarbons && string.Equals(f.VAR, Consts.XML_XEP_0280_NAMESPACE))
+                {
+                    foundCarbons = true;
+                    await CONNECTION.EnableMessageCarbonsAsync();
+                    continue;
+                }
+
+                // Check if the server supports 'XEP-0357: Push Notifications':
+                else if (!foundPush && string.Equals(f.VAR, Consts.XML_XEP_0357_NAMESPACE))
+                {
+                    foundPush = true;
+                    await CONNECTION.EnablePushNotificationsAsync();
+                    continue;
+                }
+            }
+
+            if (!foundCarbons)
+            {
+                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.NOT_SUPPORTED;
+                Logger.Warn("Unable to enable message carbons for '" + CONNECTION.account.getBareJid() + "' - not supported by the server.");
+            }
+
+            if (!foundPush)
+            {
+                CONNECTION.account.CONNECTION_INFO.pushState = PushState.NOT_SUPPORTED;
+                Logger.Warn("Unable to enable push notifications for '" + CONNECTION.account.getBareJid() + "' - not supported by the server.");
+            }
         }
 
         #endregion
@@ -146,21 +149,11 @@ namespace XMPP_API.Classes.Network
         {
             if (args.newState == ConnectionState.CONNECTED)
             {
-                requestDisoInfo();
+                StartDisco();
             }
             else if (args.newState == ConnectionState.DISCONNECTED)
             {
-                // Stop message processors:
-                if (discoMessageResponseHelper != null)
-                {
-                    discoMessageResponseHelper.Dispose();
-                    discoMessageResponseHelper = null;
-                }
-                if (carbonsMessageResponseHelper != null)
-                {
-                    carbonsMessageResponseHelper.Dispose();
-                    carbonsMessageResponseHelper = null;
-                }
+                StopDisco();
             }
         }
 

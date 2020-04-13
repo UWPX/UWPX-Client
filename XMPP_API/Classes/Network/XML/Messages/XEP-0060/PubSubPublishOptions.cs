@@ -32,7 +32,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0060
             form.fields.Add(new Field()
             {
                 var = "FORM_TYPE",
-                value = "http://jabber.org/protocol/pubsub#publish-options",
+                value = Consts.XML_XEP_0060_NAMESPACE_PUBLISH_OPTIONS,
                 type = FieldType.HIDDEN
             });
             return new PubSubPublishOptions(form);

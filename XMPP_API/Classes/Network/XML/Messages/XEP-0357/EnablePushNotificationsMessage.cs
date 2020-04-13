@@ -1,25 +1,25 @@
 ﻿using System.Xml.Linq;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0004;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
 {
-    public class RequestEnableNotificationsMessage: IQMessage
+    public class EnablePushNotificationsMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string SERVER;
+        public readonly string PUSH_SERVER_BARE_JID;
+        public readonly string NODE;
+        public readonly string SECRET;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 18/11/2017 Created [Fabian Sauter]
-        /// </history>
-        public RequestEnableNotificationsMessage(string server) : base(null, null, SET, getRandomId())
+        public EnablePushNotificationsMessage(string pushServerBareJid, string node, string secret) : base(null, null, SET, getRandomId())
         {
-            SERVER = server;
+            PUSH_SERVER_BARE_JID = pushServerBareJid;
+            NODE = node;
+            SECRET = secret;
         }
 
         #endregion
@@ -39,8 +39,12 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0357
         {
             XNamespace ns = Consts.XML_XEP_0357_NAMESPACE;
             XElement n = new XElement(ns + "enable");
-            n.Add(new XAttribute("jid", SERVER));
-            n.Add(new XAttribute("node", "yxs32uqsflafdk3iuqo"));
+            n.Add(new XAttribute("jid", PUSH_SERVER_BARE_JID));
+            n.Add(new XAttribute("node", NODE));
+
+            PubSubPublishOptions options = PubSubPublishOptions.getDefaultPublishOptions();
+            options.OPTIONS.fields.Add(new Field() { var = "secret", value = SECRET });
+            options.OPTIONS.addToXElement(n);
             return n;
         }
 

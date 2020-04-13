@@ -56,6 +56,7 @@ namespace XMPP_API.Classes
         public const string XML_XEP_0060_NAMESPACE_ERRORS = "http://jabber.org/protocol/pubsub#errors";
         public const string XML_XEP_0060_NAMESPACE_EVENT = "http://jabber.org/protocol/pubsub#event";
         public const string XML_XEP_0060_NAMESPACE_NODE_CONFIG = "http://jabber.org/protocol/pubsub#node_config";
+        public const string XML_XEP_0060_NAMESPACE_PUBLISH_OPTIONS = "http://jabber.org/protocol/pubsub#publish-options";
 
         // XEP-0004 (Data Forms):
         public const string XML_XEP_0004_NAMESPACE = "jabber:x:data";

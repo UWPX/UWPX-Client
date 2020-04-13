@@ -28,6 +28,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _MsgCarbonsState;
             set => SetProperty(ref _MsgCarbonsState, value);
         }
+        private PushState _PushState;
+        public PushState PushState
+        {
+            get => _PushState;
+            set => SetProperty(ref _PushState, value);
+        }
         private StreamSocketInformation _SocketInfo;
         public StreamSocketInformation SocketInfo
         {
@@ -60,6 +66,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 Subscribe(accountNew);
                 ParserStats = accountNew.Client.getMessageParserStats();
                 MsgCarbonsState = accountNew.Account.CONNECTION_INFO.msgCarbonsState;
+                PushState = accountNew.Account.CONNECTION_INFO.pushState;
                 SocketInfo = accountNew.Account.CONNECTION_INFO.socketInfo;
                 TlsConnected = accountNew.Account.CONNECTION_INFO.tlsConnected;
             }
@@ -98,6 +105,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 {
                     case nameof(connectionInfo.msgCarbonsState):
                         MsgCarbonsState = connectionInfo.msgCarbonsState;
+                        break;
+
+                    case nameof(connectionInfo.pushState):
+                        PushState = connectionInfo.pushState;
                         break;
 
                     case nameof(connectionInfo.tlsConnected):

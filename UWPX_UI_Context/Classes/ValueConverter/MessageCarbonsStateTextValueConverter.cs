@@ -33,8 +33,8 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                     case MessageCarbonsState.DISABLED:
                         return "Disabled";
 
-                    case MessageCarbonsState.UNAVAILABLE:
-                        return "Unavailable";
+                    case MessageCarbonsState.NOT_SUPPORTED:
+                        return "Not supported by your server";
 
                     case MessageCarbonsState.REQUESTED:
                         return "Requested";

@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network
 {
-    public enum MessageCarbonsState
+    public enum PushState
     {
         DISABLED,
         NOT_SUPPORTED,

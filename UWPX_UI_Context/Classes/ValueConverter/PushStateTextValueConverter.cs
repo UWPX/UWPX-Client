@@ -1,13 +1,11 @@
 ﻿using System;
 using Logging;
-using Windows.UI;
 using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Media;
 using XMPP_API.Classes.Network;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class MessageCarbonsStateSolidColorBrushValueConverter: IValueConverter
+    public sealed class PushStateTextValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -28,24 +26,28 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is MessageCarbonsState state)
+            if (value is PushState state)
             {
                 switch (state)
                 {
-                    case MessageCarbonsState.DISABLED:
-                    case MessageCarbonsState.ERROR:
-                    case MessageCarbonsState.NOT_SUPPORTED:
-                        return new SolidColorBrush(Colors.Red);
+                    case PushState.DISABLED:
+                        return "Disabled";
 
-                    case MessageCarbonsState.REQUESTED:
-                        return new SolidColorBrush(Colors.Orange);
+                    case PushState.NOT_SUPPORTED:
+                        return "Not supported by your server";
 
-                    case MessageCarbonsState.ENABLED:
-                        return new SolidColorBrush(Colors.Green);
+                    case PushState.REQUESTED:
+                        return "Requested";
+
+                    case PushState.ENABLED:
+                        return "Enabled";
+
+                    case PushState.ERROR:
+                        return "Error";
                 }
             }
-            Logger.Warn("Invalid " + nameof(MessageCarbonsState) + ": " + value);
-            return new SolidColorBrush(Colors.DimGray);
+            Logger.Warn("Invalid " + nameof(PushState) + ": " + value);
+            return "Unknown";
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

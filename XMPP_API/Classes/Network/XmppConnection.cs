@@ -11,6 +11,7 @@ using XMPP_API.Classes.Network.Events;
 using XMPP_API.Classes.Network.TCP;
 using XMPP_API.Classes.Network.XML;
 using XMPP_API.Classes.Network.XML.Messages;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -67,6 +68,7 @@ namespace XMPP_API.Classes.Network
         public readonly MUCCommandHelper MUC_COMMAND_HELPER;
         public readonly PubSubCommandHelper PUB_SUB_COMMAND_HELPER;
         public readonly OmemoCommandHelper OMEMO_COMMAND_HELPER;
+        private readonly DiscoFeatureHelper DISCO_HELPER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -81,6 +83,7 @@ namespace XMPP_API.Classes.Network
             MUC_COMMAND_HELPER = new MUCCommandHelper(this);
             PUB_SUB_COMMAND_HELPER = new PubSubCommandHelper(this);
             OMEMO_COMMAND_HELPER = new OmemoCommandHelper(this);
+            DISCO_HELPER = new DiscoFeatureHelper(this);
 
             // The order in which new messages should get processed (TLS -- SASL -- Stream Management -- Resource binding -- ...).
             // https://xmpp.org/extensions/xep-0170.html
@@ -222,7 +225,7 @@ namespace XMPP_API.Classes.Network
         }
 
         /// <summary>
-        /// Enables OMEMO encryption for messages for this connection.
+        /// Enables OMEMO encryption for messages for this 
         /// Has to be enabled before connecting.
         /// </summary>
         /// <param name="omemoStore">A persistent store for all the OMEMO related data (e.g. device ids and keys).</param>
@@ -248,6 +251,64 @@ namespace XMPP_API.Classes.Network
             }
             omemoHelper = new OmemoHelper(this, omemoStore);
             return true;
+        }
+
+        public async Task EnablePushNotificationsAsync()
+        {
+            MessageResponseHelperResult<IQMessage> result = await GENERAL_COMMAND_HELPER.enablePushNotificationsAsync(account.pushServerBareJid, account.pushNode, account.pushNodeSecret);
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is IQErrorMessage errorMessage)
+                {
+                    account.CONNECTION_INFO.pushState = PushState.ERROR;
+                    Logger.Error("Failed to enable push notifications for '" + account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
+                }
+                else if (result.RESULT.TYPE != IQMessage.RESULT)
+                {
+                    account.CONNECTION_INFO.pushState = PushState.ERROR;
+                    Logger.Error("Failed to enable push notifications for '" + account.getBareJid() + "' - server responded with: " + result.RESULT.TYPE);
+                }
+                else
+                {
+                    account.pushNodePublished = true;
+                    account.CONNECTION_INFO.pushState = PushState.ENABLED;
+                    Logger.Info("Successfully enabled push notifications for: '" + account.getBareJid() + '\'');
+                }
+            }
+            else
+            {
+                account.CONNECTION_INFO.pushState = PushState.ERROR;
+                Logger.Error("Failed to enable push notifications for '" + account.getBareJid() + "' - " + result.STATE);
+            }
+        }
+
+        public async Task EnableMessageCarbonsAsync()
+        {
+            account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.REQUESTED;
+            MessageResponseHelperResult<IQMessage> result = await GENERAL_COMMAND_HELPER.enableMessageCarbonsAsync();
+            if (result.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                if (result.RESULT is IQErrorMessage errorMessage)
+                {
+                    account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
+                    Logger.Error("Failed to enable push message carbons for '" + account.getBareJid() + "' - " + errorMessage.ERROR_OBJ.ToString());
+                }
+                else if (result.RESULT.TYPE != IQMessage.RESULT)
+                {
+                    account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
+                    Logger.Error("Failed to enable push message carbons for '" + account.getBareJid() + "' - server responded with: " + result.RESULT.TYPE);
+                }
+                else
+                {
+                    account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ENABLED;
+                    Logger.Info("Successfully enable push message carbons for: '" + account.getBareJid() + '\'');
+                }
+            }
+            else
+            {
+                account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.ERROR;
+                Logger.Error("Failed to enable push message carbons for '" + account.getBareJid() + "' - " + result.STATE);
+            }
         }
 
         #endregion

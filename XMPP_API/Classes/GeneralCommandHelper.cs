@@ -6,6 +6,8 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0357;
 
 namespace XMPP_API.Classes
 {
@@ -18,12 +20,6 @@ namespace XMPP_API.Classes
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        /// <summary>
-        /// Basic Constructor
-        /// </summary>
-        /// <history>
-        /// 02/11/2018 Created [Fabian Sauter]
-        /// </history>
         public GeneralCommandHelper(XmppConnection connection)
         {
             CONNECTION = connection;
@@ -33,24 +29,24 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
         /// <summary>
-        /// Sends a PresenceMessage to the server with the given presence and status.
+        /// Sends a <seealso cref="PresenceMessage"/> to the server with the given presence and status.
         /// </summary>
         /// <param name="presence">The presence that should get send to the server.</param>
         /// <param name="status">The status message that should get send to the server.</param>
-        /// <returns>The id of the send PresenceMessage.</returns>
+        /// <returns>The id of the send <seealso cref="PresenceMessage"/>.</returns>
         public async Task<string> setPreseceAsync(Presence presence, string status)
         {
             return await setPreseceAsync(null, null, presence, status);
         }
 
         /// <summary>
-        /// Sends a PresenceMessage to the given target with the given presence and status.
+        /// Sends a <seealso cref="PresenceMessage"/> to the given target with the given presence and status.
         /// </summary>
         /// <param name="from">Who is sending this message? E.g. 'witches@conference.jabber.org'. Can be null.</param>
         /// <param name="to">Who is the target of this message? E.g. 'witches@conference.jabber.org'. Can be null.</param>
         /// <param name="presence">The presence that should get send to the server.</param>
         /// <param name="status">The status message that should get send to the server.</param>
-        /// <returns>The id of the send PresenceMessage.</returns>
+        /// <returns>The id of the send <seealso cref="PresenceMessage"/>.</returns>
         public async Task<string> setPreseceAsync(string from, string to, Presence presence, string status)
         {
             PresenceMessage presenceMessage = new PresenceMessage(from, to, presence, status, int.MinValue);
@@ -62,7 +58,7 @@ namespace XMPP_API.Classes
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Sends a RosterRequestMessage to the server and requests the current roster.
+        /// Sends a <seealso cref="RosterRequestMessage"/> to the server and requests the current roster.
         /// </summary>
         /// <returns>The result of the request.</returns>
         public async Task<MessageResponseHelperResult<IQMessage>> requestRosterAsync()
@@ -74,7 +70,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a RosterRequestMessage to the server and requests the current roster.
+        /// Sends a <seealso cref="RosterRequestMessage"/> to the server and requests the current roster.
         /// </summary>
         /// <returns>True if sending the message succeeded.</returns>
         public async Task<bool> sendRequestRosterMessageAsync()
@@ -96,11 +92,11 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends an AddToRosterMessage for the given bareJid.
+        /// Sends an <seealso cref="AddToRosterMessage"/> for the given bareJid.
         /// The message will be cached if not connected.
         /// </summary>
         /// <param name="bareJid">The bare JID that should get added to the roster.</param>
-        /// <returns>The id of the send AddToRosterMessage.</returns>
+        /// <returns>The id of the send <seealso cref="AddToRosterMessage"/>.</returns>
         public async Task<string> addToRosterAsync(string bareJid)
         {
             AddToRosterMessage msg = new AddToRosterMessage(CONNECTION.account.getFullJid(), bareJid);
@@ -109,11 +105,11 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Starts a new Task and sends an RemoveFromRosterMessage for the given bareJid.
+        /// Starts a new Task and sends an <seealso cref="RemoveFromRosterMessage"/> for the given bareJid.
         /// The message will be cached if not connected.
         /// </summary>
         /// <param name="bareJid">The bare JID that should get removed from the roster.</param>
-        /// <returns>The id of the send RemoveFromRosterMessage.</returns>
+        /// <returns>The id of the send <seealso cref="RemoveFromRosterMessage"/>.</returns>
         public async Task<string> removeFromRosterAsync(string bareJid)
         {
             RemoveFromRosterMessage msg = new RemoveFromRosterMessage(CONNECTION.account.getFullJid(), bareJid);
@@ -122,7 +118,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a ChatStateMessage to the given target.
+        /// Sends a <seealso cref="ChatStateMessage"/> to the given target.
         /// </summary>
         /// <param name="target">Who is the target of this message? E.g. 'witches@conference.jabber.org'.</param>
         /// <param name="state">The chat state.</param>
@@ -133,13 +129,13 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a DiscoRequestMessage to the given target.
+        /// Sends a <seealso cref="DiscoRequestMessage"/> to the given target.
         /// </summary>
         /// <param name="target">The target e.g. 'witches@conference.jabber.org'.</param>
         /// <param name="type">The disco type</param>
         /// <param name="onMessage">The method that should get executed once the helper receives a new valid message.</param>
         /// <param name="onTimeout">The method that should get executed once the helper timeout gets triggered.</param>
-        /// <returns>Returns a MessageResponseHelper listening for DiscoRequestMessage answers.</returns>
+        /// <returns>Returns a <seealso cref="MessageResponseHelperResult"/> listening for <seealso cref="DiscoRequestMessage"/> answers.</returns>
         public MessageResponseHelper<IQMessage> createDisco(string target, DiscoType type, MessageResponseHelper<IQMessage>.OnMessageHandler onMessage, MessageResponseHelper<IQMessage>.OnTimeoutHandler onTimeout)
         {
             MessageResponseHelper<IQMessage> helper = new MessageResponseHelper<IQMessage>(CONNECTION, onMessage, onTimeout);
@@ -149,11 +145,11 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a DiscoRequestMessage to the given target.
+        /// Sends a <seealso cref="DiscoRequestMessage"/> to the given target.
         /// </summary>
         /// <param name="target">The target e.g. 'witches@conference.jabber.org'.</param>
         /// <param name="type">The disco type</param>
-        /// <returns>Returns a MessageResponseHelperResult listening for DiscoRequestMessage answers.</returns>
+        /// <returns>Returns a <seealso cref="MessageResponseHelperResult"/> listening for <seealso cref="DiscoRequestMessage"/> answers.</returns>
         public async Task<MessageResponseHelperResult<IQMessage>> discoAsync(string target, DiscoType type)
         {
             Predicate<IQMessage> predicate = (x) => { return true; };
@@ -173,7 +169,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PresenceMessage to unsubscribe form the given bare JID.
+        /// Sends a <seealso cref="PresenceMessage"/> to unsubscribe form the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the target e.g. 'witches@conference.jabber.org'.</param>
         public async Task unsubscribeFromPresenceAsync(string bareJid)
@@ -183,7 +179,7 @@ namespace XMPP_API.Classes
         }
 
         /// <summary>
-        /// Sends a PresenceMessage to answer an presence subscription request from the given bare JID.
+        /// Sends a <seealso cref="PresenceMessage"/> to answer an presence subscription request from the given bare JID.
         /// </summary>
         /// <param name="bareJid">The bare JID of the target e.g. 'witches@conference.jabber.org'.</param>
         /// <param name="accept">Whether the request was accepted or not.</param>
@@ -191,6 +187,58 @@ namespace XMPP_API.Classes
         {
             PresenceMessage msg = new PresenceMessage(CONNECTION.account.getBareJid(), bareJid, accept ? "subscribed" : "unsubscribed");
             await CONNECTION.SendAsync(msg, true);
+        }
+
+        /// <summary>
+        /// Sends a "XEP-0357: Push Notifications" request to enable push notifications.
+        /// </summary>
+        /// <param name="pushServerBareJid">The bare JID of the push server e.g. 'push@xmpp.example.com'.</param>
+        /// <param name="node">The "XEP-0060: Publish-Subscribe" node where the server should publish notifications to.</param>
+        /// <param name="secret">The authentication secret for the "XEP-0060: Publish-Subscribe" node, where the server should publish notifications to.</param>
+        /// <returns>Returns a <seealso cref="MessageResponseHelperResult"/> listening for <seealso cref="EnablePushNotificationsMessage"/> responses.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> enablePushNotificationsAsync(string pushServerBareJid, string node, string secret)
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            EnablePushNotificationsMessage msg = new EnablePushNotificationsMessage(pushServerBareJid, node, secret);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a "XEP-0357: Push Notifications" request to disable push notifications.
+        /// </summary>
+        /// <param name="pushServerBareJid">The bare JID of the push server.</param>
+        /// <returns>Returns a <seealso cref="MessageResponseHelperResult"/> listening for <seealso cref="DisablePushNotificationsMessage"/> responses.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> disablePushNotificationsAsync(string pushServerBareJid)
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            DisablePushNotificationsMessage msg = new DisablePushNotificationsMessage(pushServerBareJid);
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a "XEP-0280: Message Carbons" request to enable message carbons.
+        /// </summary>
+        /// <returns>Returns a <seealso cref="MessageResponseHelperResult"/> listening for <seealso cref="CarbonsEnableMessage"/> responses.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> enableMessageCarbonsAsync()
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            CarbonsEnableMessage msg = new CarbonsEnableMessage(CONNECTION.account.getFullJid());
+            return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a "XEP-0280: Message Carbons" request to enable message carbons.
+        /// </summary>
+        /// <returns>Returns a <seealso cref="MessageResponseHelperResult"/> listening for <seealso cref="CarbonsDisableMessage"/> responses.</returns>
+        public async Task<MessageResponseHelperResult<IQMessage>> disableMessageCarbonsAsync()
+        {
+            Predicate<IQMessage> predicate = (x) => { return true; };
+            AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
+            CarbonsDisableMessage msg = new CarbonsDisableMessage(CONNECTION.account.getFullJid());
+            return await helper.startAsync(msg);
         }
 
         #endregion

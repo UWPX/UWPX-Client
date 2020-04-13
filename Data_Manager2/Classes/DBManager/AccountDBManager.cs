@@ -270,7 +270,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (account.pushEnabled)
             {
-                dB.InsertOrReplace(new PushTable { accountId = account.getBareJid(), node = account.pushNode, secret = account.pushNodeSecret, published = account.pushNodePublished });
+                dB.InsertOrReplace(new PushTable { accountId = account.getBareJid(), node = account.pushNode, secret = account.pushNodeSecret, published = account.pushNodePublished, serverBareJid = account.pushServerBareJid });
             }
             else
             {
