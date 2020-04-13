@@ -36,19 +36,6 @@ namespace XMPP_API.Classes.Network
         #endregion
 
         #region --Misc Methods (Private)--
-        private void StartDisco()
-        {
-            Task.Run(async () =>
-            {
-                await DiscoAsync();
-            });
-        }
-
-        private void StopDisco()
-        {
-
-        }
-
         private async Task DiscoAsync()
         {
             MessageResponseHelperResult<IQMessage> result = await CONNECTION.GENERAL_COMMAND_HELPER.discoAsync(CONNECTION.account.user.domainPart, DiscoType.INFO);
@@ -149,11 +136,7 @@ namespace XMPP_API.Classes.Network
         {
             if (args.newState == ConnectionState.CONNECTED)
             {
-                StartDisco();
-            }
-            else if (args.newState == ConnectionState.DISCONNECTED)
-            {
-                StopDisco();
+                _ = DiscoAsync();
             }
         }
 
