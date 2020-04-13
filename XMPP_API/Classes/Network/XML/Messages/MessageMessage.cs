@@ -150,6 +150,17 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 }
             }
 
+            // Check for a 'XEP-0359: Unique and Stable Stanza IDs' ID:
+            XmlNode stanzaIdNode = XMLUtils.getChildNode(node, "stanza-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
+            if (!(stanzaIdNode is null))
+            {
+                id = stanzaIdNode.Attributes["id"]?.Value;
+                if (!(id is null))
+                {
+                    return id;
+                }
+            }
+
             // Fall back to a new message ID:
             return getRandomId();
         }
