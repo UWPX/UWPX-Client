@@ -76,7 +76,7 @@ namespace XMPP_API.Classes.Network.TCP
         private CancellationTokenSource tlsUpgradeCTS;
         private CancellationTokenSource connectCTS;
         private readonly SemaphoreSlim CONNECT_DISCONNECT_SEMA = new SemaphoreSlim(1, 1);
-        private static readonly SemaphoreSlim WRITE_SEMA = new SemaphoreSlim(1, 1);
+        private readonly SemaphoreSlim WRITE_SEMA = new SemaphoreSlim(1, 1);
         private bool disposed;
 
         public delegate void NewDataReceivedEventHandler(TcpConnection sender, NewDataReceivedEventArgs args);
