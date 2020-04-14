@@ -66,7 +66,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public bool PlaySoundForNewChatMessages
         {
             get => _PlaySoundForNewChatMessages;
-            set => SetBoolInversedProperty(ref _PlaySoundForNewChatMessages, value, SettingsConsts.DISABLE_VIBRATION_FOR_NEW_CHAT_MESSAGES);
+            set => SetBoolInversedProperty(ref _PlaySoundForNewChatMessages, value, SettingsConsts.DISABLE_PLAY_SOUND_FOR_NEW_CHAT_MESSAGES);
         }
         private bool _IsEmojiButtonEnabled;
         public bool IsEmojiButtonEnabled
