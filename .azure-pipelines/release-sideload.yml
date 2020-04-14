@@ -52,7 +52,7 @@ steps:
                   /p:PackageCertificateThumbprint="CE590AC1C92838F969D0895249013092E64829DD" 
                   /p:PackageCertificateKeyFile="$(signingCert.secureFilePath)"
                   /p:PackageCertificatePassword="$(signingCert.password)"
-                  /t:Packaging'
+                  /t:UWPX_UI'
     platform: x64
     configuration: '$(Build.Uwpx.BuildConfiguration)'
 
