@@ -41,6 +41,10 @@ namespace Logging
             {
                 CHANNEL.LogEvent(text, null, LoggingLevel.Verbose); // Workaround because else the channel will only show "stringmessage:," (https://stackoverflow.com/questions/43651340/empty-etw-message-in-windows-device-portal)
             }
+            else if (logEvent.Level == NLog.LogLevel.Trace)
+            {
+                CHANNEL.LogEvent(text, null, LoggingLevel.Verbose);
+            }
             else if (logEvent.Level == NLog.LogLevel.Error)
             {
                 CHANNEL.LogEvent(text, null, LoggingLevel.Error);
@@ -56,10 +60,6 @@ namespace Logging
             else if (logEvent.Level == NLog.LogLevel.Warn)
             {
                 CHANNEL.LogEvent(text, null, LoggingLevel.Warning);
-            }
-            else if (logEvent.Level == NLog.LogLevel.Trace)
-            {
-                CHANNEL.LogEvent(text, null, LoggingLevel.Information);
             }
         }
 

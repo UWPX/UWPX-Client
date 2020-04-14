@@ -44,6 +44,9 @@ namespace UWPX_UI_Context.Classes.ValueConverter
                     case LogLevel.DEBUG:
                         return "Debug";
 
+                    case LogLevel.TRACE:
+                        return "Trace";
+
                     default:
                         return logLevel.ToString();
                 }

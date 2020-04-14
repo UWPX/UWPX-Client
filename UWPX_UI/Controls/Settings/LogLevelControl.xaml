@@ -61,7 +61,7 @@
                                  Text="Warning!"/>
                         </Underline>
                         <LineBreak/>
-                        <Run Text="If you set the log-level to 'Debug' you may experience performance and connection problems, because EVERY send and received XML message gets logged!"/>
+                        <Run Text="If you set the log-level to 'Trace', you may experience performance and connection problems, because EVERY send and received XML message gets logged!"/>
                     </TextBlock>
                 </Flyout>
             </Button.Flyout>

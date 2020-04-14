@@ -227,7 +227,7 @@ namespace XMPP_API.Classes.Network.TCP
                             Logger.Error(LOGGER_TAG + "Failed to send - " + lastConnectionError.ERROR_MESSAGE + ": " + s);
                             return false;
                         }
-                        Logger.Debug(LOGGER_TAG + "Send to (" + account.serverAddress + "):" + s);
+                        Logger.Trace(LOGGER_TAG + "Send to (" + account.serverAddress + "):" + s);
                         return true;
                     }
                 }
@@ -495,7 +495,7 @@ namespace XMPP_API.Classes.Network.TCP
                                 case TcpReadState.SUCCESS:
                                     lastReadingFailedCount = 0;
                                     errorCount = 0;
-                                    Logger.Debug(LOGGER_TAG + "Received from (" + account.serverAddress + "):" + readResult.DATA);
+                                    Logger.Trace(LOGGER_TAG + "Received from (" + account.serverAddress + "):" + readResult.DATA);
 
                                     // Trigger the NewDataReceived event:
                                     NewDataReceived?.Invoke(this, new NewDataReceivedEventArgs(readResult.DATA));

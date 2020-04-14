@@ -95,11 +95,19 @@ namespace Logging
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
+        /// Adds a Trace message to the log
+        /// </summary>
+        public static void Trace(string message)
+        {
+            if (logLevel >= LogLevel.TRACE)
+            {
+                NLOGGER.Trace(message);
+            }
+        }
+
+        /// <summary>
         /// Adds a Debug message to the log
         /// </summary>
-        /// <history>
-        /// 01/01/2017 Created [Fabian Sauter]
-        /// </history>
         public static void Debug(string message)
         {
             if (logLevel >= LogLevel.DEBUG)
@@ -111,9 +119,6 @@ namespace Logging
         /// <summary>
         /// Adds a Info message to the log
         /// </summary>
-        /// <history>
-        /// 01/01/2017 Created [Fabian Sauter]
-        /// </history>
         public static void Info(string message)
         {
             if (logLevel >= LogLevel.INFO)
@@ -125,9 +130,6 @@ namespace Logging
         /// <summary>
         /// Adds a Warn message to the log
         /// </summary>
-        /// <history>
-        /// 01/01/2017 Created [Fabian Sauter]
-        /// </history>
         public static void Warn(string message)
         {
             if (logLevel >= LogLevel.WARNING)
@@ -139,9 +141,6 @@ namespace Logging
         /// <summary>
         /// Adds a Error message to the log
         /// </summary>
-        /// <history>
-        /// 01/01/2017 Created [Fabian Sauter]
-        /// </history>
         public static void Error(string message, Exception e)
         {
             if (logLevel >= LogLevel.ERROR)
@@ -160,9 +159,6 @@ namespace Logging
         /// <summary>
         /// Adds a Error message to the log
         /// </summary>
-        /// <history>
-        /// 01/01/2017 Created [Fabian Sauter]
-        /// </history>
         public static void Error(string message)
         {
             Error(message, null);

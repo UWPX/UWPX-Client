@@ -27,7 +27,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            if (value is LogLevelDataTemplate logLevel && logLevel.LogLevel == LogLevel.DEBUG)
+            if (value is LogLevelDataTemplate logLevel && logLevel.LogLevel == LogLevel.TRACE)
             {
                 return Visibility.Visible;
             }
