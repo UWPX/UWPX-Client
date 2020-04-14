@@ -62,7 +62,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             MODEL.DebugSettingsEnabled = Settings.getSettingBoolean(SettingsConsts.DEBUG_SETTINGS_ENABLED);
             MODEL.PushEnabled = Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED);
             MODEL.ChannelUri = Settings.getSettingString(SettingsConsts.PUSH_CHANNEL_URI);
-            MODEL.ChannelCreatedDate = Settings.getSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME).ToString("0:MM/dd/yy H:mm:ss");
+            MODEL.ChannelCreatedDate = Settings.getSettingDateTime(SettingsConsts.PUSH_CHANNEL_CREATED_DATE_TIME).ToString("MM/dd/yy H:mm:ss");
         }
 
         #endregion

@@ -23,11 +23,6 @@
                    TargetType="Button">
                 <Setter Property="Margin" Value="0,10,0,0"/>
             </Style>
-
-            <Style TargetType="TextBlock">
-                <Setter Property="TextWrapping" Value="Wrap"/>
-                <Setter Property="IsTextSelectionEnabled" Value="True"/>
-            </Style>
         </ResourceDictionary>
     </Page.Resources>
 
@@ -125,7 +120,9 @@
                                         </Button.Flyout>
                                     </Button>
                                 </StackPanel>
-                                <TextBlock Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
+                                <TextBlock IsTextSelectionEnabled="True"
+                                           TextWrapping="Wrap"
+                                           Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
                                     <Run FontWeight="Bold"
                                          Text="State:"/>
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.PushManagerState, Mode=OneWay}"/>
