@@ -114,6 +114,13 @@ namespace XMPP_API.Classes.Network
 
         private async Task CheckDiscoFeaturesDomainPartAsync(List<DiscoFeature> features)
         {
+            if (CONNECTION.account.connectionConfiguration.disableMessageCarbons)
+            {
+                CONNECTION.account.CONNECTION_INFO.msgCarbonsState = MessageCarbonsState.DISABLED;
+                Logger.Info("No need to enable message carbons for '" + CONNECTION.account.getBareJid() + "' - message carbons are disabled.");
+                return;
+            }
+
             bool foundCarbons = false;
             foreach (DiscoFeature f in features)
             {
@@ -143,7 +150,7 @@ namespace XMPP_API.Classes.Network
             else if (CONNECTION.account.pushNodePublished)
             {
                 CONNECTION.account.CONNECTION_INFO.pushState = PushState.ENABLED;
-                Logger.Info("No need to enable to for '" + CONNECTION.account.getBareJid() + "' - already enabled");
+                Logger.Info("No need to enable push for '" + CONNECTION.account.getBareJid() + "' - already enabled");
             }
 
             foreach (DiscoFeature f in features)
