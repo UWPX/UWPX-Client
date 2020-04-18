@@ -8,6 +8,7 @@
         STORING_CHANNEL,
         SENDING_UPDATED_CHANNEL_URI_TO_PUSH_SERVER,
         INITIALIZED,
+        DEAKTIVATED,
         ERROR,
     }
 }

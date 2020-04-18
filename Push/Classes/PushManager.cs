@@ -75,6 +75,77 @@ namespace Push.Classes
             return 1997;
         }
 
+        /// <summary>
+        /// Returns the hash value for all accounts based on a sorted list.
+        /// </summary>
+        private static int GetAccountsHash()
+        {
+            IEnumerable<string> accounts = ConnectionHandler.INSTANCE.getClients().Select(x => x.getXMPPAccount().getBareJid());
+            // The last bit always indicates push enabled:
+            return unchecked(GetOrderIndependentHashCode(accounts) << 1) ^ Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED).GetHashCode();
+        }
+
+        /// <summary>
+        /// Returns the hash code of a list.
+        /// It does not depend on the order of the list.
+        /// Based on: https://stackoverflow.com/questions/670063/getting-hash-of-a-list-of-strings-regardless-of-order
+        /// </summary>
+        private static int GetOrderIndependentHashCode(IEnumerable<string> source)
+        {
+            int hash = 0;
+            int curHash;
+            // Stores number of occurrences so far of each value.
+            Dictionary<string, int> valueCounts = new Dictionary<string, int>();
+
+            foreach (string element in source)
+            {
+                if (valueCounts.TryGetValue(element, out int bitOffset))
+                {
+                    valueCounts[element] = ++bitOffset;
+                }
+                else
+                {
+                    valueCounts.Add(element, bitOffset);
+                }
+
+                // The current hash code is shifted (with wrapping) one bit
+                // further left on each successive recurrence of a certain
+                // value to widen the distribution.
+                // 37 is an arbitrary low prime number that helps the
+                // algorithm to smooth out the distribution.
+                curHash = GetDeterministicHashCode(element);
+                hash = unchecked(hash + (((curHash << bitOffset) | (curHash >> (32 - bitOffset))) * 37));
+            }
+            return hash;
+        }
+
+        /// <summary>
+        /// Returns a stable hash across executions.
+        /// The default <seealso cref="string.GetHashCode()"/> method returns only deterministic values for the current run.
+        /// Based on: https://andrewlock.net/why-is-string-gethashcode-different-each-time-i-run-my-program-in-net-core/
+        /// </summary>
+        private static int GetDeterministicHashCode(string str)
+        {
+            unchecked
+            {
+                int hash1 = (5381 << 16) + 5381;
+                int hash2 = hash1;
+
+                for (int i = 0; i < str.Length; i += 2)
+                {
+                    hash1 = ((hash1 << 5) + hash1) ^ str[i];
+                    if (i == str.Length - 1)
+                    {
+                        break;
+                    }
+
+                    hash2 = ((hash2 << 5) + hash2) ^ str[i + 1];
+                }
+
+                return hash1 + (hash2 * 1566083941);
+            }
+        }
+
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -82,6 +153,15 @@ namespace Push.Classes
         {
             Task.Run(async () =>
             {
+                // Push is disabled:
+                if (!Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED))
+                {
+                    await SetStateAsync(PushManagerState.DEAKTIVATED);
+                    Logger.Info("Push has been disabled.");
+                    return;
+                }
+
+                // Push is enabled:
                 await INIT_SEMA.WaitAsync();
                 if (state != PushManagerState.NOT_INITIALIZED && state != PushManagerState.INITIALIZED && state != PushManagerState.ERROR)
                 {
@@ -172,6 +252,7 @@ namespace Push.Classes
                     if (message is SuccessSetPushAccountsMessage msg)
                     {
                         UpdatePushForAccounts(msg.accounts, msg.pushServerBareJid);
+                        Settings.setSetting(SettingsConsts.PUSH_LAST_ACCOUNT_HASH, GetAccountsHash());
                         Logger.Info("Setting push accounts successful.");
                         return;
                     }
@@ -243,6 +324,15 @@ namespace Push.Classes
                 }
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Determines based on the hash value of all accounts if the push accounts should be updated.
+        /// </summary>
+        /// <returns></returns>
+        public static bool ShouldUpdatePushForAccounts()
+        {
+            return Settings.getSettingInt(SettingsConsts.PUSH_LAST_ACCOUNT_HASH) != GetAccountsHash();
         }
 
         #endregion

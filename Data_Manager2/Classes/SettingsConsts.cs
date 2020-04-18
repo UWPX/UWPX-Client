@@ -59,5 +59,6 @@
         public const string PUSH_CHANNEL_URI = "push_channel_uri";
         public const string PUSH_CHANNEL_URI_SEND_TO_PUSH_SERVER = "push_channel_uri_send_to_push_server";
         public const string PUSH_CHANNEL_CREATED_DATE_TIME = "push_channel_created_date_time";
+        public const string PUSH_LAST_ACCOUNT_HASH = "push_last_account_hash";
     }
 }

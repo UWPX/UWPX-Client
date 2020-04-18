@@ -48,7 +48,7 @@ namespace UWPX_UI
 
             InitializeComponent();
             Suspending += OnSuspending;
-            Resuming += App_Resuming;
+            Resuming += OnAppResuming;
             UnhandledException += App_UnhandledException;
         }
 
@@ -86,14 +86,7 @@ namespace UWPX_UI
         {
             PushManager.INSTANCE.StateChanged -= PushManager_StateChanged;
             PushManager.INSTANCE.StateChanged += PushManager_StateChanged;
-            if (Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED))
-            {
-                PushManager.INSTANCE.Init();
-            }
-            else
-            {
-                Logger.Info("Skipping push initialization since push is disabled.");
-            }
+            PushManager.INSTANCE.Init();
         }
 
         private void OnActivatedOrLaunched(IActivatedEventArgs args)
@@ -291,7 +284,7 @@ namespace UWPX_UI
             deferral.Complete();
         }
 
-        private void App_Resuming(object sender, object e)
+        private void OnAppResuming(object sender, object e)
         {
             // Connect to all clients:
             ConnectionHandler.INSTANCE.connectAll();
@@ -351,7 +344,26 @@ namespace UWPX_UI
                 channel.PushNotificationReceived += WNS_PushNotificationReceived;
 
                 // Setup done, now send an updated list of all push accounts:
-                await PushManager.INSTANCE.InitPushForAccountsAsync();
+                if (PushManager.ShouldUpdatePushForAccounts())
+                {
+                    await PushManager.INSTANCE.InitPushForAccountsAsync();
+                }
+                else
+                {
+                    Logger.Info("No need to update push accounts on the push server.");
+                }
+            }
+            else if (args.NEW_STATE == PushManagerState.DEAKTIVATED)
+            {
+                // Setup done, now send an updated list of all push accounts:
+                if (PushManager.ShouldUpdatePushForAccounts())
+                {
+                    await PushManager.INSTANCE.InitPushForAccountsAsync();
+                }
+                else
+                {
+                    Logger.Info("No need to update push accounts on the push server.");
+                }
             }
         }
 

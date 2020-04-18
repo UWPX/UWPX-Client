@@ -114,7 +114,7 @@
                                         <Button.Flyout>
                                             <Flyout>
                                                 <controls1:MarkdownTextBlock x:Uid="AccountSettingsPage_enable_push_tooltip"
-                                                                             MaxWidth="200"
+                                                                             MaxWidth="300"
                                                                              TextWrapping="Wrap"/>
                                             </Flyout>
                                         </Button.Flyout>

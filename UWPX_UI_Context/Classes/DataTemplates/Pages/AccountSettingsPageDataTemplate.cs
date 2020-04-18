@@ -1,5 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 using Data_Manager2.Classes;
+using Push.Classes;
 using Shared.Classes;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Pages
@@ -12,7 +13,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         public bool PushEnabled
         {
             get => _PushEnabled;
-            set => SetBoolProperty(ref _PushEnabled, value, SettingsConsts.PUSH_ENABLED);
+            set => SetPushEnabledProperty(value);
         }
 
         private string _ChannelUri;
@@ -53,10 +54,19 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
         #region --Set-, Get- Methods--
         private bool SetBoolProperty(ref bool storage, bool value, string settingsToken, [CallerMemberName] string propertyName = null)
         {
-            if (SetProperty(ref storage, value, propertyName))
+            if (SetProperty(ref storage, value, propertyName) && Settings.getSettingBoolean(settingsToken) != value)
             {
                 Settings.setSetting(settingsToken, value);
                 return true;
+            }
+            return false;
+        }
+
+        private bool SetPushEnabledProperty(bool value)
+        {
+            if (SetBoolProperty(ref _PushEnabled, value, SettingsConsts.PUSH_ENABLED, nameof(PushEnabled)))
+            {
+                PushManager.INSTANCE.Init();
             }
             return false;
         }
