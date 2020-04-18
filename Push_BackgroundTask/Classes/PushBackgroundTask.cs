@@ -4,7 +4,7 @@ using Windows.Networking.PushNotifications;
 
 namespace Push_BackgroundTask.Classes
 {
-    public class PushBackgroundTask: IBackgroundTask
+    public sealed class PushBackgroundTask: IBackgroundTask
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

@@ -29,7 +29,7 @@ namespace UWPX_UI_Context.Classes
         public static async Task RegisterBackgroundTasksAsync()
         {
             await RegisterToastBackgroundTaskAsync();
-            // await RegisterPushBackgroundTaskAsync();
+            await RegisterPushBackgroundTaskAsync();
         }
 
         #endregion
@@ -85,9 +85,15 @@ namespace UWPX_UI_Context.Classes
             builder.TaskEntryPoint = "Push_BackgroundTask.Classes.PushBackgroundTask";
 
             // And register the task:
-            builder.Register();
+            builder.Register().Completed += OnBackgroundTaskRegistrationCompleted;
 
             Logger.Info("Registered " + PUSH_BACKGROUND_TASK_NAME + " background task.");
+        }
+
+        private static void OnBackgroundTaskRegistrationCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            sender.Completed -= OnBackgroundTaskRegistrationCompleted;
+            Logger.Info("Registered " + sender.Name + " background task.");
         }
 
         #endregion

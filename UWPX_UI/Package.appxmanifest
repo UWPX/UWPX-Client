@@ -33,6 +33,11 @@
             <uap:DisplayName>XMPP</uap:DisplayName>
           </uap:Protocol>
         </uap:Extension>
+        <Extension Category="windows.backgroundTasks" EntryPoint="Push_BackgroundTask.Classes.PushBackgroundTask">
+          <BackgroundTasks>
+            <Task Type="pushNotification"/>
+          </BackgroundTasks>
+        </Extension>
       </Extensions>
     </Application>
   </Applications>
