@@ -1,5 +1,4 @@
-﻿using UWPX_UI_Context.Classes.DataTemplates;
-using UWPX_UI_Context.Classes.DataTemplates.Controls;
+﻿using UWPX_UI_Context.Classes.DataTemplates.Controls;
 
 namespace UWPX_UI_Context.Classes.DataContext.Controls
 {
@@ -22,10 +21,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public void UpdateView(AccountDataTemplate account)
-        {
 
-        }
 
         #endregion
 

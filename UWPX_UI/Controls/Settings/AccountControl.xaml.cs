@@ -17,7 +17,7 @@ namespace UWPX_UI.Controls.Settings
             get => (AccountDataTemplate)GetValue(AccountProperty);
             set => SetValue(AccountProperty, value);
         }
-        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountControl), new PropertyMetadata(null, OnAccountChanged));
+        public static readonly DependencyProperty AccountProperty = DependencyProperty.Register(nameof(Account), typeof(AccountDataTemplate), typeof(AccountControl), new PropertyMetadata(null));
 
         public readonly AccountControlContext VIEW_MODEL = new AccountControlContext();
 
@@ -42,10 +42,7 @@ namespace UWPX_UI.Controls.Settings
         #endregion
 
         #region --Misc Methods (Private)--
-        private void UpdateView(DependencyPropertyChangedEventArgs e)
-        {
-            VIEW_MODEL.UpdateView((AccountDataTemplate)e.NewValue);
-        }
+
 
         #endregion
 
@@ -55,14 +52,6 @@ namespace UWPX_UI.Controls.Settings
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private static void OnAccountChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is AccountControl accountSettingsControl)
-            {
-                accountSettingsControl.UpdateView(e);
-            }
-        }
-
         private async void Info_btn_Click(object sender, RoutedEventArgs e)
         {
             AccountInfoDialog dialog = new AccountInfoDialog(Account);
