@@ -90,12 +90,6 @@ namespace UWPX_UI_Context.Classes
             Logger.Info("Registered " + PUSH_BACKGROUND_TASK_NAME + " background task.");
         }
 
-        private static void OnBackgroundTaskRegistrationCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
-        {
-            sender.Completed -= OnBackgroundTaskRegistrationCompleted;
-            Logger.Info("Registered " + sender.Name + " background task.");
-        }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -104,7 +98,11 @@ namespace UWPX_UI_Context.Classes
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-
+        private static void OnBackgroundTaskRegistrationCompleted(BackgroundTaskRegistration sender, BackgroundTaskCompletedEventArgs args)
+        {
+            sender.Completed -= OnBackgroundTaskRegistrationCompleted;
+            Logger.Info("Registered " + sender.Name + " background task.");
+        }
 
         #endregion
     }
