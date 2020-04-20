@@ -163,7 +163,7 @@ namespace Push.Classes
 
                 // Push is enabled:
                 await INIT_SEMA.WaitAsync();
-                if (state != PushManagerState.NOT_INITIALIZED && state != PushManagerState.INITIALIZED && state != PushManagerState.ERROR)
+                if (state != PushManagerState.NOT_INITIALIZED && state != PushManagerState.INITIALIZED && state != PushManagerState.ERROR && state != PushManagerState.DEAKTIVATED)
                 {
                     INIT_SEMA.Release();
                     Logger.Debug(Consts.LOGGER_TAG + "Init() called, but push service is already initialized.");
@@ -278,6 +278,7 @@ namespace Push.Classes
         /// <returns>True on success.</returns>
         public async Task<bool> RequestTestPushMessageAsync()
         {
+            Logger.Info("Requesting a test push notification...");
             using (TcpConnection connection = new TcpConnection(GetServerAddress(), GetServerPort()))
             {
                 try
