@@ -135,14 +135,24 @@
                                          Text="Channel Created:"/>
                                     <Run Text="{x:Bind VIEW_MODEL.MODEL.ChannelCreatedDate, Mode=OneWay}"/>
                                 </TextBlock>
-                                <Button x:Name="requestTestPush_btn"
-                                        Click="RequestTestPush_btn_Click"
-                                        Content="Request test push"
-                                        Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                                 <Button x:Name="initPush_btn"
                                         Click="InitPush_btn_Click"
                                         Content="Init push"
                                         Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                                <controls:IconProgressButtonControl x:Name="requestTestPush_btn"
+                                                                    Margin="0,10,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Click="RequestTestPush_btn_Click"
+                                                                    Glyph="&#xE7E7;"
+                                                                    Text="Request test push"
+                                                                    Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
+                                <controls:IconProgressButtonControl x:Name="initPushForAccounts_btn"
+                                                                    Margin="0,10,0,0"
+                                                                    HorizontalAlignment="Left"
+                                                                    Click="InitPushForAccounts_btn_Click"
+                                                                    Glyph="&#xE72C;"
+                                                                    Text="Init push for accounts"
+                                                                    Visibility="{x:Bind VIEW_MODEL.MODEL.DebugSettingsEnabled, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                             </StackPanel>
                         </settings:SettingsContentControl.MainContent>
                     </settings:SettingsContentControl>

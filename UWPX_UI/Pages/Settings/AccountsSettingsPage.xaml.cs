@@ -120,12 +120,25 @@ namespace UWPX_UI.Pages.Settings
 
         private async void RequestTestPush_btn_Click(object sender, RoutedEventArgs e)
         {
+            requestTestPush_btn.IsEnabled = false;
+            requestTestPush_btn.ProgressRingVisibility = Visibility.Visible;
             await VIEW_MODEL.RequestTestPushAsync();
+            requestTestPush_btn.IsEnabled = true;
+            requestTestPush_btn.ProgressRingVisibility = Visibility.Collapsed;
         }
 
         private void InitPush_btn_Click(object sender, RoutedEventArgs e)
         {
             VIEW_MODEL.InitPush();
+        }
+
+        private async void InitPushForAccounts_btn_Click(object sender, RoutedEventArgs e)
+        {
+            initPushForAccounts_btn.IsEnabled = false;
+            initPushForAccounts_btn.ProgressRingVisibility = Visibility.Visible;
+            await VIEW_MODEL.InitPushForAccountsAsync();
+            initPushForAccounts_btn.IsEnabled = true;
+            initPushForAccounts_btn.ProgressRingVisibility = Visibility.Collapsed;
         }
 
         #endregion

@@ -49,6 +49,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
             return PushManager.INSTANCE.RequestTestPushMessageAsync();
         }
 
+        public Task InitPushForAccountsAsync()
+        {
+            return PushManager.INSTANCE.InitPushForAccountsAsync();
+        }
+
         public void InitPush()
         {
             PushManager.INSTANCE.Init();
