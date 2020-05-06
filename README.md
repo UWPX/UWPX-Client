@@ -32,39 +32,39 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 6. [References](#references)
 
 ## Features:
-| Name | XEPs |
-| ------------- | ------------- |
-| Data Forms | [XEP-0004](https://xmpp.org/extensions/xep-0004.html "XEP-0004") |
-| Service Discovery | [XEP-0030](https://xmpp.org/extensions/xep-0030.html "XEP-0030") |
-| MUC | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") |
-| Bookmarks | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") |
-| Publish-Subscribe | [XEP-0060](https://xmpp.org/extensions/xep-0060.html "XEP-0060") |
-| Chat State | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
-| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0085.html "XEP-0163") |
-| Message Delivery Receipts | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
-| XMPP Ping | [XEP-0199](https://xmpp.org/extensions/xep-0199.html "XEP-0199") |
-| Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
-| Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
-| Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |
-| Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") |
-| Data Forms - Dynamic Forms | [XEP-0336](https://xmpp.org/extensions/xep-0336.html) |
-| Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) |
+| Name | XEPs | Version |
+| ------------- | ------------- | ------------- |
+| Data Forms | [XEP-0004](https://xmpp.org/extensions/xep-0004.html "XEP-0004") | 2.10.0 (2020-05-05) |
+| Service Discovery | [XEP-0030](https://xmpp.org/extensions/xep-0030.html "XEP-0030") | 2.5rc3 (2017-10-03) |
+| MUC | [XEP-0045](https://xmpp.org/extensions/xep-0045.html "XEP-0045") | 1.32.0 (2019-05-15) |
+| Bookmarks | [XEP-0048](https://xmpp.org/extensions/xep-0048.html "XEP-0048") | 1.32.0 (2019-05-15) |
+| Publish-Subscribe | [XEP-0060](https://xmpp.org/extensions/xep-0060.html "XEP-0060") | 1.18.0 (2020-02-27) |
+| Chat State | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") | 2.1 (2009-09-23) |
+| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") | 1.2.1 (2018-03-18) |
+| Message Delivery Receipts | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") | 1.4.0 (2018-08-02) |
+| XMPP Ping | [XEP-0199](https://xmpp.org/extensions/xep-0199.html "XEP-0199") | 2.0.1 (2019-03-26) |
+| Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") | 1.2 (2011-09-22) |
+| Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") | 0.13.2 (2019-12-16) |
+| Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") | 0.4 (2020-04-15) |
+| Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") | 0.3.0 (2018-01-25) |
+| Data Forms - Dynamic Forms | [XEP-0336](https://xmpp.org/extensions/xep-0336.html) | 0.2 (2015-11-09) |
+| Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) | 0.7.0 (2019-10-16) |
 
 
 ## ToDo:
-| Name | XEPs |
-| ------------- | ------------- |
-| vcard-temp | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") |
-| User Avatar | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") |
-| Instant Messaging Intelligence Quotient (IM IQ) | [XEP-0148](https://xmpp.org/extensions/xep-0148.html "XEP-0148") |
-| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html) |
-| Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") |
-|  Jingle Encrypted Transports | [XEP-0391](https://xmpp.org/extensions/xep-0391.html)
-| Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") |
-| Message Archive Management | [XEP-0313](https://xmpp.org/extensions/xep-0313.html "XEP-0313") |
-| HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") |
-| Mix | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") |
-| OMEMO (status -> [#5](https://github.com/UWPX/UWPX-Client/issues/5)) | [XEP-0163](https://xmpp.org/extensions/xep-0163.html "XEP-0163") and [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") |
+| Name | XEPs | Version |
+| ------------- | ------------- | ------------- |
+| vcard-temp | [XEP-0054](https://xmpp.org/extensions/xep-0054.html "XEP-0054") | 1.2 (2008-07-16) |
+| User Avatar [#130](https://github.com/UWPX/UWPX-Client/issues/130) | [XEP-0084](https://xmpp.org/extensions/xep-0084.html "XEP-0084") | 1.1.4 (2019-09-20) |
+| Instant Messaging Intelligence Quotient (IM IQ) | [XEP-0148](https://xmpp.org/extensions/xep-0148.html "XEP-0148") | 1.0 (2005-04-01) |
+| Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0163.html) | 1.2.1 (2018-03-18) |
+| Jingle | [XEP-0166](https://xmpp.org/extensions/xep-0166.html "XEP-0166") | 1.1.2 (2018-09-19) |
+| Jingle Encrypted Transports | [XEP-0391](https://xmpp.org/extensions/xep-0391.html) | 0.1.2 (2018-07-31) |
+| Stream Management | [XEP-0198](https://xmpp.org/extensions/xep-0198.html "XEP-0198") | 1.6 (2018-07-25) |
+| Message Archive Management | [XEP-0313](https://xmpp.org/extensions/xep-0313.html "XEP-0313") | 0.6.3 (2018-07-16) |
+| HTTP File Upload | [XEP-0363](https://xmpp.org/extensions/xep-0363.html "XEP-0363") | 1.0.0 (2020-02-11) |
+| Mix | [XEP-0369](https://xmpp.org/extensions/xep-0369.html "XEP-0369") | 0.14.4 (2020-03-26) |
+| OMEMO [#5](https://github.com/UWPX/UWPX-Client/issues/5), [#125](https://github.com/UWPX/UWPX-Client/issues/125) | [XEP-0384](https://xmpp.org/extensions/xep-0384.html "XEP-0384") | 0.5.0 (2020-03-26) |
 
 [MORE NOTES TO COME]
 
