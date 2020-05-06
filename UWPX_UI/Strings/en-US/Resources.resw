@@ -217,20 +217,14 @@ Messages received from devices with an untrusted fingerprint will be accepted an
 * [**sqlite-net-pcl**](https://github.com/praeclarum/sqlite-net) The backend for storing all messages, chats and accounts.
 * [**Unicode.net (fork)**](https://github.com/UWPX/unicode.net) A super easy to use and powerful emoji and text-processing library for .NET.
 * [**ZXing.Net**](https://github.com/micjahn/ZXing.Net/)  A library which supports decoding and generating of barcodes (like QR Code, PDF 417, EAN, UPC, Aztec, Data Matrix, Codabar) within images.
-* [**DnsClient.NET**](http://dnsclient.michaco.net/) DnsClient.NET is a simple yet very powerful and high performant open source library for the .NET Framework to do DNS lookups.</value>
+* [**DnsClient.NET**](http://dnsclient.michaco.net/) DnsClient.NET is a simple yet very powerful and high performant open source library for the .NET Framework to do DNS lookups.
+* [**Newtonsoft.Json**](https://www.newtonsoft.com/json) Popular high-performance JSON framework for .NET.</value>
   </data>
   <data name="CreditsPage_general_markdown.Text" xml:space="preserve">
     <value>This project wouldn't be possible without the great work of all those people working on the libraries used by UWPX. So take a second, head over and take a look at their great work!</value>
   </data>
   <data name="CreditsPage_images_markdown.Text" xml:space="preserve">
-    <value>* **Logo**: The UWPX logo is a combination of two images.  The `Chat` image has been edited for this.
-
-| Name: | Accessed: | License: | Source: |
-|:-----:|:---------:|:--------:|:-------:|
-| XMPP Logo | 21.11.2017 | [MIT](https://opensource.org/licenses/MIT) | Raja Sandhu, XMPP Standards Foundation ([LINK](https://commons.wikimedia.org/w/index.php?curid=20775269)) |
-| Chat | 21.11.2017 | [Creative Commons (Attribution 3.0 Unported)](https://creativecommons.org/licenses/by/3.0/) | Enes Dal ([LINK](https://www.iconfinder.com/icons/392521/bubble_chat_comment_message_talk_icon))
-
-* **Splashscreen**: Thanks to **[Senia](https://instagram.com/senia_scot?utm_source=ig_profile_share&amp;igshid=ihzyf01gup76)** for the great work she has done designing the UWP [splashscreen image](). It consists out of the following icons/images. Their color has been changed for this.
+    <value>* **Splashscreen**: Thanks to **[inloreap](https://www.instagram.com/anie.diamond/)** for the great work she has done designing the UWP [splashscreen image](). It consists out of the following icons/images. Their color has been changed for this.
 
 | Name: | Accessed: | License: | Source: |
 |:-----:|:---------:|:--------:|:-------:|
@@ -321,7 +315,6 @@ Also special thanks to all the Alpha (and hopefully soon Beta) testers that repo
   </data>
   <data name="CreditsPage_ui_markdown.Text" xml:space="preserve">
     <value>* [**Microsoft.UI.Xaml**](https://github.com/Microsoft/microsoft-ui-xaml) Provides backward-compatible implementations of the default Microsoft UWP XAML UI platform for Windows 10.
-* [**Progress Telerik UI for UWP**](https://github.com/telerik/UI-For-UWP)  An open-source version of Telerik UI for Universal Windows Platform (UWP) by [Progress](https://www.progress.com/).
 * [**Windows Community Toolkit**](https://github.com/Microsoft/WindowsCommunityToolkit) They provide an awesome collection of helper functions, custom controls and app services.</value>
   </data>
   <data name="DebugSettingsPage_tcp_timeout_tooltip.Text" xml:space="preserve">
@@ -371,7 +364,7 @@ To archive this, I had to update the [MasterDetailsView](https://docs.microsoft.
 
 All the rest of my time went into adding push support to UWPX.
 Therefor I've started developing my [own push server](https://github.com/UWPX/UWPX-Push-Server#publishing-the-channel-uri) for UWPX, based roughly on the [Conversations Push Proxy](https://github.com/iNPUTmice/p2) by [@iNPUTmice](https://github.com/iNPUTmice).  
-This is still a work in progress topic. If you can't wait for it, you can play around with it by enabling it via `Settings` -> `Accounts` -> `Enable push`. Since it's still work in progress **do not expect it to work all the time, or even at all 😅**.
+This is still a work in progress topic. If you can't wait for it, you can play around with it by enabling it via `Settings` -&gt; `Accounts` -&gt; `Enable push`. Since it's still work in progress **do not expect it to work all the time, or even at all 😅**.
 
 To get more information about the push setup and how it works, you can continue reading [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
 
