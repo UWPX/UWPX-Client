@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
+using Shared.Classes;
 using UWPX_UI.Dialogs;
 using UWPX_UI.Pages;
 using UWPX_UI_Context.Classes;
@@ -167,11 +168,14 @@ namespace UWPX_UI.Controls.Chat
 
         private async void VIEW_MODEL_OnError(ChatMasterControlContext sender, OnErrorEventArgs args)
         {
-            InfoDialog dialog = new InfoDialog(args.TITLE, args.MESSAGE)
+            await SharedUtils.CallDispatcherAsync(async () =>
             {
-                Foreground = new SolidColorBrush(Colors.Red)
-            };
-            await UiUtils.ShowDialogAsync(dialog);
+                InfoDialog dialog = new InfoDialog(args.TITLE, args.MESSAGE)
+                {
+                    Foreground = new SolidColorBrush(Colors.Red)
+                };
+                await UiUtils.ShowDialogAsync(dialog);
+            });
         }
 
         private async void AccountActionAccept_ibtn_Click(IconButtonControl sender, RoutedEventArgs args)
