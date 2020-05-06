@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0060;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0199;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
@@ -369,12 +370,33 @@ namespace XMPP_API.Classes.Network.XML
                                 }
                                 break;
 
+                            case IQMessage.GET:
+                                // XEP-0199 (XMPP Ping):
+                                XmlNode ping = XMLUtils.getChildNode(n, "ping", Consts.XML_XMLNS, Consts.XML_XEP_0199_NAMESPACE);
+                                if (ping != null)
+                                {
+                                    messages.Add(new PingMessage(n));
+                                    break;
+                                }
+
+                                // Default to IQErrorMessage:
+                                messages.Add(new IQErrorMessage(n));
+                                break;
+
                             case IQMessage.ERROR:
                                 // XEP-0363 (HTTP File Upload) request slot error:
                                 XmlNode requestNode = XMLUtils.getChildNode(n, "request", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
                                 if (requestNode != null)
                                 {
                                     messages.Add(new HTTPUploadErrorMessage(n));
+                                    break;
+                                }
+
+                                // XEP-0199 (XMPP Ping) ping failed:
+                                XmlNode pingError = XMLUtils.getChildNode(n, "ping", Consts.XML_XMLNS, Consts.XML_XEP_0199_NAMESPACE);
+                                if (pingError != null)
+                                {
+                                    messages.Add(new PingErrorMessage(n));
                                     break;
                                 }
 

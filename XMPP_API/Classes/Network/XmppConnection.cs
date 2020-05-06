@@ -14,6 +14,7 @@ using XMPP_API.Classes.Network.XML.Messages;
 using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.Processor;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0048;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0199;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
 
 namespace XMPP_API.Classes.Network
@@ -520,6 +521,13 @@ namespace XMPP_API.Classes.Network
                         Logger.Warn("[XMPPConnection2]: Invalid message id received!");
                         return;
                     }
+                }
+
+                // Respond to XEP-0199 (XMPP Ping) messages:
+                if (msg is PingMessage pingMsg)
+                {
+                    Logger.Debug("[XMPPConnection2]: XMPP ping received from " + pingMsg.getFrom());
+                    await SendAsync(pingMsg.generateResponse(), true);
                 }
 
                 // Invoke message processors:

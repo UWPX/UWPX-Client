@@ -301,6 +301,9 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMEnableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMFailedMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0198\SMRequestMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0199\PingErrorMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0199\PingMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0199\PongMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0249\DirectMUCInvitationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsDisableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsEnableMessage.cs" />

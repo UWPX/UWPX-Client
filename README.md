@@ -42,6 +42,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Chat State | [XEP-0085](https://xmpp.org/extensions/xep-0085.html "XEP-0085") |
 | Personal Eventing Protocol | [XEP-0163](https://xmpp.org/extensions/xep-0085.html "XEP-0163") |
 | Message Delivery Receipts | [XEP-0184](https://xmpp.org/extensions/xep-0184.html "XEP-0184") |
+| XMPP Ping | [XEP-0199](https://xmpp.org/extensions/xep-0199.html "XEP-0199") |
 | Direct MUC Invitations | [XEP-0249](https://xmpp.org/extensions/xep-0249.html "XEP-0249") |
 | Message Carbons | [XEP-0280](https://xmpp.org/extensions/xep-0280.html "XEP-0280") |
 | Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") |

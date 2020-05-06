@@ -1,8 +1,10 @@
-﻿using System.Xml;
+﻿using System;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace XMPP_API.Classes.Network.XML.Messages
 {
-    public class Error
+    public class Error: IXElementable
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -67,6 +69,27 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
                 default:
                     return ErrorType.UNKNOWN;
+            }
+        }
+
+        private static string errorTypeToString(ErrorType errorType)
+        {
+            switch (errorType)
+            {
+                case ErrorType.AUTH:
+                    return "auth";
+
+                case ErrorType.WAIT:
+                    return "wait";
+
+                case ErrorType.MODIFY:
+                    return "modify";
+
+                case ErrorType.CANCEL:
+                    return "cancel";
+
+                default: // Should not happen
+                    throw new NotImplementedException("No string representation for ErrorType: " + errorType.ToString());
             }
         }
 
@@ -150,6 +173,90 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 }
             }
             return ErrorName.UNKNOWN;
+        }
+
+        private static string errorNameToString(ErrorName errorName)
+        {
+            switch (errorName)
+            {
+                case ErrorName.BAD_REQUEST:
+                    return "bad-request";
+
+                case ErrorName.CONFLICT:
+                    return "conflict";
+
+                case ErrorName.FEATURE_NOT_IMPLEMENTED:
+                    return "feature-not-implemented";
+
+                case ErrorName.FORBIDDEN:
+                    return "forbidden";
+
+                case ErrorName.GONE:
+                    return "gone";
+
+                case ErrorName.INTERNAL_SERVER_ERROR:
+                    return "internal-server-error";
+
+                case ErrorName.ITEM_NOT_FOUND:
+                    return "item-not-found";
+
+                case ErrorName.JID_MALFORMED:
+                    return "jid-malformed";
+
+                case ErrorName.NOT_ACCEPTABLE:
+                    return "not-acceptable";
+
+                case ErrorName.NOT_ALLOWED:
+                    return "not-allowed";
+
+                case ErrorName.NOT_AUTHORIZED:
+                    return "not-authorized";
+
+                case ErrorName.PAYMENT_REQUIRED:
+                    return "payment-required";
+
+                case ErrorName.RECIPIENT_UNAVAILABLE:
+                    return "recipient-unavailable";
+
+                case ErrorName.REDIRECT:
+                    return "redirect";
+
+                case ErrorName.REGISTRATION_REQUIRED:
+                    return "registration-required";
+
+                case ErrorName.REMOTE_SERVER_NOT_FOUND:
+                    return "remote-server-not-found";
+
+                case ErrorName.REMOTE_SERVER_TIMEOUT:
+                    return "remote-server-timeout";
+
+                case ErrorName.RESOURCE_CONSTRAINT:
+                    return "resource-constraint";
+
+                case ErrorName.SERVICE_UNAVAILABLE:
+                    return "service-unavailable";
+
+                case ErrorName.SUBSCRIPTION_REQUIRED:
+                    return "subscription-required";
+
+                case ErrorName.UNDEFINED_CONDITION:
+                    return "undefined-condition";
+
+                case ErrorName.UNEXPECTED_REQUEST:
+                    return "unexpected-request";
+
+                default: // Should not happen
+                    throw new NotImplementedException("No string representation for ErrorName: " + errorName.ToString());
+            }
+        }
+
+        public XElement toXElement(XNamespace ns)
+        {
+            XElement error = new XElement(ns + "error");
+            error.Add(new XAttribute("type", errorTypeToString(ERROR_TYPE)));
+            XNamespace nsInner = Consts.XML_ERROR_NAMESPACE;
+            error.Add(new XElement(nsInner + errorNameToString(ERROR_NAME)));
+            return error;
         }
 
         #endregion
