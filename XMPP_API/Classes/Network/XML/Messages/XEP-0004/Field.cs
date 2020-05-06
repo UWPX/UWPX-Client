@@ -171,6 +171,13 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                             Value = (selectedOptions[0].value) ?? ""
                         });
                     }
+                    else
+                    {
+                        fieldNode.Add(new XElement(ns + "value")
+                        {
+                            Value = (value?.ToString()) ?? ""
+                        });
+                    }
                     break;
 
                 case FieldType.LIST_MULTI:
