@@ -290,3 +290,4 @@ __pycache__/
 # Fonts are copied during build time
 /UWPX_UI/Assets/Fonts/seguiemj.ttf
 /UWPX_UI/Assets/Fonts/segmdl2.ttf
+/UWPX_UI/Package.StoreAssociation.xml
