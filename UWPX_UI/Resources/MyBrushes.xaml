@@ -70,6 +70,11 @@
                              Color="#99FFFFFF"/>
             <SolidColorBrush x:Key="GoldBrush"
                              Color="#FFFFD700"/>
+            <media:AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FF2A2A2A"
+                                TintColor="#FF2A2A2A"
+                                TintOpacity="0.6"/>
         </ResourceDictionary>
         <ResourceDictionary x:Key="Light">
             <Color x:Key="DropShadowColor">#FF000000</Color>
@@ -94,6 +99,11 @@
                              Color="#99000000"/>
             <SolidColorBrush x:Key="GoldBrush"
                              Color="#FFFFEB3B"/>
+            <media:AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
+                                BackgroundSource="Backdrop"
+                                FallbackColor="#FFEDEDED"
+                                TintColor="#FFEDEDED"
+                                TintOpacity="0.6"/>
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
 
