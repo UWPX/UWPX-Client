@@ -12,7 +12,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatsQueryTextBoxStyle.xaml"/>
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/SkinToneRadioButton.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
@@ -35,9 +34,17 @@
         </Grid.RowDefinitions>
         <TextBox x:Name="filterEmojis_tbx"
                  Grid.Row="0"
+                 Background="Transparent"
                  PlaceholderText="Search for emoji..."
-                 Style="{StaticResource ChatsQueryTextBoxStyle}"
                  Text="{x:Bind VIEW_MODEL.MODEL.EmojiQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+            <TextBox.Resources>
+                <SolidColorBrush x:Key="TextControlBackgroundFocused"
+                                 Color="Transparent"/>
+                <SolidColorBrush x:Key="TextControlBackgroundPointerOver"
+                                 Color="Transparent"/>
+                <SolidColorBrush x:Key="TextControlBackgroundDisabled"
+                                 Color="Transparent"/>
+            </TextBox.Resources>
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation From="0"
                                              To="1"
