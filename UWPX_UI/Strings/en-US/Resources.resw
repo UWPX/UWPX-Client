@@ -224,7 +224,7 @@ Messages received from devices with an untrusted fingerprint will be accepted an
     <value>This project wouldn't be possible without the great work of all those people working on the libraries used by UWPX. So take a second, head over and take a look at their great work!</value>
   </data>
   <data name="CreditsPage_images_markdown.Text" xml:space="preserve">
-    <value>* **Splashscreen**: Thanks to **[inloreap](https://www.instagram.com/anie.diamond/)** for the great work she has done designing the UWP [splashscreen image](). It consists out of the following icons/images. Their color has been changed for this.
+    <value>* **Splashscreen**: Thanks to **[anie.diamond](https://www.instagram.com/anie.diamond/)** for the great work she has done designing the UWP [splashscreen image](). It consists out of the following icons/images. Their color has been changed for this.
 
 | Name: | Accessed: | License: | Source: |
 |:-----:|:---------:|:--------:|:-------:|
