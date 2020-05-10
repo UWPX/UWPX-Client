@@ -15,10 +15,6 @@
 
     <Page.Resources>
         <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="ms-appx:///Resources/Styles/ChatsQueryTextBoxStyle.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-
             <DataTemplate x:Key="MasterTemplate"
                           x:DataType="datatemplates:ChatDataTemplate">
                 <chat:ChatMasterControl Chat="{x:Bind}"/>
@@ -150,10 +146,19 @@
                     </Grid.RowDefinitions>
                     <TextBox x:Name="filterChats_tbx"
                              Grid.Row="0"
-                             Margin="10"
+                             Margin="0,10,0,10"
+                             Background="Transparent"
                              PlaceholderText="Filter chats..."
-                             Style="{StaticResource ChatsQueryTextBoxStyle}"
-                             Text="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.ChatQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                             Text="{x:Bind VIEW_MODEL.MODEL.CHAT_FILTER.ChatQuery, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBox.Resources>
+                            <SolidColorBrush x:Key="TextControlBackgroundFocused"
+                                             Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBackgroundPointerOver"
+                                             Color="Transparent"/>
+                            <SolidColorBrush x:Key="TextControlBackgroundDisabled"
+                                             Color="Transparent"/>
+                        </TextBox.Resources>
+                    </TextBox>
                     <controls:SeperatorControl Grid.Row="1"
                                                Margin="0,0,0,10"/>
                 </Grid>
