@@ -48,6 +48,5 @@
     <uap:Capability Name="removableStorage"/>
     <DeviceCapability Name="webcam" />
     <DeviceCapability Name="bluetooth" />
-    <DeviceCapability Name="broadFileSystemAccess"/>
   </Capabilities>
 </Package>
