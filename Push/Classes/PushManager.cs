@@ -157,7 +157,7 @@ namespace Push.Classes
                 if (!Settings.getSettingBoolean(SettingsConsts.PUSH_ENABLED))
                 {
                     await SetStateAsync(PushManagerState.DEAKTIVATED);
-                    Logger.Info("Push has been disabled.");
+                    Logger.Info("Push is disabled. Discarding initialization.");
                     return;
                 }
 

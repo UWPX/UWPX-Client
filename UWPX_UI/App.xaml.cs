@@ -353,7 +353,7 @@ namespace UWPX_UI
                     Logger.Info("No need to update push accounts on the push server.");
                 }
             }
-            else if (args.NEW_STATE == PushManagerState.DEAKTIVATED)
+            else if (args.NEW_STATE == PushManagerState.DEAKTIVATED && args.OLD_STATE == PushManagerState.INITIALIZED)
             {
                 // Setup done, now send an updated list of all push accounts:
                 if (PushManager.ShouldUpdatePushForAccounts())
