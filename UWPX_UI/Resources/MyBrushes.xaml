@@ -54,7 +54,7 @@
                                 BackgroundSource="HostBackdrop"
                                 FallbackColor="#FF2E2E2E"
                                 TintColor="#FF2E2E2E"
-                                TintOpacity="0.7"/>
+                                TintOpacity="0.8"/>
             <media:AcrylicBrush x:Key="AppBackgroundAcrylicElementBrush"
                                 BackgroundSource="Backdrop"
                                 FallbackColor="#FF2A2A2A"
@@ -98,7 +98,7 @@
             <SolidColorBrush x:Key="CaptionTextBrush"
                              Color="#99000000"/>
             <SolidColorBrush x:Key="GoldBrush"
-                             Color="#FFFFEB3B"/>
+                             Color="#FFFFD700"/>
             <media:AcrylicBrush x:Key="NavigationViewExpandedPaneBackground"
                                 BackgroundSource="Backdrop"
                                 FallbackColor="#FFEDEDED"
