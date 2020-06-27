@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Logging;
 using Shared.Classes;
+using UWPX_UI.Classes;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.Events;
 using Windows.ApplicationModel;
@@ -11,7 +12,6 @@ using Windows.Devices.Enumeration;
 using Windows.Graphics.Display;
 using Windows.Media.Capture;
 using Windows.Media.Capture.Frames;
-using Windows.System.Display;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 
@@ -32,7 +32,7 @@ namespace UWPX_UI.Controls
         // Preview:
         private bool previewRunning = false;
         private MediaCapture cameraCapture = null;
-        private DisplayRequest displayRequest = new DisplayRequest();
+        private SaveDisplayRequest displayRequest = new SaveDisplayRequest();
         private int cameraIndex = -1;
 
         // Frame Reader:
@@ -121,13 +121,14 @@ namespace UWPX_UI.Controls
             {
                 // Find all available cameras:
                 DeviceInformationCollection devices = await DeviceInformation.FindAllAsync(DeviceClass.VideoCapture);
-                VIEW_MODEL.MODEL.MultipleCamerasAvailable = devices.Count > 1;
-                if (devices.Count <= 0)
+                if (devices is null || devices.Count <= 0)
                 {
                     await OnErrorAsync(PreviewError.NO_CAMERA);
                     Logger.Info("No camera found.");
                     return;
                 }
+
+                VIEW_MODEL.MODEL.MultipleCamerasAvailable = devices.Count > 1;
                 if (cameraIndex < 0)
                 {
                     // Try to get the rear camera by default:
@@ -150,6 +151,7 @@ namespace UWPX_UI.Controls
             catch (Exception e)
             {
                 Logger.Error("Failed to load cameras.", e);
+                await OnErrorAsync(PreviewError.ACCESS_DENIED);
                 return;
             }
             // Start the preview with the selected camera:
@@ -172,9 +174,7 @@ namespace UWPX_UI.Controls
                 {
                     await cameraCapture.StopPreviewAsync();
                 }
-                catch (Exception)
-                {
-                }
+                catch (Exception) { }
                 DisplayInformation.AutoRotationPreferences = DisplayOrientations.None;
                 displayRequest.RequestRelease();
                 camera_ce.Source = null;

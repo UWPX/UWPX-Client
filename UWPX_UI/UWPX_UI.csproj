@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>
     </PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>A4BAFA7BCA63421A4AADE94E9223CB977B5653EC</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>CE590AC1C92838F969D0895249013092E64829DD</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
@@ -142,6 +142,7 @@
     <Compile Include="Classes\Events\AccountSelectionChangedEventArgs.cs" />
     <Compile Include="Classes\Events\EmojiSelectedEventArgs.cs" />
     <Compile Include="Classes\Events\MultiSelectChangedEventArgs.cs" />
+    <Compile Include="Classes\SaveDisplayRequest.cs" />
     <Compile Include="Classes\SplashScreenImageScale.cs" />
     <Compile Include="Controls\AccountImagePresenceControl.xaml.cs">
       <DependentUpon>AccountImagePresenceControl.xaml</DependentUpon>
