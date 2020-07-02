@@ -356,19 +356,10 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [May 2020] Push it to the [limit](https://youtu.be/9D-QD_HIfjA)
-This month I was focusing on improvements to push and some general UI updates.
-I've updated to [WinUi 2.4](https://docs.microsoft.com/en-us/uwp/toolkits/winui/release-notes/winui-2.4) and with that updated the chats UI once again 😁.
-Now the background will only display behind chat messages, not behind the chat selection pane.
-This increases readability and improves contrast especially when a light theme is being used.
+    <value># [July 2020] Small Maintenance Release
+The last two months I was unable to spend a lot of time developing UWPX, since currently a lot of other things like organizing retake exams that were pushed back during the whole health crisis came up.
 
-Besides that I was working on adding background push support to UWPX. Now (in theory) UWPX can receive chat messages when the app is not running.
-Although everything for it should be in place, I'm unable to test it.  
-Like I mentioned [here](https://twitter.com/UWPX_APP/status/1254786200134578178) I deleted (by accident) the [WNS](https://docs.microsoft.com/en-us/windows/uwp/design/shell/tiles-and-notifications/windows-push-notification-services--wns--overview) backend at Microsofts Live Services.  
-I do **not** know how to create a new one, without having to register UWPX as a new app in the store...
-
-All my other time went into developing and extending the [UWPX push server](https://github.com/UWPX/UWPX-Push-Server#publishing-the-channel-uri). 
-
+Push is still very much work in progress.
 If you can't wait for me to enable push for everyone, you can play around with it by enabling it via `Settings` -&gt; `Accounts` -&gt; `Enable push`. Since it's still work in progress **do not expect it to work all the time, or even at all 😅**.
 
 To get more information about the push setup and how it works, you can continue reading [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
@@ -386,17 +377,16 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 * MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
 * Chat image downloads not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
 * UWPX hangs after receiving contact request [#107](https://github.com/UWPX/UWPX-Client/issues/107)
+* `OmemoHelper` is null [#134](https://github.com/UWPX/UWPX-Client/issues/134)
 
 ### Changes
-* Added background push support
-* Updated to [WinUi 2.4](https://docs.microsoft.com/en-us/uwp/toolkits/winui/release-notes/winui-2.4)
-* Updated the chats UI
-* Improved XMPP account connect performance when multiple accounts try to connect. I switched from a global TCP write semaphore to a account based TCP write semaphore.
-* Added the `Trace` log level
-* Moved printing XML stanzas from `Debug` to `Trace`
-* Removed the `Packaging` project for faster build times. We're using the [UWPX installer](https://github.com/UWPX/UWPX-Installer) for that.
-* Fixed [XEP-0030: Service Discovery](https://xmpp.org/extensions/xep-0030.html) ([#127](https://github.com/UWPX/UWPX-Client/issues/127))
-* Added [XEP-0199: XMPP Ping](https://xmpp.org/extensions/xep-0199.html) support ([#129](https://github.com/UWPX/UWPX-Client/issues/129))
-* Updated credits</value>
+* Fixed trying to access the camera if no permissions were guaranteed [#133](https://github.com/UWPX/UWPX-Client/issues/133)
+* Fixed UWX trying to initialize push if disabled and it has been enabled before [#132](https://github.com/UWPX/UWPX-Client/issues/132)
+* Changed the app identity to fix push
+* Dark mode is now slightly darker
+* Improved favorite star contrast for the light theme
+* Updated all NuGet dependencies 
+
+**Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.27.0.0).**</value>
   </data>
 </root>
