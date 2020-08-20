@@ -34,7 +34,7 @@
         </DataTemplate>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -45,6 +45,8 @@
 
         <ListView Grid.Row="1"
                   Margin="0,10,0,0"
+                  VerticalAlignment="{x:Bind VerticalAlignment, Mode=OneWay}"
+                  VerticalContentAlignment="{x:Bind VerticalContentAlignment, Mode=OneWay}"
                   ItemTemplate="{StaticResource SuggestionTemplate}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.SUGGESTIONS_ACV}"
                   SelectedItem="{x:Bind VIEW_MODEL.MODEL.SelectedItem, Mode=TwoWay}"
