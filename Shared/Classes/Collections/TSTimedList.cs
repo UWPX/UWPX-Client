@@ -13,7 +13,7 @@ namespace Shared.Classes.Collections
         private int cleanupIntervallInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
         public int itemTimeoutInMs = (int)TimeSpan.FromSeconds(10).TotalMilliseconds;
         private readonly List<TimedListEntry<T>> LIST = new List<TimedListEntry<T>>();
-        private static readonly object LOCKER = new object();
+        private readonly object LOCKER = new object();
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
