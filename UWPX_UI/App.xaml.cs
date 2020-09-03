@@ -73,7 +73,16 @@ namespace UWPX_UI
             object o = Settings.getSetting(SettingsConsts.LOG_LEVEL);
             if (o is int)
             {
-                Logger.logLevel = (LogLevel)o;
+                try
+                {
+                    Logger.logLevel = (LogLevel)o;
+                }
+                catch (Exception e)
+                {
+                    Logger.Error("Failed to parse log level (" + o.ToString() + "). Resetting it to LogLevel.INFO: " + e.Message);
+                    Settings.setSetting(SettingsConsts.LOG_LEVEL, (int)LogLevel.INFO);
+                    Logger.logLevel = LogLevel.INFO;
+                }
             }
             else
             {

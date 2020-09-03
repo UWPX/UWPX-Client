@@ -52,11 +52,7 @@ namespace Shared.Classes.Network
             DOWNLOADING_SEMA.Wait();
             result = DOWNLOADING.Find(predicate);
             DOWNLOADING_SEMA.Release();
-            if (!(result is null))
-            {
-                return result;
-            }
-            return null;
+            return result;
         }
 
         private void SetDownloadState(AbstractDownloadableObject o, DownloadState newState)
@@ -260,7 +256,7 @@ namespace Shared.Classes.Network
         /// <returns>Returns the last progress update percentage.</returns>
         private double UpdateDownloadProgress(AbstractDownloadableObject o, long totalSize, long bytesDownloadedTotal)
         {
-            o.Progress = bytesDownloadedTotal / ((double)totalSize);
+            o.Progress = bytesDownloadedTotal / ((double)totalSize) * 100;
             return o.Progress;
         }
 

@@ -105,18 +105,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
             Task.Run(async () =>
             {
-                if (Image is null || Image.State != DownloadState.DONE)
+                IsLoadingImage = true;
+                ImageBitmap = await GetBitmapImageAsync(newValue);
+                if (ImageBitmap is null)
                 {
-                    Image = null;
-                }
-                else
-                {
-                    IsLoadingImage = true;
-                    ImageBitmap = await GetBitmapImageAsync(newValue);
-                    if (ImageBitmap is null)
-                    {
-                        IsLoadingImage = false;
-                    }
+                    IsLoadingImage = false;
                 }
             }, loadImageCancellationSource.Token);
         }

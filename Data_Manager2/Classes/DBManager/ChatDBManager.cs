@@ -365,7 +365,7 @@ namespace Data_Manager2.Classes.DBManager
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                Task.Run(async () => await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(msg));
+                _ = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(msg);
             }
         }
 

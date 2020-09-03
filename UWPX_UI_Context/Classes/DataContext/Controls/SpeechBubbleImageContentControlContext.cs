@@ -37,7 +37,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             if (args.NewValue is SpeechBubbleContentControlContext newValue)
             {
                 SpeechBubbleViewModel = newValue;
-                await LoadImageAsync(SpeechBubbleViewModel);
+                await LoadImageAsync();
             }
             else
             {
@@ -112,7 +112,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task LoadImageAsync(SpeechBubbleContentControlContext speechBubbleContentViewModel)
+        private async Task LoadImageAsync()
         {
             if (SpeechBubbleViewModel is null || SpeechBubbleViewModel.ChatMessageModel.Message is null)
             {
