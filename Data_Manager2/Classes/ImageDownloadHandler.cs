@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
@@ -14,6 +15,7 @@ namespace Data_Manager2.Classes
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         private readonly DownloadHandler DOWNLOAD_HANDLER;
+        private readonly SemaphoreSlim DOWNLOAD_SEMA = new SemaphoreSlim(1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -27,7 +29,7 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public async Task<StorageFolder> GetImageCacheFolderAsync()
+        public async Task<StorageFolder> GetCacheFolderAsync()
         {
             if (Settings.getSettingBoolean(SettingsConsts.DISABLE_DOWNLOAD_IMAGES_TO_LIBARY))
             {
@@ -39,36 +41,17 @@ namespace Data_Manager2.Classes
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
-        public async Task DownloadImageAsync(ImageTable image)
+        public async Task StartDownloadAsync(ImageTable image)
         {
+            await DOWNLOAD_SEMA.WaitAsync();
             if (image.State != DownloadState.DOWNLOADING && image.State != DownloadState.QUEUED)
             {
                 await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
             }
+            DOWNLOAD_SEMA.Release();
         }
 
-        public async Task<ImageTable> DownloadImageAsync(ChatMessageTable msg)
-        {
-            ImageTable image = await ImageDBManager.INSTANCE.getImageAsync(msg);
-            if (image is null)
-            {
-                StorageFolder folder = await GetImageCacheFolderAsync();
-                image = new ImageTable()
-                {
-                    messageId = msg.id,
-                    SourceUrl = msg.message,
-                    TargetFileName = CreateUniqueFileName(msg.message),
-                    TargetFolderPath = folder.Path,
-                    State = DownloadState.NOT_QUEUED,
-                    Progress = 0,
-                };
-                ImageDBManager.INSTANCE.setImage(image);
-            }
-            await DownloadImageAsync(image);
-            return image;
-        }
-
-        public async Task RedownloadImageAsync(ImageTable image)
+        public async Task RedownloadAsync(ImageTable image)
         {
             await DOWNLOAD_HANDLER.EnqueueDownloadAsync(image);
         }
@@ -80,7 +63,10 @@ namespace Data_Manager2.Classes
 
         public async Task<AbstractDownloadableObject> FindAsync(Predicate<AbstractDownloadableObject> predicate)
         {
-            return await DOWNLOAD_HANDLER.FindAsync(predicate);
+            await DOWNLOAD_SEMA.WaitAsync();
+            AbstractDownloadableObject result = await DOWNLOAD_HANDLER.FindAsync(predicate);
+            DOWNLOAD_SEMA.Release();
+            return result;
         }
 
         public async Task ContinueDownloadsAsync()
@@ -95,44 +81,46 @@ namespace Data_Manager2.Classes
                         image.State = DownloadState.NOT_QUEUED;
                         ImageDBManager.INSTANCE.setImage(image);
                     }
-                    await DownloadImageAsync(image);
+                    await StartDownloadAsync(image);
                 }
             }
         }
 
-        public async Task ClearImageCacheAsync()
+        public async Task ClearCacheAsync()
         {
-            StorageFolder folder = await GetImageCacheFolderAsync();
+            StorageFolder folder = await GetCacheFolderAsync();
             if (folder != null)
             {
                 await folder.DeleteAsync();
             }
             // Recreate the image cache folder:
-            await GetImageCacheFolderAsync();
+            await GetCacheFolderAsync();
             Logger.Info("Image cache cleared!");
         }
 
-        public async Task OpenImageCacheFolderAsync()
+        public async Task OpenCacheFolderAsync()
         {
-            StorageFolder folder = await GetImageCacheFolderAsync();
+            StorageFolder folder = await GetCacheFolderAsync();
             await Windows.System.Launcher.LaunchFolderAsync(folder);
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
         /// <summary>
         /// Creates an unique file name, bases on the given url and the current time.
         /// </summary>
         /// <param name="url">The url of the image.</param>
         /// <returns>Returns an unique file name.</returns>
-        private string CreateUniqueFileName(string url)
+        public string CreateUniqueFileName(string url)
         {
             string name = DateTime.Now.ToString("dd.MM.yyyy_HH.mm.ss.ffff");
             int index = url.LastIndexOf('.');
             string ending = url.Substring(index, url.Length - index);
             return name + ending;
         }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+
 
         #endregion
 

@@ -291,7 +291,7 @@ namespace Data_Manager2.Classes.DBManager
             ChatMessageChanged?.Invoke(this, new ChatMessageChangedEventArgs(msg, false));
         }
 
-        public void setChatMessage(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
+        public async Task setChatMessageAsync(ChatMessageTable message, bool triggerNewChatMessage, bool triggerMessageChanged)
         {
             dB.InsertOrReplace(message);
             if (triggerNewChatMessage)
@@ -299,7 +299,7 @@ namespace Data_Manager2.Classes.DBManager
                 NewChatMessage?.Invoke(this, new NewChatMessageEventArgs(message));
                 if (message.isImage && !Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
                 {
-                    cacheImage(message);
+                    await cacheImageAsync(message);
                 }
             }
             if (triggerMessageChanged)
@@ -356,16 +356,12 @@ namespace Data_Manager2.Classes.DBManager
             }
         }
 
-        private void onChatChanged(string chatId)
-        {
-            onChatChanged(getChat(chatId), false);
-        }
-
-        private void cacheImage(ChatMessageTable msg)
+        private async Task cacheImageAsync(ChatMessageTable msg)
         {
             if (!Settings.getSettingBoolean(SettingsConsts.DISABLE_IMAGE_AUTO_DOWNLOAD))
             {
-                _ = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(msg);
+                ImageTable img = await ImageDBManager.INSTANCE.getImageAsync(msg);
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(img);
             }
         }
 

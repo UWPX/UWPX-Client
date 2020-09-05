@@ -113,9 +113,9 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             chat.Chat.lastActive = DateTime.Now;
 
             // Update DB:
-            await Task.Run(() =>
+            await Task.Run(async () =>
             {
-                ChatDBManager.INSTANCE.setChatMessage(toSendMsgDB, true, false);
+                await ChatDBManager.INSTANCE.setChatMessageAsync(toSendMsgDB, true, false);
                 ChatDBManager.INSTANCE.setChat(chat.Chat, false, true);
             });
 

@@ -1,4 +1,6 @@
-﻿namespace Shared.Classes.Network
+﻿using System.IO;
+
+namespace Shared.Classes.Network
 {
     public abstract class AbstractDownloadableObject: AbstractDataTemplate
     {
@@ -74,7 +76,10 @@
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        public string GetFullPath()
+        {
+            return Path.Combine(TargetFolderPath, TargetFileName);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

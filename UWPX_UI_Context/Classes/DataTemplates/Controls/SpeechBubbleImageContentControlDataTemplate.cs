@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBTables;
@@ -87,7 +86,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     Image.PropertyChanged += Image_PropertyChanged;
                     State = Image.State;
                     ErrorText = Image.Error.ToString();
-                    ImagePath = Path.Combine(Image.TargetFolderPath, Image.TargetFileName);
+                    // Only set the image path in case the image was successfully downloaded to prevent exceptions:
+                    ImagePath = Image.State == DownloadState.DONE ? Image.GetFullPath() : null;
                 }
             }
         }
@@ -164,6 +164,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (!(ex is null))
                 {
                     Logger.Error("Failed to load image: " + path, ex);
+                    State = DownloadState.ERROR;
+                    ErrorText = "Failed to load image. Try downloading it agin.";
                     return null;
                 }
 
@@ -172,6 +174,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             catch (Exception e)
             {
                 Logger.Error("Failed to load image: " + path, e);
+                State = DownloadState.ERROR;
+                ErrorText = "Failed to load image. Try downloading it agin.";
                 return null;
             }
         }
@@ -197,6 +201,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 if (image.State == DownloadState.DONE)
                 {
                     OnImagePathChanged(ImagePath);
+                    // Only set the image path in case the image was successfully downloaded to prevent exceptions:
+                    ImagePath = Image.GetFullPath();
+                }
+                else
+                {
+                    ImagePath = null;
                 }
             }
             else if (string.Equals(e.PropertyName, nameof(ImageTable.Error)))

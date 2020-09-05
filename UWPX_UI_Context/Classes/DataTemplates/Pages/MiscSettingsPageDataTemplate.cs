@@ -122,7 +122,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Pages
 
             Task.Run(async () =>
             {
-                StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetImageCacheFolderAsync();
+                StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetCacheFolderAsync();
                 ImageCacheFolderPath = folder is null ? "" : folder.Path;
 
                 folder = await Logger.GetLogFolderAsync();

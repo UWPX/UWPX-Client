@@ -695,7 +695,7 @@ namespace Data_Manager2.Classes
                 });
             }
 
-            ChatDBManager.INSTANCE.setChatMessage(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
+            await ChatDBManager.INSTANCE.setChatMessageAsync(message, !doesMessageExist, doesMessageExist && !isMUCMessage);
 
             // Show toast:
             if (!doesMessageExist && !chat.muted)
@@ -859,7 +859,7 @@ namespace Data_Manager2.Classes
 
         private void C_OmemoSessionBuildError(XMPPClient client, OmemoSessionBuildErrorEventArgs args)
         {
-            Task.Run(() =>
+            Task.Run(async () =>
             {
                 ChatTable chat = ChatDBManager.INSTANCE.getChat(ChatTable.generateId(args.CHAT_JID, client.getXMPPAccount().getBareJid()));
                 if (!(chat is null))
@@ -876,7 +876,7 @@ namespace Data_Manager2.Classes
                         state = MessageState.UNREAD,
                         type = MessageMessage.TYPE_ERROR
                     };
-                    ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
+                    await ChatDBManager.INSTANCE.setChatMessageAsync(msg, true, false);
 
                     // Set chat messages to encrypted failed:
                     setOmemoChatMessagesSendFailed(args.MESSAGES, chat);

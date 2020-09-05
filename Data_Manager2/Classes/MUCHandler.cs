@@ -242,7 +242,7 @@ namespace Data_Manager2.Classes
                             state = MessageState.UNREAD,
                             type = MessageMessage.TYPE_ERROR
                         };
-                        ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
+                        await ChatDBManager.INSTANCE.setChatMessageAsync(msg, true, false);
                     }
                 }
             }
@@ -273,7 +273,8 @@ namespace Data_Manager2.Classes
                 state = MessageState.UNREAD,
                 type = TYPE_CHAT_INFO
             };
-            ChatDBManager.INSTANCE.setChatMessage(msg, true, false);
+            // We do not need to await here:
+            _ = ChatDBManager.INSTANCE.setChatMessageAsync(msg, true, false);
         }
 
         #endregion

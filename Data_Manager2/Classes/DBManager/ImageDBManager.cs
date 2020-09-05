@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBTables;
 using Logging;
@@ -15,6 +15,7 @@ namespace Data_Manager2.Classes.DBManager
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
         public static readonly ImageDBManager INSTANCE = new ImageDBManager();
+        private readonly SemaphoreSlim GET_IMAGE_SEMA = new SemaphoreSlim(1);
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -24,22 +25,37 @@ namespace Data_Manager2.Classes.DBManager
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="msg"></param>
-        /// <returns></returns>
         public async Task<ImageTable> getImageAsync(ChatMessageTable msg)
         {
+            await GET_IMAGE_SEMA.WaitAsync();
+
+            // Is already downloading:
             ImageTable img = (ImageTable)await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.FindAsync((x) => { return x is ImageTable imageTable && string.Equals(imageTable.messageId, msg.id); });
             if (img is null)
             {
+                // Is in the DB:
                 List<ImageTable> list = dB.Query<ImageTable>(true, "SELECT * FROM " + DBTableConsts.IMAGE_TABLE + " WHERE " + nameof(ImageTable.messageId) + " = ?;", msg.id);
                 if (list.Count > 0)
                 {
                     img = list[0];
                 }
+                else
+                {
+                    // Create a new image entry:
+                    StorageFolder folder = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.GetCacheFolderAsync();
+                    img = new ImageTable()
+                    {
+                        messageId = msg.id,
+                        SourceUrl = msg.message,
+                        TargetFileName = ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.CreateUniqueFileName(msg.message),
+                        TargetFolderPath = folder.Path,
+                        State = DownloadState.NOT_QUEUED,
+                        Progress = 0,
+                    };
+                    setImage(img);
+                }
             }
+            GET_IMAGE_SEMA.Release();
             return img;
         }
 
@@ -66,7 +82,7 @@ namespace Data_Manager2.Classes.DBManager
                 {
                     if (!string.IsNullOrEmpty(image.TargetFolderPath) && !string.IsNullOrEmpty(image.TargetFileName))
                     {
-                        string path = Path.Combine(image.TargetFolderPath, image.TargetFileName);
+                        string path = image.GetFullPath();
                         StorageFile file = await StorageFile.GetFileFromPathAsync(path);
                         if (!(file is null))
                         {

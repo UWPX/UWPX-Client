@@ -19,7 +19,7 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         public SpeechBubbleContentControlContext SpeechBubbleContentViewModel
         {
             get => (SpeechBubbleContentControlContext)GetValue(ViewModelProperty);
-            set => SetValue(ViewModelProperty, value);
+            set => SetSpeechBubbleContentViewModelValue(ViewModelProperty, value);
         }
         public static readonly DependencyProperty ViewModelProperty = DependencyProperty.Register(nameof(SpeechBubbleContentViewModel), typeof(SpeechBubbleContentControlContext), typeof(SpeechBubbleImageContentControl), new PropertyMetadata(null, OnSpeechBubbleContentViewModelChanged));
 
@@ -36,7 +36,14 @@ namespace UWPX_UI.Controls.Chat.SpeechBubbles.Content
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-
+        /// <summary>
+        /// Sets the <see cref="SpeechBubbleContentControlContext"/> property by setting it to null and then to desired value to forcefully trigger the changed event.
+        /// </summary>
+        private void SetSpeechBubbleContentViewModelValue(DependencyProperty dp, object value)
+        {
+            SetValue(dp, null);
+            SetValue(dp, value);
+        }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\

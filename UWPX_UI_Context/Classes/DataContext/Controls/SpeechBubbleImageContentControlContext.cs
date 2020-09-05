@@ -85,7 +85,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
         {
             if (!(MODEL.Image is null))
             {
-                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadImageAsync(MODEL.Image);
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.RedownloadAsync(MODEL.Image);
             }
         }
 
@@ -99,14 +99,11 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
 
         public async Task StartImageDownloadAsync()
         {
-            if (!(MODEL.Image is null))
+            if (MODEL.Image is null)
             {
-                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(MODEL.Image);
+                MODEL.Image = await ImageDBManager.INSTANCE.getImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
             }
-            else
-            {
-                MODEL.Image = await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.DownloadImageAsync(SpeechBubbleViewModel.ChatMessageModel.Message);
-            }
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.StartDownloadAsync(MODEL.Image);
         }
 
         #endregion

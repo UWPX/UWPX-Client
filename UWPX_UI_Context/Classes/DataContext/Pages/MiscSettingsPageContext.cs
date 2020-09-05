@@ -70,7 +70,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
 
         public async Task OpenImageCacheFolderAsync()
         {
-            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.OpenImageCacheFolderAsync();
+            await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.OpenCacheFolderAsync();
         }
 
         public async Task ExportLogsAsync()
@@ -90,7 +90,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Pages
         {
             if (viewModel.MODEL.Confirmed)
             {
-                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.ClearImageCacheAsync();
+                await ConnectionHandler.INSTANCE.IMAGE_DOWNLOAD_HANDLER.ClearCacheAsync();
             }
         }
 

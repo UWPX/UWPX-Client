@@ -184,7 +184,7 @@ namespace UWPX_UI
             chat.lastActive = DateTime.Now;
 
             // Update DB:
-            ChatDBManager.INSTANCE.setChatMessage(toSendMsgDB, true, false);
+            await ChatDBManager.INSTANCE.setChatMessageAsync(toSendMsgDB, true, false);
             ChatDBManager.INSTANCE.setChat(chat, false, true);
 
             Logger.Info("Added to send message in background");
