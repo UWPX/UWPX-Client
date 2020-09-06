@@ -136,6 +136,7 @@
                           PlaceholderSource="Assets/Images/placeholder.png"
                           Source="{x:Bind VIEW_MODEL.MODEL.ImageBitmap, Mode=OneWay}"
                           Tapped="Image_img_Tapped"
+                          ToolTipService.ToolTip="Click to view"
                           Visibility="{x:Bind VIEW_MODEL.MODEL.State, Mode=OneWay, Converter={StaticResource DownloadStateVisibilityValueConverter_Content}, FallbackValue=Collapsed}"/>
         <!--  Error:  -->
         <Grid Grid.Row="0"
