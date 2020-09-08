@@ -1,8 +1,9 @@
 ﻿<UserControl x:Class="UWPX_UI.Controls.Chat.ChatMessageListControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:controls="using:Microsoft.Toolkit.Uwp.UI.Controls"
+             xmlns:behaviors="using:Microsoft.Toolkit.Uwp.UI.Animations.Behaviors"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:selectors="using:UWPX_UI_Context.Classes.DataTemplates.Selectors"
              xmlns:speechbubbles="using:UWPX_UI.Controls.Chat.SpeechBubbles"
@@ -47,42 +48,47 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <ListView Grid.Row="2"
+        <ListView x:Name="mainListView"
+                  Grid.Row="2"
+                  IncrementalLoadingTrigger="None"
                   ItemTemplateSelector="{StaticResource SpeechBubbleDataTemplateSelector}"
                   ItemsSource="{x:Bind VIEW_MODEL.MODEL.CHAT_MESSAGES}"
+                  Loaded="MainListView_Loaded"
+                  ScrollViewer.HorizontalScrollMode="Disabled"
                   SelectionMode="None">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:FadeHeaderBehavior HeaderElement="{Binding ElementName=mainListViewHeader}"/>
+            </interactivity:Interaction.Behaviors>
             <ListView.Header>
-                <controls:ScrollHeader Mode="Fade">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="{x:Bind ScrollHeaderMinSize, Mode=OneWay, Converter={StaticResource DoubleGridLengthValueConverter}}"/>
-                            <RowDefinition Height="Auto"/>
-                        </Grid.RowDefinitions>
-                        <Grid Grid.Row="1"
-                              Margin="10"
-                              HorizontalAlignment="Center"
-                              Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <ProgressRing Grid.Column="0"
-                                          Width="20"
-                                          Height="20"
-                                          VerticalAlignment="Center"
-                                          IsActive="True"/>
-                            <TextBlock Grid.Column="1"
-                                       Margin="10,0,0,0"
-                                       VerticalAlignment="Center"
-                                       Style="{StaticResource TitleTextBlockStyle}"
-                                       Text="Loading more messages..."/>
-                        </Grid>
+                <Grid x:Name="mainListViewHeader">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="{x:Bind ScrollHeaderMinSize, Mode=OneWay, Converter={StaticResource DoubleGridLengthValueConverter}}"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="1"
+                          Margin="10"
+                          HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ProgressRing Grid.Column="0"
+                                      Width="20"
+                                      Height="20"
+                                      VerticalAlignment="Center"
+                                      IsActive="True"/>
+                        <TextBlock Grid.Column="1"
+                                   Margin="10,0,0,0"
+                                   VerticalAlignment="Center"
+                                   Style="{StaticResource TitleTextBlockStyle}"
+                                   Text="Loading more messages..."/>
                     </Grid>
-                </controls:ScrollHeader>
+                </Grid>
             </ListView.Header>
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
-                    <ItemsStackPanel Grid.ColumnSpan="1"
+                    <ItemsStackPanel x:Name="mainListViewItemStackPanel"
+                                     Grid.ColumnSpan="1"
                                      VerticalAlignment="Bottom"
                                      ItemsUpdatingScrollMode="KeepLastItemInView">
                         <ItemsStackPanel.ChildrenTransitions>

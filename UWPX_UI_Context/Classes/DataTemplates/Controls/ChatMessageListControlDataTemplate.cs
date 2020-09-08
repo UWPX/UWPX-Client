@@ -39,8 +39,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
         private CancellationToken loadChatMessagesCancelToken = default;
-        private Task loadChatMessagesTask = null;
-        private bool loaded = false;
+        private Task<List<ChatMessageDataTemplate>> loadChatMessagesTask = null;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -62,9 +61,8 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
 
-            if (!(Chat is null) && !loaded)
+            if (!(Chat is null))
             {
-                loaded = true;
                 return await LoadChatMessagesAsync(pageIndex, pageSize, cancellationToken);
             }
             return msgs;
@@ -74,7 +72,6 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)) && !(value is null))
             {
-                loaded = false;
                 // Chat changed load chat messages:
                 CHAT_MESSAGES.RefreshAsync();
             }
@@ -129,9 +126,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private async Task<List<ChatMessageDataTemplate>> LoadChatMessagesAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        private Task<List<ChatMessageDataTemplate>> LoadChatMessagesAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
-            return await Task.Run(async () =>
+            return Task.Run(async () =>
             {
                 loadChatMessagesCancelToken = cancellationToken;
 
@@ -140,22 +137,23 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     await loadChatMessagesTask;
                 }
 
-                List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
                 loadChatMessagesTask = Task.Run(() =>
                 {
+                    List<ChatMessageDataTemplate> tmpMsgs = new List<ChatMessageDataTemplate>();
                     IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getAllChatMessagesForChat(Chat.Chat.id);
                     for (int i = 0; i < list.Count && !loadChatMessagesCancelToken.IsCancellationRequested; i++)
                     {
-                        msgs.Add(new ChatMessageDataTemplate
+                        tmpMsgs.Add(new ChatMessageDataTemplate
                         {
                             Message = list[i],
                             Chat = Chat.Chat,
                             MUC = Chat.MucInfo
                         });
                     }
+                    return tmpMsgs;
                 });
 
-                await loadChatMessagesTask;
+                List<ChatMessageDataTemplate> msgs = await loadChatMessagesTask;
 
                 if (!loadChatMessagesCancelToken.IsCancellationRequested)
                 {

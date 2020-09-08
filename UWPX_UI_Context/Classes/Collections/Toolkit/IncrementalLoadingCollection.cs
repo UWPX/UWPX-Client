@@ -1,5 +1,5 @@
 ﻿// Based on the IncrementalLoadingCollection from the Windows Community Toolkit
-// Source: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/v5.1.1/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection/IncrementalLoadingCollection.cs
+// Source: https://github.com/windows-toolkit/WindowsCommunityToolkit/blob/v6.1.0/Microsoft.Toolkit.Uwp/IncrementalLoadingCollection/IncrementalLoadingCollection.cs
 // Original license:
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
@@ -28,6 +28,7 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
     /// <typeparam name="IType">
     /// The type of collection items.
     /// </typeparam>
+    /// <seealso cref="IIncrementalSource{TSource}"/>
     /// <seealso cref="ISupportIncrementalLoading"/>
     public class IncrementalLoadingCollection<IType>: CustomObservableCollection<IType>, ISupportIncrementalLoading
     {
@@ -64,6 +65,23 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         private bool _refreshOnLoad;
 
         /// <summary>
+        /// Gets a value indicating whether the collection contains more items to retrieve.
+        /// </summary>
+        public bool HasMoreItems
+        {
+            get => !_cancellationToken.IsCancellationRequested && _hasMoreItems;
+
+            private set
+            {
+                if (value != _hasMoreItems)
+                {
+                    _hasMoreItems = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasMoreItems)));
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets a value indicating whether new items are being loaded.
         /// </summary>
         public bool IsLoading
@@ -89,23 +107,6 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether the collection contains more items to retrieve.
-        /// </summary>
-        public bool HasMoreItems
-        {
-            get => _cancellationToken.IsCancellationRequested ? false : _hasMoreItems;
-
-            private set
-            {
-                if (value != _hasMoreItems)
-                {
-                    _hasMoreItems = value;
-                    OnPropertyChanged(new PropertyChangedEventArgs(nameof(HasMoreItems)));
-                }
-            }
-        }
-
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
@@ -123,9 +124,6 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
         /// </param>
         /// <param name="onError">
         /// An <see cref="Action"/> that is called if an error occurs during data retrieval.
-        /// </param>
-        /// <param name="invokeInUiThread">
-        /// An <see cref="bool"/> that indicates whether the UI thread should be invoked once the collection changes.
         /// </param>
         /// <seealso cref="IIncrementalSource{TSource}"/>
         public IncrementalLoadingCollection(int itemsPerPage = 20, Action onStartLoading = null, Action onEndLoading = null, Action<Exception> onError = null, bool invokeInUiThread = true) : base(invokeInUiThread)
@@ -216,12 +214,10 @@ namespace UWPX_UI_Context.Classes.Collections.Toolkit
 
                     if (data != null && data.Any() && !_cancellationToken.IsCancellationRequested)
                     {
+                        HasMoreItems = true;
                         resultCount = (uint)data.Count();
 
-                        foreach (IType item in data)
-                        {
-                            Add(item);
-                        }
+                        InsertRangeAt(0, data); // Add at the front
                     }
                     else
                     {

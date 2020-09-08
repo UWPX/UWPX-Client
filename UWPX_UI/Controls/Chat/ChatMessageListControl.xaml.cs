@@ -1,4 +1,6 @@
-﻿using UWPX_UI_Context.Classes.DataContext.Controls;
+﻿using System;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
+using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -30,7 +32,12 @@ namespace UWPX_UI.Controls.Chat
         }
         public static readonly DependencyProperty ScrollHeaderMinSizeProperty = DependencyProperty.Register(nameof(ScrollHeaderMinSize), typeof(double), typeof(ChatMessageListControl), new PropertyMetadata(0d));
 
+        private ScrollViewer scrollViewer;
+        private ItemsStackPanel itemsStackPanel;
+
         public readonly ChatMessageListControlContext VIEW_MODEL = new ChatMessageListControlContext();
+
+        private bool scrolledToTheTop;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -59,7 +66,6 @@ namespace UWPX_UI.Controls.Chat
             ChatDataTemplate newChat = args.NewValue is ChatDataTemplate ? args.NewValue as ChatDataTemplate : null;
             VIEW_MODEL.UpdateView(oldChat, newChat);
         }
-
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -82,6 +88,34 @@ namespace UWPX_UI.Controls.Chat
             {
                 control.VIEW_MODEL.MODEL.IsDummy = e.NewValue is bool b && b;
             }
+        }
+
+        private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        {
+            if (scrollViewer.VerticalOffset < mainListViewHeader.ActualHeight + 10)
+            {
+                if (!scrolledToTheTop)
+                {
+                    scrolledToTheTop = true;
+                    if (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreItems)
+                    {
+                        itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepItemsInView;
+                        await VIEW_MODEL.MODEL.CHAT_MESSAGES.LoadMoreItemsAsync(20);
+                        itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
+                    }
+                }
+            }
+            else
+            {
+                scrolledToTheTop = false;
+            }
+        }
+
+        private void MainListView_Loaded(object sender, RoutedEventArgs e)
+        {
+            itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
+            scrollViewer = mainListView.FindDescendant<ScrollViewer>();
+            scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
         }
 
         #endregion

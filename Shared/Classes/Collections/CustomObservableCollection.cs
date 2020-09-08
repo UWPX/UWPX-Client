@@ -34,17 +34,18 @@ namespace Shared.Classes.Collections
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public async Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
+        public Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
-            return await GetPagedItemsFuncAsync(pageIndex, pageSize, cancellationToken);
+            return GetPagedItemsFuncAsync(pageIndex, pageSize, cancellationToken);
         }
 
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
         /// <summary>
-        /// Adds the elements of the specified collection to the end of the ObservableCollection(Of T).
+        /// Adds the elements of the specified collection to the end of the ObservableCollection.
         /// </summary>
+        /// <param name="collection">A collection of items to add.</param>
         public void AddRange(IEnumerable<T> collection)
         {
             if (collection is null)
@@ -80,6 +81,45 @@ namespace Shared.Classes.Collections
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list is IList ? list : list.ToList(), startIndex));
         }
 
+        /// <summary>
+        /// Adds the elements of the specified collection at the specific index of the ObservableCollection.
+        /// </summary>
+        /// <param name="index">The index all items should be added to.</param>
+        /// <param name="collection">A collection of items to add.</param>
+        public void InsertRangeAt(int index, IEnumerable<T> collection)
+        {
+            if (collection is null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (collection is ICollection<T> list)
+            {
+                if (list.Count == 0)
+                {
+                    return;
+                }
+            }
+            else if (!collection.Any())
+            {
+                return;
+            }
+            else
+            {
+                list = new List<T>(collection);
+            }
+
+            CheckReentrancy();
+
+            foreach (T i in collection)
+            {
+                Items.Insert(index, i);
+            }
+
+            NotifyProperties();
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list is IList ? list : list.ToList(), 0));
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--
@@ -90,11 +130,6 @@ namespace Shared.Classes.Collections
                 OnPropertyChanged(new PropertyChangedEventArgs(COUNT_NAME));
             }
             OnPropertyChanged(new PropertyChangedEventArgs(INDEXER_NAME));
-        }
-
-        private void OnCollectionReset()
-        {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         #endregion

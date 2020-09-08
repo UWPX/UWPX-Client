@@ -66,7 +66,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
         {
-            return getAllChatMessagesForChat(chatId, 100);
+            return getAllChatMessagesForChat(chatId, 20);
         }
 
         public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId, int limit)
