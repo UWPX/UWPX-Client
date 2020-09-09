@@ -1,4 +1,5 @@
 ﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+using UWPX_UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
@@ -89,6 +90,16 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private UIElement GetLastListUiElement()
+        {
+            return mainListView.ItemsPanelRoot.Children[mainListView.ItemsPanelRoot.Children.Count - 1];
+        }
+
+        private bool CanScrollDown()
+        {
+            return scrollViewer.VerticalOffset < scrollViewer.ScrollableHeight - 40;
+        }
+
         private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             if (scrollViewer.VerticalOffset < mainListViewHeader.ActualHeight + 10)
@@ -108,6 +119,11 @@ namespace UWPX_UI.Controls.Chat
             {
                 scrolledToTheTop = false;
             }
+
+            if (e.IsIntermediate)
+            {
+                scrollDown_btn.Visibility = CanScrollDown() ? Visibility.Visible : Visibility.Collapsed;
+            }
         }
 
         private void MainListView_Loaded(object sender, RoutedEventArgs e)
@@ -115,6 +131,14 @@ namespace UWPX_UI.Controls.Chat
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
             scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+        }
+
+        private void scrollDown_btn_Click(IconButtonControl sender, RoutedEventArgs args)
+        {
+            if (mainListView.ItemsPanelRoot.Children.Count > 0)
+            {
+                scrollViewer.ScrollIntoViewVertically(GetLastListUiElement(), false);
+            }
         }
 
         #endregion

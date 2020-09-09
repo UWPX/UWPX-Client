@@ -9,6 +9,7 @@
     <Button Margin="{x:Bind Margin, Mode=OneWay}"
             HorizontalAlignment="{x:Bind HorizontalAlignment}"
             VerticalAlignment="{x:Bind VerticalAlignment, Mode=TwoWay}"
+            Background="{x:Bind Background, Mode=OneWay}"
             Click="Button_Click"
             Foreground="{x:Bind Foreground, Mode=OneWay}"
             Style="{StaticResource ButtonRevealStyle}">
@@ -20,15 +21,18 @@
             <FontIcon Grid.Column="0"
                       Margin="{x:Bind GlyphMargin, Mode=TwoWay}"
                       VerticalAlignment="Center"
-                      FontSize="{x:Bind text_tbx.FontSize, Mode=OneWay}"
-                      FontWeight="{x:Bind text_tbx.FontWeight, Mode=OneWay}"
+                      FontSize="{x:Bind FontSize, Mode=OneWay}"
+                      FontWeight="{x:Bind FontWeight, Mode=OneWay}"
                       Foreground="{x:Bind GlyphForeground, Mode=OneWay}"
                       Glyph="{x:Bind Glyph, Mode=OneWay}"/>
             <TextBlock x:Name="text_tbx"
                        Grid.Column="1"
                        Margin="{x:Bind TextMargin, Mode=TwoWay}"
                        VerticalAlignment="Center"
-                       Text="{x:Bind Text, Mode=OneWay}"/>
+                       FontSize="{x:Bind FontSize, Mode=OneWay}"
+                       FontWeight="{x:Bind FontWeight, Mode=OneWay}"
+                       Text="{x:Bind Text, Mode=OneWay}"
+                       Visibility="{x:Bind Text, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}"/>
         </Grid>
     </Button>
 </UserControl>

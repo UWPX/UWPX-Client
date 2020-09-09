@@ -136,7 +136,8 @@
                         <animations:OpacityAnimation From="1"
                                                      To="0"
                                                      Duration="0:0:0.3"/>
-                        <animations:TranslationAnimation To="0, -200, 0"
+                        <animations:TranslationAnimation From="0,0,0"
+                                                         To="0, -200, 0"
                                                          Duration="0:0:0.3"/>
                     </animations:Implicit.HideAnimations>
 
