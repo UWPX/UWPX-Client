@@ -60,12 +60,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         public async Task<IEnumerable<ChatMessageDataTemplate>> GetPagedItemsFuncAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
             List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-
-            if (!(Chat is null))
-            {
-                return await LoadChatMessagesAsync(pageIndex, pageSize, cancellationToken);
-            }
-            return msgs;
+            return !(Chat is null) ? await LoadChatMessagesAsync(pageIndex, pageSize, cancellationToken) : msgs;
         }
 
         private void SetChatProperty(ChatDataTemplate value)
@@ -126,6 +121,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
 
         #region --Misc Methods (Private)--
+        private static int counter;
         private Task<List<ChatMessageDataTemplate>> LoadChatMessagesAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
         {
             return Task.Run(async () =>
@@ -143,6 +139,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getAllChatMessagesForChat(Chat.Chat.id);
                     for (int i = 0; i < list.Count && !loadChatMessagesCancelToken.IsCancellationRequested; i++)
                     {
+                        list[i].message = counter++.ToString();
                         tmpMsgs.Add(new ChatMessageDataTemplate
                         {
                             Message = list[i],
