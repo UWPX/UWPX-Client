@@ -131,6 +131,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 }
 
                 await LOAD_MORE_MESSAGES_SEMA.WaitAsync();
+                IsLoading = true;
                 loadMoreMessagesToken = new CancellationTokenSource();
 
                 loadMoreMessagesTask = Task.Run(() =>
@@ -159,7 +160,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     CHAT_MESSAGES.InsertRange(0, msgs);
                     CHAT_MESSAGES_SEMA.Release();
                 }
-
+                IsLoading = false;
                 LOAD_MORE_MESSAGES_SEMA.Release();
             });
         }

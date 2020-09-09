@@ -76,12 +76,13 @@
                                       Width="20"
                                       Height="20"
                                       VerticalAlignment="Center"
-                                      IsActive="True"/>
+                                      IsActive="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay}"/>
                         <TextBlock Grid.Column="1"
                                    Margin="10,0,0,0"
                                    VerticalAlignment="Center"
                                    Style="{StaticResource TitleTextBlockStyle}"
-                                   Text="Loading more messages..."/>
+                                   Text="Loading more messages..."
+                                   Visibility="{x:Bind VIEW_MODEL.MODEL.IsLoading, Mode=OneWay, Converter={StaticResource BoolVisibilityValueConverter}}"/>
                     </Grid>
                 </Grid>
             </ListView.Header>
