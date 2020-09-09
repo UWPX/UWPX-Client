@@ -1,27 +1,54 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Toolkit.Collections;
 
 namespace Shared.Classes.Collections
 {
-    /// <summary>
-    /// Based on: https://stackoverflow.com/questions/670577/observablecollection-doesnt-support-addrange-method-so-i-get-notified-for-each/45364074#45364074
-    /// </summary>
-    public class CustomObservableCollection<T>: ObservableCollection<T>, IIncrementalSource<T>
+    public interface IObservableList<T>: IList<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged { }
+    public class CustomObservableCollection<T>: IObservableList<T>, IIncrementalSource<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        private const string COUNT_NAME = nameof(Count);
+        private readonly List<T> LIST = new List<T>();
+        private bool deferNotifyCollectionChanged = false;
+
+        private const string COUNT_NAME = nameof(List<T>.Count);
         private const string INDEXER_NAME = "Item[]";
         public readonly bool INVOKE_IN_UI_THREAD;
         public Func<int, int, CancellationToken, Task<IEnumerable<T>>> GetPagedItemsFuncAsync;
+
+        public int Count => LIST.Count;
+        public bool IsReadOnly => false;
+
+        public bool IsFixedSize => IsReadOnly;
+
+        public bool IsSynchronized => false;
+
+        public object SyncRoot => throw new NotImplementedException();
+
+        object IList.this[int index]
+        {
+            get => this[index];
+            set
+            {
+                try
+                {
+                    this[index] = (T)value;
+                }
+                catch (InvalidCastException)
+                {
+                    throw new ArgumentException("Unable to add the given value.", nameof(value));
+                }
+            }
+        }
+
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -34,9 +61,25 @@ namespace Shared.Classes.Collections
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
+        public T this[int index]
+        {
+            get => LIST[index];
+            set => SetItem(index, value);
+        }
+
         public Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
         {
             return GetPagedItemsFuncAsync(pageIndex, pageSize, cancellationToken);
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return LIST.GetEnumerator();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return LIST.GetEnumerator();
         }
 
         #endregion
@@ -48,37 +91,16 @@ namespace Shared.Classes.Collections
         /// <param name="collection">A collection of items to add.</param>
         public void AddRange(IEnumerable<T> collection)
         {
-            if (collection is null)
+            deferNotifyCollectionChanged = true;
+            foreach (T item in collection)
             {
-                throw new ArgumentNullException(nameof(collection));
+                Add(item);
             }
-
-            if (collection is ICollection<T> list)
-            {
-                if (list.Count == 0)
-                {
-                    return;
-                }
-            }
-            else if (!collection.Any())
-            {
-                return;
-            }
-            else
-            {
-                list = new List<T>(collection);
-            }
-
-            CheckReentrancy();
-
-            int startIndex = Count;
-            foreach (T i in collection)
-            {
-                Items.Add(i);
-            }
-
+            deferNotifyCollectionChanged = false;
             NotifyProperties();
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list is IList ? list : list.ToList(), startIndex));
+            // Broken. Throws an invalid index exception
+            //OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, collection is IList ? collection : collection.ToList()));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)); // Workaround
         }
 
         /// <summary>
@@ -86,38 +108,152 @@ namespace Shared.Classes.Collections
         /// </summary>
         /// <param name="index">The index all items should be added to.</param>
         /// <param name="collection">A collection of items to add.</param>
-        public void InsertRangeAt(int index, IEnumerable<T> collection)
+        public void InsertRange(int index, IEnumerable<T> collection)
         {
-            if (collection is null)
+            deferNotifyCollectionChanged = true;
+            foreach (T item in collection)
             {
-                throw new ArgumentNullException(nameof(collection));
+                Insert(index, item);
             }
+            deferNotifyCollectionChanged = false;
+            NotifyProperties();
+            // Broken. Throws an invalid index exception
+            // OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, collection is IList ? collection : collection.ToList()));
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)); // Workaround
+        }
 
-            if (collection is ICollection<T> list)
+        public void Insert(int index, T item)
+        {
+            if (item is INotifyPropertyChanged i)
             {
-                if (list.Count == 0)
+                i.PropertyChanged += CustomObservableCollection_PropertyChanged;
+            }
+            LIST.Insert(index, item);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, index));
+        }
+
+        public void RemoveAt(int index)
+        {
+            if (this[index] is INotifyPropertyChanged i)
+            {
+                i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
+            }
+            T oldItem = this[index];
+            LIST.RemoveAt(index);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, oldItem, index));
+        }
+
+        public void Add(T item)
+        {
+            if (item is INotifyPropertyChanged i)
+            {
+                i.PropertyChanged += CustomObservableCollection_PropertyChanged;
+            }
+            LIST.Add(item);
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, item, Count - 1));
+        }
+
+        public void Clear()
+        {
+            foreach (T item in this)
+            {
+                if (item is INotifyPropertyChanged i)
                 {
-                    return;
+                    i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
                 }
             }
-            else if (!collection.Any())
+            LIST.Clear();
+            NotifyProperties();
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset)); // Perhaps replace with Remove
+        }
+
+        public bool Remove(T item)
+        {
+            if (item is INotifyPropertyChanged i)
             {
-                return;
+                i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
+            }
+            if (LIST.Remove(item))
+            {
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, item));
+                return true;
+            }
+            return false;
+        }
+
+        public int IndexOf(T item)
+        {
+            return LIST.IndexOf(item);
+        }
+
+        public bool Contains(T item)
+        {
+            return LIST.Contains(item);
+        }
+
+        public void CopyTo(T[] array, int arrayIndex)
+        {
+            LIST.CopyTo(array, arrayIndex);
+        }
+
+        int IList.Add(object value)
+        {
+            try
+            {
+                Add((T)value);
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException("Unable to add the given value.", nameof(value));
+            }
+
+            return LIST.Count - 1;
+        }
+
+        bool IList.Contains(object value)
+        {
+            return value is T item && Contains(item);
+        }
+
+        int IList.IndexOf(object value)
+        {
+            return value is T item ? IndexOf(item) : -1;
+        }
+
+        void IList.Insert(int index, object value)
+        {
+            try
+            {
+                Insert(index, (T)value);
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException("Unable to insert the given value.", nameof(value));
+            }
+        }
+
+        void IList.Remove(object value)
+        {
+            try
+            {
+                Remove((T)value);
+            }
+            catch (InvalidCastException)
+            {
+                throw new ArgumentException("Unable to remove the given value.", nameof(value));
+            }
+        }
+
+        public void CopyTo(Array array, int index)
+        {
+            if (array is T[] tArray)
+            {
+                LIST.CopyTo(tArray, index);
             }
             else
             {
-                list = new List<T>(collection);
+                throw new ArgumentException("Unable to copy to array.", nameof(array));
             }
-
-            CheckReentrancy();
-
-            foreach (T i in collection)
-            {
-                Items.Insert(index, i);
-            }
-
-            NotifyProperties();
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, list is IList ? list : list.ToList(), 0));
         }
 
         #endregion
@@ -135,27 +271,9 @@ namespace Shared.Classes.Collections
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override void RemoveItem(int index)
+        protected void SetItem(int index, T item)
         {
-            if (Items[index] is INotifyPropertyChanged i)
-            {
-                i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
-            }
-            base.RemoveItem(index);
-        }
-
-        protected override void InsertItem(int index, T item)
-        {
-            if (item is INotifyPropertyChanged i)
-            {
-                i.PropertyChanged += CustomObservableCollection_PropertyChanged;
-            }
-            base.InsertItem(index, item);
-        }
-
-        protected override void SetItem(int index, T item)
-        {
-            if (Items[index] is INotifyPropertyChanged i)
+            if (this[index] is INotifyPropertyChanged i)
             {
                 i.PropertyChanged -= CustomObservableCollection_PropertyChanged;
             }
@@ -163,31 +281,37 @@ namespace Shared.Classes.Collections
             {
                 iNew.PropertyChanged += CustomObservableCollection_PropertyChanged;
             }
-            (item as INotifyPropertyChanged).PropertyChanged += CustomObservableCollection_PropertyChanged;
-            base.SetItem(index, item);
+            T oldItem = LIST[index];
+            LIST[index] = item;
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, oldItem, item, index));
         }
 
-        protected async override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+        protected async void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
+            if (deferNotifyCollectionChanged)
+            {
+                return;
+            }
+
             if (INVOKE_IN_UI_THREAD)
             {
-                await SharedUtils.CallDispatcherAsync(() => base.OnCollectionChanged(e));
+                await SharedUtils.CallDispatcherAsync(() => CollectionChanged?.Invoke(this, e));
             }
             else
             {
-                base.OnCollectionChanged(e);
+                CollectionChanged?.Invoke(this, e);
             }
         }
 
-        protected async override void OnPropertyChanged(PropertyChangedEventArgs e)
+        protected async void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             if (INVOKE_IN_UI_THREAD)
             {
-                await SharedUtils.CallDispatcherAsync(() => base.OnPropertyChanged(e));
+                await SharedUtils.CallDispatcherAsync(() => PropertyChanged?.Invoke(this, e));
             }
             else
             {
-                base.OnPropertyChanged(e);
+                PropertyChanged?.Invoke(this, e);
             }
         }
 
