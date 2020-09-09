@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Data_Manager2.Classes;
 using Data_Manager2.Classes.DBManager;
+using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.Toast;
 using UWPX_UI_Context.Classes.DataTemplates;
 using UWPX_UI_Context.Classes.DataTemplates.Controls;
@@ -66,7 +67,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        private async void Chat_NewChatMessage(ChatDataTemplate chat, Data_Manager2.Classes.Events.NewChatMessageEventArgs args)
+        private async void Chat_NewChatMessage(ChatDataTemplate chat, NewChatMessageEventArgs args)
         {
             if (!MODEL.IsDummy)
             {
@@ -83,7 +84,7 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             }
         }
 
-        private async void Chat_ChatMessageChanged(ChatDataTemplate chat, Data_Manager2.Classes.Events.ChatMessageChangedEventArgs args)
+        private async void Chat_ChatMessageChanged(ChatDataTemplate chat, ChatMessageChangedEventArgs args)
         {
             if (!MODEL.IsDummy)
             {

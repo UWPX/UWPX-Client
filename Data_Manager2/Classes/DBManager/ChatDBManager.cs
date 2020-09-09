@@ -64,15 +64,18 @@ namespace Data_Manager2.Classes.DBManager
             return getChat(id) != null;
         }
 
-        public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId)
+        public IList<ChatMessageTable> getNextNChatMessages(string chatId, int limit)
         {
-            return getAllChatMessagesForChat(chatId, 20);
+            return getNextNChatMessages(chatId, null, limit);
         }
 
-        public IList<ChatMessageTable> getAllChatMessagesForChat(string chatId, int limit)
+        public IList<ChatMessageTable> getNextNChatMessages(string chatId, string chatMessageId, int limit)
         {
-            // First get a limited amount of messages and the sort it again into the correct order:
-            return dB.Query<ChatMessageTable>(true, "SELECT * FROM (SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date DESC LIMIT ?) ORDER BY date ASC;", chatId, limit);
+            if (string.IsNullOrEmpty(chatMessageId))
+            {
+                return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? ORDER BY date DESC LIMIT ?;", chatId, limit);
+            }
+            return dB.Query<ChatMessageTable>(true, "SELECT * FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE chatId = ? AND rowid < (SELECT DISTINCT rowid FROM " + DBTableConsts.CHAT_MESSAGE_TABLE + " WHERE id = ?) ORDER BY date DESC LIMIT ?;", chatId, chatMessageId, limit);
         }
 
         public ChatTable getChat(string chatId)
@@ -185,7 +188,7 @@ namespace Data_Manager2.Classes.DBManager
 
         public ChatMessageTable getLastChatMessageForChat(string chatId)
         {
-            IList<ChatMessageTable> list = getAllChatMessagesForChat(chatId);
+            IList<ChatMessageTable> list = getNextNChatMessages(chatId, 1);
             if (list.Count <= 0)
             {
                 return null;

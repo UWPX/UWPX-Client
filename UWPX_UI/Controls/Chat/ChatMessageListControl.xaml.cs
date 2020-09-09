@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
@@ -97,10 +96,10 @@ namespace UWPX_UI.Controls.Chat
                 if (!scrolledToTheTop)
                 {
                     scrolledToTheTop = true;
-                    if (VIEW_MODEL.MODEL.CHAT_MESSAGES.HasMoreItems)
+                    if (VIEW_MODEL.MODEL.hasMoreMessages)
                     {
                         itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepItemsInView;
-                        await VIEW_MODEL.MODEL.CHAT_MESSAGES.LoadMoreItemsAsync(20);
+                        await VIEW_MODEL.MODEL.LoadMoreMessagesAsync();
                         itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
                     }
                 }

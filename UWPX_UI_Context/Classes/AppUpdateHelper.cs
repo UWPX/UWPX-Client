@@ -194,7 +194,7 @@ namespace UWPX_UI_Context.Classes
                             IList<ChatTable> chats = ChatDBManager.INSTANCE.getAllChatsForClient(account.getBareJid());
                             foreach (ChatTable chat in chats)
                             {
-                                chat.isChatActive = ChatDBManager.INSTANCE.getAllChatMessagesForChat(chat.id).Count > 0;
+                                chat.isChatActive = ChatDBManager.INSTANCE.getNextNChatMessages(chat.id, 1).Count > 0;
                                 ChatDBManager.INSTANCE.setChat(chat, false, false);
                             }
                             Logger.Info("Done updating chats for: " + account.getBareJid());

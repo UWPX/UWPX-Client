@@ -138,7 +138,6 @@
     <Compile Include="Classes\ChatBackgroundMode.cs" />
     <Compile Include="Classes\Collections\ObservableChatDictionaryList.cs" />
     <Compile Include="Classes\Collections\SaveObservableChatDictionaryList.cs" />
-    <Compile Include="Classes\Collections\Toolkit\IncrementalLoadingCollection.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountImagePresenceControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountInfoCertificateGeneralControlContext.cs" />
     <Compile Include="Classes\DataContext\Controls\AccountInfoGeneralControlContext.cs" />

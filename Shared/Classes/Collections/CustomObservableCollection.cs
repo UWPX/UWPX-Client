@@ -3,14 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Toolkit.Collections;
 
 namespace Shared.Classes.Collections
 {
     public interface IObservableList<T>: IList<T>, IList, INotifyCollectionChanged, INotifyPropertyChanged { }
-    public class CustomObservableCollection<T>: IObservableList<T>, IIncrementalSource<T>
+    public class CustomObservableCollection<T>: IObservableList<T>
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -20,7 +17,6 @@ namespace Shared.Classes.Collections
         private const string COUNT_NAME = nameof(List<T>.Count);
         private const string INDEXER_NAME = "Item[]";
         public readonly bool INVOKE_IN_UI_THREAD;
-        public Func<int, int, CancellationToken, Task<IEnumerable<T>>> GetPagedItemsFuncAsync;
 
         public int Count => LIST.Count;
         public bool IsReadOnly => false;
@@ -65,11 +61,6 @@ namespace Shared.Classes.Collections
         {
             get => LIST[index];
             set => SetItem(index, value);
-        }
-
-        public Task<IEnumerable<T>> GetPagedItemsAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
-        {
-            return GetPagedItemsFuncAsync(pageIndex, pageSize, cancellationToken);
         }
 
         public IEnumerator<T> GetEnumerator()

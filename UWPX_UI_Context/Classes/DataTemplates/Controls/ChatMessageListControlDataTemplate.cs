@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
@@ -6,7 +7,7 @@ using Data_Manager2.Classes.DBTables;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes;
-using UWPX_UI_Context.Classes.Collections.Toolkit;
+using Shared.Classes.Collections;
 
 namespace UWPX_UI_Context.Classes.DataTemplates.Controls
 {
@@ -14,7 +15,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly IncrementalLoadingCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
+        public readonly CustomObservableCollection<ChatMessageDataTemplate> CHAT_MESSAGES;
+        public bool hasMoreMessages
+        {
+            get;
+            private set;
+        }
 
         private ChatDataTemplate _Chat;
         public ChatDataTemplate Chat
@@ -38,37 +44,30 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         }
 
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
-        private CancellationToken loadChatMessagesCancelToken = default;
-        private Task<List<ChatMessageDataTemplate>> loadChatMessagesTask = null;
+        private CancellationTokenSource loadMoreMessagesToken = null;
+        private Task<List<ChatMessageDataTemplate>> loadMoreMessagesTask = null;
+        private readonly SemaphoreSlim LOAD_MORE_MESSAGES_SEMA = new SemaphoreSlim(1);
+
+        private const int MAX_MESSAGES_PER_REQUEST = 10;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
         public ChatMessageListControlDataTemplate()
         {
-            CHAT_MESSAGES = new IncrementalLoadingCollection<ChatMessageDataTemplate>()
-            {
-                OnStartLoading = () => IsLoading = true,
-                OnEndLoading = () => IsLoading = false,
-                GetPagedItemsFuncAsync = GetPagedItemsFuncAsync
-            };
+            CHAT_MESSAGES = new CustomObservableCollection<ChatMessageDataTemplate>(true);
         }
 
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        public async Task<IEnumerable<ChatMessageDataTemplate>> GetPagedItemsFuncAsync(int pageIndex, int pageSize, CancellationToken cancellationToken = default)
-        {
-            List<ChatMessageDataTemplate> msgs = new List<ChatMessageDataTemplate>();
-            return !(Chat is null) ? await LoadChatMessagesAsync(pageIndex, pageSize, cancellationToken) : msgs;
-        }
-
-        private void SetChatProperty(ChatDataTemplate value)
+        private async void SetChatProperty(ChatDataTemplate value)
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)) && !(value is null))
             {
                 // Chat changed load chat messages:
-                CHAT_MESSAGES.RefreshAsync();
+                CHAT_MESSAGES.Clear();
+                await LoadMoreMessagesAsync();
             }
         }
 
@@ -118,28 +117,28 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             Logger.Warn("OnChatMessageChanged failed - no chat message with id: " + msg.id + " for chat: " + msg.chatId);
         }
 
-        #endregion
-
-        #region --Misc Methods (Private)--
-        private static int counter;
-        private Task<List<ChatMessageDataTemplate>> LoadChatMessagesAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
+        public Task LoadMoreMessagesAsync()
         {
             return Task.Run(async () =>
             {
-                loadChatMessagesCancelToken = cancellationToken;
-
-                if (!(loadChatMessagesTask is null))
+                if (!(loadMoreMessagesTask is null))
                 {
-                    await loadChatMessagesTask;
+                    if (!(loadMoreMessagesToken is null) && !loadMoreMessagesToken.IsCancellationRequested)
+                    {
+                        loadMoreMessagesToken.Cancel();
+                    }
+                    await loadMoreMessagesTask;
                 }
 
-                loadChatMessagesTask = Task.Run(() =>
+                await LOAD_MORE_MESSAGES_SEMA.WaitAsync();
+                loadMoreMessagesToken = new CancellationTokenSource();
+
+                loadMoreMessagesTask = Task.Run(() =>
                 {
                     List<ChatMessageDataTemplate> tmpMsgs = new List<ChatMessageDataTemplate>();
-                    IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getAllChatMessagesForChat(Chat.Chat.id);
-                    for (int i = 0; i < list.Count && !loadChatMessagesCancelToken.IsCancellationRequested; i++)
+                    IList<ChatMessageTable> list = ChatDBManager.INSTANCE.getNextNChatMessages(Chat.Chat.id, GetLastMessageId(), MAX_MESSAGES_PER_REQUEST + 1); // Load one item more than we use laster to determin if there are more items available
+                    for (int i = 0; i < list.Count && i < MAX_MESSAGES_PER_REQUEST && !loadMoreMessagesToken.IsCancellationRequested; i++)
                     {
-                        list[i].message = counter++.ToString();
                         tmpMsgs.Add(new ChatMessageDataTemplate
                         {
                             Message = list[i],
@@ -147,17 +146,30 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                             MUC = Chat.MucInfo
                         });
                     }
+                    hasMoreMessages = list.Count > MAX_MESSAGES_PER_REQUEST;
                     return tmpMsgs;
                 });
 
-                List<ChatMessageDataTemplate> msgs = await loadChatMessagesTask;
-
-                if (!loadChatMessagesCancelToken.IsCancellationRequested)
+                List<ChatMessageDataTemplate> msgs = await loadMoreMessagesTask;
+                if (!loadMoreMessagesToken.IsCancellationRequested && msgs.Count > 0)
                 {
                     ToastHelper.removeToastGroup(Chat.Chat.id);
+
+                    await CHAT_MESSAGES_SEMA.WaitAsync();
+                    CHAT_MESSAGES.InsertRange(0, msgs);
+                    CHAT_MESSAGES_SEMA.Release();
                 }
-                return msgs;
+
+                LOAD_MORE_MESSAGES_SEMA.Release();
             });
+        }
+
+        #endregion
+
+        #region --Misc Methods (Private)--
+        private string GetLastMessageId()
+        {
+            return CHAT_MESSAGES.Count > 0 ? CHAT_MESSAGES[0].Message.id : null;
         }
 
         #endregion
