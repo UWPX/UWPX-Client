@@ -83,7 +83,6 @@
 
         <!--  Infos:  -->
         <local:SpeechBubbleStatusBarControl Grid.Row="1"
-                                            Margin="0,5,0,0"
                                             HorizontalAlignment="Stretch"
                                             VerticalAlignment="Bottom"
                                             HorizontalContentAlignment="Right"

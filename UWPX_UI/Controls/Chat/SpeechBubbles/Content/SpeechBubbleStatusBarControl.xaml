@@ -39,7 +39,6 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <ProgressBar Grid.Row="1"
-                     Margin="0,5,0,0"
                      IsIndeterminate="True"
                      Visibility="{x:Bind ViewModel.MODEL.State, Mode=OneWay, Converter={StaticResource MessageStateEncryptingVisibilityValueConverter}}"/>
 
