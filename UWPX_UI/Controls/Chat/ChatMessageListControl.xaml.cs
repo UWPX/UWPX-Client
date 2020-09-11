@@ -65,6 +65,22 @@ namespace UWPX_UI.Controls.Chat
             ChatDataTemplate newChat = args.NewValue is ChatDataTemplate ? args.NewValue as ChatDataTemplate : null;
             VIEW_MODEL.UpdateView(oldChat, newChat);
         }
+
+        private UIElement GetLastListUiElement()
+        {
+            if (mainListView.ItemsPanelRoot.Children.Count > 0)
+            {
+                return mainListView.ItemsPanelRoot.Children[mainListView.ItemsPanelRoot.Children.Count - 1];
+            }
+            return null;
+        }
+
+        private void UpdateScrollDownBtnVisibility()
+        {
+            UIElement lastElem = GetLastListUiElement();
+            bool lastElemOutOfView = scrollViewer.VerticalOffset > (scrollViewer.ScrollableHeight - lastElem.ActualSize.Y);
+            scrollDown_btn.Visibility = (lastElem is null) || lastElemOutOfView ? Visibility.Collapsed : Visibility.Visible;
+        }
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -89,11 +105,6 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private bool CanScrollDown()
-        {
-            return scrollViewer.VerticalOffset < scrollViewer.ScrollableHeight - 40;
-        }
-
         private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             if (scrollViewer.VerticalOffset < mainListViewHeader.ActualHeight + 10)
@@ -116,7 +127,7 @@ namespace UWPX_UI.Controls.Chat
 
             if (e.IsIntermediate)
             {
-                scrollDown_btn.Visibility = CanScrollDown() ? Visibility.Visible : Visibility.Collapsed;
+                UpdateScrollDownBtnVisibility();
             }
         }
 
@@ -125,6 +136,7 @@ namespace UWPX_UI.Controls.Chat
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
             scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
+            UpdateScrollDownBtnVisibility();
         }
 
         private void scrollDown_btn_Click(IconButtonControl sender, RoutedEventArgs args)

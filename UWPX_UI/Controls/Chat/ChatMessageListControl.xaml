@@ -120,7 +120,8 @@
                                     FontSize="20"
                                     Glyph="&#xE96E;"
                                     GlyphForeground="{ThemeResource ButtonForegroundThemeBrush}"
-                                    ToolTipService.ToolTip="Scroll down">
+                                    ToolTipService.ToolTip="Scroll down"
+                                    Visibility="Collapsed">
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation From="0"
                                              To="1"
