@@ -162,7 +162,7 @@ namespace XMPP_API.Classes.Network.TCP
             catch (Exception e)
             {
                 SocketErrorStatus socketErrorStatus = SocketError.GetStatus(e.GetBaseException().HResult);
-                lastConnectionError = new ConnectionError(socketErrorStatus, "TLS upgrade failed after " + DateTime.Now.Subtract(duration).TotalMilliseconds + "ms!");
+                lastConnectionError = new ConnectionError(socketErrorStatus, "TLS upgrade failed after " + DateTime.Now.Subtract(duration).TotalMilliseconds + " ms with: " + e.Message);
                 SetState(ConnectionState.ERROR, lastConnectionError);
                 throw e;
             }
