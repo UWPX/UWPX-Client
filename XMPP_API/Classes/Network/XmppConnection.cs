@@ -39,7 +39,6 @@ namespace XMPP_API.Classes.Network
         private TSTimedList<string> messageIdCache = new TSTimedList<string>();
 
         private int errorCount;
-        private bool reconnectRequested;
         public ConnectionError lastConnectionError;
 
         /// <summary>
@@ -197,8 +196,7 @@ namespace XMPP_API.Classes.Network
         public async Task DisconnectAsync()
         {
             await CONNECT_DISCONNECT_SEMA.WaitAsync();
-            reconnectRequested = false;
-            await InternalDisconnectAsync();
+            await InternalDisconnectAsync(false);
             CONNECT_DISCONNECT_SEMA.Release();
         }
 
@@ -221,8 +219,7 @@ namespace XMPP_API.Classes.Network
             {
                 errorCount = 0;
             }
-            reconnectRequested = true;
-            await InternalDisconnectAsync();
+            await InternalDisconnectAsync(true);
         }
 
         /// <summary>
@@ -339,14 +336,14 @@ namespace XMPP_API.Classes.Network
         /// Disconnects from the server.
         /// </summary>
         /// <returns></returns>
-        private async Task InternalDisconnectAsync()
+        private async Task InternalDisconnectAsync(bool reconnect)
         {
             StopConnectionTimer();
             if (state == ConnectionState.DISCONNECTED || state == ConnectionState.ERROR)
             {
                 // Reset connection error count:
                 errorCount = 0;
-                await OnDisconnectedAsync();
+                await OnDisconnectedAsync(reconnect);
             }
             else
             {
@@ -358,7 +355,7 @@ namespace XMPP_API.Classes.Network
                 // Disconnect the TCPConnection:
                 await TCP_CONNECTION.DisconnectAsync();
 
-                await OnDisconnectedAsync();
+                await OnDisconnectedAsync(reconnect);
 
                 SetState(ConnectionState.DISCONNECTED);
             }
@@ -426,9 +423,9 @@ namespace XMPP_API.Classes.Network
         /// Called on disconnected state entered.
         /// Initiates a reconnect if reconnectRequested is set.
         /// </summary>
-        private async Task OnDisconnectedAsync()
+        private async Task OnDisconnectedAsync(bool reconnect)
         {
-            if (reconnectRequested)
+            if (reconnect)
             {
                 await ConnectInternalAsync();
             }
@@ -443,7 +440,7 @@ namespace XMPP_API.Classes.Network
             if (++errorCount >= 3)
             {
                 // Establishing the connection failed for the third time:
-                await InternalDisconnectAsync();
+                await InternalDisconnectAsync(false);
                 SetState(ConnectionState.ERROR, lastConnectionError);
             }
             else
@@ -574,7 +571,7 @@ namespace XMPP_API.Classes.Network
                     {
                         case ConnectionState.CONNECTING:
                         case ConnectionState.CONNECTED:
-                            await InternalDisconnectAsync();
+                            await InternalDisconnectAsync(false);
                             break;
                     }
                 }
@@ -691,7 +688,7 @@ namespace XMPP_API.Classes.Network
             }
             else if (state == ConnectionState.CONNECTED)
             {
-                await InternalDisconnectAsync();
+                await InternalDisconnectAsync(false);
             }
         }
 
