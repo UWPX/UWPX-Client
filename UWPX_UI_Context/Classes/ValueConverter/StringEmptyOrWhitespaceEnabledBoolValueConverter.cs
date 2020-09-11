@@ -3,7 +3,7 @@ using Windows.UI.Xaml.Data;
 
 namespace UWPX_UI_Context.Classes.ValueConverter
 {
-    public sealed class StringEmptyEnabledBoolValueConverter: IValueConverter
+    public sealed class StringEmptyOrWhitespaceEnabledBoolValueConverter: IValueConverter
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -24,7 +24,7 @@ namespace UWPX_UI_Context.Classes.ValueConverter
         #region --Misc Methods (Public)--
         public object Convert(object value, Type targetType, object parameter, string language)
         {
-            return value is string s && !string.IsNullOrEmpty(s);
+            return value is string s && !string.IsNullOrWhiteSpace(s);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)

@@ -18,7 +18,7 @@
                 <ResourceDictionary Source="ms-appx:///Resources/Styles/Button/TransparentIconButtonStyle.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
-            <valueconverter:StringEmptyEnabledBoolValueConverter x:Key="StringEmptyEnabledBoolValueConverter"/>
+            <valueconverter:StringEmptyOrWhitespaceEnabledBoolValueConverter x:Key="StringEmptyOrWhitespaceEnabledBoolValueConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -311,7 +311,7 @@
                         AllowFocusOnInteraction="False"
                         Click="Send_btn_Click"
                         FontSize="25"
-                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyEnabledBoolValueConverter}, Mode=OneWay}"
+                        IsEnabled="{x:Bind message_tbx.Text, Converter={StaticResource StringEmptyOrWhitespaceEnabledBoolValueConverter}, Mode=OneWay}"
                         Style="{ThemeResource TransparentThemeButtonStyle}"
                         ToolTipService.ToolTip="Send message">
                     <Grid>

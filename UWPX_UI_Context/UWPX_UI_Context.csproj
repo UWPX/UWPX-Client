@@ -360,7 +360,7 @@
     <Compile Include="Classes\ValueConverter\RTT\RttSumValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\SocketErrorCodeTextValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringBrushValueConverter.cs" />
-    <Compile Include="Classes\ValueConverter\StringEmptyEnabledBoolValueConverter.cs" />
+    <Compile Include="Classes\ValueConverter\StringEmptyOrWhitespaceEnabledBoolValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringEmptyVisibilityValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\TLSConnectionModeIntValueConverter.cs" />
     <Compile Include="Classes\ValueConverter\StringIntValueConverter.cs" />
