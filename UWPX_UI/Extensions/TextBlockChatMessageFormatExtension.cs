@@ -33,7 +33,7 @@ namespace UWPX_UI.Extensions
         private static readonly Regex EMAIL_REGEX = new Regex(EMAIL_REGEX_PATTERN, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(500));
         private static readonly Regex PHONE_REGEX = new Regex(PHONE_REGEX_PATTERN, RegexOptions.IgnoreCase, TimeSpan.FromMilliseconds(250));
 
-        public static readonly DependencyProperty FormattedTextProperty = DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatMessageFormatExtension), new PropertyMetadata("", OnFormattedTextChanged));
+        public static readonly DependencyProperty FormattedTextProperty = DependencyProperty.Register("FormattedText", typeof(string), typeof(TextBlockChatMessageFormatExtension), new PropertyMetadata(null, OnFormattedTextChanged));
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -161,13 +161,20 @@ namespace UWPX_UI.Extensions
         #region --Events--
         private static async void OnFormattedTextChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (!(d is TextBlock textBlock && e.NewValue is string text && !string.IsNullOrWhiteSpace(text)))
+            if (!(d is TextBlock textBlock && e.NewValue is string text))
             {
                 return;
             }
 
             // Clear all inlines:
             textBlock.Inlines.Clear();
+
+            // Empty message:
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                textBlock.Inlines.Add(new Run { Text = text });
+                return;
+            }
 
             // Check if advanced chat message processing is disabled:
             if (Settings.getSettingBoolean(SettingsConsts.DISABLE_ADVANCED_CHAT_MESSAGE_PROCESSING))
