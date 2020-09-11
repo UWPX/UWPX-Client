@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
@@ -48,7 +49,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         private Task<List<ChatMessageDataTemplate>> loadMoreMessagesTask = null;
         private readonly SemaphoreSlim LOAD_MORE_MESSAGES_SEMA = new SemaphoreSlim(1);
 
-        private const int MAX_MESSAGES_PER_REQUEST = 10;
+        private const int MAX_MESSAGES_PER_REQUEST = 15;
+
+        public event PropertyChangedEventHandler ChatChanged;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -66,6 +69,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             if (SetProperty(ref _Chat, value, nameof(Chat)) && !(value is null))
             {
                 hasMoreMessages = true;
+                ChatChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Chat)));
             }
         }
 

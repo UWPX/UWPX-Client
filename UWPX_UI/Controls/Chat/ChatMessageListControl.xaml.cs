@@ -39,7 +39,10 @@ namespace UWPX_UI.Controls.Chat
 
         public readonly ChatMessageListControlContext VIEW_MODEL = new ChatMessageListControlContext();
 
-        private bool scrolledToTheTop;
+        /// <summary>
+        /// Should be set to true by default to prevent loading to many messages at once.
+        /// </summary>
+        private bool scrolledToTheTop = true;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -142,15 +145,6 @@ namespace UWPX_UI.Controls.Chat
                 } while (VIEW_MODEL.MODEL.hasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
             }
         }
-
-        private async void MODEL_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (string.Equals(e.PropertyName, nameof(VIEW_MODEL.MODEL.Chat)))
-            {
-                VIEW_MODEL.MODEL.CHAT_MESSAGES.Clear();
-                await LoadMoreMessagesAsync();
-            }
-        }
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -175,7 +169,7 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
+        private async void OnScrollViewerViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
             await TryIncrementalLoadingAsync();
             if (e.IsIntermediate)
@@ -188,9 +182,9 @@ namespace UWPX_UI.Controls.Chat
         {
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
-            scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
-            VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += CHAT_MESSAGES_CollectionChanged;
-            VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
+            scrollViewer.ViewChanged += OnScrollViewerViewChanged;
+            VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += OnChatMessagesCollectionChanged;
+            VIEW_MODEL.MODEL.ChatChanged += OnChatChanged;
             UpdateBehavior();
             await LoadMoreMessagesAsync();
         }
@@ -203,7 +197,7 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
-        private void CHAT_MESSAGES_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        private void OnChatMessagesCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             if (VIEW_MODEL.MODEL.CHAT_MESSAGES.Count <= 0)
             {
@@ -213,6 +207,12 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        private async void OnChatChanged(object sender, PropertyChangedEventArgs e)
+        {
+            scrolledToTheTop = true;
+            VIEW_MODEL.MODEL.CHAT_MESSAGES.Clear();
+            await LoadMoreMessagesAsync();
+        }
         #endregion
     }
 }
