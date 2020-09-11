@@ -27,7 +27,7 @@ namespace XMPP_API.Classes
         }
 
         private bool holdConnection = false;
-        private const int RECONNECT_DELAY = 5000;
+        private const int RECONNECT_DELAY = 15000; // 15 second reconnect delay
         private TimeSpan reconnectDelay = TimeSpan.FromMilliseconds(RECONNECT_DELAY);
         private ThreadPoolTimer reconnectTimer;
 
