@@ -104,12 +104,12 @@ namespace UWPX_UI.Controls.Chat
             if (scrollViewer.VerticalOffset > (scrollViewer.ScrollableHeight - lastElem.ActualSize.Y))
             {
                 scrollDown_grid.Visibility = Visibility.Collapsed;
-                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepScrollOffset;
+                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
             }
             else
             {
                 scrollDown_grid.Visibility = Visibility.Visible;
-                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
+                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepScrollOffset;
             }
         }
 
