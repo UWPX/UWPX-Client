@@ -1,4 +1,5 @@
-﻿using Microsoft.Toolkit.Uwp.UI.Extensions;
+﻿using System.Collections.Specialized;
+using Microsoft.Toolkit.Uwp.UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
 using Windows.UI.Xaml;
@@ -75,11 +76,26 @@ namespace UWPX_UI.Controls.Chat
             return null;
         }
 
-        private void UpdateScrollDownBtnVisibility()
+        private void UpdateBehavior()
         {
             UIElement lastElem = GetLastListUiElement();
-            bool lastElemOutOfView = scrollViewer.VerticalOffset > (scrollViewer.ScrollableHeight - lastElem.ActualSize.Y);
-            scrollDown_btn.Visibility = (lastElem is null) || lastElemOutOfView ? Visibility.Collapsed : Visibility.Visible;
+            if (lastElem is null)
+            {
+                scrollDown_btn.Visibility = Visibility.Collapsed;
+                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
+                return;
+            }
+
+            if (scrollViewer.VerticalOffset > (scrollViewer.ScrollableHeight - lastElem.ActualSize.Y))
+            {
+                scrollDown_btn.Visibility = Visibility.Collapsed;
+                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepScrollOffset;
+            }
+            else
+            {
+                scrollDown_btn.Visibility = Visibility.Visible;
+                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
+            }
         }
         #endregion
 
@@ -114,9 +130,7 @@ namespace UWPX_UI.Controls.Chat
                     scrolledToTheTop = true;
                     if (VIEW_MODEL.MODEL.hasMoreMessages)
                     {
-                        itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepItemsInView;
                         await VIEW_MODEL.MODEL.LoadMoreMessagesAsync();
-                        itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
                     }
                 }
             }
@@ -127,7 +141,7 @@ namespace UWPX_UI.Controls.Chat
 
             if (e.IsIntermediate)
             {
-                UpdateScrollDownBtnVisibility();
+                UpdateBehavior();
             }
         }
 
@@ -136,7 +150,8 @@ namespace UWPX_UI.Controls.Chat
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
             scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
-            UpdateScrollDownBtnVisibility();
+            VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += CHAT_MESSAGES_CollectionChanged;
+            UpdateBehavior();
         }
 
         private void scrollDown_btn_Click(IconButtonControl sender, RoutedEventArgs args)
@@ -144,6 +159,16 @@ namespace UWPX_UI.Controls.Chat
             if (mainListView.ItemsPanelRoot.Children.Count > 0)
             {
                 scrollViewer.ChangeView(null, scrollViewer.ScrollableHeight, null);
+            }
+        }
+
+        private void CHAT_MESSAGES_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (VIEW_MODEL.MODEL.CHAT_MESSAGES.Count <= 0)
+            {
+                scrollDown_btn.Visibility = Visibility.Collapsed;
+                itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
+                return;
             }
         }
 
