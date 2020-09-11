@@ -355,9 +355,8 @@ namespace XMPP_API.Classes.Network
                 // Disconnect the TCPConnection:
                 await TCP_CONNECTION.DisconnectAsync();
 
-                await OnDisconnectedAsync(reconnect);
-
                 SetState(ConnectionState.DISCONNECTED);
+                await OnDisconnectedAsync(reconnect);
             }
         }
 
