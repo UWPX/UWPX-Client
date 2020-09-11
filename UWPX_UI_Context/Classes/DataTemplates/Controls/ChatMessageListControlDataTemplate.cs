@@ -61,13 +61,11 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private async void SetChatProperty(ChatDataTemplate value)
+        private void SetChatProperty(ChatDataTemplate value)
         {
             if (SetProperty(ref _Chat, value, nameof(Chat)) && !(value is null))
             {
-                // Chat changed load chat messages:
-                CHAT_MESSAGES.Clear();
-                await LoadMoreMessagesAsync();
+                hasMoreMessages = true;
             }
         }
 

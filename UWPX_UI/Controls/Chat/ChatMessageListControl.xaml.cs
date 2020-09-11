@@ -1,4 +1,6 @@
 ﻿using System.Collections.Specialized;
+using System.ComponentModel;
+using System.Threading.Tasks;
 using Microsoft.Toolkit.Uwp.UI.Extensions;
 using UWPX_UI_Context.Classes.DataContext.Controls;
 using UWPX_UI_Context.Classes.DataTemplates;
@@ -97,6 +99,42 @@ namespace UWPX_UI.Controls.Chat
                 itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
             }
         }
+
+        private async Task TryIncrementalLoadingAsync()
+        {
+            if (scrollViewer.VerticalOffset < mainListViewHeader.ActualHeight + 10)
+            {
+                if (!scrolledToTheTop)
+                {
+                    scrolledToTheTop = true;
+                    await LoadMoreMessagesAsync();
+                }
+            }
+            else
+            {
+                scrolledToTheTop = false;
+            }
+        }
+
+        private async Task LoadMoreMessagesAsync()
+        {
+            if (VIEW_MODEL.MODEL.hasMoreMessages)
+            {
+                do
+                {
+                    await VIEW_MODEL.MODEL.LoadMoreMessagesAsync();
+                } while (VIEW_MODEL.MODEL.hasMoreMessages && scrollViewer.DesiredSize.Height < scrollViewer.ViewportHeight);
+            }
+        }
+
+        private async void MODEL_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (string.Equals(e.PropertyName, nameof(VIEW_MODEL.MODEL.Chat)))
+            {
+                VIEW_MODEL.MODEL.CHAT_MESSAGES.Clear();
+                await LoadMoreMessagesAsync();
+            }
+        }
         #endregion
 
         #region --Misc Methods (Protected)--
@@ -123,35 +161,22 @@ namespace UWPX_UI.Controls.Chat
 
         private async void ScrollViewer_ViewChanged(object sender, ScrollViewerViewChangedEventArgs e)
         {
-            if (scrollViewer.VerticalOffset < mainListViewHeader.ActualHeight + 10)
-            {
-                if (!scrolledToTheTop)
-                {
-                    scrolledToTheTop = true;
-                    if (VIEW_MODEL.MODEL.hasMoreMessages)
-                    {
-                        await VIEW_MODEL.MODEL.LoadMoreMessagesAsync();
-                    }
-                }
-            }
-            else
-            {
-                scrolledToTheTop = false;
-            }
-
+            await TryIncrementalLoadingAsync();
             if (e.IsIntermediate)
             {
                 UpdateBehavior();
             }
         }
 
-        private void MainListView_Loaded(object sender, RoutedEventArgs e)
+        private async void MainListView_Loaded(object sender, RoutedEventArgs e)
         {
             itemsStackPanel = mainListView.FindDescendant<ItemsStackPanel>();
             scrollViewer = mainListView.FindDescendant<ScrollViewer>();
             scrollViewer.ViewChanged += ScrollViewer_ViewChanged;
             VIEW_MODEL.MODEL.CHAT_MESSAGES.CollectionChanged += CHAT_MESSAGES_CollectionChanged;
+            VIEW_MODEL.MODEL.PropertyChanged += MODEL_PropertyChanged;
             UpdateBehavior();
+            await LoadMoreMessagesAsync();
         }
 
         private void scrollDown_btn_Click(IconButtonControl sender, RoutedEventArgs args)
