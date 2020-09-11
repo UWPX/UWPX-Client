@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Data_Manager2.Classes.DBManager;
 using Data_Manager2.Classes.DBTables;
+using Data_Manager2.Classes.Events;
 using Data_Manager2.Classes.Toast;
 using Logging;
 using Shared.Classes;
@@ -43,6 +44,12 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
             get => _IsLoading;
             set => SetProperty(ref _IsLoading, value);
         }
+        private string _UnreadCount;
+        public string UnreadCount
+        {
+            get => _UnreadCount;
+            set => SetProperty(ref _UnreadCount, value);
+        }
 
         private readonly SemaphoreSlim CHAT_MESSAGES_SEMA = new SemaphoreSlim(1);
         private CancellationTokenSource loadMoreMessagesToken = null;
@@ -66,13 +73,25 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #region --Set-, Get- Methods--
         private void SetChatProperty(ChatDataTemplate value)
         {
+            ChatDataTemplate oldChat = _Chat;
             if (SetProperty(ref _Chat, value, nameof(Chat)) && !(value is null))
             {
                 hasMoreMessages = true;
+                if (!(oldChat is null))
+                {
+                    oldChat.ChatMessageChanged -= OnChatMessageChanged;
+                    oldChat.NewChatMessage -= OnNewChatMessage;
+                }
+                if (!(value is null))
+                {
+                    value.ChatMessageChanged += OnChatMessageChanged;
+                    value.NewChatMessage += OnNewChatMessage;
+                }
+                UpdateUnreadCount();
+
                 ChatChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Chat)));
             }
         }
-
         #endregion
         //--------------------------------------------------------Misc Methods:---------------------------------------------------------------\\
         #region --Misc Methods (Public)--
@@ -166,13 +185,32 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                 LOAD_MORE_MESSAGES_SEMA.Release();
             });
         }
-
         #endregion
 
         #region --Misc Methods (Private)--
         private string GetLastMessageId()
         {
             return CHAT_MESSAGES.Count > 0 ? CHAT_MESSAGES[0].Message.id : null;
+        }
+
+        private void UpdateUnreadCount()
+        {
+            Task.Run(() =>
+            {
+                int count = (Chat is null) || (Chat.Chat is null) ? 0 : ChatDBManager.INSTANCE.getUnreadCount(Chat.Chat.id);
+                if (count <= 0)
+                {
+                    UnreadCount = "";
+                }
+                else if (count > 99)
+                {
+                    UnreadCount = "99+";
+                }
+                else
+                {
+                    UnreadCount = count.ToString();
+                }
+            });
         }
 
         #endregion
@@ -183,7 +221,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
+        private void OnNewChatMessage(ChatDataTemplate chat, NewChatMessageEventArgs args)
+        {
+            UpdateUnreadCount();
+        }
 
+        private void OnChatMessageChanged(ChatDataTemplate chat, ChatMessageChangedEventArgs args)
+        {
+            UpdateUnreadCount();
+        }
 
         #endregion
     }

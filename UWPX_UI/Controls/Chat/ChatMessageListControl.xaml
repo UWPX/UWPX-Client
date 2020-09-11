@@ -110,18 +110,42 @@
             </ListView.ItemContainerStyle>
         </ListView>
 
-        <controls:IconButtonControl x:Name="scrollDown_btn"
-                                    Grid.Row="0"
-                                    Margin="0,0,20,20"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Bottom"
-                                    Background="{ThemeResource SystemAccentColorDark2}"
-                                    Click="scrollDown_btn_Click"
-                                    FontSize="20"
-                                    Glyph="&#xE96E;"
-                                    GlyphForeground="{ThemeResource ButtonForegroundThemeBrush}"
-                                    ToolTipService.ToolTip="Scroll down"
-                                    Visibility="Collapsed">
+        <Grid x:Name="scrollDown_grid"
+              Grid.Row="0"
+              Margin="0,0,20,20"
+              HorizontalAlignment="Right"
+              VerticalAlignment="Bottom"
+              Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <controls:IconButtonControl x:Name="scrollDown_btn"
+                                        Grid.Row="0"
+                                        Background="{ThemeResource SystemAccentColorDark2}"
+                                        Click="scrollDown_btn_Click"
+                                        FontSize="20"
+                                        Glyph="&#xE96E;"
+                                        GlyphForeground="White"
+                                        ToolTipService.ToolTip="Scroll down"/>
+            <Border Grid.Row="0"
+                    Height="22"
+                    MinWidth="22"
+                    Margin="-10,-10,0,0"
+                    Padding="2"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Top"
+                    Background="{ThemeResource SystemAccentColor}"
+                    BorderThickness="1"
+                    CornerRadius="11"
+                    ToolTipService.ToolTip="Unread messages"
+                    Visibility="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay, Converter={StaticResource StringEmptyVisibilityValueConverter}}">
+                <TextBlock Margin="2,0,2,0"
+                           HorizontalAlignment="Center"
+                           FontSize="11"
+                           Foreground="White"
+                           Text="{x:Bind VIEW_MODEL.MODEL.UnreadCount, Mode=OneWay}"/>
+            </Border>
+
             <animations:Implicit.ShowAnimations>
                 <animations:OpacityAnimation From="0"
                                              To="1"
@@ -139,6 +163,6 @@
                                                  To="100, 0, 0"
                                                  Duration="0:0:0.3"/>
             </animations:Implicit.HideAnimations>
-        </controls:IconButtonControl>
+        </Grid>
     </Grid>
 </UserControl>

@@ -88,7 +88,7 @@ namespace UWPX_UI.Controls.Chat
         }
 
         /// <summary>
-        /// Updates the scrollDown_btn.Visibility and itemsStackPanel.ItemsUpdatingScrollMode.
+        /// Updates the scrollDown_grid.Visibility and itemsStackPanel.ItemsUpdatingScrollMode.
         /// Based on the VerticalOffset of the <see cref="ScrollViewer"/>.
         /// </summary>
         private void UpdateBehavior()
@@ -96,19 +96,19 @@ namespace UWPX_UI.Controls.Chat
             UIElement lastElem = GetLastListUiElement();
             if (lastElem is null)
             {
-                scrollDown_btn.Visibility = Visibility.Collapsed;
+                scrollDown_grid.Visibility = Visibility.Collapsed;
                 itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
                 return;
             }
 
             if (scrollViewer.VerticalOffset > (scrollViewer.ScrollableHeight - lastElem.ActualSize.Y))
             {
-                scrollDown_btn.Visibility = Visibility.Collapsed;
+                scrollDown_grid.Visibility = Visibility.Collapsed;
                 itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepScrollOffset;
             }
             else
             {
-                scrollDown_btn.Visibility = Visibility.Visible;
+                scrollDown_grid.Visibility = Visibility.Visible;
                 itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
             }
         }
@@ -201,7 +201,7 @@ namespace UWPX_UI.Controls.Chat
         {
             if (VIEW_MODEL.MODEL.CHAT_MESSAGES.Count <= 0)
             {
-                scrollDown_btn.Visibility = Visibility.Collapsed;
+                scrollDown_grid.Visibility = Visibility.Collapsed;
                 itemsStackPanel.ItemsUpdatingScrollMode = ItemsUpdatingScrollMode.KeepLastItemInView;
                 return;
             }
