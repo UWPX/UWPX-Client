@@ -62,6 +62,9 @@ namespace UWPX_UI.Controls.Chat
         #endregion
 
         #region --Misc Methods (Private)--
+        /// <summary>
+        /// Updates the view and changes all properties.
+        /// </summary>
         private void UpdateView(DependencyPropertyChangedEventArgs args)
         {
             ChatDataTemplate oldChat = args.OldValue is ChatDataTemplate ? args.OldValue as ChatDataTemplate : null;
@@ -69,6 +72,9 @@ namespace UWPX_UI.Controls.Chat
             VIEW_MODEL.UpdateView(oldChat, newChat);
         }
 
+        /// <summary>
+        /// Returns the last <see cref="UIElement"/> from the <see cref="ListView"/> or null if there is none.
+        /// </summary>
         private UIElement GetLastListUiElement()
         {
             if (mainListView.ItemsPanelRoot.Children.Count > 0)
@@ -78,6 +84,10 @@ namespace UWPX_UI.Controls.Chat
             return null;
         }
 
+        /// <summary>
+        /// Updates the scrollDown_btn.Visibility and itemsStackPanel.ItemsUpdatingScrollMode.
+        /// Based on the VerticalOffset of the <see cref="ScrollViewer"/>.
+        /// </summary>
         private void UpdateBehavior()
         {
             UIElement lastElem = GetLastListUiElement();
@@ -100,6 +110,9 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        /// <summary>
+        /// Tries to load more chat messages in case the user has scrolled to the top.
+        /// </summary>
         private async Task TryIncrementalLoadingAsync()
         {
             if (scrollViewer.VerticalOffset < mainListViewHeader.ActualHeight + 10)
@@ -116,6 +129,9 @@ namespace UWPX_UI.Controls.Chat
             }
         }
 
+        /// <summary>
+        /// Loads more chat messages in case there are more available and until the view port is full of messages.
+        /// </summary>
         private async Task LoadMoreMessagesAsync()
         {
             if (VIEW_MODEL.MODEL.hasMoreMessages)
