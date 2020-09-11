@@ -31,9 +31,14 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 {
                     if (string.Equals(n1.NamespaceURI, Consts.XML_STREAM_ERROR_NAMESPACE))
                     {
-                        ERROR_TYPE = parseStreamErrorType(n1.Name);
-                        ERROR_TEXT = n1.InnerXml;
-                        return;
+                        if (string.Equals(n1.Name, "text"))
+                        {
+                            ERROR_TEXT = n1.InnerXml;
+                        }
+                        else
+                        {
+                            ERROR_TYPE = parseStreamErrorType(n1.Name);
+                        }
                     }
                 }
             }
