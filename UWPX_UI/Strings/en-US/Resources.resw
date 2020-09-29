@@ -356,37 +356,53 @@ For more up to date information visit:
     <value>https://www.xmpp-iot.org/</value>
   </data>
   <data name="WhatsNewDialog_markdown.Text" xml:space="preserve">
-    <value># [July 2020] Small Maintenance Release
-The last two months I was unable to spend a lot of time developing UWPX, since currently a lot of other things like organizing retake exams that were pushed back during the whole health crisis came up.
+    <value># [October 2020] Back to the Future
+Time has passed again and a new release of UWPX is ready to be tested.
+It includes a bunch of chat view related fixes and improvements.
+Up until now it was only possible to view the last 100 messages.
+This changes now. It took me about one and a half year to implement incremental loading for chat messages.
+The problem here: The UWP `ScrollViewer` only supports incremental loading if you are scrolling downwards. But like you probably already noticed chats are being scrolled upwards ➡💥.
 
-Push is still very much work in progress.
-If you can't wait for me to enable push for everyone, you can play around with it by enabling it via `Settings` -&gt; `Accounts` -&gt; `Enable push`. Since it's still work in progress **do not expect it to work all the time, or even at all 😅**.
-
-To get more information about the push setup and how it works, you can continue reading [here](https://github.com/UWPX/UWPX-Push-Server/blob/master/README.md).
-
-If you enable debug settings (press 5 times on the app version on the settings page to enable debug mode) you get even more information about the current push status and can request a test push notification from the server (in case it's running).
+I finally managed to write my own logic for detecting and loading chat messages incrementally.
+Besides that the chat interface also got a little bit of love. I fixed a bunch of chat message related bugs like downloading images and showing empty chat messages. 
 
 **Please report bugs [here](https://github.com/UWPX/UWPX-Client/issues)!**
 
-### Want more up to date news?
+### Push
+During my trial and error runs for fixing the push channel I deleted the `Live SDK` integration. I was hoping to get a new link, which is not broken. Turns out, once you deleted it, you can not create a new one. Thanks for now warning, when clicking this button...  
+https://twitter.com/UWPX_APP/status/1254786200134578178
+MS support is also not helpful, since they either want money from me, so I even can start chatting with them about that, or redirect you to ask questions in the forum. There the only suggestion is to **DELETE** UWPX from the store and start all over again.
+
+This is no solution for me, since then everybody would have redownload the app...  
+To deliver push support I **have to** change the app identity. This results in a new app in the Microsoft Store. People **have to** redownload the app.
+
+#### So I decided to do the following:  
+* Do not offer push support for versions &lt; v.1.0  
+* Once version v.1.0 has been released people have to redownload a new and stable version of the app  
+
+You can read more about this **[here](https://github.com/UWPX/UWPX-Client/issues/136)**.
+
+#### Want more up to date news?
 Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.com/wWzX9uB.png).
 
 ### Known bugs
 * Not receiving offline messages [#27](https://github.com/UWPX/UWPX-Client/issues/27)
 * MUC subject changing leads to an account disconnect [#34](https://github.com/UWPX/UWPX-Client/issues/34)
 * MUC Errors broken [#58](https://github.com/UWPX/UWPX-Client/issues/58)
-* Chat image downloads not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
 * UWPX hangs after receiving contact request [#107](https://github.com/UWPX/UWPX-Client/issues/107)
 * `OmemoHelper` is null [#134](https://github.com/UWPX/UWPX-Client/issues/134)
 
 ### Changes
-* Fixed trying to access the camera if no permissions were guaranteed [#133](https://github.com/UWPX/UWPX-Client/issues/133)
-* Fixed UWX trying to initialize push if disabled and it has been enabled before [#132](https://github.com/UWPX/UWPX-Client/issues/132)
-* Changed the app identity to fix push
-* Dark mode is now slightly darker
-* Improved favorite star contrast for the light theme
-* Updated all NuGet dependencies 
-
+* Added incremental loading for chat messages
+* Added a "Click to view" tool tip for images
+* Added a scroll down button for chat messages
+* Better TLS upgrade error messages
+* Fixed the image download progress not updating [#69](https://github.com/UWPX/UWPX-Client/issues/69)
+* Fixed reconnect loops
+* Increased the account reconnect delay to 15 seconds
+* Fixed displaying empty chat messages
+* Fixed showing send even if there are only whitespace chars
+* Preparations for MAM (XEP-0313) support
 **Continue reading on [GitHub](https://github.com/UWPX/UWPX-Client/releases/tag/v.0.27.0.0).**</value>
   </data>
 </root>
