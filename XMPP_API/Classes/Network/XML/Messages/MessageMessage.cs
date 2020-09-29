@@ -140,7 +140,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
 
             // Check for a MAM-ID in the archived node:
-            XmlNode archivedNode = XMLUtils.getChildNode(node, "archived", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE);
+            XmlNode archivedNode = XMLUtils.getChildNode(node, "archived", Consts.XML_XMLNS, Consts.XML_XEP_0313_TMP_NAMESPACE);
             if (!(archivedNode is null))
             {
                 id = archivedNode.Attributes["id"]?.Value;

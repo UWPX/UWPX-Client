@@ -87,7 +87,8 @@ namespace XMPP_API.Classes
         // XEP-IoT:
         public const string XML_XEP_IOT_NAMESPACE = "urn:xmpp:uwpx:iot";
         // XEP-0313 (Message Archive Management)
-        public const string XML_XEP_0313_NAMESPACE = "urn:xmpp:mam:tmp";
+        public const string XML_XEP_0313_TMP_NAMESPACE = "urn:xmpp:mam:tmp";
+        public const string XML_XEP_0313_NAMESPACE = "urn:xmpp:mam:2";
         // XEP-0359 (Unique and Stable Stanza IDs)
         public const string XML_XEP_0359_NAMESPACE = "urn:xmpp:sid:0";
         // XEP-0199 (XMPP Ping)
