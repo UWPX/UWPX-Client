@@ -1,21 +1,32 @@
-﻿using System.Xml.Linq;
+﻿using System.Xml;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0059;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
 {
-    public class QueryArchiveMessage: IQMessage
+    public class QueryArchiveFinishMessage: IQMessage
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
+        public readonly Set RESULT_SET;
+        public readonly bool COMPLETE;
         public readonly string QUERY_ID;
-        public readonly QueryFilter FILTER;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QueryArchiveMessage(QueryFilter filter) : base(null, null, SET, getRandomId())
+        public QueryArchiveFinishMessage(XmlNode answer) : base(answer)
         {
-            QUERY_ID = getRandomId();
-            FILTER = filter;
+            XmlNode finNode = XMLUtils.getChildNode(answer, "fin", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE);
+            if (!(finNode is null))
+            {
+                QUERY_ID = finNode.Attributes["queryid"]?.Value;
+                COMPLETE = XMLUtils.tryParseToBool(finNode.Attributes["complete"]?.Value);
+                XmlNode setNode = XMLUtils.getChildNode(finNode, "set", Consts.XML_XMLNS, Consts.XML_XEP_0059_NAMESPACE);
+                if (!(setNode is null))
+                {
+                    RESULT_SET = new Set(setNode);
+                }
+            }
         }
 
         #endregion
@@ -36,14 +47,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0313_NAMESPACE;
-            XElement query = new XElement(ns + "query");
-            query.Add(new XAttribute("queryid", QUERY_ID));
-            FILTER.addToXElement(query);
-            return query;
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

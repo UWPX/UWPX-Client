@@ -16,6 +16,7 @@ using XMPP_API.Classes.Network.XML.Messages.XEP_0184;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0198;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0199;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0249;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0363;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0384;
@@ -352,9 +353,15 @@ namespace XMPP_API.Classes.Network.XML
                                     }
                                     else
                                     {
+                                        // XEP-0313 (Message Archive Management):
+                                        if (XMLUtils.getChildNode(n, "fin", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE) != null)
+                                        {
+                                            messages.Add(new QueryArchiveFinishMessage(n));
+                                            fondNode = true;
+                                            break;
+                                        }
                                         // XEP-0363 (HTTP File Upload) slot response:
-                                        XmlNode slotNode = XMLUtils.getChildNode(n, "slot", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE);
-                                        if (slotNode != null)
+                                        if (XMLUtils.getChildNode(n, "slot", Consts.XML_XMLNS, Consts.XML_XEP_0363_NAMESPACE) != null)
                                         {
                                             messages.Add(new HTTPUploadResponseSlotMessage(n));
                                             fondNode = true;
@@ -487,6 +494,11 @@ namespace XMPP_API.Classes.Network.XML
             else if (XMLUtils.getChildNode(n, "received", Consts.XML_XMLNS, Consts.XML_XEP_0184_NAMESPACE) != null)
             {
                 messages.Add(new DeliveryReceiptMessage(n));
+            }
+            // XEP-0313 (Message Archive Management):
+            else if (XMLUtils.getChildNode(n, "result", Consts.XML_XMLNS, Consts.XML_XEP_0313_NAMESPACE) != null)
+            {
+                messages.Add(new QueryArchiveResultMessage(n));
             }
             // XEP-0249 (Direct MUC Invitations):
             else if (XMLUtils.getChildNode(n, "x", Consts.XML_XMLNS, Consts.XML_XEP_0249_NAMESPACE) != null)

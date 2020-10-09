@@ -8,6 +8,8 @@ using UWPX_UI_Context.Classes.Events;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using XMPP_API.Classes.Network.XML.Messages.Helper;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 
 namespace UWPX_UI.Controls.Chat
 {
@@ -156,10 +158,13 @@ namespace UWPX_UI.Controls.Chat
             await VIEW_MODEL.LeaveMucAsync(Chat);
         }
 
-        private void Test_mfo_Click(object sender, RoutedEventArgs e)
+        private async void Test_mfo_Click(object sender, RoutedEventArgs e)
         {
             if (!IsDummy)
             {
+                QueryFilter filter = new QueryFilter();
+                filter.with(Chat.Chat.chatJabberId);
+                MessageResponseHelperResult<MamResult> result = await Chat.Client.GENERAL_COMMAND_HELPER.requestMamAsync(filter);
             }
         }
 

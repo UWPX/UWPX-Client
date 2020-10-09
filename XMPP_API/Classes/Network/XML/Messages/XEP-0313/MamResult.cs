@@ -1,21 +1,42 @@
-﻿using System.Xml.Linq;
+﻿using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
 {
-    public class QueryArchiveMessage: IQMessage
+    public class MamResult
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
-        public readonly string QUERY_ID;
-        public readonly QueryFilter FILTER;
+        public readonly string FIRST;
+        public readonly string LAST;
+        public readonly uint INDEX;
+        public readonly uint COUNT;
+        public readonly bool COMPLETE;
+        public readonly List<QueryArchiveResultMessage> RESULTS;
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public QueryArchiveMessage(QueryFilter filter) : base(null, null, SET, getRandomId())
+        public MamResult(QueryArchiveFinishMessage msg, List<QueryArchiveResultMessage> results)
         {
-            QUERY_ID = getRandomId();
-            FILTER = filter;
+            if (!msg.COMPLETE)
+            {
+                Debug.Assert(string.IsNullOrEmpty(msg.RESULT_SET.FIRST));
+                Debug.Assert(!(msg.RESULT_SET.FIRST_INDEX is null));
+                Debug.Assert(string.IsNullOrEmpty(msg.RESULT_SET.LAST));
+
+                FIRST = msg.RESULT_SET.FIRST;
+                LAST = msg.RESULT_SET.LAST;
+                INDEX = (uint)msg.RESULT_SET.FIRST_INDEX;
+            }
+            else
+            {
+                COMPLETE = true;
+            }
+            Debug.Assert(!(msg.RESULT_SET.COUNT is null));
+            COUNT = (uint)msg.RESULT_SET.COUNT;
+
+            RESULTS = results;
         }
 
         #endregion
@@ -36,14 +57,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0313
         #endregion
 
         #region --Misc Methods (Protected)--
-        protected override XElement getQuery()
-        {
-            XNamespace ns = Consts.XML_XEP_0313_NAMESPACE;
-            XElement query = new XElement(ns + "query");
-            query.Add(new XAttribute("queryid", QUERY_ID));
-            FILTER.addToXElement(query);
-            return query;
-        }
+
 
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\

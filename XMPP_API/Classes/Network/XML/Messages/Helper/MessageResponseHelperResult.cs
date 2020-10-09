@@ -1,6 +1,6 @@
 ﻿namespace XMPP_API.Classes.Network.XML.Messages.Helper
 {
-    public class MessageResponseHelperResult<T> where T : AbstractAddressableMessage
+    public class MessageResponseHelperResult<T> where T : class
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--

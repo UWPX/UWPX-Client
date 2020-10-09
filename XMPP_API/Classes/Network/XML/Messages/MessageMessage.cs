@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Xml;
 using System.Xml.Linq;
 
@@ -98,12 +99,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
             XmlNode delayNode = XMLUtils.getChildNode(node, "delay", Consts.XML_XMLNS, Consts.XML_XEP_0203_NAMESPACE);
             if (delayNode != null)
             {
-                XmlAttribute stamp = XMLUtils.getAttribute(delayNode, "stamp");
-                if (stamp != null)
-                {
-                    DateTimeParserHelper parserHelper = new DateTimeParserHelper();
-                    delay = parserHelper.parse(stamp.Value);
-                }
+                parseDelay(delayNode);
             }
             else
             {
@@ -186,13 +182,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             }
 
             // XEP-0359 (Unique and Stable Stanza IDs):
-            if (ID != null)
-            {
-                XNamespace ns = Consts.XML_XEP_0359_NAMESPACE;
-                XElement originId = new XElement(ns + "origin-id", MESSAGE);
-                originId.Add(new XAttribute("id", ID));
-                msgNode.Add(originId);
-            }
+            Debug.Assert(ID != null);
+            XNamespace sid_ns = Consts.XML_XEP_0359_NAMESPACE;
+            XElement originId = new XElement(sid_ns + "origin-id", MESSAGE);
+            originId.Add(new XAttribute("id", ID));
+            msgNode.Add(originId);
 
             // XEP-0203 (Delayed Delivery):
             if (delay != DateTime.MinValue)
@@ -225,6 +219,20 @@ namespace XMPP_API.Classes.Network.XML.Messages
         public void addDelay(DateTime date)
         {
             delay = date;
+        }
+
+        /// <summary>
+        /// Parses a XEP-0203 (Delayed Delivery).
+        /// </summary>
+        public void parseDelay(XmlNode delayNode)
+        {
+            Debug.Assert(!(delayNode is null));
+            XmlAttribute stamp = XMLUtils.getAttribute(delayNode, "stamp");
+            if (stamp != null)
+            {
+                DateTimeParserHelper parserHelper = new DateTimeParserHelper();
+                delay = parserHelper.parse(stamp.Value);
+            }
         }
 
         #endregion

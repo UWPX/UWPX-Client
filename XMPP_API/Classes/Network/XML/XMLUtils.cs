@@ -156,7 +156,7 @@ namespace XMPP_API.Classes.Network.XML
 
         /// <summary>
         /// Tries to pars the given string to a boolean.
-        /// '  1   '/'1'/'   true   '/'true'/'   True   '/'True' result in true.
+        /// '1', 'true', 'True' result in true.
         /// Everything else results in false.
         /// </summary>
         /// <param name="s">The string containing the boolean.</param>

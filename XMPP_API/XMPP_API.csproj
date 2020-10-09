@@ -267,6 +267,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\SetBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0048\StorageItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0054\RequestVCardMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0059\Set.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubDiscoverNodeItemsResultMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubEventMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0060\AbstractPubSubItem.cs" />
@@ -307,6 +308,10 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0249\DirectMUCInvitationMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsDisableMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0280\CarbonsEnableMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0313\MamResult.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0313\QueryArchiveFinishMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0313\QueryArchiveResultMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-0313\QueryFilter.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0334\MessageProcessingHint.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0336\AsynchronousUpdateMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0336\CancelFormMessage.cs" />

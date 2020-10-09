@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Logging;
 using XMPP_API.Classes.Network;
@@ -7,6 +8,7 @@ using XMPP_API.Classes.Network.XML.Messages.Helper;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0030;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0085;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0280;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0313;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0357;
 
 namespace XMPP_API.Classes
@@ -239,6 +241,36 @@ namespace XMPP_API.Classes
             AsyncMessageResponseHelper<IQMessage> helper = new AsyncMessageResponseHelper<IQMessage>(CONNECTION, predicate);
             CarbonsDisableMessage msg = new CarbonsDisableMessage(CONNECTION.account.getFullJid());
             return await helper.startAsync(msg);
+        }
+
+        /// <summary>
+        /// Sends a <seealso cref="QueryArchiveMessage"/> to the server and requests the MAM archive.
+        /// </summary>
+        /// <returns>The result of the request.</returns>
+        public async Task<MessageResponseHelperResult<MamResult>> requestMamAsync(QueryFilter filter)
+        {
+            QueryArchiveMessage msg = new QueryArchiveMessage(filter);
+            List<QueryArchiveResultMessage> results = new List<QueryArchiveResultMessage>();
+            Predicate<AbstractAddressableMessage> predicate = (x) =>
+            {
+                if (x is QueryArchiveResultMessage result && string.Equals(result.QUERY_ID, msg.QUERY_ID))
+                {
+                    results.Add(result);
+                    return false;
+                }
+                return x is QueryArchiveFinishMessage fin && string.Equals(fin.ID, msg.ID) && string.Equals(fin.QUERY_ID, msg.QUERY_ID);
+            };
+            AsyncMessageResponseHelper<AbstractAddressableMessage> helper = new AsyncMessageResponseHelper<AbstractAddressableMessage>(CONNECTION, predicate)
+            {
+                matchId = false
+            };
+            MessageResponseHelperResult<AbstractAddressableMessage> finResult = await helper.startAsync(msg);
+            MamResult mamResult = null;
+            if (finResult.STATE == MessageResponseHelperResultState.SUCCESS)
+            {
+                mamResult = new MamResult(finResult.RESULT as QueryArchiveFinishMessage, results);
+            }
+            return new MessageResponseHelperResult<MamResult>(finResult.STATE, mamResult);
         }
 
         #endregion
