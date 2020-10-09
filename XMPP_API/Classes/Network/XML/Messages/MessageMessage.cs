@@ -74,14 +74,7 @@ namespace XMPP_API.Classes.Network.XML.Messages
                         if (error != null)
                         {
                             XmlNode text = XMLUtils.getChildNode(error, "text");
-                            if (text != null)
-                            {
-                                MESSAGE = text.InnerText;
-                            }
-                            else
-                            {
-                                MESSAGE = error.InnerXml;
-                            }
+                            MESSAGE = text != null ? text.InnerText : error.InnerXml;
                         }
                         else
                         {
@@ -132,33 +125,33 @@ namespace XMPP_API.Classes.Network.XML.Messages
 
         protected static string loadMessageId(XmlNode node)
         {
-            // Check for the default message ID attribute:
-            string id = node.Attributes["id"]?.Value;
-            if (!(id is null))
+            // Check for a 'XEP-0359: Unique and Stable Stanza IDs' ID:
+            XmlNode stanzaIdNode = XMLUtils.getChildNode(node, "stanza-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
+            if (!(stanzaIdNode is null))
             {
-                return id;
+                string sId = stanzaIdNode.Attributes["id"]?.Value;
+                if (!(sId is null))
+                {
+                    return sId;
+                }
             }
 
             // Check for a MAM-ID in the archived node:
             XmlNode archivedNode = XMLUtils.getChildNode(node, "archived", Consts.XML_XMLNS, Consts.XML_XEP_0313_TMP_NAMESPACE);
             if (!(archivedNode is null))
             {
-                id = archivedNode.Attributes["id"]?.Value;
-                if (!(id is null))
+                string mamId = archivedNode.Attributes["id"]?.Value;
+                if (!(mamId is null))
                 {
-                    return id;
+                    return mamId;
                 }
             }
 
-            // Check for a 'XEP-0359: Unique and Stable Stanza IDs' ID:
-            XmlNode stanzaIdNode = XMLUtils.getChildNode(node, "stanza-id", Consts.XML_XMLNS, Consts.XML_XEP_0359_NAMESPACE);
-            if (!(stanzaIdNode is null))
+            // Check for the default message ID attribute:
+            string id = node.Attributes["id"]?.Value;
+            if (!(id is null))
             {
-                id = stanzaIdNode.Attributes["id"]?.Value;
-                if (!(id is null))
-                {
-                    return id;
-                }
+                return id;
             }
 
             // Fall back to a new message ID:
@@ -182,11 +175,6 @@ namespace XMPP_API.Classes.Network.XML.Messages
                 msgNode.Add(new XAttribute("to", TO));
             }
 
-            if (ID != null)
-            {
-                msgNode.Add(new XAttribute("id", ID));
-            }
-
             if (TYPE != null)
             {
                 msgNode.Add(new XAttribute("type", TYPE));
@@ -195,6 +183,15 @@ namespace XMPP_API.Classes.Network.XML.Messages
             if (includeBody && MESSAGE != null)
             {
                 msgNode.Add(new XElement("body", MESSAGE));
+            }
+
+            // XEP-0359 (Unique and Stable Stanza IDs):
+            if (ID != null)
+            {
+                XNamespace ns = Consts.XML_XEP_0359_NAMESPACE;
+                XElement originId = new XElement(ns + "origin-id", MESSAGE);
+                originId.Add(new XAttribute("id", ID));
+                msgNode.Add(originId);
             }
 
             // XEP-0203 (Delayed Delivery):

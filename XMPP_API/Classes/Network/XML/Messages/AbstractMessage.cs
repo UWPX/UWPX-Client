@@ -63,6 +63,11 @@ namespace XMPP_API.Classes.Network.XML.Messages
             return restartConnection;
         }
 
+        /// <summary>
+        /// Generates a new random RFC 4122 UUID and returns it as a string.
+        /// Example: de305d54-75b4-431b-adb2-eb6b9e546013
+        /// </summary>
+        /// <returns>A new random RFC 4122 UUID.</returns>
         public static string getRandomId()
         {
             return Guid.NewGuid().ToString();

@@ -48,6 +48,7 @@ Follow [@UWPX_APP](https://twitter.com/UWPX_APP) on ![Twitter](http://i.imgur.co
 | Chat Markers | [XEP-0333](https://xmpp.org/extensions/xep-0333.html "XEP-0333") | 0.4 (2020-04-15) |
 | Message Processing Hints | [XEP-0334](https://xmpp.org/extensions/xep-0334.html "XEP-0334") | 0.3.0 (2018-01-25) |
 | Data Forms - Dynamic Forms | [XEP-0336](https://xmpp.org/extensions/xep-0336.html) | 0.2 (2015-11-09) |
+| Unique and Stable Stanza IDs | [XEP-0359](https://xmpp.org/extensions/xep-0359.html) | 0.6.0 (2018-10-01) |
 | Consistent Color Generation | [XEP-0392](https://xmpp.org/extensions/xep-0392.html) | 0.7.0 (2019-10-16) |
 
 
