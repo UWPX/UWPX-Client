@@ -19,7 +19,7 @@
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <PackageCertificateKeyFile>
     </PackageCertificateKeyFile>
-    <PackageCertificateThumbprint>9E21DB2AB66014EB13518D902F359AA476593EC3</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>36C004A9301447076EF1E049851D0E38A44933B6</PackageCertificateThumbprint>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
@@ -615,7 +615,7 @@
       <Version>2.4.3</Version>
     </PackageReference>
     <PackageReference Include="ZXing.Net">
-      <Version>0.16.5</Version>
+      <Version>0.16.6</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
