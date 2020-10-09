@@ -71,6 +71,7 @@ namespace Data_Manager2.Classes.DBTables
             disabled = account.disabled;
             color = account.color;
             presence = account.presence;
+            presencePriorety = account.presencePriorety;
             status = account.status;
             omemoKeysGenerated = account.omemoKeysGenerated;
             omemoDeviceId = account.omemoDeviceId;

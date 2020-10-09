@@ -37,8 +37,8 @@ namespace XMPP_API.Classes.Network
             get => _serverAddress;
             set => SetProperty(ref _serverAddress, value);
         }
-        private int _presencePriorety;
-        public int presencePriorety
+        private short _presencePriorety;
+        public short presencePriorety
         {
             get => _presencePriorety;
             set => SetProperty(ref _presencePriorety, value);
