@@ -2,6 +2,7 @@
 using System.Xml;
 using System.Xml.Linq;
 using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
+using XMPP_API.Classes.Network.XML.Messages.XEP_IoT.Controls;
 
 namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
 {
@@ -47,17 +48,17 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
             switch (node.Attributes["type"]?.Value)
             {
                 case "boolean":
-                    value = XMLUtils.tryParseToBool(getValue(node));
+                    value = XMLUtils.tryParseToBool(getStringValue(node));
                     type = FieldType.BOOLEAN;
                     break;
 
                 case "text-private":
-                    value = getValue(node);
+                    value = getStringValue(node);
                     type = FieldType.TEXT_PRIVATE;
                     break;
 
                 case "text-single":
-                    value = getValue(node);
+                    value = getStringValue(node);
                     type = FieldType.TEXT_SINGLE;
                     break;
 
@@ -66,7 +67,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     break;
 
                 case "fixed":
-                    value = getValue(node);
+                    value = getStringValue(node);
                     type = FieldType.FIXED;
                     break;
 
@@ -83,12 +84,26 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
                     break;
 
                 case "hidden":
-                    value = getValue(node);
+                    value = getStringValue(node);
                     type = FieldType.HIDDEN;
                     break;
 
+                case "button": // XEP-IoT
+                    type = FieldType.BUTTON;
+                    break;
+
+                case "header": // XEP-IoT
+                    value = getStringValue(node);
+                    type = FieldType.HEADER;
+                    break;
+
+                case "slider": // XEP-IoT
+                    value = new SliderFieldValue(node);
+                    type = FieldType.SLIDER;
+                    break;
+
                 default:
-                    value = getValue(node);
+                    value = getStringValue(node);
                     type = FieldType.NONE;
                     break;
             }
@@ -98,7 +113,7 @@ namespace XMPP_API.Classes.Network.XML.Messages.XEP_0004
         #endregion
         //--------------------------------------------------------Set-, Get- Methods:---------------------------------------------------------\\
         #region --Set-, Get- Methods--
-        private string getValue(XmlNode node)
+        private string getStringValue(XmlNode node)
         {
             XmlNode value = XMLUtils.getChildNode(node, "value");
             return value?.InnerText;

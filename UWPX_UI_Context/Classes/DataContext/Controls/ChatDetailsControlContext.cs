@@ -174,6 +174,15 @@ namespace UWPX_UI_Context.Classes.DataContext.Controls
             });
         }
 
+        public void MarkAsIotDevice(ChatTable chat)
+        {
+            chat.chatType = ChatType.IOT_DEVICE;
+            Task.Run(() =>
+            {
+                ChatDBManager.INSTANCE.setChat(chat, false, true);
+            });
+        }
+
         #endregion
 
         #region --Misc Methods (Private)--

@@ -17,6 +17,9 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
         public DataTemplate ListSingleFieldTemplate { get; set; }
         public DataTemplate ListMultiFieldTemplate { get; set; }
         public DataTemplate HiddenFieldTemplate { get; set; }
+        public DataTemplate ButtonFieldTemplate { get; set; }
+        public DataTemplate HeaderFieldTemplate { get; set; }
+        public DataTemplate SliderFieldTemplate { get; set; }
 
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
@@ -70,6 +73,15 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Selectors
 
                     case FieldType.LIST_MULTI:
                         return ListMultiFieldTemplate;
+
+                    case FieldType.HEADER: // XEP-IoT
+                        return HeaderFieldTemplate;
+
+                    case FieldType.BUTTON: // XEP-IoT
+                        return ButtonFieldTemplate;
+
+                    case FieldType.SLIDER: // XEP-IoT
+                        return SliderFieldTemplate;
 
                     case FieldType.NONE:
                     default:

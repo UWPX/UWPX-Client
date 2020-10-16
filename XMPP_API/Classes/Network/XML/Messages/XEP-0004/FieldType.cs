@@ -10,6 +10,9 @@
         BOOLEAN,
         LIST_SINGLE,
         LIST_MULTI,
+        HEADER, // XEP-IoT
+        BUTTON, // XEP-IoT
+        SLIDER, // XEP-IoT
         NONE
     }
 }

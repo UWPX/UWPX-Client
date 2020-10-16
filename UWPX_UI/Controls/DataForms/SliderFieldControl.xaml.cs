@@ -1,10 +1,12 @@
 ﻿using UWPX_UI_Context.Classes.DataTemplates.Controls.IoT;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using XMPP_API.Classes.Network.XML.Messages.XEP_0336;
+using XMPP_API.Classes.Network.XML.Messages.XEP_IoT.Controls;
 
 namespace UWPX_UI.Controls.DataForms
 {
-    public sealed partial class LabelFieldControl: UserControl
+    public sealed partial class SliderFieldControl: UserControl
     {
         //--------------------------------------------------------Attributes:-----------------------------------------------------------------\\
         #region --Attributes--
@@ -13,12 +15,13 @@ namespace UWPX_UI.Controls.DataForms
             get => (FieldDataTemplate)GetValue(FieldProperty);
             set => SetValue(FieldProperty, value);
         }
-        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(FieldDataTemplate), typeof(LabelFieldControl), new PropertyMetadata(null, OnFieldChanged));
+        public static readonly DependencyProperty FieldProperty = DependencyProperty.Register(nameof(Field), typeof(FieldDataTemplate), typeof(SliderFieldControl), new PropertyMetadata(null, OnFieldChanged));
 
+        private bool supressValueChanged;
         #endregion
         //--------------------------------------------------------Constructor:----------------------------------------------------------------\\
         #region --Constructors--
-        public LabelFieldControl()
+        public SliderFieldControl()
         {
             InitializeComponent();
         }
@@ -52,12 +55,25 @@ namespace UWPX_UI.Controls.DataForms
 
         private void UpdateUi()
         {
+            supressValueChanged = true;
             Visibility = Field is null ? Visibility.Collapsed : Visibility.Visible;
             if (!(Field is null))
             {
                 // General:
-                label_tblck.Text = (string)(Field.Value ?? "");
+                slider.Header = Field.Label;
+                SliderFieldValue val = (SliderFieldValue)Field.Value;
+                if (!(val is null))
+                {
+                    slider.Minimum = val.MIN;
+                    slider.Maximum = val.MAX;
+                    slider.Value = val.VALUE;
+                    slider.StepFrequency = val.STEPS;
+                }
+
+                // Options:
+                slider.IsEnabled = !Field.Field.dfConfiguration.flags.HasFlag(DynamicFormsFlags.READ_ONLY);
             }
+            supressValueChanged = false;
         }
 
         #endregion
@@ -70,9 +86,18 @@ namespace UWPX_UI.Controls.DataForms
         #region --Events--
         private static void OnFieldChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is LabelFieldControl control)
+            if (d is SliderFieldControl control)
             {
                 control.UpdateView(e);
+            }
+        }
+
+        private void Slider_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+            if (!supressValueChanged && (double)Field.Value != slider.Value)
+            {
+                Field.Value = slider.Value;
+                Field.OnValueChangedByUser();
             }
         }
 
@@ -80,7 +105,6 @@ namespace UWPX_UI.Controls.DataForms
         {
             UpdateUi();
         }
-
         #endregion
     }
 }

@@ -239,6 +239,9 @@
     <Compile Include="Controls\DataForms\BooleanFieldControl.xaml.cs">
       <DependentUpon>BooleanFieldControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\DataForms\ButtonFieldControl.xaml.cs">
+      <DependentUpon>ButtonFieldControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\DataForms\DataFormsControl.xaml.cs">
       <DependentUpon>DataFormsControl.xaml</DependentUpon>
     </Compile>
@@ -248,14 +251,17 @@
     <Compile Include="Controls\DataForms\HiddenFieldControl.xaml.cs">
       <DependentUpon>HiddenFieldControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\DataForms\LabelFieldControl.xaml.cs">
-      <DependentUpon>LabelFieldControl.xaml</DependentUpon>
+    <Compile Include="Controls\DataForms\HeaderFieldControl.xaml.cs">
+      <DependentUpon>HeaderFieldControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DataForms\ListMultiFieldControl.xaml.cs">
       <DependentUpon>ListMultiFieldControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DataForms\ListSingleFieldControl.xaml.cs">
       <DependentUpon>ListSingleFieldControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\DataForms\SliderFieldControl.xaml.cs">
+      <DependentUpon>SliderFieldControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\DataForms\TextMultiFieldControl.xaml.cs">
       <DependentUpon>TextMultiFieldControl.xaml</DependentUpon>
@@ -747,6 +753,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\DataForms\ButtonFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\DataForms\DataFormsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -759,7 +769,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\DataForms\LabelFieldControl.xaml">
+    <Page Include="Controls\DataForms\HeaderFieldControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -768,6 +778,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\DataForms\ListSingleFieldControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\DataForms\SliderFieldControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

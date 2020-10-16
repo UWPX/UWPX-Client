@@ -239,6 +239,11 @@ namespace UWPX_UI.Controls.Chat
             UiUtils.NavigateToPage(typeof(ChatSettingsPage));
         }
 
+        private void MarkasIotDevice_mfo_Click(object sender, RoutedEventArgs e)
+        {
+            VIEW_MODEL.MarkAsIotDevice(Chat.Chat);
+        }
+
         #endregion
     }
 }

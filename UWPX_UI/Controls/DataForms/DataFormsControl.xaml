@@ -41,13 +41,28 @@
                       x:DataType="iot:FieldDataTemplate">
             <dataforms:HiddenFieldControl Field="{x:Bind}"/>
         </DataTemplate>
+        <DataTemplate x:Key="ButtonFieldTemplate"
+                      x:DataType="iot:FieldDataTemplate">
+            <dataforms:ButtonFieldControl Field="{x:Bind}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="HeaderFieldTemplate"
+                      x:DataType="iot:FieldDataTemplate">
+            <dataforms:HeaderFieldControl Field="{x:Bind}"/>
+        </DataTemplate>
+        <DataTemplate x:Key="SliderFieldTemplate"
+                      x:DataType="iot:FieldDataTemplate">
+            <dataforms:SliderFieldControl Field="{x:Bind}"/>
+        </DataTemplate>
 
         <selectors:DataFormsFieldTemplateSelector x:Key="DataFormsFieldTemplateSelector"
                                                   BooleanFieldTemplate="{StaticResource BooleanFieldTemplate}"
+                                                  ButtonFieldTemplate="{StaticResource ButtonFieldTemplate}"
                                                   FixedFieldTemplate="{StaticResource FixedFieldTemplate}"
+                                                  HeaderFieldTemplate="{StaticResource HeaderFieldTemplate}"
                                                   HiddenFieldTemplate="{StaticResource HiddenFieldTemplate}"
                                                   ListMultiFieldTemplate="{StaticResource ListMultiFieldTemplate}"
                                                   ListSingleFieldTemplate="{StaticResource ListSingleFieldTemplate}"
+                                                  SliderFieldTemplate="{StaticResource SliderFieldTemplate}"
                                                   TextMultiFieldTemplate="{StaticResource TextMultiFieldTemplate}"
                                                   TextPrivateFieldTemplate="{StaticResource TextPrivateFieldTemplate}"
                                                   TextSingleFieldTemplate="{StaticResource TextSingleFieldTemplate}"/>

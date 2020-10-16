@@ -354,6 +354,7 @@
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RemoveBookmarkMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0402\RequestBookmarksMessage.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-0313\QueryArchiveMessage.cs" />
+    <Compile Include="Classes\Network\XML\Messages\XEP-IoT\Controls\SliderFieldValue.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTConsts.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTPubSubItem.cs" />
     <Compile Include="Classes\Network\XML\Messages\XEP-IoT\IoTValue.cs" />
