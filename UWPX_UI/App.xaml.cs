@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
@@ -341,6 +342,15 @@ namespace UWPX_UI
 
         private void App_UnhandledException(object sender, Windows.UI.Xaml.UnhandledExceptionEventArgs e)
         {
+            e.Handled = true;
+#if !DEBUG
+   // log
+#else
+            if (Debugger.IsAttached)
+            {
+                Debugger.Break();
+            }
+#endif
             Logger.Error("Unhanded exception: ", e.Exception);
         }
 
