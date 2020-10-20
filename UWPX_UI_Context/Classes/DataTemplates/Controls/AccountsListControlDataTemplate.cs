@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Data_Manager2.Classes;
@@ -49,14 +48,10 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
                     await loadingAccountsTask;
                 }
 
+                IsLoading = true;
                 loadingAccountsTask = Task.Run(() =>
                 {
-                    IsLoading = true;
-                    ConnectionHandler.INSTANCE.ClientsCollectionChanged -= INSTANCE_ClientsCollectionChanged;
-                    ConnectionHandler.INSTANCE.ClientsCollectionChanged += INSTANCE_ClientsCollectionChanged;
-
                     ACCOUNTS.Clear();
-
                     CustomObservableCollection<XMPPClient> clients = ConnectionHandler.INSTANCE.getClients();
                     IEnumerable<AccountDataTemplate> accounts = clients.Select((client) =>
                     {
@@ -77,37 +72,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
 
         #region --Misc Methods (Private)--
-        private void AddClients(IList list)
-        {
-            foreach (object item in list)
-            {
-                if (item is XMPPClient client)
-                {
-                    ACCOUNTS.Add(new AccountDataTemplate
-                    {
-                        Client = client
-                    });
-                }
-            }
-        }
 
-        private void RemoveClients(IList list)
-        {
-            foreach (object item in list)
-            {
-                if (item is XMPPClient client)
-                {
-                    foreach (AccountDataTemplate account in ACCOUNTS)
-                    {
-                        if (account.Client == client)
-                        {
-                            ACCOUNTS.Remove(account);
-                            break;
-                        }
-                    }
-                }
-            }
-        }
 
         #endregion
 
@@ -117,32 +82,7 @@ namespace UWPX_UI_Context.Classes.DataTemplates.Controls
         #endregion
         //--------------------------------------------------------Events:---------------------------------------------------------------------\\
         #region --Events--
-        private void INSTANCE_ClientsCollectionChanged(ConnectionHandler handler, System.Collections.Specialized.NotifyCollectionChangedEventArgs args)
-        {
-            switch (args.Action)
-            {
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Add:
-                    AddClients(args.NewItems);
-                    break;
 
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Move:
-                    break;
-
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Remove:
-                    RemoveClients(args.OldItems);
-                    break;
-
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Replace:
-                    RemoveClients(args.OldItems);
-                    AddClients(args.NewItems);
-                    break;
-
-                case System.Collections.Specialized.NotifyCollectionChangedAction.Reset:
-                default:
-                    LoadAccounts();
-                    break;
-            }
-        }
 
         #endregion
     }

@@ -153,18 +153,21 @@ namespace Data_Manager2.Classes
         /// Disconnects and removes the given account from the client list.
         /// </summary>
         /// <param name="accountId">The account id of the client you would like to remove.</param>
-        public async Task removeAccountAsync(string accountId)
+        public Task removeAccountAsync(string accountId)
         {
-            CLIENT_SEMA.Wait();
-            for (int i = 0; i < CLIENTS.Count; i++)
+            return Task.Run(() =>
             {
-                if (string.Equals(CLIENTS[i].getXMPPAccount().getBareJid(), accountId))
+                CLIENT_SEMA.Wait();
+                for (int i = 0; i < CLIENTS.Count; i++)
                 {
-                    await CLIENTS[i].disconnectAsync();
-                    CLIENTS.RemoveAt(i);
+                    if (string.Equals(CLIENTS[i].getXMPPAccount().getBareJid(), accountId))
+                    {
+                        CLIENTS[i].disconnectAsync().Wait();
+                        CLIENTS.RemoveAt(i);
+                    }
                 }
-            }
-            CLIENT_SEMA.Release();
+                CLIENT_SEMA.Release();
+            });
         }
 
         /// <summary>
@@ -745,7 +748,7 @@ namespace Data_Manager2.Classes
                 if (Equals(CLIENTS[i].getXMPPAccount().getBareJid(), args.ACCOUNT.getBareJid()))
                 {
                     // Disconnect first:
-                    await CLIENTS[i].disconnectAsync();
+                    CLIENTS[i].disconnectAsync().Wait();
 
                     if (args.REMOVED)
                     {
@@ -771,7 +774,7 @@ namespace Data_Manager2.Classes
                 XMPPClient client = loadAccount(args.ACCOUNT);
                 if (!client.getXMPPAccount().disabled)
                 {
-                    await client.connectAsync();
+                    client.connectAsync().Wait();
                 }
                 CLIENTS.Add(client);
             }
